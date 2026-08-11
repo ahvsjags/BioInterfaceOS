@@ -27,10 +27,10 @@ Every endpoint retains raw label, endpoint family, assay, measurement basis, tim
 
 ## Progress
 
-- [ ] Define endpoint and measurement ontology schemas.
-- [ ] Implement family/assay/basis/time normalization.
-- [ ] Harmonize compatible effects and retain incompatible strata.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define endpoint and measurement ontology schemas.
+- [x] Implement family/assay/basis/time normalization.
+- [x] Harmonize compatible effects and retain incompatible strata.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Keep raw endpoint labels, assay/basis/time, and values. Create separate strata o
 ## Outputs
 
 endpoint entities, measurement mappings, effect-size strata, review queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T044 completed with implementation commit 353fbc0. Endpoint family, assay/basis/time strata, compatible effect harmonization, and missing-time review pass all gates.
