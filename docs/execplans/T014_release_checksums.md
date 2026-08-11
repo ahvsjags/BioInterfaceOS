@@ -27,8 +27,8 @@ ReleaseManager.freeze creates release/fixtures/<data_release_id> from fixed repo
 ## Progress
 
 - [x] 2026-08-12 ? Read T014 contract, GOAL immutable-release rules, current hashes, and release directory structure.
-- [ ] Implement and test the release freezer.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] 2026-08-12 ? Implemented atomic fixture freeze, read-only directory, canonical checksums/receipt, CLI, and 4 tests.
+- [x] 2026-08-12 ? Offline lock/sync, full check (61 passed), focused tests (4 passed), fixture freeze/verify, state, compileall, and diff gates passed.
 
 ## Discoveries
 
@@ -61,4 +61,4 @@ src/biointerfaceos/release.py, tests/test_release.py, release/fixtures, release 
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T014 is complete. Implementation commit 3fc5fa3570eb8781d3de37c7e70152674a8a8129, frozen release bioif-data-20260811-73c256f-b00f5ab3, and evidence report reports/T014_release.md are recorded with the sequence-9 task ledger entry. T015 is READY/current. No source or locked-test payload was accessed.

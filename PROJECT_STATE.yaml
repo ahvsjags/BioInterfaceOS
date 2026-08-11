@@ -3,9 +3,10 @@ manual_version: 1.0.0
 manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
-ready_tasks: []
-current_task: T014
-active_execplan: docs/execplans/T014_release_checksums.md
+ready_tasks:
+  - T015
+current_task: T015
+active_execplan: null
 completed_tasks:
   - T000
   - T001
@@ -21,10 +22,10 @@ completed_tasks:
   - T011
   - T012
   - T013
+  - T014
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T015
   - T016
   - T017
   - T018
@@ -124,7 +125,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 9a55980da59b8652ab222c516c014f9991bf8cbe
+last_successful_commit: 3fc5fa3570eb8781d3de37c7e70152674a8a8129
 data_release: null
 benchmark_release: null
 model_release: null
