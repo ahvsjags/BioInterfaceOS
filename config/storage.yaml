@@ -1,0 +1,9 @@
+budget_bytes: 1500000000000
+roots:
+  - data
+  - registry
+  - reports
+  - models
+  - benchmarks
+  - experiments
+  - release

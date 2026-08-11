@@ -21,7 +21,6 @@ FUTURE_COMMANDS = (
     "agent",
     "claim",
     "release",
-    "storage",
 )
 
 REQUIRED_FILES = (
@@ -169,6 +168,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     schema_subparsers = schema_parser.add_subparsers(dest="schema_command")
     schema_subparsers.add_parser("validate-all", help="validate all schemas and fixtures")
 
+    storage_parser = subparsers.add_parser("storage", help="audit repository storage")
+    storage_subparsers = storage_parser.add_subparsers(dest="storage_command")
+    storage_audit_parser = storage_subparsers.add_parser("audit", help="audit storage usage")
+    storage_audit_parser.add_argument("--strict", action="store_true", help="fail over budget")
+
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
     return parser
@@ -225,6 +229,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             return 1
         print(f"SCHEMA_VALID schemas={len(configs)} fixtures={len(configs)}")
         return 0
+    if args.command == "storage":
+        if args.storage_command is None:
+            parser.parse_args(["storage", "--help"])
+            return 0
+        from biointerfaceos.storage import (
+            StorageConfig,
+            StorageError,
+            audit_storage,
+            write_json_report,
+        )
+
+        root = find_repository_root()
+        if root is None:
+            print("STORAGE_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            report = audit_storage(root, StorageConfig.from_yaml(root))
+            write_json_report(report, root / "reports/storage_usage.json")
+        except (OSError, StorageError) as exc:
+            print(f"STORAGE_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"STORAGE_VALID bytes={report.total_bytes} files={report.total_files} "
+            f"budget_bytes={report.budget_bytes} duplicates={len(report.duplicates)}"
+        )
+        return 1 if args.strict and not report.within_budget else 0
     if args.command in FUTURE_COMMANDS:
         return not_implemented(args.command)
     parser.print_help()
