@@ -1,0 +1,1 @@
+{"allowed_decisions":["ACCEPT_RULE","ACCEPT_MOCK","ENTER_REVISED_VALUE","UNRESOLVED","NOT_APPLICABLE"],"blinding":"Source and record labels are blinded; exact evidence locators remain visible for audit.","required_fields":["reviewer_id","decision","rationale","signed_at","signature"],"schema_version":1}

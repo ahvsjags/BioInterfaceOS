@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "sample_strategy": "stratified",
+  "expected_packets": 3,
+  "expected_strata": 3
+}

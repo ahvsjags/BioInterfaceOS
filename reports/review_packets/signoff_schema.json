@@ -1,0 +1,1 @@
+{"expert_gold_promotion":"FORBIDDEN_UNTIL_SIGNED_IMPORT","required":["packet_id","reviewer_id","decision","rationale","signed_at","signature"],"schema_version":1,"status":"UNSIGNED_IMPORT_REQUIRED"}

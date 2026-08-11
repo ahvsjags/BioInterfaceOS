@@ -350,6 +350,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_validate_gold_parser.add_argument(
         "--fixture", action="store_true", help="validate the sanitized Gold-auto release"
     )
+    review_parser = subparsers.add_parser(
+        "review", help="export deterministic consensus and expert-review packets"
+    )
+    review_subparsers = review_parser.add_subparsers(dest="review_command")
+    review_export_parser = review_subparsers.add_parser(
+        "export", help="export blinded stratified review packets"
+    )
+    review_export_parser.add_argument("--sample", choices=("stratified",), default="stratified")
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -671,6 +679,29 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"false_positive_controls={qc_summary.false_positive_controls} "
             f"injected_error_recall={qc_summary.injected_error_recall:.3f} "
             f"review_items={qc_summary.review_items} fixture=true"
+        )
+        return 0
+    if args.command == "review":
+        if args.review_command != "export":
+            parser.parse_args(["review", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("REVIEW_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        from biointerfaceos.review_packets import ReviewPacketBuilder, ReviewPacketError
+
+        try:
+            review_summary = ReviewPacketBuilder(root).export(sample=args.sample)
+        except (ReviewPacketError, OSError) as exc:
+            print(f"REVIEW_EXPORT_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"REVIEW_EXPORT_VALID packets={review_summary.packets} "
+            f"strata={review_summary.strata} "
+            f"unsigned_packets={review_summary.unsigned_packets} "
+            f"signed_packets={review_summary.signed_packets} "
+            f"sample={args.sample}"
         )
         return 0
     if args.command == "data":

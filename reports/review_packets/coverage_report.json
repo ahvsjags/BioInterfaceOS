@@ -1,0 +1,1 @@
+{"expert_gold_promoted":0,"locked_test_accessed":false,"packet_count":3,"real_network_accessed":false,"sample_strategy":"stratified","schema_version":1,"signed_packets":0,"strata":["BROKEN_LOCATOR","CONSENSUS_DISAGREEMENT","MISSING_EVIDENCE"],"unsigned_packets":3}
