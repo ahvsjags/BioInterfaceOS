@@ -42,3 +42,9 @@ Trigger targeted search or reduce scope when coverage is inadequate. Preserve th
 ## Outputs
 
 Coverage tables, missingness model, bias warnings, focused tests, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion evidence
+
+T051 completed on 2026-08-12 in `/ibex/user/xup0a/BioInterfaceOS`. The implementation commit is `c4d2bc9`. The audit reports 7 independent study units, 13 admitted search candidates with 7 represented, 4 missing values, 4 coverage gaps, and 9 bias/missingness warnings. It preserves missingness and sets `no_imputation=true`.
+
+The full offline gate passed with 197 tests, Silver and Gold-auto validation, review export, asset and catalog checks, lockbox self-test, immutable release verification, state validation, compileall, 23 append-only ledger validations, and `git diff --check`. The evidence record is sequence 47 in `reports/task_ledger.jsonl`; T052 is now the active task.
