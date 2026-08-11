@@ -1,0 +1,2 @@
+Run,ScientificName,Platform,LibraryLayout,SRAStudy,BioProject,BioSample,ReleaseDate,Visibility,download_path,download_path_sha256
+SRR000001,Homo sapiens,ILLUMINA,PAIRED,SRP000001,PRJNA999,SAMN999,2026-01-01,public,https://sra-download.ncbi.nlm.nih.gov/traces/sra6/SRR000001/SRR000001.sra,d7439bee24773bcbfa2d0a97947ee36227b10d1022b1a55847e928965bb6bfde

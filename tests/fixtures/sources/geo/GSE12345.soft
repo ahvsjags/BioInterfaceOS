@@ -1,0 +1,10 @@
+!Series_geo_accession = GSE12345
+!Series_title = Nanoparticle exposure in macrophages
+!Series_organism = Homo sapiens
+!Series_sample_id = GSM1001
+!Series_sample_id = GSM1002
+!Series_relation = BioProject:PRJNA999
+!Series_relation = SRA:SRP000001
+!Series_license = CC0
+!Series_matrix_sha256 = 9fcf81f3fe7eb2979738eadf0744e6d7e9ee8f04d702bcb5c341fb38b2e506cb
+!Series_supplementary_file = counts.tsv.gz
