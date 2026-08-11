@@ -70,6 +70,16 @@ mlruns/
 *.pkl
 *.pickle
 
+# Track T002 skeleton placeholders inside otherwise protected artifact trees.
+!data/raw/
+!data/raw/**/
+!data/raw/**/README.md
+!models/
+!models/**/
+!models/**/README.md
+!experiments/runs/
+!experiments/runs/README.md
+
 # Editor and operating-system files
 .DS_Store
 Thumbs.db
