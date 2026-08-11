@@ -27,8 +27,8 @@ LockboxFirewall rejects all development reads under data/locked_test and permits
 ## Progress
 
 - [x] 2026-08-12 ? Read T015 contract, GOAL lockbox rules, current locked-test placeholder state, and release firewall constraints.
-- [ ] Implement and test the firewall.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] 2026-08-12 ? Implemented path firewall, metadata whitelist, forbidden field/hash scanner, CLI, receipt, and 4 tests.
+- [x] 2026-08-12 ? Offline lock/sync, full check (65 passed), focused tests (4 passed), lockbox self-test, state, compileall, and diff gates passed.
 
 ## Discoveries
 
@@ -61,4 +61,4 @@ config/lockbox.yaml, src/biointerfaceos/lockbox.py, tests/test_lockbox.py, tests
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T015 is complete. Implementation commit 2a735946ee999b8d9ce169c13042b1027e5a91a6 and evidence report reports/T015_lockbox.md are recorded with the sequence-10 task ledger entry. T016 is READY/current. No locked-test payload was accessed.
