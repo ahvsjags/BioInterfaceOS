@@ -44,3 +44,9 @@ Reject or park projects with unclear sample maps, preserve their metadata and ev
 ## Outputs
 
 PRIDE project cards, sample maps, split-eligibility manifest, review queue, focused tests, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion evidence
+
+T052 completed on 2026-08-12 in `/ibex/user/xup0a/BioInterfaceOS`. The implementation commit is `e490394`. The development fixture yields 3 project cards: 1 split-eligible project with a balanced 3+3 sample map, 1 project parked for restricted RAW access and unresolved arms/replicates, and 1 locked metadata-only project. No raw file was downloaded and no locked payload was accessed.
+
+The full offline gate passed with 200 tests, coverage and data-release checks, review export, assets, catalog, lockbox, immutable release verification, state validation, compileall, 23 append-only ledger validations, and `git diff --check`. The evidence record is sequence 48 in `reports/task_ledger.jsonl`; T053 is now the active task.

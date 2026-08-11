@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T052
-active_execplan: docs/execplans/T052_pride_triage.md
+current_task: T053
+active_execplan: docs/execplans/T053_raw_conversion.md
 completed_tasks:
   - T000
   - T001
@@ -59,10 +59,10 @@ completed_tasks:
   - T049
   - T050
   - T051
+  - T052
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T053
   - T054
   - T055
   - T056
