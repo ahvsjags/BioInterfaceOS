@@ -1,0 +1,24 @@
+# Normalize text in the repository for reproducible diffs and checksums.
+* text=auto eol=lf
+
+*.md text diff=markdown
+*.py text diff=python
+*.sh text eol=lf
+*.tsv text eol=lf
+*.jsonl text eol=lf
+*.toml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Analytical and model formats are binary when intentionally committed.
+*.parquet binary
+*.duckdb binary
+*.db binary
+*.sqlite binary
+*.gz binary
+*.zip binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary

@@ -1,0 +1,26 @@
+version: 1
+access:
+  require_anonymous: true
+  reject_registration: true
+  reject_login: true
+  reject_api_key: true
+  reject_manual_approval: true
+  reject_payment: true
+  reject_data_use_agreement: true
+license:
+  default_action: QUARANTINE
+  redistributable_allowlist:
+    - CC0-1.0
+    - CC-BY-4.0
+    - CC-BY-3.0
+  analysis_only_examples:
+    - CC-BY-NC-4.0
+network:
+  timeout_seconds: 30
+  max_retries: 4
+  backoff_base_seconds: 1.0
+  max_requests_per_second_default: 2.0
+lockbox:
+  date_start: '2025-01-01'
+  date_end: '2026-08-11'
+  development_payload_access: false

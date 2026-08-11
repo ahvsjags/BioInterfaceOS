@@ -1,0 +1,9 @@
+# Review before copying to .codex/config.toml in a trusted project.
+# This keeps command execution inside the project workspace and avoids interactive approvals.
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+
+# Public internet is needed for official anonymous data adapters.
+# The project source policy still rejects credentials, logins, paid sources and unapproved domains.
+[sandbox_workspace_write]
+network_access = true

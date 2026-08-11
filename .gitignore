@@ -1,0 +1,80 @@
+# Secrets and machine-local environment files
+.env
+.env.*
+!.env.example
+!.env.template
+.envrc
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# Local configuration (keep committed examples and templates)
+config.local.*
+config/local/
+local_config/
+*.local.toml
+*.local.yaml
+*.local.yml
+*.local.json
+.codex/
+
+# Python caches, test output, and build products
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Raw and transient data (curated registries and reports remain trackable)
+data/raw/
+data/downloads/
+raw/
+raw_data/
+downloads/
+scratch/
+tmp/
+temp/
+
+# Checkpoints, trained models, and large experiment artifacts
+checkpoints/
+models/
+model_artifacts/
+artifacts/
+runs/
+wandb/
+mlruns/
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.joblib
+*.pkl
+*.pickle
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/

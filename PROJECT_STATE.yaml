@@ -1,0 +1,35 @@
+project: BioInterfaceOS
+manual_version: 1.0.0
+manual_frozen_at: '2026-08-11'
+status: IN_PROGRESS
+task_count: 115
+ready_tasks:
+  - T002
+current_task: T002
+active_execplan: null
+completed_tasks:
+  - T000
+  - T001
+failed_tasks: []
+waived_tasks: []
+blocked_tasks: []
+last_successful_commit: null
+data_release: null
+benchmark_release: null
+model_release: null
+freeze:
+  status: NOT_FROZEN
+  git_commit: null
+  data_hash: null
+  config_hash: null
+  frozen_at: null
+locked_test:
+  date_start: '2025-01-01'
+  date_end: '2026-08-11'
+  downloaded: false
+  evaluated: false
+storage:
+  budget_bytes: 1500000000000
+  last_measured_bytes: 0
+notes:
+  - 'T001 completed after the explicit repository-local non-human Git identity BioInterfaceOS-Codex <biointerfaceos-codex@localhost> resolved the recorded blocker.'
