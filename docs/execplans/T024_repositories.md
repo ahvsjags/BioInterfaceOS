@@ -27,22 +27,24 @@ Each candidate must retain repository/provider, DOI or release identifier, commi
 
 ## Progress
 
-- [ ] Read and pin official provider endpoint contracts.
-- [ ] Implement and test the repository adapters.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Read and pin official provider endpoint contracts.
+- [x] Implement and test the repository adapters.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
 - UV_OFFLINE=1 uv lock --check
 - UV_OFFLINE=1 uv sync --frozen --python 3.11
 - UV_OFFLINE=1 make check
-- focused repository adapter tests
+- .venv/bin/biointerfaceos repository sync --dry-run
+- .venv/bin/pytest -q tests/sources/test_repositories.py
 - .venv/bin/python -m compileall -q src tests
 - biointerfaceos lockbox self-test
 - biointerfaceos release verify --fixture
 - biointerfaceos catalog check
 - biointerfaceos state validate
 - git diff --check
+- public-release metadata, DOI, commit/tag, license, pagination, rate-limit retry, duplicate URL, policy quarantine, and no-code-execution assertions
 
 ## Failure recovery
 
@@ -50,4 +52,8 @@ If a provider rate-limits or transiently fails, retain the bounded query receipt
 
 ## Outputs
 
-Repository source adapter(s), fixtures, tests, this ExecPlan, reports/T024_repositories.md, state advancement, and task-ledger evidence.
+src/biointerfaceos/sources/repositories.py, tests/sources/test_repositories.py, tests/fixtures/sources/repositories, this ExecPlan, reports/T024_repositories.md, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T024 completed with implementation commit 4a438421d4de44fc68acf07e08cfa0e94b6ec2fc. Final acceptance evidence is recorded in reports/T024_repositories.md.
