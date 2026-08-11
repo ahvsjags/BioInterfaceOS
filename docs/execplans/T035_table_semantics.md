@@ -27,9 +27,9 @@ Every arm and measurement maps to one or more exact source cell locators. Header
 
 ## Progress
 
-- [ ] Define semantic table and experiment schemas.
-- [ ] Implement fixture-backed table-to-experiment mapping and review queue.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define semantic table and experiment schemas.
+- [x] Implement fixture-backed table-to-experiment mapping and review queue.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -50,3 +50,7 @@ Preserve source cell locators and raw table values. Quarantine incompatible tabl
 ## Outputs
 
 experiment table semantics, normalized measurements, review queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T035 completed with implementation commit bc17172. The fixture parser preserves header hierarchy, experiment arms, measurements, reported units/errors, footnotes, exact cell locators, and explicit ambiguity records. Full gates passed with 148 tests.
