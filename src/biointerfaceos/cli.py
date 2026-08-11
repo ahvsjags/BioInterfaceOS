@@ -232,6 +232,13 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     search_run_parser.add_argument(
         "--scope", choices=("development", "validation"), default="development"
     )
+    search_expand_parser = search_subparsers.add_parser(
+        "expand", help="expand fixture-backed citation and linked-resource edges"
+    )
+    search_expand_parser.add_argument("--depth", type=int, choices=(1, 2), default=2)
+    search_expand_parser.add_argument(
+        "--scope", choices=("development", "validation"), default="development"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -464,7 +471,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "search":
-        if args.search_command not in {"validate-queries", "run"}:
+        if args.search_command not in {"validate-queries", "run", "expand"}:
             parser.parse_args(["search", "--help"])
             return 0
         root = find_repository_root()
@@ -486,20 +493,42 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
             return 0
         from biointerfaceos.policy import PolicyConfigError, SourcePolicyEngine
-        from biointerfaceos.search_runner import SearchRunError, SearchRunner
+
+        if args.search_command == "run":
+            from biointerfaceos.search_runner import SearchRunError, SearchRunner
+
+            try:
+                runner = SearchRunner(root, SourcePolicyEngine.from_yaml(root))
+                run_summary = runner.run(args.scope)
+            except (OSError, PolicyConfigError, SearchRunError) as exc:
+                print(f"SEARCH_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SEARCH_RUN_VALID scope={run_summary.scope} "
+                f"query_blocks={run_summary.query_blocks} pages={run_summary.pages} "
+                f"raw_hits={run_summary.raw_hits} "
+                f"unique_candidates={run_summary.unique_candidates} "
+                f"admitted={run_summary.admitted} quarantined={run_summary.quarantined} "
+                f"fixture=true run_id={run_summary.run_id}"
+            )
+            return 0
+
+        from biointerfaceos.expansion import ExpansionError, ExpansionRunner
 
         try:
-            runner = SearchRunner(root, SourcePolicyEngine.from_yaml(root))
-            run_summary = runner.run(args.scope)
-        except (OSError, PolicyConfigError, SearchRunError) as exc:
+            expansion = ExpansionRunner(root, SourcePolicyEngine.from_yaml(root))
+            expansion_summary = expansion.run(args.scope, args.depth)
+        except (OSError, PolicyConfigError, ExpansionError) as exc:
             print(f"SEARCH_INVALID: {exc}", file=sys.stderr)
             return 1
         print(
-            f"SEARCH_RUN_VALID scope={run_summary.scope} "
-            f"query_blocks={run_summary.query_blocks} pages={run_summary.pages} "
-            f"raw_hits={run_summary.raw_hits} unique_candidates={run_summary.unique_candidates} "
-            f"admitted={run_summary.admitted} quarantined={run_summary.quarantined} "
-            f"fixture=true run_id={run_summary.run_id}"
+            f"SEARCH_EXPANSION_VALID scope={expansion_summary.scope} "
+            f"depth={expansion_summary.depth} seed_candidates={expansion_summary.seed_candidates} "
+            f"raw_edges={expansion_summary.raw_edges} "
+            f"unique_targets={expansion_summary.unique_targets} "
+            f"admitted={expansion_summary.admitted} "
+            f"quarantined={expansion_summary.quarantined} fixture=true "
+            f"run_id={expansion_summary.run_id}"
         )
         return 0
     if args.command == "repository":

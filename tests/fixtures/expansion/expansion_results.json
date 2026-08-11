@@ -1,0 +1,413 @@
+{
+  "schema_version": 1,
+  "edges": {
+    "chembl:CHEMBL-FIXTURE-022": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-001",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-001",
+        "title": "Synthetic cited record 1",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "code",
+        "source": "github",
+        "accession": "example/biointerface",
+        "url": "https://github.com/example/biointerface",
+        "title": "Synthetic code link with unclear license"
+      }
+    ],
+    "europe_pmc:EUROPE_PMC-FIXTURE-003": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-002",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-002",
+        "title": "Synthetic cited record 2",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:EUROPE_PMC-FIXTURE-004": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-003",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-003",
+        "title": "Synthetic cited record 3",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:EUROPE_PMC-FIXTURE-004-B": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-004",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-004",
+        "title": "Synthetic cited record 4",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:EUROPE_PMC-FIXTURE-005": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-005",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-005",
+        "title": "Synthetic cited record 5",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:EUROPE_PMC-FIXTURE-006": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-006",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-006",
+        "title": "Synthetic cited record 6",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:EUROPE_PMC-FIXTURE-007": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-007",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-007",
+        "title": "Synthetic cited record 7",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:FIXTURE-1001": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-008",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-008",
+        "title": "Synthetic cited record 8",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "geo:GEO-FIXTURE-017": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-009",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-009",
+        "title": "Synthetic cited record 9",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "pmc_oa:PMC_OA-FIXTURE-015": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-010",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-010",
+        "title": "Synthetic cited record 10",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "pride:PRIDE-FIXTURE-016": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-011",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-011",
+        "title": "Synthetic cited record 11",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "pride:PRIDE-FIXTURE-016-B": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-012",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-012",
+        "title": "Synthetic cited record 12",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "pubchem:PUBCHEM-FIXTURE-021": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-013",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-013",
+        "title": "Synthetic cited record 13",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "zenodo:ZENODO-FIXTURE-018": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.99999",
+        "url": "https://zenodo.org/records/99999",
+        "title": "Synthetic linked dataset",
+        "license": "CC-BY-4.0"
+      },
+      {
+        "edge_type": "citation",
+        "source": "europe_pmc",
+        "accession": "PMID:EXP-014",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:EXP-014",
+        "title": "Synthetic cited record 14",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-001": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-002": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-003": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-004": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-005": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-006": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-007": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-008": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-009": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-010": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-011": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-012": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-013": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "europe_pmc:PMID:EXP-014": [
+      {
+        "edge_type": "dataset",
+        "source": "zenodo",
+        "doi": "10.5281/zenodo.88888",
+        "url": "https://zenodo.org/records/88888",
+        "title": "Synthetic second-hop dataset",
+        "license": "CC-BY-4.0"
+      }
+    ],
+    "doi:10.5281/zenodo.99999": [
+      {
+        "edge_type": "code",
+        "source": "github",
+        "accession": "example/biointerface",
+        "url": "https://github.com/example/biointerface",
+        "title": "Synthetic code link with unclear license"
+      }
+    ]
+  }
+}
