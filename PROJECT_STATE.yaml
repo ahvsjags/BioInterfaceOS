@@ -4,12 +4,11 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks:
-  - T022
   - T023
   - T024
   - T025
-current_task: T021
-active_execplan: docs/execplans/T021_pubchem.md
+current_task: T022
+active_execplan: docs/execplans/T022_chembl.md
 completed_tasks:
   - T000
   - T001
@@ -32,6 +31,7 @@ completed_tasks:
   - T018
   - T019
   - T020
+  - T021
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:

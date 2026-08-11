@@ -6,7 +6,7 @@ Provide a credential-free PubChem PUG-REST adapter with deterministic CID/name r
 
 ## Preconditions
 
-T016 is DONE, T021 is READY/current, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
+T016 is DONE, T021 was READY and is now DONE, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
 
 ## Non-goals
 
@@ -27,9 +27,9 @@ Use the official PubChem PUG-REST base under pubchem.ncbi.nlm.nih.gov/rest/pug. 
 
 ## Progress
 
-- [ ] Read and pin the official PubChem PUG-REST endpoint contract.
-- [ ] Implement and test the PubChem adapter.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Read and pin the official PubChem PUG-REST endpoint contract.
+- [x] Implement and test the PubChem adapter.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -52,3 +52,8 @@ If PUG-REST is transient or a name is ambiguous, retain the query and evidence r
 ## Outputs
 
 src/biointerfaceos/sources/pubchem.py, tests/sources/test_pubchem.py, tests/fixtures/sources/pubchem, this ExecPlan, reports/T021_pubchem.md, state advancement, and task-ledger evidence.
+
+
+## Completion note
+
+T021 completed with implementation commit cefc3fbd69ab3f82ec9b0d9f7850c33d4c668ee9 and final acceptance evidence in reports/T021_pubchem.md.
