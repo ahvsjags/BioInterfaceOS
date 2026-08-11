@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "tables": {
+    "materials": 4,
+    "formulations": 2,
+    "proteins": 5,
+    "protocols": 1,
+    "endpoints": 9,
+    "experiments": 1,
+    "units": 8,
+    "evidence": 6
+  }
+}

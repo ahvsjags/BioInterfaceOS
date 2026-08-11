@@ -322,6 +322,22 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_bronze_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized Bronze fixture"
     )
+    data_silver_parser = data_subparsers.add_parser(
+        "build-silver", help="build an immutable fixture Silver release"
+    )
+    data_silver_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized Silver fixture"
+    )
+    data_validate_parser = data_subparsers.add_parser(
+        "validate", help="validate a normalized data release"
+    )
+    data_validate_subparsers = data_validate_parser.add_subparsers(dest="data_validate_command")
+    data_validate_silver_parser = data_validate_subparsers.add_parser(
+        "silver", help="validate the immutable fixture Silver release"
+    )
+    data_validate_silver_parser.add_argument(
+        "--fixture", action="store_true", help="validate the sanitized Silver release"
+    )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -646,7 +662,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "data":
-        if args.data_command not in {"fetch", "build-bronze"}:
+        if args.data_command not in {"fetch", "build-bronze", "build-silver", "validate"}:
             parser.parse_args(["data", "--help"])
             return 0
         root = find_repository_root()
@@ -674,6 +690,43 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"parsed_assets={bronze_summary.parsed_assets} "
                 f"pointer_assets={bronze_summary.pointer_assets} "
                 f"license_tiers={bronze_summary.license_tiers} fixture=true"
+            )
+            return 0
+        if args.data_command == "build-silver":
+            from biointerfaceos.silver_release import SilverReleaseBuilder, SilverReleaseError
+
+            try:
+                silver_summary = SilverReleaseBuilder(root).build(fixture=True)
+            except (SilverReleaseError, OSError) as exc:
+                print(f"SILVER_BUILD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SILVER_BUILD_VALID release_id={silver_summary.release_id} "
+                f"manifest_hash={silver_summary.manifest_hash} "
+                f"schema_hash={silver_summary.schema_hash} "
+                f"tables={silver_summary.table_count} "
+                f"rows={silver_summary.total_rows} "
+                f"quarantined_rows={silver_summary.quarantined_rows} fixture=true"
+            )
+            return 0
+        if args.data_command == "validate":
+            if args.data_validate_command != "silver":
+                parser.parse_args(["data", "validate", "--help"])
+                return 0
+            from biointerfaceos.silver_release import SilverReleaseBuilder, SilverReleaseError
+
+            try:
+                silver_summary = SilverReleaseBuilder(root).validate(fixture=True)
+            except (SilverReleaseError, OSError) as exc:
+                print(f"SILVER_VALIDATE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SILVER_VALIDATE_VALID release_id={silver_summary.release_id} "
+                f"manifest_hash={silver_summary.manifest_hash} "
+                f"schema_hash={silver_summary.schema_hash} "
+                f"tables={silver_summary.table_count} "
+                f"rows={silver_summary.total_rows} "
+                f"quarantined_rows={silver_summary.quarantined_rows} fixture=true"
             )
             return 0
         from biointerfaceos.asset_downloader import AssetDownloader, DownloadError
