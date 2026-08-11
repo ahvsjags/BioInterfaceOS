@@ -1,0 +1,30 @@
+{
+  "ftp": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/01/PXD000001",
+  "files": [
+    {
+      "fileName": "results.tsv",
+      "fileSize": 13,
+      "checksum": "8f2f7f1f2c9d9cf0d7f8a8fdb8b8bc85e5d6b2bce5f6e1f6d1b5b6b93e1ce8f1",
+      "checksumType": "SHA-256",
+      "fileType": "RESULT",
+      "downloadLink": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/01/PXD000001/results.tsv"
+    },
+    {
+      "fileName": "sample.raw",
+      "fileSize": 2000000000,
+      "checksum": "1111111111111111111111111111111111111111111111111111111111111111",
+      "checksumType": "SHA-256",
+      "fileType": "RAW",
+      "downloadLink": "ftp://ftp.pride.ebi.ac.uk/pride/data/archive/2026/01/PXD000001/sample.raw"
+    },
+    {
+      "fileName": "restricted.raw",
+      "fileSize": 100,
+      "checksum": "2222222222222222222222222222222222222222222222222222222222222222",
+      "checksumType": "SHA-256",
+      "fileType": "RAW",
+      "access": "RESTRICTED",
+      "downloadLink": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2026/01/PXD000001/restricted.raw"
+    }
+  ]
+}

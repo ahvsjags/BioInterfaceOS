@@ -1,0 +1,19 @@
+{
+  "accession": "PXD000001",
+  "title": "Fixture protein corona proteomics",
+  "projectDescription": "Sanitized public PRIDE project fixture.",
+  "submissionDate": "2026-01-15",
+  "publicationDate": "2026-02-20",
+  "license": "Creative Commons Public Domain (CC0)",
+  "doi": "10.0000/fixture.pride",
+  "organisms": [
+    {
+      "name": "Homo sapiens"
+    }
+  ],
+  "instruments": [
+    {
+      "name": "Orbitrap Fusion"
+    }
+  ]
+}
