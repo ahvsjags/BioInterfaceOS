@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "max_bytes": 1000000,
+  "records": [
+    {
+      "project_accession": "PXD000001",
+      "file_name": "fixture.mzML",
+      "kind": "MZML",
+      "access": "PUBLIC",
+      "input_path": "tests/fixtures/omics/conversion/mini.mzML",
+      "input_sha256": "556f2768a34cdbc53e8db91feff6877634b60719f006d67e892d12cba5e7424f",
+      "declared_size_bytes": 171,
+      "instrument": "Orbitrap Fusion",
+      "expected_status": "COMPLETED"
+    },
+    {
+      "project_accession": "PXD000002",
+      "file_name": "restricted.raw",
+      "kind": "RAW",
+      "access": "RESTRICTED",
+      "input_path": null,
+      "input_sha256": null,
+      "declared_size_bytes": 100,
+      "instrument": "Q Exactive",
+      "expected_status": "REFUSED_RESTRICTED"
+    },
+    {
+      "project_accession": "PXD000003",
+      "file_name": "oversized.raw",
+      "kind": "RAW",
+      "access": "PUBLIC",
+      "input_path": null,
+      "input_sha256": null,
+      "declared_size_bytes": 2000000000,
+      "instrument": "Orbitrap Fusion",
+      "expected_status": "REFUSED_SIZE"
+    },
+    {
+      "project_accession": "PXD000004",
+      "file_name": "vendor.raw",
+      "kind": "RAW",
+      "access": "PUBLIC",
+      "input_path": null,
+      "input_sha256": null,
+      "declared_size_bytes": 1024,
+      "instrument": "Orbitrap Fusion",
+      "expected_status": "REFUSED_UNSUPPORTED_FORMAT"
+    }
+  ]
+}

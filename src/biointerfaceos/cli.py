@@ -384,6 +384,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_pride_triage_parser.add_argument(
         "--scope", choices=("development",), default="development"
     )
+    omics_convert_parser = omics_subparsers.add_parser(
+        "convert", help="convert bounded fixture mass-spec inputs"
+    )
+    omics_convert_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized conversion fixture"
+    )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -783,6 +789,28 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "omics":
+        if args.omics_command == "convert":
+            root = find_repository_root()
+            if root is None:
+                print("CONVERSION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("CONVERSION_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.conversion_workflow import ConversionError, ConversionWorkflow
+
+            try:
+                conversion_summary = ConversionWorkflow(root).run(fixture=True)
+            except (ConversionError, OSError) as exc:
+                print(f"CONVERSION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"CONVERSION_VALID records={conversion_summary.records} "
+                f"completed={conversion_summary.completed} refused={conversion_summary.refused} "
+                f"resumed={conversion_summary.resumed} raw_downloaded=false "
+                f"locked_payload_accessed=false"
+            )
+            return 0
         if args.omics_command != "pride" or args.omics_pride_command != "triage":
             parser.parse_args(["omics", "--help"])
             return 0
