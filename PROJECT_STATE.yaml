@@ -13,7 +13,7 @@ completed_tasks:
 failed_tasks: []
 waived_tasks: []
 blocked_tasks: []
-last_successful_commit: null
+last_successful_commit: ea640baa7a2402375273d3cde5fb9ac5ff21eaa9
 data_release: null
 benchmark_release: null
 model_release: null
