@@ -44,10 +44,17 @@ class RepositoryStateTests(unittest.TestCase):
 
         self.assertEqual(self.state, state)
         expected = next_ready_task(tasks)
-        if expected is None:
+        if state.current_task is None:
             self.assertIsNone(expected)
         else:
-            self.assertEqual(expected.id, state.current_task)
+            current = next(task for task in tasks if task.id == state.current_task)
+            if expected is None:
+                self.fail("a nonterminal current task should have a next ready task")
+            if current.status == "READY":
+                self.assertEqual(expected.id, state.current_task)
+            else:
+                self.assertEqual(current.status, "IN_PROGRESS")
+                self.assertNotEqual(expected.id, state.current_task)
 
     def test_repository_state_rejects_summary_disagreement(self) -> None:
         invalid = replace(self.state, ready_tasks=("T999",))
