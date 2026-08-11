@@ -27,10 +27,10 @@ Every material entity retains raw mention, canonical label/structure when availa
 
 ## Progress
 
-- [ ] Define material/formulation entity and graph schemas.
-- [ ] Implement alias resolution and role-aware formulation graphs.
-- [ ] Preserve ambiguity and validate mixture fractions.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define material/formulation entity and graph schemas.
+- [x] Implement alias resolution and role-aware formulation graphs.
+- [x] Preserve ambiguity and validate mixture fractions.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Preserve raw mentions and all candidate mappings. Keep unresolved entities with 
 ## Outputs
 
 material entity registry, formulation graphs, alias/review queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T041 completed with implementation commit 9bf8cf6. Curated material candidates, role-aware formulation graphs, fraction validation, and ambiguity-preserving review records pass all gates.
