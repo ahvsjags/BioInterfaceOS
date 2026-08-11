@@ -27,10 +27,10 @@ Every protein entity retains species, raw identifier/name, canonical accession w
 
 ## Progress
 
-- [ ] Define protein and orthology schemas.
-- [ ] Implement species-aware identifier mapping.
-- [ ] Preserve isoform/obsolete ambiguity and one-to-many orthology.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define protein and orthology schemas.
+- [x] Implement species-aware identifier mapping.
+- [x] Preserve isoform/obsolete ambiguity and one-to-many orthology.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Preserve raw protein names/accessions and species. Keep ambiguous or obsolete ma
 ## Outputs
 
 protein entity registry, accession/gene maps, orthology groups and edges, review queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T042 completed with implementation commit f24eeab. Species-aware accession/gene mappings, isoform and obsolete review states, and one-to-many orthology edges pass all fixture gates.
