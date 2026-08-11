@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<title>BioInterfaceOS Search Saturation</title>
+<style>
+body { font-family: sans-serif; margin: 2rem; color: #1f2937; }
+table { border-collapse: collapse; margin: 1rem 0 2rem; width: 100%; }
+th, td { border: 1px solid #cbd5e1; padding: .35rem; text-align: left; }
+th { background: #e2e8f0; }
+</style></head>
+<body>
+<h1>BioInterfaceOS Search Saturation and Coverage Gaps</h1>
+<p>Fixture-backed report; no live endpoints or locked-test payloads were accessed.</p>
+<p>Matrix SHA-256: 70c767c0d38cf3a87a196bfa8dc107d8110630264d034ae4a745a5820491800d</p>
+<h2>Summary</h2>
+<ul>
+<li>Search: 17 raw hits, 14 unique candidates, 13 admitted, 1 quarantined.</li>
+<li>Expansion: 44 raw edges, 17 unique targets, 16 admitted, 1 quarantined.</li>
+<li>Stopping decision: CONTINUE; open gaps=9.</li>
+</ul>
+<h2>Novel eligible-study yield by batch</h2>
+<table>
+<thead><tr>
+<th>Batch</th><th>Query</th><th>Axis</th><th>Raw hits</th>
+<th>Novel candidates</th><th>Novel eligible</th>
+<th>Duplicate/cross-query</th><th>Cumulative eligible</th>
+</tr></thead><tbody><tr><td>1</td><td>epmc-train-01</td><td>material</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>2</td><td>epmc-train-02</td><td>corona</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>3</td><td>epmc-train-03</td><td>endpoint</td><td>1</td><td>1</td><td>1</td><td>0</td><td>2</td></tr><tr><td>4</td><td>epmc-train-04</td><td>protocol</td><td>3</td><td>2</td><td>2</td><td>1</td><td>4</td></tr><tr><td>5</td><td>epmc-train-05</td><td>species</td><td>1</td><td>1</td><td>1</td><td>0</td><td>5</td></tr><tr><td>6</td><td>epmc-train-06</td><td>assay</td><td>1</td><td>1</td><td>1</td><td>0</td><td>6</td></tr><tr><td>7</td><td>epmc-train-07</td><td>data_code</td><td>1</td><td>1</td><td>1</td><td>0</td><td>7</td></tr><tr><td>8</td><td>pmc-oa-train-01</td><td>data_code</td><td>1</td><td>1</td><td>1</td><td>0</td><td>8</td></tr><tr><td>9</td><td>pride-train-01</td><td>corona</td><td>3</td><td>2</td><td>2</td><td>1</td><td>10</td></tr><tr><td>10</td><td>geo-train-01</td><td>data_code</td><td>1</td><td>1</td><td>1</td><td>0</td><td>11</td></tr><tr><td>11</td><td>zenodo-train-01</td><td>data_code</td><td>1</td><td>1</td><td>0</td><td>0</td><td>11</td></tr><tr><td>12</td><td>pubchem-train-01</td><td>material</td><td>1</td><td>1</td><td>1</td><td>0</td><td>12</td></tr><tr><td>13</td><td>chembl-train-01</td><td>material</td><td>1</td><td>1</td><td>1</td><td>0</td><td>13</td></tr></tbody></table>
+<h2>Yield by axis</h2>
+<table>
+<thead><tr>
+<th>Axis</th><th>Query blocks</th><th>Raw hits</th>
+<th>Novel candidates</th><th>Novel eligible</th><th>Novel quarantined</th>
+</tr></thead><tbody><tr><td>assay</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr><tr><td>corona</td><td>2</td><td>4</td><td>2</td><td>2</td><td>0</td></tr><tr><td>data_code</td><td>4</td><td>4</td><td>4</td><td>3</td><td>1</td></tr><tr><td>endpoint</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr><tr><td>material</td><td>3</td><td>3</td><td>3</td><td>3</td><td>0</td></tr><tr><td>protocol</td><td>1</td><td>3</td><td>2</td><td>2</td><td>0</td></tr><tr><td>species</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr></tbody></table>
+<h2>Coverage gaps</h2>
+<table>
+<thead><tr><th>ID</th><th>Kind</th><th>Status</th><th>Evidence</th></tr></thead>
+<tbody><tr><td>validation-2024-not-executed</td><td>year_scope</td><td>OPEN</td><td>Frozen 2024 validation blocks have no search receipts.</td></tr><tr><td>material-polymeric</td><td>material</td><td>OPEN</td><td>No material-axis query contains the required vocabulary.</td></tr><tr><td>material-silica</td><td>material</td><td>OPEN</td><td>No material-axis query contains the required vocabulary.</td></tr><tr><td>material-gold</td><td>material</td><td>OPEN</td><td>No material-axis query contains the required vocabulary.</td></tr><tr><td>material-protein-based</td><td>material</td><td>OPEN</td><td>No material-axis query contains the required vocabulary.</td></tr><tr><td>endpoint-biodistribution</td><td>endpoint</td><td>OPEN</td><td>No endpoint/assay query contains the required vocabulary.</td></tr><tr><td>endpoint-hemolysis</td><td>endpoint</td><td>OPEN</td><td>No endpoint/assay query contains the required vocabulary.</td></tr><tr><td>endpoint-endosomal-escape</td><td>endpoint</td><td>OPEN</td><td>No endpoint/assay query contains the required vocabulary.</td></tr><tr><td>validation-sources-not-executed</td><td>source</td><td>OPEN</td><td>Validation provider blocks have no validation receipts.</td></tr></tbody></table>
+<h2>Gap query proposals</h2>
+<ul><li>run-validation-2024: Execute the frozen 2024 validation scope across all seven axes.</li><li>query-material-polymeric: TITLE_ABS:(nanoparticle AND (polymeric OR PLGA OR &quot;poly(lactic-co-glycolic acid)&quot;))</li><li>query-material-silica: TITLE_ABS:(nanoparticle AND (silica OR mesoporous))</li><li>query-material-gold: TITLE_ABS:(&quot;gold nanoparticle&quot; OR auro)</li><li>query-material-protein-based: TITLE_ABS:(&quot;protein nanoparticle&quot; OR &quot;protein-based nanoparticle&quot;)</li><li>query-endpoint-biodistribution: TITLE_ABS:(nanoparticle AND (biodistribution OR &quot;organ distribution&quot;))</li><li>query-endpoint-hemolysis: TITLE_ABS:(nanoparticle AND (hemolysis OR hemolytic))</li><li>query-endpoint-endosomal-escape: TITLE_ABS:(nanoparticle AND (&quot;endosomal escape&quot; OR &quot;endosome escape&quot;))</li></ul>
+<h2>Stopping criteria</h2>
+<pre>{
+  &quot;consecutive_low_yield_batches&quot;: 1,
+  &quot;consecutive_zero_batches&quot;: 1,
+  &quot;decision&quot;: &quot;CONTINUE&quot;,
+  &quot;low_yield_limit&quot;: 2,
+  &quot;low_yield_threshold&quot;: 0.1,
+  &quot;open_gap_count&quot;: 9,
+  &quot;rationale&quot;: &quot;Continue until validation, declared coverage gaps, and diminishing-return criteria are satisfied.&quot;,
+  &quot;validation_scope_complete&quot;: false,
+  &quot;zero_batch_limit&quot;: 2
+}</pre>
+<script type="application/json" id="saturation-data">{
+  &quot;axis_totals&quot;: [
+    {
+      &quot;axis&quot;: &quot;assay&quot;,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_blocks&quot;: 1,
+      &quot;raw_hits&quot;: 1
+    },
+    {
+      &quot;axis&quot;: &quot;corona&quot;,
+      &quot;novel_candidates&quot;: 2,
+      &quot;novel_eligible&quot;: 2,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_blocks&quot;: 2,
+      &quot;raw_hits&quot;: 4
+    },
+    {
+      &quot;axis&quot;: &quot;data_code&quot;,
+      &quot;novel_candidates&quot;: 4,
+      &quot;novel_eligible&quot;: 3,
+      &quot;novel_quarantined&quot;: 1,
+      &quot;query_blocks&quot;: 4,
+      &quot;raw_hits&quot;: 4
+    },
+    {
+      &quot;axis&quot;: &quot;endpoint&quot;,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_blocks&quot;: 1,
+      &quot;raw_hits&quot;: 1
+    },
+    {
+      &quot;axis&quot;: &quot;material&quot;,
+      &quot;novel_candidates&quot;: 3,
+      &quot;novel_eligible&quot;: 3,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_blocks&quot;: 3,
+      &quot;raw_hits&quot;: 3
+    },
+    {
+      &quot;axis&quot;: &quot;protocol&quot;,
+      &quot;novel_candidates&quot;: 2,
+      &quot;novel_eligible&quot;: 2,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_blocks&quot;: 1,
+      &quot;raw_hits&quot;: 3
+    },
+    {
+      &quot;axis&quot;: &quot;species&quot;,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_blocks&quot;: 1,
+      &quot;raw_hits&quot;: 1
+    }
+  ],
+  &quot;batches&quot;: [
+    {
+      &quot;axis&quot;: &quot;material&quot;,
+      &quot;batch&quot;: 1,
+      &quot;cumulative_novel_eligible&quot;: 1,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;epmc-train-01&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;europe_pmc&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;corona&quot;,
+      &quot;batch&quot;: 2,
+      &quot;cumulative_novel_eligible&quot;: 1,
+      &quot;duplicate_or_cross_query_hits&quot;: 1,
+      &quot;novel_candidates&quot;: 0,
+      &quot;novel_eligible&quot;: 0,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;epmc-train-02&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;europe_pmc&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;endpoint&quot;,
+      &quot;batch&quot;: 3,
+      &quot;cumulative_novel_eligible&quot;: 2,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;epmc-train-03&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;europe_pmc&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;protocol&quot;,
+      &quot;batch&quot;: 4,
+      &quot;cumulative_novel_eligible&quot;: 4,
+      &quot;duplicate_or_cross_query_hits&quot;: 1,
+      &quot;novel_candidates&quot;: 2,
+      &quot;novel_eligible&quot;: 2,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;epmc-train-04&quot;,
+      &quot;raw_hits&quot;: 3,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;europe_pmc&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;species&quot;,
+      &quot;batch&quot;: 5,
+      &quot;cumulative_novel_eligible&quot;: 5,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;epmc-train-05&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;europe_pmc&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;assay&quot;,
+      &quot;batch&quot;: 6,
+      &quot;cumulative_novel_eligible&quot;: 6,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;epmc-train-06&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;europe_pmc&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;data_code&quot;,
+      &quot;batch&quot;: 7,
+      &quot;cumulative_novel_eligible&quot;: 7,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;epmc-train-07&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;europe_pmc&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;data_code&quot;,
+      &quot;batch&quot;: 8,
+      &quot;cumulative_novel_eligible&quot;: 8,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;pmc-oa-train-01&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;pmc_oa&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;corona&quot;,
+      &quot;batch&quot;: 9,
+      &quot;cumulative_novel_eligible&quot;: 10,
+      &quot;duplicate_or_cross_query_hits&quot;: 1,
+      &quot;novel_candidates&quot;: 2,
+      &quot;novel_eligible&quot;: 2,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;pride-train-01&quot;,
+      &quot;raw_hits&quot;: 3,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;pride&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;data_code&quot;,
+      &quot;batch&quot;: 10,
+      &quot;cumulative_novel_eligible&quot;: 11,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;geo-train-01&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;geo&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;data_code&quot;,
+      &quot;batch&quot;: 11,
+      &quot;cumulative_novel_eligible&quot;: 11,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 0,
+      &quot;novel_quarantined&quot;: 1,
+      &quot;query_id&quot;: &quot;zenodo-train-01&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;zenodo&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;material&quot;,
+      &quot;batch&quot;: 12,
+      &quot;cumulative_novel_eligible&quot;: 12,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;pubchem-train-01&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;pubchem&quot;
+    },
+    {
+      &quot;axis&quot;: &quot;material&quot;,
+      &quot;batch&quot;: 13,
+      &quot;cumulative_novel_eligible&quot;: 13,
+      &quot;duplicate_or_cross_query_hits&quot;: 0,
+      &quot;novel_candidates&quot;: 1,
+      &quot;novel_eligible&quot;: 1,
+      &quot;novel_quarantined&quot;: 0,
+      &quot;query_id&quot;: &quot;chembl-train-01&quot;,
+      &quot;raw_hits&quot;: 1,
+      &quot;scope&quot;: &quot;development&quot;,
+      &quot;source&quot;: &quot;chembl&quot;
+    }
+  ],
+  &quot;coverage_gaps&quot;: [
+    {
+      &quot;evidence&quot;: &quot;Frozen 2024 validation blocks have no search receipts.&quot;,
+      &quot;id&quot;: &quot;validation-2024-not-executed&quot;,
+      &quot;kind&quot;: &quot;year_scope&quot;,
+      &quot;missing_interval&quot;: &quot;2024-01-01..2024-12-31&quot;,
+      &quot;query_ids&quot;: [
+        &quot;epmc-validation-01&quot;,
+        &quot;epmc-validation-02&quot;,
+        &quot;epmc-validation-03&quot;,
+        &quot;epmc-validation-04&quot;,
+        &quot;epmc-validation-05&quot;,
+        &quot;epmc-validation-06&quot;,
+        &quot;epmc-validation-07&quot;,
+        &quot;figshare-validation-01&quot;,
+        &quot;osf-validation-01&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;evidence&quot;: &quot;No material-axis query contains the required vocabulary.&quot;,
+      &quot;id&quot;: &quot;material-polymeric&quot;,
+      &quot;kind&quot;: &quot;material&quot;,
+      &quot;missing_terms&quot;: [
+        &quot;polymeric&quot;,
+        &quot;plga&quot;,
+        &quot;poly(lactic&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;evidence&quot;: &quot;No material-axis query contains the required vocabulary.&quot;,
+      &quot;id&quot;: &quot;material-silica&quot;,
+      &quot;kind&quot;: &quot;material&quot;,
+      &quot;missing_terms&quot;: [
+        &quot;silica&quot;,
+        &quot;mesoporous&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;evidence&quot;: &quot;No material-axis query contains the required vocabulary.&quot;,
+      &quot;id&quot;: &quot;material-gold&quot;,
+      &quot;kind&quot;: &quot;material&quot;,
+      &quot;missing_terms&quot;: [
+        &quot;gold nanoparticle&quot;,
+        &quot;auro&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;evidence&quot;: &quot;No material-axis query contains the required vocabulary.&quot;,
+      &quot;id&quot;: &quot;material-protein-based&quot;,
+      &quot;kind&quot;: &quot;material&quot;,
+      &quot;missing_terms&quot;: [
+        &quot;protein nanoparticle&quot;,
+        &quot;protein-based&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;evidence&quot;: &quot;No endpoint/assay query contains the required vocabulary.&quot;,
+      &quot;id&quot;: &quot;endpoint-biodistribution&quot;,
+      &quot;kind&quot;: &quot;endpoint&quot;,
+      &quot;missing_terms&quot;: [
+        &quot;biodistribution&quot;,
+        &quot;organ distribution&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;evidence&quot;: &quot;No endpoint/assay query contains the required vocabulary.&quot;,
+      &quot;id&quot;: &quot;endpoint-hemolysis&quot;,
+      &quot;kind&quot;: &quot;endpoint&quot;,
+      &quot;missing_terms&quot;: [
+        &quot;hemolysis&quot;,
+        &quot;hemolytic&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;evidence&quot;: &quot;No endpoint/assay query contains the required vocabulary.&quot;,
+      &quot;id&quot;: &quot;endpoint-endosomal-escape&quot;,
+      &quot;kind&quot;: &quot;endpoint&quot;,
+      &quot;missing_terms&quot;: [
+        &quot;endosomal escape&quot;,
+        &quot;endosome escape&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    },
+    {
+      &quot;evidence&quot;: &quot;Validation provider blocks have no validation receipts.&quot;,
+      &quot;id&quot;: &quot;validation-sources-not-executed&quot;,
+      &quot;kind&quot;: &quot;source&quot;,
+      &quot;missing_sources&quot;: [
+        &quot;europe_pmc&quot;,
+        &quot;figshare&quot;,
+        &quot;osf&quot;
+      ],
+      &quot;status&quot;: &quot;OPEN&quot;
+    }
+  ],
+  &quot;expansion&quot;: {
+    &quot;admitted_targets&quot;: 16,
+    &quot;max_depth&quot;: 2,
+    &quot;quarantined_targets&quot;: 1,
+    &quot;raw_edges&quot;: 44,
+    &quot;run_rows&quot;: 29,
+    &quot;unique_targets&quot;: 17
+  },
+  &quot;fixture&quot;: true,
+  &quot;gap_query_proposals&quot;: [
+    {
+      &quot;id&quot;: &quot;run-validation-2024&quot;,
+      &quot;kind&quot;: &quot;year_scope&quot;,
+      &quot;query&quot;: &quot;Execute the frozen 2024 validation scope across all seven axes.&quot;,
+      &quot;source_queries&quot;: [
+        &quot;epmc-validation-01&quot;,
+        &quot;epmc-validation-02&quot;,
+        &quot;epmc-validation-03&quot;,
+        &quot;epmc-validation-04&quot;,
+        &quot;epmc-validation-05&quot;,
+        &quot;epmc-validation-06&quot;,
+        &quot;epmc-validation-07&quot;,
+        &quot;figshare-validation-01&quot;,
+        &quot;osf-validation-01&quot;
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;query-material-polymeric&quot;,
+      &quot;kind&quot;: &quot;material&quot;,
+      &quot;query&quot;: &quot;TITLE_ABS:(nanoparticle AND (polymeric OR PLGA OR \&quot;poly(lactic-co-glycolic acid)\&quot;))&quot;,
+      &quot;source_queries&quot;: []
+    },
+    {
+      &quot;id&quot;: &quot;query-material-silica&quot;,
+      &quot;kind&quot;: &quot;material&quot;,
+      &quot;query&quot;: &quot;TITLE_ABS:(nanoparticle AND (silica OR mesoporous))&quot;,
+      &quot;source_queries&quot;: []
+    },
+    {
+      &quot;id&quot;: &quot;query-material-gold&quot;,
+      &quot;kind&quot;: &quot;material&quot;,
+      &quot;query&quot;: &quot;TITLE_ABS:(\&quot;gold nanoparticle\&quot; OR auro)&quot;,
+      &quot;source_queries&quot;: []
+    },
+    {
+      &quot;id&quot;: &quot;query-material-protein-based&quot;,
+      &quot;kind&quot;: &quot;material&quot;,
+      &quot;query&quot;: &quot;TITLE_ABS:(\&quot;protein nanoparticle\&quot; OR \&quot;protein-based nanoparticle\&quot;)&quot;,
+      &quot;source_queries&quot;: []
+    },
+    {
+      &quot;id&quot;: &quot;query-endpoint-biodistribution&quot;,
+      &quot;kind&quot;: &quot;endpoint&quot;,
+      &quot;query&quot;: &quot;TITLE_ABS:(nanoparticle AND (biodistribution OR \&quot;organ distribution\&quot;))&quot;,
+      &quot;source_queries&quot;: []
+    },
+    {
+      &quot;id&quot;: &quot;query-endpoint-hemolysis&quot;,
+      &quot;kind&quot;: &quot;endpoint&quot;,
+      &quot;query&quot;: &quot;TITLE_ABS:(nanoparticle AND (hemolysis OR hemolytic))&quot;,
+      &quot;source_queries&quot;: []
+    },
+    {
+      &quot;id&quot;: &quot;query-endpoint-endosomal-escape&quot;,
+      &quot;kind&quot;: &quot;endpoint&quot;,
+      &quot;query&quot;: &quot;TITLE_ABS:(nanoparticle AND (\&quot;endosomal escape\&quot; OR \&quot;endosome escape\&quot;))&quot;,
+      &quot;source_queries&quot;: []
+    }
+  ],
+  &quot;locked_test_accessed&quot;: false,
+  &quot;matrix_sha256&quot;: &quot;70c767c0d38cf3a87a196bfa8dc107d8110630264d034ae4a745a5820491800d&quot;,
+  &quot;schema_version&quot;: 1,
+  &quot;search&quot;: {
+    &quot;admitted_candidates&quot;: 13,
+    &quot;quarantined_candidates&quot;: 1,
+    &quot;query_blocks&quot;: 13,
+    &quot;raw_hits&quot;: 17,
+    &quot;run_rows&quot;: 13,
+    &quot;unique_candidates&quot;: 14
+  },
+  &quot;stopping&quot;: {
+    &quot;consecutive_low_yield_batches&quot;: 1,
+    &quot;consecutive_zero_batches&quot;: 1,
+    &quot;decision&quot;: &quot;CONTINUE&quot;,
+    &quot;low_yield_limit&quot;: 2,
+    &quot;low_yield_threshold&quot;: 0.1,
+    &quot;open_gap_count&quot;: 9,
+    &quot;rationale&quot;: &quot;Continue until validation, declared coverage gaps, and diminishing-return criteria are satisfied.&quot;,
+    &quot;validation_scope_complete&quot;: false,
+    &quot;zero_batch_limit&quot;: 2
+  }
+}</script>
+</body></html>

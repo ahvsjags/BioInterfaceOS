@@ -239,6 +239,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     search_expand_parser.add_argument(
         "--scope", choices=("development", "validation"), default="development"
     )
+    search_subparsers.add_parser(
+        "saturation", help="compute fixture-backed search saturation and coverage gaps"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -471,7 +474,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "search":
-        if args.search_command not in {"validate-queries", "run", "expand"}:
+        if args.search_command not in {"validate-queries", "run", "expand", "saturation"}:
             parser.parse_args(["search", "--help"])
             return 0
         root = find_repository_root()
@@ -490,6 +493,24 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"SEARCH_QUERIES_VALID queries={matrix_summary.queries} "
                 f"axes={len(matrix_summary.axes)} sources={len(matrix_summary.sources)} "
                 f"scopes={','.join(matrix_summary.scopes)} sha256={matrix_summary.sha256}"
+            )
+            return 0
+        if args.search_command == "saturation":
+            from biointerfaceos.saturation import SaturationAnalyzer, SaturationError
+
+            try:
+                report_path, saturation = SaturationAnalyzer(root).write_report()
+            except (OSError, SaturationError) as exc:
+                print(f"SEARCH_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SEARCH_SATURATION_VALID raw_hits={saturation['search']['raw_hits']} "
+                f"unique_candidates={saturation['search']['unique_candidates']} "
+                f"raw_edges={saturation['expansion']['raw_edges']} "
+                f"unique_targets={saturation['expansion']['unique_targets']} "
+                f"open_gaps={saturation['stopping']['open_gap_count']} "
+                f"decision={saturation['stopping']['decision']} "
+                f"report={report_path.relative_to(root)} fixture=true"
             )
             return 0
         from biointerfaceos.policy import PolicyConfigError, SourcePolicyEngine

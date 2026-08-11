@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "material_families": [
+    {
+      "id": "lipid",
+      "terms": ["liposome", "lipid nanoparticle", "lnp"],
+      "proposal": "TITLE_ABS:(liposome OR \"lipid nanoparticle\" OR LNP)"
+    },
+    {
+      "id": "polymeric",
+      "terms": ["polymeric", "plga", "poly(lactic"],
+      "proposal": "TITLE_ABS:(nanoparticle AND (polymeric OR PLGA OR \"poly(lactic-co-glycolic acid)\"))"
+    },
+    {
+      "id": "silica",
+      "terms": ["silica", "mesoporous"],
+      "proposal": "TITLE_ABS:(nanoparticle AND (silica OR mesoporous))"
+    },
+    {
+      "id": "gold",
+      "terms": ["gold nanoparticle", "auro"],
+      "proposal": "TITLE_ABS:(\"gold nanoparticle\" OR auro)"
+    },
+    {
+      "id": "protein-based",
+      "terms": ["protein nanoparticle", "protein-based"],
+      "proposal": "TITLE_ABS:(\"protein nanoparticle\" OR \"protein-based nanoparticle\")"
+    }
+  ],
+  "endpoint_families": [
+    {
+      "id": "biodistribution",
+      "terms": ["biodistribution", "organ distribution"],
+      "proposal": "TITLE_ABS:(nanoparticle AND (biodistribution OR \"organ distribution\"))"
+    },
+    {
+      "id": "hemolysis",
+      "terms": ["hemolysis", "hemolytic"],
+      "proposal": "TITLE_ABS:(nanoparticle AND (hemolysis OR hemolytic))"
+    },
+    {
+      "id": "endosomal-escape",
+      "terms": ["endosomal escape", "endosome escape"],
+      "proposal": "TITLE_ABS:(nanoparticle AND (\"endosomal escape\" OR \"endosome escape\"))"
+    }
+  ],
+  "stopping": {
+    "consecutive_zero_batches": 2,
+    "consecutive_low_yield_batches": 2,
+    "low_yield_threshold": 0.1
+  }
+}
