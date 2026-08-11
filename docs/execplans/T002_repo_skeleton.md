@@ -30,7 +30,8 @@ This task does not create the Python environment, configuration files, schemas, 
 - [x] 2026-08-11 — Implemented `--create` and `--check` behavior for 84 contract directories.
 - [x] 2026-08-11 — Created the directories and placeholder READMEs without overwriting existing files.
 - [x] 2026-08-11 — Repeated `--create`; placeholder checksum manifests were identical.
-- [ ] 2026-08-11 — Complete quality checks, containment validation, state updates, ledger entry, and focused commit.
+- [x] 2026-08-11 — Acceptance and containment checks passed; implementation committed as `748a185d1786c1a08652ce98cbe0e8c66e296dab`.
+- [x] 2026-08-11 — Advanced task/state records to T003 and appended the truthful T002 ledger entry.
 
 ## Discoveries
 
@@ -46,7 +47,8 @@ Each declared directory receives a README placeholder, including non-empty pre-e
 - A second create run exits 0 and leaves README checksums unchanged.
 - `python scripts/bootstrap_repo.py --check` exits 0 and reports 84 validated directories and placeholders.
 - An independent Python assertion confirms all declared paths resolve under the repository root and data paths under the data root.
-- Python quality commands are run if installed; unavailable tools are recorded truthfully rather than claimed.
+- `python -m compileall -q scripts/bootstrap_repo.py` exited 0.
+- Ruff and mypy were unavailable. Pytest was available but collected no tests and exited 5; none of these results are claimed as passes.
 
 ## Failure recovery
 
@@ -58,4 +60,4 @@ Fix the script and rerun it. Never delete existing user files. Only generated em
 
 ## Completion note
 
-Pending final validation and repository bookkeeping.
+T002 created and validated 84 in-repository directories with idempotent README placeholders. The declared acceptance command, repeat-create checksum comparison, bytecode compilation, and independent containment assertion passed. No data were downloaded and no T003 implementation was started. The implementation commit is `748a185d1786c1a08652ce98cbe0e8c66e296dab`; the completion evidence is in the T002 record in `reports/task_ledger.jsonl`.

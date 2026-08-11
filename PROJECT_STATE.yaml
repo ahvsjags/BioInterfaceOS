@@ -4,16 +4,17 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks:
-  - T002
-current_task: T002
+  - T003
+current_task: T003
 active_execplan: null
 completed_tasks:
   - T000
   - T001
+  - T002
 failed_tasks: []
 waived_tasks: []
 blocked_tasks: []
-last_successful_commit: ea640baa7a2402375273d3cde5fb9ac5ff21eaa9
+last_successful_commit: 748a185d1786c1a08652ce98cbe0e8c66e296dab
 data_release: null
 benchmark_release: null
 model_release: null
