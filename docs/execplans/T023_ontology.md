@@ -27,16 +27,17 @@ Use official public resources and stable identifiers: UniProt, Gene Ontology, Re
 
 ## Progress
 
-- [ ] Read and pin official ontology endpoint contracts.
-- [ ] Implement and test the ontology adapters.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Read and pin official ontology endpoint contracts.
+- [x] Implement and test the ontology adapters.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
-- uv lock --check
+- UV_OFFLINE=1 uv lock --check
 - UV_OFFLINE=1 uv sync --frozen --python 3.11
 - UV_OFFLINE=1 make check
-- UV_OFFLINE=1 .venv/bin/pytest -q tests/ontology
+- .venv/bin/biointerfaceos ontology sync --dry-run
+- .venv/bin/pytest -q tests/sources/test_ontology.py
 - .venv/bin/python -m compileall -q src tests
 - biointerfaceos lockbox self-test
 - biointerfaceos release verify --fixture
@@ -52,3 +53,7 @@ If a source endpoint is transient, retain the last verified versioned local snap
 ## Outputs
 
 src/biointerfaceos/sources/ontology.py, tests/sources/test_ontology.py, tests/fixtures/sources/ontology, this ExecPlan, reports/T023_ontology.md, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T023 completed with implementation commits 75677d58dbb6e301eb15f78ecd0b155dbfd99121, 11cb70a96614f252aa95f3aa49dba0382002883, and 73ccbf0d51ddd1e94634188b4121444fc5d208bd. Final acceptance evidence is recorded in reports/T023_ontology.md.

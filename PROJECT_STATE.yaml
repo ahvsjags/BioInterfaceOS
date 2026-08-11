@@ -4,10 +4,9 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks:
-  - T024
   - T025
-current_task: T023
-active_execplan: docs/execplans/T023_ontology.md
+current_task: T024
+active_execplan: docs/execplans/T024_repositories.md
 completed_tasks:
   - T000
   - T001
@@ -32,6 +31,7 @@ completed_tasks:
   - T020
   - T021
   - T022
+  - T023
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: c7df21687c4439af84c3ed57c38b882797c59dc2
+last_successful_commit: 73ccbf0d51ddd1e94634188b4121444fc5d208bd
 data_release: null
 benchmark_release: null
 model_release: null
