@@ -6,7 +6,7 @@ Provide an anonymous PRIDE Archive adapter for project metadata, file manifests,
 
 ## Preconditions
 
-T016 is DONE, T019 is READY/current, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
+T016 is DONE, T019 was READY and is now DONE, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
 
 ## Non-goals
 
@@ -26,9 +26,9 @@ Use the official PRIDE Archive REST v3 project and search endpoints, with FTP/HT
 
 ## Progress
 
-- [ ] Read and pin the official PRIDE REST v3 project/file contract.
-- [ ] Implement and test the PRIDE adapter.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Read and pin the official PRIDE REST v3 project/file contract.
+- [x] Implement and test the PRIDE adapter.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,8 @@ If the official endpoint or an individual file is transient, preserve the projec
 ## Outputs
 
 src/biointerfaceos/sources/pride.py, tests/sources/test_pride.py, tests/fixtures/sources/pride, this ExecPlan, reports/T019_pride.md, state advancement, and task-ledger evidence.
+
+
+## Completion note
+
+T019 completed with implementation commit b8111b46332e370e05c41e5259f950c605ec1ac6 and final acceptance evidence in reports/T019_pride.md.

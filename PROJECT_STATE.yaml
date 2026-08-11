@@ -4,14 +4,13 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks:
-  - T020
   - T021
   - T022
   - T023
   - T024
   - T025
-current_task: T019
-active_execplan: docs/execplans/T019_pride.md
+current_task: T020
+active_execplan: docs/execplans/T020_geo.md
 completed_tasks:
   - T000
   - T001
@@ -32,6 +31,7 @@ completed_tasks:
   - T016
   - T017
   - T018
+  - T019
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
