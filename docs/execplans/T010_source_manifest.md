@@ -28,8 +28,8 @@ SourceRecord requires stable source identity, canonical anonymous URL, access/st
 ## Progress
 
 - [x] 2026-08-12 ? Read AGENTS, GOAL, PLANS, state, T010, source schema, and storage constraints; selected PyArrow from the server cache for a real Parquet artifact.
-- [ ] Implement and test the registry.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] 2026-08-12 ? Implemented typed record validation, atomic Parquet registry, CLI validation, and 7 focused tests.
+- [x] 2026-08-12 ? Offline lock/sync, full check (40 passed), focused tests (7 passed), CLI, state, ledger, compileall, and diff gates passed.
 
 ## Discoveries
 
@@ -60,4 +60,4 @@ src/biointerfaceos/manifest.py, tests/test_manifest.py, CLI source-manifest vali
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T010 is complete. The implementation commit is 593ca7bf98cda1f534629e4787748465a7eb69ca; evidence is in reports/T010_manifest.md and the sequence-5 task ledger record. T011 is READY/current. No source acquisition or locked-test access occurred.
