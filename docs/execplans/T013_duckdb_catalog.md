@@ -28,8 +28,8 @@ Catalog.build creates registry/catalog.duckdb, catalog_meta with schema_version 
 ## Progress
 
 - [x] 2026-08-12 ? Read T013 contract, GOAL DuckDB/Parquet requirement, current registries, and selected DuckDB 1.5.5 cached runtime.
-- [ ] Implement and test the catalog.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] 2026-08-12 ? Implemented Parquet-backed DuckDB views, metadata hashes, read-only query guard, CLI, and 4 tests.
+- [x] 2026-08-12 ? Offline lock/sync, full check (57 passed), focused tests (4 passed), two catalog CLI checks, state, compileall, and diff gates passed.
 
 ## Discoveries
 
@@ -62,4 +62,4 @@ src/biointerfaceos/catalog.py, tests/test_catalog.py, registry/catalog.duckdb, c
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T013 is complete. Implementation commit 9a55980da59b8652ab222c516c014f9991bf8cbe and evidence report reports/T013_catalog.md are recorded with the sequence-8 task ledger entry. T014 is READY/current. No source or locked-test payload was accessed.
