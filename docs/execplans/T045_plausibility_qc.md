@@ -27,10 +27,10 @@ Each QC flag retains record/field identity, severity, rule ID, observed value, t
 
 ## Progress
 
-- [ ] Define QC schemas and rule registry.
-- [ ] Implement physical/statistical checks and severity handling.
-- [ ] Measure injected-error recall and false positives.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define QC schemas and rule registry.
+- [x] Implement physical/statistical checks and severity handling.
+- [x] Measure injected-error recall and false positives.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,11 @@ Preserve raw values and evidence locators. Quarantine critical records; keep non
 ## Outputs
 
 QC rules, flags, quarantine records, false-positive metrics, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion evidence
+
+- Implementation commit: c0495e6.
+- biointerfaceos qc records --fixture --strict: 7 records, 5 flags, 4 critical, 1 warning, 4 quarantined, 0 clean-control false-positive records, injected-error recall 1.000.
+- UV_OFFLINE=1 make check: 181 tests passed; ruff, format, and mypy passed.
+- Full acceptance commands, asset verification, lockbox self-test, catalog check, explicit release verification, state validation, compileall, and git diff check passed.
+- Review queue is append-only and idempotent; raw values are not rewritten.
