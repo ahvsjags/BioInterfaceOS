@@ -257,6 +257,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     extract_figures_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized local figure fixture"
     )
+    extract_figures_parser.add_argument(
+        "--digitize",
+        action="store_true",
+        help="also calibrate eligible curve, bar, and scatter candidates",
+    )
 
     data_parser = subparsers.add_parser("data", help="policy-gated data operations")
     data_subparsers = data_parser.add_subparsers(dest="data_command")
@@ -433,6 +438,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"uncertainty_cues={figure_summary.uncertainty_cues} "
             f"review_items={figure_summary.review_items} fixture=true"
         )
+        if args.digitize:
+            from biointerfaceos.figure_digitizer import (
+                FigureDigitizationError,
+                FigureDigitizer,
+            )
+
+            try:
+                digitization_summary = FigureDigitizer(root).run()
+            except (OSError, FigureDigitizationError) as exc:
+                print(f"FIGURE_DIGITIZATION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"FIGURE_DIGITIZATION_VALID figures={digitization_summary.figures} "
+                f"panels={digitization_summary.panels} "
+                f"series_seen={digitization_summary.series_seen} "
+                f"digitized_series={digitization_summary.digitized_series} "
+                f"excluded_series={digitization_summary.excluded_series} "
+                f"points={digitization_summary.points} "
+                f"uncertainty_records={digitization_summary.uncertainty_records} "
+                f"review_items={digitization_summary.review_items} fixture=true"
+            )
         return 0
     if args.command == "data":
         if args.data_command != "fetch":

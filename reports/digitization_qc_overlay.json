@@ -1,0 +1,113 @@
+{
+  "fixture": true,
+  "overlays": [
+    {
+      "figure_id": "figure-digitize-001",
+      "panel_id": "D",
+      "series": [
+        {
+          "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]",
+          "digitized_point_locators": [
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[1]",
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[3]"
+          ],
+          "normalized_points": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.5,
+              0.5
+            ],
+            [
+              0.9,
+              0.2
+            ]
+          ],
+          "series_id": "curve-main"
+        },
+        {
+          "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/bar[1]",
+          "digitized_point_locators": [
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:bar-main/point[1]",
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:bar-main/point[2]",
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:bar-main/point[3]"
+          ],
+          "normalized_points": [
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.5,
+              0.6
+            ],
+            [
+              0.8,
+              0.4
+            ]
+          ],
+          "series_id": "bar-main"
+        },
+        {
+          "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/scatter[1]",
+          "digitized_point_locators": [
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:scatter-main/point[1]",
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:scatter-main/point[2]",
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:scatter-main/point[3]"
+          ],
+          "normalized_points": [
+            [
+              0.15,
+              0.7
+            ],
+            [
+              0.45,
+              0.55
+            ],
+            [
+              0.75,
+              0.3
+            ]
+          ],
+          "series_id": "scatter-main"
+        }
+      ],
+      "source_asset_id": "asset-figure-digitize-001"
+    },
+    {
+      "figure_id": "figure-digitize-001",
+      "panel_id": "E",
+      "series": [
+        {
+          "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/curve[1]",
+          "digitized_point_locators": [
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/series:log-curve/point[1]",
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/series:log-curve/point[2]",
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/series:log-curve/point[3]"
+          ],
+          "normalized_points": [
+            [
+              0.0,
+              0.8
+            ],
+            [
+              0.5,
+              0.5
+            ],
+            [
+              1.0,
+              0.2
+            ]
+          ],
+          "series_id": "log-curve"
+        }
+      ],
+      "source_asset_id": "asset-figure-digitize-001"
+    }
+  ],
+  "purpose": "review overlay mapping detector candidates to calibrated points",
+  "schema_version": 1
+}

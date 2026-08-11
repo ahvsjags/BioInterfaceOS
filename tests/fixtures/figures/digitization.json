@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "figures": [
+    {
+      "figure_id": "figure-digitize-001",
+      "source_asset_id": "asset-figure-digitize-001",
+      "panels": [
+        {
+          "panel_id": "D",
+          "bbox": [0.08, 0.10, 0.48, 0.90],
+          "panel_type": "plot",
+          "axes": [
+            {
+              "orientation": "x",
+              "label": "Time (h)",
+              "scale_type": "linear",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/axis:x",
+              "ticks": [
+                {"label": "0", "value": 0, "position": 0.0},
+                {"label": "5", "value": 5, "position": 0.5},
+                {"label": "10", "value": 10, "position": 1.0}
+              ]
+            },
+            {
+              "orientation": "y",
+              "label": "Response (%)",
+              "scale_type": "linear",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/axis:y",
+              "ticks": [
+                {"label": "20", "value": 20, "position": 0.0},
+                {"label": "10", "value": 10, "position": 0.5},
+                {"label": "0", "value": 0, "position": 1.0}
+              ]
+            }
+          ],
+          "series": [
+            {
+              "series_id": "curve-main",
+              "series_type": "curve",
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]",
+              "quality_score": 0.96,
+              "points": [[0.1, 0.8], [0.5, 0.5], [0.9, 0.2]],
+              "uncertainty": [null, {"kind": "SD", "half_range": 0.05}, null]
+            },
+            {
+              "series_id": "bar-main",
+              "series_type": "bar",
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/bar[1]",
+              "quality_score": 0.94,
+              "points": [[0.2, 0.75], [0.5, 0.6], [0.8, 0.4]],
+              "uncertainty": [
+                {"kind": "SE", "half_range": 0.04},
+                {"kind": "SE", "half_range": 0.04},
+                {"kind": "SE", "half_range": 0.04}
+              ]
+            },
+            {
+              "series_id": "scatter-main",
+              "series_type": "scatter",
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/scatter[1]",
+              "quality_score": 0.91,
+              "points": [[0.15, 0.7], [0.45, 0.55], [0.75, 0.3]],
+              "uncertainty": [null, null, null]
+            },
+            {
+              "series_id": "low-quality-curve",
+              "series_type": "curve",
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[low-quality]",
+              "quality_score": 0.40,
+              "points": [[0.1, 0.8], [0.5, 0.5], [0.9, 0.2]],
+              "uncertainty": [null, null, null]
+            }
+          ]
+        },
+        {
+          "panel_id": "E",
+          "bbox": [0.55, 0.10, 0.95, 0.90],
+          "panel_type": "plot",
+          "axes": [
+            {
+              "orientation": "x",
+              "label": "Particle size (nm)",
+              "scale_type": "log",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/axis:x",
+              "ticks": [
+                {"label": "1", "value": 1, "position": 0.0},
+                {"label": "10", "value": 10, "position": 0.5},
+                {"label": "100", "value": 100, "position": 1.0}
+              ]
+            },
+            {
+              "orientation": "y",
+              "label": "Signal",
+              "scale_type": "linear",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/axis:y",
+              "ticks": [
+                {"label": "20", "value": 20, "position": 0.0},
+                {"label": "10", "value": 10, "position": 0.5},
+                {"label": "0", "value": 0, "position": 1.0}
+              ]
+            }
+          ],
+          "series": [
+            {
+              "series_id": "log-curve",
+              "series_type": "curve",
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/curve[1]",
+              "quality_score": 0.95,
+              "points": [[0.0, 0.8], [0.5, 0.5], [1.0, 0.2]],
+              "uncertainty": [null, null, null]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

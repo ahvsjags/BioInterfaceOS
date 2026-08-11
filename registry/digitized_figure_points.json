@@ -1,0 +1,387 @@
+{
+  "figures": [
+    {
+      "figure_id": "figure-digitize-001",
+      "panels": [
+        {
+          "bbox": [
+            0.08,
+            0.1,
+            0.48,
+            0.9
+          ],
+          "calibrations": [
+            {
+              "axis_id": "D:x",
+              "confidence": 0.96,
+              "label": "Time (h)",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/axis:x",
+              "max_residual": 0.0,
+              "orientation": "x",
+              "scale_type": "linear",
+              "tick_positions": [
+                0.0,
+                0.5,
+                1.0
+              ],
+              "tick_values": [
+                0.0,
+                5.0,
+                10.0
+              ]
+            },
+            {
+              "axis_id": "D:y",
+              "confidence": 0.96,
+              "label": "Response (%)",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/axis:y",
+              "max_residual": 0.0,
+              "orientation": "y",
+              "scale_type": "linear",
+              "tick_positions": [
+                0.0,
+                0.5,
+                1.0
+              ],
+              "tick_values": [
+                20.0,
+                10.0,
+                0.0
+              ]
+            }
+          ],
+          "excluded_series": [
+            "low-quality-curve"
+          ],
+          "panel_id": "D",
+          "panel_type": "plot",
+          "review_items": [
+            {
+              "confidence": 0.4,
+              "figure_id": "figure-digitize-001",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:low-quality-curve",
+              "panel_id": "D",
+              "reason": "LOW_RESOLUTION_CANDIDATE_EXCLUDED",
+              "resolution": "MANUAL_REVIEW",
+              "review_id": "low-quality:figure-digitize-001:D:low-quality-curve",
+              "series_id": "low-quality-curve",
+              "source_asset_id": "asset-figure-digitize-001"
+            }
+          ],
+          "series": [
+            {
+              "calibration_ids": [
+                "D:x",
+                "D:y"
+              ],
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]",
+              "points": [
+                {
+                  "confidence": 0.944,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]",
+                  "error_type": null,
+                  "point_id": "curve-main:point:1",
+                  "series_id": "curve-main",
+                  "series_type": "curve",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[1]",
+                  "x_error": null,
+                  "x_position": 0.1,
+                  "x_value": 1.0,
+                  "y_error": null,
+                  "y_position": 0.8,
+                  "y_value": 3.999999999999999
+                },
+                {
+                  "confidence": 0.944,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]",
+                  "error_type": "SD",
+                  "point_id": "curve-main:point:2",
+                  "series_id": "curve-main",
+                  "series_type": "curve",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+                  "x_error": null,
+                  "x_position": 0.5,
+                  "x_value": 5.0,
+                  "y_error": 1.0,
+                  "y_position": 0.5,
+                  "y_value": 10.0
+                },
+                {
+                  "confidence": 0.944,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]",
+                  "error_type": null,
+                  "point_id": "curve-main:point:3",
+                  "series_id": "curve-main",
+                  "series_type": "curve",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[3]",
+                  "x_error": null,
+                  "x_position": 0.9,
+                  "x_value": 9.0,
+                  "y_error": null,
+                  "y_position": 0.2,
+                  "y_value": 16.0
+                }
+              ],
+              "quality_score": 0.96,
+              "series_id": "curve-main",
+              "series_type": "curve"
+            },
+            {
+              "calibration_ids": [
+                "D:x",
+                "D:y"
+              ],
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/bar[1]",
+              "points": [
+                {
+                  "confidence": 0.9259999999999999,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/bar[1]",
+                  "error_type": "SE",
+                  "point_id": "bar-main:point:1",
+                  "series_id": "bar-main",
+                  "series_type": "bar",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:bar-main/point[1]",
+                  "x_error": null,
+                  "x_position": 0.2,
+                  "x_value": 2.0,
+                  "y_error": 0.8000000000000007,
+                  "y_position": 0.75,
+                  "y_value": 5.0
+                },
+                {
+                  "confidence": 0.9259999999999999,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/bar[1]",
+                  "error_type": "SE",
+                  "point_id": "bar-main:point:2",
+                  "series_id": "bar-main",
+                  "series_type": "bar",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:bar-main/point[2]",
+                  "x_error": null,
+                  "x_position": 0.5,
+                  "x_value": 5.0,
+                  "y_error": 0.8000000000000007,
+                  "y_position": 0.6,
+                  "y_value": 8.0
+                },
+                {
+                  "confidence": 0.9259999999999999,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/bar[1]",
+                  "error_type": "SE",
+                  "point_id": "bar-main:point:3",
+                  "series_id": "bar-main",
+                  "series_type": "bar",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:bar-main/point[3]",
+                  "x_error": null,
+                  "x_position": 0.8,
+                  "x_value": 8.0,
+                  "y_error": 0.7999999999999998,
+                  "y_position": 0.4,
+                  "y_value": 12.0
+                }
+              ],
+              "quality_score": 0.94,
+              "series_id": "bar-main",
+              "series_type": "bar"
+            },
+            {
+              "calibration_ids": [
+                "D:x",
+                "D:y"
+              ],
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/scatter[1]",
+              "points": [
+                {
+                  "confidence": 0.899,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/scatter[1]",
+                  "error_type": null,
+                  "point_id": "scatter-main:point:1",
+                  "series_id": "scatter-main",
+                  "series_type": "scatter",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:scatter-main/point[1]",
+                  "x_error": null,
+                  "x_position": 0.15,
+                  "x_value": 1.5,
+                  "y_error": null,
+                  "y_position": 0.7,
+                  "y_value": 6.000000000000001
+                },
+                {
+                  "confidence": 0.899,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/scatter[1]",
+                  "error_type": null,
+                  "point_id": "scatter-main:point:2",
+                  "series_id": "scatter-main",
+                  "series_type": "scatter",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:scatter-main/point[2]",
+                  "x_error": null,
+                  "x_position": 0.45,
+                  "x_value": 4.5,
+                  "y_error": null,
+                  "y_position": 0.55,
+                  "y_value": 9.0
+                },
+                {
+                  "confidence": 0.899,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/scatter[1]",
+                  "error_type": null,
+                  "point_id": "scatter-main:point:3",
+                  "series_id": "scatter-main",
+                  "series_type": "scatter",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:scatter-main/point[3]",
+                  "x_error": null,
+                  "x_position": 0.75,
+                  "x_value": 7.5,
+                  "y_error": null,
+                  "y_position": 0.3,
+                  "y_value": 14.0
+                }
+              ],
+              "quality_score": 0.91,
+              "series_id": "scatter-main",
+              "series_type": "scatter"
+            }
+          ],
+          "supported": true
+        },
+        {
+          "bbox": [
+            0.55,
+            0.1,
+            0.95,
+            0.9
+          ],
+          "calibrations": [
+            {
+              "axis_id": "E:x",
+              "confidence": 0.96,
+              "label": "Particle size (nm)",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/axis:x",
+              "max_residual": 0.0,
+              "orientation": "x",
+              "scale_type": "log",
+              "tick_positions": [
+                0.0,
+                0.5,
+                1.0
+              ],
+              "tick_values": [
+                1.0,
+                10.0,
+                100.0
+              ]
+            },
+            {
+              "axis_id": "E:y",
+              "confidence": 0.96,
+              "label": "Signal",
+              "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/axis:y",
+              "max_residual": 0.0,
+              "orientation": "y",
+              "scale_type": "linear",
+              "tick_positions": [
+                0.0,
+                0.5,
+                1.0
+              ],
+              "tick_values": [
+                20.0,
+                10.0,
+                0.0
+              ]
+            }
+          ],
+          "excluded_series": [],
+          "panel_id": "E",
+          "panel_type": "plot",
+          "review_items": [],
+          "series": [
+            {
+              "calibration_ids": [
+                "E:x",
+                "E:y"
+              ],
+              "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/curve[1]",
+              "points": [
+                {
+                  "confidence": 0.9349999999999999,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/curve[1]",
+                  "error_type": null,
+                  "point_id": "log-curve:point:1",
+                  "series_id": "log-curve",
+                  "series_type": "curve",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/series:log-curve/point[1]",
+                  "x_error": null,
+                  "x_position": 0.0,
+                  "x_value": 1.0,
+                  "y_error": null,
+                  "y_position": 0.8,
+                  "y_value": 3.999999999999999
+                },
+                {
+                  "confidence": 0.9349999999999999,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/curve[1]",
+                  "error_type": null,
+                  "point_id": "log-curve:point:2",
+                  "series_id": "log-curve",
+                  "series_type": "curve",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/series:log-curve/point[2]",
+                  "x_error": null,
+                  "x_position": 0.5,
+                  "x_value": 10.0,
+                  "y_error": null,
+                  "y_position": 0.5,
+                  "y_value": 10.0
+                },
+                {
+                  "confidence": 0.9349999999999999,
+                  "detector_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/curve[1]",
+                  "error_type": null,
+                  "point_id": "log-curve:point:3",
+                  "series_id": "log-curve",
+                  "series_type": "curve",
+                  "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:E/series:log-curve/point[3]",
+                  "x_error": null,
+                  "x_position": 1.0,
+                  "x_value": 100.0,
+                  "y_error": null,
+                  "y_position": 0.2,
+                  "y_value": 16.0
+                }
+              ],
+              "quality_score": 0.95,
+              "series_id": "log-curve",
+              "series_type": "curve"
+            }
+          ],
+          "supported": true
+        }
+      ],
+      "source_asset_id": "asset-figure-digitize-001"
+    }
+  ],
+  "fixture": true,
+  "review_items": [
+    {
+      "confidence": 0.4,
+      "figure_id": "figure-digitize-001",
+      "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:low-quality-curve",
+      "panel_id": "D",
+      "reason": "LOW_RESOLUTION_CANDIDATE_EXCLUDED",
+      "resolution": "MANUAL_REVIEW",
+      "review_id": "low-quality:figure-digitize-001:D:low-quality-curve",
+      "series_id": "low-quality-curve",
+      "source_asset_id": "asset-figure-digitize-001"
+    }
+  ],
+  "schema_version": 1,
+  "summary": {
+    "digitized_series": 4,
+    "excluded_series": 1,
+    "figures": 1,
+    "panels": 2,
+    "points": 12,
+    "review_items": 1,
+    "series_seen": 5,
+    "uncertainty_records": 4
+  }
+}
