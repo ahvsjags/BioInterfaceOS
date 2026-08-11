@@ -198,6 +198,7 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--fixture", action="store_true", help="verify the fixture namespace"
     )
     verify_parser.add_argument("--release-id", default=None, help="specific release identifier")
+    verify_parser.add_argument("release_kind", nargs="?", choices=("bronze",), default=None)
     lockbox_parser = subparsers.add_parser("lockbox", help="test lockbox firewall")
     lockbox_subparsers = lockbox_parser.add_subparsers(dest="lockbox_command")
     lockbox_subparsers.add_parser("self-test", help="run offline firewall and scanner tests")
@@ -314,6 +315,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     data_fetch_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized local fixture queue"
+    )
+    data_bronze_parser = data_subparsers.add_parser(
+        "build-bronze", help="build an immutable fixture Bronze release"
+    )
+    data_bronze_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized Bronze fixture"
     )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
@@ -639,7 +646,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "data":
-        if args.data_command != "fetch":
+        if args.data_command not in {"fetch", "build-bronze"}:
             parser.parse_args(["data", "--help"])
             return 0
         root = find_repository_root()
@@ -649,6 +656,26 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         if not args.fixture:
             print("DATA_FETCH_INVALID: --fixture is required", file=sys.stderr)
             return 2
+        if args.data_command == "build-bronze":
+            from biointerfaceos.bronze_release import (
+                BronzeReleaseBuilder,
+                BronzeReleaseError,
+            )
+
+            try:
+                bronze_summary = BronzeReleaseBuilder(root).build(fixture=True)
+            except (BronzeReleaseError, OSError) as exc:
+                print(f"BRONZE_BUILD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"BRONZE_BUILD_VALID release_id={bronze_summary.release_id} "
+                f"manifest_hash={bronze_summary.manifest_hash} "
+                f"raw_assets={bronze_summary.raw_assets} "
+                f"parsed_assets={bronze_summary.parsed_assets} "
+                f"pointer_assets={bronze_summary.pointer_assets} "
+                f"license_tiers={bronze_summary.license_tiers} fixture=true"
+            )
+            return 0
         from biointerfaceos.asset_downloader import AssetDownloader, DownloadError
         from biointerfaceos.policy import PolicyConfigError, SourcePolicyEngine
 
@@ -720,6 +747,26 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         if root is None:
             print("RELEASE_INVALID: repository root not found", file=sys.stderr)
             return 1
+        if args.release_command == "verify" and args.release_kind == "bronze":
+            from biointerfaceos.bronze_release import (
+                BronzeReleaseBuilder,
+                BronzeReleaseError,
+            )
+
+            try:
+                bronze_summary = BronzeReleaseBuilder(root).verify(args.release_id)
+            except (BronzeReleaseError, OSError) as exc:
+                print(f"BRONZE_RELEASE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"BRONZE_RELEASE_VALID release_id={bronze_summary.release_id} "
+                f"manifest_hash={bronze_summary.manifest_hash} "
+                f"files={bronze_summary.total_assets} "
+                f"raw_assets={bronze_summary.raw_assets} "
+                f"parsed_assets={bronze_summary.parsed_assets} "
+                f"pointer_assets={bronze_summary.pointer_assets}"
+            )
+            return 0
         if not args.fixture:
             print("RELEASE_INVALID: --fixture is required", file=sys.stderr)
             return 1

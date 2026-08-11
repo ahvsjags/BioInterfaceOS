@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "asset_id": "parsed-jats-001",
+      "kind": "parsed",
+      "source_locator": "asset:fixture-jats-001",
+      "license_tier": "derived_allowed",
+      "redistribution": "allowed",
+      "parser": "jats",
+      "input_path": "tests/fixtures/extract/article.xml",
+      "output_path": "parsed/jats_fixture.json"
+    },
+    {
+      "asset_id": "parsed-pdf-001",
+      "kind": "parsed",
+      "source_locator": "asset:fixture-pdf-001",
+      "license_tier": "derived_allowed",
+      "redistribution": "allowed",
+      "parser": "pdf",
+      "input_path": "tests/fixtures/extract/born_digital.pdf",
+      "output_path": "parsed/pdf_fixture.json"
+    },
+    {
+      "asset_id": "parsed-supplement-001",
+      "kind": "parsed",
+      "source_locator": "asset:fixture-supplement-001",
+      "license_tier": "derived_allowed",
+      "redistribution": "allowed",
+      "parser": "supplement",
+      "input_path": "tests/fixtures/extract/table.csv",
+      "output_path": "parsed/supplement_fixture.json"
+    },
+    {
+      "asset_id": "restricted-pointer-001",
+      "kind": "pointer",
+      "source_locator": "https://restricted.example.org/dataset/bronze-001",
+      "license_tier": "restricted_pointer",
+      "redistribution": "manifest_only",
+      "parser": "metadata-only"
+    }
+  ]
+}
