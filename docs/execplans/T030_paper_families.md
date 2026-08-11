@@ -27,9 +27,9 @@ Every family member retains its source/accession, DOI/URL aliases, relationship 
 
 ## Progress
 
-- [ ] Define family and study-identity schemas.
-- [ ] Implement fixture-backed family resolution and conflict queue.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define family and study-identity schemas.
+- [x] Implement fixture-backed family resolution and conflict queue.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -43,6 +43,10 @@ Every family member retains its source/accession, DOI/URL aliases, relationship 
 - git diff --check
 - family fixture split-boundary and conflict assertions
 - append-only ledger validation
+
+## Completion note
+
+T030 completed with implementation commit 7a29773. The resolver emitted five split-safe families, ten member rows, and two sealed manual-review records without forcing cross-split or uncertain links. Completion evidence is recorded in reports/T030_paper_families.md.
 
 ## Failure recovery
 
