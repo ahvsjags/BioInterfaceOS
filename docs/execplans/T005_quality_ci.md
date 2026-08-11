@@ -28,8 +28,8 @@ This task does not implement T006 or later functionality, download scientific da
 
 - [x] 2026-08-11 — Read repository instructions, goal, planning standard, state, T005/T006/T007 task rows, and T005 input files.
 - [x] 2026-08-11 — Added exact tool pins, project configuration, the local quality target, and secret-free CI workflow.
-- [ ] 2026-08-11 — Lock, synchronize, run all acceptance checks, and record evidence.
-- [ ] 2026-08-11 — Complete state, task, ledger, plan, report, commit, and clean-status verification.
+- [x] 2026-08-11 — Lock, synchronize, run all acceptance checks, and record evidence.
+- [x] 2026-08-11 — Complete state, task, ledger, plan, report, commit, and clean-status verification.
 
 ## Discoveries
 
@@ -59,4 +59,4 @@ Pinned development dependencies and tool configuration, `uv.lock`, `Makefile`, `
 
 ## Completion note
 
-Pending acceptance validation.
+T005 passed the frozen offline quality gate: ruff check, ruff format check, mypy, pytest, compileall, and lock checks all exited 0. The 3 CLI tests passed. The report records pinned versions, hashes, the initial tool download, and the repository-wide lint scope limitation.
