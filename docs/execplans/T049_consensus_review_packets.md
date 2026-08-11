@@ -43,3 +43,10 @@ Keep source rows in Silver/Gold-auto exclusions and regenerate packets determini
 ## Outputs
 
 Review packets, annotation guide, sign-off schema, coverage report, fixture/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion evidence
+
+- Implementation commit: b8e872a.
+- biointerfaceos review export --sample stratified: 3 packets across 3 strata, all unsigned, signed_packets=0.
+- Packets include blinded context, exact questions, candidate values, and evidence locators; expert-gold promotion remains false.
+- UV_OFFLINE=1 make check: 192 tests passed; ruff, format, and mypy passed.
