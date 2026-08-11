@@ -1,0 +1,19 @@
+schema_version: 1
+locked_root: data/locked_test
+metadata_whitelist:
+- README.md
+- metadata.json
+- manifest.json
+- checksums.txt
+forbidden_fields:
+- sample_id
+- outcome
+- label
+- target
+- protein_matrix
+- full_text
+- abstract
+- figure
+- supplementary
+- embedding
+- locked_test

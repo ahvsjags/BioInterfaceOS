@@ -1,0 +1,38 @@
+{
+  "blocked_development_lockbox_read": true,
+  "clean_fixture": {
+    "checked_paths": [
+      "tests/fixtures/lockbox/clean.json"
+    ],
+    "clean": true,
+    "findings": []
+  },
+  "contaminated_fixture": {
+    "checked_paths": [
+      "tests/fixtures/lockbox/contaminated.json"
+    ],
+    "clean": false,
+    "findings": [
+      {
+        "kind": "forbidden_hash",
+        "path": "tests/fixtures/lockbox/contaminated.json",
+        "value": "e0ede3dd10bda7325e096b9590ae3617c3cd5f2cec747c802a6e4e211b5db97b"
+      },
+      {
+        "kind": "forbidden_field",
+        "path": "tests/fixtures/lockbox/contaminated.json",
+        "value": "outcome"
+      },
+      {
+        "kind": "forbidden_field",
+        "path": "tests/fixtures/lockbox/contaminated.json",
+        "value": "label"
+      }
+    ]
+  },
+  "forbidden_field_detected": true,
+  "forbidden_hash_detected": true,
+  "locked_root_payload_opened": false,
+  "metadata_whitelist_count": 4,
+  "passed": true
+}

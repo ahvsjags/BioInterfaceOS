@@ -3,10 +3,9 @@ manual_version: 1.0.0
 manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
-ready_tasks:
-  - T015
+ready_tasks: []
 current_task: T015
-active_execplan: null
+active_execplan: docs/execplans/T015_lockbox_firewall.md
 completed_tasks:
   - T000
   - T001

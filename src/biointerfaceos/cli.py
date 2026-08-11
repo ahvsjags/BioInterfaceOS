@@ -197,6 +197,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--fixture", action="store_true", help="verify the fixture namespace"
     )
     verify_parser.add_argument("--release-id", default=None, help="specific release identifier")
+    lockbox_parser = subparsers.add_parser("lockbox", help="test lockbox firewall")
+    lockbox_subparsers = lockbox_parser.add_subparsers(dest="lockbox_command")
+    lockbox_subparsers.add_parser("self-test", help="run offline firewall and scanner tests")
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -364,6 +367,29 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"RELEASE_VALID id={release_summary.release_id} "
             f"manifest_hash={release_summary.manifest_hash} "
             f"files={release_summary.file_count}"
+        )
+        return 0
+    if args.command == "lockbox":
+        if args.lockbox_command != "self-test":
+            parser.parse_args(["lockbox", "--help"])
+            return 0
+        from biointerfaceos.lockbox import LockboxError, LockboxFirewall
+
+        root = find_repository_root()
+        if root is None:
+            print("LOCKBOX_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            firewall = LockboxFirewall(root)
+            audit = firewall.self_test(root / "tests/fixtures/lockbox")
+            firewall.write_audit(audit)
+        except (LockboxError, OSError) as exc:
+            print(f"LOCKBOX_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"LOCKBOX_VALID blocked_read={audit['blocked_development_lockbox_read']} "
+            f"field_detected={audit['forbidden_field_detected']} "
+            f"hash_detected={audit['forbidden_hash_detected']}"
         )
         return 0
     if args.command == "storage":
