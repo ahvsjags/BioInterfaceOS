@@ -3,9 +3,11 @@ manual_version: 1.0.0
 manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
-ready_tasks: []
-current_task: T007
-active_execplan: docs/execplans/T007_schema_validation.md
+ready_tasks:
+  - T008
+  - T009
+current_task: T008
+active_execplan: null
 completed_tasks:
   - T000
   - T001
@@ -14,11 +16,10 @@ completed_tasks:
   - T004
   - T005
   - T006
+  - T007
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T008
-  - T009
   - T010
   - T011
   - T012
@@ -124,7 +125,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 408c12395a1b7fe52ee2f33df52739d9cd2973df
+last_successful_commit: a8710fc2e6646388f8f6c8e14c9dac7abf9cb915
 data_release: null
 benchmark_release: null
 model_release: null

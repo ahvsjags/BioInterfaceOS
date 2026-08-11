@@ -43,7 +43,7 @@ class RepositoryStateTests(unittest.TestCase):
         state, tasks = validate_repository_state(self.root)
 
         self.assertEqual(self.state, state)
-        self.assertEqual("T007", next_ready_task(tasks).id)  # type: ignore[union-attr]
+        self.assertEqual("T008", next_ready_task(tasks).id)  # type: ignore[union-attr]
 
     def test_repository_state_rejects_summary_disagreement(self) -> None:
         invalid = replace(self.state, ready_tasks=())
