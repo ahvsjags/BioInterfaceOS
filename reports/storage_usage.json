@@ -67,12 +67,12 @@
       "sha256": "189f1f6965261feb4443abd4414a5d1f4eff68c1a769a11c9ee5e0355a34e036"
     },
     {
-      "bytes": 10854,
+      "bytes": 12522,
       "paths": [
         "reports/task_ledger.jsonl",
         "reports/task_ledger.jsonl.snapshot"
       ],
-      "sha256": "7837a4793d2a9c9108f42c168ea91f1e20957583a262ce169b0313786999b3d1"
+      "sha256": "e11c9e9452365b5cdd5dbfbec8460a47aa61b9de71b18d6b0759a5b77f2ba90a"
     },
     {
       "bytes": 0,
@@ -379,6 +379,11 @@
       "sha256": "021231cea885c1fb05d916bde109e9e251a069a557e21919be4e69bf17b9f321"
     },
     {
+      "bytes": 2161,
+      "path": "reports/T008_storage.md",
+      "sha256": "652e9501858e6b9920fe52eb9499f2a93f9d7031673388817184d0ca52e3dd47"
+    },
+    {
       "bytes": 147,
       "path": "reports/benchmark/README.md",
       "sha256": "0b2034b07903d15dd91cecf502bb97e006d96de852f0cccc511dfdaf2fe742cc"
@@ -429,22 +434,22 @@
       "sha256": "0b2034b07903d15dd91cecf502bb97e006d96de852f0cccc511dfdaf2fe742cc"
     },
     {
-      "bytes": 10854,
+      "bytes": 12522,
       "path": "reports/task_ledger.jsonl",
-      "sha256": "7837a4793d2a9c9108f42c168ea91f1e20957583a262ce169b0313786999b3d1"
+      "sha256": "e11c9e9452365b5cdd5dbfbec8460a47aa61b9de71b18d6b0759a5b77f2ba90a"
     },
     {
       "bytes": 189,
       "path": "reports/task_ledger.jsonl.seal.json",
-      "sha256": "d918aaca0065e9fc16894cd79cb3e1b63217b80f5fb8b1f30664ecb4b0eb2fef"
+      "sha256": "c4821c90ccd9689011abe47b3beac981a71b6f65c6ff7e8edf6b0a1bb5a561ab"
     },
     {
-      "bytes": 10854,
+      "bytes": 12522,
       "path": "reports/task_ledger.jsonl.snapshot",
-      "sha256": "7837a4793d2a9c9108f42c168ea91f1e20957583a262ce169b0313786999b3d1"
+      "sha256": "e11c9e9452365b5cdd5dbfbec8460a47aa61b9de71b18d6b0759a5b77f2ba90a"
     }
   ],
-  "manifest_sha256": "0f435e5e8a08f4cd5b6d893f6f725d89a0c382a70cbf94cafebe449dd29e3062",
+  "manifest_sha256": "12ebe2b4587ce0b06ec88b7efef7574ca01e427b7e3530be682f54622b000d20",
   "roots": [
     {
       "bytes": 2205,
@@ -457,8 +462,8 @@
       "root": "registry"
     },
     {
-      "bytes": 38125,
-      "files": 23,
+      "bytes": 43622,
+      "files": 24,
       "root": "reports"
     },
     {
@@ -482,7 +487,7 @@
       "root": "release"
     }
   ],
-  "total_bytes": 44925,
-  "total_files": 71,
+  "total_bytes": 50422,
+  "total_files": 72,
   "within_budget": true
 }

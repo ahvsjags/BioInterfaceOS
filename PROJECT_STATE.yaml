@@ -5,8 +5,8 @@ status: IN_PROGRESS
 task_count: 115
 ready_tasks:
   - T009
-current_task: T008
-active_execplan: docs/execplans/T008_storage_guard.md
+current_task: T009
+active_execplan: null
 completed_tasks:
   - T000
   - T001
@@ -16,6 +16,7 @@ completed_tasks:
   - T005
   - T006
   - T007
+  - T008
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -124,7 +125,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: a8710fc2e6646388f8f6c8e14c9dac7abf9cb915
+last_successful_commit: 98b06471a0081e3277cfe0259d2911644ba72bc6
 data_release: null
 benchmark_release: null
 model_release: null
