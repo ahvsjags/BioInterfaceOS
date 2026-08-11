@@ -372,6 +372,19 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "data-coverage", help="audit independent-study coverage and missingness"
     )
 
+    omics_parser = subparsers.add_parser("omics", help="triage and process omics metadata")
+    omics_subparsers = omics_parser.add_subparsers(dest="omics_command")
+    omics_pride_parser = omics_subparsers.add_parser(
+        "pride", help="triage PRIDE projects and freeze sample plans"
+    )
+    omics_pride_subparsers = omics_pride_parser.add_subparsers(dest="omics_pride_command")
+    omics_pride_triage_parser = omics_pride_subparsers.add_parser(
+        "triage", help="build development-scope PRIDE project cards"
+    )
+    omics_pride_triage_parser.add_argument(
+        "--scope", choices=("development",), default="development"
+    )
+
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
     resolve_subparsers.add_parser(
@@ -767,6 +780,30 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"missing_values={coverage_summary.missing_values} "
             f"gaps={coverage_summary.gaps} "
             f"bias_warnings={coverage_summary.bias_warnings} no_imputation=true"
+        )
+        return 0
+    if args.command == "omics":
+        if args.omics_command != "pride" or args.omics_pride_command != "triage":
+            parser.parse_args(["omics", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("PRIDE_TRIAGE_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        from biointerfaceos.pride_triage import PrideTriage, PrideTriageError
+
+        try:
+            triage_summary = PrideTriage(root).run(scope=args.scope)
+        except (PrideTriageError, OSError) as exc:
+            print(f"PRIDE_TRIAGE_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"PRIDE_TRIAGE_VALID projects={triage_summary.projects} "
+            f"eligible={triage_summary.eligible_projects} "
+            f"review={triage_summary.review_projects} "
+            f"metadata_only={triage_summary.metadata_only_projects} "
+            f"sample_rows={triage_summary.sample_rows} "
+            f"scope={args.scope} raw_downloaded=false locked_payload_accessed=false"
         )
         return 0
     if args.command == "data":

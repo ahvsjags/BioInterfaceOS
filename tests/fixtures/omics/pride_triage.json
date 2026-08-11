@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "scope": "development",
+  "projects": [
+    {
+      "project_accession": "PXD000001",
+      "candidate_ids": ["pride:PRIDE-FIXTURE-016"],
+      "family_ids": ["FAMILY-001"],
+      "title": "Fixture protein corona proteomics",
+      "submission_date": "2026-01-15",
+      "publication_date": "2026-02-20",
+      "species": ["Homo sapiens"],
+      "instrument": "Orbitrap Fusion",
+      "file_inventory": [
+        {
+          "file_name": "results.tsv",
+          "kind": "RESULT",
+          "size_bytes": 13,
+          "checksum_sha256": "8f2f7f1f2c9d9cf0d7f8a8fdb8b8bc85e5d6b2bce5f6e1f6d1b5b6b93e1ce8f1",
+          "checksum_status": "CAPTURED_NOT_DOWNLOADED",
+          "access": "PUBLIC"
+        },
+        {
+          "file_name": "sample.raw",
+          "kind": "RAW",
+          "size_bytes": 2000000000,
+          "checksum_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "checksum_status": "CAPTURED_NOT_DOWNLOADED",
+          "access": "PUBLIC"
+        },
+        {
+          "file_name": "restricted.raw",
+          "kind": "RAW",
+          "size_bytes": 100,
+          "checksum_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "checksum_status": "CAPTURED_NOT_DOWNLOADED",
+          "access": "RESTRICTED"
+        }
+      ],
+      "raw_search_availability": {"raw": "PUBLIC", "search": "PUBLIC"},
+      "material_arms": ["control", "protein_corona"],
+      "biofluid": "serum",
+      "replicate_counts": {"control": 3, "protein_corona": 3},
+      "outcomes": ["protein abundance", "corona composition"],
+      "sample_map": [
+        {
+          "sample_id": "PXD000001:S01",
+          "label": "control_rep1",
+          "arm": "control",
+          "replicate": 1,
+          "biofluid": "serum",
+          "evidence_locator": "PRIDE:PXD000001#sample=S01"
+        },
+        {
+          "sample_id": "PXD000001:S02",
+          "label": "control_rep2",
+          "arm": "control",
+          "replicate": 2,
+          "biofluid": "serum",
+          "evidence_locator": "PRIDE:PXD000001#sample=S02"
+        },
+        {
+          "sample_id": "PXD000001:S03",
+          "label": "control_rep3",
+          "arm": "control",
+          "replicate": 3,
+          "biofluid": "serum",
+          "evidence_locator": "PRIDE:PXD000001#sample=S03"
+        },
+        {
+          "sample_id": "PXD000001:S04",
+          "label": "corona_rep1",
+          "arm": "protein_corona",
+          "replicate": 1,
+          "biofluid": "serum",
+          "evidence_locator": "PRIDE:PXD000001#sample=S04"
+        },
+        {
+          "sample_id": "PXD000001:S05",
+          "label": "corona_rep2",
+          "arm": "protein_corona",
+          "replicate": 2,
+          "biofluid": "serum",
+          "evidence_locator": "PRIDE:PXD000001#sample=S05"
+        },
+        {
+          "sample_id": "PXD000001:S06",
+          "label": "corona_rep3",
+          "arm": "protein_corona",
+          "replicate": 3,
+          "biofluid": "serum",
+          "evidence_locator": "PRIDE:PXD000001#sample=S06"
+        }
+      ],
+      "evidence_locators": [
+        "PRIDE:PXD000001#project",
+        "PRIDE:PXD000001#files",
+        "PRIDE:PXD000001#sample-map"
+      ],
+      "locked_project": false,
+      "split_decision": "ELIGIBLE",
+      "decision_reason": "Public raw and search files, resolved family link, and balanced arm-level replicate map."
+    },
+    {
+      "project_accession": "PXD000002",
+      "candidate_ids": ["pride:PRIDE-FIXTURE-016-B"],
+      "family_ids": ["FAMILY-002"],
+      "title": "Fixture ambiguous plasma corona project",
+      "submission_date": "2025-06-10",
+      "publication_date": "2025-08-01",
+      "species": ["Mus musculus"],
+      "instrument": "Q Exactive",
+      "file_inventory": [
+        {
+          "file_name": "search.tsv",
+          "kind": "SEARCH",
+          "size_bytes": 2048,
+          "checksum_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+          "checksum_status": "CAPTURED_NOT_DOWNLOADED",
+          "access": "PUBLIC"
+        },
+        {
+          "file_name": "sample.raw",
+          "kind": "RAW",
+          "size_bytes": 900000000,
+          "checksum_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "checksum_status": "CAPTURED_NOT_DOWNLOADED",
+          "access": "RESTRICTED"
+        }
+      ],
+      "raw_search_availability": {"raw": "RESTRICTED", "search": "PUBLIC"},
+      "material_arms": ["control", "nanoparticle_unknown"],
+      "biofluid": "plasma",
+      "replicate_counts": {"control": null, "nanoparticle_unknown": null},
+      "outcomes": ["protein abundance"],
+      "sample_map": [
+        {
+          "sample_id": "PXD000002:S01",
+          "label": "A",
+          "arm": null,
+          "replicate": null,
+          "biofluid": "plasma",
+          "evidence_locator": "PRIDE:PXD000002#sample=S01"
+        },
+        {
+          "sample_id": "PXD000002:S02",
+          "label": "B",
+          "arm": null,
+          "replicate": null,
+          "biofluid": "plasma",
+          "evidence_locator": "PRIDE:PXD000002#sample=S02"
+        }
+      ],
+      "evidence_locators": ["PRIDE:PXD000002#project", "PRIDE:PXD000002#sample-map"],
+      "locked_project": false,
+      "split_decision": "PARK_REVIEW",
+      "decision_reason": "Raw files are restricted and labels do not resolve material arms or replicates."
+    },
+    {
+      "project_accession": "PXD000003",
+      "candidate_ids": [],
+      "family_ids": ["FAMILY-004"],
+      "title": "Fixture locked metadata-only silica project",
+      "submission_date": "2024-03-12",
+      "publication_date": "2024-05-07",
+      "species": ["Danio rerio"],
+      "instrument": "Not reported",
+      "file_inventory": [
+        {
+          "file_name": "project-metadata.json",
+          "kind": "METADATA",
+          "size_bytes": 0,
+          "checksum_sha256": null,
+          "checksum_status": "NOT_APPLICABLE",
+          "access": "METADATA_ONLY"
+        }
+      ],
+      "raw_search_availability": {"raw": "METADATA_ONLY", "search": "METADATA_ONLY"},
+      "material_arms": ["silica_nanoparticle"],
+      "biofluid": "NOT_REPORTED",
+      "replicate_counts": {"silica_nanoparticle": null},
+      "outcomes": [],
+      "sample_map": [],
+      "evidence_locators": ["PRIDE:PXD000003#project-metadata"],
+      "locked_project": true,
+      "split_decision": "METADATA_ONLY",
+      "decision_reason": "Locked project is retained for metadata context only; no raw or search payload is accessed."
+    }
+  ]
+}
