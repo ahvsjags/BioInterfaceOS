@@ -27,10 +27,10 @@ Each protocol field retains raw text, normalized entity/value when supported, un
 
 ## Progress
 
-- [ ] Define protocol and bioenvironment schemas.
-- [ ] Implement field normalization and missingness handling.
-- [ ] Build protocol clusters and severity features.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define protocol and bioenvironment schemas.
+- [x] Implement field normalization and missingness handling.
+- [x] Build protocol clusters and severity features.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Keep raw protocol text and exact locators. Create unknown fields or protocol clu
 ## Outputs
 
 bioenvironment/protocol registry, normalized protocol clusters, severity features, missingness/review queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T043 completed with implementation commit 4dbb102. Ontology terms, normalized protocol quantities, explicit missingness, and severity feature vectors pass all gates without imputation.
