@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T050
-active_execplan: docs/execplans/T050_extraction_benchmark.md
+current_task: T051
+active_execplan: docs/execplans/T051_data_coverage_audit.md
 completed_tasks:
   - T000
   - T001
@@ -57,10 +57,10 @@ completed_tasks:
   - T047
   - T048
   - T049
+  - T050
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T051
   - T052
   - T053
   - T054
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: b8e872a
+last_successful_commit: d538457
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null

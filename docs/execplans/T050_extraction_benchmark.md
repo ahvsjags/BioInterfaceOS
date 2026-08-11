@@ -43,3 +43,9 @@ Narrow automatic fields or increase review when G2 fails. Preserve benchmark row
 ## Outputs
 
 Benchmark metrics, calibration report, error taxonomy, model card, fixture/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion evidence
+
+T050 completed on 2026-08-12 in `/ibex/user/xup0a/BioInterfaceOS`. The implementation commit is `d538457`. The fixture contains 8 rows across numeric, entity, arm, and evidence modalities; 4 rows are correct and 4 are intentional errors. The automatic threshold is 0.85, yielding 4 eligible rows, precision 1.0, recall 1.0, calibration error 0.055, and G2 `PASS`.
+
+The full offline gate passed with 194 tests, immutable release verification, asset and catalog checks, lockbox self-test, state validation, compileall, 23 append-only ledger validations, and `git diff --check`. The evidence record is sequence 46 in `reports/task_ledger.jsonl`; T051 is now the active task.
