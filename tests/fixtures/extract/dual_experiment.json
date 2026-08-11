@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "record_id": "experiment-001",
+      "source_asset_id": "asset-table-001",
+      "rule_fields": [
+        {
+          "field_name": "arm_label",
+          "value": "Control",
+          "value_type": "string",
+          "unit": null,
+          "evidence_locators": ["asset:asset-table-001/table:table-main/cell:A3"],
+          "confidence": 0.98
+        },
+        {
+          "field_name": "sample_size",
+          "value": 5,
+          "value_type": "integer",
+          "unit": null,
+          "evidence_locators": ["asset:asset-table-001/table:table-main/cell:B3"],
+          "confidence": 0.97
+        },
+        {
+          "field_name": "outcome_mean",
+          "value": 1.2,
+          "value_type": "number",
+          "unit": "%",
+          "evidence_locators": ["asset:asset-table-001/table:table-main/cell:C3"],
+          "confidence": 0.96
+        },
+        {
+          "field_name": "outcome_error",
+          "value": 0.1,
+          "value_type": "number",
+          "unit": "%",
+          "evidence_locators": ["asset:asset-table-001/table:table-main/cell:D3"],
+          "confidence": 0.95
+        },
+        {
+          "field_name": "figure_midpoint",
+          "value": 5.0,
+          "value_type": "number",
+          "unit": "h",
+          "evidence_locators": ["asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]/point[2]"],
+          "confidence": 0.90
+        }
+      ],
+      "mock_fields": [
+        {
+          "field_name": "arm_label",
+          "value": "Control",
+          "value_type": "string",
+          "unit": null,
+          "evidence_locators": ["asset:asset-table-001/table:table-main/cell:A3"],
+          "confidence": 0.92
+        },
+        {
+          "field_name": "sample_size",
+          "value": 5,
+          "value_type": "integer",
+          "unit": null,
+          "evidence_locators": ["asset:asset-table-001/table:table-main/cell:B3"],
+          "confidence": 0.91
+        },
+        {
+          "field_name": "outcome_mean",
+          "value": 1.25,
+          "value_type": "number",
+          "unit": "%",
+          "evidence_locators": ["asset:asset-table-001/table:table-main/cell:C3"],
+          "confidence": 0.72
+        },
+        {
+          "field_name": "outcome_error",
+          "value": 0.1,
+          "value_type": "number",
+          "unit": "%",
+          "evidence_locators": ["asset:asset-table-001/table:table-main/cell:D3"],
+          "confidence": 0.90
+        },
+        {
+          "field_name": "figure_midpoint",
+          "value": 5.0,
+          "value_type": "number",
+          "unit": "h",
+          "evidence_locators": ["asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]/point[2]"],
+          "confidence": 0.88
+        }
+      ]
+    }
+  ]
+}

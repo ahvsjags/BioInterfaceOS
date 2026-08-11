@@ -262,6 +262,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         action="store_true",
         help="also calibrate eligible curve, bar, and scatter candidates",
     )
+    extract_experiment_parser = extract_subparsers.add_parser(
+        "experiment", help="run deterministic and local/mock experiment extraction"
+    )
+    extract_experiment_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized dual-path fixture"
+    )
+    extract_experiment_parser.add_argument(
+        "--dual", action="store_true", help="run both deterministic and local/mock paths"
+    )
 
     data_parser = subparsers.add_parser("data", help="policy-gated data operations")
     data_subparsers = data_parser.add_subparsers(dest="data_command")
@@ -394,7 +403,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         parser.parse_args(["source", "--help"])
         return 0
     if args.command == "extract":
-        if args.extract_command not in {"tables", "figures"}:
+        if args.extract_command not in {"tables", "figures", "experiment"}:
             parser.parse_args(["extract", "--help"])
             return 0
         root = find_repository_root()
@@ -404,6 +413,30 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         if not args.fixture:
             print("EXTRACT_INVALID: --fixture is required", file=sys.stderr)
             return 2
+        if args.extract_command == "experiment":
+            if not args.dual:
+                print("EXTRACT_INVALID: --dual is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.experiment_extraction import (
+                DualExperimentExtractor,
+                DualExtractionError,
+            )
+
+            try:
+                dual_summary = DualExperimentExtractor(root).run()
+            except (OSError, DualExtractionError) as exc:
+                print(f"DUAL_EXPERIMENT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"DUAL_EXPERIMENT_VALID records={dual_summary.records} "
+                f"rule_fields={dual_summary.rule_fields} "
+                f"mock_fields={dual_summary.mock_fields} "
+                f"agreements={dual_summary.agreements} "
+                f"disagreements={dual_summary.disagreements} "
+                f"accepted_fields={dual_summary.accepted_fields} "
+                f"review_items={dual_summary.review_items} fixture=true"
+            )
+            return 0
         if args.extract_command == "tables":
             from biointerfaceos.table_semantics import TableSemanticsError, TableSemanticsParser
 

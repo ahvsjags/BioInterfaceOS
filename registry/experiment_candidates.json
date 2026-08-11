@@ -1,0 +1,150 @@
+{
+  "fixture": true,
+  "paths": [
+    "rule",
+    "mock"
+  ],
+  "records": [
+    {
+      "mock_path": {
+        "backend": "offline_fixture_mock",
+        "fields": [
+          {
+            "confidence": 0.92,
+            "evidence_locators": [
+              "asset:asset-table-001/table:table-main/cell:A3"
+            ],
+            "field_name": "arm_label",
+            "path": "mock",
+            "record_id": "experiment-001",
+            "unit": null,
+            "value": "Control",
+            "value_type": "string"
+          },
+          {
+            "confidence": 0.91,
+            "evidence_locators": [
+              "asset:asset-table-001/table:table-main/cell:B3"
+            ],
+            "field_name": "sample_size",
+            "path": "mock",
+            "record_id": "experiment-001",
+            "unit": null,
+            "value": 5,
+            "value_type": "integer"
+          },
+          {
+            "confidence": 0.72,
+            "evidence_locators": [
+              "asset:asset-table-001/table:table-main/cell:C3"
+            ],
+            "field_name": "outcome_mean",
+            "path": "mock",
+            "record_id": "experiment-001",
+            "unit": "%",
+            "value": 1.25,
+            "value_type": "number"
+          },
+          {
+            "confidence": 0.9,
+            "evidence_locators": [
+              "asset:asset-table-001/table:table-main/cell:D3"
+            ],
+            "field_name": "outcome_error",
+            "path": "mock",
+            "record_id": "experiment-001",
+            "unit": "%",
+            "value": 0.1,
+            "value_type": "number"
+          },
+          {
+            "confidence": 0.88,
+            "evidence_locators": [
+              "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]/point[2]"
+            ],
+            "field_name": "figure_midpoint",
+            "path": "mock",
+            "record_id": "experiment-001",
+            "unit": "h",
+            "value": 5.0,
+            "value_type": "number"
+          }
+        ],
+        "path": "mock",
+        "schema_version": 1
+      },
+      "network_accessed": false,
+      "record_id": "experiment-001",
+      "rule_path": {
+        "backend": "deterministic_rules",
+        "fields": [
+          {
+            "confidence": 0.98,
+            "evidence_locators": [
+              "asset:asset-table-001/table:table-main/cell:A3"
+            ],
+            "field_name": "arm_label",
+            "path": "rule",
+            "record_id": "experiment-001",
+            "unit": null,
+            "value": "Control",
+            "value_type": "string"
+          },
+          {
+            "confidence": 0.97,
+            "evidence_locators": [
+              "asset:asset-table-001/table:table-main/cell:B3"
+            ],
+            "field_name": "sample_size",
+            "path": "rule",
+            "record_id": "experiment-001",
+            "unit": null,
+            "value": 5,
+            "value_type": "integer"
+          },
+          {
+            "confidence": 0.96,
+            "evidence_locators": [
+              "asset:asset-table-001/table:table-main/cell:C3"
+            ],
+            "field_name": "outcome_mean",
+            "path": "rule",
+            "record_id": "experiment-001",
+            "unit": "%",
+            "value": 1.2,
+            "value_type": "number"
+          },
+          {
+            "confidence": 0.95,
+            "evidence_locators": [
+              "asset:asset-table-001/table:table-main/cell:D3"
+            ],
+            "field_name": "outcome_error",
+            "path": "rule",
+            "record_id": "experiment-001",
+            "unit": "%",
+            "value": 0.1,
+            "value_type": "number"
+          },
+          {
+            "confidence": 0.9,
+            "evidence_locators": [
+              "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]/point[2]"
+            ],
+            "field_name": "figure_midpoint",
+            "path": "rule",
+            "record_id": "experiment-001",
+            "unit": "h",
+            "value": 5.0,
+            "value_type": "number"
+          }
+        ],
+        "path": "rule",
+        "schema_version": 1
+      },
+      "schema_equal": true,
+      "source_asset_id": "asset-table-001"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,99 @@
+{
+  "fixture": true,
+  "records": [
+    {
+      "fields": [
+        {
+          "accepted_unit": null,
+          "accepted_value": "Control",
+          "confidence": 0.92,
+          "evidence_locators": [
+            "asset:asset-table-001/table:table-main/cell:A3"
+          ],
+          "field_name": "arm_label",
+          "record_id": "experiment-001",
+          "review_id": null,
+          "source_paths": [
+            "rule",
+            "mock"
+          ],
+          "status": "AGREED"
+        },
+        {
+          "accepted_unit": "h",
+          "accepted_value": 5.0,
+          "confidence": 0.88,
+          "evidence_locators": [
+            "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/curve[1]/point[2]"
+          ],
+          "field_name": "figure_midpoint",
+          "record_id": "experiment-001",
+          "review_id": null,
+          "source_paths": [
+            "rule",
+            "mock"
+          ],
+          "status": "AGREED"
+        },
+        {
+          "accepted_unit": "%",
+          "accepted_value": 0.1,
+          "confidence": 0.9,
+          "evidence_locators": [
+            "asset:asset-table-001/table:table-main/cell:D3"
+          ],
+          "field_name": "outcome_error",
+          "record_id": "experiment-001",
+          "review_id": null,
+          "source_paths": [
+            "rule",
+            "mock"
+          ],
+          "status": "AGREED"
+        },
+        {
+          "accepted_unit": null,
+          "accepted_value": null,
+          "confidence": 0.72,
+          "evidence_locators": [
+            "asset:asset-table-001/table:table-main/cell:C3"
+          ],
+          "field_name": "outcome_mean",
+          "record_id": "experiment-001",
+          "review_id": "field-disagreement:experiment-001:outcome_mean",
+          "source_paths": [
+            "rule",
+            "mock"
+          ],
+          "status": "REVIEW_REQUIRED"
+        },
+        {
+          "accepted_unit": null,
+          "accepted_value": 5,
+          "confidence": 0.91,
+          "evidence_locators": [
+            "asset:asset-table-001/table:table-main/cell:B3"
+          ],
+          "field_name": "sample_size",
+          "record_id": "experiment-001",
+          "review_id": null,
+          "source_paths": [
+            "rule",
+            "mock"
+          ],
+          "status": "AGREED"
+        }
+      ],
+      "record_id": "experiment-001",
+      "source_asset_id": "asset-table-001"
+    }
+  ],
+  "schema_version": 1,
+  "summary": {
+    "accepted_fields": 4,
+    "agreements": 4,
+    "disagreements": 1,
+    "records": 1,
+    "review_items": 1
+  }
+}
