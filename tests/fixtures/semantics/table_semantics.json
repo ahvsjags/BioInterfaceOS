@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "tables": [
+    {
+      "cells": [
+        {
+          "column": 1,
+          "coordinate": "A1",
+          "raw_value": "Arm",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 2,
+          "coordinate": "B1",
+          "raw_value": "Sample",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 3,
+          "coordinate": "C1",
+          "raw_value": "Outcome",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 4,
+          "coordinate": "D1",
+          "raw_value": "Outcome",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 5,
+          "coordinate": "E1",
+          "raw_value": "Unit",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 1,
+          "coordinate": "A2",
+          "raw_value": "Group",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 2,
+          "coordinate": "B2",
+          "raw_value": "n",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 3,
+          "coordinate": "C2",
+          "raw_value": "Mean",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 4,
+          "coordinate": "D2",
+          "raw_value": "SD",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 5,
+          "coordinate": "E2",
+          "raw_value": "Unit",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 1,
+          "coordinate": "A3",
+          "raw_value": "Control",
+          "row": 3,
+          "unit": null
+        },
+        {
+          "column": 2,
+          "coordinate": "B3",
+          "raw_value": "5",
+          "row": 3,
+          "unit": null
+        },
+        {
+          "column": 3,
+          "coordinate": "C3",
+          "raw_value": "1.2",
+          "row": 3,
+          "unit": null
+        },
+        {
+          "column": 4,
+          "coordinate": "D3",
+          "raw_value": "0.1",
+          "row": 3,
+          "unit": null
+        },
+        {
+          "column": 5,
+          "coordinate": "E3",
+          "raw_value": "%",
+          "row": 3,
+          "unit": null
+        },
+        {
+          "column": 1,
+          "coordinate": "A4",
+          "raw_value": "Treatment",
+          "row": 4,
+          "unit": null
+        },
+        {
+          "column": 2,
+          "coordinate": "B4",
+          "raw_value": "5",
+          "row": 4,
+          "unit": null
+        },
+        {
+          "column": 3,
+          "coordinate": "C4",
+          "raw_value": "2.4",
+          "row": 4,
+          "unit": null
+        },
+        {
+          "column": 4,
+          "coordinate": "D4",
+          "raw_value": "0.2",
+          "row": 4,
+          "unit": null
+        },
+        {
+          "column": 5,
+          "coordinate": "E4",
+          "raw_value": "%",
+          "row": 4,
+          "unit": null
+        }
+      ],
+      "footnotes": [
+        "Values are reported mean ? error; no formula was recomputed."
+      ],
+      "header_rows": 2,
+      "source_asset_id": "asset-table-001",
+      "table_id": "table-main"
+    },
+    {
+      "cells": [
+        {
+          "column": 1,
+          "coordinate": "A1",
+          "raw_value": "Arm",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 2,
+          "coordinate": "B1",
+          "raw_value": "Sample",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 3,
+          "coordinate": "C1",
+          "raw_value": "Outcome A",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 4,
+          "coordinate": "D1",
+          "raw_value": "Outcome B",
+          "row": 1,
+          "unit": null
+        },
+        {
+          "column": 1,
+          "coordinate": "A2",
+          "raw_value": "Group",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 2,
+          "coordinate": "B2",
+          "raw_value": "n",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 3,
+          "coordinate": "C2",
+          "raw_value": "Mean",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 4,
+          "coordinate": "D2",
+          "raw_value": "Mean",
+          "row": 2,
+          "unit": null
+        },
+        {
+          "column": 1,
+          "coordinate": "A3",
+          "raw_value": "Pilot",
+          "row": 3,
+          "unit": null
+        },
+        {
+          "column": 2,
+          "coordinate": "B3",
+          "raw_value": "3",
+          "row": 3,
+          "unit": null
+        },
+        {
+          "column": 3,
+          "coordinate": "C3",
+          "raw_value": "7.0",
+          "row": 3,
+          "unit": null
+        },
+        {
+          "column": 4,
+          "coordinate": "D3",
+          "raw_value": "8.0",
+          "row": 3,
+          "unit": null
+        }
+      ],
+      "footnotes": [
+        "Values are reported mean ? error; no formula was recomputed."
+      ],
+      "header_rows": 2,
+      "source_asset_id": "asset-table-002",
+      "table_id": "table-ambiguous"
+    }
+  ]
+}

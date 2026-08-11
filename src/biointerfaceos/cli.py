@@ -12,7 +12,6 @@ from pathlib import Path
 from biointerfaceos import __version__
 
 FUTURE_COMMANDS = (
-    "extract",
     "split",
     "benchmark",
     "train",
@@ -242,6 +241,17 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "saturation", help="compute fixture-backed search saturation and coverage gaps"
     )
 
+    extract_parser = subparsers.add_parser(
+        "extract", help="extract structured experiment semantics"
+    )
+    extract_subparsers = extract_parser.add_subparsers(dest="extract_command")
+    extract_tables_parser = extract_subparsers.add_parser(
+        "tables", help="map fixture tables to experiment semantics"
+    )
+    extract_tables_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized local table fixture"
+    )
+
     data_parser = subparsers.add_parser("data", help="policy-gated data operations")
     data_subparsers = data_parser.add_subparsers(dest="data_command")
     data_fetch_parser = data_subparsers.add_parser(
@@ -371,6 +381,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
             return 0
         parser.parse_args(["source", "--help"])
+        return 0
+    if args.command == "extract":
+        if args.extract_command != "tables":
+            parser.parse_args(["extract", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("TABLE_SEMANTICS_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("TABLE_SEMANTICS_INVALID: --fixture is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.table_semantics import TableSemanticsError, TableSemanticsParser
+
+        try:
+            semantic_summary = TableSemanticsParser(root).run()
+        except (OSError, TableSemanticsError) as exc:
+            print(f"TABLE_SEMANTICS_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"TABLE_SEMANTICS_VALID tables={semantic_summary.tables} "
+            f"arms={semantic_summary.arms} "
+            f"measurements={semantic_summary.measurements} "
+            f"review_items={semantic_summary.review_items} fixture=true"
+        )
         return 0
     if args.command == "data":
         if args.data_command != "fetch":

@@ -1,0 +1,303 @@
+{
+  "arms": [
+    {
+      "arm_id": "table-main:control",
+      "confidence": "HIGH",
+      "label": "Control",
+      "sample_size": 5,
+      "sample_size_locator": "asset:asset-table-001/table:table-main/cell:B3",
+      "source_cell_locators": [
+        "asset:asset-table-001/table:table-main/cell:A3"
+      ]
+    },
+    {
+      "arm_id": "table-main:treatment",
+      "confidence": "HIGH",
+      "label": "Treatment",
+      "sample_size": 5,
+      "sample_size_locator": "asset:asset-table-001/table:table-main/cell:B4",
+      "source_cell_locators": [
+        "asset:asset-table-001/table:table-main/cell:A4"
+      ]
+    },
+    {
+      "arm_id": "table-ambiguous:pilot",
+      "confidence": "HIGH",
+      "label": "Pilot",
+      "sample_size": 3,
+      "sample_size_locator": "asset:asset-table-002/table:table-ambiguous/cell:B3",
+      "source_cell_locators": [
+        "asset:asset-table-002/table:table-ambiguous/cell:A3"
+      ]
+    }
+  ],
+  "fixture": true,
+  "measurements": [
+    {
+      "arm_id": "table-main:control",
+      "confidence": "HIGH",
+      "error": 0.1,
+      "error_type": "SD",
+      "footnotes": [
+        "Values are reported mean ? error; no formula was recomputed."
+      ],
+      "mean": 1.2,
+      "measurement_id": "table-main:control:outcome-mean",
+      "outcome": "Outcome Mean",
+      "source_cell_locators": [
+        "asset:asset-table-001/table:table-main/cell:A3",
+        "asset:asset-table-001/table:table-main/cell:C3",
+        "asset:asset-table-001/table:table-main/cell:D3",
+        "asset:asset-table-001/table:table-main/cell:E3"
+      ],
+      "unit": "%"
+    },
+    {
+      "arm_id": "table-main:treatment",
+      "confidence": "HIGH",
+      "error": 0.2,
+      "error_type": "SD",
+      "footnotes": [
+        "Values are reported mean ? error; no formula was recomputed."
+      ],
+      "mean": 2.4,
+      "measurement_id": "table-main:treatment:outcome-mean",
+      "outcome": "Outcome Mean",
+      "source_cell_locators": [
+        "asset:asset-table-001/table:table-main/cell:A4",
+        "asset:asset-table-001/table:table-main/cell:C4",
+        "asset:asset-table-001/table:table-main/cell:D4",
+        "asset:asset-table-001/table:table-main/cell:E4"
+      ],
+      "unit": "%"
+    },
+    {
+      "arm_id": "table-ambiguous:pilot",
+      "confidence": "LOW",
+      "error": null,
+      "error_type": null,
+      "footnotes": [
+        "Values are reported mean ? error; no formula was recomputed."
+      ],
+      "mean": 7.0,
+      "measurement_id": "table-ambiguous:pilot:outcome-a-mean",
+      "outcome": "Outcome A Mean",
+      "source_cell_locators": [
+        "asset:asset-table-002/table:table-ambiguous/cell:A3",
+        "asset:asset-table-002/table:table-ambiguous/cell:C3"
+      ],
+      "unit": null
+    },
+    {
+      "arm_id": "table-ambiguous:pilot",
+      "confidence": "LOW",
+      "error": null,
+      "error_type": null,
+      "footnotes": [
+        "Values are reported mean ? error; no formula was recomputed."
+      ],
+      "mean": 8.0,
+      "measurement_id": "table-ambiguous:pilot:outcome-b-mean",
+      "outcome": "Outcome B Mean",
+      "source_cell_locators": [
+        "asset:asset-table-002/table:table-ambiguous/cell:A3",
+        "asset:asset-table-002/table:table-ambiguous/cell:D3"
+      ],
+      "unit": null
+    }
+  ],
+  "review_items": [
+    {
+      "reason": "MULTIPLE_OUTCOME_COLUMNS_REQUIRES_REVIEW",
+      "resolution": "MANUAL_REVIEW",
+      "review_id": "incompatible-outcomes:table-ambiguous",
+      "source_asset_id": "asset-table-002",
+      "table_id": "table-ambiguous"
+    },
+    {
+      "reason": "UNIT_MISSING",
+      "resolution": "MANUAL_REVIEW",
+      "review_id": "missing-unit:table-ambiguous",
+      "source_asset_id": "asset-table-002",
+      "table_id": "table-ambiguous"
+    }
+  ],
+  "schema_version": 1,
+  "tables": [
+    {
+      "arms": [
+        {
+          "arm_id": "table-main:control",
+          "confidence": "HIGH",
+          "label": "Control",
+          "sample_size": 5,
+          "sample_size_locator": "asset:asset-table-001/table:table-main/cell:B3",
+          "source_cell_locators": [
+            "asset:asset-table-001/table:table-main/cell:A3"
+          ]
+        },
+        {
+          "arm_id": "table-main:treatment",
+          "confidence": "HIGH",
+          "label": "Treatment",
+          "sample_size": 5,
+          "sample_size_locator": "asset:asset-table-001/table:table-main/cell:B4",
+          "source_cell_locators": [
+            "asset:asset-table-001/table:table-main/cell:A4"
+          ]
+        }
+      ],
+      "header_hierarchy": {
+        "1": [
+          "Arm",
+          "Group"
+        ],
+        "2": [
+          "Sample",
+          "n"
+        ],
+        "3": [
+          "Outcome",
+          "Mean"
+        ],
+        "4": [
+          "Outcome",
+          "SD"
+        ],
+        "5": [
+          "Unit",
+          "Unit"
+        ]
+      },
+      "measurements": [
+        {
+          "arm_id": "table-main:control",
+          "confidence": "HIGH",
+          "error": 0.1,
+          "error_type": "SD",
+          "footnotes": [
+            "Values are reported mean ? error; no formula was recomputed."
+          ],
+          "mean": 1.2,
+          "measurement_id": "table-main:control:outcome-mean",
+          "outcome": "Outcome Mean",
+          "source_cell_locators": [
+            "asset:asset-table-001/table:table-main/cell:A3",
+            "asset:asset-table-001/table:table-main/cell:C3",
+            "asset:asset-table-001/table:table-main/cell:D3",
+            "asset:asset-table-001/table:table-main/cell:E3"
+          ],
+          "unit": "%"
+        },
+        {
+          "arm_id": "table-main:treatment",
+          "confidence": "HIGH",
+          "error": 0.2,
+          "error_type": "SD",
+          "footnotes": [
+            "Values are reported mean ? error; no formula was recomputed."
+          ],
+          "mean": 2.4,
+          "measurement_id": "table-main:treatment:outcome-mean",
+          "outcome": "Outcome Mean",
+          "source_cell_locators": [
+            "asset:asset-table-001/table:table-main/cell:A4",
+            "asset:asset-table-001/table:table-main/cell:C4",
+            "asset:asset-table-001/table:table-main/cell:D4",
+            "asset:asset-table-001/table:table-main/cell:E4"
+          ],
+          "unit": "%"
+        }
+      ],
+      "review_items": [],
+      "source_asset_id": "asset-table-001",
+      "table_id": "table-main"
+    },
+    {
+      "arms": [
+        {
+          "arm_id": "table-ambiguous:pilot",
+          "confidence": "HIGH",
+          "label": "Pilot",
+          "sample_size": 3,
+          "sample_size_locator": "asset:asset-table-002/table:table-ambiguous/cell:B3",
+          "source_cell_locators": [
+            "asset:asset-table-002/table:table-ambiguous/cell:A3"
+          ]
+        }
+      ],
+      "header_hierarchy": {
+        "1": [
+          "Arm",
+          "Group"
+        ],
+        "2": [
+          "Sample",
+          "n"
+        ],
+        "3": [
+          "Outcome A",
+          "Mean"
+        ],
+        "4": [
+          "Outcome B",
+          "Mean"
+        ]
+      },
+      "measurements": [
+        {
+          "arm_id": "table-ambiguous:pilot",
+          "confidence": "LOW",
+          "error": null,
+          "error_type": null,
+          "footnotes": [
+            "Values are reported mean ? error; no formula was recomputed."
+          ],
+          "mean": 7.0,
+          "measurement_id": "table-ambiguous:pilot:outcome-a-mean",
+          "outcome": "Outcome A Mean",
+          "source_cell_locators": [
+            "asset:asset-table-002/table:table-ambiguous/cell:A3",
+            "asset:asset-table-002/table:table-ambiguous/cell:C3"
+          ],
+          "unit": null
+        },
+        {
+          "arm_id": "table-ambiguous:pilot",
+          "confidence": "LOW",
+          "error": null,
+          "error_type": null,
+          "footnotes": [
+            "Values are reported mean ? error; no formula was recomputed."
+          ],
+          "mean": 8.0,
+          "measurement_id": "table-ambiguous:pilot:outcome-b-mean",
+          "outcome": "Outcome B Mean",
+          "source_cell_locators": [
+            "asset:asset-table-002/table:table-ambiguous/cell:A3",
+            "asset:asset-table-002/table:table-ambiguous/cell:D3"
+          ],
+          "unit": null
+        }
+      ],
+      "review_items": [
+        {
+          "reason": "MULTIPLE_OUTCOME_COLUMNS_REQUIRES_REVIEW",
+          "resolution": "MANUAL_REVIEW",
+          "review_id": "incompatible-outcomes:table-ambiguous",
+          "source_asset_id": "asset-table-002",
+          "table_id": "table-ambiguous"
+        },
+        {
+          "reason": "UNIT_MISSING",
+          "resolution": "MANUAL_REVIEW",
+          "review_id": "missing-unit:table-ambiguous",
+          "source_asset_id": "asset-table-002",
+          "table_id": "table-ambiguous"
+        }
+      ],
+      "source_asset_id": "asset-table-002",
+      "table_id": "table-ambiguous"
+    }
+  ]
+}
