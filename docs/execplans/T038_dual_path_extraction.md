@@ -27,10 +27,10 @@ Both paths emit the same versioned experiment schema. Every numeric or categoric
 
 ## Progress
 
-- [ ] Define dual-path experiment and consensus schemas.
-- [ ] Implement deterministic and local/mock extraction paths.
-- [ ] Record field-level agreement/disagreement with evidence locators.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define dual-path experiment and consensus schemas.
+- [x] Implement deterministic and local/mock extraction paths.
+- [x] Record field-level agreement/disagreement with evidence locators.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Preserve each path output and its source locators. Quarantine unresolved disagre
 ## Outputs
 
 dual-path experiment candidates, field-level consensus records, disagreement queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T038 completed with implementation commit 919f076. Deterministic and offline-mock paths share a versioned field schema; locator-complete agreements are accepted, while disagreements retain both assertions and enter consensus review.
