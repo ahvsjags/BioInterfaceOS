@@ -27,10 +27,10 @@ Every normalized value retains raw value/unit, normalized value/unit, conversion
 
 ## Progress
 
-- [ ] Define unit registry and normalized assertion schemas.
-- [ ] Implement dimensional conversion and uncertainty propagation.
-- [ ] Preserve raw values and queue unknown bases/incompatible units.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define unit registry and normalized assertion schemas.
+- [x] Implement dimensional conversion and uncertainty propagation.
+- [x] Preserve raw values and queue unknown bases/incompatible units.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Keep raw assertions and evidence locators unchanged. Set normalized values to nu
 ## Outputs
 
 unit registry, normalized assertions, uncertainty propagation records, clarification queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T040 completed with implementation commit bb0b1f9. Dimension-checked conversions, uncertainty propagation, raw evidence retention, and basis/incompatibility firewalls pass all gates.
