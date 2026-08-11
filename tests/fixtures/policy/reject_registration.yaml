@@ -1,0 +1,18 @@
+candidate:
+  source_id: fixture-registration
+  source_name: Fixture Source
+  url: https://example.org/public-asset
+  accession: FIX-001
+  license_identifier: CC-BY-4.0
+  license_text: Creative Commons Attribution 4.0
+  evidence_location: fixture.yaml:license
+  registration_required: true
+  login_required: false
+  api_key_required: false
+  application_required: false
+  approval_required: false
+  institution_required: false
+  data_use_agreement_required: false
+  paid_required: false
+expected_decision: REJECT
+expected_code: REJECTED_CREDENTIALLED

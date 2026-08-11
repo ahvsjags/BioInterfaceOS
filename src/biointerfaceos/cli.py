@@ -177,6 +177,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     manifest_parser = source_subparsers.add_parser("manifest", help="validate source manifest")
     manifest_subparsers = manifest_parser.add_subparsers(dest="manifest_command")
     manifest_subparsers.add_parser("validate", help="validate the Parquet source manifest")
+    policy_parser = source_subparsers.add_parser("policy", help="run source policy checks")
+    policy_subparsers = policy_parser.add_subparsers(dest="policy_command")
+    policy_subparsers.add_parser("self-test", help="run offline policy fixtures")
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -235,26 +238,43 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         print(f"SCHEMA_VALID schemas={len(configs)} fixtures={len(configs)}")
         return 0
     if args.command == "source":
-        if args.source_command != "manifest" or args.manifest_command != "validate":
-            parser.parse_args(["source", "manifest", "--help"])
-            return 0
-        from biointerfaceos.manifest import ManifestError, ManifestRegistry
-
         root = find_repository_root()
         if root is None:
-            print("SOURCE_MANIFEST_INVALID: repository root not found", file=sys.stderr)
+            print("SOURCE_INVALID: repository root not found", file=sys.stderr)
             return 1
-        try:
-            summary = ManifestRegistry(root).validate()
-        except (ManifestError, OSError) as exc:
-            print(f"SOURCE_MANIFEST_INVALID: {exc}", file=sys.stderr)
-            return 1
-        print(
-            f"SOURCE_MANIFEST_VALID rows={summary.rows} "
-            f"unique_content_hashes={summary.unique_content_hashes} "
-            f"admitted={summary.admitted} rejected={summary.rejected} "
-            f"quarantined={summary.quarantined}"
-        )
+        if args.source_command == "manifest" and args.manifest_command == "validate":
+            from biointerfaceos.manifest import ManifestError, ManifestRegistry
+
+            try:
+                summary = ManifestRegistry(root).validate()
+            except (ManifestError, OSError) as exc:
+                print(f"SOURCE_MANIFEST_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SOURCE_MANIFEST_VALID rows={summary.rows} "
+                f"unique_content_hashes={summary.unique_content_hashes} "
+                f"admitted={summary.admitted} rejected={summary.rejected} "
+                f"quarantined={summary.quarantined}"
+            )
+            return 0
+        if args.source_command == "policy" and args.policy_command == "self-test":
+            from biointerfaceos.policy import PolicyError, RejectionRegistry, SourcePolicyEngine
+
+            try:
+                registry = RejectionRegistry(root)
+                passed, rejected = SourcePolicyEngine.from_yaml(root).self_test(
+                    root / "tests/fixtures/policy",
+                    registry,
+                )
+            except (OSError, PolicyError) as exc:
+                print(f"SOURCE_POLICY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SOURCE_POLICY_VALID fixtures={passed} "
+                f"rejected_or_quarantined={rejected} registry_rows={registry.validate()}"
+            )
+            return 0
+        parser.parse_args(["source", "--help"])
         return 0
     if args.command == "storage":
         if args.storage_command is None:

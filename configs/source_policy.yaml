@@ -1,0 +1,24 @@
+schema_version: 1
+access_requirements:
+  registration_required: false
+  login_required: false
+  api_key_required: false
+  application_required: false
+  approval_required: false
+  institution_required: false
+  data_use_agreement_required: false
+  paid_required: false
+license_policy:
+  public_licenses:
+    - CC0
+    - PUBLIC-DOMAIN
+    - CC-BY
+    - CC-BY-4.0
+  analysis_only_licenses:
+    - CC-BY-NC
+    - CC-BY-NC-4.0
+  restricted_phrases:
+    - ALL-RIGHTS-RESERVED
+    - NO-REDISTRIBUTION
+    - RESTRICTED-USE
+  unknown_action: QUARANTINE

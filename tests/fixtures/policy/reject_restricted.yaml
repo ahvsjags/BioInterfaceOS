@@ -1,0 +1,18 @@
+candidate:
+  source_id: fixture-restricted
+  source_name: Fixture Source
+  url: https://example.org/public-asset
+  accession: FIX-001
+  license_identifier: ALL-RIGHTS-RESERVED
+  license_text: All rights reserved
+  evidence_location: fixture.yaml:license
+  registration_required: false
+  login_required: false
+  api_key_required: false
+  application_required: false
+  approval_required: false
+  institution_required: false
+  data_use_agreement_required: false
+  paid_required: false
+expected_decision: REJECT
+expected_code: REJECTED_RESTRICTED_LICENSE

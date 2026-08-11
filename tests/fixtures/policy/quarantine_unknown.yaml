@@ -1,0 +1,18 @@
+candidate:
+  source_id: fixture-unknown
+  source_name: Fixture Source
+  url: https://example.org/public-asset
+  accession: FIX-001
+  license_identifier: null
+  license_text: Terms are available on request
+  evidence_location: fixture.yaml:license
+  registration_required: false
+  login_required: false
+  api_key_required: false
+  application_required: false
+  approval_required: false
+  institution_required: false
+  data_use_agreement_required: false
+  paid_required: false
+expected_decision: QUARANTINE
+expected_code: LICENSE_UNCLEAR
