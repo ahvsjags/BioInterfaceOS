@@ -1,0 +1,57 @@
+{
+  "fixture": true,
+  "orthology_groups": [
+    {
+      "edges": [
+        {
+          "edge_id": "orthogroup-tp53:protein-human-tp53->protein-mouse-tp53",
+          "from_mention_id": "protein-human-tp53",
+          "group_id": "orthogroup-tp53",
+          "relation": "ONE_TO_MANY_ORTHOLOGY",
+          "status": "RESOLVED",
+          "to_mention_id": "protein-mouse-tp53"
+        },
+        {
+          "edge_id": "orthogroup-tp53:protein-human-tp53->protein-zebrafish-tp53",
+          "from_mention_id": "protein-human-tp53",
+          "group_id": "orthogroup-tp53",
+          "relation": "ONE_TO_MANY_ORTHOLOGY",
+          "status": "RESOLVED",
+          "to_mention_id": "protein-zebrafish-tp53"
+        }
+      ],
+      "group_id": "orthogroup-tp53",
+      "members": [
+        {
+          "accession": "P04637",
+          "gene_id": "HGNC:11998",
+          "mention_id": "protein-human-tp53",
+          "relationship": "anchor",
+          "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+          "species": "Homo sapiens",
+          "status": "RESOLVED"
+        },
+        {
+          "accession": "P02340",
+          "gene_id": "MGI:98834",
+          "mention_id": "protein-mouse-tp53",
+          "relationship": "one_to_many_member",
+          "source_locator": "asset:asset-table-001/table:table-main/cell:B3",
+          "species": "Mus musculus",
+          "status": "RESOLVED"
+        },
+        {
+          "accession": "Q9DGE9",
+          "gene_id": "ZFIN:ZDB-GENE-980526-166",
+          "mention_id": "protein-zebrafish-tp53",
+          "relationship": "one_to_many_member",
+          "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+          "species": "Danio rerio",
+          "status": "RESOLVED"
+        }
+      ],
+      "source_locator": "asset:asset-table-001/table:table-main/cell:A3"
+    }
+  ],
+  "schema_version": 1
+}

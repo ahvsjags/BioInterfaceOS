@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "proteins": [
+    {
+      "mention_id": "protein-human-tp53",
+      "raw_name": "TP53",
+      "species": "Homo sapiens",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+      "candidates": [
+        {
+          "accession": "P04637",
+          "gene_id": "HGNC:11998",
+          "protein_name": "Cellular tumor antigen p53",
+          "isoform_status": "canonical",
+          "resolution_method": "SPECIES_ACCESSION",
+          "confidence": 0.99,
+          "obsolete": false,
+          "replaced_by": null
+        }
+      ]
+    },
+    {
+      "mention_id": "protein-mouse-tp53",
+      "raw_name": "Trp53",
+      "species": "Mus musculus",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:B3",
+      "candidates": [
+        {
+          "accession": "P02340",
+          "gene_id": "MGI:98834",
+          "protein_name": "Cellular tumor antigen p53",
+          "isoform_status": "canonical",
+          "resolution_method": "SPECIES_ACCESSION",
+          "confidence": 0.98,
+          "obsolete": false,
+          "replaced_by": null
+        }
+      ]
+    },
+    {
+      "mention_id": "protein-zebrafish-tp53",
+      "raw_name": "tp53",
+      "species": "Danio rerio",
+      "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+      "candidates": [
+        {
+          "accession": "Q9DGE9",
+          "gene_id": "ZFIN:ZDB-GENE-980526-166",
+          "protein_name": "Tumor protein p53",
+          "isoform_status": "canonical",
+          "resolution_method": "SPECIES_ACCESSION",
+          "confidence": 0.93,
+          "obsolete": false,
+          "replaced_by": null
+        }
+      ]
+    },
+    {
+      "mention_id": "protein-human-tp53-isoform",
+      "raw_name": "TP53 isoform",
+      "species": "Homo sapiens",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:C3",
+      "candidates": [
+        {
+          "accession": "P04637-2",
+          "gene_id": "HGNC:11998",
+          "protein_name": "Cellular tumor antigen p53 isoform 2",
+          "isoform_status": "isoform 2",
+          "resolution_method": "ISOFORM_CANDIDATE",
+          "confidence": 0.78,
+          "obsolete": false,
+          "replaced_by": null
+        },
+        {
+          "accession": "P04637",
+          "gene_id": "HGNC:11998",
+          "protein_name": "Cellular tumor antigen p53",
+          "isoform_status": "canonical",
+          "resolution_method": "ISOFORM_CANDIDATE",
+          "confidence": 0.72,
+          "obsolete": false,
+          "replaced_by": null
+        }
+      ]
+    },
+    {
+      "mention_id": "protein-obsolete",
+      "raw_name": "Q9OLD1",
+      "species": "Homo sapiens",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:H3",
+      "candidates": [
+        {
+          "accession": "Q9OLD1",
+          "gene_id": "HGNC:11998",
+          "protein_name": "Obsolete p53 record",
+          "isoform_status": "obsolete",
+          "resolution_method": "OBSOLETE_REPLACEMENT",
+          "confidence": 0.80,
+          "obsolete": true,
+          "replaced_by": "P04637"
+        }
+      ]
+    }
+  ],
+  "orthology_groups": [
+    {
+      "group_id": "orthogroup-tp53",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+      "members": [
+        {
+          "mention_id": "protein-human-tp53",
+          "relationship": "anchor",
+          "source_locator": "asset:asset-table-001/table:table-main/cell:A3"
+        },
+        {
+          "mention_id": "protein-mouse-tp53",
+          "relationship": "one_to_many_member",
+          "source_locator": "asset:asset-table-001/table:table-main/cell:B3"
+        },
+        {
+          "mention_id": "protein-zebrafish-tp53",
+          "relationship": "one_to_many_member",
+          "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]"
+        }
+      ]
+    }
+  ]
+}

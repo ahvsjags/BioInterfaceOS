@@ -315,6 +315,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     resolve_materials_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized material fixture"
     )
+    resolve_proteins_parser = resolve_subparsers.add_parser(
+        "proteins", help="resolve fixture-backed protein identifiers and orthology"
+    )
+    resolve_proteins_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized protein fixture"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -801,7 +807,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "resolve":
-        if args.resolve_command not in {"paper-families", "materials"}:
+        if args.resolve_command not in {"paper-families", "materials", "proteins"}:
             parser.parse_args(["resolve", "--help"])
             return 0
         root = find_repository_root()
@@ -830,6 +836,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"valid_formulations={material_summary.valid_formulations} "
                 f"graph_edges={material_summary.graph_edges} "
                 f"review_items={material_summary.review_items} fixture=true"
+            )
+            return 0
+        if args.resolve_command == "proteins":
+            if not args.fixture:
+                print("PROTEIN_RESOLUTION_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.protein_resolution import ProteinResolutionError, ProteinResolver
+
+            try:
+                protein_summary = ProteinResolver(root).run()
+            except (OSError, ProteinResolutionError) as exc:
+                print(f"PROTEIN_RESOLUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"PROTEIN_RESOLUTION_VALID mentions={protein_summary.mentions} "
+                f"resolved={protein_summary.resolved} "
+                f"ambiguous={protein_summary.ambiguous} "
+                f"obsolete_review={protein_summary.obsolete_review} "
+                f"orthology_groups={protein_summary.orthology_groups} "
+                f"orthology_edges={protein_summary.orthology_edges} "
+                f"review_items={protein_summary.review_items} fixture=true"
             )
             return 0
         from biointerfaceos.family_resolution import FamilyResolutionError, FamilyResolver

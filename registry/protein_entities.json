@@ -1,0 +1,143 @@
+{
+  "entities": [
+    {
+      "candidate_mappings": [
+        {
+          "accession": "P04637",
+          "confidence": 0.99,
+          "gene_id": "HGNC:11998",
+          "isoform_status": "canonical",
+          "obsolete": false,
+          "protein_name": "Cellular tumor antigen p53",
+          "replaced_by": null,
+          "resolution_method": "SPECIES_ACCESSION"
+        }
+      ],
+      "mention_id": "protein-human-tp53",
+      "raw_name": "TP53",
+      "resolved_protein": {
+        "accession": "P04637",
+        "confidence": 0.99,
+        "gene_id": "HGNC:11998",
+        "isoform_status": "canonical",
+        "obsolete": false,
+        "protein_name": "Cellular tumor antigen p53",
+        "replaced_by": null,
+        "resolution_method": "SPECIES_ACCESSION"
+      },
+      "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+      "species": "Homo sapiens",
+      "status": "RESOLVED"
+    },
+    {
+      "candidate_mappings": [
+        {
+          "accession": "P02340",
+          "confidence": 0.98,
+          "gene_id": "MGI:98834",
+          "isoform_status": "canonical",
+          "obsolete": false,
+          "protein_name": "Cellular tumor antigen p53",
+          "replaced_by": null,
+          "resolution_method": "SPECIES_ACCESSION"
+        }
+      ],
+      "mention_id": "protein-mouse-tp53",
+      "raw_name": "Trp53",
+      "resolved_protein": {
+        "accession": "P02340",
+        "confidence": 0.98,
+        "gene_id": "MGI:98834",
+        "isoform_status": "canonical",
+        "obsolete": false,
+        "protein_name": "Cellular tumor antigen p53",
+        "replaced_by": null,
+        "resolution_method": "SPECIES_ACCESSION"
+      },
+      "source_locator": "asset:asset-table-001/table:table-main/cell:B3",
+      "species": "Mus musculus",
+      "status": "RESOLVED"
+    },
+    {
+      "candidate_mappings": [
+        {
+          "accession": "Q9DGE9",
+          "confidence": 0.93,
+          "gene_id": "ZFIN:ZDB-GENE-980526-166",
+          "isoform_status": "canonical",
+          "obsolete": false,
+          "protein_name": "Tumor protein p53",
+          "replaced_by": null,
+          "resolution_method": "SPECIES_ACCESSION"
+        }
+      ],
+      "mention_id": "protein-zebrafish-tp53",
+      "raw_name": "tp53",
+      "resolved_protein": {
+        "accession": "Q9DGE9",
+        "confidence": 0.93,
+        "gene_id": "ZFIN:ZDB-GENE-980526-166",
+        "isoform_status": "canonical",
+        "obsolete": false,
+        "protein_name": "Tumor protein p53",
+        "replaced_by": null,
+        "resolution_method": "SPECIES_ACCESSION"
+      },
+      "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+      "species": "Danio rerio",
+      "status": "RESOLVED"
+    },
+    {
+      "candidate_mappings": [
+        {
+          "accession": "P04637-2",
+          "confidence": 0.78,
+          "gene_id": "HGNC:11998",
+          "isoform_status": "isoform 2",
+          "obsolete": false,
+          "protein_name": "Cellular tumor antigen p53 isoform 2",
+          "replaced_by": null,
+          "resolution_method": "ISOFORM_CANDIDATE"
+        },
+        {
+          "accession": "P04637",
+          "confidence": 0.72,
+          "gene_id": "HGNC:11998",
+          "isoform_status": "canonical",
+          "obsolete": false,
+          "protein_name": "Cellular tumor antigen p53",
+          "replaced_by": null,
+          "resolution_method": "ISOFORM_CANDIDATE"
+        }
+      ],
+      "mention_id": "protein-human-tp53-isoform",
+      "raw_name": "TP53 isoform",
+      "resolved_protein": null,
+      "source_locator": "asset:asset-table-001/table:table-main/cell:C3",
+      "species": "Homo sapiens",
+      "status": "AMBIGUOUS"
+    },
+    {
+      "candidate_mappings": [
+        {
+          "accession": "Q9OLD1",
+          "confidence": 0.8,
+          "gene_id": "HGNC:11998",
+          "isoform_status": "obsolete",
+          "obsolete": true,
+          "protein_name": "Obsolete p53 record",
+          "replaced_by": "P04637",
+          "resolution_method": "OBSOLETE_REPLACEMENT"
+        }
+      ],
+      "mention_id": "protein-obsolete",
+      "raw_name": "Q9OLD1",
+      "resolved_protein": null,
+      "source_locator": "asset:asset-table-001/table:table-main/cell:H3",
+      "species": "Homo sapiens",
+      "status": "OBSOLETE_REVIEW"
+    }
+  ],
+  "fixture": true,
+  "schema_version": 1
+}
