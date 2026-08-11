@@ -26,9 +26,9 @@ Every parsed node has a stable locator composed of source asset ID, XML path, no
 
 ## Progress
 
-- [ ] Define document graph and locator schemas.
-- [ ] Implement fixture-backed JATS/XML parser.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define document graph and locator schemas.
+- [x] Implement fixture-backed JATS/XML parser.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -41,6 +41,10 @@ Every parsed node has a stable locator composed of source asset ID, XML path, no
 - biointerfaceos state validate
 - git diff --check
 - document node counts and locator round-trip assertions
+
+## Completion note
+
+T032 completed with implementation commit 55ccdd3. The parser preserved all required fixture nodes and passed round-trip locator, warning, malformed XML, and unsafe declaration tests. Completion evidence is recorded in reports/T032_jats_parser.md.
 
 ## Failure recovery
 
