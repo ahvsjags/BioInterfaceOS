@@ -26,9 +26,9 @@ Each layout block retains source hash, page number, block type, text, and normal
 
 ## Progress
 
-- [ ] Define PDF layout and quality schemas.
-- [ ] Implement fixture-backed PDF parser and scanned-PDF flag.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define PDF layout and quality schemas.
+- [x] Implement fixture-backed PDF parser and scanned-PDF flag.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -41,6 +41,10 @@ Each layout block retains source hash, page number, block type, text, and normal
 - biointerfaceos state validate
 - git diff --check
 - born-digital text, table/caption, scanned quality flag, and locator assertions
+
+## Completion note
+
+T034 completed with implementation commit 9556773. Born-digital layout blocks and explicit textless/scanned quality handling pass page/bbox and locator tests without OCR. Completion evidence is recorded in reports/T034_pdf_parser.md.
 
 ## Failure recovery
 
