@@ -40,6 +40,15 @@ class CliTests(unittest.TestCase):
         self.assertIn("network=false", output.getvalue())
         self.assertIn("binary_assets=0", output.getvalue())
 
+    def test_search_query_matrix_is_valid_and_hashed(self) -> None:
+        output = io.StringIO()
+        with redirect_stdout(output):
+            exit_code = cli.main(["search", "validate-queries"])
+        self.assertEqual(0, exit_code)
+        self.assertIn("SEARCH_QUERIES_VALID queries=22", output.getvalue())
+        self.assertIn("axes=7", output.getvalue())
+        self.assertIn("sha256=", output.getvalue())
+
     def test_specialized_nanodatabase_audit_is_valid(self) -> None:
         output = io.StringIO()
         with redirect_stdout(output):

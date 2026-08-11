@@ -221,6 +221,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     repository_sync_parser.add_argument(
         "--dry-run", action="store_true", help="do not contact public providers"
     )
+    search_parser = subparsers.add_parser("search", help="validate and run discovery searches")
+    search_subparsers = search_parser.add_subparsers(dest="search_command")
+    search_subparsers.add_parser(
+        "validate-queries", help="validate the versioned query matrix and date firewall"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -450,6 +455,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         print(
             f"ONTOLOGY_SYNC_DRY_RUN sources={len(SOURCE_NAMES)} "
             f"hosts={','.join(ontology_hosts)} network=false binary_assets=0"
+        )
+        return 0
+    if args.command == "search":
+        if args.search_command != "validate-queries":
+            parser.parse_args(["search", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("SEARCH_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        from biointerfaceos.search_matrix import SearchMatrixError, load_matrix
+
+        try:
+            matrix_summary = load_matrix(root / "configs/search_queries.yaml")
+        except (SearchMatrixError, OSError) as exc:
+            print(f"SEARCH_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"SEARCH_QUERIES_VALID queries={matrix_summary.queries} "
+            f"axes={len(matrix_summary.axes)} sources={len(matrix_summary.sources)} "
+            f"scopes={','.join(matrix_summary.scopes)} sha256={matrix_summary.sha256}"
         )
         return 0
     if args.command == "repository":

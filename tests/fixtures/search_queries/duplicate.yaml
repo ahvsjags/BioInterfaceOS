@@ -1,0 +1,211 @@
+schema_version: 1
+matrix_version: 2026.08.12-dev.1
+date_firewall:
+  train_end: '2023-12-31'
+  validation_start: '2024-01-01'
+  validation_end: '2024-12-31'
+  lockbox_start: '2025-01-01'
+  lockbox_end: '2026-08-11'
+queries:
+- id: epmc-train-01
+  source: europe_pmc
+  axis: material
+  scope: train
+  query: TITLE_ABS:("liposome" OR "lipid nanoparticle" OR LNP)
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: cursorMark
+  rationale: Cover the frozen lipid/liposome material family.
+- id: epmc-train-01-duplicate
+  source: europe_pmc
+  axis: material
+  scope: train
+  query: TITLE_ABS:("liposome" OR "lipid nanoparticle" OR LNP)
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: cursorMark
+  rationale: Cover the frozen lipid/liposome material family.
+- id: epmc-train-03
+  source: europe_pmc
+  axis: endpoint
+  scope: train
+  query: TITLE_ABS:(nanoparticle AND ("cellular uptake" OR internalization OR endocytosis))
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: cursorMark
+  rationale: Cover cellular uptake endpoints.
+- id: epmc-train-04
+  source: europe_pmc
+  axis: protocol
+  scope: train
+  query: TITLE_ABS:(nanoparticle AND (incubation OR dose OR concentration OR "exposure
+    time"))
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: cursorMark
+  rationale: Recover protocol and exposure terms.
+- id: epmc-train-05
+  source: europe_pmc
+  axis: species
+  scope: train
+  query: TITLE_ABS:((human OR mouse) AND (plasma OR serum) AND nanoparticle)
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: cursorMark
+  rationale: Separate human/mouse biofluid context.
+- id: epmc-train-06
+  source: europe_pmc
+  axis: assay
+  scope: train
+  query: TITLE_ABS:((viability OR cytotoxicity OR complement OR cytokine) AND nanoparticle)
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: cursorMark
+  rationale: Cover toxicity and immune assay vocabulary.
+- id: epmc-train-07
+  source: europe_pmc
+  axis: data_code
+  scope: train
+  query: TITLE_ABS:(nanoparticle AND (proteomics OR "supplementary data" OR dataset
+    OR code))
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: cursorMark
+  rationale: Find structured data and reproducible code links.
+- id: epmc-validation-01
+  source: europe_pmc
+  axis: material
+  scope: validation
+  query: TITLE_ABS:("liposome" OR "lipid nanoparticle" OR LNP)
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: cursorMark
+  rationale: Cover the frozen lipid/liposome material family.
+- id: epmc-validation-02
+  source: europe_pmc
+  axis: corona
+  scope: validation
+  query: TITLE_ABS:("protein corona" OR "biomolecular corona")
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: cursorMark
+  rationale: Cover protein-corona terminology.
+- id: epmc-validation-03
+  source: europe_pmc
+  axis: endpoint
+  scope: validation
+  query: TITLE_ABS:(nanoparticle AND ("cellular uptake" OR internalization OR endocytosis))
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: cursorMark
+  rationale: Cover cellular uptake endpoints.
+- id: epmc-validation-04
+  source: europe_pmc
+  axis: protocol
+  scope: validation
+  query: TITLE_ABS:(nanoparticle AND (incubation OR dose OR concentration OR "exposure
+    time"))
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: cursorMark
+  rationale: Recover protocol and exposure terms.
+- id: epmc-validation-05
+  source: europe_pmc
+  axis: species
+  scope: validation
+  query: TITLE_ABS:((human OR mouse) AND (plasma OR serum) AND nanoparticle)
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: cursorMark
+  rationale: Separate human/mouse biofluid context.
+- id: epmc-validation-06
+  source: europe_pmc
+  axis: assay
+  scope: validation
+  query: TITLE_ABS:((viability OR cytotoxicity OR complement OR cytokine) AND nanoparticle)
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: cursorMark
+  rationale: Cover toxicity and immune assay vocabulary.
+- id: epmc-validation-07
+  source: europe_pmc
+  axis: data_code
+  scope: validation
+  query: TITLE_ABS:(nanoparticle AND (proteomics OR "supplementary data" OR dataset
+    OR code))
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: cursorMark
+  rationale: Find structured data and reproducible code links.
+- id: pmc-oa-train-01
+  source: pmc_oa
+  axis: data_code
+  scope: train
+  query: OA_SUBSET AND nanomaterial
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: cursorMark
+  rationale: Restrict full-text candidates to the OA subset.
+- id: pride-train-01
+  source: pride
+  axis: corona
+  scope: train
+  query: protein corona nanoparticle
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: page
+  rationale: Find public proteomics projects linked to corona studies.
+- id: geo-train-01
+  source: geo
+  axis: data_code
+  scope: train
+  query: GSE GSM SRA accession seed from Europe PMC expansion
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: accession_seed
+  rationale: Use only explicit public accession seeds after paper expansion.
+- id: zenodo-train-01
+  source: zenodo
+  axis: data_code
+  scope: train
+  query: nanoparticle corona dataset
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: provider_release
+  rationale: Find public DOI releases for structured supplementary data.
+- id: figshare-validation-01
+  source: figshare
+  axis: data_code
+  scope: validation
+  query: nanomaterial proteomics
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: provider_release
+  rationale: Find public validation-period data releases.
+- id: osf-validation-01
+  source: osf
+  axis: data_code
+  scope: validation
+  query: nanomaterial dataset
+  date_from: '2024-01-01'
+  date_to: '2024-12-31'
+  cursor_strategy: provider_release
+  rationale: Find public validation-period project metadata.
+- id: pubchem-train-01
+  source: pubchem
+  axis: material
+  scope: train
+  query: nanoparticle ligand structure
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: single
+  rationale: Supplement material identity and structure fields.
+- id: chembl-train-01
+  source: chembl
+  axis: material
+  scope: train
+  query: nanoparticle ligand
+  date_from: '2000-01-01'
+  date_to: '2023-12-31'
+  cursor_strategy: single
+  rationale: Supplement ligand identity and public properties.
