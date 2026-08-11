@@ -13,7 +13,6 @@ from biointerfaceos import __version__
 
 FUTURE_COMMANDS = (
     "split",
-    "benchmark",
     "train",
     "agent",
     "claim",
@@ -359,6 +358,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     review_export_parser.add_argument("--sample", choices=("stratified",), default="stratified")
 
+    benchmark_parser = subparsers.add_parser(
+        "benchmark", help="run deterministic quality benchmarks"
+    )
+    benchmark_subparsers = benchmark_parser.add_subparsers(dest="benchmark_command")
+    benchmark_subparsers.add_parser(
+        "extraction", help="run the extraction calibration and G2 benchmark"
+    )
+
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
     resolve_subparsers.add_parser(
@@ -702,6 +709,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"unsigned_packets={review_summary.unsigned_packets} "
             f"signed_packets={review_summary.signed_packets} "
             f"sample={args.sample}"
+        )
+        return 0
+    if args.command == "benchmark":
+        if args.benchmark_command != "extraction":
+            parser.parse_args(["benchmark", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("BENCHMARK_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        from biointerfaceos.extraction_benchmark import (
+            BenchmarkError,
+            ExtractionBenchmark,
+        )
+
+        try:
+            benchmark_summary = ExtractionBenchmark(root).run()
+        except (BenchmarkError, OSError) as exc:
+            print(f"BENCHMARK_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"BENCHMARK_VALID rows={benchmark_summary.rows} "
+            f"correct={benchmark_summary.correct} errors={benchmark_summary.errors} "
+            f"eligible={benchmark_summary.eligible_rows} "
+            f"precision={benchmark_summary.precision:.3f} "
+            f"recall={benchmark_summary.recall:.3f} "
+            f"calibration_error={benchmark_summary.calibration_error:.3f} "
+            f"g2_status={benchmark_summary.g2_status}"
         )
         return 0
     if args.command == "data":

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "minimum_confidence": 0.85,
+  "g2_thresholds": {
+    "minimum_precision": 0.95,
+    "minimum_recall": 0.95,
+    "maximum_calibration_error": 0.1
+  },
+  "rows": [
+    {
+      "row_id": "numeric-clean",
+      "modality": "numeric",
+      "material": "lipid",
+      "year": 2024,
+      "expected": 0.4,
+      "predicted": 0.4,
+      "confidence": 0.95,
+      "source_locator": "asset:fixture-benchmark#row=numeric-clean"
+    },
+    {
+      "row_id": "numeric-error",
+      "modality": "numeric",
+      "material": "polymer",
+      "year": 2025,
+      "expected": 0.5,
+      "predicted": 0.6,
+      "confidence": 0.7,
+      "source_locator": "asset:fixture-benchmark#row=numeric-error"
+    },
+    {
+      "row_id": "entity-clean",
+      "modality": "entity",
+      "material": "lipid",
+      "year": 2024,
+      "expected": "CHEBI:DSPC",
+      "predicted": "CHEBI:DSPC",
+      "confidence": 0.96,
+      "source_locator": "asset:fixture-benchmark#row=entity-clean"
+    },
+    {
+      "row_id": "entity-error",
+      "modality": "entity",
+      "material": "protein",
+      "year": 2024,
+      "expected": "P04637",
+      "predicted": "P02340",
+      "confidence": 0.6,
+      "source_locator": "asset:fixture-benchmark#row=entity-error"
+    },
+    {
+      "row_id": "arm-clean",
+      "modality": "arm",
+      "material": "polymer",
+      "year": 2025,
+      "expected": "Control",
+      "predicted": "Control",
+      "confidence": 0.92,
+      "source_locator": "asset:fixture-benchmark#row=arm-clean"
+    },
+    {
+      "row_id": "arm-error",
+      "modality": "arm",
+      "material": "lipid",
+      "year": 2026,
+      "expected": "Treatment",
+      "predicted": "Control",
+      "confidence": 0.55,
+      "source_locator": "asset:fixture-benchmark#row=arm-error"
+    },
+    {
+      "row_id": "evidence-clean",
+      "modality": "evidence",
+      "material": "lipid",
+      "year": 2024,
+      "expected": "asset:fixture-table#cell=A1",
+      "predicted": "asset:fixture-table#cell=A1",
+      "confidence": 0.95,
+      "source_locator": "asset:fixture-benchmark#row=evidence-clean"
+    },
+    {
+      "row_id": "evidence-error",
+      "modality": "evidence",
+      "material": "protein",
+      "year": 2026,
+      "expected": "asset:fixture-table#cell=B1",
+      "predicted": null,
+      "confidence": 0.4,
+      "source_locator": "asset:fixture-benchmark#row=evidence-error"
+    }
+  ]
+}
