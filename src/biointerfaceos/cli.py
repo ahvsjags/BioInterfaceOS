@@ -366,6 +366,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "extraction", help="run the extraction calibration and G2 benchmark"
     )
 
+    report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
+    report_subparsers = report_parser.add_subparsers(dest="report_command")
+    report_subparsers.add_parser(
+        "data-coverage", help="audit independent-study coverage and missingness"
+    )
+
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
     resolve_subparsers.add_parser(
@@ -737,6 +743,30 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"recall={benchmark_summary.recall:.3f} "
             f"calibration_error={benchmark_summary.calibration_error:.3f} "
             f"g2_status={benchmark_summary.g2_status}"
+        )
+        return 0
+    if args.command == "report":
+        if args.report_command != "data-coverage":
+            parser.parse_args(["report", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("DATA_COVERAGE_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        from biointerfaceos.coverage_audit import DataCoverageAuditor, DataCoverageError
+
+        try:
+            coverage_summary = DataCoverageAuditor(root).run()
+        except (DataCoverageError, OSError) as exc:
+            print(f"DATA_COVERAGE_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"DATA_COVERAGE_VALID studies={coverage_summary.independent_studies} "
+            f"admitted_candidates={coverage_summary.admitted_candidates} "
+            f"represented_candidates={coverage_summary.represented_candidates} "
+            f"missing_values={coverage_summary.missing_values} "
+            f"gaps={coverage_summary.gaps} "
+            f"bias_warnings={coverage_summary.bias_warnings} no_imputation=true"
         )
         return 0
     if args.command == "data":

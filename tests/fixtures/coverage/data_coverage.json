@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "independent_unit": "study_id",
+  "expected_axes": {
+    "material": ["lipid", "polymer", "protein", "ligand", "silica"],
+    "species": ["Homo sapiens", "Mus musculus", "Danio rerio"],
+    "endpoint": [
+      "uptake",
+      "biodistribution",
+      "delivery",
+      "viability",
+      "inflammation",
+      "complement",
+      "hemolysis",
+      "endosomal_escape"
+    ],
+    "date": [2021, 2022, 2023, 2024],
+    "evidence": ["USABLE", "REVIEW_REQUIRED"]
+  },
+  "records": [
+    {
+      "study_id": "study-001",
+      "sample_key": "study-001:sample-A",
+      "candidate_accession": "EUROPE_PMC-FIXTURE-003",
+      "source": "europe_pmc",
+      "lab": "lab-alpha",
+      "material": "lipid",
+      "species": "Homo sapiens",
+      "endpoint": "uptake",
+      "publication_year": 2023,
+      "silver_table": "endpoints",
+      "silver_primary_key": "uptake-001",
+      "evidence_locators": ["asset:asset-table-001/table:table-main/cell:A3"]
+    },
+    {
+      "study_id": "study-002",
+      "sample_key": "study-002:sample-B",
+      "candidate_accession": "EUROPE_PMC-FIXTURE-004",
+      "source": "europe_pmc",
+      "lab": "lab-alpha",
+      "material": "polymer",
+      "species": "Mus musculus",
+      "endpoint": "biodistribution",
+      "publication_year": 2022,
+      "silver_table": "endpoints",
+      "silver_primary_key": "biodistribution-001",
+      "evidence_locators": ["asset:asset-table-001/table:table-main/cell:G3"]
+    },
+    {
+      "study_id": "study-003",
+      "sample_key": "study-003:sample-C",
+      "candidate_accession": "GEO-FIXTURE-017",
+      "source": "geo",
+      "lab": "lab-beta",
+      "material": "ligand",
+      "species": "Danio rerio",
+      "endpoint": "delivery",
+      "publication_year": 2021,
+      "silver_table": "endpoints",
+      "silver_primary_key": "delivery-001",
+      "evidence_locators": ["asset:asset-table-001/table:table-main/cell:H3"]
+    },
+    {
+      "study_id": "study-004",
+      "sample_key": "study-004:sample-D",
+      "candidate_accession": "CHEMBL-FIXTURE-022",
+      "source": "chembl",
+      "lab": null,
+      "material": "lipid",
+      "species": "Homo sapiens",
+      "endpoint": "viability",
+      "publication_year": 2023,
+      "silver_table": "endpoints",
+      "silver_primary_key": "viability-001",
+      "evidence_locators": ["asset:asset-table-001/table:table-main/cell:C3"]
+    },
+    {
+      "study_id": "study-005",
+      "sample_key": "study-005:sample-E",
+      "candidate_accession": "PRIDE-FIXTURE-016",
+      "source": "pride",
+      "lab": null,
+      "material": "protein",
+      "species": "Homo sapiens",
+      "endpoint": "inflammation",
+      "publication_year": 2022,
+      "silver_table": "endpoints",
+      "silver_primary_key": "inflammation-001",
+      "evidence_locators": ["asset:asset-table-001/table:table-main/cell:E3"]
+    },
+    {
+      "study_id": "study-006",
+      "sample_key": "study-006:sample-F",
+      "candidate_accession": "PMID:FIXTURE-1001",
+      "source": "europe_pmc",
+      "lab": "lab-gamma",
+      "material": "polymer",
+      "species": null,
+      "endpoint": "complement",
+      "publication_year": null,
+      "silver_table": "endpoints",
+      "silver_primary_key": "complement-001",
+      "evidence_locators": ["asset:asset-table-001/table:table-main/cell:D3"]
+    },
+    {
+      "study_id": "study-007",
+      "sample_key": "study-007:sample-G",
+      "candidate_accession": "EUROPE_PMC-FIXTURE-005",
+      "source": "europe_pmc",
+      "lab": "lab-delta",
+      "material": "protein",
+      "species": "Mus musculus",
+      "endpoint": "delivery",
+      "publication_year": 2023,
+      "silver_table": "endpoints",
+      "silver_primary_key": "delivery-missing-time",
+      "evidence_locators": ["asset:asset-table-001/table:table-main/cell:I3"]
+    }
+  ]
+}
