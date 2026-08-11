@@ -1,0 +1,447 @@
+{
+  "schema_version": 1,
+  "results": {
+    "epmc-train-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "PMID:FIXTURE-1001",
+              "title": "Synthetic fixture hit for epmc-train-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/1"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-train-02": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "PMID:FIXTURE-1001",
+              "title": "Synthetic fixture hit for epmc-train-02",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/2"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-train-03": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-003",
+              "title": "Synthetic fixture hit for epmc-train-03",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/3"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-train-04": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": "cursor-2",
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-004",
+              "title": "Synthetic fixture hit for epmc-train-04",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/4"
+            }
+          ]
+        },
+        {
+          "cursor": "cursor-2",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-004",
+              "title": "Synthetic fixture hit for epmc-train-04",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/4"
+            },
+            {
+              "accession": "EUROPE_PMC-FIXTURE-004-B",
+              "title": "Synthetic second-page hit for epmc-train-04",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/4/b"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-train-05": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-005",
+              "title": "Synthetic fixture hit for epmc-train-05",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/5"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-train-06": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-006",
+              "title": "Synthetic fixture hit for epmc-train-06",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/6"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-train-07": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-007",
+              "title": "Synthetic fixture hit for epmc-train-07",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/7"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-validation-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": "cursor-2",
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-008",
+              "title": "Synthetic fixture hit for epmc-validation-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/8"
+            }
+          ]
+        },
+        {
+          "cursor": "cursor-2",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-008",
+              "title": "Synthetic fixture hit for epmc-validation-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/8"
+            },
+            {
+              "accession": "EUROPE_PMC-FIXTURE-008-B",
+              "title": "Synthetic second-page hit for epmc-validation-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/8/b"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-validation-02": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-009",
+              "title": "Synthetic fixture hit for epmc-validation-02",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/9"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-validation-03": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-010",
+              "title": "Synthetic fixture hit for epmc-validation-03",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/10"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-validation-04": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-011",
+              "title": "Synthetic fixture hit for epmc-validation-04",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/11"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-validation-05": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": "cursor-2",
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-012",
+              "title": "Synthetic fixture hit for epmc-validation-05",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/12"
+            }
+          ]
+        },
+        {
+          "cursor": "cursor-2",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-012",
+              "title": "Synthetic fixture hit for epmc-validation-05",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/12"
+            },
+            {
+              "accession": "EUROPE_PMC-FIXTURE-012-B",
+              "title": "Synthetic second-page hit for epmc-validation-05",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/12/b"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-validation-06": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-013",
+              "title": "Synthetic fixture hit for epmc-validation-06",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/europe_pmc/13"
+            }
+          ]
+        }
+      ]
+    },
+    "epmc-validation-07": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "EUROPE_PMC-FIXTURE-014",
+              "title": "Synthetic fixture hit for epmc-validation-07",
+              "license": null,
+              "url": "https://fixture.example.org/europe_pmc/14"
+            }
+          ]
+        }
+      ]
+    },
+    "pmc-oa-train-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "PMC_OA-FIXTURE-015",
+              "title": "Synthetic fixture hit for pmc-oa-train-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/pmc_oa/15"
+            }
+          ]
+        }
+      ]
+    },
+    "pride-train-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": "cursor-2",
+          "hits": [
+            {
+              "accession": "PRIDE-FIXTURE-016",
+              "title": "Synthetic fixture hit for pride-train-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/pride/16"
+            }
+          ]
+        },
+        {
+          "cursor": "cursor-2",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "PRIDE-FIXTURE-016",
+              "title": "Synthetic fixture hit for pride-train-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/pride/16"
+            },
+            {
+              "accession": "PRIDE-FIXTURE-016-B",
+              "title": "Synthetic second-page hit for pride-train-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/pride/16/b"
+            }
+          ]
+        }
+      ]
+    },
+    "geo-train-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "GEO-FIXTURE-017",
+              "title": "Synthetic fixture hit for geo-train-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/geo/17"
+            }
+          ]
+        }
+      ]
+    },
+    "zenodo-train-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "ZENODO-FIXTURE-018",
+              "title": "Synthetic fixture hit for zenodo-train-01",
+              "license": null,
+              "url": "https://fixture.example.org/zenodo/18"
+            }
+          ]
+        }
+      ]
+    },
+    "figshare-validation-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "FIGSHARE-FIXTURE-019",
+              "title": "Synthetic fixture hit for figshare-validation-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/figshare/19"
+            }
+          ]
+        }
+      ]
+    },
+    "osf-validation-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": "cursor-2",
+          "hits": [
+            {
+              "accession": "OSF-FIXTURE-020",
+              "title": "Synthetic fixture hit for osf-validation-01",
+              "license": null,
+              "url": "https://fixture.example.org/osf/20"
+            }
+          ]
+        },
+        {
+          "cursor": "cursor-2",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "OSF-FIXTURE-020",
+              "title": "Synthetic fixture hit for osf-validation-01",
+              "license": null,
+              "url": "https://fixture.example.org/osf/20"
+            },
+            {
+              "accession": "OSF-FIXTURE-020-B",
+              "title": "Synthetic second-page hit for osf-validation-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/osf/20/b"
+            }
+          ]
+        }
+      ]
+    },
+    "pubchem-train-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "PUBCHEM-FIXTURE-021",
+              "title": "Synthetic fixture hit for pubchem-train-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/pubchem/21"
+            }
+          ]
+        }
+      ]
+    },
+    "chembl-train-01": {
+      "pages": [
+        {
+          "cursor": "*",
+          "next_cursor": null,
+          "hits": [
+            {
+              "accession": "CHEMBL-FIXTURE-022",
+              "title": "Synthetic fixture hit for chembl-train-01",
+              "license": "CC-BY-4.0",
+              "url": "https://fixture.example.org/chembl/22"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

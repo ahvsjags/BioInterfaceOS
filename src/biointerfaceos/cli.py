@@ -226,6 +226,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     search_subparsers.add_parser(
         "validate-queries", help="validate the versioned query matrix and date firewall"
     )
+    search_run_parser = search_subparsers.add_parser(
+        "run", help="run a fixture-backed bounded seed search"
+    )
+    search_run_parser.add_argument(
+        "--scope", choices=("development", "validation"), default="development"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -458,24 +464,42 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "search":
-        if args.search_command != "validate-queries":
+        if args.search_command not in {"validate-queries", "run"}:
             parser.parse_args(["search", "--help"])
             return 0
         root = find_repository_root()
         if root is None:
             print("SEARCH_INVALID: repository root not found", file=sys.stderr)
             return 1
-        from biointerfaceos.search_matrix import SearchMatrixError, load_matrix
+        if args.search_command == "validate-queries":
+            from biointerfaceos.search_matrix import SearchMatrixError, load_matrix
+
+            try:
+                matrix_summary = load_matrix(root / "configs/search_queries.yaml")
+            except (SearchMatrixError, OSError) as exc:
+                print(f"SEARCH_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SEARCH_QUERIES_VALID queries={matrix_summary.queries} "
+                f"axes={len(matrix_summary.axes)} sources={len(matrix_summary.sources)} "
+                f"scopes={','.join(matrix_summary.scopes)} sha256={matrix_summary.sha256}"
+            )
+            return 0
+        from biointerfaceos.policy import PolicyConfigError, SourcePolicyEngine
+        from biointerfaceos.search_runner import SearchRunError, SearchRunner
 
         try:
-            matrix_summary = load_matrix(root / "configs/search_queries.yaml")
-        except (SearchMatrixError, OSError) as exc:
+            runner = SearchRunner(root, SourcePolicyEngine.from_yaml(root))
+            run_summary = runner.run(args.scope)
+        except (OSError, PolicyConfigError, SearchRunError) as exc:
             print(f"SEARCH_INVALID: {exc}", file=sys.stderr)
             return 1
         print(
-            f"SEARCH_QUERIES_VALID queries={matrix_summary.queries} "
-            f"axes={len(matrix_summary.axes)} sources={len(matrix_summary.sources)} "
-            f"scopes={','.join(matrix_summary.scopes)} sha256={matrix_summary.sha256}"
+            f"SEARCH_RUN_VALID scope={run_summary.scope} "
+            f"query_blocks={run_summary.query_blocks} pages={run_summary.pages} "
+            f"raw_hits={run_summary.raw_hits} unique_candidates={run_summary.unique_candidates} "
+            f"admitted={run_summary.admitted} quarantined={run_summary.quarantined} "
+            f"fixture=true run_id={run_summary.run_id}"
         )
         return 0
     if args.command == "repository":
