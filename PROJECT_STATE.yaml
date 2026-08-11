@@ -15,7 +15,7 @@ completed_tasks:
 failed_tasks: []
 waived_tasks: []
 blocked_tasks: []
-last_successful_commit: 748a185d1786c1a08652ce98cbe0e8c66e296dab
+last_successful_commit: 1296f6e2e008be5dc656cc34bb5a4abd8ca9b054
 data_release: null
 benchmark_release: null
 model_release: null
