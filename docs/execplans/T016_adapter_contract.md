@@ -27,8 +27,8 @@ SourceAdapter requires search, metadata, list_assets, and fetch methods. Adapter
 ## Progress
 
 - [x] 2026-08-12 ? Read T016 contract, source-adapter requirements, policy engine, network client, and fixture protections.
-- [ ] Implement and test the adapter contract.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] 2026-08-12 ? Implemented four-method adapter contract, policy gate, fixture adapter, redaction harness, and 4 tests.
+- [x] 2026-08-12 ? Offline lock/sync, full check (69 passed), focused tests (4 passed), lockbox/release/state, compileall, and diff gates passed.
 
 ## Discoveries
 
@@ -60,4 +60,4 @@ src/biointerfaceos/sources/base.py, src/biointerfaceos/sources/__init__.py, test
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T016 is complete. Implementation commit c7df21687c4439af84c3ed57c38b882797c59dc2 and evidence report reports/T016_adapters.md are recorded with the sequence-11 task ledger entry. T017-T025 are READY; T017 is current. No source or locked-test payload was accessed.
