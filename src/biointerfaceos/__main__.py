@@ -1,24 +1,9 @@
-"""Minimal module entry point for the T003 version smoke test."""
+"""Module entry point for BioInterfaceOS."""
 
 from __future__ import annotations
 
-import argparse
-from collections.abc import Sequence
-
-from biointerfaceos import __version__
-
-
-def main(argv: Sequence[str] | None = None) -> int:
-    """Print package metadata without implementing the T004 command surface."""
-    parser = argparse.ArgumentParser(prog="python -m biointerfaceos")
-    parser.add_argument(
-        "--version",
-        action="version",
-        version=__version__,
-    )
-    parser.parse_args(argv)
-    return 0
+from biointerfaceos.cli import main
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(prog="python -m biointerfaceos"))

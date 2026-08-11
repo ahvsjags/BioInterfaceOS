@@ -9,5 +9,8 @@ description = "Provenance-grounded AI-for-Science for biomedical material bioint
 requires-python = ">=3.11,<3.12"
 dependencies = []
 
+[project.scripts]
+biointerfaceos = "biointerfaceos.cli:main"
+
 [tool.uv]
 package = true
