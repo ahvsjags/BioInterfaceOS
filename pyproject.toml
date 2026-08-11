@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "biointerfaceos"
+version = "0.1.0"
+description = "Provenance-grounded AI-for-Science for biomedical material biointerfaces"
+requires-python = ">=3.11,<3.12"
+dependencies = []
+
+[tool.uv]
+package = true
