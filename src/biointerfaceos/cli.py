@@ -183,6 +183,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     assets_parser = subparsers.add_parser("assets", help="verify content-addressed assets")
     assets_subparsers = assets_parser.add_subparsers(dest="assets_command")
     assets_subparsers.add_parser("verify", help="verify CAS blobs and provenance index")
+    catalog_parser = subparsers.add_parser("catalog", help="build and check analytical catalog")
+    catalog_subparsers = catalog_parser.add_subparsers(dest="catalog_command")
+    catalog_subparsers.add_parser("build", help="rebuild Parquet-backed DuckDB views")
+    catalog_subparsers.add_parser("check", help="check catalog metadata and views")
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -297,6 +301,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         print(
             f"ASSETS_VALID references={asset_summary.references} "
             f"blobs={asset_summary.unique_blobs} bytes={asset_summary.bytes}"
+        )
+        return 0
+    if args.command == "catalog":
+        if args.catalog_command not in {"build", "check"}:
+            parser.parse_args(["catalog", "--help"])
+            return 0
+        from biointerfaceos.catalog import Catalog, CatalogError
+
+        root = find_repository_root()
+        if root is None:
+            print("CATALOG_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            catalog_summary = (
+                Catalog(root).build() if args.catalog_command == "build" else Catalog(root).check()
+            )
+        except (CatalogError, OSError) as exc:
+            print(f"CATALOG_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"CATALOG_VALID schema_version={catalog_summary.schema_version} "
+            f"source_rows={catalog_summary.source_rows} "
+            f"asset_rows={catalog_summary.asset_rows} "
+            f"rejection_rows={catalog_summary.rejection_rows} "
+            f"join_rows={catalog_summary.join_rows}"
         )
         return 0
     if args.command == "storage":
