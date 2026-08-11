@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article">
+  <front>
+    <article-meta>
+      <article-id pub-id-type="pmid">JATS-FIXTURE-001</article-id>
+      <title-group><article-title>Fixture JATS document</article-title></title-group>
+    </article-meta>
+  </front>
+  <body>
+    <sec id="intro">
+      <title>Introduction</title>
+      <p id="p-intro">Protein corona changes nanoparticle uptake.</p>
+      <sec id="methods">
+        <title>Methods</title>
+        <p id="p-methods">Cells were exposed for two hours.</p>
+        <table-wrap id="table-1">
+          <label>Table 1</label>
+          <caption><p>Exposure conditions</p></caption>
+          <table>
+            <thead><tr><th>Condition</th><th>Dose</th></tr></thead>
+            <tbody><tr><td>Control</td><td>0</td></tr><tr><td>Test</td><td>10</td></tr></tbody>
+          </table>
+          <table-wrap-foot><fn>Values are fixture units.</fn></table-wrap-foot>
+        </table-wrap>
+        <fig id="fig-1">
+          <label>Figure 1</label>
+          <caption><p>Cellular uptake image.</p></caption>
+          <graphic xlink:href="figures/uptake.png"/>
+        </fig>
+      </sec>
+    </sec>
+  </body>
+  <back>
+    <ref-list>
+      <ref id="ref-1"><label>1</label><mixed-citation>Smith A. Fixture reference.</mixed-citation></ref>
+    </ref-list>
+    <supplementary-material id="supp-1" xlink:href="supplementary/data.csv">
+      <label>Supplementary data</label><caption><p>Raw fixture table.</p></caption>
+    </supplementary-material>
+    <ext-link ext-link-type="dataset" xlink:href="https://fixture.example.org/dataset">Dataset landing page</ext-link>
+  </back>
+</article>
