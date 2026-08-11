@@ -1,0 +1,17 @@
+{
+  "clean_control_false_positive_rate": 0.0,
+  "clean_control_false_positive_records": 0,
+  "clean_control_records": 2,
+  "critical_flags": 4,
+  "fixture": true,
+  "flags": 5,
+  "injected_error_recall": 1.0,
+  "injected_error_records": 4,
+  "injected_error_records_flagged": 4,
+  "quarantined_records": 4,
+  "records": 7,
+  "review_items": 5,
+  "schema_version": 1,
+  "strict": true,
+  "warning_flags": 1
+}

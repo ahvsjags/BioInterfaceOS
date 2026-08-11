@@ -1,0 +1,125 @@
+{
+  "fixture": true,
+  "flags": [
+    {
+      "control": false,
+      "field_name": "fraction",
+      "flag_id": "qc:bad-fraction:FRACTION_OUT_OF_RANGE:fraction",
+      "injected_error": true,
+      "message": "fraction must lie in [0, 1]",
+      "record_id": "bad-fraction",
+      "resolution": "QUARANTINE",
+      "rule": "FRACTION_OUT_OF_RANGE",
+      "severity": "CRITICAL",
+      "source_locators": [
+        "asset:fixture-qc#record=bad-fraction",
+        "asset:fixture-qc#record=bad-fraction&field=fraction"
+      ],
+      "units": [
+        "fraction"
+      ],
+      "values": [
+        1.4
+      ],
+      "weight": 1.0
+    },
+    {
+      "control": false,
+      "field_name": "concentration",
+      "flag_id": "qc:bad-concentration:NEGATIVE_CONCENTRATION:concentration",
+      "injected_error": true,
+      "message": "concentration cannot be negative",
+      "record_id": "bad-concentration",
+      "resolution": "QUARANTINE",
+      "rule": "NEGATIVE_CONCENTRATION",
+      "severity": "CRITICAL",
+      "source_locators": [
+        "asset:fixture-qc#record=bad-concentration",
+        "asset:fixture-qc#record=bad-concentration&field=concentration"
+      ],
+      "units": [
+        "g/L"
+      ],
+      "values": [
+        -2.0
+      ],
+      "weight": 1.0
+    },
+    {
+      "control": false,
+      "field_name": "sample_size",
+      "flag_id": "qc:duplicate-sample:DUPLICATE_SAMPLE_COUNT:sample_size",
+      "injected_error": true,
+      "message": "sample_size appears more than once in the same record",
+      "record_id": "duplicate-sample",
+      "resolution": "QUARANTINE",
+      "rule": "DUPLICATE_SAMPLE_COUNT",
+      "severity": "CRITICAL",
+      "source_locators": [
+        "asset:fixture-qc#record=duplicate-sample",
+        "asset:fixture-qc#record=duplicate-sample&field=sample_size-a",
+        "asset:fixture-qc#record=duplicate-sample&field=sample_size-b"
+      ],
+      "units": [
+        "count",
+        "count"
+      ],
+      "values": [
+        5,
+        5
+      ],
+      "weight": 1.0
+    },
+    {
+      "control": false,
+      "field_name": "sd",
+      "flag_id": "qc:sem-confusion:SEM_SD_CONFUSION_CANDIDATE:sd",
+      "injected_error": false,
+      "message": "sem equals sd despite sample_size > 1; uncertainty labels may be confused",
+      "record_id": "sem-confusion",
+      "resolution": "MANUAL_REVIEW",
+      "rule": "SEM_SD_CONFUSION_CANDIDATE",
+      "severity": "WARNING",
+      "source_locators": [
+        "asset:fixture-qc#record=sem-confusion",
+        "asset:fixture-qc#record=sem-confusion&field=sd",
+        "asset:fixture-qc#record=sem-confusion&field=sem",
+        "asset:fixture-qc#record=sem-confusion&field=sample_size"
+      ],
+      "units": [
+        "fraction",
+        "fraction",
+        "count"
+      ],
+      "values": [
+        0.2,
+        0.2,
+        4
+      ],
+      "weight": 0.5
+    },
+    {
+      "control": false,
+      "field_name": "percent",
+      "flag_id": "qc:bad-percent:PERCENT_OUT_OF_RANGE:percent",
+      "injected_error": true,
+      "message": "percent must lie in [0, 100]",
+      "record_id": "bad-percent",
+      "resolution": "QUARANTINE",
+      "rule": "PERCENT_OUT_OF_RANGE",
+      "severity": "CRITICAL",
+      "source_locators": [
+        "asset:fixture-qc#record=bad-percent",
+        "asset:fixture-qc#record=bad-percent&field=percent"
+      ],
+      "units": [
+        "%"
+      ],
+      "values": [
+        150.0
+      ],
+      "weight": 1.0
+    }
+  ],
+  "schema_version": 1
+}

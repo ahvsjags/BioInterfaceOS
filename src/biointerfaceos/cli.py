@@ -295,6 +295,18 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--fixture", action="store_true", help="use the sanitized unit fixture"
     )
 
+    qc_parser = subparsers.add_parser("qc", help="run physical and statistical quality checks")
+    qc_subparsers = qc_parser.add_subparsers(dest="qc_command")
+    qc_records_parser = qc_subparsers.add_parser(
+        "records", help="check fixture records for physical and statistical plausibility"
+    )
+    qc_records_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized local QC fixture"
+    )
+    qc_records_parser.add_argument(
+        "--strict", action="store_true", help="run the strict QC profile"
+    )
+
     data_parser = subparsers.add_parser("data", help="policy-gated data operations")
     data_subparsers = data_parser.add_subparsers(dest="data_command")
     data_fetch_parser = data_subparsers.add_parser(
@@ -595,6 +607,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"conflict_edges={trace_summary.conflict_edges} "
             f"review_items={trace_summary.review_items} "
             f"trace_matches={trace_matches} fixture=true"
+        )
+        return 0
+    if args.command == "qc":
+        if args.qc_command != "records":
+            parser.parse_args(["qc", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("QC_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("QC_INVALID: --fixture is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.plausibility_qc import PlausibilityChecker, PlausibilityQCError
+
+        try:
+            qc_summary = PlausibilityChecker(root).run(strict=args.strict)
+        except (OSError, PlausibilityQCError) as exc:
+            print(f"QC_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"QC_VALID records={qc_summary.records} "
+            f"flags={qc_summary.flags} "
+            f"critical_flags={qc_summary.critical_flags} "
+            f"warning_flags={qc_summary.warning_flags} "
+            f"quarantined_records={qc_summary.quarantined_records} "
+            f"false_positive_controls={qc_summary.false_positive_controls} "
+            f"injected_error_recall={qc_summary.injected_error_recall:.3f} "
+            f"review_items={qc_summary.review_items} fixture=true"
         )
         return 0
     if args.command == "data":

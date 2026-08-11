@@ -1,0 +1,38 @@
+{
+  "fixture": true,
+  "quarantine": [
+    {
+      "critical_rules": [
+        "FRACTION_OUT_OF_RANGE"
+      ],
+      "record_id": "bad-fraction",
+      "source_locator": "asset:fixture-qc#record=bad-fraction",
+      "status": "QUARANTINED"
+    },
+    {
+      "critical_rules": [
+        "NEGATIVE_CONCENTRATION"
+      ],
+      "record_id": "bad-concentration",
+      "source_locator": "asset:fixture-qc#record=bad-concentration",
+      "status": "QUARANTINED"
+    },
+    {
+      "critical_rules": [
+        "DUPLICATE_SAMPLE_COUNT"
+      ],
+      "record_id": "duplicate-sample",
+      "source_locator": "asset:fixture-qc#record=duplicate-sample",
+      "status": "QUARANTINED"
+    },
+    {
+      "critical_rules": [
+        "PERCENT_OUT_OF_RANGE"
+      ],
+      "record_id": "bad-percent",
+      "source_locator": "asset:fixture-qc#record=bad-percent",
+      "status": "QUARANTINED"
+    }
+  ],
+  "schema_version": 1
+}

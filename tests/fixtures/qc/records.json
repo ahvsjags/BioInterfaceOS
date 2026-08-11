@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "record_id": "clean-001",
+      "source_locator": "asset:fixture-qc#record=clean-001",
+      "control": true,
+      "injected_error": false,
+      "fields": [
+        {
+          "field_name": "fraction",
+          "value": 0.4,
+          "unit": "fraction",
+          "source_locator": "asset:fixture-qc#record=clean-001&field=fraction"
+        },
+        {
+          "field_name": "concentration",
+          "value": 2.0,
+          "unit": "g/L",
+          "source_locator": "asset:fixture-qc#record=clean-001&field=concentration"
+        },
+        {
+          "field_name": "sample_size",
+          "value": 5,
+          "unit": "count",
+          "source_locator": "asset:fixture-qc#record=clean-001&field=sample_size"
+        },
+        {
+          "field_name": "sd",
+          "value": 0.1,
+          "unit": "fraction",
+          "source_locator": "asset:fixture-qc#record=clean-001&field=sd"
+        },
+        {
+          "field_name": "sem",
+          "value": 0.044721,
+          "unit": "fraction",
+          "source_locator": "asset:fixture-qc#record=clean-001&field=sem"
+        }
+      ]
+    },
+    {
+      "record_id": "clean-002",
+      "source_locator": "asset:fixture-qc#record=clean-002",
+      "control": true,
+      "injected_error": false,
+      "fields": [
+        {
+          "field_name": "percent",
+          "value": 80.0,
+          "unit": "%",
+          "source_locator": "asset:fixture-qc#record=clean-002&field=percent"
+        },
+        {
+          "field_name": "sample_size",
+          "value": 3,
+          "unit": "count",
+          "source_locator": "asset:fixture-qc#record=clean-002&field=sample_size"
+        }
+      ]
+    },
+    {
+      "record_id": "bad-fraction",
+      "source_locator": "asset:fixture-qc#record=bad-fraction",
+      "control": false,
+      "injected_error": true,
+      "fields": [
+        {
+          "field_name": "fraction",
+          "value": 1.4,
+          "unit": "fraction",
+          "source_locator": "asset:fixture-qc#record=bad-fraction&field=fraction"
+        }
+      ]
+    },
+    {
+      "record_id": "bad-concentration",
+      "source_locator": "asset:fixture-qc#record=bad-concentration",
+      "control": false,
+      "injected_error": true,
+      "fields": [
+        {
+          "field_name": "concentration",
+          "value": -2.0,
+          "unit": "g/L",
+          "source_locator": "asset:fixture-qc#record=bad-concentration&field=concentration"
+        }
+      ]
+    },
+    {
+      "record_id": "duplicate-sample",
+      "source_locator": "asset:fixture-qc#record=duplicate-sample",
+      "control": false,
+      "injected_error": true,
+      "fields": [
+        {
+          "field_name": "sample_size",
+          "value": 5,
+          "unit": "count",
+          "source_locator": "asset:fixture-qc#record=duplicate-sample&field=sample_size-a"
+        },
+        {
+          "field_name": "sample_size",
+          "value": 5,
+          "unit": "count",
+          "source_locator": "asset:fixture-qc#record=duplicate-sample&field=sample_size-b"
+        }
+      ]
+    },
+    {
+      "record_id": "sem-confusion",
+      "source_locator": "asset:fixture-qc#record=sem-confusion",
+      "control": false,
+      "injected_error": false,
+      "fields": [
+        {
+          "field_name": "sample_size",
+          "value": 4,
+          "unit": "count",
+          "source_locator": "asset:fixture-qc#record=sem-confusion&field=sample_size"
+        },
+        {
+          "field_name": "sd",
+          "value": 0.2,
+          "unit": "fraction",
+          "source_locator": "asset:fixture-qc#record=sem-confusion&field=sd"
+        },
+        {
+          "field_name": "sem",
+          "value": 0.2,
+          "unit": "fraction",
+          "source_locator": "asset:fixture-qc#record=sem-confusion&field=sem"
+        }
+      ]
+    },
+    {
+      "record_id": "bad-percent",
+      "source_locator": "asset:fixture-qc#record=bad-percent",
+      "control": false,
+      "injected_error": true,
+      "fields": [
+        {
+          "field_name": "percent",
+          "value": 150.0,
+          "unit": "%",
+          "source_locator": "asset:fixture-qc#record=bad-percent&field=percent"
+        }
+      ]
+    }
+  ]
+}
