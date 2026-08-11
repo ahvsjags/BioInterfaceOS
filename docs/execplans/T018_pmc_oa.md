@@ -6,7 +6,7 @@ Provide an anonymous, official-endpoint PMC Open Access adapter for OA file list
 
 ## Preconditions
 
-T016 is DONE, T018 is READY/current, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
+T016 is DONE, T018 was READY and is now DONE, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
 
 ## Non-goals
 
@@ -26,9 +26,9 @@ Use only official PMC OA Web Service, OAI-PMH, FTP, E-Utilities, BioC, or Cloud 
 
 ## Progress
 
-- [ ] Read and pin the official PMC OA endpoint contract.
-- [ ] Implement and test the PMC OA adapter.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Read and pin the official PMC OA endpoint contract.
+- [x] Implement and test the PMC OA adapter.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,8 @@ If the OA file service is transient or unavailable, preserve the sanitized metad
 ## Outputs
 
 src/biointerfaceos/sources/pmc_oa.py, tests/sources/test_pmc_oa.py, tests/fixtures/sources/pmc_oa, this ExecPlan, reports/T018_pmc_oa.md, state advancement, and task-ledger evidence.
+
+
+## Completion note
+
+T018 completed with implementation commit da4c22fcf9b1b81a79de939368ea1f515f8a5434 and final acceptance evidence in reports/T018_pmc_oa.md.
