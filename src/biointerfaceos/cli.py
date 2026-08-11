@@ -12,7 +12,6 @@ from pathlib import Path
 from biointerfaceos import __version__
 
 FUTURE_COMMANDS = (
-    "data",
     "extract",
     "split",
     "benchmark",
@@ -243,6 +242,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "saturation", help="compute fixture-backed search saturation and coverage gaps"
     )
 
+    data_parser = subparsers.add_parser("data", help="policy-gated data operations")
+    data_subparsers = data_parser.add_subparsers(dest="data_command")
+    data_fetch_parser = data_subparsers.add_parser(
+        "fetch", help="fetch fixture assets through the policy and CAS gates"
+    )
+    data_fetch_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized local fixture queue"
+    )
+
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
     resolve_subparsers.add_parser(
@@ -363,6 +371,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
             return 0
         parser.parse_args(["source", "--help"])
+        return 0
+    if args.command == "data":
+        if args.data_command != "fetch":
+            parser.parse_args(["data", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("DATA_FETCH_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("DATA_FETCH_INVALID: --fixture is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.asset_downloader import AssetDownloader, DownloadError
+        from biointerfaceos.policy import PolicyConfigError, SourcePolicyEngine
+
+        try:
+            data_summary = AssetDownloader(root, SourcePolicyEngine.from_yaml(root)).run()
+        except (DownloadError, OSError, PolicyConfigError) as exc:
+            print(f"DATA_FETCH_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"DATA_FETCH_VALID promoted={data_summary.promoted} "
+            f"quarantined={data_summary.quarantined} "
+            f"policy_skipped={data_summary.policy_skipped} "
+            f"resumed={data_summary.resumed} "
+            f"receipts={data_summary.receipts} bytes={data_summary.bytes} fixture=true"
+        )
         return 0
     if args.command == "assets":
         if args.assets_command != "verify":
