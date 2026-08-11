@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OA>
+  <responseDate>2026-08-12 00:00:00</responseDate>
+  <request id="PMC999">https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC999</request>
+  <error code="idIsNotOpenAccess">identifier is not in the Open Access Subset</error>
+</OA>

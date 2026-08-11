@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OA>
+  <responseDate>2026-08-12 00:00:00</responseDate>
+  <request id="PMC123">https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC123</request>
+  <records returned-count="1">
+    <record id="PMC123" citation="Fixture et al. 2026" license="CC BY">
+      <link format="tgz" href="ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/PMC123.tar.gz" />
+      <link format="xml" href="https://www.ncbi.nlm.nih.gov/pmc/oa_package/PMC123/article.xml" />
+      <link format="pdf" href="https://www.ncbi.nlm.nih.gov/pmc/oa_package/PMC123/article.pdf" />
+      <link format="figure" href="https://www.ncbi.nlm.nih.gov/pmc/oa_package/PMC123/figure-1.png" />
+      <link format="supplementary" href="https://www.ncbi.nlm.nih.gov/pmc/oa_package/PMC123/supplement.zip" />
+    </record>
+  </records>
+</OA>
