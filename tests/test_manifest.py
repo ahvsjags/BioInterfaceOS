@@ -123,12 +123,16 @@ class ManifestRegistryTests(unittest.TestCase):
 
     def test_cli_validates_repository_manifest(self) -> None:
         output_path = Path(__file__).resolve().parents[1] / "registry" / "SOURCE_MANIFEST.parquet"
+        original = output_path.read_bytes() if output_path.exists() else None
         registry = ManifestRegistry(Path(__file__).resolve().parents[1])
         registry.write([])
         try:
             self.assertEqual(main(["source", "manifest", "validate"]), 0)
         finally:
-            output_path.unlink(missing_ok=True)
+            if original is None:
+                output_path.unlink(missing_ok=True)
+            else:
+                output_path.write_bytes(original)
 
 
 if __name__ == "__main__":

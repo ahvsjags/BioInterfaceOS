@@ -243,6 +243,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "saturation", help="compute fixture-backed search saturation and coverage gaps"
     )
 
+    resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
+    resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
+    resolve_subparsers.add_parser(
+        "paper-families", help="resolve fixture-backed paper families and conflicts"
+    )
+
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
     return parser
@@ -550,6 +556,30 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"admitted={expansion_summary.admitted} "
             f"quarantined={expansion_summary.quarantined} fixture=true "
             f"run_id={expansion_summary.run_id}"
+        )
+        return 0
+    if args.command == "resolve":
+        if args.resolve_command != "paper-families":
+            parser.parse_args(["resolve", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("FAMILY_RESOLUTION_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        from biointerfaceos.family_resolution import FamilyResolutionError, FamilyResolver
+
+        try:
+            family_summary = FamilyResolver(root).run()
+        except (OSError, FamilyResolutionError) as exc:
+            print(f"FAMILY_RESOLUTION_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"FAMILY_RESOLUTION_VALID families={family_summary.family_count} "
+            f"member_rows={family_summary.member_rows} "
+            f"manual_review={family_summary.manual_review_rows} "
+            f"split_safe={family_summary.split_safe} "
+            f"parquet={family_summary.parquet_path.relative_to(root)} "
+            f"report={family_summary.report_path.relative_to(root)} fixture=true"
         )
         return 0
     if args.command == "repository":

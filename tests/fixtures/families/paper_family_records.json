@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "record_id": "article-001",
+      "record_type": "article",
+      "source": "europe_pmc",
+      "accession": "PMID:FM-001",
+      "doi": "10.1234/FAM.001",
+      "title": "Lipid nanoparticle protein corona and cellular uptake",
+      "authors": ["Alice Smith", "Bob Lee"],
+      "year": 2022,
+      "split": "train",
+      "url": "https://fixture.example.org/article-001"
+    },
+    {
+      "record_id": "preprint-001",
+      "record_type": "preprint",
+      "source": "arxiv",
+      "accession": "arXiv:2201.00001",
+      "doi": "10.48550/arXiv.2201.00001",
+      "title": "Lipid nanoparticle protein corona and cellular uptake",
+      "authors": ["Alice Smith", "Bob Lee"],
+      "year": 2022,
+      "split": "train",
+      "url": "https://fixture.example.org/preprint-001"
+    },
+    {
+      "record_id": "correction-001",
+      "record_type": "correction",
+      "source": "europe_pmc",
+      "accession": "PMID:FM-001-CORR",
+      "doi": "10.1234/FAM.001-CORR",
+      "title": "Correction: Lipid nanoparticle protein corona and cellular uptake",
+      "authors": ["Alice Smith", "Bob Lee"],
+      "year": 2022,
+      "split": "train",
+      "url": "https://fixture.example.org/correction-001"
+    },
+    {
+      "record_id": "supplement-001",
+      "record_type": "supplement",
+      "source": "pmc_oa",
+      "accession": "SUP:FM-001",
+      "doi": null,
+      "title": "Supplementary data for lipid nanoparticle protein corona",
+      "authors": ["Alice Smith", "Bob Lee"],
+      "year": 2022,
+      "split": "train",
+      "url": "https://fixture.example.org/supplement-001"
+    },
+    {
+      "record_id": "dataset-001",
+      "record_type": "dataset",
+      "source": "zenodo",
+      "accession": "ZENODO:FM-001",
+      "doi": "10.5281/ZENODO.12345",
+      "title": "Lipid nanoparticle protein corona dataset",
+      "authors": ["Alice Smith", "Bob Lee"],
+      "year": 2022,
+      "split": "train",
+      "url": "https://fixture.example.org/dataset-001"
+    },
+    {
+      "record_id": "duplicate-001",
+      "record_type": "article",
+      "source": "pmc_oa",
+      "accession": "PMC:FM-001",
+      "doi": "10.1234/fam.001",
+      "title": "Lipid nanoparticle protein corona and cellular uptake",
+      "authors": ["Alice Smith", "Bob Lee"],
+      "year": 2022,
+      "split": "train",
+      "url": "https://fixture.example.org/duplicate-001"
+    },
+    {
+      "record_id": "article-002",
+      "record_type": "article",
+      "source": "europe_pmc",
+      "accession": "PMID:FM-002",
+      "doi": "10.1234/FAM.002",
+      "title": "Polymeric nanoparticle hemolysis assay",
+      "authors": ["Carol Jones", "Dan Wu"],
+      "year": 2023,
+      "split": "train",
+      "url": "https://fixture.example.org/article-002"
+    },
+    {
+      "record_id": "article-002-validation",
+      "record_type": "article",
+      "source": "europe_pmc",
+      "accession": "PMID:FM-002-VAL",
+      "doi": "10.1234/FAM.002",
+      "title": "Polymeric nanoparticle hemolysis assay",
+      "authors": ["Carol Jones", "Dan Wu"],
+      "year": 2024,
+      "split": "validation",
+      "url": "https://fixture.example.org/article-002-validation"
+    },
+    {
+      "record_id": "uncertain-001",
+      "record_type": "article",
+      "source": "europe_pmc",
+      "accession": "PMID:FM-003",
+      "doi": "10.1234/FAM.003",
+      "title": "Silica nanoparticle biodistribution",
+      "authors": ["Eve Chen", "Fran Diaz"],
+      "year": 2022,
+      "split": "train",
+      "url": "https://fixture.example.org/uncertain-001"
+    },
+    {
+      "record_id": "uncertain-002",
+      "record_type": "article",
+      "source": "europe_pmc",
+      "accession": "PMID:FM-004",
+      "doi": "10.1234/FAM.004",
+      "title": "Silica nanoparticle organ distribution",
+      "authors": ["Eve Chen", "Fran Diaz"],
+      "year": 2022,
+      "split": "train",
+      "url": "https://fixture.example.org/uncertain-002"
+    }
+  ],
+  "relationships": [
+    {
+      "relationship_id": "rel-001",
+      "source_record_id": "preprint-001",
+      "target_record_id": "article-001",
+      "relationship": "preprint_of",
+      "confidence": "high"
+    },
+    {
+      "relationship_id": "rel-002",
+      "source_record_id": "correction-001",
+      "target_record_id": "article-001",
+      "relationship": "correction_of",
+      "confidence": "high"
+    },
+    {
+      "relationship_id": "rel-003",
+      "source_record_id": "supplement-001",
+      "target_record_id": "article-001",
+      "relationship": "supplement_of",
+      "confidence": "high"
+    },
+    {
+      "relationship_id": "rel-004",
+      "source_record_id": "dataset-001",
+      "target_record_id": "article-001",
+      "relationship": "dataset_for",
+      "confidence": "high"
+    },
+    {
+      "relationship_id": "rel-005",
+      "source_record_id": "article-002-validation",
+      "target_record_id": "article-002",
+      "relationship": "duplicate_of",
+      "confidence": "high"
+    },
+    {
+      "relationship_id": "rel-006",
+      "source_record_id": "uncertain-001",
+      "target_record_id": "uncertain-002",
+      "relationship": "possible_duplicate",
+      "confidence": "uncertain"
+    }
+  ]
+}
