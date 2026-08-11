@@ -7,7 +7,7 @@ name = "biointerfaceos"
 version = "0.1.0"
 description = "Provenance-grounded AI-for-Science for biomedical material biointerfaces"
 requires-python = ">=3.11,<3.12"
-dependencies = []
+dependencies = ["pyyaml==6.0.2"]
 
 [project.scripts]
 biointerfaceos = "biointerfaceos.cli:main"
@@ -38,6 +38,7 @@ line-ending = "lf"
 [tool.mypy]
 python_version = "3.11"
 strict = true
+ignore_missing_imports = true
 files = ["src", "tests"]
 
 [tool.pytest.ini_options]

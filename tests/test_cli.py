@@ -23,7 +23,7 @@ class CliTests(unittest.TestCase):
             exit_code = cli.main(["doctor", "--strict"])
         self.assertEqual(0, exit_code)
         self.assertIn("SUMMARY mode=strict mandatory_failures=0", output.getvalue())
-        self.assertIn("NOT_IMPLEMENTED command:state: future task", output.getvalue())
+        self.assertNotIn("NOT_IMPLEMENTED command:state: future task", output.getvalue())
 
     def test_help_discovers_every_command(self) -> None:
         help_text = cli.build_parser().format_help()

@@ -12,7 +12,6 @@ from pathlib import Path
 from biointerfaceos import __version__
 
 FUTURE_COMMANDS = (
-    "state",
     "data",
     "source",
     "extract",
@@ -161,6 +160,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     doctor_parser = subparsers.add_parser("doctor", help="check foundation prerequisites")
     doctor_parser.add_argument("--strict", action="store_true", help="enforce mandatory checks")
 
+    state_parser = subparsers.add_parser("state", help="validate and inspect project state")
+    state_subparsers = state_parser.add_subparsers(dest="state_command")
+    state_subparsers.add_parser("validate", help="validate PROJECT_STATE.yaml and TASKS.tsv")
+    state_subparsers.add_parser("next", help="print the next dependency-satisfied READY task")
+
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
     return parser
@@ -172,6 +176,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
     args = parser.parse_args(argv)
     if args.command == "doctor":
         return doctor(args.strict)
+    if args.command == "state":
+        from biointerfaceos.state import (
+            StateValidationError,
+            next_ready_task,
+            validate_repository_state,
+        )
+
+        if args.state_command is None:
+            parser.parse_args(["state", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("STATE_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            _, tasks = validate_repository_state(root)
+        except StateValidationError as exc:
+            print(f"STATE_INVALID: {exc}", file=sys.stderr)
+            return 1
+        if args.state_command == "validate":
+            print(f"STATE_VALID tasks={len(tasks)}")
+            return 0
+        task = next_ready_task(tasks)
+        if task is None:
+            print("NO_READY_TASK")
+            return 1
+        print(task.id)
+        return 0
     if args.command in FUTURE_COMMANDS:
         return not_implemented(args.command)
     parser.print_help()
