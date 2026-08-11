@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T026
-active_execplan: docs/execplans/T026_query_matrix.md
+current_task: T027
+active_execplan: docs/execplans/T027_initial_search.md
 completed_tasks:
   - T000
   - T001
@@ -33,10 +33,10 @@ completed_tasks:
   - T023
   - T024
   - T025
+  - T026
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T027
   - T028
   - T029
   - T030
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: d7d5d3f8a5e5df4bf582c377985b78cab8d138bf
+last_successful_commit: 2fadbfe3e669c6abd83813e155b653ac1ecf202a
 data_release: null
 benchmark_release: null
 model_release: null
