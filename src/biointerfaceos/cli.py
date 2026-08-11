@@ -180,6 +180,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     policy_parser = source_subparsers.add_parser("policy", help="run source policy checks")
     policy_subparsers = policy_parser.add_subparsers(dest="policy_command")
     policy_subparsers.add_parser("self-test", help="run offline policy fixtures")
+    assets_parser = subparsers.add_parser("assets", help="verify content-addressed assets")
+    assets_subparsers = assets_parser.add_subparsers(dest="assets_command")
+    assets_subparsers.add_parser("verify", help="verify CAS blobs and provenance index")
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -275,6 +278,26 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
             return 0
         parser.parse_args(["source", "--help"])
+        return 0
+    if args.command == "assets":
+        if args.assets_command != "verify":
+            parser.parse_args(["assets", "--help"])
+            return 0
+        from biointerfaceos.assets import AssetStore, AssetStoreError
+
+        root = find_repository_root()
+        if root is None:
+            print("ASSETS_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            asset_summary = AssetStore(root).verify()
+        except (AssetStoreError, OSError) as exc:
+            print(f"ASSETS_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"ASSETS_VALID references={asset_summary.references} "
+            f"blobs={asset_summary.unique_blobs} bytes={asset_summary.bytes}"
+        )
         return 0
     if args.command == "storage":
         if args.storage_command is None:
