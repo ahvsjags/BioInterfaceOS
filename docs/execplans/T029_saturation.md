@@ -26,9 +26,9 @@ Saturation is reported by batch and query axis using fixture-backed, provenance-
 
 ## Progress
 
-- [ ] Define saturation and coverage-gap metrics.
-- [ ] Implement fixture-backed saturation report and CLI.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define saturation and coverage-gap metrics.
+- [x] Implement fixture-backed saturation report and CLI.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -41,6 +41,10 @@ Saturation is reported by batch and query axis using fixture-backed, provenance-
 - biointerfaceos release verify --fixture
 - git diff --check
 - append-only ledger validation and deterministic gap assertions
+
+## Completion note
+
+T029 completed with implementation commit 39e1e33. The fixture-backed report records batch/axis novelty, nine open coverage gaps, eight query proposals, and a reproducible CONTINUE stopping decision. Completion evidence is recorded in reports/T029_search_saturation.md.
 
 ## Failure recovery
 
