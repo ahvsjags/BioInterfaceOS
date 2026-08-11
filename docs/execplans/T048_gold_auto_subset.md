@@ -44,3 +44,11 @@ Keep excluded rows in Silver and retain explicit exclusion reasons. Do not promo
 ## Outputs
 
 Gold-auto manifest, agreement report, exclusion queue, fixture/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion evidence
+
+- Implementation commit: 66ff318.
+- biointerfaceos data build-gold-auto --fixture: admitted_fields=3, excluded_fields=2, agreement_fields=4, disagreement_fields=1, reverse_traces=3.
+- biointerfaceos data validate gold-auto --fixture: exact rebuild, checksum, exclusion, and reverse-trace gates passed.
+- UV_OFFLINE=1 make check: 190 tests passed; ruff, format, and mypy passed.
+- Expert-gold admission count is explicitly zero.

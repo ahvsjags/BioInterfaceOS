@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T048
-active_execplan: docs/execplans/T048_gold_auto_subset.md
+current_task: T049
+active_execplan: docs/execplans/T049_consensus_review_packets.md
 completed_tasks:
   - T000
   - T001
@@ -55,10 +55,10 @@ completed_tasks:
   - T045
   - T046
   - T047
+  - T048
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T049
   - T050
   - T051
   - T052
@@ -124,8 +124,8 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 819c72d
-data_release: bioif-silver-b05bdbc371d43cae
+last_successful_commit: 66ff318
+data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
 freeze:
