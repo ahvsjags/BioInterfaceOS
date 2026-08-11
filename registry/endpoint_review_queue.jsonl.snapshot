@@ -1,0 +1,1 @@
+{"_ledger":{"previous_hash":null,"record_hash":"8ed4b146a192b7d32cd1064d382d033b6ee4c0e73c78e5431d0a71c52d52ae4e","sequence":1},"endpoint_id":"delivery-missing-time","reason":"MISSING_ENDPOINT_TIMEPOINT","resolution":"MANUAL_REVIEW","review_id":"endpoint-review:delivery-missing-time","source_locator":"asset:asset-table-001/table:table-main/cell:I3"}

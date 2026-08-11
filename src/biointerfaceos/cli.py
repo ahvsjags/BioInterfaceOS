@@ -327,6 +327,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     resolve_protocols_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized protocol fixture"
     )
+    resolve_endpoints_parser = resolve_subparsers.add_parser(
+        "endpoints", help="resolve fixture-backed endpoint measurements"
+    )
+    resolve_endpoints_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized endpoint fixture"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -813,7 +819,13 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "resolve":
-        if args.resolve_command not in {"paper-families", "materials", "proteins", "protocols"}:
+        if args.resolve_command not in {
+            "paper-families",
+            "materials",
+            "proteins",
+            "protocols",
+            "endpoints",
+        }:
             parser.parse_args(["resolve", "--help"])
             return 0
         root = find_repository_root()
@@ -886,6 +898,29 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"missing_fields={protocol_summary.missing_fields} "
                 f"clusters={protocol_summary.clusters} "
                 f"review_items={protocol_summary.review_items} fixture=true"
+            )
+            return 0
+        if args.resolve_command == "endpoints":
+            if not args.fixture:
+                print("ENDPOINT_RESOLUTION_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.endpoint_resolution import (
+                EndpointResolutionError,
+                EndpointResolver,
+            )
+
+            try:
+                endpoint_summary = EndpointResolver(root).run()
+            except (OSError, EndpointResolutionError) as exc:
+                print(f"ENDPOINT_RESOLUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"ENDPOINT_RESOLUTION_VALID endpoints={endpoint_summary.endpoints} "
+                f"normalized={endpoint_summary.normalized} "
+                f"families={endpoint_summary.families} "
+                f"strata={endpoint_summary.strata} "
+                f"harmonized_strata={endpoint_summary.harmonized_strata} "
+                f"review_items={endpoint_summary.review_items} fixture=true"
             )
             return 0
         from biointerfaceos.family_resolution import FamilyResolutionError, FamilyResolver

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "endpoints": [
+    {
+      "endpoint_id": "uptake-001",
+      "raw_label": "cellular uptake",
+      "family": "uptake",
+      "assay": "flow cytometry",
+      "basis": "% positive cells",
+      "time_value": 24,
+      "time_unit": "h",
+      "value": 40,
+      "value_unit": "%",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+      "effect_type": "proportion"
+    },
+    {
+      "endpoint_id": "uptake-002",
+      "raw_label": "cellular uptake replicate",
+      "family": "uptake",
+      "assay": "flow cytometry",
+      "basis": "% positive cells",
+      "time_value": 24,
+      "time_unit": "h",
+      "value": 50,
+      "value_unit": "%",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:B3",
+      "effect_type": "proportion"
+    },
+    {
+      "endpoint_id": "viability-001",
+      "raw_label": "cell viability",
+      "family": "viability",
+      "assay": "MTT",
+      "basis": "% control",
+      "time_value": 24,
+      "time_unit": "h",
+      "value": 80,
+      "value_unit": "%",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:C3",
+      "effect_type": "proportion"
+    },
+    {
+      "endpoint_id": "complement-001",
+      "raw_label": "complement activation",
+      "family": "complement",
+      "assay": "hemolysis",
+      "basis": "% activity",
+      "time_value": 1,
+      "time_unit": "h",
+      "value": 10,
+      "value_unit": "%",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:D3",
+      "effect_type": "proportion"
+    },
+    {
+      "endpoint_id": "inflammation-001",
+      "raw_label": "IL-6 release",
+      "family": "inflammation",
+      "assay": "ELISA",
+      "basis": "concentration",
+      "time_value": 24,
+      "time_unit": "h",
+      "value": 25,
+      "value_unit": "pg/mL",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:E3",
+      "effect_type": "absolute"
+    },
+    {
+      "endpoint_id": "coagulation-001",
+      "raw_label": "clotting time",
+      "family": "coagulation",
+      "assay": "plasma recalcification",
+      "basis": "time",
+      "time_value": 30,
+      "time_unit": "min",
+      "value": 120,
+      "value_unit": "s",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:F3",
+      "effect_type": "absolute"
+    },
+    {
+      "endpoint_id": "biodistribution-001",
+      "raw_label": "liver biodistribution",
+      "family": "biodistribution",
+      "assay": "fluorescence imaging",
+      "basis": "% injected dose/g",
+      "time_value": 24,
+      "time_unit": "h",
+      "value": 12,
+      "value_unit": "%",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:G3",
+      "effect_type": "proportion"
+    },
+    {
+      "endpoint_id": "delivery-001",
+      "raw_label": "payload release",
+      "family": "delivery",
+      "assay": "HPLC",
+      "basis": "% release",
+      "time_value": 48,
+      "time_unit": "h",
+      "value": 70,
+      "value_unit": "%",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:H3",
+      "effect_type": "proportion"
+    },
+    {
+      "endpoint_id": "delivery-missing-time",
+      "raw_label": "payload release without time",
+      "family": "delivery",
+      "assay": "HPLC",
+      "basis": "% release",
+      "time_value": null,
+      "time_unit": null,
+      "value": 60,
+      "value_unit": "%",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:I3",
+      "effect_type": "proportion"
+    }
+  ]
+}

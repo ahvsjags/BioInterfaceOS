@@ -1,0 +1,98 @@
+{
+  "fixture": true,
+  "schema_version": 1,
+  "strata": [
+    {
+      "assay": "fluorescence imaging",
+      "basis": "% injected dose/g",
+      "family": "biodistribution",
+      "harmonizable": false,
+      "harmonized_mean": null,
+      "member_count": 1,
+      "member_endpoint_ids": [
+        "biodistribution-001"
+      ],
+      "stratum_id": "biodistribution|assay=fluorescence imaging|basis=% injected dose/g|time_s=86400.0",
+      "time_seconds": 86400.0
+    },
+    {
+      "assay": "plasma recalcification",
+      "basis": "time",
+      "family": "coagulation",
+      "harmonizable": false,
+      "harmonized_mean": null,
+      "member_count": 1,
+      "member_endpoint_ids": [
+        "coagulation-001"
+      ],
+      "stratum_id": "coagulation|assay=plasma recalcification|basis=time|time_s=1800.0",
+      "time_seconds": 1800.0
+    },
+    {
+      "assay": "hemolysis",
+      "basis": "% activity",
+      "family": "complement",
+      "harmonizable": false,
+      "harmonized_mean": null,
+      "member_count": 1,
+      "member_endpoint_ids": [
+        "complement-001"
+      ],
+      "stratum_id": "complement|assay=hemolysis|basis=% activity|time_s=3600.0",
+      "time_seconds": 3600.0
+    },
+    {
+      "assay": "HPLC",
+      "basis": "% release",
+      "family": "delivery",
+      "harmonizable": false,
+      "harmonized_mean": null,
+      "member_count": 1,
+      "member_endpoint_ids": [
+        "delivery-001"
+      ],
+      "stratum_id": "delivery|assay=HPLC|basis=% release|time_s=172800.0",
+      "time_seconds": 172800.0
+    },
+    {
+      "assay": "ELISA",
+      "basis": "concentration",
+      "family": "inflammation",
+      "harmonizable": false,
+      "harmonized_mean": null,
+      "member_count": 1,
+      "member_endpoint_ids": [
+        "inflammation-001"
+      ],
+      "stratum_id": "inflammation|assay=ELISA|basis=concentration|time_s=86400.0",
+      "time_seconds": 86400.0
+    },
+    {
+      "assay": "flow cytometry",
+      "basis": "% positive cells",
+      "family": "uptake",
+      "harmonizable": true,
+      "harmonized_mean": 0.45,
+      "member_count": 2,
+      "member_endpoint_ids": [
+        "uptake-001",
+        "uptake-002"
+      ],
+      "stratum_id": "uptake|assay=flow cytometry|basis=% positive cells|time_s=86400.0",
+      "time_seconds": 86400.0
+    },
+    {
+      "assay": "MTT",
+      "basis": "% control",
+      "family": "viability",
+      "harmonizable": false,
+      "harmonized_mean": null,
+      "member_count": 1,
+      "member_endpoint_ids": [
+        "viability-001"
+      ],
+      "stratum_id": "viability|assay=MTT|basis=% control|time_s=86400.0",
+      "time_seconds": 86400.0
+    }
+  ]
+}
