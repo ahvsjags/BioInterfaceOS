@@ -27,10 +27,10 @@ Every detected panel and feature retains a source asset ID, stable panel/feature
 
 ## Progress
 
-- [ ] Define figure detection schemas and stable locators.
-- [ ] Implement fixture-backed panel, axis, legend, and curve detection.
-- [ ] Mark unsupported panel types and queue low-confidence detections.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define figure detection schemas and stable locators.
+- [x] Implement fixture-backed panel, axis, legend, and curve detection.
+- [x] Mark unsupported panel types and queue low-confidence detections.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Preserve original figure evidence and hashes. Quarantine unsupported or low-conf
 ## Outputs
 
 Figure detection schema, panel/axis/legend/curve candidates, review queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T036 completed with implementation commit aee17cf. Synthetic 2D panels retain labels, axes, scale classifications, legends, curve candidates, uncertainty cues, confidence calibration, and stable locators. Unsupported heatmap content remains in the review queue; no numeric digitization is emitted.
