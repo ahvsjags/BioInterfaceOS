@@ -47,3 +47,10 @@ Keep Bronze immutable. Quarantine rows with missing evidence or critical QC and 
 ## Outputs
 
 Silver Parquet tables, catalog views, QC/integrity report, schema hash, fixture/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion evidence
+
+- Implementation commit: 819c72d.
+- biointerfaceos data build-silver --fixture: 8 tables, 36 rows, 2 explicitly quarantined rows, evidence coverage 1.0.
+- biointerfaceos data validate silver --fixture: schema, manifest, checksum, primary-key, evidence, referential-integrity, and critical-QC gates passed.
+- UV_OFFLINE=1 make check: 187 tests passed; ruff, format, and mypy passed.
