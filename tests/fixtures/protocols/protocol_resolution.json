@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "protocols": [
+    {
+      "protocol_id": "protocol-001",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+      "fields": [
+        {
+          "field_id": "source-001",
+          "name": "bioenvironment_source",
+          "field_type": "ontology",
+          "raw_value": "FBS",
+          "raw_unit": null,
+          "target_unit": null,
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:A3"
+        },
+        {
+          "field_id": "concentration-001",
+          "name": "concentration",
+          "field_type": "quantity",
+          "raw_value": 10,
+          "raw_unit": "%",
+          "target_unit": "fraction",
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:B3"
+        },
+        {
+          "field_id": "time-001",
+          "name": "exposure_time",
+          "field_type": "quantity",
+          "raw_value": 2,
+          "raw_unit": "h",
+          "target_unit": "s",
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:C3"
+        },
+        {
+          "field_id": "temperature-001",
+          "name": "temperature",
+          "field_type": "quantity",
+          "raw_value": 37,
+          "raw_unit": "C",
+          "target_unit": "K",
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:D3"
+        },
+        {
+          "field_id": "wash-001",
+          "name": "wash_count",
+          "field_type": "integer",
+          "raw_value": 3,
+          "raw_unit": "count",
+          "target_unit": "count",
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:E3"
+        },
+        {
+          "field_id": "spin-001",
+          "name": "centrifugation",
+          "field_type": "quantity",
+          "raw_value": 1200,
+          "raw_unit": "xg",
+          "target_unit": "xg",
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:F3"
+        },
+        {
+          "field_id": "assay-001",
+          "name": "assay",
+          "field_type": "ontology",
+          "raw_value": "DLS",
+          "raw_unit": null,
+          "target_unit": null,
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:G3"
+        },
+        {
+          "field_id": "replicate-001",
+          "name": "replicate_count",
+          "field_type": "integer",
+          "raw_value": 3,
+          "raw_unit": "count",
+          "target_unit": "count",
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:H3"
+        },
+        {
+          "field_id": "serum-detail-001",
+          "name": "serum_source_detail",
+          "field_type": "text",
+          "raw_value": null,
+          "raw_unit": null,
+          "target_unit": null,
+          "observed": false,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:I3"
+        },
+        {
+          "field_id": "note-001",
+          "name": "protocol_note",
+          "field_type": "text",
+          "raw_value": "washed before assay",
+          "raw_unit": null,
+          "target_unit": null,
+          "observed": true,
+          "source_locator": "asset:asset-table-001/table:table-main/cell:J3"
+        }
+      ]
+    }
+  ]
+}

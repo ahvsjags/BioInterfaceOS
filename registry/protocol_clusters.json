@@ -1,0 +1,26 @@
+{
+  "clusters": [
+    {
+      "cluster_id": "protocol-cluster:protocol-001",
+      "feature_vector": {
+        "assay": "Dynamic light scattering",
+        "centrifugation_xg": 1200.0,
+        "concentration_fraction": 0.1,
+        "exposure_time_s": 7200.0,
+        "missing_field_count": 1,
+        "protocol_id": "protocol-001",
+        "replicate_count": 3,
+        "source": "Fetal bovine serum",
+        "temperature_k": 310.15,
+        "unknown_field_count": 0,
+        "wash_count": 3
+      },
+      "missingness_explicit": true,
+      "protocol_ids": [
+        "protocol-001"
+      ]
+    }
+  ],
+  "fixture": true,
+  "schema_version": 1
+}

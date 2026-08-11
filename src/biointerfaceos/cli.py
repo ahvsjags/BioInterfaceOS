@@ -321,6 +321,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     resolve_proteins_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized protein fixture"
     )
+    resolve_protocols_parser = resolve_subparsers.add_parser(
+        "protocols", help="resolve fixture-backed bioenvironment and protocols"
+    )
+    resolve_protocols_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized protocol fixture"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -807,7 +813,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "resolve":
-        if args.resolve_command not in {"paper-families", "materials", "proteins"}:
+        if args.resolve_command not in {"paper-families", "materials", "proteins", "protocols"}:
             parser.parse_args(["resolve", "--help"])
             return 0
         root = find_repository_root()
@@ -857,6 +863,29 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"orthology_groups={protein_summary.orthology_groups} "
                 f"orthology_edges={protein_summary.orthology_edges} "
                 f"review_items={protein_summary.review_items} fixture=true"
+            )
+            return 0
+        if args.resolve_command == "protocols":
+            if not args.fixture:
+                print("PROTOCOL_RESOLUTION_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.protocol_resolution import (
+                ProtocolResolutionError,
+                ProtocolResolver,
+            )
+
+            try:
+                protocol_summary = ProtocolResolver(root).run()
+            except (OSError, ProtocolResolutionError) as exc:
+                print(f"PROTOCOL_RESOLUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"PROTOCOL_RESOLUTION_VALID protocols={protocol_summary.protocols} "
+                f"fields={protocol_summary.fields} "
+                f"observed_fields={protocol_summary.observed_fields} "
+                f"missing_fields={protocol_summary.missing_fields} "
+                f"clusters={protocol_summary.clusters} "
+                f"review_items={protocol_summary.review_items} fixture=true"
             )
             return 0
         from biointerfaceos.family_resolution import FamilyResolutionError, FamilyResolver
