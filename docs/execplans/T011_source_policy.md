@@ -27,8 +27,8 @@ PolicyConfig is loaded from configs/source_policy.yaml with default-deny rules. 
 ## Progress
 
 - [x] 2026-08-12 ? Read GOAL access/license constraints, T011 contract, T010 manifest API, and selected conservative default-deny policy.
-- [ ] Implement and test the policy engine.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] 2026-08-12 ? Implemented default-deny policy, exact license classification, rejection Parquet registry, CLI, and 10 fixtures.
+- [x] 2026-08-12 ? Offline lock/sync, full check (47 passed), focused tests (7 passed), policy self-test, state, ledger, compileall, and diff gates passed.
 
 ## Discoveries
 
@@ -60,4 +60,4 @@ configs/source_policy.yaml, src/biointerfaceos/policy.py, registry/rejected_sour
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T011 is complete. Implementation commit a7dbcf41ece2811f1f5b915acaabf645ec5cbff7 and evidence report reports/T011_policy.md are recorded with the sequence-6 task ledger entry. T012 is READY/current. No source, model, credential, or locked-test payload was accessed.
