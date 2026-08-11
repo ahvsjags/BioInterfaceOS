@@ -19,7 +19,6 @@ FUTURE_COMMANDS = (
     "train",
     "agent",
     "claim",
-    "release",
 )
 
 REQUIRED_FILES = (
@@ -187,6 +186,17 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     catalog_subparsers = catalog_parser.add_subparsers(dest="catalog_command")
     catalog_subparsers.add_parser("build", help="rebuild Parquet-backed DuckDB views")
     catalog_subparsers.add_parser("check", help="check catalog metadata and views")
+    release_parser = subparsers.add_parser("release", help="freeze and verify releases")
+    release_subparsers = release_parser.add_subparsers(dest="release_command")
+    freeze_parser = release_subparsers.add_parser("freeze", help="create an immutable release")
+    freeze_parser.add_argument(
+        "--fixture", action="store_true", help="freeze the fixture namespace"
+    )
+    verify_parser = release_subparsers.add_parser("verify", help="verify an immutable release")
+    verify_parser.add_argument(
+        "--fixture", action="store_true", help="verify the fixture namespace"
+    )
+    verify_parser.add_argument("--release-id", default=None, help="specific release identifier")
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -326,6 +336,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"asset_rows={catalog_summary.asset_rows} "
             f"rejection_rows={catalog_summary.rejection_rows} "
             f"join_rows={catalog_summary.join_rows}"
+        )
+        return 0
+    if args.command == "release":
+        if args.release_command not in {"freeze", "verify"}:
+            parser.parse_args(["release", "--help"])
+            return 0
+        from biointerfaceos.release import ReleaseError, ReleaseManager
+
+        root = find_repository_root()
+        if root is None:
+            print("RELEASE_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("RELEASE_INVALID: --fixture is required", file=sys.stderr)
+            return 1
+        try:
+            release_summary = (
+                ReleaseManager(root).freeze(fixture=True)
+                if args.release_command == "freeze"
+                else ReleaseManager(root).verify(args.release_id)
+            )
+        except (ReleaseError, OSError) as exc:
+            print(f"RELEASE_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"RELEASE_VALID id={release_summary.release_id} "
+            f"manifest_hash={release_summary.manifest_hash} "
+            f"files={release_summary.file_count}"
         )
         return 0
     if args.command == "storage":
