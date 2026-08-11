@@ -27,8 +27,8 @@ AssetStore uses data/cas/sha256/<prefix>/<sha256> as the physical content addres
 ## Progress
 
 - [x] 2026-08-12 ? Read T012, GOAL storage/manifest constraints, T010 API, and repository raw-data protections.
-- [ ] Implement and test the asset store.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] 2026-08-12 ? Implemented CAS staging/promotion, provenance index, CLI verification, and 6 focused tests.
+- [x] 2026-08-12 ? Offline lock/sync, full check (53 passed), focused tests (6 passed), CAS verification, state, compileall, and diff gates passed.
 
 ## Discoveries
 
@@ -61,4 +61,4 @@ src/biointerfaceos/assets.py, tests/assets, registry/ASSET_INDEX.parquet, data/c
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T012 is complete. Implementation commit 4811f550a492ec434413b361370faea11066a579 and evidence report reports/T012_assets.md are recorded with the sequence-7 task ledger entry. T013 is READY/current. No source or locked-test payload was accessed.
