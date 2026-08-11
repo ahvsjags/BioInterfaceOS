@@ -25,14 +25,22 @@ HOSTS = (
     "www.ebi.ac.uk",
     "reactome.org",
     "api.cellosaurus.org",
+    "eutils.ncbi.nlm.nih.gov",
 )
 SOURCE_NAMES = {
     "uniprot": "UniProtKB",
     "go": "Gene Ontology",
     "reactome": "Reactome",
     "cellosaurus": "Cellosaurus",
+    "taxonomy": "NCBI Taxonomy",
 }
-LICENSE_IDENTIFIER = "CC-BY-4.0"
+LICENSE_IDENTIFIERS = {
+    "uniprot": "CC-BY-4.0",
+    "go": "CC-BY-4.0",
+    "reactome": "CC-BY-4.0",
+    "cellosaurus": "CC-BY-4.0",
+    "taxonomy": "PUBLIC-DOMAIN",
+}
 
 
 @dataclass(frozen=True)
@@ -97,8 +105,13 @@ class OntologyAdapter(SourceAdapter):
                 "source_name": SOURCE_NAMES[source],
                 "url": OntologyAdapter._record_url(source, identifier),
                 "accession": identifier,
-                "license_identifier": LICENSE_IDENTIFIER,
-                "license_text": "Public ontology record under configured CC-BY-4.0 signal",
+                "license_identifier": LICENSE_IDENTIFIERS[source],
+                "license_text": (
+                    "NCBI government-created taxonomy metadata public-domain signal; "
+                    "submitter-specific restrictions remain out of scope"
+                    if source == "taxonomy"
+                    else "Public ontology record under configured CC-BY-4.0 signal"
+                ),
                 "evidence_location": f"{SOURCE_NAMES[source]} official API",
                 "registration_required": False,
                 "login_required": False,
@@ -121,6 +134,10 @@ class OntologyAdapter(SourceAdapter):
             )
         if source == "reactome":
             return f"https://reactome.org/ContentService/data/query/{quote(identifier, safe='')}"
+        if source == "taxonomy":
+            return "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?" + urlencode(
+                {"db": "taxonomy", "id": identifier, "retmode": "json"}
+            )
         return (
             "https://api.cellosaurus.org/cell-line/" + quote(identifier, safe="") + "?format=json"
         )
@@ -133,6 +150,10 @@ class OntologyAdapter(SourceAdapter):
         if source == "go":
             return "https://www.ebi.ac.uk/QuickGO/services/ontology/go/search?" + urlencode(
                 (("query", label),)
+            )
+        if source == "taxonomy":
+            return "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?" + urlencode(
+                {"db": "taxonomy", "term": label, "retmode": "json", "retmax": 20}
             )
         raise AdapterError(f"label search is not supported for {source}")
 
@@ -159,14 +180,29 @@ class OntologyAdapter(SourceAdapter):
     def resolve_label(self, source: str, label: str) -> tuple[SourceCandidate, ...]:
         """Return all bounded label matches without collapsing ambiguity."""
         source_name = source.lower().strip()
-        if source_name not in {"cellosaurus", "go"}:
-            raise AdapterError("label search supports only cellosaurus and go")
+        if source_name not in {"cellosaurus", "go", "taxonomy"}:
+            raise AdapterError("label search supports only cellosaurus, go, and taxonomy")
         query = label.strip()
         if not query:
             raise AdapterError("ontology label cannot be empty")
         value, _ = self._get_json(self._search_url(source_name, query))
         candidates: list[SourceCandidate] = []
         seen: set[str] = set()
+        if source_name == "taxonomy":
+            search_result = value.get("esearchresult") if isinstance(value, Mapping) else None
+            identifiers = (
+                search_result.get("idlist") if isinstance(search_result, Mapping) else None
+            )
+            for raw_identifier in (
+                identifiers[: self.config.max_results] if isinstance(identifiers, list) else []
+            ):
+                if not isinstance(raw_identifier, str) or not raw_identifier.strip():
+                    continue
+                candidate = self._candidate(source_name, raw_identifier.strip())
+                if candidate.source_id not in seen:
+                    candidates.append(candidate)
+                    seen.add(candidate.source_id)
+            return tuple(candidates)
         for record in self._result_list(value)[: self.config.max_results]:
             identifier = record.get("ac") or record.get("id")
             if not isinstance(identifier, str) or not identifier.strip():
@@ -187,9 +223,15 @@ class OntologyAdapter(SourceAdapter):
         return (self._candidate(source, identifier),)
 
     @staticmethod
-    def _record(value: Any) -> Mapping[str, Any]:
+    def _record(value: Any, source: str, identifier: str) -> Mapping[str, Any]:
         if not isinstance(value, Mapping):
             raise AdapterError("ontology record is not an object")
+        if source == "taxonomy":
+            result = value.get("result")
+            nested = result.get(identifier) if isinstance(result, Mapping) else None
+            if isinstance(nested, Mapping):
+                return cast(Mapping[str, Any], nested)
+            raise AdapterError("ontology record not found")
         nested = value.get("cell-line")
         if isinstance(nested, Mapping):
             return cast(Mapping[str, Any], nested)
@@ -206,10 +248,26 @@ class OntologyAdapter(SourceAdapter):
             value = record.get(key)
             if isinstance(value, str) and value.strip():
                 return value.strip()
+            if isinstance(value, Mapping):
+                nested = value.get("value") or value.get("fullName")
+                if isinstance(nested, Mapping):
+                    nested = nested.get("value") or nested.get("name")
+                if isinstance(nested, str) and nested.strip():
+                    return nested.strip()
         return None
 
     @staticmethod
     def _names(value: Any) -> list[str]:
+        if isinstance(value, Mapping):
+            name = OntologyAdapter._text(
+                value,
+                "scientificName",
+                "scientific_name",
+                "sci_name",
+                "name",
+                "displayName",
+            )
+            return [name] if name else []
         if isinstance(value, list):
             names: list[str] = []
             for item in value:
@@ -252,7 +310,7 @@ class OntologyAdapter(SourceAdapter):
         self.require_admitted(candidate)
         source, identifier = self._source_identifier(candidate)
         value, response_sha256 = self._get_json(self._record_url(source, identifier))
-        record = self._record(value)
+        record = self._record(value, source, identifier)
         return {
             "source": source,
             "identifier": identifier,
@@ -265,7 +323,11 @@ class OntologyAdapter(SourceAdapter):
                 "prefLabel",
             ),
             "organism": self._names(
-                record.get("organism") or record.get("organisms") or record.get("species")
+                record.get("organism")
+                or record.get("organisms")
+                or record.get("species")
+                or record.get("sci_name")
+                or record.get("scientificName")
             ),
             "obsolete": self._obsolete(record),
             "replaced_by": self._replaced_by(record),
@@ -275,6 +337,7 @@ class OntologyAdapter(SourceAdapter):
                 "releaseVersion",
                 "version",
                 "entryVersion",
+                "taxon_version",
             ),
             "date": self._text(
                 record,
@@ -282,6 +345,9 @@ class OntologyAdapter(SourceAdapter):
                 "timestamp",
                 "modified",
                 "date",
+                "update_date",
+                "updateDate",
+                "create_date",
             ),
             "license": self._text(record, "license") or candidate.license_identifier,
             "response_sha256": response_sha256,

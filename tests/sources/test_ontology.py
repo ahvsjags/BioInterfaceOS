@@ -53,6 +53,10 @@ class OntologyTests(unittest.TestCase):
                 body = self.fixtures["reactome_R-HSA-199420"]
             elif "CVCL_0030" in url and "/search/" not in url:
                 body = self.fixtures["cell_CVCL_0030"]
+            elif "db=taxonomy" in url and "esummary.fcgi" in url:
+                body = self.fixtures["taxonomy_9606"]
+            elif "db=taxonomy" in url and "esearch.fcgi" in url:
+                body = self.fixtures["taxonomy_search_human"]
             elif "/search/cell-line" in url:
                 body = self.fixtures["cell_search_HeLa"]
             else:
@@ -67,6 +71,7 @@ class OntologyTests(unittest.TestCase):
                     "www.ebi.ac.uk",
                     "reactome.org",
                     "api.cellosaurus.org",
+                    "eutils.ncbi.nlm.nih.gov",
                 )
             ),
             opener=opener,
@@ -87,6 +92,7 @@ class OntologyTests(unittest.TestCase):
                 ("go:GO:0008150", "biological_process", "2026-01"),
                 ("reactome:R-HSA-199420", "????? development", "96"),
                 ("cellosaurus:CVCL_0030", "HeLa", "2026-06-01"),
+                ("taxonomy:9606", "Homo sapiens", "2026-07"),
             )
             for query, label, version in cases:
                 metadata = adapter.metadata(adapter.search(SourceQuery(query))[0])
@@ -101,6 +107,15 @@ class OntologyTests(unittest.TestCase):
             metadata = adapter.metadata(candidate)
             self.assertTrue(metadata["obsolete"])
             self.assertEqual(metadata["replaced_by"], ["GO:0000139"])
+
+    def test_taxonomy_label_search_preserves_identifier(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            adapter = self._adapter(Path(temporary))
+            candidates = adapter.search(SourceQuery("taxonomy:name:Homo sapiens", limit=10))
+            self.assertEqual([candidate.accession for candidate in candidates], ["9606"])
+            metadata = adapter.metadata(candidates[0])
+            self.assertEqual(metadata["organism"], ["Homo sapiens"])
+            self.assertEqual(metadata["license"], "PUBLIC-DOMAIN")
 
     def test_ambiguous_cell_line_label_is_preserved(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
