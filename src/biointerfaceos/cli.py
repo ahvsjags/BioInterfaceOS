@@ -200,6 +200,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     lockbox_parser = subparsers.add_parser("lockbox", help="test lockbox firewall")
     lockbox_subparsers = lockbox_parser.add_subparsers(dest="lockbox_command")
     lockbox_subparsers.add_parser("self-test", help="run offline firewall and scanner tests")
+    ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
+    ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
+    ontology_sync_parser = ontology_subparsers.add_parser(
+        "sync", help="plan a bounded ontology metadata sync"
+    )
+    ontology_sync_parser.add_argument(
+        "--dry-run", action="store_true", help="do not contact official endpoints"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -390,6 +398,24 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"LOCKBOX_VALID blocked_read={audit['blocked_development_lockbox_read']} "
             f"field_detected={audit['forbidden_field_detected']} "
             f"hash_detected={audit['forbidden_hash_detected']}"
+        )
+        return 0
+    if args.command == "ontology":
+        if args.ontology_command != "sync":
+            parser.parse_args(["ontology", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("ONTOLOGY_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.dry_run:
+            print("ONTOLOGY_INVALID: --dry-run is required for this command", file=sys.stderr)
+            return 2
+        from biointerfaceos.sources.ontology import HOSTS, SOURCE_NAMES
+
+        print(
+            f"ONTOLOGY_SYNC_DRY_RUN sources={len(SOURCE_NAMES)} "
+            f"hosts={','.join(HOSTS)} network=false binary_assets=0"
         )
         return 0
     if args.command == "storage":

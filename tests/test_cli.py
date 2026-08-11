@@ -31,6 +31,15 @@ class CliTests(unittest.TestCase):
         for command in cli.FUTURE_COMMANDS:
             self.assertIn(command, help_text)
 
+    def test_ontology_sync_dry_run_is_network_free(self) -> None:
+        output = io.StringIO()
+        with redirect_stdout(output):
+            exit_code = cli.main(["ontology", "sync", "--dry-run"])
+        self.assertEqual(0, exit_code)
+        self.assertIn("ONTOLOGY_SYNC_DRY_RUN", output.getvalue())
+        self.assertIn("network=false", output.getvalue())
+        self.assertIn("binary_assets=0", output.getvalue())
+
     def test_future_commands_are_explicitly_not_implemented(self) -> None:
         for command in cli.FUTURE_COMMANDS:
             with self.subTest(command=command):
