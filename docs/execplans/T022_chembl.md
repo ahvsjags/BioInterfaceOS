@@ -6,7 +6,7 @@ Provide an anonymous ChEMBL adapter for molecule IDs, structures, selected publi
 
 ## Preconditions
 
-T016 is DONE, T022 is READY/current, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
+T016 is DONE, T022 was READY and is now DONE, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
 
 ## Non-goals
 
@@ -27,9 +27,9 @@ Use the official ChEMBL API under www.ebi.ac.uk/chembl/api/data. Preserve API ve
 
 ## Progress
 
-- [ ] Read and pin the official ChEMBL API endpoint contract.
-- [ ] Implement and test the ChEMBL adapter.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Read and pin the official ChEMBL API endpoint contract.
+- [x] Implement and test the ChEMBL adapter.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -52,3 +52,8 @@ If the ChEMBL service is transient, retain the query and response evidence, pres
 ## Outputs
 
 src/biointerfaceos/sources/chembl.py, tests/sources/test_chembl.py, tests/fixtures/sources/chembl, this ExecPlan, reports/T022_chembl.md, state advancement, and task-ledger evidence.
+
+
+## Completion note
+
+T022 completed with implementation commit 7d80261e3aee08203cb34f06366f565e95402640 and final acceptance evidence in reports/T022_chembl.md.
