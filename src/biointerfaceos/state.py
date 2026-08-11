@@ -210,8 +210,11 @@ def validate_project_state(state: ProjectState, tasks: Sequence[Task]) -> None:
         raise StateValidationError(f"task_count={state.task_count}, actual={len(tasks)}")
     if state.current_task is not None and state.current_task not in by_id:
         raise StateValidationError(f"unknown current_task: {state.current_task}")
-    if state.current_task is not None and by_id[state.current_task].status != "IN_PROGRESS":
-        raise StateValidationError("current_task must have IN_PROGRESS status")
+    if state.current_task is not None and by_id[state.current_task].status not in {
+        "READY",
+        "IN_PROGRESS",
+    }:
+        raise StateValidationError("current_task must have READY or IN_PROGRESS status")
     expected = {
         "ready_tasks": tuple(task.id for task in tasks if task.status == "READY"),
         "completed_tasks": tuple(task.id for task in tasks if task.status == "DONE"),
