@@ -272,6 +272,20 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--dual", action="store_true", help="run both deterministic and local/mock paths"
     )
 
+    evidence_parser = subparsers.add_parser(
+        "evidence", help="resolve and reverse-trace evidence locators"
+    )
+    evidence_subparsers = evidence_parser.add_subparsers(dest="evidence_command")
+    evidence_trace_parser = evidence_subparsers.add_parser(
+        "trace", help="resolve fixture assertions and build a conflict graph"
+    )
+    evidence_trace_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized evidence fixture"
+    )
+    evidence_trace_parser.add_argument(
+        "--locator", default=None, help="optionally print reverse-trace match count"
+    )
+
     data_parser = subparsers.add_parser("data", help="policy-gated data operations")
     data_subparsers = data_parser.add_subparsers(dest="data_command")
     data_fetch_parser = data_subparsers.add_parser(
@@ -492,6 +506,38 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"uncertainty_records={digitization_summary.uncertainty_records} "
                 f"review_items={digitization_summary.review_items} fixture=true"
             )
+        return 0
+    if args.command == "evidence":
+        if args.evidence_command != "trace":
+            parser.parse_args(["evidence", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("EVIDENCE_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("EVIDENCE_INVALID: --fixture is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.evidence_resolver import EvidenceResolutionError, EvidenceResolver
+
+        resolver = EvidenceResolver(root)
+        try:
+            trace_summary = resolver.run()
+            trace_matches = (
+                len(resolver.reverse_trace(args.locator)) if args.locator is not None else 0
+            )
+        except (OSError, EvidenceResolutionError) as exc:
+            print(f"EVIDENCE_TRACE_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"EVIDENCE_TRACE_VALID assertions={trace_summary.assertions} "
+            f"resolved={trace_summary.resolved} "
+            f"quarantined={trace_summary.quarantined} "
+            f"conflict_nodes={trace_summary.conflict_nodes} "
+            f"conflict_edges={trace_summary.conflict_edges} "
+            f"review_items={trace_summary.review_items} "
+            f"trace_matches={trace_matches} fixture=true"
+        )
         return 0
     if args.command == "data":
         if args.data_command != "fetch":

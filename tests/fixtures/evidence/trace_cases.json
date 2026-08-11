@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "assertions": [
+    {
+      "assertion_id": "accepted-sample-size",
+      "record_id": "experiment-001",
+      "field_name": "sample_size",
+      "value": 5,
+      "unit": null,
+      "path": "rule",
+      "locator": "asset:asset-table-001/table:table-main/cell:B3",
+      "confidence": 0.97
+    },
+    {
+      "assertion_id": "accepted-outcome-error",
+      "record_id": "experiment-001",
+      "field_name": "outcome_error",
+      "value": 0.1,
+      "unit": "%",
+      "path": "rule",
+      "locator": "asset:asset-table-001/table:table-main/cell:D3",
+      "confidence": 0.95
+    },
+    {
+      "assertion_id": "accepted-figure-midpoint",
+      "record_id": "experiment-001",
+      "field_name": "figure_midpoint",
+      "value": 5.0,
+      "unit": "h",
+      "path": "digitized",
+      "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+      "confidence": 0.94
+    },
+    {
+      "assertion_id": "rule-outcome-mean",
+      "record_id": "experiment-001",
+      "field_name": "outcome_mean",
+      "value": 1.2,
+      "unit": "%",
+      "path": "rule",
+      "locator": "asset:asset-table-001/table:table-main/cell:C3",
+      "confidence": 0.96
+    },
+    {
+      "assertion_id": "mock-outcome-mean",
+      "record_id": "experiment-001",
+      "field_name": "outcome_mean",
+      "value": 1.25,
+      "unit": "%",
+      "path": "mock",
+      "locator": "asset:asset-table-001/table:table-main/cell:C3",
+      "confidence": 0.72
+    },
+    {
+      "assertion_id": "broken-locator",
+      "record_id": "experiment-001",
+      "field_name": "missing_field",
+      "value": 42,
+      "unit": null,
+      "path": "rule",
+      "locator": "asset:asset-missing/table:unknown/cell:Z99",
+      "confidence": 0.30
+    }
+  ]
+}

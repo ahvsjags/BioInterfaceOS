@@ -1,0 +1,80 @@
+{
+  "edges": [
+    {
+      "edge_id": "conflict:rule-outcome-mean:mock-outcome-mean",
+      "field_name": "outcome_mean",
+      "from_assertion": "rule-outcome-mean",
+      "kind": "VALUE_CONFLICT",
+      "record_id": "experiment-001",
+      "to_assertion": "mock-outcome-mean"
+    }
+  ],
+  "fixture": true,
+  "nodes": [
+    {
+      "assertion_id": "accepted-sample-size",
+      "confidence": 0.97,
+      "field_name": "sample_size",
+      "locator": "asset:asset-table-001/table:table-main/cell:B3",
+      "path": "rule",
+      "record_id": "experiment-001",
+      "resolution_status": "RESOLVED",
+      "source_asset_id": "asset-table-001",
+      "unit": null,
+      "value": 5
+    },
+    {
+      "assertion_id": "accepted-outcome-error",
+      "confidence": 0.95,
+      "field_name": "outcome_error",
+      "locator": "asset:asset-table-001/table:table-main/cell:D3",
+      "path": "rule",
+      "record_id": "experiment-001",
+      "resolution_status": "RESOLVED",
+      "source_asset_id": "asset-table-001",
+      "unit": "%",
+      "value": 0.1
+    },
+    {
+      "assertion_id": "accepted-figure-midpoint",
+      "confidence": 0.94,
+      "field_name": "figure_midpoint",
+      "locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+      "path": "digitized",
+      "record_id": "experiment-001",
+      "resolution_status": "RESOLVED",
+      "source_asset_id": "asset-figure-digitize-001",
+      "unit": "h",
+      "value": 5.0
+    },
+    {
+      "assertion_id": "rule-outcome-mean",
+      "confidence": 0.96,
+      "field_name": "outcome_mean",
+      "locator": "asset:asset-table-001/table:table-main/cell:C3",
+      "path": "rule",
+      "record_id": "experiment-001",
+      "resolution_status": "RESOLVED",
+      "source_asset_id": "asset-table-001",
+      "unit": "%",
+      "value": 1.2
+    },
+    {
+      "assertion_id": "mock-outcome-mean",
+      "confidence": 0.72,
+      "field_name": "outcome_mean",
+      "locator": "asset:asset-table-001/table:table-main/cell:C3",
+      "path": "mock",
+      "record_id": "experiment-001",
+      "resolution_status": "RESOLVED",
+      "source_asset_id": "asset-table-001",
+      "unit": "%",
+      "value": 1.25
+    }
+  ],
+  "schema_version": 1,
+  "summary": {
+    "conflict_edges": 1,
+    "conflict_nodes": 2
+  }
+}
