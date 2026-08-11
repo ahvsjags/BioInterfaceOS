@@ -1,0 +1,321 @@
+{
+  "confidence_calibration": {
+    "HIGH": ">=0.85",
+    "LOW": "<0.65",
+    "MEDIUM": ">=0.65 and <0.85"
+  },
+  "figures": [
+    {
+      "caption": "Two-panel response plot with a linear and a logarithmic axis.",
+      "figure_id": "figure-001",
+      "panels": [
+        {
+          "axes": [
+            {
+              "axis_id": "A:x",
+              "confidence": 0.98,
+              "confidence_band": "HIGH",
+              "label": "Time (h)",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:A/axis[1]",
+              "orientation": "x",
+              "panel_id": "A",
+              "scale_type": "linear",
+              "source_asset_id": "asset-figure-001",
+              "tick_labels": [
+                "0",
+                "5",
+                "10"
+              ],
+              "tick_positions": [
+                0.0,
+                0.5,
+                1.0
+              ]
+            },
+            {
+              "axis_id": "A:y",
+              "confidence": 0.98,
+              "confidence_band": "HIGH",
+              "label": "Response (%)",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:A/axis[2]",
+              "orientation": "y",
+              "panel_id": "A",
+              "scale_type": "linear",
+              "source_asset_id": "asset-figure-001",
+              "tick_labels": [
+                "0",
+                "10",
+                "20"
+              ],
+              "tick_positions": [
+                1.0,
+                0.5,
+                0.0
+              ]
+            }
+          ],
+          "bbox": [
+            0.08,
+            0.12,
+            0.46,
+            0.48
+          ],
+          "confidence": 0.96,
+          "confidence_band": "HIGH",
+          "curve_candidates": [
+            {
+              "candidate_id": "A:curve:1",
+              "confidence": 0.82,
+              "confidence_band": "MEDIUM",
+              "label": "Control",
+              "legend_key": "Control",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:A/curve[4]",
+              "panel_id": "A",
+              "path_bbox": [
+                0.08,
+                0.48,
+                0.52,
+                0.82
+              ],
+              "path_point_count": 4,
+              "source_asset_id": "asset-figure-001",
+              "style": "black-solid"
+            },
+            {
+              "candidate_id": "A:curve:2",
+              "confidence": 0.82,
+              "confidence_band": "MEDIUM",
+              "label": "Treatment",
+              "legend_key": "Treatment",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:A/curve[5]",
+              "panel_id": "A",
+              "path_bbox": [
+                0.08,
+                0.25,
+                0.52,
+                0.88
+              ],
+              "path_point_count": 4,
+              "source_asset_id": "asset-figure-001",
+              "style": "red-solid"
+            }
+          ],
+          "figure_id": "figure-001",
+          "label": "A",
+          "legend_entries": [
+            {
+              "confidence": 0.93,
+              "confidence_band": "HIGH",
+              "label": "Control",
+              "legend_id": "A:legend:1",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:A/legend[3]/entry[1]",
+              "panel_id": "A",
+              "source_asset_id": "asset-figure-001",
+              "style": "black-solid"
+            },
+            {
+              "confidence": 0.93,
+              "confidence_band": "HIGH",
+              "label": "Treatment",
+              "legend_id": "A:legend:2",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:A/legend[3]/entry[2]",
+              "panel_id": "A",
+              "source_asset_id": "asset-figure-001",
+              "style": "red-solid"
+            }
+          ],
+          "locator": "asset:asset-figure-001/figure:figure-001/panel:A/panel",
+          "panel_id": "A",
+          "panel_type": "plot",
+          "review_items": [],
+          "source_asset_id": "asset-figure-001",
+          "supported": true,
+          "uncertainty_cues": [
+            {
+              "confidence": 0.88,
+              "confidence_band": "HIGH",
+              "cue_id": "A:uncertainty:1",
+              "cue_type": "SD",
+              "curve_label": "Treatment",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:A/error_bar[6]",
+              "panel_id": "A",
+              "source_asset_id": "asset-figure-001"
+            }
+          ]
+        },
+        {
+          "axes": [
+            {
+              "axis_id": "B:x",
+              "confidence": 0.98,
+              "confidence_band": "HIGH",
+              "label": "Particle size (nm)",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:B/axis[1]",
+              "orientation": "x",
+              "panel_id": "B",
+              "scale_type": "log",
+              "source_asset_id": "asset-figure-001",
+              "tick_labels": [
+                "1",
+                "10",
+                "100"
+              ],
+              "tick_positions": [
+                0.0,
+                0.5,
+                1.0
+              ]
+            },
+            {
+              "axis_id": "B:y",
+              "confidence": 0.98,
+              "confidence_band": "HIGH",
+              "label": "Signal",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:B/axis[2]",
+              "orientation": "y",
+              "panel_id": "B",
+              "scale_type": "linear",
+              "source_asset_id": "asset-figure-001",
+              "tick_labels": [
+                "0",
+                "1",
+                "2"
+              ],
+              "tick_positions": [
+                1.0,
+                0.5,
+                0.0
+              ]
+            }
+          ],
+          "bbox": [
+            0.54,
+            0.12,
+            0.92,
+            0.48
+          ],
+          "confidence": 0.96,
+          "confidence_band": "HIGH",
+          "curve_candidates": [
+            {
+              "candidate_id": "B:curve:1",
+              "confidence": 0.82,
+              "confidence_band": "MEDIUM",
+              "label": "Observed",
+              "legend_key": "Observed",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:B/curve[4]",
+              "panel_id": "B",
+              "path_bbox": [
+                0.12,
+                0.4,
+                0.7,
+                0.82
+              ],
+              "path_point_count": 3,
+              "source_asset_id": "asset-figure-001",
+              "style": "blue-circle"
+            }
+          ],
+          "figure_id": "figure-001",
+          "label": "B",
+          "legend_entries": [
+            {
+              "confidence": 0.93,
+              "confidence_band": "HIGH",
+              "label": "Observed",
+              "legend_id": "B:legend:1",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:B/legend[3]/entry[1]",
+              "panel_id": "B",
+              "source_asset_id": "asset-figure-001",
+              "style": "blue-circle"
+            }
+          ],
+          "locator": "asset:asset-figure-001/figure:figure-001/panel:B/panel",
+          "panel_id": "B",
+          "panel_type": "scatter",
+          "review_items": [],
+          "source_asset_id": "asset-figure-001",
+          "supported": true,
+          "uncertainty_cues": [
+            {
+              "confidence": 0.88,
+              "confidence_band": "HIGH",
+              "cue_id": "B:uncertainty:1",
+              "cue_type": "SE",
+              "curve_label": "Observed",
+              "locator": "asset:asset-figure-001/figure:figure-001/panel:B/error_bar[5]",
+              "panel_id": "B",
+              "source_asset_id": "asset-figure-001"
+            }
+          ]
+        }
+      ],
+      "source_asset_id": "asset-figure-001"
+    },
+    {
+      "caption": "Heatmap panel retained for qualitative review.",
+      "figure_id": "figure-002",
+      "panels": [
+        {
+          "axes": [],
+          "bbox": [
+            0.1,
+            0.1,
+            0.9,
+            0.9
+          ],
+          "confidence": 0.94,
+          "confidence_band": "HIGH",
+          "curve_candidates": [],
+          "figure_id": "figure-002",
+          "label": "C",
+          "legend_entries": [],
+          "locator": "asset:asset-figure-002/figure:figure-002/panel:C/panel",
+          "panel_id": "C",
+          "panel_type": "heatmap",
+          "review_items": [
+            {
+              "confidence": 0.94,
+              "figure_id": "figure-002",
+              "locator": "asset:asset-figure-002/figure:figure-002/panel:C/panel",
+              "panel_id": "C",
+              "reason": "UNSUPPORTED_PANEL_TYPE_HEATMAP",
+              "resolution": "MANUAL_REVIEW",
+              "review_id": "unsupported:figure-002:C",
+              "source_asset_id": "asset-figure-002"
+            }
+          ],
+          "source_asset_id": "asset-figure-002",
+          "supported": false,
+          "uncertainty_cues": []
+        }
+      ],
+      "source_asset_id": "asset-figure-002"
+    }
+  ],
+  "fixture": true,
+  "review_items": [
+    {
+      "confidence": 0.94,
+      "figure_id": "figure-002",
+      "locator": "asset:asset-figure-002/figure:figure-002/panel:C/panel",
+      "panel_id": "C",
+      "reason": "UNSUPPORTED_PANEL_TYPE_HEATMAP",
+      "resolution": "MANUAL_REVIEW",
+      "review_id": "unsupported:figure-002:C",
+      "source_asset_id": "asset-figure-002"
+    }
+  ],
+  "schema_version": 1,
+  "summary": {
+    "axes": 4,
+    "curve_candidates": 3,
+    "figures": 2,
+    "legend_entries": 3,
+    "panels": 3,
+    "review_items": 1,
+    "supported_panels": 2,
+    "uncertainty_cues": 2,
+    "unsupported_panels": 1
+  }
+}

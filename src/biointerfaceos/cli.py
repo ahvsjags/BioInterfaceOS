@@ -251,6 +251,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     extract_tables_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized local table fixture"
     )
+    extract_figures_parser = extract_subparsers.add_parser(
+        "figures", help="detect figure panels, axes, legends, and curve candidates"
+    )
+    extract_figures_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized local figure fixture"
+    )
 
     data_parser = subparsers.add_parser("data", help="policy-gated data operations")
     data_subparsers = data_parser.add_subparsers(dest="data_command")
@@ -383,28 +389,49 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         parser.parse_args(["source", "--help"])
         return 0
     if args.command == "extract":
-        if args.extract_command != "tables":
+        if args.extract_command not in {"tables", "figures"}:
             parser.parse_args(["extract", "--help"])
             return 0
         root = find_repository_root()
         if root is None:
-            print("TABLE_SEMANTICS_INVALID: repository root not found", file=sys.stderr)
+            print("EXTRACT_INVALID: repository root not found", file=sys.stderr)
             return 1
         if not args.fixture:
-            print("TABLE_SEMANTICS_INVALID: --fixture is required", file=sys.stderr)
+            print("EXTRACT_INVALID: --fixture is required", file=sys.stderr)
             return 2
-        from biointerfaceos.table_semantics import TableSemanticsError, TableSemanticsParser
+        if args.extract_command == "tables":
+            from biointerfaceos.table_semantics import TableSemanticsError, TableSemanticsParser
+
+            try:
+                semantic_summary = TableSemanticsParser(root).run()
+            except (OSError, TableSemanticsError) as exc:
+                print(f"TABLE_SEMANTICS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"TABLE_SEMANTICS_VALID tables={semantic_summary.tables} "
+                f"arms={semantic_summary.arms} "
+                f"measurements={semantic_summary.measurements} "
+                f"review_items={semantic_summary.review_items} fixture=true"
+            )
+            return 0
+
+        from biointerfaceos.figure_detector import FigureDetectionError, FigureDetector
 
         try:
-            semantic_summary = TableSemanticsParser(root).run()
-        except (OSError, TableSemanticsError) as exc:
-            print(f"TABLE_SEMANTICS_INVALID: {exc}", file=sys.stderr)
+            figure_summary = FigureDetector(root).run()
+        except (OSError, FigureDetectionError) as exc:
+            print(f"FIGURE_DETECTION_INVALID: {exc}", file=sys.stderr)
             return 1
         print(
-            f"TABLE_SEMANTICS_VALID tables={semantic_summary.tables} "
-            f"arms={semantic_summary.arms} "
-            f"measurements={semantic_summary.measurements} "
-            f"review_items={semantic_summary.review_items} fixture=true"
+            f"FIGURE_DETECTION_VALID figures={figure_summary.figures} "
+            f"panels={figure_summary.panels} "
+            f"supported_panels={figure_summary.supported_panels} "
+            f"unsupported_panels={figure_summary.unsupported_panels} "
+            f"axes={figure_summary.axes} "
+            f"legend_entries={figure_summary.legend_entries} "
+            f"curve_candidates={figure_summary.curve_candidates} "
+            f"uncertainty_cues={figure_summary.uncertainty_cues} "
+            f"review_items={figure_summary.review_items} fixture=true"
         )
         return 0
     if args.command == "data":
