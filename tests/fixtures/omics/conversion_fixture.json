@@ -45,6 +45,17 @@
       "declared_size_bytes": 1024,
       "instrument": "Orbitrap Fusion",
       "expected_status": "REFUSED_UNSUPPORTED_FORMAT"
+    },
+    {
+      "project_accession": "PXD000005",
+      "file_name": "bad-checksum.mzML",
+      "kind": "MZML",
+      "access": "PUBLIC",
+      "input_path": "tests/fixtures/omics/conversion/mini.mzML",
+      "input_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "declared_size_bytes": 171,
+      "instrument": "Orbitrap Fusion",
+      "expected_status": "REFUSED_CHECKSUM"
     }
   ]
 }

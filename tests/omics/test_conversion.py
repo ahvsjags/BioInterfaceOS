@@ -26,9 +26,9 @@ class ConversionWorkflowTests(unittest.TestCase):
             workflow = ConversionWorkflow(self.project_root, output_root=output_root)
             first = workflow.run()
             second = workflow.run()
-            self.assertEqual(first.records, 4)
+            self.assertEqual(first.records, 5)
             self.assertEqual(first.completed, 1)
-            self.assertEqual(first.refused, 3)
+            self.assertEqual(first.refused, 4)
             self.assertEqual(first.resumed, 0)
             self.assertEqual(second.resumed, 1)
             self.assertEqual(first.receipt_path.read_bytes(), second.receipt_path.read_bytes())
@@ -42,6 +42,7 @@ class ConversionWorkflowTests(unittest.TestCase):
                     "REFUSED_RESTRICTED": 1,
                     "REFUSED_SIZE": 1,
                     "REFUSED_UNSUPPORTED_FORMAT": 1,
+                    "REFUSED_CHECKSUM": 1,
                 },
             )
             self.assertTrue(manifest["raw_downloaded"] is False)
@@ -51,7 +52,7 @@ class ConversionWorkflowTests(unittest.TestCase):
         with redirect_stdout(output):
             exit_code = cli.main(["omics", "convert", "--fixture"])
         self.assertEqual(exit_code, 0)
-        self.assertIn("CONVERSION_VALID records=4 completed=1 refused=3", output.getvalue())
+        self.assertIn("CONVERSION_VALID records=5 completed=1 refused=4", output.getvalue())
 
 
 if __name__ == "__main__":
