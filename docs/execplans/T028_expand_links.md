@@ -27,9 +27,9 @@ Every expansion edge records parent candidate, edge type, target source/accessio
 
 ## Progress
 
-- [ ] Define expansion graph and edge receipts.
-- [ ] Implement bounded fixture-backed expansion.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define expansion graph and edge receipts.
+- [x] Implement bounded fixture-backed expansion.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -41,6 +41,10 @@ Every expansion edge records parent candidate, edge type, target source/accessio
 - biointerfaceos lockbox self-test
 - biointerfaceos release verify --fixture
 - git diff --check
+
+## Completion note
+
+T028 completed with implementation commit 5cfec88. The fixture-backed depth-two run produced 44 raw edges, 17 unique normalized targets, 16 policy admissions, and one quarantine. Completion evidence is recorded in reports/T028_expand_links.md.
 
 ## Failure recovery
 
