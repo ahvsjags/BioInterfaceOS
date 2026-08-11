@@ -27,10 +27,10 @@ Every digitized point retains the source figure/panel/candidate locator and the 
 
 ## Progress
 
-- [ ] Define digitization, calibration, uncertainty, and QC-overlay schemas.
-- [ ] Implement fixture-backed curve/bar/scatter recovery and uncertainty propagation.
-- [ ] Quarantine unsupported or poor-quality candidates with review evidence.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define digitization, calibration, uncertainty, and QC-overlay schemas.
+- [x] Implement fixture-backed curve/bar/scatter recovery and uncertainty propagation.
+- [x] Quarantine unsupported or poor-quality candidates with review evidence.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Preserve raw candidate geometry and calibration inputs. Quarantine candidates wi
 ## Outputs
 
 digitized points, calibration and uncertainty records, QC overlays, review queue, fixtures/tests, CLI integration, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T037 completed with implementation commit 8e4388b. Linear and logarithmic calibration, curve/bar/scatter recovery, uncertainty propagation, QC overlays, and low-quality quarantine all pass the fixture acceptance gates.
