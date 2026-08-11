@@ -27,9 +27,9 @@ Every queue item includes source identity, URL, expected SHA-256, expected conte
 
 ## Progress
 
-- [ ] Define download queue and asset receipt schemas.
-- [ ] Implement gated streaming download, resume, verification, and quarantine.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define download queue and asset receipt schemas.
+- [x] Implement gated streaming download, resume, verification, and quarantine.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -44,6 +44,10 @@ Every queue item includes source identity, URL, expected SHA-256, expected conte
 - git diff --check
 - content-type/size/hash and resume assertions
 - append-only receipt and manifest validation
+
+## Completion note
+
+T031 completed with implementation commit 42783ef and fixture release a24d448. The downloader promoted two verified assets, quarantined two integrity failures, skipped two policy failures before payload reads, and resumed six prior receipts without duplication. Completion evidence is recorded in reports/T031_asset_downloader.md.
 
 ## Failure recovery
 
