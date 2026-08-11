@@ -1,0 +1,88 @@
+{
+  "fixture": true,
+  "formulations": [
+    {
+      "components": [
+        {
+          "entity_id": "CHEBI:DSPC",
+          "fraction": 0.6,
+          "fraction_basis": "mass_fraction",
+          "mention_id": "mat-dspc",
+          "role": "core_material",
+          "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+          "status": "RESOLVED"
+        },
+        {
+          "entity_id": "CHEBI:46794",
+          "fraction": 0.35,
+          "fraction_basis": "mass_fraction",
+          "mention_id": "mat-peg",
+          "role": "coating_material",
+          "source_locator": "asset:asset-table-001/table:table-main/cell:B3",
+          "status": "RESOLVED"
+        },
+        {
+          "entity_id": "CHEBI:RGD",
+          "fraction": 0.05,
+          "fraction_basis": "mass_fraction",
+          "mention_id": "mat-rgd",
+          "role": "ligand",
+          "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+          "status": "RESOLVED"
+        }
+      ],
+      "edges": [
+        {
+          "edge_id": "formulation-valid:CHEBI:DSPC->CHEBI:46794",
+          "formulation_id": "formulation-valid",
+          "relation": "FORMULATION_COMPONENT",
+          "source_entity_id": "CHEBI:DSPC",
+          "status": "RESOLVED",
+          "target_entity_id": "CHEBI:46794"
+        },
+        {
+          "edge_id": "formulation-valid:CHEBI:DSPC->CHEBI:RGD",
+          "formulation_id": "formulation-valid",
+          "relation": "FORMULATION_COMPONENT",
+          "source_entity_id": "CHEBI:DSPC",
+          "status": "RESOLVED",
+          "target_entity_id": "CHEBI:RGD"
+        }
+      ],
+      "formulation_id": "formulation-valid",
+      "fraction_basis": "mass_fraction",
+      "fraction_total": 1.0,
+      "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+      "valid": true
+    },
+    {
+      "components": [
+        {
+          "entity_id": "CHEBI:DSPC",
+          "fraction": 0.7,
+          "fraction_basis": "mass_fraction",
+          "mention_id": "mat-dspc",
+          "role": "core_material",
+          "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+          "status": "RESOLVED"
+        },
+        {
+          "entity_id": null,
+          "fraction": 0.5,
+          "fraction_basis": "mass_fraction",
+          "mention_id": "mat-tradename",
+          "role": "coating_material",
+          "source_locator": "asset:asset-table-001/table:table-main/cell:H3",
+          "status": "UNRESOLVED"
+        }
+      ],
+      "edges": [],
+      "formulation_id": "formulation-invalid",
+      "fraction_basis": "mass_fraction",
+      "fraction_total": 1.2,
+      "source_locator": "asset:asset-table-001/table:table-main/cell:H3",
+      "valid": false
+    }
+  ],
+  "schema_version": 1
+}

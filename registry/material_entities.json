@@ -1,0 +1,115 @@
+{
+  "entities": [
+    {
+      "candidate_aliases": [
+        {
+          "alias_kind": "abbreviation",
+          "canonical_label": "1,2-distearoyl-sn-glycero-3-phosphocholine",
+          "confidence": 0.98,
+          "entity_id": "CHEBI:DSPC",
+          "material_class": "lipid",
+          "resolution_method": "CURATED_ALIAS",
+          "structure_id": "CHEBI:47785"
+        }
+      ],
+      "mention_id": "mat-dspc",
+      "raw_text": "DSPC",
+      "resolved_entity": {
+        "alias_kind": "abbreviation",
+        "canonical_label": "1,2-distearoyl-sn-glycero-3-phosphocholine",
+        "confidence": 0.98,
+        "entity_id": "CHEBI:DSPC",
+        "material_class": "lipid",
+        "resolution_method": "CURATED_ALIAS",
+        "structure_id": "CHEBI:47785"
+      },
+      "role_hint": "core_material",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:A3",
+      "status": "RESOLVED"
+    },
+    {
+      "candidate_aliases": [
+        {
+          "alias_kind": "name_variant",
+          "canonical_label": "polyethylene glycol",
+          "confidence": 0.93,
+          "entity_id": "CHEBI:46794",
+          "material_class": "polymer",
+          "resolution_method": "CURATED_ALIAS",
+          "structure_id": null
+        }
+      ],
+      "mention_id": "mat-peg",
+      "raw_text": "PEG 2000",
+      "resolved_entity": {
+        "alias_kind": "name_variant",
+        "canonical_label": "polyethylene glycol",
+        "confidence": 0.93,
+        "entity_id": "CHEBI:46794",
+        "material_class": "polymer",
+        "resolution_method": "CURATED_ALIAS",
+        "structure_id": null
+      },
+      "role_hint": "coating_material",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:B3",
+      "status": "RESOLVED"
+    },
+    {
+      "candidate_aliases": [
+        {
+          "alias_kind": "name_variant",
+          "canonical_label": "arginine-glycine-aspartate ligand",
+          "confidence": 0.91,
+          "entity_id": "CHEBI:RGD",
+          "material_class": "ligand",
+          "resolution_method": "CURATED_ALIAS",
+          "structure_id": "CHEBI:16670"
+        }
+      ],
+      "mention_id": "mat-rgd",
+      "raw_text": "RGD peptide",
+      "resolved_entity": {
+        "alias_kind": "name_variant",
+        "canonical_label": "arginine-glycine-aspartate ligand",
+        "confidence": 0.91,
+        "entity_id": "CHEBI:RGD",
+        "material_class": "ligand",
+        "resolution_method": "CURATED_ALIAS",
+        "structure_id": "CHEBI:16670"
+      },
+      "role_hint": "ligand",
+      "source_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+      "status": "RESOLVED"
+    },
+    {
+      "candidate_aliases": [
+        {
+          "alias_kind": "trade_name",
+          "canonical_label": "NanoCoat-X candidate A",
+          "confidence": 0.56,
+          "entity_id": "TRADE:NAN0COAT_X_A",
+          "material_class": "polymer",
+          "resolution_method": "TRADE_NAME_CANDIDATE",
+          "structure_id": null
+        },
+        {
+          "alias_kind": "trade_name",
+          "canonical_label": "NanoCoat-X candidate B",
+          "confidence": 0.44,
+          "entity_id": "TRADE:NAN0COAT_X_B",
+          "material_class": "polymer",
+          "resolution_method": "TRADE_NAME_CANDIDATE",
+          "structure_id": null
+        }
+      ],
+      "mention_id": "mat-tradename",
+      "raw_text": "NanoCoat-X",
+      "resolved_entity": null,
+      "role_hint": "coating_material",
+      "source_locator": "asset:asset-table-001/table:table-main/cell:H3",
+      "status": "AMBIGUOUS"
+    }
+  ],
+  "fixture": true,
+  "schema_version": 1
+}
