@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "minimum_confidence": 0.85,
+  "expected_admitted_fields": 3,
+  "expected_excluded_fields": 2
+}

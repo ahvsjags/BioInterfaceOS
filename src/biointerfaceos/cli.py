@@ -328,6 +328,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_silver_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized Silver fixture"
     )
+    data_gold_parser = data_subparsers.add_parser(
+        "build-gold-auto", help="build an audited fixture Gold-auto subset"
+    )
+    data_gold_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized Gold-auto fixture"
+    )
     data_validate_parser = data_subparsers.add_parser(
         "validate", help="validate a normalized data release"
     )
@@ -337,6 +343,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     data_validate_silver_parser.add_argument(
         "--fixture", action="store_true", help="validate the sanitized Silver release"
+    )
+    data_validate_gold_parser = data_validate_subparsers.add_parser(
+        "gold-auto", help="validate the immutable fixture Gold-auto release"
+    )
+    data_validate_gold_parser.add_argument(
+        "--fixture", action="store_true", help="validate the sanitized Gold-auto release"
     )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
@@ -662,7 +674,13 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "data":
-        if args.data_command not in {"fetch", "build-bronze", "build-silver", "validate"}:
+        if args.data_command not in {
+            "fetch",
+            "build-bronze",
+            "build-silver",
+            "build-gold-auto",
+            "validate",
+        }:
             parser.parse_args(["data", "--help"])
             return 0
         root = find_repository_root()
@@ -709,9 +727,43 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"quarantined_rows={silver_summary.quarantined_rows} fixture=true"
             )
             return 0
+        if args.data_command == "build-gold-auto":
+            from biointerfaceos.gold_auto import GoldAutoBuilder, GoldAutoError
+
+            try:
+                gold_summary = GoldAutoBuilder(root).build(fixture=True)
+            except (GoldAutoError, OSError) as exc:
+                print(f"GOLD_AUTO_BUILD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"GOLD_AUTO_BUILD_VALID release_id={gold_summary.release_id} "
+                f"manifest_hash={gold_summary.manifest_hash} "
+                f"admitted_fields={gold_summary.admitted_fields} "
+                f"excluded_fields={gold_summary.excluded_fields} "
+                f"agreement_fields={gold_summary.agreement_fields} "
+                f"disagreement_fields={gold_summary.disagreement_fields} "
+                f"reverse_traces={gold_summary.reverse_traces} fixture=true"
+            )
+            return 0
         if args.data_command == "validate":
-            if args.data_validate_command != "silver":
+            if args.data_validate_command not in {"silver", "gold-auto"}:
                 parser.parse_args(["data", "validate", "--help"])
+                return 0
+            if args.data_validate_command == "gold-auto":
+                from biointerfaceos.gold_auto import GoldAutoBuilder, GoldAutoError
+
+                try:
+                    gold_summary = GoldAutoBuilder(root).validate(fixture=True)
+                except (GoldAutoError, OSError) as exc:
+                    print(f"GOLD_AUTO_VALIDATE_INVALID: {exc}", file=sys.stderr)
+                    return 1
+                print(
+                    f"GOLD_AUTO_VALIDATE_VALID release_id={gold_summary.release_id} "
+                    f"manifest_hash={gold_summary.manifest_hash} "
+                    f"admitted_fields={gold_summary.admitted_fields} "
+                    f"excluded_fields={gold_summary.excluded_fields} "
+                    f"reverse_traces={gold_summary.reverse_traces} fixture=true"
+                )
                 return 0
             from biointerfaceos.silver_release import SilverReleaseBuilder, SilverReleaseError
 

@@ -1,0 +1,1 @@
+{"admitted_fields":3,"agreement_fields":4,"consensus_fields":5,"disagreement_fields":1,"excluded_fields":2,"exclusion_reason_counts":{"CONFIDENCE_BELOW_THRESHOLD":1,"CONSENSUS_DISAGREEMENT_OR_REVIEW":1,"EVIDENCE_VALUE_CONFLICT":1,"NO_RESOLVED_EVIDENCE_ASSERTION":1},"expert_gold_admitted":0,"minimum_confidence":0.85,"reverse_traces":3,"schema_version":1}
