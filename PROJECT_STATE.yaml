@@ -4,7 +4,6 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks:
-  - T018
   - T019
   - T020
   - T021
@@ -12,8 +11,8 @@ ready_tasks:
   - T023
   - T024
   - T025
-current_task: T017
-active_execplan: docs/execplans/T017_europe_pmc.md
+current_task: T018
+active_execplan: docs/execplans/T018_pmc_oa.md
 completed_tasks:
   - T000
   - T001
@@ -32,6 +31,7 @@ completed_tasks:
   - T014
   - T015
   - T016
+  - T017
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:

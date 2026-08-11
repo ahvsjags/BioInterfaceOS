@@ -25,9 +25,9 @@ EuropePmcAdapter uses official endpoints under www.ebi.ac.uk only, a fixed anony
 
 ## Progress
 
-- [x] 2026-08-12 ? Read T017 contract, Europe PMC official endpoint templates in GOAL, adapter contract, policy, and network client.
-- [ ] Implement and test the Europe PMC adapter.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] 2026-08-12 UTC Read T017 contract, Europe PMC official endpoint templates in GOAL, adapter contract, policy, and network client.
+- [x] Implement and test the Europe PMC adapter.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Discoveries
 
@@ -59,4 +59,4 @@ src/biointerfaceos/sources/europe_pmc.py, tests/sources/test_europe_pmc.py, test
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T017 completed with implementation commit a8564b8ef06f9de06f45705aeaf4619fbf9033f4 and final acceptance evidence recorded in reports/T017_europe_pmc.md.
