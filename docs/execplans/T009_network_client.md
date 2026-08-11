@@ -27,7 +27,7 @@ This task does not access scientific sources, download data, implement source po
 
 - [x] 2026-08-12 — Read the execution contract, current state, task row, and T008 plan/evidence; created this ExecPlan.
 - [x] 2026-08-12 ? Implemented stdlib-only client, deterministic pagination, resumable downloads, and 8 fully mocked tests.
-- [ ] Run final acceptance gates and record completion evidence.
+- [x] 2026-08-12 ? Offline lock, sync, full check (33 passed), focused tests (8 passed), compileall, state, ledger, and containment gates passed.
 
 ## Discoveries
 
@@ -57,4 +57,4 @@ Mock failures leave no destination promotion. Interrupted or checksum-failed dow
 
 ## Completion note
 
-Pending implementation and acceptance validation.
+T009 is complete. The anonymous client and fully mocked network tests passed all acceptance gates. The implementation commit is 688520342c07322aa79495bb9ccb6e030a094dd4 and the completion evidence is in reports/T009_network.md and the sequence-4 task ledger record. T010 is READY/current. No public scientific data, models, credentials, or locked-test payloads were accessed.
