@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Response","schema_version":1,"type":"object","required":["response_id","endpoint","value"],"properties":{"response_id":{"type":"string"},"endpoint":{"type":"string","enum":["uptake","toxicity","coagulation","complement","biodistribution"]},"value":{"type":"number"}},"additionalProperties":false}

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Corona","schema_version":1,"type":"object","required":["corona_id","material_id","proteins"],"properties":{"corona_id":{"type":"string"},"material_id":{"type":"string"},"proteins":{"type":"array","minItems":1,"items":{"type":"string"}}},"additionalProperties":false}

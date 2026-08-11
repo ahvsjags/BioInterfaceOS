@@ -1,0 +1,3 @@
+schema: claim
+schema_version: 1
+data: {claim_id: claim-1, text: A measured association, status: candidate}

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Source","schema_version":1,"type":"object","required":["source_id","url","access"],"properties":{"source_id":{"type":"string"},"url":{"type":"string"},"access":{"type":"string","enum":["admitted","rejected"]}},"additionalProperties":false}

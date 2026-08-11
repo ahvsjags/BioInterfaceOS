@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Material","schema_version":1,"type":"object","required":["material_id","material_class","size_nm"],"properties":{"material_id":{"type":"string"},"material_class":{"type":"string","enum":["metal","polymer","lipid","silica"]},"size_nm":{"type":"number","minimum":0}},"additionalProperties":false}

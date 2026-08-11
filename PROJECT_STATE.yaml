@@ -3,10 +3,9 @@ manual_version: 1.0.0
 manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
-ready_tasks:
-  - T007
+ready_tasks: []
 current_task: T007
-active_execplan: null
+active_execplan: docs/execplans/T007_schema_validation.md
 completed_tasks:
   - T000
   - T001

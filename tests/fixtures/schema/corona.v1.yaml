@@ -1,0 +1,3 @@
+schema: corona
+schema_version: 1
+data: {corona_id: cor-1, material_id: mat-1, proteins: [ALB, APOA1]}

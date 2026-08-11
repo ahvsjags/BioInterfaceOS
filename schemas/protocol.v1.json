@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Protocol","schema_version":1,"type":"object","required":["protocol_id","duration_minutes","temperature_c"],"properties":{"protocol_id":{"type":"string"},"duration_minutes":{"type":"integer","minimum":0},"temperature_c":{"type":"number","minimum":0,"maximum":100}},"additionalProperties":false}

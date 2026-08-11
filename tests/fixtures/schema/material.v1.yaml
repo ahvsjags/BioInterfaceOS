@@ -1,0 +1,3 @@
+schema: material
+schema_version: 1
+data: {material_id: mat-1, material_class: silica, size_nm: 80.5}

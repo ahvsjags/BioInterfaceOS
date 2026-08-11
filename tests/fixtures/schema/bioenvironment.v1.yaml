@@ -1,0 +1,3 @@
+schema: bioenvironment
+schema_version: 1
+data: {environment_id: env-1, medium: plasma, species: human}

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Evidence","schema_version":1,"type":"object","required":["evidence_id","source_id","raw_value","confidence"],"properties":{"evidence_id":{"type":"string"},"source_id":{"type":"string"},"raw_value":{"type":"string"},"confidence":{"type":"number","minimum":0,"maximum":1}},"additionalProperties":false}

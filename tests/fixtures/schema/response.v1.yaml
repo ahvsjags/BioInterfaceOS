@@ -1,0 +1,3 @@
+schema: response
+schema_version: 1
+data: {response_id: res-1, endpoint: uptake, value: 0.42}

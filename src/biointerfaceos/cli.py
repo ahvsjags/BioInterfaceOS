@@ -165,6 +165,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     state_subparsers.add_parser("validate", help="validate PROJECT_STATE.yaml and TASKS.tsv")
     state_subparsers.add_parser("next", help="print the next dependency-satisfied READY task")
 
+    schema_parser = subparsers.add_parser("schema", help="validate versioned schemas")
+    schema_subparsers = schema_parser.add_subparsers(dest="schema_command")
+    schema_subparsers.add_parser("validate-all", help="validate all schemas and fixtures")
+
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
     return parser
@@ -203,6 +207,23 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print("NO_READY_TASK")
             return 1
         print(task.id)
+        return 0
+    if args.command == "schema":
+        if args.schema_command is None:
+            parser.parse_args(["schema", "--help"])
+            return 0
+        from biointerfaceos.schema import SchemaError, validate_all
+
+        root = find_repository_root()
+        if root is None:
+            print("SCHEMA_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            configs = validate_all(root)
+        except SchemaError as exc:
+            print(f"SCHEMA_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(f"SCHEMA_VALID schemas={len(configs)} fixtures={len(configs)}")
         return 0
     if args.command in FUTURE_COMMANDS:
         return not_implemented(args.command)

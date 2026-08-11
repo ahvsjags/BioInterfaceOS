@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Bioenvironment","schema_version":1,"type":"object","required":["environment_id","medium","species"],"properties":{"environment_id":{"type":"string"},"medium":{"type":"string","enum":["plasma","serum","buffer"]},"species":{"type":"string"}},"additionalProperties":false}
