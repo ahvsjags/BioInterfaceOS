@@ -1,0 +1,1 @@
+{"data":{"id":"abc12","type":"nodes","attributes":{"title":"OSF analysis release","date_created":"2026-07-20T00:00:00Z","license":{"id":"cc0-1.0","name":"CC0 1.0"}},"relationships":{"files":{"links":{"related":{"href":"https://api.osf.io/v2/nodes/abc12/files/osfstorage/"}}}}}}

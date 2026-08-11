@@ -208,6 +208,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     ontology_sync_parser.add_argument(
         "--dry-run", action="store_true", help="do not contact official endpoints"
     )
+    repository_parser = subparsers.add_parser(
+        "repository", help="inspect public repository metadata"
+    )
+    repository_subparsers = repository_parser.add_subparsers(dest="repository_command")
+    repository_sync_parser = repository_subparsers.add_parser(
+        "sync", help="plan a bounded repository metadata sync"
+    )
+    repository_sync_parser.add_argument(
+        "--dry-run", action="store_true", help="do not contact public providers"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -411,11 +421,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         if not args.dry_run:
             print("ONTOLOGY_INVALID: --dry-run is required for this command", file=sys.stderr)
             return 2
-        from biointerfaceos.sources.ontology import HOSTS, SOURCE_NAMES
+        from biointerfaceos.sources.ontology import HOSTS as ontology_hosts
+        from biointerfaceos.sources.ontology import SOURCE_NAMES
 
         print(
             f"ONTOLOGY_SYNC_DRY_RUN sources={len(SOURCE_NAMES)} "
-            f"hosts={','.join(HOSTS)} network=false binary_assets=0"
+            f"hosts={','.join(ontology_hosts)} network=false binary_assets=0"
+        )
+        return 0
+    if args.command == "repository":
+        if args.repository_command != "sync":
+            parser.parse_args(["repository", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("REPOSITORY_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.dry_run:
+            print("REPOSITORY_INVALID: --dry-run is required for this command", file=sys.stderr)
+            return 2
+        from biointerfaceos.sources.repositories import HOSTS as repository_hosts
+        from biointerfaceos.sources.repositories import PROVIDERS
+
+        print(
+            f"REPOSITORY_SYNC_DRY_RUN providers={len(PROVIDERS)} "
+            f"hosts={','.join(repository_hosts)} network=false binary_assets=0"
         )
         return 0
     if args.command == "storage":

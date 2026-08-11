@@ -40,6 +40,15 @@ class CliTests(unittest.TestCase):
         self.assertIn("network=false", output.getvalue())
         self.assertIn("binary_assets=0", output.getvalue())
 
+    def test_repository_sync_dry_run_is_network_free(self) -> None:
+        output = io.StringIO()
+        with redirect_stdout(output):
+            exit_code = cli.main(["repository", "sync", "--dry-run"])
+        self.assertEqual(0, exit_code)
+        self.assertIn("REPOSITORY_SYNC_DRY_RUN", output.getvalue())
+        self.assertIn("network=false", output.getvalue())
+        self.assertIn("binary_assets=0", output.getvalue())
+
     def test_future_commands_are_explicitly_not_implemented(self) -> None:
         for command in cli.FUTURE_COMMANDS:
             with self.subTest(command=command):
