@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T046
-active_execplan: docs/execplans/T046_bronze_data_release.md
+current_task: T047
+active_execplan: docs/execplans/T047_silver_data_release.md
 completed_tasks:
   - T000
   - T001
@@ -53,10 +53,10 @@ completed_tasks:
   - T043
   - T044
   - T045
+  - T046
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T047
   - T048
   - T049
   - T050
@@ -124,8 +124,8 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: c0495e6
-data_release: null
+last_successful_commit: ab11e28
+data_release: bioif-bronze-54639b3ded1a4d4d
 benchmark_release: null
 model_release: null
 freeze:
