@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T025
-active_execplan: docs/execplans/T025_nanodatabase_audit.md
+current_task: T026
+active_execplan: docs/execplans/T026_query_matrix.md
 completed_tasks:
   - T000
   - T001
@@ -32,10 +32,10 @@ completed_tasks:
   - T022
   - T023
   - T024
+  - T025
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T026
   - T027
   - T028
   - T029
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 4a438421d4de44fc68acf07e08cfa0e94b6ec2fc
+last_successful_commit: d7d5d3f8a5e5df4bf582c377985b78cab8d138bf
 data_release: null
 benchmark_release: null
 model_release: null

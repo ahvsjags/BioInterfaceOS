@@ -18,7 +18,7 @@ Every candidate receives a decision record with provider URL, anonymous-access e
 
 ## Candidate set
 
-The initial audit will cover NanoCommons Knowledge Base, eNanoMapper/nanomaterial registry services, Nanomaterial-Biological Interactions Knowledgebase candidates, PubChem/ChEMBL as already-admitted substitutes, and public supplementary nanomaterial repositories reachable through Zenodo/Figshare/OSF. Candidate names are hypotheses until endpoint and license evidence is recorded.
+The audit covers NanoCommons Knowledge Base, eNanoMapper, the Nanomaterial-Biological Interactions Knowledgebase, nanoPharos, and public substitutes through PubChem/ChEMBL and Zenodo/Figshare/OSF.
 
 ## Implementation plan
 
@@ -32,15 +32,16 @@ The initial audit will cover NanoCommons Knowledge Base, eNanoMapper/nanomateria
 
 ## Progress
 
-- [ ] Read and pin official candidate endpoint and license contracts.
-- [ ] Complete anonymous-access and schema audit.
-- [ ] Write admission report and run acceptance gates.
+- [x] Read and pin official candidate endpoint and license contracts.
+- [x] Complete anonymous-access and schema audit.
+- [x] Write admission report and run acceptance gates.
 
 ## Validation
 
 - UV_OFFLINE=1 uv lock --check
 - UV_OFFLINE=1 uv sync --frozen --python 3.11
 - UV_OFFLINE=1 make check
+- biointerfaceos source audit-specialized
 - biointerfaceos source policy self-test
 - biointerfaceos catalog check
 - biointerfaceos state validate
@@ -54,4 +55,8 @@ If a candidate is unavailable or unclear, preserve the exact evidence URL and cl
 
 ## Outputs
 
-reports/NANODATABASE_ADMISSION.md, audit fixtures/tests, this ExecPlan, state advancement, and task-ledger evidence.
+reports/NANODATABASE_ADMISSION.md, tests/fixtures/nanodatabases/admission_decisions.json, tests/test_nanodatabase_audit.py, src/biointerfaceos/nanodatabase_audit.py, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T025 completed with implementation commit d7d5d3f8a5e5df4bf582c377985b78cab8d138bf. Final acceptance evidence is recorded in reports/T025_nanodatabase_audit.md.
