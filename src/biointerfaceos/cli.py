@@ -286,6 +286,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--locator", default=None, help="optionally print reverse-trace match count"
     )
 
+    normalize_parser = subparsers.add_parser("normalize", help="normalize units and uncertainty")
+    normalize_subparsers = normalize_parser.add_subparsers(dest="normalize_command")
+    normalize_units_parser = normalize_subparsers.add_parser(
+        "units", help="normalize fixture quantities through the unit registry"
+    )
+    normalize_units_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized unit fixture"
+    )
+
     data_parser = subparsers.add_parser("data", help="policy-gated data operations")
     data_subparsers = data_parser.add_subparsers(dest="data_command")
     data_fetch_parser = data_subparsers.add_parser(
@@ -506,6 +515,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"uncertainty_records={digitization_summary.uncertainty_records} "
                 f"review_items={digitization_summary.review_items} fixture=true"
             )
+        return 0
+    if args.command == "normalize":
+        if args.normalize_command != "units":
+            parser.parse_args(["normalize", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("NORMALIZE_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("NORMALIZE_INVALID: --fixture is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.unit_normalizer import UnitNormalizationError, UnitNormalizer
+
+        try:
+            unit_summary = UnitNormalizer(root).run()
+        except (OSError, UnitNormalizationError) as exc:
+            print(f"UNIT_NORMALIZATION_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"UNIT_NORMALIZATION_VALID assertions={unit_summary.assertions} "
+            f"normalized={unit_summary.normalized} "
+            f"review_items={unit_summary.review_items} "
+            f"uncertainty_records={unit_summary.uncertainty_records} fixture=true"
+        )
         return 0
     if args.command == "evidence":
         if args.evidence_command != "trace":

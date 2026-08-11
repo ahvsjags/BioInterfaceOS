@@ -1,0 +1,226 @@
+{
+  "assertions": [
+    {
+      "assertion_id": "size-001",
+      "clarification_reason": null,
+      "conversion_factor": 1e-09,
+      "dimension": "length",
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:C3",
+      "normalized_uncertainty": 2e-09,
+      "normalized_value": 1e-08,
+      "quantity": "particle_size",
+      "raw_uncertainty": 2.0,
+      "raw_unit": "nm",
+      "raw_value": 10.0,
+      "relative_uncertainty": 0.2,
+      "status": "NORMALIZED",
+      "target_unit": "m"
+    },
+    {
+      "assertion_id": "time-001",
+      "clarification_reason": null,
+      "conversion_factor": 3600.0,
+      "dimension": "time",
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:D3",
+      "normalized_uncertainty": null,
+      "normalized_value": 7200.0,
+      "quantity": "incubation_time",
+      "raw_uncertainty": null,
+      "raw_unit": "h",
+      "raw_value": 2.0,
+      "relative_uncertainty": null,
+      "status": "NORMALIZED",
+      "target_unit": "s"
+    },
+    {
+      "assertion_id": "concentration-001",
+      "clarification_reason": null,
+      "conversion_factor": 1.0,
+      "dimension": "concentration",
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:E3",
+      "normalized_uncertainty": 0.5,
+      "normalized_value": 2.0,
+      "quantity": "concentration",
+      "raw_uncertainty": 0.5,
+      "raw_unit": "mg/mL",
+      "raw_value": 2.0,
+      "relative_uncertainty": 0.25,
+      "status": "NORMALIZED",
+      "target_unit": "g/L"
+    },
+    {
+      "assertion_id": "dose-001",
+      "clarification_reason": null,
+      "conversion_factor": 1.0,
+      "dimension": "dose",
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:F3",
+      "normalized_uncertainty": 0.2,
+      "normalized_value": 4.0,
+      "quantity": "dose",
+      "raw_uncertainty": 0.2,
+      "raw_unit": "mg/kg",
+      "raw_value": 4.0,
+      "relative_uncertainty": 0.05,
+      "status": "NORMALIZED",
+      "target_unit": "mg/kg"
+    },
+    {
+      "assertion_id": "zeta-001",
+      "clarification_reason": null,
+      "conversion_factor": 1.0,
+      "dimension": "zeta",
+      "evidence_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]",
+      "normalized_uncertainty": 5.0,
+      "normalized_value": -30.0,
+      "quantity": "zeta_potential",
+      "raw_uncertainty": 5.0,
+      "raw_unit": "mV",
+      "raw_value": -30.0,
+      "relative_uncertainty": 0.16666666666666666,
+      "status": "NORMALIZED",
+      "target_unit": "mV"
+    },
+    {
+      "assertion_id": "pdi-001",
+      "clarification_reason": null,
+      "conversion_factor": 1.0,
+      "dimension": "pdi",
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:G3",
+      "normalized_uncertainty": null,
+      "normalized_value": 0.12,
+      "quantity": "polydispersity_index",
+      "raw_uncertainty": null,
+      "raw_unit": "pdi",
+      "raw_value": 0.12,
+      "relative_uncertainty": null,
+      "status": "NORMALIZED",
+      "target_unit": "pdi"
+    },
+    {
+      "assertion_id": "unknown-basis-001",
+      "clarification_reason": "UNKNOWN_BASIS_FOR_DOSE",
+      "conversion_factor": null,
+      "dimension": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:H3",
+      "normalized_uncertainty": null,
+      "normalized_value": null,
+      "quantity": "dose_without_basis",
+      "raw_uncertainty": 0.5,
+      "raw_unit": "mg",
+      "raw_value": 5.0,
+      "relative_uncertainty": null,
+      "status": "REVIEW_REQUIRED",
+      "target_unit": "mg/kg"
+    },
+    {
+      "assertion_id": "incompatible-001",
+      "clarification_reason": "INCOMPATIBLE_DIMENSIONS",
+      "conversion_factor": null,
+      "dimension": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:I3",
+      "normalized_uncertainty": null,
+      "normalized_value": null,
+      "quantity": "invalid_time_size_conversion",
+      "raw_uncertainty": null,
+      "raw_unit": "h",
+      "raw_value": 2.0,
+      "relative_uncertainty": null,
+      "status": "REVIEW_REQUIRED",
+      "target_unit": "nm"
+    }
+  ],
+  "fixture": true,
+  "schema_version": 1,
+  "summary": {
+    "assertions": 8,
+    "normalized": 6,
+    "review_items": 2,
+    "uncertainty_records": 5
+  },
+  "unit_registry": [
+    {
+      "base_symbol": "m",
+      "dimension": "length",
+      "symbol": "m",
+      "to_base": 1.0
+    },
+    {
+      "base_symbol": "m",
+      "dimension": "length",
+      "symbol": "um",
+      "to_base": 1e-06
+    },
+    {
+      "base_symbol": "m",
+      "dimension": "length",
+      "symbol": "nm",
+      "to_base": 1e-09
+    },
+    {
+      "base_symbol": "s",
+      "dimension": "time",
+      "symbol": "s",
+      "to_base": 1.0
+    },
+    {
+      "base_symbol": "s",
+      "dimension": "time",
+      "symbol": "min",
+      "to_base": 60.0
+    },
+    {
+      "base_symbol": "s",
+      "dimension": "time",
+      "symbol": "h",
+      "to_base": 3600.0
+    },
+    {
+      "base_symbol": "g/L",
+      "dimension": "concentration",
+      "symbol": "g/L",
+      "to_base": 1.0
+    },
+    {
+      "base_symbol": "g/L",
+      "dimension": "concentration",
+      "symbol": "mg/mL",
+      "to_base": 1.0
+    },
+    {
+      "base_symbol": "g/L",
+      "dimension": "concentration",
+      "symbol": "ug/mL",
+      "to_base": 0.001
+    },
+    {
+      "base_symbol": "g",
+      "dimension": "mass",
+      "symbol": "mg",
+      "to_base": 0.001
+    },
+    {
+      "base_symbol": "mg/kg",
+      "dimension": "dose",
+      "symbol": "mg/kg",
+      "to_base": 1.0
+    },
+    {
+      "base_symbol": "mg/kg",
+      "dimension": "dose",
+      "symbol": "ug/kg",
+      "to_base": 0.001
+    },
+    {
+      "base_symbol": "mV",
+      "dimension": "zeta",
+      "symbol": "mV",
+      "to_base": 1.0
+    },
+    {
+      "base_symbol": "pdi",
+      "dimension": "pdi",
+      "symbol": "pdi",
+      "to_base": 1.0
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "assertions": [
+    {
+      "assertion_id": "size-001",
+      "quantity": "particle_size",
+      "value": 10,
+      "unit": "nm",
+      "uncertainty": 2,
+      "target_unit": "m",
+      "basis": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:C3"
+    },
+    {
+      "assertion_id": "time-001",
+      "quantity": "incubation_time",
+      "value": 2,
+      "unit": "h",
+      "uncertainty": null,
+      "target_unit": "s",
+      "basis": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:D3"
+    },
+    {
+      "assertion_id": "concentration-001",
+      "quantity": "concentration",
+      "value": 2,
+      "unit": "mg/mL",
+      "uncertainty": 0.5,
+      "target_unit": "g/L",
+      "basis": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:E3"
+    },
+    {
+      "assertion_id": "dose-001",
+      "quantity": "dose",
+      "value": 4,
+      "unit": "mg/kg",
+      "uncertainty": 0.2,
+      "target_unit": "mg/kg",
+      "basis": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:F3"
+    },
+    {
+      "assertion_id": "zeta-001",
+      "quantity": "zeta_potential",
+      "value": -30,
+      "unit": "mV",
+      "uncertainty": 5,
+      "target_unit": "mV",
+      "basis": null,
+      "evidence_locator": "asset:asset-figure-digitize-001/figure:figure-digitize-001/panel:D/series:curve-main/point[2]"
+    },
+    {
+      "assertion_id": "pdi-001",
+      "quantity": "polydispersity_index",
+      "value": 0.12,
+      "unit": "pdi",
+      "uncertainty": null,
+      "target_unit": "pdi",
+      "basis": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:G3"
+    },
+    {
+      "assertion_id": "unknown-basis-001",
+      "quantity": "dose_without_basis",
+      "value": 5,
+      "unit": "mg",
+      "uncertainty": 0.5,
+      "target_unit": "mg/kg",
+      "basis": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:H3"
+    },
+    {
+      "assertion_id": "incompatible-001",
+      "quantity": "invalid_time_size_conversion",
+      "value": 2,
+      "unit": "h",
+      "uncertainty": null,
+      "target_unit": "nm",
+      "basis": null,
+      "evidence_locator": "asset:asset-table-001/table:table-main/cell:I3"
+    }
+  ]
+}
