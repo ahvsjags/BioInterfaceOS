@@ -5,8 +5,8 @@ status: IN_PROGRESS
 task_count: 115
 ready_tasks:
   - T007
-current_task: T006
-active_execplan: docs/execplans/T006_state_ledgers.md
+current_task: T007
+active_execplan: null
 completed_tasks:
   - T000
   - T001
@@ -14,6 +14,7 @@ completed_tasks:
   - T003
   - T004
   - T005
+  - T006
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -124,7 +125,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: e60785cccc960425922a52e0731db4b8e9720eb8
+last_successful_commit: 408c12395a1b7fe52ee2f33df52739d9cd2973df
 data_release: null
 benchmark_release: null
 model_release: null

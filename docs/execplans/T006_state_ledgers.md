@@ -29,9 +29,9 @@ This task does not implement T007 schemas or any later data, model, release, loc
 
 - [x] 2026-08-11 — Read repository rules, goal, planning standard, state, T006/T007 rows, prior plan/ledger conventions, and current CLI.
 - [x] 2026-08-11 — Marked T006 IN_PROGRESS and made this the active ExecPlan.
-- [ ] Implement state, ledger, CLI, tests, and initial ledgers.
-- [ ] Run all acceptance and containment checks.
-- [ ] Record completion state, evidence, ledger record, and commits.
+- [x] 2026-08-12 ? Implemented state validation, deterministic next-task selection, CLI dispatch, append-only ledgers, hash seals, quarantine recovery, and focused tests.
+- [x] 2026-08-12 ? Ran lock check, offline frozen sync, make check, CLI acceptance, focused tests, compileall, and git containment checks successfully.
+- [x] 2026-08-12 ? Initialized standard ledgers, recorded the T006 evidence report and task ledger entry, advanced T006/T007 state, and committed the result.
 
 ## Discoveries
 
@@ -64,4 +64,4 @@ State/ledger module, CLI integration, pinned dependency/lock, focused tests, ini
 
 ## Completion note
 
-Pending verification.
+T006 is complete. State validation, transition rejection, deterministic next-task selection, append-only hash/seal validation, quarantine recovery, idempotent ledger initialization, and all requested offline quality gates passed. T007 is READY/current; no data, model, or locked-test content was accessed.

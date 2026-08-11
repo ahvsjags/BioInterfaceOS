@@ -61,7 +61,7 @@ class RepositoryStateTests(unittest.TestCase):
                 acceptance_evidence={"tests": "passed"},
             )
 
-        active_task = next(task for task in self.tasks if task.id == "T006")
+        active_task = replace(ready_task, status="IN_PROGRESS", depends_on=())
         with self.assertRaisesRegex(TransitionValidationError, "acceptance evidence"):
             validate_transition(active_task, "DONE", self.tasks)
 
