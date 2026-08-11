@@ -27,9 +27,9 @@ Every normalized cell retains original workbook/sheet/member path, A1 coordinate
 
 ## Progress
 
-- [ ] Define supplement inventory and normalized cell schemas.
-- [ ] Implement spreadsheet parsing and safe archive handling.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define supplement inventory and normalized cell schemas.
+- [x] Implement spreadsheet parsing and safe archive handling.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -42,6 +42,10 @@ Every normalized cell retains original workbook/sheet/member path, A1 coordinate
 - biointerfaceos state validate
 - git diff --check
 - merged-cell, multirow-header, units, formulas, coordinate, and zip-slip assertions
+
+## Completion note
+
+T033 completed with implementation commit 407ad89. CSV/TSV/XLSX/ZIP fixtures pass coordinate, unit, formula, merged-cell, and archive traversal gates. Completion evidence is recorded in reports/T033_supplements.md.
 
 ## Failure recovery
 
