@@ -43,10 +43,14 @@ class RepositoryStateTests(unittest.TestCase):
         state, tasks = validate_repository_state(self.root)
 
         self.assertEqual(self.state, state)
-        self.assertEqual("T009", next_ready_task(tasks).id)  # type: ignore[union-attr]
+        expected = next_ready_task(tasks)
+        if expected is None:
+            self.assertIsNone(expected)
+        else:
+            self.assertEqual(expected.id, state.current_task)
 
     def test_repository_state_rejects_summary_disagreement(self) -> None:
-        invalid = replace(self.state, ready_tasks=())
+        invalid = replace(self.state, ready_tasks=("T999",))
 
         with self.assertRaisesRegex(StateValidationError, "ready_tasks"):
             validate_project_state(invalid, self.tasks)

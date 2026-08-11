@@ -3,10 +3,9 @@ manual_version: 1.0.0
 manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
-ready_tasks:
-  - T010
+ready_tasks: []
 current_task: T010
-active_execplan: null
+active_execplan: docs/execplans/T010_source_manifest.md
 completed_tasks:
   - T000
   - T001

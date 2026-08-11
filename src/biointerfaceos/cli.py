@@ -13,7 +13,6 @@ from biointerfaceos import __version__
 
 FUTURE_COMMANDS = (
     "data",
-    "source",
     "extract",
     "split",
     "benchmark",
@@ -173,6 +172,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     storage_audit_parser = storage_subparsers.add_parser("audit", help="audit storage usage")
     storage_audit_parser.add_argument("--strict", action="store_true", help="fail over budget")
 
+    source_parser = subparsers.add_parser("source", help="validate source registries")
+    source_subparsers = source_parser.add_subparsers(dest="source_command")
+    manifest_parser = source_subparsers.add_parser("manifest", help="validate source manifest")
+    manifest_subparsers = manifest_parser.add_subparsers(dest="manifest_command")
+    manifest_subparsers.add_parser("validate", help="validate the Parquet source manifest")
+
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
     return parser
@@ -228,6 +233,28 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print(f"SCHEMA_INVALID: {exc}", file=sys.stderr)
             return 1
         print(f"SCHEMA_VALID schemas={len(configs)} fixtures={len(configs)}")
+        return 0
+    if args.command == "source":
+        if args.source_command != "manifest" or args.manifest_command != "validate":
+            parser.parse_args(["source", "manifest", "--help"])
+            return 0
+        from biointerfaceos.manifest import ManifestError, ManifestRegistry
+
+        root = find_repository_root()
+        if root is None:
+            print("SOURCE_MANIFEST_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            summary = ManifestRegistry(root).validate()
+        except (ManifestError, OSError) as exc:
+            print(f"SOURCE_MANIFEST_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"SOURCE_MANIFEST_VALID rows={summary.rows} "
+            f"unique_content_hashes={summary.unique_content_hashes} "
+            f"admitted={summary.admitted} rejected={summary.rejected} "
+            f"quarantined={summary.quarantined}"
+        )
         return 0
     if args.command == "storage":
         if args.storage_command is None:
