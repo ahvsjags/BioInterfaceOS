@@ -6,7 +6,7 @@ Provide an anonymous GEO/SRA adapter for GSE/GSM/SRP/SRR relationships, processe
 
 ## Preconditions
 
-T016 is DONE, T020 is READY/current, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
+T016 is DONE, T020 was READY and is now DONE, the source adapter contract, policy engine, and allowlisted network client are available, and no locked-test payload needs to be accessed.
 
 ## Non-goals
 
@@ -26,9 +26,9 @@ Use official NCBI GEO/SRA metadata and FTP/HTTPS endpoints. Preserve GSE/GSM/SRP
 
 ## Progress
 
-- [ ] Read and pin the official GEO/SRA metadata contract.
-- [ ] Implement and test the GEO/SRA adapter.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Read and pin the official GEO/SRA metadata contract.
+- [x] Implement and test the GEO/SRA adapter.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,8 @@ If an official metadata endpoint is transient, preserve the sanitized metadata f
 ## Outputs
 
 src/biointerfaceos/sources/geo.py, tests/sources/test_geo.py, tests/fixtures/sources/geo, this ExecPlan, reports/T020_geo.md, state advancement, and task-ledger evidence.
+
+
+## Completion note
+
+T020 completed with implementation commit eaeaef9a49e7e9c562202b5689acb0bd59d9def6 and final acceptance evidence in reports/T020_geo.md.
