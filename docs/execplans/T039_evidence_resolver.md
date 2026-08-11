@@ -27,10 +27,10 @@ Every accepted field resolves to an existing source asset identifier and an exac
 
 ## Progress
 
-- [ ] Define evidence and conflict-graph schemas.
-- [ ] Implement forward resolution and reverse trace.
-- [ ] Preserve conflicts and quarantine broken locators.
-- [ ] Run acceptance gates and record completion evidence.
+- [x] Define evidence and conflict-graph schemas.
+- [x] Implement forward resolution and reverse trace.
+- [x] Preserve conflicts and quarantine broken locators.
+- [x] Run acceptance gates and record completion evidence.
 
 ## Validation
 
@@ -51,3 +51,7 @@ Preserve all source assertions and locator strings. Quarantine unresolved lineag
 ## Outputs
 
 evidence table, reverse-trace CLI, conflict graph, broken-locator review queue, fixtures/tests, this ExecPlan, state advancement, and task-ledger evidence.
+
+## Completion note
+
+T039 completed with implementation commit 43fe09a. Exact locator resolution, reverse trace, conflict graph construction, and broken-locator quarantine pass the fixture gates.

@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T039
-active_execplan: docs/execplans/T039_evidence_resolver.md
+current_task: T040
+active_execplan: docs/execplans/T040_units_normalization.md
 completed_tasks:
   - T000
   - T001
@@ -46,10 +46,10 @@ completed_tasks:
   - T036
   - T037
   - T038
+  - T039
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T040
   - T041
   - T042
   - T043
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 919f076
+last_successful_commit: 43fe09a
 data_release: null
 benchmark_release: null
 model_release: null
