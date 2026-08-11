@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "decisions": [
+    {
+      "id": "nanocommons-kb",
+      "name": "NanoCommons Knowledge Base",
+      "official_url": "https://nanocommons.eu/",
+      "anonymous_access": "NO: official manual describes partner-restricted authenticated access",
+      "api_or_export": "REST API is documented, but the live KB/data access is not anonymous in the audited path",
+      "license_signal": "CC-BY-4.0 for handbook only; dataset-level licenses vary",
+      "schema_relevance": "high: material characterization, transformation, omics, toxicity, exposure and fate",
+      "decision": "REJECT",
+      "decision_code": "REJECTED_CREDENTIALLED",
+      "evidence_urls": [
+        "https://nanocommons.github.io/user-handbook/data-management/data-resources/NanoCommons-KB/",
+        "https://nanocommons.github.io/user-handbook/data-management/data-resources/NanoCommons-KB-manual/"
+      ],
+      "next_step": "Use only public linked source records or repository mirrors; do not request credentials."
+    },
+    {
+      "id": "enanomapper",
+      "name": "eNanoMapper public database",
+      "official_url": "https://data.enanomapper.net/",
+      "anonymous_access": "YES: public search/data page and anonymous API route are documented",
+      "api_or_export": "REST API and JSON/XLSX/RDF-style export routes are documented",
+      "license_signal": "Ontology CC-BY-3.0 is documented; per-record data licenses require verification",
+      "schema_relevance": "high: nanomaterial characterization, biological and toxicological information",
+      "decision": "METADATA_ONLY",
+      "decision_code": "LICENSE_UNCLEAR",
+      "evidence_urls": [
+        "https://www.enanomapper.net/data",
+        "https://www.enanomapper.net/documentation"
+      ],
+      "next_step": "Capture public metadata and per-record license/provenance; admit data files only after record-level policy checks."
+    },
+    {
+      "id": "nbi-knowledgebase",
+      "name": "Nanomaterial-Biological Interactions Knowledgebase",
+      "official_url": "https://nbi.nacse.org/",
+      "anonymous_access": "PUBLIC WEB LANDING PAGE OBSERVED; authenticated/API/export contract not verified",
+      "api_or_export": "No stable official API or machine-readable export contract found in the audited public material",
+      "license_signal": "No explicit redistribution license found on the audited landing page",
+      "schema_relevance": "high: material properties, synthesis, and interactions across molecular/cellular/organismal levels",
+      "decision": "QUARANTINE",
+      "decision_code": "LICENSE_UNCLEAR",
+      "evidence_urls": [
+        "https://nbi.nacse.org/"
+      ],
+      "next_step": "Retain landing-page pointer only; seek official export and license statement before adapter work."
+    },
+    {
+      "id": "nanopharos",
+      "name": "nanoPharos",
+      "official_url": "https://db.nanopharos.eu/",
+      "anonymous_access": "PUBLIC DATASET ACCESS IS DOCUMENTED; endpoint behavior and access scope require fixture verification",
+      "api_or_export": "REST API and CSV/XLSX/XML dataset access are described by project documentation and publications",
+      "license_signal": "Dataset licenses are referenced as part of FAIR metadata but were not uniformly verified per dataset",
+      "schema_relevance": "high: physicochemical properties, biointeractions, adverse effects, exposure and computational descriptors",
+      "decision": "METADATA_ONLY",
+      "decision_code": "LICENSE_UNCLEAR",
+      "evidence_urls": [
+        "https://nanocommons.github.io/user-handbook/data-management/data-resources/NanoPharos/",
+        "https://db.nanopharos.eu/"
+      ],
+      "next_step": "Use DOI/Zenodo mirrors for redistributable files; capture nanoPharos metadata and dataset license before any direct asset admission."
+    },
+    {
+      "id": "pubchem-chembl-substitutes",
+      "name": "PubChem and ChEMBL public substitutes",
+      "official_url": "https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest",
+      "anonymous_access": "YES: official public APIs were implemented and fixture-tested",
+      "api_or_export": "JSON metadata and structure/property routes are available; no credential is used",
+      "license_signal": "Source-specific public-use signals are already policy-gated in the repository",
+      "schema_relevance": "medium: chemical identity and ligand/property fields, not full nano-bio experiments",
+      "decision": "ADMIT_PUBLIC_SUBSTITUTE",
+      "decision_code": "ADMITTED_PUBLIC_SUBSTITUTE",
+      "evidence_urls": [
+        "https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest",
+        "https://chembl.gitbook.io/chembl-interface-documentation/web-services/chembl-data-web-services"
+      ],
+      "next_step": "Use as chemical identity/structure supplements; do not treat them as replacements for corona or protocol data."
+    },
+    {
+      "id": "public-repository-mirrors",
+      "name": "Zenodo, Figshare and OSF public release mirrors",
+      "official_url": "https://developers.zenodo.org/",
+      "anonymous_access": "YES for public metadata/releases; provider-specific visibility is checked per record",
+      "api_or_export": "Official APIs expose DOI/release metadata and public file pointers",
+      "license_signal": "Per-release license is captured and policy-gated before fetch",
+      "schema_relevance": "medium-high: supplementary tables, datasets, code and provenance",
+      "decision": "ADMIT_PUBLIC_SUBSTITUTE",
+      "decision_code": "ADMITTED_PUBLIC_SUBSTITUTE",
+      "evidence_urls": [
+        "https://developers.zenodo.org/",
+        "https://docs.figshare.com/",
+        "https://developer.osf.io/"
+      ],
+      "next_step": "Prefer release records with explicit license and SHA-256; retain metadata-only pointers when either is missing."
+    }
+  ]
+}

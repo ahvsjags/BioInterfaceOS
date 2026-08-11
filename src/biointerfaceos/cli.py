@@ -179,6 +179,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     policy_parser = source_subparsers.add_parser("policy", help="run source policy checks")
     policy_subparsers = policy_parser.add_subparsers(dest="policy_command")
     policy_subparsers.add_parser("self-test", help="run offline policy fixtures")
+    source_subparsers.add_parser(
+        "audit-specialized", help="validate specialized nanodatabase admission decisions"
+    )
     assets_parser = subparsers.add_parser("assets", help="verify content-addressed assets")
     assets_subparsers = assets_parser.add_subparsers(dest="assets_command")
     assets_subparsers.add_parser("verify", help="verify CAS blobs and provenance index")
@@ -293,6 +296,26 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"unique_content_hashes={summary.unique_content_hashes} "
                 f"admitted={summary.admitted} rejected={summary.rejected} "
                 f"quarantined={summary.quarantined}"
+            )
+            return 0
+        if args.source_command == "audit-specialized":
+            from biointerfaceos.nanodatabase_audit import NanodatabaseAuditError, load_audit
+
+            try:
+                audit_summary = load_audit(
+                    root / "tests/fixtures/nanodatabases/admission_decisions.json"
+                )
+                report_path = root / "reports/NANODATABASE_ADMISSION.md"
+                if not report_path.is_file():
+                    raise NanodatabaseAuditError(f"missing report: {report_path}")
+            except (NanodatabaseAuditError, OSError) as exc:
+                print(f"NANODATABASE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"NANODATABASE_AUDIT_VALID candidates={audit_summary.candidates} "
+                f"admitted_substitutes={audit_summary.admitted_substitutes} "
+                f"metadata_only={audit_summary.metadata_only} "
+                f"quarantined={audit_summary.quarantined} rejected={audit_summary.rejected}"
             )
             return 0
         if args.source_command == "policy" and args.policy_command == "self-test":

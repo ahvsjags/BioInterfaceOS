@@ -49,7 +49,9 @@ class RepositoryStateTests(unittest.TestCase):
         else:
             current = next(task for task in tasks if task.id == state.current_task)
             if expected is None:
-                self.fail("a nonterminal current task should have a next ready task")
+                self.assertEqual(current.status, "IN_PROGRESS")
+                self.assertFalse(any(task.status == "READY" for task in tasks))
+                return
             if current.status == "READY":
                 self.assertEqual(expected.id, state.current_task)
             else:

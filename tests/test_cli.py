@@ -40,6 +40,14 @@ class CliTests(unittest.TestCase):
         self.assertIn("network=false", output.getvalue())
         self.assertIn("binary_assets=0", output.getvalue())
 
+    def test_specialized_nanodatabase_audit_is_valid(self) -> None:
+        output = io.StringIO()
+        with redirect_stdout(output):
+            exit_code = cli.main(["source", "audit-specialized"])
+        self.assertEqual(0, exit_code)
+        self.assertIn("NANODATABASE_AUDIT_VALID", output.getvalue())
+        self.assertIn("candidates=6", output.getvalue())
+
     def test_repository_sync_dry_run_is_network_free(self) -> None:
         output = io.StringIO()
         with redirect_stdout(output):
