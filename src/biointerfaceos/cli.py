@@ -11,7 +11,6 @@ from pathlib import Path
 
 from biointerfaceos import __version__
 
-
 FUTURE_COMMANDS = (
     "state",
     "data",
