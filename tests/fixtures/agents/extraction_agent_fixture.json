@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "mode": "extraction_agent_fixture",
+  "inputs": [
+    {"label": "T050 benchmark receipt", "path": "reports/benchmark/benchmark_receipt.json", "sha256": "096ecc8a263e1f41268b2004decae90d23528a1c4ffffcf6c8227888d0854712"},
+    {"label": "T080 agent receipt", "path": "reports/agents/agent_receipt.json", "sha256": "09750940ab002de284939df873657c6013db25ef21e1d26c243d15046884094f"}
+  ],
+  "cases": [
+    {"case_id": "extract-table-001", "document_kind": "table", "source_asset_id": "asset-table-001", "allowed_tools": ["table_semantics", "pdf_parser"], "expected_parser": "table_semantics", "fixed_correct": true, "agent_fields": [{"field_name": "arm_label", "value": "Control", "value_type": "string", "unit": null, "evidence_locators": ["asset:asset-table-001/table:main/cell:A3"], "confidence": 0.98}]},
+    {"case_id": "extract-figure-001", "document_kind": "figure", "source_asset_id": "asset-figure-001", "allowed_tools": ["figure_digitizer", "pdf_parser"], "expected_parser": "figure_digitizer", "fixed_correct": false, "agent_fields": [{"field_name": "midpoint", "value": 5.0, "value_type": "number", "unit": "h", "evidence_locators": ["asset:asset-figure-001/figure:main/panel:A/curve[1]/point[2]"], "confidence": 0.91}]},
+    {"case_id": "extract-supplement-001", "document_kind": "supplement", "source_asset_id": "asset-supplement-001", "allowed_tools": ["supplement_parser"], "expected_parser": "supplement_parser", "fixed_correct": true, "agent_fields": [{"field_name": "sample_size", "value": 8, "value_type": "integer", "unit": null, "evidence_locators": ["asset:asset-supplement-001/sheet:methods/cell:B4"], "confidence": 0.96}]},
+    {"case_id": "extract-pdf-001", "document_kind": "pdf", "source_asset_id": "asset-pdf-001", "allowed_tools": ["pdf_parser", "table_semantics"], "expected_parser": "pdf_parser", "fixed_correct": true, "agent_fields": [{"field_name": "dose", "value": 10.0, "value_type": "number", "unit": "mg/kg", "evidence_locators": ["asset:asset-pdf-001/page:4/line:12"], "confidence": 0.95}]}
+  ]
+}

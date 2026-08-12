@@ -204,6 +204,7 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     agent_eval_subparsers = agent_eval_parser.add_subparsers(dest="agent_eval_command")
     agent_eval_subparsers.add_parser("source-license", help="evaluate SourceScout and LicenseGate")
+    agent_eval_subparsers.add_parser("extraction", help="evaluate the multimodal ExtractionAgent")
     ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
     ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
     ontology_sync_parser = ontology_subparsers.add_parser(
@@ -1783,6 +1784,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "agent":
+        if args.agent_command == "eval" and args.agent_eval_command == "extraction":
+            from biointerfaceos.extraction_agent_workflow import (
+                ExtractionAgentError,
+                ExtractionAgentWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("AGENT_EXTRACTION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                extraction_summary = ExtractionAgentWorkflow(root).run(fixture=True)
+            except (ExtractionAgentError, OSError) as exc:
+                print(f"AGENT_EXTRACTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"AGENT_EXTRACTION_VALID cases={extraction_summary.cases} "
+                f"agent_correct={extraction_summary.agent_correct} "
+                f"fixed_correct={extraction_summary.fixed_correct} "
+                f"agent_accuracy={extraction_summary.agent_accuracy:.6f} "
+                f"fixed_accuracy={extraction_summary.fixed_accuracy:.6f} "
+                f"selected_pipeline={extraction_summary.selected_pipeline} "
+                f"schema_valid={str(extraction_summary.schema_valid).lower()} "
+                f"evidence_grounded={str(extraction_summary.evidence_grounded).lower()} "
+                f"trace_events={extraction_summary.trace_events} "
+                f"resumed={extraction_summary.resumed}"
+            )
+            return 0
         if args.agent_command == "eval" and args.agent_eval_command == "source-license":
             from biointerfaceos.source_license_workflow import (
                 SourceLicenseError,
