@@ -11,7 +11,7 @@ from pathlib import Path
 
 from biointerfaceos import __version__
 
-FUTURE_COMMANDS = ("claim",)
+FUTURE_COMMANDS: tuple[str, ...] = ()
 
 REQUIRED_FILES = (
     "AGENTS.md",
@@ -412,6 +412,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     benchmark_agents_parser.add_argument(
         "--dev", action="store_true", help="run the development agent benchmark namespace"
+    )
+    claim_parser = subparsers.add_parser(
+        "claim", help="freeze and preregister exploratory claim tournaments"
+    )
+    claim_subparsers = claim_parser.add_subparsers(dest="claim_command")
+    claim_preregister_parser = claim_subparsers.add_parser(
+        "preregister", help="freeze exploratory hypothesis tournament rules"
+    )
+    claim_preregister_parser.add_argument(
+        "--dev", action="store_true", help="use the development-only tournament fixture"
     )
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
@@ -927,6 +937,39 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"unsigned_packets={review_summary.unsigned_packets} "
             f"signed_packets={review_summary.signed_packets} "
             f"sample={args.sample}"
+        )
+        return 0
+    if args.command == "claim":
+        if args.claim_command != "preregister":
+            parser.parse_args(["claim", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("CLAIM_PREREGISTER_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.dev:
+            print("CLAIM_PREREGISTER_INVALID: --dev is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.hypothesis_tournament_workflow import (
+            HypothesisTournamentWorkflow,
+            TournamentError,
+        )
+
+        try:
+            tournament_summary = HypothesisTournamentWorkflow(root).run(development=True)
+        except (TournamentError, OSError) as exc:
+            print(f"CLAIM_PREREGISTER_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"CLAIM_PREREGISTER_VALID candidates={tournament_summary.candidates} "
+            f"ranked={tournament_summary.ranked} "
+            f"duplicates_removed={tournament_summary.duplicates_removed} "
+            f"exclusions={tournament_summary.exclusions} "
+            f"config_frozen={str(tournament_summary.config_frozen).lower()} "
+            f"lockbox_clean={str(tournament_summary.lockbox_clean).lower()} "
+            f"claims_auto_accepted={str(tournament_summary.claims_auto_accepted).lower()} "
+            f"selected_pipeline={tournament_summary.selected_pipeline} "
+            f"resumed={tournament_summary.resumed}"
         )
         return 0
     if args.command == "train":

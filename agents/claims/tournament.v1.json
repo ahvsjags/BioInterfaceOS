@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "claim_type": "exploratory_hypothesis",
+  "config_fields": [
+    "version",
+    "K",
+    "primary_outcome",
+    "direction",
+    "minimum_effect",
+    "weights",
+    "exclusion_rules",
+    "tests",
+    "frozen_before_primary"
+  ],
+  "candidate_fields": [
+    "candidate_id",
+    "source_case_id",
+    "normalized_key",
+    "split"
+  ]
+}

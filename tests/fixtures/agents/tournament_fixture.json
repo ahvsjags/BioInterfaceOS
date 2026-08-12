@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "mode": "tournament_fixture",
+  "inputs": [
+    {
+      "label": "T084 hypothesis proposals",
+      "path": "reports/agents/hypothesis/hypothesis_proposals.json",
+      "sha256": "8f133a7636bbb5ffb1104f55fced7aecb9cbf4deebf148b5a69624e6beebcbb4",
+      "split": "train"
+    },
+    {
+      "label": "T085 preregistration",
+      "path": "reports/agents/modeling/preregistration.json",
+      "sha256": "beb39ee7cf2f58fd1c89d6a33791cc3e5fd4773a7c3961e6538fc4f2d3834801",
+      "split": "train"
+    },
+    {
+      "label": "T065 frozen split",
+      "path": "reports/splits/frozen_dev/split_manifest.json",
+      "sha256": "c1b32d9b2b23cca7ec9ba7bf7cc0471514fdf2a0fb07a3204461b5b8cfa150c2",
+      "split": "frozen"
+    }
+  ],
+  "config": {
+    "version": "T089-v1",
+    "K": 2,
+    "primary_outcome": "held_out_replication_slope",
+    "direction": "maximize",
+    "minimum_effect": 0.1,
+    "weights": {
+      "evidence": 0.4,
+      "falsifiability": 0.3,
+      "formalization": 0.2,
+      "simplicity": 0.1
+    },
+    "exclusion_rules": [
+      "remove normalized duplicate hypotheses",
+      "exclude candidates without training evidence",
+      "exclude candidates without a falsifiability test"
+    ],
+    "tests": [
+      "replication_slope on held-out validation study",
+      "negative-control permutation test",
+      "lockbox contamination scan"
+    ],
+    "frozen_before_primary": true
+  },
+  "candidate_records": [
+    {
+      "candidate_id": "TOUR-001",
+      "source_case_id": "HYP-001",
+      "normalized_key": "adsorption-interface->cell-stress",
+      "split": "train"
+    },
+    {
+      "candidate_id": "TOUR-001-DUP",
+      "source_case_id": "HYP-001",
+      "normalized_key": "adsorption-interface->cell-stress",
+      "split": "train"
+    },
+    {
+      "candidate_id": "TOUR-002",
+      "source_case_id": "HYP-005",
+      "normalized_key": "coating-density->cell-stress",
+      "split": "train"
+    }
+  ]
+}
