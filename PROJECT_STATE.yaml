@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T091
-active_execplan: docs/execplans/T091_material_corona_outcome_mediation.md
+current_task: T092
+active_execplan: docs/execplans/T092_cross_species_transfer.md
 completed_tasks:
   - T000
   - T001
@@ -98,10 +98,10 @@ completed_tasks:
   - T088
   - T089
   - T090
+  - T091
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T092
   - T093
   - T094
   - T095
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 16d070c
+last_successful_commit: 91d4735
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
