@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "mode": "modeling_fixture",
+  "inputs": [
+    {
+      "label": "T068 grading metrics",
+      "path": "reports/benchmark/grading/metrics.json",
+      "sha256": "a73e438ccde47a883fd7a9e0e6c566be6c66e39f6e96be100968bd749b6f32e5",
+      "split": "train"
+    },
+    {
+      "label": "T071 model results",
+      "path": "reports/models/m1/m1_results.json",
+      "sha256": "46777fd6dc4838e027ae1da95e71de32d8cc66c2cd0717130ae9b17947059a39",
+      "split": "train"
+    },
+    {
+      "label": "T078 uncertainty results",
+      "path": "reports/models/uncertainty/uncertainty_results.json",
+      "sha256": "5712a16ac04b2ac80ae972f962e234c1cc34f7d3f7c93283174895bbd00cc5e2",
+      "split": "validation"
+    },
+    {
+      "label": "frozen development split",
+      "path": "reports/splits/frozen_dev/split_manifest.json",
+      "sha256": "c1b32d9b2b23cca7ec9ba7bf7cc0471514fdf2a0fb07a3204461b5b8cfa150c2",
+      "split": "frozen"
+    }
+  ],
+  "plans": [
+    {
+      "plan_id": "PLAN-VALID-001",
+      "role": "ModelBuilder",
+      "model_api": "biointerfaceos.m1_workflow",
+      "code": "result = {'status': 'planned', 'model': 'm1'}\nassert result['status'] == 'planned'",
+      "generated_tests": [
+        "assert result['status'] == 'planned'",
+        "assert 'model' in result"
+      ],
+      "preregistration": {
+        "primary_metric": "validation_rmse",
+        "direction": "minimize",
+        "minimum_effect": 0.01,
+        "exclusion_rule": "exclude nonfinite predictions before scoring",
+        "frozen_before_run": true
+      },
+      "metric_policy": {
+        "select_after_evaluation": false,
+        "metric_source": "preregistered_validation_metric",
+        "adaptive_tuning": false
+      },
+      "split_policy": {
+        "modify_assignments": false,
+        "allow_resplit": false,
+        "tune_on_validation_targets": false,
+        "use_test_targets": false
+      },
+      "expected_status": "EXECUTE"
+    },
+    {
+      "plan_id": "PLAN-METRIC-HACK-001",
+      "role": "Statistician",
+      "model_api": "biointerfaceos.m1_workflow",
+      "code": "result = {'status': 'planned'}",
+      "generated_tests": ["assert result['status'] == 'planned'"],
+      "preregistration": {
+        "primary_metric": "validation_rmse",
+        "direction": "minimize",
+        "minimum_effect": 0.01,
+        "exclusion_rule": "exclude nonfinite predictions before scoring",
+        "frozen_before_run": true
+      },
+      "metric_policy": {
+        "select_after_evaluation": true,
+        "metric_source": "validation_target",
+        "adaptive_tuning": true
+      },
+      "split_policy": {
+        "modify_assignments": false,
+        "allow_resplit": false,
+        "tune_on_validation_targets": false,
+        "use_test_targets": false
+      },
+      "expected_status": "REJECT_METRIC_HACKING"
+    },
+    {
+      "plan_id": "PLAN-SPLIT-HACK-001",
+      "role": "ModelBuilder",
+      "model_api": "biointerfaceos.m1_workflow",
+      "code": "result = {'status': 'planned'}",
+      "generated_tests": ["assert result['status'] == 'planned'"],
+      "preregistration": {
+        "primary_metric": "validation_rmse",
+        "direction": "minimize",
+        "minimum_effect": 0.01,
+        "exclusion_rule": "exclude nonfinite predictions before scoring",
+        "frozen_before_run": true
+      },
+      "metric_policy": {
+        "select_after_evaluation": false,
+        "metric_source": "preregistered_validation_metric",
+        "adaptive_tuning": false
+      },
+      "split_policy": {
+        "modify_assignments": true,
+        "allow_resplit": true,
+        "tune_on_validation_targets": false,
+        "use_test_targets": false
+      },
+      "expected_status": "REJECT_SPLIT_MODIFICATION"
+    },
+    {
+      "plan_id": "PLAN-HELDOUT-HACK-001",
+      "role": "Statistician",
+      "model_api": "biointerfaceos.uncertainty_workflow",
+      "code": "result = {'status': 'planned'}",
+      "generated_tests": ["assert result['status'] == 'planned'"],
+      "preregistration": {
+        "primary_metric": "validation_rmse",
+        "direction": "minimize",
+        "minimum_effect": 0.01,
+        "exclusion_rule": "exclude nonfinite predictions before scoring",
+        "frozen_before_run": true
+      },
+      "metric_policy": {
+        "select_after_evaluation": false,
+        "metric_source": "preregistered_validation_metric",
+        "adaptive_tuning": false
+      },
+      "split_policy": {
+        "modify_assignments": false,
+        "allow_resplit": false,
+        "tune_on_validation_targets": true,
+        "use_test_targets": true
+      },
+      "expected_status": "REJECT_HELDOUT_TUNING"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "agent": "ModelBuilderStatistician",
+  "plan_fields": [
+    "plan_id",
+    "role",
+    "model_api",
+    "code",
+    "generated_tests",
+    "preregistration",
+    "metric_policy",
+    "split_policy"
+  ],
+  "rejection_reasons": [
+    "METRIC_HACKING",
+    "SPLIT_MODIFICATION",
+    "HELDOUT_TUNING",
+    "INCOMPLETE_PREREGISTRATION",
+    "PLAN_DOES_NOT_COMPILE"
+  ]
+}

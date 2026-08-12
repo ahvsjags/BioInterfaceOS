@@ -209,6 +209,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     agent_eval_subparsers.add_parser(
         "hypothesis", help="evaluate exploratory Mechanism and hypothesis agents"
     )
+    agent_eval_subparsers.add_parser(
+        "modeling", help="evaluate ModelBuilder and Statistician agents"
+    )
     ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
     ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
     ontology_sync_parser = ontology_subparsers.add_parser(
@@ -1900,6 +1903,38 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"selected_pipeline={hypothesis_summary.selected_pipeline} "
                 f"trace_events={hypothesis_summary.trace_events} "
                 f"resumed={hypothesis_summary.resumed}"
+            )
+            return 0
+        if args.agent_command == "eval" and args.agent_eval_command == "modeling":
+            from biointerfaceos.modeling_agent_workflow import (
+                ModelingAgentError,
+                ModelingAgentWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("AGENT_MODELING_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                modeling_summary = ModelingAgentWorkflow(root).run(fixture=True)
+            except (ModelingAgentError, OSError) as exc:
+                print(f"AGENT_MODELING_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"AGENT_MODELING_VALID plans={modeling_summary.plans} "
+                f"executable={modeling_summary.executable_plans} "
+                f"rejected={modeling_summary.rejected} "
+                f"metric_hacking_rejected={modeling_summary.metric_hacking_rejected} "
+                f"split_modification_rejected={modeling_summary.split_modification_rejected} "
+                f"heldout_tuning_rejected={modeling_summary.heldout_tuning_rejected} "
+                f"tests_generated={modeling_summary.tests_generated} "
+                f"preregistration_complete="
+                f"{str(modeling_summary.preregistration_complete).lower()} "
+                f"sandbox_passed={str(modeling_summary.sandbox_passed).lower()} "
+                f"splits_unchanged={str(modeling_summary.splits_unchanged).lower()} "
+                f"selected_pipeline={modeling_summary.selected_pipeline} "
+                f"trace_events={modeling_summary.trace_events} "
+                f"resumed={modeling_summary.resumed}"
             )
             return 0
         if args.agent_command != "self-test":
