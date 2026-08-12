@@ -545,6 +545,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="screen CC0 protein-corona candidates without freezing a predictive target",
     )
     model_cc0_target_admission_parser.add_argument("--strict", action="store_true")
+    model_cc0_target_discovery_parser = model_subparsers.add_parser(
+        "audit-cc0-target-discovery",
+        help="record an additional CC0 screening tranche without freezing a target",
+    )
+    model_cc0_target_discovery_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2241,6 +2246,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-proteomics-acquisition",
             "profile-proteomics-results",
             "audit-cc0-target-admission",
+            "audit-cc0-target-discovery",
         }:
             parser.parse_args(["model", "--help"])
             return 0
@@ -2337,6 +2343,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"candidates={cc0_target_admission_summary.candidate_source_count} "
                 f"laboratories={cc0_target_admission_summary.candidate_laboratory_count} "
                 f"source_conditions={cc0_target_admission_summary.source_condition_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-cc0-target-discovery":
+            from biointerfaceos.cc0_target_discovery import (
+                CC0TargetDiscoveryError,
+                CC0TargetDiscoveryWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("CC0_TARGET_DISCOVERY_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            cc0_target_discovery_workflow = CC0TargetDiscoveryWorkflow(root)
+            try:
+                cc0_target_discovery_summary = cc0_target_discovery_workflow.run(strict=args.strict)
+                cc0_target_discovery_workflow.verify()
+            except (CC0TargetDiscoveryError, OSError) as exc:
+                print(f"CC0_TARGET_DISCOVERY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "CC0_TARGET_DISCOVERY_VALID "
+                f"candidates={cc0_target_discovery_summary.candidate_source_count} "
+                f"laboratories={cc0_target_discovery_summary.candidate_laboratory_count} "
+                f"screened_assets={cc0_target_discovery_summary.screened_asset_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0

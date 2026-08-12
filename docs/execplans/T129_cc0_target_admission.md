@@ -57,6 +57,10 @@ evidence.
 - [x] Installed `python -m biointerfaceos model audit-cc0-target-admission
   --strict`. It validates the candidate registry, fails if a candidate is
   silently promoted, and writes an immutable read-only decision and receipt.
+- [x] Screened an independent, versioned expansion tranche: PXD053359 (six
+  TopPIC result TSVs) and PXD050779 (one TopPIC workbook), both official
+  pre-cutoff CC0 human-plasma sources attributed to Michigan State University.
+  The new audit preserves seven local file hashes but admits zero targets.
 - [ ] Find a reusable CC0 source asset with a source-matched numeric material or
   size covariate map for every candidate analysis unit.
 - [ ] Freeze a shared preprocessing endpoint and an explicit analysis-unit
@@ -74,6 +78,13 @@ evidence.
   suffixes do not establish biological-replicate status.
 - The two workbooks use author-specific quantitative outputs. Their numbers are
   not a common cross-study abundance scale and are not concatenated.
+- PXD053359 describes with/without-small-molecule processing in project
+  metadata, but its six screened TopPIC TSVs only expose S2/S4 acquisition
+  labels; no official screened asset maps those labels to numeric material or
+  size covariates per analysis unit.
+- PXD050779's workbook describes three parallel protein-corona samples from a
+  commercial human-plasma source. Its Corona1/2/3 labels and path tokens remain
+  source identifiers, not inferred covariates or biological-replicate labels.
 
 ## Decisions
 
@@ -83,6 +94,9 @@ evidence.
   analysis-unit evidence is available. The current T121 plan remains immutable.
 - Preserve both candidate assets and their hashes under ignored screening storage;
   do not download their bulk raw files until a source passes the metadata gate.
+- The expansion tranche is also non-admitted: its two sources come from one
+  laboratory, use heterogeneous top-down outputs, and establish neither a
+  numeric source-matched covariate map nor a two-laboratory common endpoint.
 
 ## Validation
 
@@ -94,6 +108,12 @@ evidence.
   `model_use=PROHIBITED`, zero admissible targets and false model/OOD/independent
   validation fields. Regression tests reject strict-mode omission, candidate
   promotion and receipt tampering.
+- 2026-08-13: `python -m biointerfaceos model audit-cc0-target-discovery
+  --strict` recorded PXD053359 and PXD050779 separately in
+  `docs/data/R2_T129_CC0_TARGET_DISCOVERY_REGISTRY.json`. It verifies two
+  candidates, one laboratory and seven screened result assets, with
+  `BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES` and all model,
+  OOD and independent-validation fields false.
 
 ## Acceptance evidence
 
