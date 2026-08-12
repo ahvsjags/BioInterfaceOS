@@ -1,0 +1,1 @@
+{"duplicate_hits":2,"records":[{"attack_id":"NC-09","category":"duplicate_attack","critical":true,"critical_leak":false,"detected":true,"duplicate_count":2,"expected_failure":true,"expected_outcome":"FAIL_OR_DETECT","pass":true,"performance":0.2,"remediation":"deduplicate_by_content_fingerprint"}],"schema_version":1}

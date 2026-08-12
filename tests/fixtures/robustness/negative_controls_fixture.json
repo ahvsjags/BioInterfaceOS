@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "mode": "negative_controls_and_deliberate_leakage_attacks",
+  "inputs": [
+    {"label": "T086 extraction/red-team receipt", "path": "reports/agents/extraction/extraction_agent_receipt.json", "sha256": "75fbf39ca6d6f41fc326722d7758267f755f6e088988fbf35aabb2ba87e6805e"},
+    {"label": "T099 ablations receipt", "path": "reports/robustness/ablations/ablations_receipt.json", "sha256": "bde553a6a188e2b0a733495d8b89493f9573086e05dd639db7c47edb7a2cee54"},
+    {"label": "T100 OOD receipt", "path": "reports/robustness/ood/ood_receipt.json", "sha256": "2172d6139361a6b10e5d80ba199c21c7854830eeaa2152dc82f10931387beb2e"},
+    {"label": "T101 bias receipt", "path": "reports/robustness/bias/bias_receipt.json", "sha256": "9e989284b402ae6709d8b4ad5c042b8c5385d4b13fc2ba0208fa0fbc7ae38c97"}
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "split_id": "frozen_group_split_v1",
+    "budget": 8,
+    "baseline_performance": 0.78,
+    "expected_failure_threshold": 0.50,
+    "critical_leak_threshold": 0.10,
+    "strict": true,
+    "target_values_exposed": false
+  },
+  "attacks": [
+    {"attack_id": "NC-01", "category": "label_shuffle", "performance": 0.12, "detected": false, "critical": false, "duplicate_count": 0, "expected_outcome": "FAIL_OR_DETECT", "remediation": "retain_label_firewall"},
+    {"attack_id": "NC-02", "category": "random_mediator", "performance": 0.10, "detected": false, "critical": false, "duplicate_count": 0, "expected_outcome": "FAIL_OR_DETECT", "remediation": "retain_mediator_permutation_control"},
+    {"attack_id": "NC-03", "category": "study_proxy", "performance": 0.77, "detected": true, "critical": true, "duplicate_count": 0, "expected_outcome": "FAIL_OR_DETECT", "remediation": "remove_study_proxy_feature"},
+    {"attack_id": "NC-04", "category": "journal_proxy", "performance": 0.75, "detected": true, "critical": true, "duplicate_count": 0, "expected_outcome": "FAIL_OR_DETECT", "remediation": "remove_journal_proxy_feature"},
+    {"attack_id": "NC-05", "category": "year_proxy", "performance": 0.73, "detected": true, "critical": true, "duplicate_count": 0, "expected_outcome": "FAIL_OR_DETECT", "remediation": "remove_year_proxy_feature"},
+    {"attack_id": "NC-06", "category": "layout_proxy", "performance": 0.71, "detected": true, "critical": true, "duplicate_count": 0, "expected_outcome": "FAIL_OR_DETECT", "remediation": "remove_layout_proxy_feature"},
+    {"attack_id": "NC-07", "category": "unit_proxy", "performance": 0.09, "detected": false, "critical": false, "duplicate_count": 0, "expected_outcome": "FAIL_OR_DETECT", "remediation": "retain_unit_normalization"},
+    {"attack_id": "NC-08", "category": "missingness_proxy", "performance": 0.11, "detected": true, "critical": true, "duplicate_count": 0, "expected_outcome": "FAIL_OR_DETECT", "remediation": "mask_missingness_proxy"},
+    {"attack_id": "NC-09", "category": "duplicate_attack", "performance": 0.20, "detected": true, "critical": true, "duplicate_count": 2, "expected_outcome": "FAIL_OR_DETECT", "remediation": "deduplicate_by_content_fingerprint"}
+  ]
+}

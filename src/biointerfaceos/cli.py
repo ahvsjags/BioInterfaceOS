@@ -467,6 +467,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     robustness_bias_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized bias fixture"
     )
+    robustness_negative_parser = robustness_subparsers.add_parser(
+        "negative-controls", help="run strict negative controls and leakage attacks"
+    )
+    robustness_negative_parser.add_argument(
+        "--strict", action="store_true", help="fail on any critical leakage finding"
+    )
     discover_parser = subparsers.add_parser(
         "discover", help="discover development-scope scientific representations"
     )
@@ -1160,6 +1166,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "robustness":
+        if args.robustness_command == "negative-controls":
+            root = find_repository_root()
+            if root is None:
+                print("NEGATIVE_CONTROLS_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.strict:
+                print("NEGATIVE_CONTROLS_INVALID: --strict is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.negative_controls_workflow import (
+                NegativeControlsError,
+                NegativeControlsWorkflow,
+            )
+
+            try:
+                negative_controls_summary = NegativeControlsWorkflow(root).run(strict=True)
+            except (NegativeControlsError, OSError) as exc:
+                print(f"NEGATIVE_CONTROLS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"NEGATIVE_CONTROLS_VALID attacks={negative_controls_summary.attacks} "
+                f"expected_failures={negative_controls_summary.expected_failures} "
+                f"detected={negative_controls_summary.detected} "
+                f"critical_leaks={negative_controls_summary.critical_leaks} "
+                f"duplicate_hits={negative_controls_summary.duplicate_hits} "
+                f"strict_pass={int(negative_controls_summary.strict_pass)} "
+                f"claim_status={negative_controls_summary.claim_status} "
+                f"resumed={negative_controls_summary.resumed}"
+            )
+            return 0
         if args.robustness_command == "bias":
             root = find_repository_root()
             if root is None:

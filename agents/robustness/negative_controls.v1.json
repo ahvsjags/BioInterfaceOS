@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "workflow": "negative_controls_and_deliberate_leakage_attacks",
+  "required_inputs": [
+    "T086 extraction/red-team receipt",
+    "T099 ablations receipt",
+    "T100 OOD receipt",
+    "T101 bias receipt"
+  ],
+  "attacks": [
+    "label_shuffle",
+    "random_mediator",
+    "study_proxy",
+    "journal_proxy",
+    "year_proxy",
+    "layout_proxy",
+    "unit_proxy",
+    "missingness_proxy",
+    "duplicate_attack"
+  ],
+  "required_outputs": [
+    "attack_preregistration",
+    "control_results",
+    "leakage_audit",
+    "duplicate_audit",
+    "rollback_claim_gate",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "failure_policy": "invalidate_affected_release_on_critical_leak"
+}
