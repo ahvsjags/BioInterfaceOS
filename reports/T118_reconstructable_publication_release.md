@@ -7,7 +7,7 @@
 `reports/review_round_2/reproducibility/r2_software_replay/v1.1.0/`，并声明：
 
 - `status=PASS_R2_SOFTWARE_REPLAY`；
-- `source_asset_count=667`；
+- `source_asset_count=668`；
 - `rebuilt_protocol_figures=3`；
 - `software_replay=true`；
 - `scientific_reproduction=false`；

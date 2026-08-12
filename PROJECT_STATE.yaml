@@ -162,7 +162,7 @@ notes:
   - '2026-08-12: Round 2 created from the five-reviewer editorial report. T115–T128 are mandatory before any empirical submission-ready claim.'
   - '2026-08-12: T117 completed a default-deny public asset audit. Historical fixture bundles, data, registries, reports, and manuscript artifacts remain excluded or controlled until their independent gates pass.'
   - '2026-08-12: T119 withdrew the 15 legacy fixture-derived numerical panels from R2 submission scope and replaced them with field-mapped, protocol-only diagrams. The receipt reports no empirical values and does not constitute a human scientific signoff.'
-  - '2026-08-12: T118 completed a clean public-source software replay with 667 registered public assets, a source manifest, SBOM, deterministic archive, JUnit receipt, and three rebuilt protocol figures. It explicitly reports scientific_reproduction=false and scientific_submission_ready=false.'
+  - '2026-08-12: T118 completed a clean public-source software replay with 668 registered public assets, a source manifest, SBOM, deterministic archive, JUnit receipt, and three rebuilt protocol figures. It explicitly reports scientific_reproduction=false and scientific_submission_ready=false.'
 review_round_2:
   status: ACTIVE
   source: docs/review_round_2/REMEDIATION_MATRIX.md
