@@ -307,7 +307,9 @@ class R2ReleaseReproductionWorkflow:
             receipt = workflow.run(strict=True)
             verified = workflow.verify()
             if receipt != verified or receipt.get("figure_count") != 3:
-                raise R2ReleaseReproductionError("clean source did not rebuild all R2 protocol figures")
+                raise R2ReleaseReproductionError(
+                    "clean source did not rebuild all R2 protocol figures"
+                )
             return {
                 "command": "SubmissionFigureQAWorkflow(...).run(strict=True)",
                 "python_executable": sys.executable,
