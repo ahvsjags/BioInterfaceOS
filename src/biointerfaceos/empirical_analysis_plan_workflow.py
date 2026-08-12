@@ -178,6 +178,10 @@ class EmpiricalAnalysisPlanWorkflow:
 
     def _validate_plan(self) -> tuple[dict[str, Any], dict[str, Any]]:
         plan = self._json(self.plan_path, "empirical analysis plan")
+        if self._contains_result_field(plan):
+            raise EmpiricalAnalysisPlanError(
+                "analysis plan contains an outcome or performance field"
+            )
         if set(plan) != self.REQUIRED_PLAN_FIELDS or plan.get("schema_version") != 1:
             raise EmpiricalAnalysisPlanError("analysis plan fields or schema are invalid")
         if plan.get("plan_id") != self.PLAN_ID or plan.get("scope") != "DEVELOPMENT_ONLY":
@@ -191,10 +195,6 @@ class EmpiricalAnalysisPlanWorkflow:
             or claim_level is not AllowedClaimLevel.EXPLORATORY
         ):
             raise EmpiricalAnalysisPlanError("analysis plan evidence metadata is unsafe")
-        if self._contains_result_field(plan):
-            raise EmpiricalAnalysisPlanError(
-                "analysis plan contains an outcome or performance field"
-            )
         receipt = self._source_receipt(plan)
         self._exact(
             plan["primary_independent_unit"],
