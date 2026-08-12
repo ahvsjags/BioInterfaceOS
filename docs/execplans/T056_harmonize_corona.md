@@ -48,4 +48,12 @@ If a protein mapping is species-ambiguous or a project scale cannot be retained,
 
 ## Outputs
 
+## Completion evidence
+
+- Implementation commit: `3d7b4d9`.
+- Two project matrices and four samples were harmonized with two exact Homo sapiens protein mappings and two functional modules. Each project retained its own source scale and batch identifier.
+- Closure/CLR composition sums passed; one missing protein cell remained explicit. The receipt records `batch_correction=none`, `no_combat=true`, and `no_outcome_leakage=true`; no cross-project ComBat or outcome-aware transform was applied.
+- Focused harmonization tests: 3 passed. Full offline gate: 211 tests passed; Ruff, formatting, mypy, UV lock/sync, Sage search, LFQ, conversion, PRIDE triage, coverage, Silver/Gold-auto validation, review export, assets, catalog, lockbox, release, state validation, compileall, and `git diff --check` passed.
+- The first CLI run created deterministic project/module/QC outputs and the second returned `resumed=1` without changing receipt bytes. No raw download, locked payload access, or live network request occurred.
+
 Project matrix audit, mapping table, project-preserved normalized matrices, functional-module matrix, batch metadata, missingness report, QC/guard report, deterministic receipts/logs, focused tests, this ExecPlan, evidence report, and task-ledger/state advancement.
