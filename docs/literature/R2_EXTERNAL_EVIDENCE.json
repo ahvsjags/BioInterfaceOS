@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "registry_id": "bioif-r2-external-evidence-v1.1.0",
+  "retrieved_at": "2026-08-12T00:00:00+00:00",
+  "search_protocol": {
+    "question": "What external reporting standards, data-integration resources, scientific-evidence benchmarks, OOD evaluation practices, reproducibility requirements, protein-corona comparators, and preregistration precedents constrain the R2 manuscript portfolio?",
+    "sources_searched": ["publisher landing pages", "PubMed/PMC", "ACL Anthology", "PMLR"],
+    "inclusion": [
+      "authoritative standard, policy, or peer-reviewed work with a stable publisher, archive, or proceedings record",
+      "direct relevance to at least one R2 manuscript scope or operational glossary term",
+      "verified title, year, landing URL, and DOI where a DOI exists"
+    ],
+    "exclusion": [
+      "unverified citations",
+      "sources used solely as an empirical substitute for the missing T123 compatible target or T124 protected-data evaluation",
+      "sources that justify a causal, generalisation, or replication claim beyond their study design"
+    ],
+    "limitation": "This is a targeted related-work and comparator packet, not a systematic review or a substitute for the real-data and independent-evaluator gates."
+  },
+  "references": [
+    {
+      "citation_key": "MONOPOLI2012_CORONA_IDENTITY",
+      "citation": "Monopoli, M. P., ?berg, C., Salvati, A., & Dawson, K. A. (2012). Biomolecular coronas provide the biological identity of nanosized materials. Nature Nanotechnology, 7, 779?786.",
+      "title": "Biomolecular coronas provide the biological identity of nanosized materials",
+      "year": 2012,
+      "source_kind": "peer_reviewed_review",
+      "peer_reviewed": true,
+      "doi": "10.1038/nnano.2012.207",
+      "landing_url": "https://doi.org/10.1038/nnano.2012.207",
+      "roles": ["bio-nano domain definition", "corona interpretation boundary"],
+      "use_boundary": "Context for the biological significance of coronas; it does not validate any BioInterfaceOS result."
+    },
+    {
+      "citation_key": "FARIA2018_MIRIBEL",
+      "citation": "Faria, M., Bj?rnmalm, M., Thurecht, K. J., et al. (2018). Minimum information reporting in bio?nano experimental literature. Nature Nanotechnology, 13, 777?785.",
+      "title": "Minimum information reporting in bio?nano experimental literature",
+      "year": 2018,
+      "source_kind": "peer_reviewed_reporting_standard",
+      "peer_reviewed": true,
+      "doi": "10.1038/s41565-018-0246-4",
+      "landing_url": "https://doi.org/10.1038/s41565-018-0246-4",
+      "roles": ["material/biology/protocol reporting", "cross-study comparability"],
+      "use_boundary": "Defines a comparator for required metadata; it does not make incompletely reported studies comparable."
+    },
+    {
+      "citation_key": "CHETWYND2019_MINBE",
+      "citation": "Chetwynd, A. J., Wheeler, K. E., & Lynch, I. (2019). Best practice in reporting corona studies: Minimum information about Nanomaterial Biocorona Experiments (MINBE). Nano Today, 28, 100758.",
+      "title": "Best practice in reporting corona studies: Minimum information about Nanomaterial Biocorona Experiments (MINBE)",
+      "year": 2019,
+      "source_kind": "peer_reviewed_reporting_standard",
+      "peer_reviewed": true,
+      "doi": "10.1016/j.nantod.2019.06.004",
+      "landing_url": "https://doi.org/10.1016/j.nantod.2019.06.004",
+      "roles": ["corona assay reporting", "exposure and isolation metadata"],
+      "use_boundary": "Provides a corona-specific reporting checklist; it does not establish protein-corona measurements in R2."
+    },
+    {
+      "citation_key": "WILKINSON2016_FAIR",
+      "citation": "Wilkinson, M. D., Dumontier, M., Aalbersberg, I. J. J., et al. (2016). The FAIR Guiding Principles for scientific data management and stewardship. Scientific Data, 3, 160018.",
+      "title": "The FAIR Guiding Principles for scientific data management and stewardship",
+      "year": 2016,
+      "source_kind": "peer_reviewed_principles",
+      "peer_reviewed": true,
+      "doi": "10.1038/sdata.2016.18",
+      "landing_url": "https://doi.org/10.1038/sdata.2016.18",
+      "roles": ["provenance and metadata", "reusable data and software artifacts"],
+      "use_boundary": "Guides findability and reuse; FAIR metadata alone does not prove scientific validity."
+    },
+    {
+      "citation_key": "HASTINGS2015_ENANOMAPPER",
+      "citation": "Hastings, J., Jeliazkova, N., Owen, G., et al. (2015). eNanoMapper: Harnessing ontologies to enable data integration for nanomaterial risk assessment. Journal of Biomedical Semantics, 6, 10.",
+      "title": "eNanoMapper: Harnessing ontologies to enable data integration for nanomaterial risk assessment",
+      "year": 2015,
+      "source_kind": "peer_reviewed_resource",
+      "peer_reviewed": true,
+      "doi": "10.1186/s13326-015-0005-5",
+      "landing_url": "https://doi.org/10.1186/s13326-015-0005-5",
+      "roles": ["material/assay/endpoint ontology", "unit and provenance terminology"],
+      "use_boundary": "Supports controlled vocabulary design; ontology alignment is not a causal model."
+    },
+    {
+      "citation_key": "WADDEN2020_SCIFACT",
+      "citation": "Wadden, D., Lin, S., Lo, K., et al. (2020). Fact or Fiction: Verifying Scientific Claims. In EMNLP 2020, 7534?7550.",
+      "title": "Fact or Fiction: Verifying Scientific Claims",
+      "year": 2020,
+      "source_kind": "peer_reviewed_benchmark",
+      "peer_reviewed": true,
+      "doi": "10.18653/v1/2020.emnlp-main.609",
+      "landing_url": "https://aclanthology.org/2020.emnlp-main.609/",
+      "roles": ["claim-evidence retrieval comparator", "rationale-linked evaluation"],
+      "use_boundary": "A comparator for claim/evidence evaluation design; source-cell location is not claim truth verification."
+    },
+    {
+      "citation_key": "KOH2021_WILDS",
+      "citation": "Koh, P. W., Sagawa, S., Marklund, H., et al. (2021). WILDS: A Benchmark of in-the-Wild Distribution Shifts. ICML 2021, PMLR 139, 5637?5664.",
+      "title": "WILDS: A Benchmark of in-the-Wild Distribution Shifts",
+      "year": 2021,
+      "source_kind": "peer_reviewed_benchmark",
+      "peer_reviewed": true,
+      "doi": null,
+      "landing_url": "https://proceedings.mlr.press/v139/koh21a.html",
+      "roles": ["declared distribution shift", "domain/OOD evaluation comparator"],
+      "use_boundary": "Motivates declared group shifts and separate OOD reporting; it does not make a one-study-per-endpoint collection an OOD benchmark."
+    },
+    {
+      "citation_key": "HEIL2021_ML_REPRODUCIBILITY",
+      "citation": "Heil, B. J., Hoffman, M. M., Markowetz, F., et al. (2021). Reproducibility standards for machine learning in the life sciences. Nature Methods, 18, 1132?1135.",
+      "title": "Reproducibility standards for machine learning in the life sciences",
+      "year": 2021,
+      "source_kind": "peer_reviewed_standard",
+      "peer_reviewed": true,
+      "doi": "10.1038/s41592-021-01256-7",
+      "landing_url": "https://doi.org/10.1038/s41592-021-01256-7",
+      "roles": ["data/model/code reporting", "workflow automation"],
+      "use_boundary": "Supports software and workflow reproducibility requirements; it does not constitute independent scientific reproduction."
+    },
+    {
+      "citation_key": "FINDLAY2018_SILVER_CORONA_ML",
+      "citation": "Findlay, M. R., Freitas, D. N., Mobed-Miremadi, M., & Wheeler, K. E. (2018). Machine learning provides predictive analysis into silver nanoparticle protein corona formation from physicochemical properties. Environmental Science: Nano, 5, 64?71.",
+      "title": "Machine learning provides predictive analysis into silver nanoparticle protein corona formation from physicochemical properties",
+      "year": 2018,
+      "source_kind": "peer_reviewed_method",
+      "peer_reviewed": true,
+      "doi": "10.1039/C7EN00466D",
+      "landing_url": "https://doi.org/10.1039/C7EN00466D",
+      "roles": ["protein-corona prediction comparator", "physicochemical and solution covariates"],
+      "use_boundary": "A domain comparator with its own silver-ENM and protein-corona scope; it is not a benchmark result for BioInterfaceOS."
+    },
+    {
+      "citation_key": "BAN2020_FUNCTIONAL_CORONA_ML",
+      "citation": "Ban, Z., Yuan, P., Yu, F., et al. (2020). Machine learning predicts the functional composition of the protein corona and the cellular recognition of nanoparticles. Proceedings of the National Academy of Sciences, 117, 10492?10499.",
+      "title": "Machine learning predicts the functional composition of the protein corona and the cellular recognition of nanoparticles",
+      "year": 2020,
+      "source_kind": "peer_reviewed_method",
+      "peer_reviewed": true,
+      "doi": "10.1073/pnas.1919755117",
+      "landing_url": "https://doi.org/10.1073/pnas.1919755117",
+      "roles": ["functional-corona prediction comparator", "cellular-recognition scope"],
+      "use_boundary": "A comparator for stated target and split design; its results must not be imported as BioInterfaceOS evidence."
+    },
+    {
+      "citation_key": "CANCHOLA2025_PCDB_ML",
+      "citation": "Canchola, A., Li, K., Chen, K., et al. (2025). Meta-Analysis and Machine Learning Prediction of Protein Corona Composition across Nanoparticle Systems in Biological Media. ACS Nano, 19, 37633?37650.",
+      "title": "Meta-Analysis and Machine Learning Prediction of Protein Corona Composition across Nanoparticle Systems in Biological Media",
+      "year": 2025,
+      "source_kind": "peer_reviewed_dataset_method",
+      "peer_reviewed": true,
+      "doi": "10.1021/acsnano.5c08608",
+      "landing_url": "https://doi.org/10.1021/acsnano.5c08608",
+      "roles": ["multi-study protein-corona data comparator", "feature and assay-scope comparator"],
+      "use_boundary": "A scale and curation comparator; its database cannot be silently treated as a validated R2 training or external test set."
+    },
+    {
+      "citation_key": "NOSEK_LAKENS2014_REGISTERED_REPORTS",
+      "citation": "Nosek, B. A., & Lakens, D. (2014). Registered Reports: A Method to Increase the Credibility of Published Results. Social Psychology, 45, 137?141.",
+      "title": "Registered Reports: A Method to Increase the Credibility of Published Results",
+      "year": 2014,
+      "source_kind": "peer_reviewed_publication_model",
+      "peer_reviewed": true,
+      "doi": "10.1027/1864-9335/a000192",
+      "landing_url": "https://doi.org/10.1027/1864-9335/a000192",
+      "roles": ["pre-registration comparator", "results-blind protocol positioning"],
+      "use_boundary": "Supports Paper C's protocol-only route until T124; it does not convert a pre-lock candidate into a confirmed result."
+    }
+  ]
+}

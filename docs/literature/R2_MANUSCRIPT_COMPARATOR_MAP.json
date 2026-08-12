@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "map_id": "bioif-r2-manuscript-comparator-map-v1.1.0",
+  "manuscript_scopes": [
+    {
+      "scope_id": "R2_PAPER_AB_REAL_BENCHMARK_METHOD",
+      "target_document": "future T126 merged Paper A+B manuscript",
+      "position": "real-data provenance and source-locator benchmark/method workflow; not a biological-performance or causal-model paper until T123 passes",
+      "citation_keys": [
+        "MONOPOLI2012_CORONA_IDENTITY",
+        "FARIA2018_MIRIBEL",
+        "CHETWYND2019_MINBE",
+        "WILKINSON2016_FAIR",
+        "HASTINGS2015_ENANOMAPPER",
+        "WADDEN2020_SCIFACT",
+        "KOH2021_WILDS",
+        "HEIL2021_ML_REPRODUCIBILITY",
+        "FINDLAY2018_SILVER_CORONA_ML",
+        "BAN2020_FUNCTIONAL_CORONA_ML",
+        "CANCHOLA2025_PCDB_ML"
+      ],
+      "comparator_ids": [
+        "BIO_NANO_REPORTING",
+        "CORONA_REPORTING",
+        "NANO_ONTOLOGY",
+        "SCIENTIFIC_CLAIM_EVALUATION",
+        "DECLARED_OOD",
+        "LIFE_SCIENCE_ML_REPRODUCIBILITY",
+        "CORONA_PREDICTIVE_MODELS"
+      ],
+      "required_glossary_terms": [
+        "material", "biology", "protocol", "outcome", "independent_unit", "evidence_locator", "ood_group"
+      ],
+      "claim_constraints": [
+        "Describe T122 only as raw-cell locator resolution, not claim verification, biological prediction, or external validation.",
+        "Describe T123 as unavailable while compatible cross-study endpoints and declared external cohorts are absent.",
+        "Do not use a cited external corpus, database, or model result as a BioInterfaceOS measurement or held-out score."
+      ]
+    },
+    {
+      "scope_id": "R2_PAPER_C_PREREGISTERED_PROTOCOL",
+      "target_document": "future T127 Paper C protocol unless T124 produces an independent protected-data evaluator receipt",
+      "position": "results-blind pre-registered candidate-evaluation protocol; no law-discovery, replication, or post-lock result claim",
+      "citation_keys": [
+        "MONOPOLI2012_CORONA_IDENTITY",
+        "FARIA2018_MIRIBEL",
+        "CHETWYND2019_MINBE",
+        "WILKINSON2016_FAIR",
+        "HASTINGS2015_ENANOMAPPER",
+        "KOH2021_WILDS",
+        "HEIL2021_ML_REPRODUCIBILITY",
+        "NOSEK_LAKENS2014_REGISTERED_REPORTS"
+      ],
+      "comparator_ids": [
+        "BIO_NANO_REPORTING",
+        "CORONA_REPORTING",
+        "NANO_ONTOLOGY",
+        "DECLARED_OOD",
+        "LIFE_SCIENCE_ML_REPRODUCIBILITY",
+        "REGISTERED_PROTOCOL"
+      ],
+      "required_glossary_terms": [
+        "material", "biology", "protocol", "outcome", "independent_unit", "evidence_locator", "ood_group"
+      ],
+      "claim_constraints": [
+        "Keep all candidate statuses pending until T124 is evaluated independently on protected real observations.",
+        "Report deviations, abstentions, overlap and effective n as protocol fields, not as favorable-selection filters.",
+        "If T124 remains unavailable, publish or retain only the protocol version."
+      ]
+    }
+  ],
+  "comparators": [
+    {
+      "comparator_id": "BIO_NANO_REPORTING",
+      "citation_keys": ["FARIA2018_MIRIBEL"],
+      "comparison_axis": "minimum reporting of material, biological system, and experimental protocol",
+      "r2_position": "Each admitted R2 observation retains source, study, laboratory, material, biological system, protocol, licence, raw asset, worksheet/cell locator and independent-unit lineage.",
+      "non_equivalence": "The R2 field set is a provenance gate; it does not certify that a source has all MIRIBEL fields or that sources are mutually comparable."
+    },
+    {
+      "comparator_id": "CORONA_REPORTING",
+      "citation_keys": ["CHETWYND2019_MINBE", "MONOPOLI2012_CORONA_IDENTITY"],
+      "comparison_axis": "biocorona experimental design, exposure, isolation, and interpretation",
+      "r2_position": "R2 treats biological/corona conditions and assay protocol as explicit fields and refuses to collapse different endpoints into one model target.",
+      "non_equivalence": "R2 currently contains no newly generated proteomic corona dataset and cannot make protein-corona composition claims."
+    },
+    {
+      "comparator_id": "NANO_ONTOLOGY",
+      "citation_keys": ["HASTINGS2015_ENANOMAPPER"],
+      "comparison_axis": "controlled description of nanomaterials, assays, endpoints, units, and provenance",
+      "r2_position": "The operating glossary separates material, biology, protocol and outcome; it preserves source-defined units and flags undefined units.",
+      "non_equivalence": "The glossary is not asserted to be an eNanoMapper ontology mapping or a complete ontology implementation."
+    },
+    {
+      "comparator_id": "SCIENTIFIC_CLAIM_EVALUATION",
+      "citation_keys": ["WADDEN2020_SCIFACT"],
+      "comparison_axis": "claim-to-evidence links, support/refute labels, and rationales",
+      "r2_position": "R2 preserves raw-cell locators, evidence semantics and audit receipts for its source-locator task.",
+      "non_equivalence": "Locating a declared spreadsheet cell does not determine whether a scientific claim is supported or refuted."
+    },
+    {
+      "comparator_id": "DECLARED_OOD",
+      "citation_keys": ["KOH2021_WILDS"],
+      "comparison_axis": "explicit natural distribution shifts and separated in-distribution/OOD evaluation",
+      "r2_position": "T123 requires a fixed compatible endpoint, study/laboratory groups, an external cohort, overlap, effective n, calibration and uncertainty before any OOD report.",
+      "non_equivalence": "The current T122 sources contain one study per endpoint and therefore do not satisfy this OOD requirement."
+    },
+    {
+      "comparator_id": "LIFE_SCIENCE_ML_REPRODUCIBILITY",
+      "citation_keys": ["HEIL2021_ML_REPRODUCIBILITY", "WILKINSON2016_FAIR"],
+      "comparison_axis": "data, model, code, workflow, and reproducibility disclosure",
+      "r2_position": "R2 provides checksums, source policies, immutable receipts, software-replay artifacts and fail-closed commands.",
+      "non_equivalence": "A software replay remains different from independent scientific reproduction or external validation."
+    },
+    {
+      "comparator_id": "CORONA_PREDICTIVE_MODELS",
+      "citation_keys": ["FINDLAY2018_SILVER_CORONA_ML", "BAN2020_FUNCTIONAL_CORONA_ML", "CANCHOLA2025_PCDB_ML"],
+      "comparison_axis": "protein-corona prediction using particle, protein, assay, and biological-medium attributes",
+      "r2_position": "These works define nearest methodological comparators for a future compatible corona target and indicate why assay/medium/particle descriptors must be frozen before model fitting.",
+      "non_equivalence": "Their training data, targets, preprocessing and validation designs are external and cannot be copied into an R2 score or claimed as an R2 baseline without audited source admission."
+    },
+    {
+      "comparator_id": "REGISTERED_PROTOCOL",
+      "citation_keys": ["NOSEK_LAKENS2014_REGISTERED_REPORTS"],
+      "comparison_axis": "results-blind protocol, frozen analyses, and evaluation before results interpretation",
+      "r2_position": "Paper C remains a protocol with frozen candidate wording until the external evaluator completes T124.",
+      "non_equivalence": "Pre-registration improves transparency but does not itself produce independent validation."
+    }
+  ]
+}

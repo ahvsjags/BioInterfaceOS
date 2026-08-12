@@ -516,6 +516,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     subparsers.add_parser(
         "paper-c-prelock", help="freeze the Paper C scientific-law manuscript before lockbox access"
     )
+    manuscript_parser = subparsers.add_parser(
+        "manuscript", help="audit manuscript-scoped external evidence and terminology"
+    )
+    manuscript_subparsers = manuscript_parser.add_subparsers(dest="manuscript_command")
+    manuscript_related_work_parser = manuscript_subparsers.add_parser(
+        "audit-related-work",
+        help="audit the R2 external literature, comparator, and glossary packet",
+    )
+    manuscript_related_work_parser.add_argument("--strict", action="store_true")
     claim_parser = subparsers.add_parser(
         "claim", help="freeze and preregister exploratory claim tournaments"
     )
@@ -2169,6 +2178,30 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "model_fitted=false paired_ablations_run=false "
             "external_ood_evaluated=false independent_validation=false "
             "scientific_submission_ready=false"
+        )
+        return 0
+    if args.command == "manuscript":
+        if args.manuscript_command != "audit-related-work":
+            parser.parse_args(["manuscript", "--help"])
+            return 0
+        from biointerfaceos.related_work_workflow import RelatedWorkError, RelatedWorkWorkflow
+
+        root = find_repository_root()
+        if root is None:
+            print("RELATED_WORK_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            related_work_summary = RelatedWorkWorkflow(root).run(strict=args.strict)
+        except (RelatedWorkError, OSError) as exc:
+            print(f"RELATED_WORK_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"RELATED_WORK_VALID citations={related_work_summary.citation_count} "
+            f"comparators={related_work_summary.comparator_count} "
+            f"manuscript_scopes={related_work_summary.manuscript_scope_count} "
+            f"glossary_terms={related_work_summary.glossary_term_count} "
+            "historical_fixture_manuscripts_retroactively_cleared=false "
+            "independent_validation=false scientific_submission_ready=false"
         )
         return 0
     if args.command == "report":
