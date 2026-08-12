@@ -1,0 +1,1 @@
+{"development_reads":false,"operations":["verify_release","load_prediction_metadata","emit_aggregate_status","seal_receipt"],"prediction_rewrites":0,"protected_values_read":false,"release_id":"bioif-internal-prelock-v1.0.0","schema_version":1,"selection_calls":0,"train_calls":0,"tune_calls":0}
