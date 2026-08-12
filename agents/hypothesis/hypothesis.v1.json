@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "agent": "MechanismHypothesisAgent",
+  "proposal_fields": [
+    "case_id",
+    "normalized_key",
+    "mechanism",
+    "formalization",
+    "evidence_links",
+    "falsifiability",
+    "split"
+  ],
+  "rejection_reasons": [
+    "DUPLICATE_NORMALIZED_HYPOTHESIS",
+    "NOT_FORMALIZED",
+    "UNGROUNDED_EVIDENCE",
+    "NOT_FALSIFIABLE"
+  ]
+}

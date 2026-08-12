@@ -206,6 +206,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     agent_eval_subparsers.add_parser("source-license", help="evaluate SourceScout and LicenseGate")
     agent_eval_subparsers.add_parser("extraction", help="evaluate the multimodal ExtractionAgent")
     agent_eval_subparsers.add_parser("audit", help="evaluate Resolution and EvidenceAuditor")
+    agent_eval_subparsers.add_parser(
+        "hypothesis", help="evaluate exploratory Mechanism and hypothesis agents"
+    )
     ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
     ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
     ontology_sync_parser = ontology_subparsers.add_parser(
@@ -1865,6 +1868,38 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"{str(source_license_summary.no_credentials_requested).lower()} "
                 f"agent_value={source_license_summary.agent_value} "
                 f"resumed={source_license_summary.resumed}"
+            )
+            return 0
+        if args.agent_command == "eval" and args.agent_eval_command == "hypothesis":
+            from biointerfaceos.hypothesis_agent_workflow import (
+                HypothesisAgentError,
+                HypothesisAgentWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("AGENT_HYPOTHESIS_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                hypothesis_summary = HypothesisAgentWorkflow(root).run(fixture=True)
+            except (HypothesisAgentError, OSError) as exc:
+                print(f"AGENT_HYPOTHESIS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"AGENT_HYPOTHESIS_VALID proposals={hypothesis_summary.proposals} "
+                f"valid={hypothesis_summary.valid_proposals} "
+                f"rejected={hypothesis_summary.rejected} "
+                f"duplicates={hypothesis_summary.duplicates_rejected} "
+                f"falsifiable={hypothesis_summary.falsifiable} "
+                f"formalized={hypothesis_summary.formalized} "
+                f"evidence_linked={hypothesis_summary.evidence_linked} "
+                f"schema_valid={str(hypothesis_summary.schema_valid).lower()} "
+                f"lockbox_clean={str(hypothesis_summary.lockbox_clean).lower()} "
+                f"claims_auto_accepted="
+                f"{str(hypothesis_summary.claims_auto_accepted).lower()} "
+                f"selected_pipeline={hypothesis_summary.selected_pipeline} "
+                f"trace_events={hypothesis_summary.trace_events} "
+                f"resumed={hypothesis_summary.resumed}"
             )
             return 0
         if args.agent_command != "self-test":

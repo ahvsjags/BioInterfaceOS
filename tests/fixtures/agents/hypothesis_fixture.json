@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "mode": "hypothesis_fixture",
+  "inputs": [
+    {
+      "label": "T080 agent receipt",
+      "path": "reports/agents/agent_receipt.json",
+      "sha256": "09750940ab002de284939df873657c6013db25ef21e1d26c243d15046884094f",
+      "split": "train"
+    },
+    {
+      "label": "T062 mechanism graph",
+      "path": "reports/omics/modality_links/link_graph.json",
+      "sha256": "8833ff32e4ce55f2d502696119bc64431ecfb987a396fa888d8de20a2e9e6dbe",
+      "split": "train"
+    },
+    {
+      "label": "T076 model residuals",
+      "path": "reports/models/m6/m6_results.json",
+      "sha256": "33abc7c2ea291a765f7e54e062a803ba3028871696e78757a39d0d6dc6a09fc8",
+      "split": "train"
+    }
+  ],
+  "candidates": [
+    {
+      "case_id": "HYP-001",
+      "normalized_key": "adsorption-interface->cell-stress",
+      "mechanism": "adsorption interface perturbation is associated with a cell-stress response",
+      "formalization": {
+        "equation": "delta_cell_stress = beta_adsorption * delta_interface + epsilon",
+        "variables": ["delta_cell_stress", "delta_interface", "epsilon"],
+        "direction": "positive"
+      },
+      "evidence_links": [
+        {
+          "locator": "T062:fixture#matched-unit=MU-001",
+          "source": "mechanism_graph",
+          "split": "train",
+          "role": "mechanism_seed"
+        },
+        {
+          "locator": "T076:m6#train_residual_rmse",
+          "source": "model_residuals",
+          "split": "train",
+          "role": "residual_context"
+        }
+      ],
+      "falsifiability": {
+        "test": "reject if the held-out replication slope is not positive",
+        "metric": "replication_slope",
+        "threshold": 0.0,
+        "direction": "greater_than"
+      },
+      "split": "train",
+      "expected_status": "PROPOSE"
+    },
+    {
+      "case_id": "HYP-002",
+      "normalized_key": "adsorption-interface->cell-stress",
+      "mechanism": "interface adsorption increases stress through the same candidate pathway",
+      "formalization": {
+        "equation": "delta_cell_stress = beta_interface * delta_adsorption + epsilon",
+        "variables": ["delta_cell_stress", "delta_adsorption", "epsilon"],
+        "direction": "positive"
+      },
+      "evidence_links": [
+        {
+          "locator": "T062:fixture#matched-unit=MU-001",
+          "source": "mechanism_graph",
+          "split": "train",
+          "role": "mechanism_seed"
+        }
+      ],
+      "falsifiability": {
+        "test": "reject if the held-out replication slope is not positive",
+        "metric": "replication_slope",
+        "threshold": 0.0,
+        "direction": "greater_than"
+      },
+      "split": "train",
+      "expected_status": "REJECT_DUPLICATE"
+    },
+    {
+      "case_id": "HYP-003",
+      "normalized_key": "receptor-interface->immune-response",
+      "mechanism": "receptor interface perturbation may be associated with an immune response",
+      "formalization": {
+        "equation": "delta_immune_response = beta_receptor * delta_interface + epsilon",
+        "variables": ["delta_immune_response", "delta_interface", "epsilon"],
+        "direction": "conditional"
+      },
+      "evidence_links": [
+        {
+          "locator": "T062:fixture#indirect-link=LINK-INDIRECT-001",
+          "source": "mechanism_graph",
+          "split": "train",
+          "role": "mechanism_seed"
+        }
+      ],
+      "falsifiability": {
+        "test": "",
+        "metric": "replication_slope",
+        "threshold": 0.0,
+        "direction": "greater_than"
+      },
+      "split": "train",
+      "expected_status": "REJECT_NOT_FALSIFIABLE"
+    },
+    {
+      "case_id": "HYP-004",
+      "normalized_key": "surface-charge->protein-corona",
+      "mechanism": "surface charge may alter the protein corona profile",
+      "formalization": {
+        "equation": "delta_corona = beta_charge * delta_surface_charge + epsilon",
+        "variables": ["delta_corona", "delta_surface_charge", "epsilon"],
+        "direction": "conditional"
+      },
+      "evidence_links": [],
+      "falsifiability": {
+        "test": "reject if the held-out replication slope is not nonzero",
+        "metric": "replication_slope",
+        "threshold": 0.0,
+        "direction": "outside_interval"
+      },
+      "split": "train",
+      "expected_status": "REJECT_UNGROUNDED"
+    },
+    {
+      "case_id": "HYP-005",
+      "normalized_key": "coating-density->cell-stress",
+      "mechanism": "coating density modulates the magnitude of a cell-stress response",
+      "formalization": {
+        "equation": "delta_cell_stress = beta_density * delta_coating_density + epsilon",
+        "variables": ["delta_cell_stress", "delta_coating_density", "epsilon"],
+        "direction": "conditional"
+      },
+      "evidence_links": [
+        {
+          "locator": "T076:m6#train_residual_rmse",
+          "source": "model_residuals",
+          "split": "train",
+          "role": "residual_context"
+        }
+      ],
+      "falsifiability": {
+        "test": "reject if the held-out replication slope is not within the preregistered interval",
+        "metric": "replication_slope",
+        "threshold": 0.1,
+        "direction": "outside_interval"
+      },
+      "split": "train",
+      "expected_status": "PROPOSE"
+    }
+  ]
+}
