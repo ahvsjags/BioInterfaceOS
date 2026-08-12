@@ -135,7 +135,9 @@ class RealModelSourceDiscoveryWorkflow:
     def _registry(self) -> tuple[dict[str, Any], list[dict[str, Any]]]:
         registry = self._json(self.registry_path, "T123 public source-discovery registry")
         if set(registry) != self.REQUIRED_REGISTRY_FIELDS or registry.get("schema_version") != 1:
-            raise RealModelSourceDiscoveryError("source-discovery registry fields or schema are invalid")
+            raise RealModelSourceDiscoveryError(
+                "source-discovery registry fields or schema are invalid"
+            )
         if registry.get("audit_id") != self.AUDIT_ID:
             raise RealModelSourceDiscoveryError("source-discovery registry identity is invalid")
         if registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION":
@@ -148,7 +150,9 @@ class RealModelSourceDiscoveryWorkflow:
             raise RealModelSourceDiscoveryError("source-discovery policy fields are invalid")
         for field in ("minimum_sources", "minimum_studies", "minimum_laboratories"):
             if _integer(policy.get(field), f"source-discovery policy {field}", minimum=3) != 3:
-                raise RealModelSourceDiscoveryError("source-discovery minimum cohort policy changed")
+                raise RealModelSourceDiscoveryError(
+                    "source-discovery minimum cohort policy changed"
+                )
         for field in self.REQUIRED_POLICY_FIELDS - {
             "minimum_sources",
             "minimum_studies",
@@ -173,26 +177,39 @@ class RealModelSourceDiscoveryWorkflow:
             if candidate_id in identifiers:
                 raise RealModelSourceDiscoveryError("source-discovery candidate ID is duplicated")
             identifiers.add(candidate_id)
-            if not candidate["landing_url"].startswith("https://") or not candidate["doi"].startswith(
-                "10."
-            ):
-                raise RealModelSourceDiscoveryError("source-discovery candidate source identity is invalid")
+            has_valid_source_identity = candidate["landing_url"].startswith(
+                "https://"
+            ) and candidate["doi"].startswith("10.")
+            if not has_valid_source_identity:
+                raise RealModelSourceDiscoveryError(
+                    "source-discovery candidate source identity is invalid"
+                )
             if candidate["license_id"] not in self.ALLOWED_LICENSES:
                 raise RealModelSourceDiscoveryError("source-discovery candidate licence is unsafe")
             if candidate["access"] != "ANONYMOUS_PUBLIC":
-                raise RealModelSourceDiscoveryError("source-discovery candidate access is restricted")
+                raise RealModelSourceDiscoveryError(
+                    "source-discovery candidate access is restricted"
+                )
             reasons = _list(
-                candidate.get("rejection_reasons"), "source-discovery candidate rejection reasons", minimum=1
+                candidate.get("rejection_reasons"),
+                "source-discovery candidate rejection reasons",
+                minimum=1,
             )
             if any(not isinstance(reason, str) or not reason.strip() for reason in reasons):
                 raise RealModelSourceDiscoveryError("source-discovery rejection reason is invalid")
             if candidate["decision"] not in {self.REJECTED, self.RESERVED}:
-                raise RealModelSourceDiscoveryError("source-discovery candidate was silently admitted")
+                raise RealModelSourceDiscoveryError(
+                    "source-discovery candidate was silently admitted"
+                )
             candidates.append(candidate)
         if len(candidates) != 3:
-            raise RealModelSourceDiscoveryError("source-discovery audit requires exactly three screened records")
+            raise RealModelSourceDiscoveryError(
+                "source-discovery audit requires exactly three screened records"
+            )
         if sum(candidate["decision"] == self.RESERVED for candidate in candidates) != 1:
-            raise RealModelSourceDiscoveryError("source-discovery must preserve one reserved lockbox record")
+            raise RealModelSourceDiscoveryError(
+                "source-discovery must preserve one reserved lockbox record"
+            )
         return registry, sorted(candidates, key=lambda row: str(row["candidate_id"]))
 
     def run(self, *, strict: bool = False) -> RealModelSourceDiscoverySummary:
@@ -201,7 +218,9 @@ class RealModelSourceDiscoveryWorkflow:
         if not strict:
             raise RealModelSourceDiscoveryError("T123 source-discovery audit requires --strict")
         if self.output_root.exists():
-            raise RealModelSourceDiscoveryError("real-model source-discovery audit already executed")
+            raise RealModelSourceDiscoveryError(
+                "real-model source-discovery audit already executed"
+            )
         registry, candidates = self._registry()
         rejected = sum(candidate["decision"] == self.REJECTED for candidate in candidates)
         reserved = sum(candidate["decision"] == self.RESERVED for candidate in candidates)
@@ -219,9 +238,12 @@ class RealModelSourceDiscoveryWorkflow:
             "candidates": candidates,
             "status": "BLOCKED_NO_ADMISSIBLE_T123_TARGET_FOUND",
             "blocked_reasons": [
-                "No screened record supplies a source-defined row-level DLS target with a matched biological-condition protocol.",
-                "A post-freeze record is kept out of development evidence and is not treated as an inferred external validation result.",
-                "The source policy still requires three independently generated studies and laboratories with the same declared measurement definition and unit."
+                "No screened record supplies a source-defined row-level DLS target with a "
+                "matched biological-condition protocol.",
+                "A post-freeze record stays out of development evidence and is not treated as "
+                "an inferred external validation result.",
+                "The source policy still requires three independently generated studies and "
+                "laboratories with the same declared measurement definition and unit.",
             ],
             "model_fitted": False,
             "paired_ablations_run": False,
@@ -262,7 +284,9 @@ class RealModelSourceDiscoveryWorkflow:
                 receipt["rejected_candidate_count"], "rejected candidate count", minimum=1
             ),
             reserved_lockbox_candidate_count=_integer(
-                receipt["reserved_lockbox_candidate_count"], "reserved lockbox candidate count", minimum=1
+                receipt["reserved_lockbox_candidate_count"],
+                "reserved lockbox candidate count",
+                minimum=1,
             ),
             receipt_path=receipt_path,
         )

@@ -2218,7 +2218,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
 
             root = find_repository_root()
             if root is None:
-                print("REAL_MODEL_SOURCE_DISCOVERY_INVALID: repository root not found", file=sys.stderr)
+                print(
+                    "REAL_MODEL_SOURCE_DISCOVERY_INVALID: repository root not found",
+                    file=sys.stderr,
+                )
                 return 1
             try:
                 discovery_summary = RealModelSourceDiscoveryWorkflow(root).run(strict=args.strict)
