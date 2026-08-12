@@ -116,8 +116,7 @@ class RealProteomicsResultProfileWorkflow:
     RAW_RELATIVE = "data/raw/r2_t123_proteomics"
     OUTPUT_RELATIVE = "reports/review_round_2/real_proteomics_result_profile/v1.0.0"
     ACQUISITION_RELATIVE = (
-        "reports/review_round_2/real_proteomics_acquisition/v1.0.0/"
-        "acquisition_receipt.json"
+        "reports/review_round_2/real_proteomics_acquisition/v1.0.0/acquisition_receipt.json"
     )
     PXD017_PREFIX = "PXD017776/author_results"
     PXD052_PREFIX = "PXD052701/author_results"
@@ -402,8 +401,7 @@ class RealProteomicsResultProfileWorkflow:
             "model_use": "PROHIBITED",
             "compatible_cross_study_target_count": 0,
             "blocked_reasons": [
-                "PXD052701 L/S labels lack a source-matched reusable material/size "
-                "covariate map.",
+                "PXD052701 L/S labels lack a source-matched reusable material/size covariate map.",
                 "PXD032162's acquired mzIdentML is one combined result and cannot "
                 "support mix-level protein observations.",
                 "The result formats define detection sets only; no common abundance "
