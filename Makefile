@@ -1,4 +1,4 @@
-.PHONY: env check
+.PHONY: env check paper-a
 
 BIOINTERFACEOS_UV ?= uv
 BIOINTERFACEOS_PYTHON ?= 3.11
@@ -12,3 +12,6 @@ check:
 	$(BIOINTERFACEOS_UV) run --frozen ruff format --check src tests
 	$(BIOINTERFACEOS_UV) run --frozen mypy
 	$(BIOINTERFACEOS_UV) run --frozen pytest
+
+paper-a:
+	.venv/bin/biointerfaceos paper-a

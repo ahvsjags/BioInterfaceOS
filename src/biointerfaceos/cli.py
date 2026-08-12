@@ -425,6 +425,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     benchmark_freeze_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized benchmark freeze fixture"
     )
+    subparsers.add_parser(
+        "paper-a", help="generate the evidence-linked Paper A benchmark manuscript"
+    )
     claim_parser = subparsers.add_parser(
         "claim", help="freeze and preregister exploratory claim tournaments"
     )
@@ -1039,6 +1042,28 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"unsigned_packets={review_summary.unsigned_packets} "
             f"signed_packets={review_summary.signed_packets} "
             f"sample={args.sample}"
+        )
+        return 0
+    if args.command == "paper-a":
+        root = find_repository_root()
+        if root is None:
+            print("PAPER_A_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        from biointerfaceos.paper_a_workflow import PaperAError, PaperAWorkflow
+
+        try:
+            paper_summary = PaperAWorkflow(root).run(fixture=True)
+        except (PaperAError, OSError) as exc:
+            print(f"PAPER_A_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"PAPER_A_VALID release_id={paper_summary.release_id} "
+            f"instances={paper_summary.instances} families={paper_summary.families} "
+            f"train={paper_summary.train} validation={paper_summary.validation} "
+            f"claims={paper_summary.claims} tables={paper_summary.tables} "
+            f"figures={paper_summary.figures} evidence_inputs={paper_summary.evidence_inputs} "
+            f"style_passed={str(paper_summary.style_passed).lower()} "
+            f"resumed={paper_summary.resumed} target_values_exposed=false"
         )
         return 0
     if args.command == "claim":

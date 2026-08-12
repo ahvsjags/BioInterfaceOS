@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "workflow": "paper_a_benchmark_manuscript",
+  "required_inputs": [
+    "benchmark release manifest",
+    "benchmark freeze receipt",
+    "benchmark instances receipt",
+    "benchmark grading receipt",
+    "benchmark grading metrics",
+    "benchmark baseline receipt",
+    "benchmark baseline results",
+    "benchmark representation receipt",
+    "benchmark representation results",
+    "extraction receipt",
+    "extraction metrics",
+    "coverage receipt",
+    "coverage report",
+    "agent benchmark receipt",
+    "agent mode comparison",
+    "T088 evidence report",
+    "T050 evidence report",
+    "T051 evidence report"
+  ],
+  "required_outputs": ["paper_a", "draft_0_introduction", "claim_matrix", "table_manifest", "figure_manifest", "receipt"],
+  "target_values_exposed": false,
+  "failure_policy": "abort_without_overwrite"
+}
