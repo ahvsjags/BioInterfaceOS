@@ -351,8 +351,7 @@ class RealProteomicsAcquisitionWorkflow:
                 )
                 if expected_bytes is None:
                     if (
-                        source_id != "PRIDE-PXD017776"
-                        or byte_verification
+                        byte_verification
                         != "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"
                         or checksum is None
                     ):
@@ -486,6 +485,15 @@ class RealProteomicsAcquisitionWorkflow:
             return record
         partial = self._assert_local_path(Path(f"{destination}.part"))
         partial.parent.mkdir(parents=True, exist_ok=True)
+        if partial.is_file() and asset.expected_bytes is None:
+            try:
+                record = self._verify_path(partial, asset)
+            except RealProteomicsAcquisitionError:
+                pass
+            else:
+                os.replace(partial, destination)
+                self._event({"event": "PARTIAL_VERIFIED_AND_PROMOTED", **record})
+                return record
         for stream_attempt in range(self._MAX_STREAM_RESUME_ATTEMPTS + 1):
             existing_bytes = partial.stat().st_size if partial.is_file() else 0
             request = Request(asset.url, method="GET", headers={"User-Agent": PROJECT_USER_AGENT})

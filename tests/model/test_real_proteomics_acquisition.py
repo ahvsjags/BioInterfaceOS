@@ -37,7 +37,10 @@ class _Response:
 
 
 def _asset(
-    *, expected_bytes: int, checksum: str, representation: str = "FILE_BYTES"
+    *,
+    expected_bytes: int | None,
+    checksum: str,
+    representation: str = "FILE_BYTES",
 ) -> TransferAsset:
     return TransferAsset(
         source_id="PRIDE-PXD017776",
@@ -52,7 +55,11 @@ def _asset(
         publisher_checksum=checksum,
         publisher_checksum_algorithm="SHA1",
         checksum_representation=representation,
-        byte_verification="EXACT_FILE_BYTES",
+        byte_verification=(
+            "EXACT_FILE_BYTES"
+            if expected_bytes is not None
+            else "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"
+        ),
     )
 
 
@@ -153,6 +160,30 @@ def test_download_checks_decompressed_gzip_sha1(tmp_path: Path) -> None:
     )
 
     assert record["publisher_checksum_verified"] is True
+
+
+def test_verified_partial_with_no_exact_size_is_promoted_without_redownload(tmp_path: Path) -> None:
+    raw_root = tmp_path / "raw"
+    payload = b"complete gzip content despite a misleading API size"
+    partial = raw_root / "PXD017776" / "author_results" / "test.mzid.gz.part"
+    partial.parent.mkdir(parents=True)
+    with gzip.open(partial, "wb") as stream:
+        stream.write(payload)
+
+    def opener(request: Request, *, timeout: float) -> _Response:
+        raise AssertionError(f"unexpected redownload: {request.full_url}")
+
+    workflow = RealProteomicsAcquisitionWorkflow(ROOT, raw_root=raw_root, opener=opener)
+    record = workflow._download(
+        _asset(
+            expected_bytes=None,
+            checksum=hashlib.sha1(payload).hexdigest(),
+            representation="GZIP_DECOMPRESSED_BYTES",
+        )
+    )
+
+    assert record["publisher_checksum_verified"] is True
+    assert not partial.exists()
 
 
 def test_stage_requires_strict_mode(tmp_path: Path) -> None:
