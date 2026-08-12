@@ -44,7 +44,7 @@ class RegistryEntry:
 class PublicReleaseAuditWorkflow:
     """Produce an append-only, default-deny public asset inventory."""
 
-    AUDIT_ID = "bioif-public-release-audit-v1.1.6"
+    AUDIT_ID = "bioif-public-release-audit-v1.1.7"
     AUDITED_AT = "2026-08-12T00:00:00+00:00"
     REGISTRY_RELATIVE = "docs/release/PUBLIC_ASSET_REGISTRY.json"
     REQUIRED_FILES = (
@@ -85,7 +85,7 @@ class PublicReleaseAuditWorkflow:
     def __init__(self, root: Path, *, output_root: Path | None = None) -> None:
         self.root = root.resolve(strict=True)
         self.output_root = output_root or (
-            self.root / "reports/review_round_2/public_release_audit/v1.1.6"
+            self.root / "reports/review_round_2/public_release_audit/v1.1.7"
         )
 
     def _path(self, relative_path: str) -> Path:
