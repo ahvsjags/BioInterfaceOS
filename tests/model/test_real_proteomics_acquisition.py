@@ -50,7 +50,7 @@ def _asset(
         relative_path="PXD017776/author_results/test.mzid.gz",
         url="https://ftp.pride.ebi.ac.uk/pride/data/archive/2020/02/PXD017776/test.mzid.gz",
         role="author_result",
-        publisher_api_bytes=expected_bytes,
+        publisher_api_bytes=expected_bytes or 1,
         expected_bytes=expected_bytes,
         publisher_checksum=checksum,
         publisher_checksum_algorithm="SHA1",
