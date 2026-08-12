@@ -1,6 +1,6 @@
 # Execution Pack Contract Audit
 
-- Generated at: 2026-08-12T12:59:02.977115+00:00
+- Generated at: 2026-08-12T14:20:34.870590+00:00
 - Root: `/ibex/user/xup0a/BioInterfaceOS`
 - Task count: 129
 - Topological task count: 129
@@ -13,15 +13,15 @@
 
 ## Warnings
 
-- initial READY tasks are ['T120'], expected ['T000']
+- initial READY tasks are ['T123'], expected ['T000']
 
 ## Required-file SHA-256
 
 - `AGENTS.md`: `92912405b86424b8a2f466640c13319fb9ef9c5d81ca30b0b321f0953157dba9`
 - `GOAL.md`: `899e2265e5866527fa50a6e551c9cc0aaabc6a018c36679fe2b9219514949ab8`
 - `PLANS.md`: `d5c39855a5229f7f372055c8c8c1912851a272e1cb690946e0442a871bde6fb1`
-- `PROJECT_STATE.yaml`: `68be294dacdf33ee1bf0011fb72e718bf6b369d82f0be25208b19bcaaf77639e`
-- `TASKS.tsv`: `786e136cec7893e87bd9bafe4d1b775b3b4d97dcea258c3b3c2b6479356bb3d1`
+- `PROJECT_STATE.yaml`: `7ac729e81b3b0ab65af2c12b33258a58abe9100a8dc755e05013aeca2a1a691f`
+- `TASKS.tsv`: `0f433be9b890753e1ebb7d7254e9dfa31d42f82d2870e78bc06ea92a50cc3c50`
 - `TASKS.md`: `56ab8b765f726a6a506def4fd36f78e68e82dbb23cf8a2535488f436af72b180`
 - `CODEX_START_PROMPT.md`: `6eca15b054763d0a4c9f6a56a023e7fdc148d512116eeff01b5a86ddde9e300d`
 
