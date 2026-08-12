@@ -485,6 +485,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     benchmark_subparsers.add_parser(
         "extraction", help="run the extraction calibration and G2 benchmark"
     )
+    benchmark_real_parser = benchmark_subparsers.add_parser(
+        "evaluate-real", help="evaluate declared raw-cell locators by held-out real study"
+    )
+    benchmark_real_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -1906,6 +1910,29 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "benchmark":
+        if args.benchmark_command == "evaluate-real":
+            from biointerfaceos.real_benchmark_workflow import (
+                RealBenchmarkError,
+                RealBenchmarkWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("REAL_BENCHMARK_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                summary = RealBenchmarkWorkflow(root).run(strict=args.strict)
+            except (RealBenchmarkError, OSError) as exc:
+                print(f"REAL_BENCHMARK_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"REAL_BENCHMARK_VALID benchmark_id={summary.benchmark_id} "
+                f"studies={summary.study_count} laboratories={summary.laboratory_count} "
+                f"items={summary.item_count} predictions={summary.prediction_count} "
+                "held_out_groups=true raw_predictions_published=true "
+                "independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
         if args.benchmark_command == "run-baselines":
             root = find_repository_root()
             if root is None:

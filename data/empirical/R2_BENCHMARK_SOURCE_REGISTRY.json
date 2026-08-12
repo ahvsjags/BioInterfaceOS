@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "bioif-r2-real-source-locator-benchmark-v1.1.0",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "sources": [
+    {
+      "source_id": "LEEDS-1450",
+      "study_id": "PEREZ_BEALES_2022_SOFT_MATTER",
+      "laboratory": "Perez-Beales laboratory",
+      "affiliation": "School of Chemistry, University of Leeds",
+      "laboratory_evidence_url": "https://archive.researchdata.leeds.ac.uk/1450/",
+      "doi": "10.5518/1171",
+      "landing_url": "https://archive.researchdata.leeds.ac.uk/1450/",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "material": "silica nanoparticles with DOPC giant unilamellar vesicles",
+      "biological_system": "giant unilamellar vesicle",
+      "protocol_id": "PEREZ_BEALES_GUV_SHRINKING_RATE",
+      "protocol_description": "Released GUV shrinking-rate table in the source workbook.",
+      "raw_assets": [
+        {
+          "path": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx",
+          "download_url": "https://archive.researchdata.leeds.ac.uk/1450/2/GUVs_Shrinking_Figure_1c_data.xlsx",
+          "sha256": "010733a36e5ec8642a0998e6718c43f7b906da4c72d8b3acd9d9ee0018f604df",
+          "bytes": 27876,
+          "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ],
+      "items": [
+        {
+          "item_id": "LEEDS-1450-LOCATOR-001",
+          "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx",
+          "worksheet": "Shrinking_rates",
+          "value_locator": "B2",
+          "expected_value": 3.28,
+          "unit_locators": [{"label": "released_unit", "locator": "A2", "expected": "GUV 1"}],
+          "independent_unit_id": "released_unit=GUV 1",
+          "endpoint_id": "GUV_SHRINKING_RATE",
+          "endpoint_name": "shrinking rate",
+          "unit": "um2/s"
+        }
+      ]
+    },
+    {
+      "source_id": "MENDELEY-B5Y2RM8DV4",
+      "study_id": "PLAZA_OLIVER_2019_NANOEMULSION",
+      "laboratory": "Cellular Neurobiology and Molecular Chemistry of the Central Nervous System Group",
+      "affiliation": "University of Castilla-La Mancha, Albacete, Spain",
+      "laboratory_evidence_url": "https://pubs.acs.org/doi/10.1021/acs.langmuir.7b00351",
+      "doi": "10.17632/b5y2rm8dv4.1",
+      "landing_url": "https://data.mendeley.com/datasets/b5y2rm8dv4/1",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "material": "ascorbyl 2,6-dipalmitate-stabilised alpha-tocopherol nanoemulsion",
+      "biological_system": "saline nanoemulsion characterisation",
+      "protocol_id": "PLAZA_OLIVER_CCC_SIZE_MEASUREMENT",
+      "protocol_description": "Released hydrodynamic mean-size measurements across CaCl2 concentrations.",
+      "raw_assets": [
+        {
+          "path": "data/raw/r2_empirical/mendeley_b5y2rm8dv4/Size_measurements.xlsx",
+          "download_url": "https://data.mendeley.com/public-files/datasets/b5y2rm8dv4/files/48277bf6-fc20-449c-8b5b-fb0eeb440d6f/file_downloaded",
+          "sha256": "b8b2930d6617b416d95e5cc957e3ac9016367da7a7c05897ed8aa984d7cc2ab8",
+          "bytes": 14982,
+          "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ],
+      "items": [
+        {
+          "item_id": "MENDELEY-B5Y2RM8DV4-LOCATOR-001",
+          "raw_asset": "data/raw/r2_empirical/mendeley_b5y2rm8dv4/Size_measurements.xlsx",
+          "worksheet": "NEE1-ADP",
+          "value_locator": "C4",
+          "expected_value": 165,
+          "unit_locators": [
+            {"label": "formulation", "locator": "A2", "expected": "NEE1-ADP"},
+            {"label": "time_min", "locator": "B4", "expected": "0"},
+            {"label": "CaCl2_mM", "locator": "C3", "expected": "2"}
+          ],
+          "independent_unit_id": "formulation=NEE1-ADP|time_min=0|CaCl2_mM=2",
+          "endpoint_id": "HYDRODYNAMIC_MEAN_SIZE",
+          "endpoint_name": "hydrodynamic mean size",
+          "unit": "nm"
+        }
+      ]
+    },
+    {
+      "source_id": "MENDELEY-23CDRCVPHW",
+      "study_id": "ZHANG_CHENG_FANG_2026_ENDOCYTOSIS",
+      "laboratory": "Zhang-Cheng-Fang nanoparticle endocytosis dataset team",
+      "affiliation": "Xiamen University, Fujian, China",
+      "laboratory_evidence_url": "https://data.mendeley.com/datasets/23cdrcvphw/3",
+      "doi": "10.17632/23cdrcvphw.3",
+      "landing_url": "https://data.mendeley.com/datasets/23cdrcvphw/3",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "material": "nanoparticle cargo",
+      "biological_system": "cellular nanoparticle endocytosis",
+      "protocol_id": "ZHANG_CHENG_FANG_SINGLE_PARTICLE_TRACKING",
+      "protocol_description": "Released single-particle tracking raw data for nanoparticle endocytosis.",
+      "raw_assets": [
+        {
+          "path": "data/raw/r2_empirical/mendeley_23cdrcvphw/Fig2_rawdata.xlsx",
+          "download_url": "https://data.mendeley.com/public-files/datasets/23cdrcvphw/files/8a7a879a-9628-49ab-b7a5-822162af8d44/file_downloaded",
+          "sha256": "1d4ffeb0f7f20f247748249f0fec7f2b3502945f5646d10485995ca9ff5cbb3d",
+          "bytes": 449131,
+          "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ],
+      "items": [
+        {
+          "item_id": "MENDELEY-23CDRCVPHW-LOCATOR-001",
+          "raw_asset": "data/raw/r2_empirical/mendeley_23cdrcvphw/Fig2_rawdata.xlsx",
+          "worksheet": "Fig 2A",
+          "value_locator": "B9",
+          "expected_value": 73.69829,
+          "unit_locators": [
+            {"label": "figure_line", "locator": "B2", "expected": "A"},
+            {"label": "time_s", "locator": "A9", "expected": "0.08"}
+          ],
+          "independent_unit_id": "figure_line=A|time_s=0.08",
+          "endpoint_id": "CARGO_XY_DISPLACEMENT",
+          "endpoint_name": "cargo xy displacement",
+          "unit": "source_not_stated"
+        }
+      ]
+    }
+  ],
+  "excluded_sources": [
+    {
+      "source_id": "MENDELEY-8DXPVV7SYF",
+      "source_url": "https://data.mendeley.com/datasets/8dxpvv7syf/1",
+      "reason": "PUBLIC_FILE_LIST_CONTAINS_PDF_ONLY_NO_MACHINE_READABLE_ROW_LEVEL_TABLE",
+      "checked_at": "2026-08-12T00:00:00+00:00"
+    }
+  ]
+}
