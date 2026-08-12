@@ -439,6 +439,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     design_generative_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized generative-design fixture"
     )
+    design_audit_parser = design_subparsers.add_parser(
+        "audit-candidates", help="audit supported designs and retrospective evidence metadata"
+    )
+    design_audit_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized candidate-audit fixture"
+    )
     discover_parser = subparsers.add_parser(
         "discover", help="discover development-scope scientific representations"
     )
@@ -1029,6 +1035,37 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "design":
+        if args.design_command == "audit-candidates":
+            root = find_repository_root()
+            if root is None:
+                print("DESIGN_AUDIT_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("DESIGN_AUDIT_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.candidate_audit_workflow import (
+                CandidateAuditError,
+                CandidateAuditWorkflow,
+            )
+
+            try:
+                candidate_audit_summary = CandidateAuditWorkflow(root).run(fixture=True)
+            except (CandidateAuditError, OSError) as exc:
+                print(f"DESIGN_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"DESIGN_AUDIT_VALID candidates={candidate_audit_summary.candidates} "
+                f"unique_candidates={candidate_audit_summary.unique_candidates} "
+                f"duplicate_candidates={candidate_audit_summary.duplicate_candidates} "
+                f"supported_candidates={candidate_audit_summary.supported_candidates} "
+                f"rejected_candidates={candidate_audit_summary.rejected_candidates} "
+                f"temporal_matches={candidate_audit_summary.temporal_matches} "
+                f"unresolved_matches={candidate_audit_summary.unresolved_matches} "
+                f"abstentions={candidate_audit_summary.abstentions} "
+                f"selected_wording={candidate_audit_summary.selected_wording} "
+                f"resumed={candidate_audit_summary.resumed}"
+            )
+            return 0
         if args.design_command == "generative":
             root = find_repository_root()
             if root is None:

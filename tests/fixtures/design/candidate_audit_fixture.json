@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "mode": "design_candidate_audit",
+  "inputs": [
+    {
+      "label": "T096 constrained design receipt",
+      "path": "reports/design/baseline/design_baseline_receipt.json",
+      "sha256": "e6fc606f63b278246e4bb5c150c139fd5b389d6a15016d7f61d5365a9a551bee"
+    },
+    {
+      "label": "T097 target-corona generative receipt",
+      "path": "reports/design/generative/target_corona_generative_receipt.json",
+      "sha256": "e920aa0b442d0d91ab2b94053af65065b274fd0e2a8f04b3eaf208b9f6072530"
+    }
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "design_freeze_date": "2026-08-11",
+    "ad_threshold": 0.45,
+    "uncertainty_threshold": 0.20,
+    "neighbor_distance_threshold": 0.35,
+    "stability_threshold": 0.75,
+    "perturbation_budget": 4,
+    "temporal_match_policy": "descriptive_only",
+    "allowed_wording": ["exploratory_supported", "retrospective_descriptive"],
+    "target_values_exposed": false
+  },
+  "candidates": [
+    {"candidate_id": "AUD-01", "source_method": "conditional_generator", "fingerprint": "FP-A", "component_set": "DSPC:0.50|PEG2000:0.30|CHOL:0.20", "geometry": "bilayer", "conditioning": "axis-A", "ad_distance": 0.22, "uncertainty": 0.12, "nearest_evidence_distance": 0.18, "perturbation_scores": [0.90, 0.88, 0.92, 0.91], "unsafe": false, "evidence_links": ["META-001"], "evidence_date": "2026-08-12", "temporal_match": true},
+    {"candidate_id": "AUD-02", "source_method": "conditional_generator", "fingerprint": "FP-A", "component_set": "DSPC:0.50|PEG2000:0.30|CHOL:0.20", "geometry": "bilayer", "conditioning": "axis-A", "ad_distance": 0.22, "uncertainty": 0.12, "nearest_evidence_distance": 0.18, "perturbation_scores": [0.90, 0.88, 0.92, 0.91], "unsafe": false, "evidence_links": ["META-001"], "evidence_date": "2026-08-12", "temporal_match": true},
+    {"candidate_id": "AUD-03", "source_method": "conditional_generator", "fingerprint": "FP-B", "component_set": "DSPC:0.60|PEG2000:0.20|CHOL:0.20", "geometry": "spherical", "conditioning": "axis-A", "ad_distance": 0.30, "uncertainty": 0.15, "nearest_evidence_distance": 0.25, "perturbation_scores": [0.82, 0.80, 0.78, 0.81], "unsafe": false, "evidence_links": ["META-002"], "evidence_date": "2026-08-13", "temporal_match": false},
+    {"candidate_id": "AUD-04", "source_method": "bo_style_baseline", "fingerprint": "FP-C", "component_set": "DSPC:0.20|PEG2000:0.50|CHOL:0.30", "geometry": "spherical", "conditioning": "axis-B", "ad_distance": 0.40, "uncertainty": 0.18, "nearest_evidence_distance": 0.30, "perturbation_scores": [0.80, 0.79, 0.81, 0.78], "unsafe": false, "evidence_links": ["META-003"], "evidence_date": "2026-08-12", "temporal_match": true},
+    {"candidate_id": "AUD-05", "source_method": "conditional_generator", "fingerprint": "FP-OOD", "component_set": "DSPC:0.10|PEG2000:0.10|CHOL:0.80", "geometry": "spherical", "conditioning": "axis-C", "ad_distance": 0.70, "uncertainty": 0.32, "nearest_evidence_distance": 0.24, "perturbation_scores": [0.90, 0.89, 0.91, 0.90], "unsafe": false, "evidence_links": ["META-004"], "evidence_date": "2026-08-13", "temporal_match": false},
+    {"candidate_id": "AUD-06", "source_method": "conditional_generator", "fingerprint": "FP-UNSTABLE", "component_set": "DSPC:0.45|PEG2000:0.10|CHOL:0.45", "geometry": "bilayer", "conditioning": "axis-C", "ad_distance": 0.28, "uncertainty": 0.18, "nearest_evidence_distance": 0.22, "perturbation_scores": [0.50, 0.60, 0.55, 0.52], "unsafe": false, "evidence_links": ["META-005"], "evidence_date": "2026-08-13", "temporal_match": false},
+    {"candidate_id": "AUD-07", "source_method": "conditional_generator", "fingerprint": "FP-UNSAFE", "component_set": "DSPC:0.40|PEG2000:0.30|CHOL:0.30", "geometry": "unknown", "conditioning": "axis-C", "ad_distance": 0.25, "uncertainty": 0.14, "nearest_evidence_distance": 0.20, "perturbation_scores": [0.90, 0.89, 0.91, 0.90], "unsafe": true, "evidence_links": ["META-006"], "evidence_date": "2026-08-13", "temporal_match": false}
+  ],
+  "retrospective_matches": [
+    {"candidate_id": "AUD-01", "evidence_id": "META-001", "evidence_date": "2026-08-12", "match_type": "composition_neighbor", "match_strength": 0.82, "temporal_match": true, "used_for_selection": false},
+    {"candidate_id": "AUD-03", "evidence_id": "META-002", "evidence_date": "2026-08-13", "match_type": "component_overlap", "match_strength": 0.74, "temporal_match": false, "used_for_selection": false},
+    {"candidate_id": "AUD-04", "evidence_id": "META-003", "evidence_date": "2026-08-12", "match_type": "protocol_neighbor", "match_strength": 0.79, "temporal_match": true, "used_for_selection": false}
+  ]
+}

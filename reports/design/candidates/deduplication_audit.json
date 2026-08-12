@@ -1,0 +1,1 @@
+{"deduplication_passed":true,"duplicates":[{"candidate_id":"AUD-02","duplicate_of":"AUD-01","fingerprint":"FP-A","reason":"duplicate_fingerprint"}],"raw_candidates":7,"schema_version":1,"unique_candidates":6}

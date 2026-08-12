@@ -1,0 +1,1 @@
+{"cards":[{"candidate_id":"AUD-01","evidence_links":["META-001"],"nearest_evidence_distance":0.18},{"candidate_id":"AUD-03","evidence_links":["META-002"],"nearest_evidence_distance":0.25},{"candidate_id":"AUD-04","evidence_links":["META-003"],"nearest_evidence_distance":0.3}],"schema_version":1,"threshold":0.35}

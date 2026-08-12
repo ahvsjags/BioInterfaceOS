@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "workflow": "design_candidate_audit_and_retrospective_validation",
+  "required_inputs": [
+    "T096 constrained design receipt",
+    "T097 target-corona generative receipt"
+  ],
+  "gates": [
+    "fingerprint_deduplication",
+    "applicability_domain",
+    "uncertainty",
+    "nearest_evidence",
+    "perturbation_stability",
+    "unsafe_candidate_exclusion",
+    "temporal_descriptive_only",
+    "allowed_wording"
+  ],
+  "required_outputs": [
+    "candidate_cards",
+    "deduplication_audit",
+    "evidence_neighbor_audit",
+    "robustness_ledger",
+    "retrospective_validation",
+    "abstention_ledger",
+    "failure_ledger",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "failure_policy": "retain_supported_low_ood_candidates_only"
+}
