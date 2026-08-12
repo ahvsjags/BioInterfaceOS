@@ -104,6 +104,36 @@ def test_download_resumes_and_validates_a_publisher_sha1(tmp_path: Path) -> None
     assert requests[0].get_header("Range") == "bytes=8-"
 
 
+def test_download_recovers_when_an_expected_length_stream_ends_early(tmp_path: Path) -> None:
+    raw_root = tmp_path / "raw"
+    body = b"server-short-read-must-resume"
+    requests: list[Request] = []
+
+    def opener(request: Request, *, timeout: float) -> _Response:
+        requests.append(request)
+        if len(requests) == 1:
+            return _Response(body[:9])
+        return _Response(
+            body[9:],
+            status=206,
+            headers={"Content-Range": f"bytes 9-{len(body) - 1}/{len(body)}"},
+        )
+
+    workflow = RealProteomicsAcquisitionWorkflow(
+        ROOT,
+        raw_root=raw_root,
+        opener=opener,
+        sleep=lambda _: None,
+    )
+    record = workflow._download(
+        _asset(expected_bytes=len(body), checksum=hashlib.sha1(body).hexdigest())
+    )
+
+    assert record["bytes_on_disk"] == len(body)
+    assert len(requests) == 2
+    assert requests[1].get_header("Range") == "bytes=9-"
+
+
 def test_download_checks_decompressed_gzip_sha1(tmp_path: Path) -> None:
     raw_root = tmp_path / "raw"
     payload = b"mzIdentML content"

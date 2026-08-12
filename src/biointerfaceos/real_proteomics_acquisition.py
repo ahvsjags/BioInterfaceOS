@@ -152,6 +152,7 @@ class RealProteomicsAcquisitionWorkflow:
     }
     _CHUNK_SIZE = 1024 * 1024
     _MAX_RETRIES = 4
+    _MAX_STREAM_RESUME_ATTEMPTS = 12
 
     def __init__(
         self,
@@ -485,76 +486,108 @@ class RealProteomicsAcquisitionWorkflow:
             return record
         partial = self._assert_local_path(Path(f"{destination}.part"))
         partial.parent.mkdir(parents=True, exist_ok=True)
-        existing_bytes = partial.stat().st_size if partial.is_file() else 0
-        request = Request(asset.url, method="GET", headers={"User-Agent": PROJECT_USER_AGENT})
-        if existing_bytes:
-            request.add_header("Range", f"bytes={existing_bytes}-")
-        self._event(
-            {
-                "event": "TRANSFER_STARTED",
-                "asset_id": asset.asset_id,
-                "source_id": asset.source_id,
-                "resume_bytes": existing_bytes,
-                "download_url": asset.url,
-            }
-        )
-        response = self._open(request)
-        try:
-            status = self._status(response)
-            append = existing_bytes > 0 and status == 206
-            if existing_bytes > 0 and status == 206:
-                content_range = self._header(response, "Content-Range")
-                if content_range is None or not content_range.startswith(
-                    f"bytes {existing_bytes}-"
-                ):
-                    raise RealProteomicsAcquisitionError(
-                        "server returned an incompatible Content-Range"
-                    )
-            elif existing_bytes > 0 and status == 200:
-                preserved = self._assert_local_path(
-                    Path(f"{partial}.range-ignored-{existing_bytes}")
-                )
-                if preserved.exists():
-                    raise RealProteomicsAcquisitionError(
-                        f"cannot preserve existing partial without overwrite: {preserved}"
-                    )
-                os.replace(partial, preserved)
-                append = False
-            elif status != 200:
-                raise RealProteomicsAcquisitionError(
-                    f"unexpected download status {status} for {asset.asset_id}"
-                )
-            mode = "ab" if append else "wb"
-            with partial.open(mode) as stream:
-                while True:
-                    chunk = response.read(self._CHUNK_SIZE)
-                    if not chunk:
-                        break
-                    if not isinstance(chunk, bytes):
-                        raise RealProteomicsAcquisitionError("HTTP stream did not return bytes")
-                    stream.write(chunk)
-                stream.flush()
-                os.fsync(stream.fileno())
-        finally:
-            close = getattr(response, "close", None)
-            if close is not None:
-                close()
-        try:
-            record = self._verify_path(partial, asset)
-        except RealProteomicsAcquisitionError as exc:
+        for stream_attempt in range(self._MAX_STREAM_RESUME_ATTEMPTS + 1):
+            existing_bytes = partial.stat().st_size if partial.is_file() else 0
+            request = Request(asset.url, method="GET", headers={"User-Agent": PROJECT_USER_AGENT})
+            if existing_bytes:
+                request.add_header("Range", f"bytes={existing_bytes}-")
             self._event(
                 {
-                    "event": "TRANSFER_UNVERIFIED_PARTIAL_PRESERVED",
+                    "event": "TRANSFER_STARTED",
                     "asset_id": asset.asset_id,
                     "source_id": asset.source_id,
-                    "partial_path": str(partial.relative_to(self.raw_root)),
-                    "reason": str(exc),
+                    "stream_attempt": stream_attempt,
+                    "resume_bytes": existing_bytes,
+                    "download_url": asset.url,
                 }
             )
-            raise
-        os.replace(partial, destination)
-        self._event({"event": "TRANSFER_VERIFIED", **record})
-        return record
+            response = self._open(request)
+            stream_error: str | None = None
+            try:
+                status = self._status(response)
+                append = existing_bytes > 0 and status == 206
+                if existing_bytes > 0 and status == 206:
+                    content_range = self._header(response, "Content-Range")
+                    if content_range is None or not content_range.startswith(
+                        f"bytes {existing_bytes}-"
+                    ):
+                        raise RealProteomicsAcquisitionError(
+                            "server returned an incompatible Content-Range"
+                        )
+                elif existing_bytes > 0 and status == 200:
+                    preserved = self._assert_local_path(
+                        Path(f"{partial}.range-ignored-{existing_bytes}")
+                    )
+                    if preserved.exists():
+                        raise RealProteomicsAcquisitionError(
+                            f"cannot preserve existing partial without overwrite: {preserved}"
+                        )
+                    os.replace(partial, preserved)
+                    append = False
+                elif status != 200:
+                    raise RealProteomicsAcquisitionError(
+                        f"unexpected download status {status} for {asset.asset_id}"
+                    )
+                mode = "ab" if append else "wb"
+                try:
+                    with partial.open(mode) as stream:
+                        while True:
+                            chunk = response.read(self._CHUNK_SIZE)
+                            if not chunk:
+                                break
+                            if not isinstance(chunk, bytes):
+                                raise RealProteomicsAcquisitionError(
+                                    "HTTP stream did not return bytes"
+                                )
+                            stream.write(chunk)
+                        stream.flush()
+                        os.fsync(stream.fileno())
+                except (URLError, TimeoutError) as exc:
+                    stream_error = str(exc)
+            finally:
+                close = getattr(response, "close", None)
+                if close is not None:
+                    close()
+            bytes_after_stream = partial.stat().st_size if partial.is_file() else 0
+            incomplete = (
+                stream_error is not None
+                or (
+                    asset.expected_bytes is not None
+                    and bytes_after_stream < asset.expected_bytes
+                )
+            )
+            if incomplete and stream_attempt < self._MAX_STREAM_RESUME_ATTEMPTS:
+                self._event(
+                    {
+                        "event": "TRANSFER_INCOMPLETE_RESUME",
+                        "asset_id": asset.asset_id,
+                        "source_id": asset.source_id,
+                        "stream_attempt": stream_attempt,
+                        "partial_path": str(partial.relative_to(self.raw_root)),
+                        "bytes_after_stream": bytes_after_stream,
+                        "expected_bytes": asset.expected_bytes,
+                        "stream_error": stream_error,
+                    }
+                )
+                self._sleep(float(2**min(stream_attempt, 4)))
+                continue
+            try:
+                record = self._verify_path(partial, asset)
+            except RealProteomicsAcquisitionError as exc:
+                self._event(
+                    {
+                        "event": "TRANSFER_UNVERIFIED_PARTIAL_PRESERVED",
+                        "asset_id": asset.asset_id,
+                        "source_id": asset.source_id,
+                        "partial_path": str(partial.relative_to(self.raw_root)),
+                        "reason": str(exc),
+                    }
+                )
+                raise
+            os.replace(partial, destination)
+            self._event({"event": "TRANSFER_VERIFIED", **record})
+            return record
+        raise RealProteomicsAcquisitionError("transfer stream resume loop ended unexpectedly")
 
     @staticmethod
     def _select(
