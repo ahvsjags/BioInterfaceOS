@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "mode": "m3_static_corona_fixture",
+  "inputs": [
+    {"label": "T067 public instances", "path": "reports/benchmark/instances/public_instances.json", "sha256": "f86e3eaf4b5cf080cd07165b3e7a96254904a24f853e0524fa399206393d6a48"},
+    {"label": "T056 corona module matrix", "path": "reports/omics/harmonization/module_matrix.json", "sha256": "898193343321c1220df90f8222c5c50994f75136f88c68a2c7ef595d61f99816"},
+    {"label": "T062 modality links", "path": "reports/omics/modality_links/link_graph.json", "sha256": "8833ff32e4ce55f2d502696119bc64431ecfb987a396fa888d8de20a2e9e6dbe"},
+    {"label": "T069 baseline fixture", "path": "tests/fixtures/benchmark/baseline_fixture.json", "sha256": "af7e2de7e1ad323c2f2ab07962872663bdbb527403ae343e7a97980cd8abd7cd"}
+  ],
+  "pairs": [
+    {"pair_id": "PAIR-001", "instance_id": "E1-001", "split": "train", "material_feature": "lipid", "mediator_feature": 0.2, "response_feature": "response_a", "mediator_uncertainty": 0.05},
+    {"pair_id": "PAIR-002", "instance_id": "C1-001", "split": "train", "material_feature": "adsorption", "mediator_feature": 0.3, "response_feature": "response_b", "mediator_uncertainty": 0.05},
+    {"pair_id": "PAIR-003", "instance_id": "U1-001", "split": "train", "material_feature": "unit", "mediator_feature": 0.4, "response_feature": "response_a", "mediator_uncertainty": 0.1},
+    {"pair_id": "PAIR-004", "instance_id": "S1-001", "split": "train", "material_feature": "DSPC_PEG", "mediator_feature": 0.5, "response_feature": "response_c", "mediator_uncertainty": 0.1},
+    {"pair_id": "PAIR-005", "instance_id": "B1-001", "split": "train", "material_feature": "blend", "mediator_feature": 0.6, "response_feature": "response_b", "mediator_uncertainty": 0.05},
+    {"pair_id": "PAIR-006", "instance_id": "CF1-001", "split": "train", "material_feature": "formulation", "mediator_feature": 0.7, "response_feature": "response_c", "mediator_uncertainty": 0.1},
+    {"pair_id": "PAIR-007", "instance_id": "D1-001", "split": "train", "material_feature": "panel", "mediator_feature": 0.8, "response_feature": "response_a", "mediator_uncertainty": 0.05},
+    {"pair_id": "PAIR-008", "instance_id": "A1-001", "split": "train", "material_feature": "claim", "mediator_feature": 0.9, "response_feature": "response_b", "mediator_uncertainty": 0.1},
+    {"pair_id": "PAIR-009", "instance_id": "E1-002", "split": "validation", "material_feature": "polymer", "mediator_feature": 0.25, "response_feature": "response_d", "mediator_uncertainty": 0.15},
+    {"pair_id": "PAIR-010", "instance_id": "C1-002", "split": "validation", "material_feature": "receptor", "mediator_feature": 0.35, "response_feature": "response_e", "mediator_uncertainty": 0.2},
+    {"pair_id": "PAIR-011", "instance_id": "U1-002", "split": "validation", "material_feature": "unit", "mediator_feature": 0.45, "response_feature": "response_d", "mediator_uncertainty": 0.15},
+    {"pair_id": "PAIR-012", "instance_id": "S1-002", "split": "validation", "material_feature": "NanoCoat_X", "mediator_feature": 0.55, "response_feature": "response_f", "mediator_uncertainty": 0.25},
+    {"pair_id": "PAIR-013", "instance_id": "B1-002", "split": "validation", "material_feature": "treatment", "mediator_feature": 0.65, "response_feature": "response_e", "mediator_uncertainty": 0.2},
+    {"pair_id": "PAIR-014", "instance_id": "CF1-002", "split": "validation", "material_feature": "formulation", "mediator_feature": 0.75, "response_feature": "response_f", "mediator_uncertainty": 0.15},
+    {"pair_id": "PAIR-015", "instance_id": "D1-002", "split": "validation", "material_feature": "panel", "mediator_feature": 0.85, "response_feature": "response_d", "mediator_uncertainty": 0.2},
+    {"pair_id": "PAIR-016", "instance_id": "A1-002", "split": "validation", "material_feature": "claim", "mediator_feature": 0.95, "response_feature": "response_e", "mediator_uncertainty": 0.25}
+  ]
+}

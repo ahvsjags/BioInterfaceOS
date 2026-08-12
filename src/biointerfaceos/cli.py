@@ -400,6 +400,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     train_m2_parser.add_argument(
         "--config", default="configs/models/m2.yaml", help="path to the M2 YAML config"
     )
+    train_m3_parser = train_subparsers.add_parser(
+        "m3", help="fit the static corona mediator M3 baseline"
+    )
+    train_m3_parser.add_argument(
+        "--config", default="configs/models/m3.yaml", help="path to the M3 YAML config"
+    )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
@@ -860,7 +866,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "train":
-        if args.train_command not in {"m1", "m2"}:
+        if args.train_command not in {"m1", "m2", "m3"}:
             parser.parse_args(["train", "--help"])
             return 0
         root = find_repository_root()
@@ -886,6 +892,23 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"validation={m2_summary.validation} model_kind={m2_summary.model_kind} "
                 f"validation_rmse={m2_summary.validation_rmse:.6f} "
                 f"resumed={m2_summary.resumed} target_values_exposed=false"
+            )
+            return 0
+        if args.train_command == "m3":
+            from biointerfaceos.m3_workflow import M3Error, M3Workflow
+
+            try:
+                m3_summary = M3Workflow(root, config_path=config_path).run(fixture=True)
+            except (M3Error, OSError) as exc:
+                print(f"M3_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"M3_VALID pairs={m3_summary.pairs} train={m3_summary.train} "
+                f"validation={m3_summary.validation} "
+                f"identification_status={m3_summary.identification_status} "
+                f"direct_rmse={m3_summary.direct_rmse:.6f} "
+                f"mediated_rmse={m3_summary.mediated_rmse:.6f} "
+                f"resumed={m3_summary.resumed} target_values_exposed=false"
             )
             return 0
         from biointerfaceos.m1_workflow import M1Error, M1Workflow

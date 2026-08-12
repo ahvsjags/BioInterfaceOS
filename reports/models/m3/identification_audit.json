@@ -1,0 +1,1 @@
+{"causal_claim_permitted":false,"downgrade_reason":"Paired associational data lack randomized intervention, temporal order, and confounding control.","randomized_intervention":false,"schema_version":1,"status":"ASSOCIATIONAL_ONLY","temporal_order_verified":false,"unmeasured_confounding_blocked":false}

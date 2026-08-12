@@ -1,0 +1,8 @@
+schema_version: 1
+model: M3
+seed: 37
+ridge: 0.15
+bootstrap_samples: 128
+identification_status: ASSOCIATIONAL_ONLY
+causal_claim_permitted: false
+uncertainty_propagation: quadrature
