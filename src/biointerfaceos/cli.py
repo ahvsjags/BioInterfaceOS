@@ -371,7 +371,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "run-baselines", help="run deterministic simple statistical baselines"
     )
     benchmark_baseline_parser.add_argument(
-        "--group", choices=("simple",), default=None, help="baseline group to execute"
+        "--group",
+        choices=("simple", "representation"),
+        default=None,
+        help="baseline group to execute",
     )
     benchmark_build_parser = benchmark_subparsers.add_parser(
         "build", help="build leakage-safe BioInterfaceBench task instances"
@@ -851,8 +854,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 print("BENCHMARK_BASELINE_INVALID: repository root not found", file=sys.stderr)
                 return 1
             if args.group != "simple":
-                print("BENCHMARK_BASELINE_INVALID: --group simple is required", file=sys.stderr)
-                return 2
+                if args.group != "representation":
+                    print(
+                        "BENCHMARK_BASELINE_INVALID: --group simple or representation is required",
+                        file=sys.stderr,
+                    )
+                    return 2
+                from biointerfaceos.benchmark_representations import (
+                    BenchmarkRepresentationError,
+                    BenchmarkRepresentationWorkflow,
+                )
+
+                try:
+                    representation_summary = BenchmarkRepresentationWorkflow(root).run(
+                        group=args.group
+                    )
+                except (BenchmarkRepresentationError, OSError) as exc:
+                    print(f"BENCHMARK_REPRESENTATION_INVALID: {exc}", file=sys.stderr)
+                    return 1
+                print(
+                    f"REPRESENTATIONS_VALID group={args.group} "
+                    f"baselines={representation_summary.baselines} "
+                    f"successful={representation_summary.successful} "
+                    f"validation_instances={representation_summary.validation_instances} "
+                    f"best_rmse={representation_summary.best_rmse:.6f} "
+                    f"resumed={representation_summary.resumed} target_values_exposed=false"
+                )
+                return 0
             from biointerfaceos.benchmark_baselines import (
                 BenchmarkBaselineError,
                 BenchmarkBaselineWorkflow,

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "mode": "benchmark_baselines_representation",
+  "target_values_are_fixture_only": true,
+  "inputs": [
+    {"label": "T067 public instances", "path": "reports/benchmark/instances/public_instances.json", "sha256": "f86e3eaf4b5cf080cd07165b3e7a96254904a24f853e0524fa399206393d6a48"},
+    {"label": "T069 baseline fixture", "path": "tests/fixtures/benchmark/baseline_fixture.json", "sha256": "af7e2de7e1ad323c2f2ab07962872663bdbb527403ae343e7a97980cd8abd7cd"}
+  ],
+  "config": {"group": "representation", "seed": 23, "bootstrap_samples": 128},
+  "representations": [
+    {"instance_id": "E1-001", "material_text": "lipid interface", "structure_smiles": "CCO", "descriptor": [46.0, 1.2, 20.0], "fingerprint": "10101010", "polymer_embedding": [0.1, 0.2, 0.3]},
+    {"instance_id": "E1-002", "material_text": "polymer interface", "structure_smiles": "CCN", "descriptor": [45.0, 1.1, 19.0], "fingerprint": "10101110", "polymer_embedding": null},
+    {"instance_id": "C1-001", "material_text": "adsorption core", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null},
+    {"instance_id": "C1-002", "material_text": "receptor interface", "structure_smiles": "CC(=O)O", "descriptor": [60.0, 0.4, 37.0], "fingerprint": "11100011", "polymer_embedding": null},
+    {"instance_id": "U1-001", "material_text": "concentration mM", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null},
+    {"instance_id": "U1-002", "material_text": "time seconds", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null},
+    {"instance_id": "S1-001", "material_text": "DSPC PEG", "structure_smiles": "C1CC1", "descriptor": [100.0, 2.0, 10.0], "fingerprint": "00110011", "polymer_embedding": [0.2, 0.3, 0.4]},
+    {"instance_id": "S1-002", "material_text": "NanoCoat-X", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null},
+    {"instance_id": "B1-001", "material_text": "module blend", "structure_smiles": "C", "descriptor": [16.0, 0.1, 0.0], "fingerprint": "00001111", "polymer_embedding": null},
+    {"instance_id": "B1-002", "material_text": "module treatment", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null},
+    {"instance_id": "CF1-001", "material_text": "direct formulation", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null},
+    {"instance_id": "CF1-002", "material_text": "indirect formulation", "structure_smiles": "CCO", "descriptor": [46.0, 1.2, 20.0], "fingerprint": "10101010", "polymer_embedding": null},
+    {"instance_id": "D1-001", "material_text": "panel linear", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null},
+    {"instance_id": "D1-002", "material_text": "panel log", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null},
+    {"instance_id": "A1-001", "material_text": "claim concordant", "structure_smiles": "CC", "descriptor": [28.0, 0.8, 0.0], "fingerprint": "11001100", "polymer_embedding": [0.3, 0.4, 0.5]},
+    {"instance_id": "A1-002", "material_text": "metadata unavailable", "structure_smiles": null, "descriptor": null, "fingerprint": null, "polymer_embedding": null}
+  ]
+}
