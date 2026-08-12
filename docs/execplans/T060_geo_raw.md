@@ -42,3 +42,10 @@ If a public raw study is too large, lacks a versioned reference, or fails checks
 ## Outputs
 
 Study-level raw-count objects, sample metadata, count/QC receipts, exclusion ledger, deterministic logs/manifests, focused tests, this ExecPlan, evidence report, and task-ledger/state advancement.
+
+## Completion evidence
+
+- Implementation commit: `666719b`.
+- One public, credential-free, manageable fixture study passed raw processing with 4 samples, 18 paired reads, 16 matched pairs, 2 unmatched pairs, and 2 recovered reference genes. The versioned reference and exact paired-end counting rule are recorded in the output receipt.
+- Focused GEO raw-processing tests: 3 passed. Full offline gate: 223 tests passed; Ruff, formatting, mypy, UV lock/sync, assets, catalog, lockbox, immutable release verification, state validation, compileall, and `git diff --check` passed.
+- The first CLI run created deterministic outputs and the second returned `resumed=1` without changing receipt bytes. No live raw download, credential, locked payload, or network access occurred.
