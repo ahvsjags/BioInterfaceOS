@@ -365,9 +365,10 @@ class R2ReleaseReproductionWorkflow:
         )
         sbom_path = self.output_root / "sbom.json"
         self._write(sbom_path, self._sbom(source_manifest_path))
-        source_root = self.output_root / "source_bundle"
-        self._copy_public_source(self.root, inventory, source_root)
-        archive_path = self._write_source_archive(source_root, source_manifest_path)
+        with tempfile.TemporaryDirectory(prefix="bioif-r2-archive-") as temporary:
+            source_root = Path(temporary) / "source"
+            self._copy_public_source(self.root, inventory, source_root)
+            archive_path = self._write_source_archive(source_root, source_manifest_path)
         clean_replay = (
             self._source_only_figure_rebuild()
             if clean_public_source
