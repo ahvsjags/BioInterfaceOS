@@ -29,22 +29,25 @@ Do not fit a predictive or causal model, calculate an outcome effect, declare a 
 
 ## Progress
 
-- [ ] Inspect source coverage and write the statistical contract.
-- [ ] Implement and test the strict plan validator.
-- [ ] Produce receipt and update the state graph.
+- [x] 2026-08-12 — Inspected T120 coverage: one study, one laboratory and 14 source-local GUV units; no held-out study exists.
+- [x] 2026-08-12 — Wrote the versioned plan with source-local descriptive scope and explicit unavailable study-held-out transport estimand.
+- [x] 2026-08-12 — Implemented `EmpiricalAnalysisPlanWorkflow`, strict CLI, immutable receipt and positive/negative tests.
+- [x] 2026-08-12 — Validated on KAUST with format, lint, typing, five focused tests and isolated command execution.
 
 ## Discoveries
 
-- Pending.
+- A single real study can support source-local unit definition and planning, but cannot support study-held-out selection, cluster-aware intervals or external evaluation. The plan therefore encodes these as unavailable, not zero or passing values.
 
 ## Decisions
 
-- Pending.
+- Preserve the released GUV as the primary unit and retain study as the grouping key for every later cross-study procedure.
+- Freeze a Holm family, no-imputation rule, nested group-CV design and study-clustered interval protocol now; their execution is prohibited until the stated minimum study coverage is met.
 
 ## Validation
 
 - `python -m biointerfaceos stats validate-plan --strict` must pass without accessing any model-result artifact.
-- Focused tests must demonstrate rejection of an outcome-based split or a false external-validation label.
+- Focused tests demonstrate rejection of an outcome/performance field before schema validation can hide the evidence-boundary violation.
+- The isolated public-release audit remains `PASS_PUBLIC_RELEASE_AUDIT`; plan and empirical records are controlled and excluded from the public software replay.
 
 ## Failure recovery
 
@@ -52,9 +55,9 @@ Keep the task in planning scope if the present source cannot support a required 
 
 ## Outputs
 
-- Versioned empirical analysis plan and estimand registry.
-- Strict validator, CLI, tests and immutable planning receipt.
+- `data/empirical/R2_ANALYSIS_PLAN.json` and `docs/data/R2_EMPIRICAL_ANALYSIS_PLAN.md`.
+- `src/biointerfaceos/empirical_analysis_plan_workflow.py`, CLI, tests and the immutable planning receipt.
 
 ## Completion note
 
-Pending.
+T121 is complete. Its receipt declares `outcome_analysis_run=false`, `model_fitted=false`, `independent_validation=false` and `scientific_submission_ready=false`. T122 may now acquire additional independent real studies and construct a held-out benchmark, but no empirical performance claim is yet available.
