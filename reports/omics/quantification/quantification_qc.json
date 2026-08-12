@@ -1,0 +1,1 @@
+{"comparison_normalization":"median_centering","contaminant_groups":1,"primary_normalization":"declared_run_scaling","quantifiable_proteins":2,"reference_median":142.25,"replicate_counts":{"control":2,"treated":2},"run_medians":{"CTRL_R1":90.0,"CTRL_R2":104.5,"TRT_R1":180.0,"TRT_R2":220.0},"schema_version":1}

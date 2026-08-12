@@ -396,6 +396,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_search_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized Sage search fixture"
     )
+    omics_quantify_parser = omics_subparsers.add_parser(
+        "quantify", help="run bounded label-free quantification and protein inference"
+    )
+    omics_quantify_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized LFQ fixture"
+    )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -842,6 +848,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"estimated_fdr={search_summary.estimated_fdr:.8f} "
                 f"recovered_spike_ins={search_summary.recovered_spike_ins}/"
                 f"{search_summary.total_spike_ins} resumed={search_summary.resumed}"
+            )
+            return 0
+        if args.omics_command == "quantify":
+            root = find_repository_root()
+            if root is None:
+                print("QUANTIFICATION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("QUANTIFICATION_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.quantification_workflow import (
+                QuantificationError,
+                QuantificationWorkflow,
+            )
+
+            try:
+                quantification_summary = QuantificationWorkflow(root).run(fixture=True)
+            except (QuantificationError, OSError) as exc:
+                print(f"QUANTIFICATION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"LFQ_VALID runs={quantification_summary.runs} "
+                f"samples={quantification_summary.samples} "
+                f"proteins={quantification_summary.quantifiable_proteins} "
+                f"groups={quantification_summary.groups} "
+                f"missing_cells={quantification_summary.missing_cells} "
+                f"contaminant_groups={quantification_summary.contaminant_groups} "
+                f"ratios={quantification_summary.ratios_passed}/"
+                f"{quantification_summary.ratios_total} resumed={quantification_summary.resumed}"
             )
             return 0
         if args.omics_command != "pride" or args.omics_pride_command != "triage":

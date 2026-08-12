@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "search": {
+    "receipt_path": "reports/omics/search/search_receipt.json",
+    "receipt_sha256": "70499de81ce4b3d94ef1a732242abea159d4538f0ffe8c2d55cc86ee9424b688"
+  },
+  "samples": [
+    {
+      "run_id": "CTRL_R1",
+      "sample_id": "CTRL",
+      "condition": "control",
+      "biological_replicate": 1,
+      "normalization_factor": 1.0
+    },
+    {
+      "run_id": "CTRL_R2",
+      "sample_id": "CTRL",
+      "condition": "control",
+      "biological_replicate": 2,
+      "normalization_factor": 1.1
+    },
+    {
+      "run_id": "TRT_R1",
+      "sample_id": "TREATED",
+      "condition": "treated",
+      "biological_replicate": 1,
+      "normalization_factor": 1.0
+    },
+    {
+      "run_id": "TRT_R2",
+      "sample_id": "TREATED",
+      "condition": "treated",
+      "biological_replicate": 2,
+      "normalization_factor": 1.1
+    }
+  ],
+  "intensities": [
+    {"run_id": "CTRL_R1", "protein_accession": "P0SPIKE1", "intensity": 100.0, "observed": true, "is_contaminant": false},
+    {"run_id": "CTRL_R2", "protein_accession": "P0SPIKE1", "intensity": 110.0, "observed": true, "is_contaminant": false},
+    {"run_id": "TRT_R1", "protein_accession": "P0SPIKE1", "intensity": 200.0, "observed": true, "is_contaminant": false},
+    {"run_id": "TRT_R2", "protein_accession": "P0SPIKE1", "intensity": 220.0, "observed": true, "is_contaminant": false},
+    {"run_id": "CTRL_R1", "protein_accession": "P0SPIKE2", "intensity": 80.0, "observed": true, "is_contaminant": false},
+    {"run_id": "CTRL_R2", "protein_accession": "P0SPIKE2", "intensity": 99.0, "observed": true, "is_contaminant": false},
+    {"run_id": "TRT_R1", "protein_accession": "P0SPIKE2", "intensity": 160.0, "observed": true, "is_contaminant": false},
+    {"run_id": "TRT_R2", "protein_accession": "P0SPIKE2", "intensity": null, "observed": false, "is_contaminant": false},
+    {"run_id": "CTRL_R1", "protein_accession": "CON__KERATIN", "intensity": 12.0, "observed": true, "is_contaminant": true},
+    {"run_id": "CTRL_R2", "protein_accession": "CON__KERATIN", "intensity": 13.2, "observed": true, "is_contaminant": true},
+    {"run_id": "TRT_R1", "protein_accession": "CON__KERATIN", "intensity": 15.0, "observed": true, "is_contaminant": true},
+    {"run_id": "TRT_R2", "protein_accession": "CON__KERATIN", "intensity": 16.5, "observed": true, "is_contaminant": true}
+  ],
+  "protein_groups": [
+    {"group_id": "PG_P0SPIKE1", "members": ["P0SPIKE1"], "unique_peptides": ["PEPTIDEK"], "shared_peptides": [], "is_contaminant": false, "quantifiable": true},
+    {"group_id": "PG_P0SPIKE2", "members": ["P0SPIKE2"], "unique_peptides": ["ALPHAK"], "shared_peptides": [], "is_contaminant": false, "quantifiable": true},
+    {"group_id": "PG_SHARED", "members": ["P0SPIKE1", "P0SPIKE2"], "unique_peptides": [], "shared_peptides": ["SHAREDPEP"], "is_contaminant": false, "quantifiable": false},
+    {"group_id": "PG_CONTAM_KERATIN", "members": ["CON__KERATIN"], "unique_peptides": [], "shared_peptides": [], "is_contaminant": true, "quantifiable": false}
+  ],
+  "expected_ratios": [
+    {"protein_accession": "P0SPIKE1", "numerator_condition": "treated", "denominator_condition": "control", "expected_ratio": 2.0, "tolerance": 0.02},
+    {"protein_accession": "P0SPIKE2", "numerator_condition": "treated", "denominator_condition": "control", "expected_ratio": 1.88, "tolerance": 0.02}
+  ]
+}
