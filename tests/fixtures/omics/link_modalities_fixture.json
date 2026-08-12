@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "mode": "link_modalities",
+  "inputs": [
+    {"label": "T056 module matrix", "path": "reports/omics/harmonization/module_matrix.json", "sha256": "898193343321c1220df90f8222c5c50994f75136f88c68a2c7ef595d61f99816"},
+    {"label": "T056 mapping audit", "path": "reports/omics/harmonization/mapping_audit.json", "sha256": "5c9858e17ec7df39faaa9864a7173fa172cde3b269b336c9ea74a9c03ada67de"},
+    {"label": "T061 signature scores", "path": "reports/omics/signatures/signature_scores.json", "sha256": "2149be2885cf26bb6d6c92d9a6d175af62bbea03a28880ccd0eeef02d0f01ee0"},
+    {"label": "T061 signature registry", "path": "reports/omics/signatures/signature_registry.json", "sha256": "9ac758c8282dcf85d19732843e8e656f082fc481d839e72382ac8150aea5ae80"},
+    {"label": "T047 silver evidence", "path": "reports/T047_silver_data_release.md", "sha256": "a81b3f125232b64d55e2628cb5bfd0b01096ef721fadbf35eba2319590a5128b"}
+  ],
+  "links": [
+    {
+      "link_id": "LINK-DIRECT-001",
+      "link_class": "direct_matched",
+      "module_project": "PXD000001",
+      "module_id": "adsorption_core",
+      "module_sample_ids": ["A_CTRL", "A_TRT"],
+      "response_study": "GSE12345",
+      "signature_id": "cell_stress",
+      "response_sample_ids": ["GSE12345_C1", "GSE12345_C2", "GSE12345_T1", "GSE12345_T2"],
+      "matched_unit_id": "MU-001",
+      "match_basis": "declared_fixture_matched_unit",
+      "evidence_locator": "T062:fixture#matched-unit=MU-001",
+      "confidence": "moderate",
+      "candidate_mechanism": "adsorption_core-associated cell stress response"
+    },
+    {
+      "link_id": "LINK-INDIRECT-001",
+      "link_class": "indirect_literature",
+      "module_project": "PXD000003",
+      "module_id": "receptor_interface",
+      "module_sample_ids": ["B_CTRL", "B_TRT"],
+      "response_study": "SRP000001",
+      "signature_id": "immune_response",
+      "response_sample_ids": [],
+      "matched_unit_id": null,
+      "match_basis": null,
+      "evidence_locator": "T047:SILVER#record=corona-response-01",
+      "confidence": "low",
+      "candidate_mechanism": "receptor-interface-associated immune response (indirect)"
+    },
+    {
+      "link_id": "LINK-UNMATCHED-001",
+      "link_class": "unmatched",
+      "module_project": "PXD000003",
+      "module_id": "adsorption_core",
+      "module_sample_ids": ["B_CTRL", "B_TRT"],
+      "response_study": "SRPRAW0001",
+      "signature_id": "data_factor_1",
+      "response_sample_ids": [],
+      "matched_unit_id": null,
+      "match_basis": null,
+      "evidence_locator": null,
+      "confidence": null,
+      "candidate_mechanism": null,
+      "exclusion_reason": "no_shared_study_or_declared_matched_unit"
+    }
+  ]
+}

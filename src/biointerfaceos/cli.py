@@ -420,6 +420,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_signatures_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized signature fixture"
     )
+    omics_links_parser = omics_subparsers.add_parser(
+        "link-modalities", help="link corona modules to response signatures"
+    )
+    omics_links_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized modality-link fixture"
+    )
     omics_geo_parser = omics_subparsers.add_parser(
         "geo", help="discover GEO/SRA biointerface response datasets"
     )
@@ -841,6 +847,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "omics":
+        if args.omics_command == "link-modalities":
+            root = find_repository_root()
+            if root is None:
+                print("LINK_MODALITIES_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            from biointerfaceos.link_workflow import LinkModalitiesError, LinkModalitiesWorkflow
+
+            try:
+                link_summary = LinkModalitiesWorkflow(root).run(fixture=True)
+            except (LinkModalitiesError, OSError) as exc:
+                print(f"LINK_MODALITIES_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"LINK_MODALITIES_VALID links_attempted={link_summary.links_attempted} "
+                f"direct={link_summary.direct_links} "
+                f"indirect={link_summary.indirect_links} "
+                f"unmatched={link_summary.unmatched_links} "
+                f"candidate_cards={link_summary.candidate_cards} "
+                f"resumed={link_summary.resumed} pseudo_pairs=false causal_claims=false"
+            )
+            return 0
         if args.omics_command == "derive-signatures":
             root = find_repository_root()
             if root is None:
