@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T053
-active_execplan: docs/execplans/T053_raw_conversion.md
+current_task: T054
+active_execplan: docs/execplans/T054_sage_search.md
 completed_tasks:
   - T000
   - T001
@@ -60,10 +60,10 @@ completed_tasks:
   - T050
   - T051
   - T052
+  - T053
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T054
   - T055
   - T056
   - T057
