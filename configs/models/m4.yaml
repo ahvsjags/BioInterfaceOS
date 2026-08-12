@@ -1,0 +1,13 @@
+schema_version: 1
+model: M4
+seed: 41
+ridge: 0.15
+pseudocount: 0.01
+bootstrap_samples: 128
+parts:
+  - adsorption
+  - receptor
+  - other
+alternatives:
+  - raw_zero_floor
+  - pseudocount

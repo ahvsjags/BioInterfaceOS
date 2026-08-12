@@ -406,6 +406,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     train_m3_parser.add_argument(
         "--config", default="configs/models/m3.yaml", help="path to the M3 YAML config"
     )
+    train_m4_parser = train_subparsers.add_parser(
+        "m4", help="fit the compositional corona M4 baseline"
+    )
+    train_m4_parser.add_argument(
+        "--config", default="configs/models/m4.yaml", help="path to the M4 YAML config"
+    )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
@@ -866,7 +872,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "train":
-        if args.train_command not in {"m1", "m2", "m3"}:
+        if args.train_command not in {"m1", "m2", "m3", "m4"}:
             parser.parse_args(["train", "--help"])
             return 0
         root = find_repository_root()
@@ -909,6 +915,22 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"direct_rmse={m3_summary.direct_rmse:.6f} "
                 f"mediated_rmse={m3_summary.mediated_rmse:.6f} "
                 f"resumed={m3_summary.resumed} target_values_exposed=false"
+            )
+            return 0
+        if args.train_command == "m4":
+            from biointerfaceos.m4_workflow import M4Error, M4Workflow
+
+            try:
+                m4_summary = M4Workflow(root, config_path=config_path).run(fixture=True)
+            except (M4Error, OSError) as exc:
+                print(f"M4_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"M4_VALID rows={m4_summary.rows} train={m4_summary.train} "
+                f"validation={m4_summary.validation} alternatives={m4_summary.alternatives} "
+                f"best_rmse={m4_summary.best_rmse:.6f} "
+                f"toy_recovery={str(m4_summary.toy_recovery).lower()} "
+                f"resumed={m4_summary.resumed} target_values_exposed=false"
             )
             return 0
         from biointerfaceos.m1_workflow import M1Error, M1Workflow

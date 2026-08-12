@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "mode": "m4_compositional_fixture",
+  "inputs": [
+    {"label": "T067 public instances", "path": "reports/benchmark/instances/public_instances.json", "sha256": "f86e3eaf4b5cf080cd07165b3e7a96254904a24f853e0524fa399206393d6a48"},
+    {"label": "T056 corona module matrix", "path": "reports/omics/harmonization/module_matrix.json", "sha256": "898193343321c1220df90f8222c5c50994f75136f88c68a2c7ef595d61f99816"},
+    {"label": "T073 M3 receipt", "path": "reports/models/m3/m3_receipt.json", "sha256": "0e86a9759d497bd9e0c0b16041f006f1e48dc24811f5329670f566f57a0d6566"},
+    {"label": "T069 baseline fixture", "path": "tests/fixtures/benchmark/baseline_fixture.json", "sha256": "af7e2de7e1ad323c2f2ab07962872663bdbb527403ae343e7a97980cd8abd7cd"}
+  ],
+  "rows": [
+    {"instance_id": "E1-001", "split": "train", "composition": [0.3, 0.5, 0.2], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "C1-001", "split": "train", "composition": [0.6, 0.2, 0.2], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "U1-001", "split": "train", "composition": [0.0, 0.6, 0.4], "zero_mask": [true, false, false], "missingness": 0.0},
+    {"instance_id": "S1-001", "split": "train", "composition": [0.45, 0.35, 0.2], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "B1-001", "split": "train", "composition": [0.1, 0.7, 0.2], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "CF1-001", "split": "train", "composition": [0.2, 0.4, 0.4], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "D1-001", "split": "train", "composition": [0.6, 0.2, 0.2], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "A1-001", "split": "train", "composition": [0.4, 0.4, 0.2], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "E1-002", "split": "validation", "composition": [0.45, 0.35, 0.2], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "C1-002", "split": "validation", "composition": [0.75, 0.15, 0.1], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "U1-002", "split": "validation", "composition": [0.6, 0.0, 0.4], "zero_mask": [false, true, false], "missingness": 0.0},
+    {"instance_id": "S1-002", "split": "validation", "composition": [0.8, 0.1, 0.1], "zero_mask": [false, false, false], "missingness": 0.1},
+    {"instance_id": "B1-002", "split": "validation", "composition": [0.85, 0.05, 0.1], "zero_mask": [false, false, false], "missingness": 0.5},
+    {"instance_id": "CF1-002", "split": "validation", "composition": [0.75, 0.15, 0.1], "zero_mask": [false, false, false], "missingness": 0.0},
+    {"instance_id": "D1-002", "split": "validation", "composition": [0.75, 0.15, 0.1], "zero_mask": [false, false, false], "missingness": 0.1},
+    {"instance_id": "A1-002", "split": "validation", "composition": [0.65, 0.2, 0.15], "zero_mask": [false, false, false], "missingness": 0.5}
+  ]
+}
