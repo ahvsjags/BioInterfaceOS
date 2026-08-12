@@ -99,9 +99,7 @@ class R2ReleaseReproductionWorkflow:
                 "required R2 public source is not registered: " + ", ".join(sorted(missing))
             )
         unsafe = [
-            str(row["path"])
-            for row in public
-            if self._forbidden_public_path(str(row["path"]))
+            str(row["path"]) for row in public if self._forbidden_public_path(str(row["path"]))
         ]
         if unsafe:
             raise R2ReleaseReproductionError(
@@ -113,7 +111,8 @@ class R2ReleaseReproductionWorkflow:
     @classmethod
     def _forbidden_public_path(cls, path: str) -> bool:
         return (
-            path.startswith(cls.FORBIDDEN_PUBLIC_PREFIXES) and path not in cls.RELEASE_BOUNDARY_DOCUMENTS
+            path.startswith(cls.FORBIDDEN_PUBLIC_PREFIXES)
+            and path not in cls.RELEASE_BOUNDARY_DOCUMENTS
         )
 
     @staticmethod
