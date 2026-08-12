@@ -5,10 +5,9 @@ status: IN_PROGRESS
 task_count: 129
 ready_tasks:
   - T118
-  - T119
   - T120
-current_task: T119
-active_execplan: docs/execplans/T119_submission_figure_qa.md
+current_task: T118
+active_execplan: docs/execplans/T118_reconstructable_publication_release.md
 completed_tasks:
   - T000
   - T001
@@ -128,6 +127,7 @@ completed_tasks:
   - T115
   - T116
   - T117
+  - T119
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -161,6 +161,7 @@ notes:
   - 'T001 completed after the explicit repository-local non-human Git identity BioInterfaceOS-Codex <biointerfaceos-codex@localhost> resolved the recorded blocker.'
   - '2026-08-12: Round 2 created from the five-reviewer editorial report. T115–T128 are mandatory before any empirical submission-ready claim.'
   - '2026-08-12: T117 completed a default-deny public asset audit. Historical fixture bundles, data, registries, reports, and manuscript artifacts remain excluded or controlled until their independent gates pass.'
+  - '2026-08-12: T119 withdrew the 15 legacy fixture-derived numerical panels from R2 submission scope and replaced them with field-mapped, protocol-only diagrams. The receipt reports no empirical values and does not constitute a human scientific signoff.'
 review_round_2:
   status: ACTIVE
   source: docs/review_round_2/REMEDIATION_MATRIX.md

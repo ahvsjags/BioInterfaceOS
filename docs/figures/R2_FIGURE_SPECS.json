@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "suite_id": "bioif-submission-figure-qa-r2-v1.1.0",
+  "evidence_class": "SOFTWARE_REPLAY",
+  "allowed_claim_level": "SOFTWARE_REPLAY",
+  "figures": [
+    {
+      "figure_id": "R2 Figure 1",
+      "title": "Evidence-class boundary for fixture and replay outputs",
+      "caption": "Declared evidence classes route fixture or replay inputs to contract-level output and block unsupported scientific claims. This protocol diagram contains no measured values.",
+      "publication_status": "PROTOCOL_ONLY",
+      "evidence_class": "SOFTWARE_REPLAY",
+      "allowed_claim_level": "SOFTWARE_REPLAY",
+      "source": {
+        "path": "docs/figures/R2_PROTOCOL_FIGURE_DATA.json",
+        "sha256": "f6ff0d572450061ed0909589777c22c284e4be20f90f5904d15ceebf42323c4e",
+        "flow_id": "EVIDENCE_BOUNDARY"
+      },
+      "field_mapping": {
+        "node_id": "nodes[].node_id",
+        "node_label": "nodes[].label_lines[]",
+        "node_geometry": "nodes[].x,y,width,height",
+        "edge_source": "edges[].source",
+        "edge_target": "edges[].target"
+      },
+      "denominator": {
+        "independent_unit": "NOT_APPLICABLE",
+        "n": "NOT_APPLICABLE",
+        "interval_method": "NOT_APPLICABLE"
+      },
+      "axes": {
+        "x_unit": "NOT_APPLICABLE",
+        "y_unit": "NOT_APPLICABLE"
+      }
+    },
+    {
+      "figure_id": "R2 Figure 2",
+      "title": "Default-deny public release classification gate",
+      "caption": "Each tracked asset is classified by declared rights and provenance before it can enter a public bundle. This is a release-control protocol, not a data result.",
+      "publication_status": "PROTOCOL_ONLY",
+      "evidence_class": "SOFTWARE_REPLAY",
+      "allowed_claim_level": "SOFTWARE_REPLAY",
+      "source": {
+        "path": "docs/figures/R2_PROTOCOL_FIGURE_DATA.json",
+        "sha256": "f6ff0d572450061ed0909589777c22c284e4be20f90f5904d15ceebf42323c4e",
+        "flow_id": "PUBLIC_RELEASE_GATE"
+      },
+      "field_mapping": {
+        "node_id": "nodes[].node_id",
+        "node_label": "nodes[].label_lines[]",
+        "node_geometry": "nodes[].x,y,width,height",
+        "edge_source": "edges[].source",
+        "edge_target": "edges[].target"
+      },
+      "denominator": {
+        "independent_unit": "NOT_APPLICABLE",
+        "n": "NOT_APPLICABLE",
+        "interval_method": "NOT_APPLICABLE"
+      },
+      "axes": {
+        "x_unit": "NOT_APPLICABLE",
+        "y_unit": "NOT_APPLICABLE"
+      }
+    },
+    {
+      "figure_id": "R2 Figure 3",
+      "title": "Pending real-data and independent-evaluation gates",
+      "caption": "The route from open row-level provenance to external reproduction remains a set of mandatory future gates. No response, effect, performance, or generalization is shown.",
+      "publication_status": "PROTOCOL_ONLY",
+      "evidence_class": "SOFTWARE_REPLAY",
+      "allowed_claim_level": "SOFTWARE_REPLAY",
+      "source": {
+        "path": "docs/figures/R2_PROTOCOL_FIGURE_DATA.json",
+        "sha256": "f6ff0d572450061ed0909589777c22c284e4be20f90f5904d15ceebf42323c4e",
+        "flow_id": "EMPIRICAL_VALIDATION_ROADMAP"
+      },
+      "field_mapping": {
+        "node_id": "nodes[].node_id",
+        "node_label": "nodes[].label_lines[]",
+        "node_geometry": "nodes[].x,y,width,height",
+        "edge_source": "edges[].source",
+        "edge_target": "edges[].target"
+      },
+      "denominator": {
+        "independent_unit": "NOT_APPLICABLE",
+        "n": "NOT_APPLICABLE",
+        "interval_method": "NOT_APPLICABLE"
+      },
+      "axes": {
+        "x_unit": "NOT_APPLICABLE",
+        "y_unit": "NOT_APPLICABLE"
+      }
+    }
+  ]
+}

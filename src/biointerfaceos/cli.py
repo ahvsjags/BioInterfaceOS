@@ -240,6 +240,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "render", help="render the frozen publication package"
     )
     render_parser.add_argument("--strict", action="store_true")
+    render_r2_parser = publication_subparsers.add_parser(
+        "render-r2", help="render field-mapped, protocol-only R2 figures"
+    )
+    render_r2_parser.add_argument("--strict", action="store_true")
+    verify_r2_parser = publication_subparsers.add_parser(
+        "verify-r2", help="verify the immutable R2 figure QA receipt"
+    )
+    verify_r2_parser.add_argument("--strict", action="store_true")
     reproduce_parser = subparsers.add_parser(
         "reproduce-clean", help="build and verify the network-free clean-room package"
     )
@@ -2786,8 +2794,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "publication":
-        if args.publication_command != "render":
+        if args.publication_command not in {"render", "render-r2", "verify-r2"}:
             parser.parse_args(["publication", "--help"])
+            return 0
+        if args.publication_command in {"render-r2", "verify-r2"}:
+            from biointerfaceos.submission_figure_qa_workflow import (
+                SubmissionFigureQAError,
+                SubmissionFigureQAWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("R2_FIGURE_QA_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                workflow = SubmissionFigureQAWorkflow(root)
+                result = (
+                    workflow.run(strict=args.strict)
+                    if args.publication_command == "render-r2"
+                    else workflow.verify()
+                )
+            except (SubmissionFigureQAError, OSError) as exc:
+                print(f"R2_FIGURE_QA_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"R2_FIGURE_QA_VALID suite_id={result['suite_id']} "
+                f"status={result['status']} figures={result['figure_count']} "
+                f"withdrawn_historical_figures={result['withdrawn_historical_figure_count']} "
+                "field_mapped=true scientific_submission_ready=false"
+            )
             return 0
         from biointerfaceos.publication_render_workflow import (
             PublicationRenderError,

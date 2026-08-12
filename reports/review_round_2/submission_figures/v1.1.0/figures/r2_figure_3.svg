@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160mm" height="90mm" viewBox="0 0 960 540" role="img">
+<title>Pending real-data and independent-evaluation gates</title>
+<desc>Protocol-only diagram from declared nodes and edges; no empirical values.</desc>
+<rect x="0" y="0" width="960" height="540" fill="#FFFFFF"/>
+<text x="32.0" y="40.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15px" font-weight="bold" fill="#374151">R2 Figure 3</text>
+<text x="32.0" y="70.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="25px" font-weight="bold" fill="#111827">Pending real-data and independent-evaluation gates</text>
+<text x="928.0" y="38.0" text-anchor="end" font-family="Arial,Helvetica,sans-serif" font-size="13px" font-weight="bold" fill="#374151">PROTOCOL / SOFTWARE REPLAY ONLY</text>
+<defs><marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><path d="M0,0 L10,3.5 L0,7 z" fill="#374151"/></marker></defs>
+<line x1="190.0" y1="246.0" x2="220.0" y2="246.0" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="205.0" y="239.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="12px" font-weight="normal" fill="#374151">T120</text>
+<line x1="390.0" y1="246.0" x2="420.0" y2="246.0" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="405.0" y="239.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="12px" font-weight="normal" fill="#374151">T121-122</text>
+<line x1="580.0" y1="246.0" x2="610.0" y2="246.0" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="595.0" y="239.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="12px" font-weight="normal" fill="#374151">T123-124</text>
+<line x1="784.0" y1="246.0" x2="800.0" y2="246.0" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="792.0" y="239.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="12px" font-weight="normal" fill="#374151">T128</text>
+<rect x="30.0" y="210.0" width="160.0" height="72.0" rx="10" fill="#DCEAF7" stroke="#0072B2" stroke-width="2"/>
+<text x="110.0" y="242.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="bold" fill="#111827">Real open rows</text>
+<text x="110.0" y="262.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="normal" fill="#111827">with provenance</text>
+<rect x="220.0" y="210.0" width="170.0" height="72.0" rx="10" fill="#E5F4E8" stroke="#009E73" stroke-width="2"/>
+<text x="305.0" y="242.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="bold" fill="#111827">Frozen estimand</text>
+<text x="305.0" y="262.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="normal" fill="#111827">+ analysis plan</text>
+<rect x="420.0" y="210.0" width="160.0" height="72.0" rx="10" fill="#FFF1D4" stroke="#E69F00" stroke-width="2"/>
+<text x="500.0" y="242.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="bold" fill="#111827">Study-held</text>
+<text x="500.0" y="262.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="normal" fill="#111827">benchmark</text>
+<rect x="610.0" y="210.0" width="174.0" height="72.0" rx="10" fill="#FFF1D4" stroke="#E69F00" stroke-width="2"/>
+<text x="697.0" y="242.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="bold" fill="#111827">Independent</text>
+<text x="697.0" y="262.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="normal" fill="#111827">locked evaluation</text>
+<rect x="800.0" y="210.0" width="130.0" height="72.0" rx="10" fill="#EAE4F4" stroke="#6A3D9A" stroke-width="2"/>
+<text x="865.0" y="242.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="bold" fill="#111827">External</text>
+<text x="865.0" y="262.0" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="16px" font-weight="normal" fill="#111827">reproduction</text>
+<line x1="32" y1="474" x2="928" y2="474" stroke="#D1D5DB" stroke-width="1"/>
+<text x="32.0" y="496.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="13px" font-weight="normal" fill="#374151">The route from open row-level provenance to external reproduction remains a set of mandatory future gates.</text>
+<text x="32.0" y="513.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="13px" font-weight="normal" fill="#374151">No response, effect, performance, or generalization is shown.</text>
+<text x="32.0" y="533.0" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="12px" font-weight="normal" fill="#4B5563">Units, n and intervals: not applicable (protocol diagram; no measured summary).</text>
+</svg>

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "data_id": "bioif-r2-protocol-flow-v1.1.0",
+  "evidence_class": "SOFTWARE_REPLAY",
+  "allowed_claim_level": "SOFTWARE_REPLAY",
+  "flows": {
+    "EVIDENCE_BOUNDARY": {
+      "nodes": [
+        {"node_id": "inputs", "label_lines": ["Fixture / replay", "inputs"], "x": 44, "y": 190, "width": 180, "height": 72, "style": "input"},
+        {"node_id": "classify", "label_lines": ["Evidence-class", "declaration"], "x": 292, "y": 190, "width": 180, "height": 72, "style": "process"},
+        {"node_id": "contract", "label_lines": ["Contract-test", "output only"], "x": 548, "y": 126, "width": 180, "height": 72, "style": "output"},
+        {"node_id": "block", "label_lines": ["Scientific claim", "blocked"], "x": 548, "y": 314, "width": 180, "height": 72, "style": "blocked"}
+      ],
+      "edges": [
+        {"source": "inputs", "target": "classify", "label": "declare"},
+        {"source": "classify", "target": "contract", "label": "permitted"},
+        {"source": "classify", "target": "block", "label": "prohibit"}
+      ]
+    },
+    "PUBLIC_RELEASE_GATE": {
+      "nodes": [
+        {"node_id": "tracked", "label_lines": ["Tracked", "asset"], "x": 40, "y": 206, "width": 150, "height": 72, "style": "input"},
+        {"node_id": "audit", "label_lines": ["License +", "provenance audit"], "x": 252, "y": 206, "width": 176, "height": 72, "style": "process"},
+        {"node_id": "public", "label_lines": ["PUBLIC", "source / docs"], "x": 530, "y": 108, "width": 180, "height": 72, "style": "output"},
+        {"node_id": "controlled", "label_lines": ["CONTROLLED", "metadata only"], "x": 530, "y": 222, "width": 180, "height": 72, "style": "gate"},
+        {"node_id": "excluded", "label_lines": ["EXCLUDED", "history / data"], "x": 530, "y": 336, "width": 180, "height": 72, "style": "blocked"}
+      ],
+      "edges": [
+        {"source": "tracked", "target": "audit", "label": "classify"},
+        {"source": "audit", "target": "public", "label": "rights clear"},
+        {"source": "audit", "target": "controlled", "label": "restricted"},
+        {"source": "audit", "target": "excluded", "label": "unclear"}
+      ]
+    },
+    "EMPIRICAL_VALIDATION_ROADMAP": {
+      "nodes": [
+        {"node_id": "rows", "label_lines": ["Real open rows", "with provenance"], "x": 30, "y": 210, "width": 160, "height": 72, "style": "input"},
+        {"node_id": "plan", "label_lines": ["Frozen estimand", "+ analysis plan"], "x": 220, "y": 210, "width": 170, "height": 72, "style": "process"},
+        {"node_id": "benchmark", "label_lines": ["Study-held", "benchmark"], "x": 420, "y": 210, "width": 160, "height": 72, "style": "gate"},
+        {"node_id": "lockbox", "label_lines": ["Independent", "locked evaluation"], "x": 610, "y": 210, "width": 174, "height": 72, "style": "gate"},
+        {"node_id": "external", "label_lines": ["External", "reproduction"], "x": 800, "y": 210, "width": 130, "height": 72, "style": "output"}
+      ],
+      "edges": [
+        {"source": "rows", "target": "plan", "label": "T120"},
+        {"source": "plan", "target": "benchmark", "label": "T121-122"},
+        {"source": "benchmark", "target": "lockbox", "label": "T123-124"},
+        {"source": "lockbox", "target": "external", "label": "T128"}
+      ]
+    }
+  }
+}

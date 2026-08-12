@@ -28,6 +28,8 @@ class CliTests(unittest.TestCase):
     def test_help_discovers_every_command(self) -> None:
         help_text = cli.build_parser().format_help()
         self.assertIn("doctor", help_text)
+        publication_args = cli.build_parser().parse_args(["publication", "render-r2", "--strict"])
+        self.assertEqual("render-r2", publication_args.publication_command)
         for command in cli.FUTURE_COMMANDS:
             self.assertIn(command, help_text)
 
