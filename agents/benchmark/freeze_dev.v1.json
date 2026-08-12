@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "workflow": "biointerfacebench_development_freeze",
+  "required_inputs": [
+    "T067 benchmark instances receipt",
+    "T068 benchmark graders receipt",
+    "T069 statistical baselines receipt",
+    "T070 representation baselines receipt",
+    "T065 frozen development split manifest",
+    "T102 negative-controls receipt"
+  ],
+  "required_layers": ["public_instances", "hidden_registry_metadata"],
+  "required_outputs": ["release_manifest", "benchmark_card", "freeze_receipt"],
+  "semantic_version": "1.0.0",
+  "failure_policy": "abort_without_overwrite"
+}

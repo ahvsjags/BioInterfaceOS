@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "mode": "benchmark_freeze_dev",
+  "preregistration": {
+    "schema_version": 1,
+    "release_id": "biointerfacebench-dev-v1.0.0",
+    "semantic_version": "1.0.0",
+    "target_values_exposed": false,
+    "public_hidden_separation": true,
+    "required_statuses": {
+      "T067 benchmark instances receipt": "VALID",
+      "T068 benchmark graders receipt": "VALID",
+      "T069 statistical baselines receipt": "VALID",
+      "T070 representation baselines receipt": "VALID",
+      "T065 frozen development split manifest": "FROZEN_DEV",
+      "T102 negative-controls receipt": "VALID"
+    }
+  },
+  "inputs": [
+    {
+      "label": "T067 benchmark instances receipt",
+      "path": "reports/benchmark/instances/processing_receipt.json",
+      "sha256": "f06f314cc56abdeeeff1ecea6a00949575255b82719a2cd7876b6802f4215568"
+    },
+    {
+      "label": "T068 benchmark graders receipt",
+      "path": "reports/benchmark/grading/grading_receipt.json",
+      "sha256": "6ffb2d8130b54e0291882f037a6ba9a050682101a9c0c647dea5740aa184a59b"
+    },
+    {
+      "label": "T069 statistical baselines receipt",
+      "path": "reports/benchmark/baselines/baseline_receipt.json",
+      "sha256": "39d9a4a54fc420082b25dbfe8c7e21cf3186a6df789c2b4a01e6ccbb2f614d16"
+    },
+    {
+      "label": "T070 representation baselines receipt",
+      "path": "reports/benchmark/representations/representation_receipt.json",
+      "sha256": "d8d55f78dcb945b0244efef6c4db57ce366fb14da2dad929de66f08a673c99c3"
+    },
+    {
+      "label": "T065 frozen development split manifest",
+      "path": "reports/splits/frozen_dev/split_manifest.json",
+      "sha256": "c1b32d9b2b23cca7ec9ba7bf7cc0471514fdf2a0fb07a3204461b5b8cfa150c2"
+    },
+    {
+      "label": "T102 negative-controls receipt",
+      "path": "reports/robustness/negative_controls/negative_controls_receipt.json",
+      "sha256": "75f61af52ea96576e416395d66fd8ad75b565b148ee36b0025ec2082055b13cc"
+    }
+  ],
+  "layers": {
+    "public_instances": {
+      "path": "reports/benchmark/instances/public_instances.json",
+      "sha256": "f86e3eaf4b5cf080cd07165b3e7a96254904a24f853e0524fa399206393d6a48"
+    },
+    "hidden_registry_metadata": {
+      "path": "reports/benchmark/instances/hidden_target_registry.json",
+      "sha256": "4868976412358d9e8d0c5766abff8b57ecaea1b0433ea0e0a86ee534da13d51d"
+    }
+  }
+}

@@ -413,6 +413,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     benchmark_agents_parser.add_argument(
         "--dev", action="store_true", help="run the development agent benchmark namespace"
     )
+    benchmark_freeze_parser = benchmark_subparsers.add_parser(
+        "freeze-dev", help="freeze the BioInterfaceBench development release"
+    )
+    benchmark_freeze_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized benchmark freeze fixture"
+    )
     claim_parser = subparsers.add_parser(
         "claim", help="freeze and preregister exploratory claim tournaments"
     )
@@ -1808,6 +1814,40 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"failures={agent_benchmark_summary.failures} "
                 f"selected_mode={agent_benchmark_summary.selected_mode} "
                 f"resumed={agent_benchmark_summary.resumed}"
+            )
+            return 0
+        if args.benchmark_command == "freeze-dev":
+            root = find_repository_root()
+            if root is None:
+                print("BENCHMARK_FREEZE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("BENCHMARK_FREEZE_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.benchmark_freeze import (
+                BenchmarkFreezeError,
+                BenchmarkFreezeWorkflow,
+            )
+
+            try:
+                benchmark_freeze_summary = BenchmarkFreezeWorkflow(root).run(fixture=True)
+            except (BenchmarkFreezeError, OSError) as exc:
+                print(f"BENCHMARK_FREEZE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"BENCHMARK_FREEZE_VALID release_id={benchmark_freeze_summary.release_id} "
+                f"version={benchmark_freeze_summary.semantic_version} "
+                f"instances={benchmark_freeze_summary.instances} "
+                f"train={benchmark_freeze_summary.train} "
+                f"validation={benchmark_freeze_summary.validation} "
+                f"graders={benchmark_freeze_summary.graders} "
+                f"baselines={benchmark_freeze_summary.baselines} "
+                f"representations={benchmark_freeze_summary.representations} "
+                "public_hidden_separated="
+                f"{str(benchmark_freeze_summary.public_hidden_separated).lower()} "
+                "negative_controls_clean="
+                f"{str(benchmark_freeze_summary.negative_controls_clean).lower()} "
+                f"resumed={benchmark_freeze_summary.resumed} target_values_exposed=false"
             )
             return 0
         if args.benchmark_command != "extraction":
