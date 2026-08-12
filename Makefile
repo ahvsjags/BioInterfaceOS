@@ -1,4 +1,4 @@
-.PHONY: env check paper-a paper-b
+.PHONY: env check paper-a paper-b paper-c-prelock
 
 BIOINTERFACEOS_UV ?= uv
 BIOINTERFACEOS_PYTHON ?= 3.11
@@ -18,3 +18,6 @@ paper-a:
 
 paper-b:
 	.venv/bin/biointerfaceos paper-b
+
+paper-c-prelock:
+	.venv/bin/biointerfaceos paper-c-prelock

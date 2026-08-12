@@ -1,0 +1,1 @@
+{"observed":{"banned_terms":[],"max_sentence_words":21,"over_40_word_sentences":0,"rule_set":"paper-writing-skill-v1","sentence_count":89,"status":"PASS","throat_clearing_hits":0},"rule_set":"paper-writing-skill-v1","schema_version":1,"status":"PASS","violations_fixed":{"banned_terms":0,"overlong_sentences":0,"throat_clearing":0}}

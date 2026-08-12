@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "mode": "paper_c_scientific_law_prelock",
+  "required_input_labels": [
+    "T090 functional-axis report",
+    "T091 mediation report",
+    "T092 cross-species report",
+    "T093 symbolic-law report",
+    "T094 protocol-effects report",
+    "T095 counterfactual report",
+    "T100 OOD report",
+    "T101 selection report"
+  ],
+  "output_contract": {
+    "paper_id": "paper_c_prelock",
+    "candidates": 5,
+    "analyses": 5,
+    "predictions": 5,
+    "claims": 8,
+    "tables": 6,
+    "figures": 5,
+    "lockbox_accessed": false,
+    "predictions_frozen": true,
+    "render_status": "SPEC_ONLY"
+  }
+}

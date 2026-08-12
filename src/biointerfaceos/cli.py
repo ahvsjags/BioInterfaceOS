@@ -429,6 +429,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "paper-a", help="generate the evidence-linked Paper A benchmark manuscript"
     )
     subparsers.add_parser("paper-b", help="generate the evidence-linked Paper B method manuscript")
+    subparsers.add_parser(
+        "paper-c-prelock", help="freeze the Paper C scientific-law manuscript before lockbox access"
+    )
     claim_parser = subparsers.add_parser(
         "claim", help="freeze and preregister exploratory claim tournaments"
     )
@@ -1088,6 +1091,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"figures={paper_b_summary.figures} evidence_inputs={paper_b_summary.evidence_inputs} "
             f"style_passed={str(paper_b_summary.style_passed).lower()} "
             f"resumed={paper_b_summary.resumed} target_values_exposed=false"
+        )
+        return 0
+    if args.command == "paper-c-prelock":
+        root = find_repository_root()
+        if root is None:
+            print("PAPER_C_PRELOCK_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        from biointerfaceos.paper_c_prelock_workflow import (
+            PaperCPrelockError,
+            PaperCPrelockWorkflow,
+        )
+
+        try:
+            paper_c_summary = PaperCPrelockWorkflow(root).run(fixture=True)
+        except (PaperCPrelockError, OSError) as exc:
+            print(f"PAPER_C_PRELOCK_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"PAPER_C_PRELOCK_VALID candidates={paper_c_summary.candidate_count} "
+            f"strong_candidates={paper_c_summary.strong_candidates} "
+            f"analyses={paper_c_summary.analyses} predictions={paper_c_summary.predictions} "
+            f"claims={paper_c_summary.claims} tables={paper_c_summary.tables} "
+            f"figures={paper_c_summary.figures} evidence_inputs={paper_c_summary.evidence_inputs} "
+            f"style_passed={str(paper_c_summary.style_passed).lower()} "
+            f"lockbox_accessed={str(paper_c_summary.lockbox_accessed).lower()} "
+            f"resumed={paper_c_summary.resumed} target_values_exposed=false"
         )
         return 0
     if args.command == "claim":
