@@ -259,63 +259,90 @@ class R2RemediationWorkflow:
                 "finding_id": "R2-01",
                 "disposition": self.DISPOSITIONS["R2-01"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "No common target is frozen across the profiled or CC0-screened sources; model use remains prohibited.",
+                "reviewer_readable_disposition": (
+                    "No common target is frozen across the profiled or CC0-screened "
+                    "sources; model use remains prohibited."
+                ),
                 "evidence_source_keys": ["profile", "admission", "discovery"],
             },
             {
                 "finding_id": "R2-02",
                 "disposition": self.DISPOSITIONS["R2-02"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "Paper C is retained only as a protocol until an independent evaluator verifies protected observations.",
+                "reviewer_readable_disposition": (
+                    "Paper C is retained only as a protocol until an independent evaluator "
+                    "verifies protected observations."
+                ),
                 "evidence_source_keys": ["independent", "portfolio"],
             },
             {
                 "finding_id": "R2-03",
                 "disposition": self.DISPOSITIONS["R2-03"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "No estimand, model, ablation, OOD evaluation or effective-sample analysis is admitted without a frozen target.",
+                "reviewer_readable_disposition": (
+                    "No estimand, model, ablation, OOD evaluation or effective-sample analysis "
+                    "is admitted without a frozen target."
+                ),
                 "evidence_source_keys": ["profile", "independent"],
             },
             {
                 "finding_id": "R2-04",
                 "disposition": self.DISPOSITIONS["R2-04"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "A historical fixture manuscript still contains one forbidden independent-study wording; it is not retroactively edited or treated as a replication result.",
+                "reviewer_readable_disposition": (
+                    "A historical fixture manuscript still contains one forbidden independent-study "
+                    "wording; it is not retroactively edited or treated as a replication result."
+                ),
                 "evidence_source_keys": ["semantics"],
             },
             {
                 "finding_id": "R2-05",
                 "disposition": self.DISPOSITIONS["R2-05"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "The literature/comparator/glossary packet passed its bounded audit, but it supplies no empirical validation.",
+                "reviewer_readable_disposition": (
+                    "The literature/comparator/glossary packet passed its bounded audit, "
+                    "but it supplies no empirical validation."
+                ),
                 "evidence_source_keys": ["related_work"],
             },
             {
                 "finding_id": "R2-06",
                 "disposition": self.DISPOSITIONS["R2-06"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "Public-release integrity passed while historical fixture bundles remain excluded and submission readiness remains false.",
+                "reviewer_readable_disposition": (
+                    "Public-release integrity passed while historical fixture bundles remain "
+                    "excluded and submission readiness remains false."
+                ),
                 "evidence_source_keys": ["public_release"],
             },
             {
                 "finding_id": "R2-07",
                 "disposition": self.DISPOSITIONS["R2-07"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "Three field-mapped protocol figures passed geometry and semantic QA; no empirical values are rendered.",
+                "reviewer_readable_disposition": (
+                    "Three field-mapped protocol figures passed geometry and semantic QA; "
+                    "no empirical values are rendered."
+                ),
                 "evidence_source_keys": ["figures"],
             },
             {
                 "finding_id": "R2-08",
                 "disposition": self.DISPOSITIONS["R2-08"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "The portfolio uses a merged A+B route and keeps C protocol-only, pending T123/T124 rather than presenting results manuscripts.",
+                "reviewer_readable_disposition": (
+                    "The portfolio uses a merged A+B route and keeps C protocol-only, "
+                    "pending T123/T124 rather than presenting results manuscripts."
+                ),
                 "evidence_source_keys": ["portfolio"],
             },
             {
                 "finding_id": "R2-09",
                 "disposition": self.DISPOSITIONS["R2-09"],
                 "scientific_claim_ready": False,
-                "reviewer_readable_disposition": "External reproduction and editorial re-review remain absent; the acceptance audit lists ten blockers and submission readiness is false.",
+                "reviewer_readable_disposition": (
+                    "External reproduction and editorial re-review remain absent; the acceptance "
+                    "audit lists ten blockers and submission readiness is false."
+                ),
                 "evidence_source_keys": ["acceptance"],
             },
         ]
