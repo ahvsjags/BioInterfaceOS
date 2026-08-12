@@ -1,32 +1,68 @@
-# T120 — 真实开放生物界面证据与逐行溯源
+# T120: Real open biointerface evidence with row-level provenance
 
-## 目的
+## Purpose
 
-用合法、可复核的开放原始研究记录取代所有 fixture 作为实证论断的唯一输入；每一行
-必须能够追溯到 DOI、accession 或永久公开记录、研究/实验室、材料、细胞或生物体系、
-测量协议、结果变量、许可证和访问日期。
+Replace fixture-only support for empirical work with an auditable, openly licensed development-observation source. Every admitted measurement must resolve to a retained raw asset and original worksheet cell.
 
-## 实施
+## Preconditions
 
-1. 制定纳入/排除规则：仅接受明确开放许可或公共领域、能定位原始研究或原始数据、并
-   提供足够独立单位和测量语义的来源；受限、二次汇总、无许可或无法核验的来源一律
-   分离或排除。
-2. 新建经验数据注册表、原始记录清单和逐行证据图；各行标识真实观察，禁止使用任何
-   fixture、模拟值或历史发布结果。
-3. 记录不可变下载/访问校验和、许可、DOI/accession、版本、提取位置和缺失字段；
-   建立从原始资产到标准化行的可逆链接。
-4. 实现 `python -m biointerfaceos data audit-provenance --strict`，对许可、原始来源、
-   行级 lineage、非 fixture 语义和必需实验字段进行 fail-closed 审计。
-5. 只有在审计通过后才解锁 T121；审计通过不等同于统计结论、模型性能或独立复现。
+T115–T117 are complete. The public-release registry remains default-deny, and R2 publication scope remains software/protocol-only.
 
-## 验收
+## Non-goals
 
-- 每个主分析候选行都具有真实来源、权限状态和可定位的行级证据；
-- 没有 fixture、合成值、受限载荷或未授权再分发资产进入经验数据层；
-- 研究、实验室、材料、协议、独立单位和结果变量字段可供后续统计计划冻结；
-- 数据审计收据明确 `empirical_source=true`，但不产生任何结果性科学主张。
+This task does not estimate an effect, fit a model, claim generalization, create a benchmark, or perform independent scientific validation.
 
-## 失败处理
+## Interfaces and invariants
 
-任何候选来源的许可、原始出处或行级定位无法核验时均从经验层排除，并保留排除理由；
-项目保持 software/protocol scope，不能将 fixture 改名为观察数据。
+- Registry: `data/empirical/R2_EMPIRICAL_REGISTRY.json`.
+- Command: `python -m biointerfaceos data audit-provenance --strict`.
+- The audit checks anonymous public access, explicit reusable licence, source/study/laboratory/material/protocol lineage, raw byte size and SHA-256, worksheet/cell location, independent-unit label and raw numeric value.
+- Evidence metadata is fixed to `DEVELOPMENT_OBSERVATION` and `EXPLORATORY`; generated receipts state that statistical conclusions, independent validation and scientific submission readiness are false.
+- The output directory is append-only. Re-running against an existing receipt is refused.
+
+## Implementation plan
+
+1. Select an openly accessible raw-data record with a stable landing page and an explicit licence.
+2. Retain the exact source files under the controlled empirical namespace and record their URLs, bytes and digests.
+3. Implement a fail-closed workbook reader that verifies each registered observation against the original cell.
+4. Add CLI, tests, licence-aware public asset classification, source policy and data dictionary.
+5. Freeze the receipt only after strict audit, formatting, typing, tests and isolated public-release audit pass.
+
+## Progress
+
+- [x] 2026-08-12 — Verified University of Leeds dataset DOI `10.5518/1171`: anonymous public access, CC BY 4.0 and four XLSX raw-data files.
+- [x] 2026-08-12 — Retained all four source workbooks with direct URLs, byte counts and SHA-256 values; registered 14 released GUV shrinking-rate observations.
+- [x] 2026-08-12 — Implemented `EmpiricalProvenanceWorkflow`, strict CLI audit and immutable receipt.
+- [x] 2026-08-12 — Remote validation passed: `ruff`, `mypy`, two focused tests, isolated strict provenance audit and isolated public-release audit.
+
+## Discoveries
+
+- The source contains a single study and laboratory. It is adequate for real-data admission and analysis-plan design, but it cannot meet the later multi-study, held-out and independent-evaluator gates.
+- The Mendeley candidate examined during source scouting is CC BY 4.0 but exposes only a PDF asset in its public file listing; it was not admitted as a row-level raw-data source.
+
+## Decisions
+
+- Read the original XLSX cells at audit time instead of maintaining a hand-edited derived table. This makes a changed cell, label, digest or raw file fail the gate.
+- Keep empirical source files controlled even when individually CC BY. They are explicitly excluded from the public software-replay source bundle until later evidence gates decide a data release scope.
+
+## Validation
+
+- `python -m biointerfaceos data audit-provenance --strict` → 1 source, 1 laboratory, 4 raw assets and 14 audited observations.
+- `python -m biointerfaceos release audit-public --strict` in an isolated source tree → `PASS_PUBLIC_RELEASE_AUDIT`, with no classification ambiguity.
+- `ruff format --check`, `ruff check`, `mypy`, and `pytest tests/data/test_empirical_provenance_workflow.py -q` all pass on KAUST.
+
+## Failure recovery
+
+If a licence, checksum, source URL, worksheet, independent-unit label or raw cell cannot be verified, remove the candidate from the empirical registry and preserve an exclusion reason. Do not substitute fixtures or a secondary summary.
+
+## Outputs
+
+- `data/empirical/R2_EMPIRICAL_REGISTRY.json`
+- `data/raw/r2_empirical/leeds_1450/*.xlsx`
+- `src/biointerfaceos/empirical_provenance_workflow.py`
+- `reports/review_round_2/empirical_provenance/v1.1.0/`
+- source policy, data dictionary and focused tests
+
+## Completion note
+
+T120 is complete as a data-admission gate. Its output is real development observation evidence only; T121 must freeze the analysis rules before any outcome analysis, and T122–T124 remain blocked on broader independent evidence.

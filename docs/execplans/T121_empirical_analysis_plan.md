@@ -1,0 +1,60 @@
+# T121: Freeze estimands, independent units and empirical analysis plan
+
+## Purpose
+
+Turn the admitted real-data registry into a pre-analysis contract that prevents outcome-driven changes to units, splits, models, uncertainty reporting and missing-data handling.
+
+## Preconditions
+
+T120 is complete. The current registry contains one real, open development study with 14 released GUV-level observations and explicit source lineage.
+
+## Non-goals
+
+Do not fit a predictive or causal model, calculate an outcome effect, declare a confirmatory result, or unlock benchmark/model/lockbox claims.
+
+## Interfaces and invariants
+
+- New command required by the task graph: `python -m biointerfaceos stats validate-plan --strict`.
+- Plan must define primary independent unit, estimand, minimum effective sample size, grouping rules, split design, model-selection nesting, uncertainty intervals, multiplicity, missingness, exclusions and claim boundary.
+- The one-study source must be marked as development-only; any external/held-out group is unavailable rather than fabricated.
+- Frozen plan artifacts must be immutable and carry `DEVELOPMENT_OBSERVATION` / `EXPLORATORY` metadata.
+
+## Implementation plan
+
+1. Inspect the empirical registry fields and identify the GUV as the sole currently available independent unit.
+2. Create a versioned estimand registry and analysis plan with explicit “not estimable yet” entries for cross-study and external-validation quantities.
+3. Add a strict validator that rejects outcome values, model performance, undeclared unit changes, missing policies, result wording and attempts to designate the development study as held out.
+4. Add tests for the pass case and negative mutations; produce an immutable planning receipt.
+5. On acceptance, unlock only T122; do not alter the scientific submission boundary.
+
+## Progress
+
+- [ ] Inspect source coverage and write the statistical contract.
+- [ ] Implement and test the strict plan validator.
+- [ ] Produce receipt and update the state graph.
+
+## Discoveries
+
+- Pending.
+
+## Decisions
+
+- Pending.
+
+## Validation
+
+- `python -m biointerfaceos stats validate-plan --strict` must pass without accessing any model-result artifact.
+- Focused tests must demonstrate rejection of an outcome-based split or a false external-validation label.
+
+## Failure recovery
+
+Keep the task in planning scope if the present source cannot support a required quantity. Declare it unavailable; never derive a result from fixtures or invented groups.
+
+## Outputs
+
+- Versioned empirical analysis plan and estimand registry.
+- Strict validator, CLI, tests and immutable planning receipt.
+
+## Completion note
+
+Pending.

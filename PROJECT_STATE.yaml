@@ -4,9 +4,9 @@ manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
 task_count: 129
 ready_tasks:
-  - T120
-current_task: T120
-active_execplan: docs/execplans/T120_real_open_data_provenance.md
+  - T121
+current_task: T121
+active_execplan: docs/execplans/T121_empirical_analysis_plan.md
 completed_tasks:
   - T000
   - T001
@@ -128,10 +128,10 @@ completed_tasks:
   - T117
   - T118
   - T119
+  - T120
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T121
   - T122
   - T123
   - T124
@@ -139,7 +139,7 @@ blocked_tasks:
   - T126
   - T127
   - T128
-last_successful_commit: b949d57
+last_successful_commit: 103e6ab
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
@@ -163,6 +163,7 @@ notes:
   - '2026-08-12: T117 completed a default-deny public asset audit. Historical fixture bundles, data, registries, reports, and manuscript artifacts remain excluded or controlled until their independent gates pass.'
   - '2026-08-12: T119 withdrew the 15 legacy fixture-derived numerical panels from R2 submission scope and replaced them with field-mapped, protocol-only diagrams. The receipt reports no empirical values and does not constitute a human scientific signoff.'
   - '2026-08-12: T118 completed a clean public-source software replay with 668 registered public assets, a source manifest, SBOM, deterministic archive, JUnit receipt, and three rebuilt protocol figures. It explicitly reports scientific_reproduction=false and scientific_submission_ready=false.'
+  - '2026-08-12: T120 admitted one CC BY 4.0 anonymous-public primary dataset (DOI 10.5518/1171), retained four hashed raw XLSX assets, and audited 14 GUV observations back to original worksheet cells. It is development observation evidence only; independent validation and scientific submission readiness remain false.'
 review_round_2:
   status: ACTIVE
   source: docs/review_round_2/REMEDIATION_MATRIX.md
