@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "mode": "m1_hierarchical_fixture",
+  "inputs": [
+    {"label": "T067 public instances", "path": "reports/benchmark/instances/public_instances.json", "sha256": "f86e3eaf4b5cf080cd07165b3e7a96254904a24f853e0524fa399206393d6a48"},
+    {"label": "T069 baseline fixture", "path": "tests/fixtures/benchmark/baseline_fixture.json", "sha256": "af7e2de7e1ad323c2f2ab07962872663bdbb527403ae343e7a97980cd8abd7cd"}
+  ],
+  "rows": [
+    {"instance_id": "E1-001", "split": "train", "covariate": 0.1, "study": "STUDY_TRAIN_1", "protocol": "PROTOCOL_TRAIN_1", "material": "MATERIAL_TRAIN_1"},
+    {"instance_id": "C1-001", "split": "train", "covariate": 0.2, "study": "STUDY_TRAIN_1", "protocol": "PROTOCOL_TRAIN_2", "material": "MATERIAL_TRAIN_2"},
+    {"instance_id": "U1-001", "split": "train", "covariate": 0.3, "study": "STUDY_TRAIN_2", "protocol": "PROTOCOL_TRAIN_1", "material": "MATERIAL_TRAIN_1"},
+    {"instance_id": "S1-001", "split": "train", "covariate": 0.4, "study": "STUDY_TRAIN_2", "protocol": "PROTOCOL_TRAIN_2", "material": "MATERIAL_TRAIN_3"},
+    {"instance_id": "B1-001", "split": "train", "covariate": 0.5, "study": "STUDY_TRAIN_3", "protocol": "PROTOCOL_TRAIN_3", "material": "MATERIAL_TRAIN_2"},
+    {"instance_id": "CF1-001", "split": "train", "covariate": 0.6, "study": "STUDY_TRAIN_3", "protocol": "PROTOCOL_TRAIN_4", "material": "MATERIAL_TRAIN_4"},
+    {"instance_id": "D1-001", "split": "train", "covariate": 0.7, "study": "STUDY_TRAIN_4", "protocol": "PROTOCOL_TRAIN_3", "material": "MATERIAL_TRAIN_3"},
+    {"instance_id": "A1-001", "split": "train", "covariate": 0.8, "study": "STUDY_TRAIN_4", "protocol": "PROTOCOL_TRAIN_4", "material": "MATERIAL_TRAIN_4"},
+    {"instance_id": "E1-002", "split": "validation", "covariate": 0.15, "study": "STUDY_VAL_1", "protocol": "PROTOCOL_VAL_1", "material": "MATERIAL_VAL_1"},
+    {"instance_id": "C1-002", "split": "validation", "covariate": 0.25, "study": "STUDY_VAL_1", "protocol": "PROTOCOL_VAL_2", "material": "MATERIAL_VAL_2"},
+    {"instance_id": "U1-002", "split": "validation", "covariate": 0.35, "study": "STUDY_VAL_2", "protocol": "PROTOCOL_VAL_1", "material": "MATERIAL_VAL_1"},
+    {"instance_id": "S1-002", "split": "validation", "covariate": 0.45, "study": "STUDY_VAL_2", "protocol": "PROTOCOL_VAL_2", "material": "MATERIAL_VAL_3"},
+    {"instance_id": "B1-002", "split": "validation", "covariate": 0.55, "study": "STUDY_VAL_3", "protocol": "PROTOCOL_VAL_3", "material": "MATERIAL_VAL_2"},
+    {"instance_id": "CF1-002", "split": "validation", "covariate": 0.65, "study": "STUDY_VAL_3", "protocol": "PROTOCOL_VAL_4", "material": "MATERIAL_VAL_4"},
+    {"instance_id": "D1-002", "split": "validation", "covariate": 0.75, "study": "STUDY_VAL_4", "protocol": "PROTOCOL_VAL_3", "material": "MATERIAL_VAL_3"},
+    {"instance_id": "A1-002", "split": "validation", "covariate": 0.85, "study": "STUDY_VAL_4", "protocol": "PROTOCOL_VAL_4", "material": "MATERIAL_VAL_4"}
+  ]
+}

@@ -12,7 +12,6 @@ from pathlib import Path
 from biointerfaceos import __version__
 
 FUTURE_COMMANDS = (
-    "train",
     "agent",
     "claim",
 )
@@ -387,6 +386,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     benchmark_subparsers.add_parser(
         "extraction", help="run the extraction calibration and G2 benchmark"
+    )
+
+    train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
+    train_subparsers = train_parser.add_subparsers(dest="train_command")
+    train_m1_parser = train_subparsers.add_parser(
+        "m1", help="fit the hierarchical mixed-effect M1 baseline"
+    )
+    train_m1_parser.add_argument(
+        "--config", default="configs/models/m1.yaml", help="path to the M1 YAML config"
     )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
@@ -845,6 +853,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"unsigned_packets={review_summary.unsigned_packets} "
             f"signed_packets={review_summary.signed_packets} "
             f"sample={args.sample}"
+        )
+        return 0
+    if args.command == "train":
+        if args.train_command != "m1":
+            parser.parse_args(["train", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("M1_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        config_path = (root / args.config).resolve()
+        try:
+            config_path.relative_to(root)
+        except ValueError:
+            print("M1_INVALID: config path escaped repository", file=sys.stderr)
+            return 1
+        from biointerfaceos.m1_workflow import M1Error, M1Workflow
+
+        try:
+            m1_summary = M1Workflow(root, config_path=config_path).run(fixture=True)
+        except (M1Error, OSError) as exc:
+            print(f"M1_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"M1_VALID instances={m1_summary.instances} train={m1_summary.train} "
+            f"validation={m1_summary.validation} converged={str(m1_summary.converged).lower()} "
+            f"toy_recovery={str(m1_summary.toy_recovery).lower()} "
+            f"validation_rmse={m1_summary.validation_rmse:.6f} "
+            f"resumed={m1_summary.resumed} target_values_exposed=false"
         )
         return 0
     if args.command == "benchmark":

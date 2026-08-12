@@ -1,0 +1,10 @@
+schema_version: 1
+model: M1
+seed: 29
+ridge: 0.1
+random_effect_shrinkage: 0.75
+random_effect_groups:
+  - study
+  - protocol
+  - material
+bootstrap_samples: 128

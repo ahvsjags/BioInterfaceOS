@@ -1,0 +1,1 @@
+{"fixed_effect_variance":0.014986,"groups":["study","protocol","material"],"random_effect_variance":{"material":0.004037,"protocol":0.003685,"study":0.006618},"residual_variance":0.006264,"schema_version":1,"total_variance":0.02125}
