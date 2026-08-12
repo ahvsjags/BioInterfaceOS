@@ -555,6 +555,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="record an additional CC0 screening tranche without freezing a target",
     )
     model_cc0_target_discovery_parser.add_argument("--strict", action="store_true")
+    model_cc0_pxd030327_parser = model_subparsers.add_parser(
+        "audit-cc0-pxd030327-unit-map",
+        help="verify corrected PXD030327 source units without admitting a model target",
+    )
+    model_cc0_pxd030327_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2277,6 +2282,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "profile-proteomics-results",
             "audit-cc0-target-admission",
             "audit-cc0-target-discovery",
+            "audit-cc0-pxd030327-unit-map",
         }:
             parser.parse_args(["model", "--help"])
             return 0
@@ -2398,6 +2404,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"candidates={cc0_target_discovery_summary.candidate_source_count} "
                 f"laboratories={cc0_target_discovery_summary.candidate_laboratory_count} "
                 f"screened_assets={cc0_target_discovery_summary.screened_asset_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-cc0-pxd030327-unit-map":
+            from biointerfaceos.cc0_pxd030327_unit_map import (
+                CC0PXD030327UnitMapError,
+                CC0PXD030327UnitMapWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("CC0_PXD030327_UNIT_MAP_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            workflow = CC0PXD030327UnitMapWorkflow(root)
+            try:
+                summary = workflow.run(strict=args.strict)
+                workflow.verify()
+            except (CC0PXD030327UnitMapError, OSError) as exc:
+                print(f"CC0_PXD030327_UNIT_MAP_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "CC0_PXD030327_UNIT_MAP_VALID "
+                f"status={summary.status} "
+                f"unexcluded_units={summary.unexcluded_unit_count} "
+                f"matrix_runs={summary.matrix_run_count} "
+                f"unmapped_matrix_columns={summary.unmapped_matrix_column_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
