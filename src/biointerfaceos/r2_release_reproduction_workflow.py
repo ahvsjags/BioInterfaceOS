@@ -264,8 +264,7 @@ class R2ReleaseReproductionWorkflow:
                 "python_executable": sys.executable,
                 "source_mode": "temporary_public_source_only",
                 "network_policy": (
-                    "BIOINTERFACEOS_NETWORK_DISABLED=1; "
-                    "container command requires --network=none"
+                    "BIOINTERFACEOS_NETWORK_DISABLED=1; container command requires --network=none"
                 ),
                 "return_code": completed.returncode,
                 "stdout_sha256": hashlib.sha256(completed.stdout.encode("utf-8")).hexdigest(),
