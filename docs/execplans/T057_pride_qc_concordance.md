@@ -50,3 +50,12 @@ If G4-style raw QC cannot be met, retain processed tables only as lower-grade ev
 ## Outputs
 
 Project QC table, author-claim concordance table, failure ledger, evidence-grade summary, deterministic receipts/logs, focused tests, this ExecPlan, evidence report, and task-ledger/state advancement.
+
+## Completion evidence
+
+- Implementation commit: `67320e6`.
+- All 3 development projects were attempted. PXD000001 passed processed QC (replicates 3/3 per arm, FDR 0.0, observed-intensity fraction 0.875) and received `G3_PROCESSED_FIXTURE`; PXD000002 and PXD000003 failed with explicit restricted/replicate/metadata-only reasons.
+- Three author claims were compared: 1 concordant, 1 discrepant beyond tolerance, and 1 unavailable because the project failed QC. Locators and discrepancy reasons are retained.
+- Raw/locked payload access and live network access remained false; raw QC is explicitly `NOT_RUN_NO_DOWNLOAD`, so no G4 claim was promoted.
+- Focused PRIDE QC tests: 3 passed. Full offline gate: 214 tests passed; Ruff, formatting, mypy, UV lock/sync, Sage search, LFQ, harmonization, conversion, PRIDE triage, coverage, Silver/Gold-auto validation, review export, assets, catalog, lockbox, release, state validation, compileall, and `git diff --check` passed.
+- The first CLI run created deterministic reports and the second returned `resumed=1` without changing receipt bytes.
