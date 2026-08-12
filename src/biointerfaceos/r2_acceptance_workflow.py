@@ -70,6 +70,7 @@ class R2AcceptanceWorkflow:
 
     AUDIT_ID = "bioif-r2-acceptance-readiness-v1.1.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
+    PROTOCOL_DECLARED_AT = "2026-08-12T00:00:00+00:00"
     PROTOCOL_RELATIVE = "docs/data/R2_EXTERNAL_REPRODUCTION_AND_EDITORIAL_PROTOCOL.json"
     PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.1.0/portfolio_receipt.json"
     T123_COMPATIBILITY_RELATIVE = (
@@ -173,7 +174,7 @@ class R2AcceptanceWorkflow:
         if (
             protocol.get("protocol_id")
             != "bioif-r2-external-reproduction-editorial-protocol-v1.0.0"
-            or protocol.get("declared_at") != self.AUDITED_AT
+            or protocol.get("declared_at") != self.PROTOCOL_DECLARED_AT
             or protocol.get("status") != "PROTOCOL_ONLY_PENDING_T123_T124_T126_T127"
         ):
             raise R2AcceptanceError("R2 external acceptance protocol identity is invalid")
