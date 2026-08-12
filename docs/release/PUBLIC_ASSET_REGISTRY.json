@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "registry_id": "bioif-public-asset-registry-v1.1.0",
-  "registry_version": "1.1.0",
+  "registry_version": "1.1.1",
   "release_scope": "repository_tracked_assets",
   "entries": [
     {
@@ -55,8 +55,18 @@
       "policy": "controlled pending row-level provenance and license audit; excluded from the public release"
     },
     {
+      "asset_id": "r2_empirical_source_records",
+      "include": ["data/empirical/**", "data/raw/r2_empirical/**"],
+      "asset_class": "open_source_derived_empirical_data",
+      "origin": "University of Leeds Research Data Repository",
+      "license_expression": "CC-BY-4.0",
+      "redistribution": "CONTROLLED",
+      "evidence_status": "DEVELOPMENT_OBSERVATION",
+      "policy": "controlled pending independent multi-study evaluation; excluded from the R2 public software-replay source bundle"
+    },
+    {
       "asset_id": "data_and_fixture_payloads",
-      "include": ["data/**"],
+      "include": ["data/README.md", "data/bronze/**", "data/cas/**", "data/features/**", "data/gold_auto/**", "data/gold_consensus/**", "data/gold_expert/**", "data/locked_test/**", "data/quarantine/**", "data/raw/README.md", "data/raw/external/**", "data/raw/geo/**", "data/raw/literature/**", "data/raw/pride/**", "data/raw/supplementary/**", "data/silver/**", "data/splits/**"],
       "asset_class": "fixture_or_source_derived_data",
       "origin": "fixtures, source pointers, and derived artifacts",
       "license_expression": "NOASSERTION",

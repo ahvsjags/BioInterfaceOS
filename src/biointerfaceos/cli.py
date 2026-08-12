@@ -415,6 +415,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_gold_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized Gold-auto fixture"
     )
+    data_provenance_parser = data_subparsers.add_parser(
+        "audit-provenance", help="audit real open observations against their raw source cells"
+    )
+    data_provenance_parser.add_argument(
+        "--strict", action="store_true", help="require row-level real-source provenance"
+    )
     data_validate_parser = data_subparsers.add_parser(
         "validate", help="validate a normalized data release"
     )
@@ -2408,6 +2414,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "build-silver",
             "build-gold-auto",
             "validate",
+            "audit-provenance",
         }:
             parser.parse_args(["data", "--help"])
             return 0
@@ -2415,6 +2422,25 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         if root is None:
             print("DATA_FETCH_INVALID: repository root not found", file=sys.stderr)
             return 1
+        if args.data_command == "audit-provenance":
+            from biointerfaceos.empirical_provenance_workflow import (
+                EmpiricalProvenanceError,
+                EmpiricalProvenanceWorkflow,
+            )
+
+            try:
+                summary = EmpiricalProvenanceWorkflow(root).run(strict=args.strict)
+            except (EmpiricalProvenanceError, OSError) as exc:
+                print(f"EMPIRICAL_PROVENANCE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"EMPIRICAL_PROVENANCE_VALID registry_id={summary.registry_id} "
+                f"sources={summary.source_count} laboratories={summary.laboratory_count} "
+                f"raw_assets={summary.raw_asset_count} observations={summary.observation_count} "
+                "empirical_source=true statistical_conclusions=false "
+                "independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
         if not args.fixture:
             print("DATA_FETCH_INVALID: --fixture is required", file=sys.stderr)
             return 2

@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "registry_id": "bioif-r2-open-observations-v1.1.0",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "accessed_at": "2026-08-12T00:00:00+00:00",
+  "sources": [
+    {
+      "source_id": "LEEDS-1450",
+      "doi": "10.5518/1171",
+      "title": "Protein corona alters the mechanisms of interaction between silica nanoparticles and lipid vesicles - data",
+      "landing_url": "https://archive.researchdata.leeds.ac.uk/1450/",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "study_id": "PEREZ_BEALES_2022_SOFT_MATTER",
+      "laboratory": "Perez-Beales laboratory",
+      "affiliation": "School of Chemistry, University of Leeds",
+      "material": "DOPC giant unilamellar vesicle (GUV) system",
+      "biological_system": "giant unilamellar vesicle",
+      "protocol_id": "PEREZ_BEALES_GUV_SHRINKING_RATE",
+      "protocol_description": "GUV shrinking-rate measurements released in the source workbook's Shrinking_rates worksheet.",
+      "raw_assets": [
+        {
+          "path": "data/raw/r2_empirical/leeds_1450/DLS_Zeta-potential_average_and_figure_S2_data.xlsx",
+          "download_url": "https://archive.researchdata.leeds.ac.uk/1450/1/DLS_Zeta-potential_average_and_figure_S2_data.xlsx",
+          "sha256": "6ad22ece773f046d108a5223b4d487c71f06cc7d8dedcd163a569f02552a668f",
+          "bytes": 35581,
+          "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "path": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx",
+          "download_url": "https://archive.researchdata.leeds.ac.uk/1450/2/GUVs_Shrinking_Figure_1c_data.xlsx",
+          "sha256": "010733a36e5ec8642a0998e6718c43f7b906da4c72d8b3acd9d9ee0018f604df",
+          "bytes": 27876,
+          "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "path": "data/raw/r2_empirical/leeds_1450/Laurdan_GP_Figure_3_data.xlsx",
+          "download_url": "https://archive.researchdata.leeds.ac.uk/1450/3/Laurdan_GP_Figure_3_data.xlsx",
+          "sha256": "a931825d64598e3f918e538f453dd2f7343e93ecc61331de70b099efa007d8c6",
+          "bytes": 18895,
+          "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "path": "data/raw/r2_empirical/leeds_1450/TEM_Size_analysis_figure_S1_data.xlsx",
+          "download_url": "https://archive.researchdata.leeds.ac.uk/1450/4/TEM_Size_analysis_figure_S1_data.xlsx",
+          "sha256": "552a1e8aeaa053e6696ca6428ea54979c02243332f99e9b508f1011073114aab",
+          "bytes": 35202,
+          "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }
+      ],
+      "rows": [
+        {"observation_id": "LEEDS-1450-GUV-01", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 2, "value_column": "B", "independent_unit_id": "GUV 1", "observed_value": 3.28, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-02", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 3, "value_column": "B", "independent_unit_id": "GUV 2", "observed_value": 10.83, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-03", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 4, "value_column": "B", "independent_unit_id": "GUV 3", "observed_value": 5.34, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-04", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 5, "value_column": "B", "independent_unit_id": "GUV 4", "observed_value": 18.8, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-05", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 6, "value_column": "B", "independent_unit_id": "GUV 5", "observed_value": 2.3, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-06", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 7, "value_column": "B", "independent_unit_id": "GUV 6", "observed_value": 2.26, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-07", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 8, "value_column": "B", "independent_unit_id": "GUV 7", "observed_value": 1.45, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-08", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 9, "value_column": "B", "independent_unit_id": "GUV 8", "observed_value": 2.3, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-09", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 10, "value_column": "B", "independent_unit_id": "GUV 9", "observed_value": 2.2, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-10", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 11, "value_column": "B", "independent_unit_id": "GUV 10", "observed_value": 1.4, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-11", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 12, "value_column": "B", "independent_unit_id": "GUV 11", "observed_value": 1.24, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-12", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 13, "value_column": "B", "independent_unit_id": "GUV 12", "observed_value": 2.2, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-13", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 14, "value_column": "B", "independent_unit_id": "GUV 13", "observed_value": 5.8, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"},
+        {"observation_id": "LEEDS-1450-GUV-14", "raw_asset": "data/raw/r2_empirical/leeds_1450/GUVs_Shrinking_Figure_1c_data.xlsx", "worksheet": "Shrinking_rates", "row_number": 15, "value_column": "B", "independent_unit_id": "GUV 14", "observed_value": 1.5, "endpoint_id": "GUV_SHRINKING_RATE", "endpoint_name": "shrinking rate", "unit": "um2/s"}
+      ]
+    }
+  ],
+  "excluded_sources": []
+}

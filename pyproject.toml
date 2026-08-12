@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Provenance-grounded AI-for-Science for biomedical material biointerfaces"
 requires-python = ">=3.11,<3.12"
 license = { file = "LICENSE" }
-dependencies = ["duckdb==1.5.5", "pyarrow==17.0.0", "pyyaml==6.0.2"]
+dependencies = ["duckdb==1.5.5", "openpyxl==3.1.5", "pyarrow==17.0.0", "pyyaml==6.0.2"]
 
 [project.scripts]
 biointerfaceos = "biointerfaceos.cli:main"

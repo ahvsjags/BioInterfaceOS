@@ -79,6 +79,7 @@ class PublicReleaseAuditWorkflow:
         "HISTORICAL_QUARANTINED",
         "SOFTWARE_REPLAY_ONLY",
         "SOURCE_METADATA_ONLY",
+        "DEVELOPMENT_OBSERVATION",
     }
 
     def __init__(self, root: Path, *, output_root: Path | None = None) -> None:
