@@ -49,3 +49,12 @@ If the Sage binary is unavailable offline, preserve the declared search configur
 ## Outputs
 
 Search configuration, FASTA provenance, PSM/peptide/protein tables, FDR/QC summaries, synthetic recovery report, deterministic receipts/logs, focused tests, this ExecPlan, evidence report, and task-ledger/state advancement.
+
+## Completion evidence
+
+- Implementation commit: `ef55fd0`.
+- The bounded Sage-style fixture engine produced 3 PSM rows: 2 targets and 1 reverse decoy; 2 target PSMs passed the declared 1% target-decoy FDR threshold, yielding 2 peptides, 2 proteins, estimated FDR `0.0`, and monotonic q-values.
+- Search parameters were explicit: Sage `fixture-sage-v1`, trypsin, 2 missed cleavages, 10 ppm precursor tolerance, 20 ppm fragment tolerance, carbamidomethyl[C] fixed modification, oxidation[M] variable modification, reverse decoys with `DECOY_` prefix, and database version `uniprot-human-fixture-2026-08`.
+- The independent Homo sapiens FASTA was checksum-verified (`ca365eb053c919982daddca1e046c83bb1f7b0d2ee6270ddf24765a91c68bfed`) and matched the declared target database. Synthetic spike-in recovery passed 2/2. The T053 mzML input checksum was verified; its fixture contains zero native spectra, so the recovery is explicitly synthetic/toy and not promoted as a live-study result.
+- Focused Sage tests: 3 passed. Full offline gate: 205 tests passed; Ruff, formatting, mypy, UV lock/sync, conversion, PRIDE triage, coverage, Silver/Gold-auto validation, review export, assets, catalog, lockbox, release, state validation, compileall, and `git diff --check` passed.
+- The first CLI run created deterministic outputs and the second returned `resumed=1` without changing receipt bytes. No raw download, locked payload access, or live network request occurred.
