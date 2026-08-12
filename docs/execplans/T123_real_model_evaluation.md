@@ -29,7 +29,9 @@ Do not convert deterministic locator resolution into a causal or biological mode
 
 ## Progress
 
-- [ ] Compatibility and effective-n audit.
+- [x] Compatibility and effective-n audit. The immutable strict gate found no
+  compatible endpoint/unit across the three T122 study-held-out items; all
+  candidate endpoint groups have one study, one laboratory and effective n=1.
 - [ ] Source expansion or target freeze.
 - [ ] Paired model/ablation/OOD execution.
 - [ ] Strict receipt and negative-control audit.
@@ -40,11 +42,18 @@ Do not convert deterministic locator resolution into a causal or biological mode
 
 ## Decisions
 
-- Pending compatibility audit.
+- Do not fit a model or invent ablation/OOD outputs from the source-locator
+  benchmark. T123 remains active until a compatible, pre-frozen cross-study
+  target is admitted.
 
 ## Validation
 
 - Strict evaluation must reject heterogeneous targets, fixture payloads, mismatched seeds/groups, absent raw predictions, undeclared OOD cohorts and missing negative controls.
+- 2026-08-12: `python -m biointerfaceos model evaluate-real --strict` audited
+  three sources and three endpoint/unit groups, found zero compatible targets,
+  and wrote the explicit blocked receipt without fitting a model.
+- Regression: the compatibility gate tests cover strict-mode enforcement,
+  current blocked-state accounting, and receipt-tamper rejection.
 
 ## Failure recovery
 
@@ -53,6 +62,8 @@ If a compatible real target cannot be assembled, record a blocked data-coverage 
 ## Outputs
 
 - Compatibility report; frozen target/configuration/split manifests; paired predictions; ablations; OOD and negative-control audit; receipt.
+- Current compatibility-only output:
+  `reports/review_round_2/real_model_compatibility/v1.1.0/`.
 
 ## Completion note
 

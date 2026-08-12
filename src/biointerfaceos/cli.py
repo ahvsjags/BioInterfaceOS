@@ -489,6 +489,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "evaluate-real", help="evaluate declared raw-cell locators by held-out real study"
     )
     benchmark_real_parser.add_argument("--strict", action="store_true")
+    model_parser = subparsers.add_parser(
+        "model", help="evaluate the real-model evidence gate"
+    )
+    model_subparsers = model_parser.add_subparsers(dest="model_command")
+    model_real_parser = model_subparsers.add_parser(
+        "evaluate-real", help="audit cross-study compatibility before any real model fit"
+    )
+    model_real_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2134,6 +2142,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"recall={benchmark_summary.recall:.3f} "
             f"calibration_error={benchmark_summary.calibration_error:.3f} "
             f"g2_status={benchmark_summary.g2_status}"
+        )
+        return 0
+    if args.command == "model":
+        if args.model_command != "evaluate-real":
+            parser.parse_args(["model", "--help"])
+            return 0
+        from biointerfaceos.real_model_compatibility_workflow import (
+            RealModelCompatibilityError,
+            RealModelCompatibilityWorkflow,
+        )
+
+        root = find_repository_root()
+        if root is None:
+            print("REAL_MODEL_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            summary = RealModelCompatibilityWorkflow(root).run(strict=args.strict)
+        except (RealModelCompatibilityError, OSError) as exc:
+            print(f"REAL_MODEL_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"REAL_MODEL_GATE_VALID sources={summary.source_count} "
+            f"endpoints={summary.endpoint_count} "
+            f"compatible_targets={summary.compatible_target_count} "
+            "model_fitted=false paired_ablations_run=false "
+            "external_ood_evaluated=false independent_validation=false "
+            "scientific_submission_ready=false"
         )
         return 0
     if args.command == "report":
