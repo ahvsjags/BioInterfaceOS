@@ -498,9 +498,7 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "evaluate-real", help="evaluate declared raw-cell locators by held-out real study"
     )
     benchmark_real_parser.add_argument("--strict", action="store_true")
-    model_parser = subparsers.add_parser(
-        "model", help="evaluate the real-model evidence gate"
-    )
+    model_parser = subparsers.add_parser("model", help="evaluate the real-model evidence gate")
     model_subparsers = model_parser.add_subparsers(dest="model_command")
     model_real_parser = model_subparsers.add_parser(
         "evaluate-real", help="audit cross-study compatibility before any real model fit"
@@ -3064,9 +3062,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 print("INDEPENDENT_EVALUATION_INVALID: repository root not found", file=sys.stderr)
                 return 1
             try:
-                independent_summary = IndependentEvaluationWorkflow(root).run(
-                    strict=args.strict
-                )
+                independent_summary = IndependentEvaluationWorkflow(root).run(strict=args.strict)
             except (IndependentEvaluationError, OSError) as exc:
                 print(f"INDEPENDENT_EVALUATION_INVALID: {exc}", file=sys.stderr)
                 return 1
