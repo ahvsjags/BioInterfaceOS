@@ -1,0 +1,1 @@
+{"rows":[{"gate":"OOD","low_n_groups":6,"status":"NARROWED_BY_OOD"},{"gate":"selection","model_disagreement":0.3,"status":"DOWNGRADED_SELECTION_SENSITIVE"}],"schema_version":1,"title":"Selection and OOD limits"}

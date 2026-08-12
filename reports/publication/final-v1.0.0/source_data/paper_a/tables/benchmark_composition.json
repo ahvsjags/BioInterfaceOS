@@ -1,0 +1,1 @@
+{"rows":[{"measure":"instances","value":16},{"measure":"families","value":8},{"measure":"train","value":8},{"measure":"validation","value":8},{"measure":"grader_cases","value":3},{"measure":"statistical_baselines","value":5},{"measure":"representation_baselines","value":4}],"schema_version":1,"title":"Frozen BioInterfaceBench composition"}

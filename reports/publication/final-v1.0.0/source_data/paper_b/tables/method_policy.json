@@ -1,0 +1,1 @@
+{"rows":[{"policy":"ood_claim_status","value":"NARROWED_BY_OOD"},{"policy":"low_n_groups","value":6},{"policy":"ablation_missing_nonessential","value":1},{"policy":"ablation_claim_blocks","value":0},{"policy":"protected_results_accessed","value":false}],"schema_version":1,"title":"Method policies and gates"}
