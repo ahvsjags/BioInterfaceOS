@@ -1,0 +1,1 @@
+{"events":[{"event":"T070_T074_T078_inputs_verified","rows":12},{"event":"missing_modality_masks_emitted","modalities":5},{"event":"source_and_text_leakage_audited","passed":true},{"event":"fusion_ood_gate_evaluated","selected_model":"material_protocol_masked"}],"resume_key":"80cda5255cc0066d45080fd6c6a73ac0afe902f84dd8bb18ccff7d8a85cc4a40","schema_version":1}

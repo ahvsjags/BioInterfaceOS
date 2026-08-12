@@ -1,0 +1,1 @@
+{"leakage_passed":true,"missingness_masked":true,"model":"MULTIMODAL","schema_version":1,"selected_model":"material_protocol_masked","selected_ood_rmse":0.073142,"status":"VALID","target_values_exposed":false}

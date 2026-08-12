@@ -1,0 +1,10 @@
+schema_version: 1
+model: MULTIMODAL
+seed: 71
+ridge: 0.2
+bootstrap_samples: 128
+minimum_ood_gain: 0.05
+fallback_model: material_protocol_masked
+source_identity_field: source_id
+forbidden_feature_fields: [source_id, target, outcome, article_outcome_text]
+modality_fields: [material_feature, protocol_feature, structure_feature, figure_feature, text_feature]

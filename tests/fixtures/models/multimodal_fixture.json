@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "mode": "multimodal_fixture",
+  "inputs": [
+    {"label": "T070 representation receipt", "path": "reports/benchmark/representations/representation_receipt.json", "sha256": "d8d55f78dcb945b0244efef6c4db57ce366fb14da2dad929de66f08a673c99c3"},
+    {"label": "T074 M4 receipt", "path": "reports/models/m4/m4_receipt.json", "sha256": "a86fb1c74acdc0c5804bb7b4f4cf16e2e1be14689ae75b0864790ae750d54455"},
+    {"label": "T078 uncertainty receipt", "path": "reports/models/uncertainty/uncertainty_receipt.json", "sha256": "f36a003c4c2afb5dc7713af841e6736274ee9582a58f9eef306bc7f537676a71"}
+  ],
+  "modality_definitions": [
+    {"name": "material", "field": "material_feature", "source": "material_metadata", "outcome_derived": false},
+    {"name": "protocol", "field": "protocol_feature", "source": "protocol_metadata", "outcome_derived": false},
+    {"name": "structure", "field": "structure_feature", "source": "public_structure_descriptor", "outcome_derived": false},
+    {"name": "figure", "field": "figure_feature", "source": "figure_geometry_only", "outcome_derived": false},
+    {"name": "text", "field": "text_feature", "source": "article_material_protocol_only", "outcome_derived": false}
+  ],
+  "rows": [
+    {"row_id": "MM-001", "split": "train", "source_id": "SRC_A", "ood": false, "target": 0.32, "material_feature": 0.10, "protocol_feature": 0.20, "structure_feature": 0.12, "figure_feature": 0.18, "text_feature": 0.30},
+    {"row_id": "MM-002", "split": "train", "source_id": "SRC_A", "ood": false, "target": 0.46, "material_feature": 0.20, "protocol_feature": 0.30, "structure_feature": 0.22, "figure_feature": 0.28, "text_feature": 0.45},
+    {"row_id": "MM-003", "split": "train", "source_id": "SRC_B", "ood": false, "target": 0.41, "material_feature": 0.30, "protocol_feature": 0.10, "structure_feature": 0.28, "figure_feature": 0.12, "text_feature": 0.38},
+    {"row_id": "MM-004", "split": "train", "source_id": "SRC_B", "ood": false, "target": 0.55, "material_feature": 0.40, "protocol_feature": 0.20, "structure_feature": 0.38, "figure_feature": 0.22, "text_feature": 0.54},
+    {"row_id": "MM-005", "split": "train", "source_id": "SRC_C", "ood": false, "target": 0.70, "material_feature": 0.50, "protocol_feature": 0.40, "structure_feature": 0.48, "figure_feature": 0.38, "text_feature": 0.72},
+    {"row_id": "MM-006", "split": "train", "source_id": "SRC_C", "ood": false, "target": 0.83, "material_feature": 0.60, "protocol_feature": 0.50, "structure_feature": 0.58, "figure_feature": 0.48, "text_feature": 0.85},
+    {"row_id": "MM-007", "split": "train", "source_id": "SRC_D", "ood": false, "target": 0.71, "material_feature": 0.70, "protocol_feature": 0.30, "structure_feature": 0.68, "figure_feature": 0.28, "text_feature": 0.70},
+    {"row_id": "MM-008", "split": "train", "source_id": "SRC_D", "ood": false, "target": 0.85, "material_feature": 0.80, "protocol_feature": 0.40, "structure_feature": 0.78, "figure_feature": 0.38, "text_feature": 0.86},
+    {"row_id": "MM-009", "split": "validation", "source_id": "SRC_OOD_1", "ood": true, "target": 0.37, "material_feature": 0.15, "protocol_feature": 0.25, "structure_feature": null, "figure_feature": 0.10, "text_feature": 0.90},
+    {"row_id": "MM-010", "split": "validation", "source_id": "SRC_OOD_2", "ood": true, "target": 0.48, "material_feature": 0.25, "protocol_feature": 0.35, "structure_feature": 0.25, "figure_feature": null, "text_feature": 0.20},
+    {"row_id": "MM-011", "split": "validation", "source_id": "SRC_OOD_3", "ood": true, "target": 0.80, "material_feature": 0.55, "protocol_feature": 0.45, "structure_feature": null, "figure_feature": 0.55, "text_feature": 0.10},
+    {"row_id": "MM-012", "split": "validation", "source_id": "SRC_OOD_4", "ood": true, "target": 0.75, "material_feature": 0.75, "protocol_feature": 0.35, "structure_feature": 0.70, "figure_feature": null, "text_feature": 0.80}
+  ]
+}

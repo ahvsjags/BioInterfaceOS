@@ -436,6 +436,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         default="configs/models/uncertainty.yaml",
         help="path to the uncertainty YAML config",
     )
+    train_multimodal_parser = train_subparsers.add_parser(
+        "multimodal", help="fit masked multimodal material and document representations"
+    )
+    train_multimodal_parser.add_argument(
+        "--config",
+        default="configs/models/multimodal.yaml",
+        help="path to the multimodal YAML config",
+    )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
@@ -905,6 +913,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "m6",
             "m7",
             "uncertainty",
+            "multimodal",
         }:
             parser.parse_args(["train", "--help"])
             return 0
@@ -1044,6 +1053,29 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"{str(uncertainty_summary.selective_risk_decreases).lower()} "
                 f"ood_abstentions={uncertainty_summary.ood_abstentions} "
                 f"resumed={uncertainty_summary.resumed} target_values_exposed=false"
+            )
+            return 0
+        if args.train_command == "multimodal":
+            from biointerfaceos.multimodal_workflow import MultimodalError, MultimodalWorkflow
+
+            try:
+                multimodal_summary = MultimodalWorkflow(root, config_path=config_path).run(
+                    fixture=True
+                )
+            except (MultimodalError, OSError) as exc:
+                print(f"MULTIMODAL_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"MULTIMODAL_VALID rows={multimodal_summary.rows} "
+                f"train={multimodal_summary.train} "
+                f"validation={multimodal_summary.validation} "
+                f"modalities={multimodal_summary.modalities} "
+                f"selected_model={multimodal_summary.selected_model} "
+                f"fusion_ood_gain={multimodal_summary.fusion_ood_gain:.6f} "
+                f"selected_ood_rmse={multimodal_summary.selected_ood_rmse:.6f} "
+                f"leakage_passed={str(multimodal_summary.leakage_passed).lower()} "
+                f"missingness_masked={str(multimodal_summary.missingness_masked).lower()} "
+                f"resumed={multimodal_summary.resumed} target_values_exposed=false"
             )
             return 0
         from biointerfaceos.m1_workflow import M1Error, M1Workflow

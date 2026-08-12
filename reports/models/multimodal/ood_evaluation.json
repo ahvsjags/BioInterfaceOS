@@ -1,0 +1,1 @@
+{"best_single_ood_rmse":0.083419,"fallback_reason":"fusion OOD gain did not clear the preregistered threshold or leakage gate","fusion_ood_gain":-0.093993,"fusion_ood_rmse":0.177412,"gain_persists":false,"ood_rows":4,"schema_version":1,"target_values_exposed":false}

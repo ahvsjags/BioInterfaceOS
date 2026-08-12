@@ -1,0 +1,1 @@
+{"forbidden_feature_fields":["source_id","target","outcome","article_outcome_text"],"model_feature_fields":["figure_feature","material_feature","protocol_feature","structure_feature","text_feature"],"outcome_text_leakage_passed":true,"schema_version":1,"source_identity_field":"source_id","source_identity_leakage_passed":true,"target_values_exposed":false}
