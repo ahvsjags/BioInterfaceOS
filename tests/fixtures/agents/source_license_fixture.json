@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "mode": "source_license_fixture",
+  "inputs": [
+    {"label": "T080 agent receipt", "path": "reports/agents/agent_receipt.json", "sha256": "09750940ab002de284939df873657c6013db25ef21e1d26c243d15046884094f"}
+  ],
+  "cases": [
+    {
+      "case_id": "eligible-ccby",
+      "query": "public material metadata",
+      "candidate": {"source_id": "source-eligible-ccby", "source_name": "Public CC-BY Fixture", "url": "https://example.org/ccby", "accession": "SRC-001", "license_identifier": "CC-BY-4.0", "license_text": "Creative Commons Attribution 4.0", "evidence_location": "fixture:eligible-ccby:license", "registration_required": false, "login_required": false, "api_key_required": false, "application_required": false, "approval_required": false, "institution_required": false, "data_use_agreement_required": false, "paid_required": false},
+      "expected_decision": "ADMIT_PUBLIC_REDISTRIBUTABLE",
+      "expected_code": ""
+    },
+    {
+      "case_id": "eligible-analysis-only",
+      "query": "noncommercial analysis metadata",
+      "candidate": {"source_id": "source-analysis-only", "source_name": "Analysis-Only Fixture", "url": "https://example.org/analysis", "accession": "SRC-002", "license_identifier": "CC-BY-NC-4.0", "license_text": "Creative Commons Attribution NonCommercial 4.0", "evidence_location": "fixture:eligible-analysis-only:license", "registration_required": false, "login_required": false, "api_key_required": false, "application_required": false, "approval_required": false, "institution_required": false, "data_use_agreement_required": false, "paid_required": false},
+      "expected_decision": "ADMIT_ANALYSIS_ONLY",
+      "expected_code": ""
+    },
+    {
+      "case_id": "rejected-login",
+      "query": "credentialed repository injection",
+      "candidate": {"source_id": "source-login", "source_name": "Login Fixture", "url": "https://example.org/login", "accession": "SRC-003", "license_identifier": "CC-BY-4.0", "license_text": "Creative Commons Attribution 4.0", "evidence_location": "fixture:rejected-login:access", "registration_required": false, "login_required": true, "api_key_required": false, "application_required": false, "approval_required": false, "institution_required": false, "data_use_agreement_required": false, "paid_required": false},
+      "expected_decision": "REJECT",
+      "expected_code": "REJECTED_CREDENTIALLED"
+    },
+    {
+      "case_id": "rejected-restricted",
+      "query": "restricted license injection",
+      "candidate": {"source_id": "source-restricted", "source_name": "Restricted Fixture", "url": "https://example.org/restricted", "accession": "SRC-004", "license_identifier": "ALL-RIGHTS-RESERVED", "license_text": "All rights reserved; no redistribution", "evidence_location": "fixture:rejected-restricted:license", "registration_required": false, "login_required": false, "api_key_required": false, "application_required": false, "approval_required": false, "institution_required": false, "data_use_agreement_required": false, "paid_required": false},
+      "expected_decision": "REJECT",
+      "expected_code": "REJECTED_RESTRICTED_LICENSE"
+    },
+    {
+      "case_id": "quarantine-unknown",
+      "query": "license-unknown repository",
+      "candidate": {"source_id": "source-unknown", "source_name": "Unknown License Fixture", "url": "https://example.org/unknown", "accession": "SRC-005", "license_identifier": null, "license_text": "Terms available on request", "evidence_location": "fixture:quarantine-unknown:license", "registration_required": false, "login_required": false, "api_key_required": false, "application_required": false, "approval_required": false, "institution_required": false, "data_use_agreement_required": false, "paid_required": false},
+      "expected_decision": "QUARANTINE",
+      "expected_code": "LICENSE_UNCLEAR"
+    }
+  ]
+}

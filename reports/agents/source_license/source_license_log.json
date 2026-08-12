@@ -1,0 +1,1 @@
+{"events":[{"cases":5,"event":"T080_runtime_receipt_verified"},{"event":"sourcescout_metadata_recovered","recovered":2},{"event":"licensegate_policy_evaluated","rejected_or_quarantined":3},{"complete":true,"event":"evidence_locations_audited"}],"resume_key":"9b1cd96dc966784b697f316bef2a53c45f4dd96afad859f57412d0b05530fa3e","schema_version":1}

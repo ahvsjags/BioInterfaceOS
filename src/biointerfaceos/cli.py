@@ -199,6 +199,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     agent_parser = subparsers.add_parser("agent", help="run typed multi-agent runtime checks")
     agent_subparsers = agent_parser.add_subparsers(dest="agent_command")
     agent_subparsers.add_parser("self-test", help="run offline runtime contract self-test")
+    agent_eval_parser = agent_subparsers.add_parser(
+        "eval", help="evaluate typed agents on deterministic fixtures"
+    )
+    agent_eval_subparsers = agent_eval_parser.add_subparsers(dest="agent_eval_command")
+    agent_eval_subparsers.add_parser("source-license", help="evaluate SourceScout and LicenseGate")
     ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
     ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
     ontology_sync_parser = ontology_subparsers.add_parser(
@@ -1778,6 +1783,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "agent":
+        if args.agent_command == "eval" and args.agent_eval_command == "source-license":
+            from biointerfaceos.source_license_workflow import (
+                SourceLicenseError,
+                SourceLicenseWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("AGENT_SOURCE_LICENSE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                source_license_summary = SourceLicenseWorkflow(root).run(fixture=True)
+            except (SourceLicenseError, OSError) as exc:
+                print(f"AGENT_SOURCE_LICENSE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"AGENT_SOURCE_LICENSE_VALID cases={source_license_summary.cases} "
+                f"recovered={source_license_summary.recovered} "
+                f"rejected_or_quarantined={source_license_summary.rejected_or_quarantined} "
+                f"evidence_complete={str(source_license_summary.evidence_complete).lower()} "
+                f"no_credentials_requested="
+                f"{str(source_license_summary.no_credentials_requested).lower()} "
+                f"agent_value={source_license_summary.agent_value} "
+                f"resumed={source_license_summary.resumed}"
+            )
+            return 0
         if args.agent_command != "self-test":
             parser.parse_args(["agent", "--help"])
             return 0
