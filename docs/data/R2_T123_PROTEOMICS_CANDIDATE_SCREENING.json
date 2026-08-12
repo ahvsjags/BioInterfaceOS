@@ -18,7 +18,7 @@
       "publication_date": "2020-02-24",
       "license_id": "CC0-1.0",
       "access": "ANONYMOUS_PUBLIC",
-      "candidate_rationale": "The project exposes 20 clearly named NP01?NP04 runs and a 137,662-byte author-result archive containing four spreadsheets, so it was screened as a possible source-level covariate-map supplement.",
+      "candidate_rationale": "The project exposes 20 clearly named NP01-NP04 runs and a 137,662-byte author-result archive containing four spreadsheets, so it was screened as a possible source-level covariate-map supplement.",
       "screened_asset": {
         "file_name": "xlxs.rar",
         "download_url": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2020/02/PXD017429/xlxs.rar",
