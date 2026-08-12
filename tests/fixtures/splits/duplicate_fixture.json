@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "mode": "duplicate_detection",
+  "inputs": [
+    {"label": "T041 material registry", "path": "registry/material_entities.json", "sha256": "fe2746060f021db64c16a479f5e108b17e72b6a7c8dd8bf272215aed4d8388bc"},
+    {"label": "T063 group keys", "path": "reports/splits/group_keys/group_keys.json", "sha256": "794b128c7c5029eb0987fcf60e39ed7bc291e87be90d053c48a46db1043c2cba"}
+  ],
+  "thresholds": {
+    "composition_l1_max": 0.01,
+    "text_jaccard_min": 0.8,
+    "structure_exact": true,
+    "threshold_version": "duplicate-thresholds-v1"
+  },
+  "items": [
+    {"item_id": "ITEM-EXACT-A", "normalized_text": "dspc peg2000 corona", "composition": {"DSPC": 0.8, "PEG2000": 0.2}, "structure": "STRUCT-A", "group_key": "PAPER_FAMILY:FAMILY_001", "split_label": "train", "evidence_locator": "T041:material#DSPC"},
+    {"item_id": "ITEM-EXACT-B", "normalized_text": "dspc peg2000 corona", "composition": {"DSPC": 0.2, "PEG2000": 0.8}, "structure": "STRUCT-B", "group_key": "PAPER_FAMILY:FAMILY_001", "split_label": "train", "evidence_locator": "T041:material#PEG"},
+    {"item_id": "ITEM-COMP-A", "normalized_text": "dspc peg corona formulation a", "composition": {"DSPC": 0.7, "PEG2000": 0.3}, "structure": "STRUCT-C", "group_key": "PAPER_FAMILY:FAMILY_002", "split_label": "train", "evidence_locator": "T041:formulation#A"},
+    {"item_id": "ITEM-COMP-B", "normalized_text": "peg dspc corona formulation b", "composition": {"PEG2000": 0.3, "DSPC": 0.7}, "structure": "STRUCT-D", "group_key": "PAPER_FAMILY:FAMILY_002", "split_label": "train", "evidence_locator": "T041:formulation#B"},
+    {"item_id": "ITEM-STRUCT-A", "normalized_text": "coated nanoparticle alpha", "composition": {"DSPC": 0.5, "PEG2000": 0.5}, "structure": "STRUCT-SHARED", "group_key": "PAPER_FAMILY:FAMILY_003", "split_label": "validation", "evidence_locator": "T041:structure#A"},
+    {"item_id": "ITEM-STRUCT-B", "normalized_text": "coated nanoparticle beta", "composition": {"DSPC": 0.4, "PEG2000": 0.6}, "structure": "STRUCT-SHARED", "group_key": "PAPER_FAMILY:FAMILY_003", "split_label": "validation", "evidence_locator": "T041:structure#B"},
+    {"item_id": "ITEM-TEXT-A", "normalized_text": "silica nanoparticle corona material", "composition": {"DSPC": 0.1, "PEG2000": 0.9}, "structure": "STRUCT-T1", "group_key": "PAPER_FAMILY:FAMILY_004", "split_label": "train", "evidence_locator": "T041:text#A"},
+    {"item_id": "ITEM-TEXT-B", "normalized_text": "silica nanoparticle corona plasma material", "composition": {"DSPC": 0.9, "PEG2000": 0.1}, "structure": "STRUCT-T2", "group_key": "PAPER_FAMILY:FAMILY_004", "split_label": "train", "evidence_locator": "T041:text#B"},
+    {"item_id": "ITEM-AMB-A", "normalized_text": "polymer ligand corona coating", "composition": {"DSPC": 0.25, "PEG2000": 0.75}, "structure": "STRUCT-U1", "group_key": "PAPER_FAMILY:FAMILY_005", "split_label": "validation", "evidence_locator": "T041:review#A"},
+    {"item_id": "ITEM-AMB-B", "normalized_text": "polymer lipid corona coating", "composition": {"DSPC": 0.75, "PEG2000": 0.25}, "structure": "STRUCT-U2", "group_key": "PAPER_FAMILY:FAMILY_005", "split_label": "validation", "evidence_locator": "T041:review#B"}
+  ]
+}

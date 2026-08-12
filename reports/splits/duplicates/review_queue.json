@@ -1,0 +1,1 @@
+{"append_only":true,"entries":[{"item_ids":["ITEM-AMB-A","ITEM-AMB-B"],"reason":"semantic_neighbor_below_frozen_threshold","review_id":"REVIEW-001","split_labels":["validation"],"text_jaccard":0.6,"threshold_version":"duplicate-thresholds-v1"}],"schema_version":1}

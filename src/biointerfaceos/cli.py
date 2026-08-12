@@ -486,6 +486,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     split_groups_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized group-key fixture"
     )
+    split_duplicates_parser = split_subparsers.add_parser(
+        "detect-duplicates", help="detect formulation and semantic near-duplicates"
+    )
+    split_duplicates_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized duplicate fixture"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -1641,6 +1647,36 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 1 if args.strict and not report.within_budget else 0
     if args.command == "split":
+        if args.split_command == "detect-duplicates":
+            root = find_repository_root()
+            if root is None:
+                print("DUPLICATES_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("DUPLICATES_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.duplicate_workflow import (
+                DuplicateDetectionError,
+                DuplicateDetectionWorkflow,
+            )
+
+            try:
+                duplicate_summary = DuplicateDetectionWorkflow(root).run(fixture=True)
+            except (DuplicateDetectionError, OSError) as exc:
+                print(f"DUPLICATES_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"DUPLICATES_VALID items={duplicate_summary.items} "
+                f"edges={duplicate_summary.edges} clusters={duplicate_summary.clusters} "
+                f"exact={duplicate_summary.exact_edges} "
+                f"composition={duplicate_summary.composition_edges} "
+                f"structure={duplicate_summary.structure_edges} "
+                f"text={duplicate_summary.text_edges} "
+                f"review_edges={duplicate_summary.review_edges} "
+                f"cross_split_duplicates={duplicate_summary.cross_split_duplicates} "
+                f"resumed={duplicate_summary.resumed} thresholds_tuned_on_split_labels=false"
+            )
+            return 0
         if args.split_command != "build-groups":
             parser.parse_args(["split", "--help"])
             return 0
