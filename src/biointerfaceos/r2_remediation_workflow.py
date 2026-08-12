@@ -209,8 +209,7 @@ class R2RemediationWorkflow:
             "R2-03",
         )
         self._require(
-            semantics.get("status")
-            == "PASS_EVIDENCE_SEMANTICS_WITH_QUARANTINED_LEGACY_FIXTURES"
+            semantics.get("status") == "PASS_EVIDENCE_SEMANTICS_WITH_QUARANTINED_LEGACY_FIXTURES"
             and semantics.get("blocking_findings") == 0
             and semantics.get("quarantined_historical_finding_count") == 1
             and semantics.get("historical_sources_mutated") is False,

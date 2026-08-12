@@ -143,8 +143,7 @@ class EvidenceSemanticsAuditWorkflow:
             or payload.get("schema_version") != 1
             or payload.get("quarantine_id") != "bioif-r2-legacy-fixture-quarantine-v1.0.0"
             or payload.get("declared_at") != self.AUDITED_AT
-            or payload.get("status")
-            != "ACTIVE_EXCLUDED_FROM_R2_CLAIM_AND_PUBLIC_RELEASE_SCOPE"
+            or payload.get("status") != "ACTIVE_EXCLUDED_FROM_R2_CLAIM_AND_PUBLIC_RELEASE_SCOPE"
         ):
             raise EvidenceSemanticsAuditError("legacy fixture quarantine identity is invalid")
         prohibited_uses = payload.get("prohibited_uses")
@@ -157,7 +156,9 @@ class EvidenceSemanticsAuditWorkflow:
             raise EvidenceSemanticsAuditError("legacy fixture quarantine prohibitions are invalid")
         artifacts = payload.get("quarantined_artifacts")
         if not isinstance(artifacts, list) or len(artifacts) != 1:
-            raise EvidenceSemanticsAuditError("legacy fixture quarantine artifact inventory is invalid")
+            raise EvidenceSemanticsAuditError(
+                "legacy fixture quarantine artifact inventory is invalid"
+            )
         artifact = artifacts[0]
         if not isinstance(artifact, dict) or set(artifact) != {
             "artifact_type",
@@ -167,7 +168,9 @@ class EvidenceSemanticsAuditWorkflow:
             "scope",
             "reason",
         }:
-            raise EvidenceSemanticsAuditError("legacy fixture quarantine artifact schema is invalid")
+            raise EvidenceSemanticsAuditError(
+                "legacy fixture quarantine artifact schema is invalid"
+            )
         expected_path = "release/manuscripts/paper_a/paper_a.md"
         source_path = self._path(expected_path)
         if (
@@ -328,8 +331,7 @@ class EvidenceSemanticsAuditWorkflow:
             or receipt.get("blocking_findings") != report.get("blocking_findings")
             or receipt.get("quarantined_historical_finding_count")
             != len(report.get("quarantined_historical_findings", []))
-            or receipt.get("quarantine_manifest_sha256")
-            != report.get("quarantine_manifest_sha256")
+            or receipt.get("quarantine_manifest_sha256") != report.get("quarantine_manifest_sha256")
             or receipt.get("historical_sources_mutated") is not False
         ):
             raise EvidenceSemanticsAuditError("evidence-semantics audit receipt is invalid")
