@@ -143,7 +143,12 @@ class R2RemediationWorkflow:
 
     def _sources(self) -> dict[str, _Source]:
         return {
-            key: _Source(relative, label, self._json(self._path(relative, label), label), _sha256(self._path(relative, label)))
+            key: _Source(
+                relative,
+                label,
+                self._json(self._path(relative, label), label),
+                _sha256(self._path(relative, label)),
+            )
             for key, (relative, label) in self.RECEIPTS.items()
         }
 
@@ -393,7 +398,10 @@ class R2RemediationWorkflow:
             or receipt.get("remediation_status_report_sha256") != _sha256(report_path)
             or report.get("scientific_submission_ready") is not False
             or receipt.get("scientific_submission_ready") is not False
-            or any(report.get(key) != value or receipt.get(key) != value for key, value in required_counts.items())
+            or any(
+                report.get(key) != value or receipt.get(key) != value
+                for key, value in required_counts.items()
+            )
         ):
             raise R2RemediationError("R2 remediation status receipt is invalid")
         sources = _mapping(report.get("source_receipts"), "R2 remediation source receipts")
@@ -408,7 +416,9 @@ class R2RemediationWorkflow:
         if report.get("reviewer_ledger_sha256") != self._check_ledger():
             raise R2RemediationError("R2 remediation reviewer ledger hash is stale")
         findings = report.get("findings")
-        if not isinstance(findings, list) or [item.get("finding_id") for item in findings if isinstance(item, Mapping)] != list(self.DISPOSITIONS):
+        if not isinstance(findings, list) or [
+            item.get("finding_id") for item in findings if isinstance(item, Mapping)
+        ] != list(self.DISPOSITIONS):
             raise R2RemediationError("R2 remediation finding inventory is invalid")
         if any(
             not isinstance(item, Mapping)
