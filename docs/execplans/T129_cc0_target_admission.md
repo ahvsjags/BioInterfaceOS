@@ -79,6 +79,10 @@ evidence.
   verified publisher assets now close nine quantitative result headers and raw
   basenames to explicit SPION/replicate records. The complete route remains one
   laboratory and outside the CC0 cohort pending an explicit CC-BY amendment.
+- [x] Prepared the non-self-executing CC-BY scope-decision package at
+  `docs/data/R2_T129_CCBY_COHORT_AMENDMENT_DECISION.md`. It defines an isolated
+  development-candidate alternative without weakening the CC0 cohort, and
+  requires an identified scope-owner approval before any implementation.
 
 ## Discoveries
 
