@@ -2158,14 +2158,14 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print("REAL_MODEL_INVALID: repository root not found", file=sys.stderr)
             return 1
         try:
-            summary = RealModelCompatibilityWorkflow(root).run(strict=args.strict)
+            real_model_summary = RealModelCompatibilityWorkflow(root).run(strict=args.strict)
         except (RealModelCompatibilityError, OSError) as exc:
             print(f"REAL_MODEL_INVALID: {exc}", file=sys.stderr)
             return 1
         print(
-            f"REAL_MODEL_GATE_VALID sources={summary.source_count} "
-            f"endpoints={summary.endpoint_count} "
-            f"compatible_targets={summary.compatible_target_count} "
+            f"REAL_MODEL_GATE_VALID sources={real_model_summary.source_count} "
+            f"endpoints={real_model_summary.endpoint_count} "
+            f"compatible_targets={real_model_summary.compatible_target_count} "
             "model_fitted=false paired_ablations_run=false "
             "external_ood_evaluated=false independent_validation=false "
             "scientific_submission_ready=false"

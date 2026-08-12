@@ -44,6 +44,12 @@ def _string(value: Any, label: str) -> str:
     return value.strip()
 
 
+def _integer(value: Any, label: str, *, minimum: int = 0) -> int:
+    if not isinstance(value, int) or isinstance(value, bool) or value < minimum:
+        raise RealModelCompatibilityError(f"{label} must be an integer >= {minimum}")
+    return value
+
+
 @dataclass(frozen=True)
 class RealModelCompatibilitySummary:
     """Compact accounting for a source-compatibility audit."""
@@ -256,9 +262,11 @@ class RealModelCompatibilityWorkflow:
             stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
         )
         return RealModelCompatibilitySummary(
-            source_count=int(receipt["source_count"]),
-            endpoint_count=int(receipt["endpoint_count"]),
-            compatible_target_count=int(receipt["compatible_target_count"]),
+            source_count=_integer(receipt["source_count"], "source count", minimum=1),
+            endpoint_count=_integer(receipt["endpoint_count"], "endpoint count", minimum=1),
+            compatible_target_count=_integer(
+                receipt["compatible_target_count"], "compatible target count"
+            ),
             receipt_path=receipt_path,
         )
 
