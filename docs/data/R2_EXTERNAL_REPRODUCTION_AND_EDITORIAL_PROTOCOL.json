@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r2-external-reproduction-editorial-protocol-v1.0.0",
+  "declared_at": "2026-08-12T00:00:00+00:00",
+  "status": "PROTOCOL_ONLY_PENDING_T123_T124_T126_T127",
+  "external_reproduction_requirements": {
+    "team_must_not_include_authors": true,
+    "conflict_disclosure_required": true,
+    "independent_checkout_and_environment_required": true,
+    "source_data_must_be_reacquired_or_attested": true,
+    "reproduce_declared_analysis_required": true,
+    "deviation_ledger_required": true,
+    "scope_and_result_report_required": true
+  },
+  "editorial_rereview_requirements": {
+    "reviewer_must_not_be_author": true,
+    "conflict_disclosure_required": true,
+    "every_r2_finding_must_be_mapped": true,
+    "critical_findings_must_be_zero_for_acceptance": true,
+    "downgrade_or_evidence_required_for_each_finding": true,
+    "signed_editorial_report_required": true
+  },
+  "required_external_receipt_fields": [
+    "team_identity_and_affiliation",
+    "conflict_disclosure",
+    "checkout_commit",
+    "environment_digest",
+    "source_data_attestation",
+    "commands_and_scope",
+    "deviation_ledger",
+    "result_summary",
+    "signed_attestation"
+  ],
+  "required_editorial_report_fields": [
+    "reviewer_identity_and_affiliation",
+    "conflict_disclosure",
+    "r2_finding_matrix",
+    "critical_finding_count",
+    "manuscript_dispositions",
+    "signed_attestation"
+  ],
+  "prohibited_actions": [
+    "author_team_self_certification_as_external_reproduction",
+    "fixture_substitution_for_empirical_reproduction",
+    "unlogged_deviation",
+    "critical_finding_omission",
+    "submission_ready_before_external_receipts"
+  ]
+}

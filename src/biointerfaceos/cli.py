@@ -161,6 +161,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "accept", help="run G0-G10 final acceptance gates"
     )
     accept_parser.add_argument("--strict", action="store_true")
+    accept_r2_parser = project_subparsers.add_parser(
+        "accept-r2", help="audit the R2 external reproduction and editorial acceptance path"
+    )
+    accept_r2_parser.add_argument("--strict", action="store_true")
 
     schema_parser = subparsers.add_parser("schema", help="validate versioned schemas")
     schema_subparsers = schema_parser.add_subparsers(dest="schema_command")
@@ -890,8 +894,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         print(task.id)
         return 0
     if args.command == "project":
-        if args.project_command != "accept":
+        if args.project_command not in {"accept", "accept-r2"}:
             parser.parse_args(["project", "--help"])
+            return 0
+        if args.project_command == "accept-r2":
+            from biointerfaceos.r2_acceptance_workflow import (
+                R2AcceptanceError,
+                R2AcceptanceWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("R2_ACCEPTANCE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                r2_acceptance_summary = R2AcceptanceWorkflow(root).run(strict=args.strict)
+            except (R2AcceptanceError, OSError) as exc:
+                print(f"R2_ACCEPTANCE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R2_ACCEPTANCE_VALID "
+                f"status={r2_acceptance_summary.status} "
+                f"blockers={r2_acceptance_summary.prerequisite_blocker_count} "
+                "external_reproduction_verified=false editorial_rereview_verified=false "
+                "scientific_submission_ready=false"
+            )
             return 0
         from biointerfaceos.final_acceptance_workflow import (
             FinalAcceptanceError,
