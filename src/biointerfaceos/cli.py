@@ -361,6 +361,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "benchmark", help="run deterministic quality benchmarks"
     )
     benchmark_subparsers = benchmark_parser.add_subparsers(dest="benchmark_command")
+    benchmark_build_parser = benchmark_subparsers.add_parser(
+        "build", help="build leakage-safe BioInterfaceBench task instances"
+    )
+    benchmark_build_parser.add_argument(
+        "--dev", action="store_true", help="build the development benchmark namespace"
+    )
+    benchmark_build_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized benchmark fixture"
+    )
     benchmark_subparsers.add_parser(
         "extraction", help="run the extraction calibration and G2 benchmark"
     )
@@ -824,6 +833,37 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "benchmark":
+        if args.benchmark_command == "build":
+            root = find_repository_root()
+            if root is None:
+                print("BENCHMARK_BUILD_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.dev:
+                print("BENCHMARK_BUILD_INVALID: --dev is required", file=sys.stderr)
+                return 2
+            if not args.fixture:
+                print("BENCHMARK_BUILD_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.benchmark_instances import (
+                BenchmarkBuildError,
+                BenchmarkInstanceWorkflow,
+            )
+
+            try:
+                build_summary = BenchmarkInstanceWorkflow(root).run(dev=True, fixture=True)
+            except (BenchmarkBuildError, OSError) as exc:
+                print(f"BENCHMARK_BUILD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"BENCHMARK_BUILD_VALID instances={build_summary.instances} "
+                f"families={build_summary.families} "
+                f"primary_families={build_summary.primary_families} "
+                f"pilot_families={build_summary.pilot_families} "
+                f"train={build_summary.train} validation={build_summary.validation} "
+                f"missingness_mean={build_summary.missingness_mean:.6f} "
+                f"resumed={build_summary.resumed} target_values_exposed=false"
+            )
+            return 0
         if args.benchmark_command != "extraction":
             parser.parse_args(["benchmark", "--help"])
             return 0
