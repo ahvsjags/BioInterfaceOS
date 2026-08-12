@@ -1,0 +1,1 @@
+{"rows":[{"best_score":0.97,"is_decoy":false,"peptide":"ALPHAK","protein_accessions":["P0SPIKE2"],"psm_count":1,"q_value":0.0},{"best_score":0.99,"is_decoy":false,"peptide":"PEPTIDEK","protein_accessions":["P0SPIKE1"],"psm_count":1,"q_value":0.0}],"schema_version":1}

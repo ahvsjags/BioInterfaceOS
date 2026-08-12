@@ -390,6 +390,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_convert_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized conversion fixture"
     )
+    omics_search_parser = omics_subparsers.add_parser(
+        "search", help="run the bounded Sage-style fixture search"
+    )
+    omics_search_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized Sage search fixture"
+    )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -809,6 +815,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"completed={conversion_summary.completed} refused={conversion_summary.refused} "
                 f"resumed={conversion_summary.resumed} raw_downloaded=false "
                 f"locked_payload_accessed=false"
+            )
+            return 0
+        if args.omics_command == "search":
+            root = find_repository_root()
+            if root is None:
+                print("SEARCH_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("SEARCH_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.sage_search import SageSearchError, SageSearchWorkflow
+
+            try:
+                search_summary = SageSearchWorkflow(root).run(fixture=True)
+            except (SageSearchError, OSError) as exc:
+                print(f"SEARCH_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SAGE_SEARCH_VALID psms={search_summary.psm_rows} "
+                f"accepted_psms={search_summary.accepted_psms} "
+                f"peptides={search_summary.accepted_peptides} "
+                f"proteins={search_summary.accepted_proteins} "
+                f"target_psms={search_summary.target_psms} "
+                f"decoy_psms={search_summary.decoy_psms} "
+                f"estimated_fdr={search_summary.estimated_fdr:.8f} "
+                f"recovered_spike_ins={search_summary.recovered_spike_ins}/"
+                f"{search_summary.total_spike_ins} resumed={search_summary.resumed}"
             )
             return 0
         if args.omics_command != "pride" or args.omics_pride_command != "triage":

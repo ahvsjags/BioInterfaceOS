@@ -1,0 +1,1 @@
+{"accepted_decoy_psms":0,"accepted_psms":2,"accepted_target_psms":2,"decoy_psms":1,"estimated_fdr":0.0,"method":"target_decoy_ratio","q_values_monotonic":true,"schema_version":1,"target_decoy_method":"reverse","target_psms":2,"threshold":0.01}

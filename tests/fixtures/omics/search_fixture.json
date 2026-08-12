@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "input": {
+    "project_accession": "PXD000001",
+    "artifact_path": "reports/omics/conversion/artifacts/PXD000001.mzML",
+    "artifact_sha256": "556f2768a34cdbc53e8db91feff6877634b60719f006d67e892d12cba5e7424f"
+  },
+  "config": {
+    "engine": "Sage",
+    "engine_version": "fixture-sage-v1",
+    "precursor_tolerance_ppm": 10.0,
+    "fragment_tolerance_ppm": 20.0,
+    "enzyme": "trypsin",
+    "missed_cleavages": 2,
+    "fixed_modifications": ["Carbamidomethyl[C]"],
+    "variable_modifications": ["Oxidation[M]"],
+    "database_version": "uniprot-human-fixture-2026-08",
+    "fdr_level": 0.01,
+    "target_decoy": {
+      "method": "reverse",
+      "decoy_prefix": "DECOY_"
+    }
+  },
+  "database": {
+    "organism": "Homo sapiens",
+    "version": "uniprot-human-fixture-2026-08",
+    "fasta_path": "tests/fixtures/omics/search/uniprot_human_fixture.fasta",
+    "fasta_sha256": "ca365eb053c919982daddca1e046c83bb1f7b0d2ee6270ddf24765a91c68bfed",
+    "sequences": [
+      {
+        "accession": "P0SPIKE1",
+        "sequence": "MPEPTIDEK"
+      },
+      {
+        "accession": "P0SPIKE2",
+        "sequence": "MALPHAK"
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "spectrum_id": "synthetic_scan_001",
+      "peptide": "PEPTIDEK",
+      "protein_accession": "P0SPIKE1",
+      "score": 0.99,
+      "target_decoy": "target"
+    },
+    {
+      "spectrum_id": "synthetic_scan_002",
+      "peptide": "ALPHAK",
+      "protein_accession": "P0SPIKE2",
+      "score": 0.97,
+      "target_decoy": "target"
+    },
+    {
+      "spectrum_id": "synthetic_scan_003",
+      "peptide": "KEDITPEP",
+      "protein_accession": "DECOY_P0SPIKE1",
+      "score": 0.72,
+      "target_decoy": "decoy"
+    }
+  ],
+  "spike_ins": [
+    {
+      "id": "spike-001",
+      "spectrum_id": "synthetic_scan_001",
+      "peptide": "PEPTIDEK",
+      "expected_protein": "P0SPIKE1"
+    },
+    {
+      "id": "spike-002",
+      "spectrum_id": "synthetic_scan_002",
+      "peptide": "ALPHAK",
+      "expected_protein": "P0SPIKE2"
+    }
+  ]
+}
