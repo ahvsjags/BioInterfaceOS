@@ -1,0 +1,8 @@
+schema_version: 1
+model: M5
+seed: 43
+bootstrap_samples: 128
+g3_min_trajectories: 6
+time_points_required: 3
+simplex_tolerance: 1.0e-9
+fallback_model: discrete_kinetics

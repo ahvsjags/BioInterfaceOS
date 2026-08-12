@@ -1,0 +1,1 @@
+{"expected_rates":[-0.05,0.02,0.03],"max_abs_error":0.0,"recovered_rates":[-0.05,0.02,0.03],"schema_version":1,"status":"PASSED","tolerance":1e-09}

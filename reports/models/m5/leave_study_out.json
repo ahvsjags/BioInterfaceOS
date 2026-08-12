@@ -1,0 +1,1 @@
+{"folds":[{"held_out_study":"STUDY_A","rmse":0.064118,"trajectories":1},{"held_out_study":"STUDY_B","rmse":0.064118,"trajectories":1}],"folds_count":2,"mean_rmse":0.064118,"schema_version":1}

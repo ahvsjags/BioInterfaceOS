@@ -412,6 +412,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     train_m4_parser.add_argument(
         "--config", default="configs/models/m4.yaml", help="path to the M4 YAML config"
     )
+    train_m5_parser = train_subparsers.add_parser("m5", help="fit the dynamic corona M5 baseline")
+    train_m5_parser.add_argument(
+        "--config", default="configs/models/m5.yaml", help="path to the M5 YAML config"
+    )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
@@ -872,7 +876,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "train":
-        if args.train_command not in {"m1", "m2", "m3", "m4"}:
+        if args.train_command not in {"m1", "m2", "m3", "m4", "m5"}:
             parser.parse_args(["train", "--help"])
             return 0
         root = find_repository_root()
@@ -931,6 +935,24 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"best_rmse={m4_summary.best_rmse:.6f} "
                 f"toy_recovery={str(m4_summary.toy_recovery).lower()} "
                 f"resumed={m4_summary.resumed} target_values_exposed=false"
+            )
+            return 0
+        if args.train_command == "m5":
+            from biointerfaceos.m5_workflow import M5Error, M5Workflow
+
+            try:
+                m5_summary = M5Workflow(root, config_path=config_path).run(fixture=True)
+            except (M5Error, OSError) as exc:
+                print(f"M5_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"M5_VALID trajectories={m5_summary.trajectories} "
+                f"train_trajectories={m5_summary.train_trajectories} "
+                f"validation_trajectories={m5_summary.validation_trajectories} "
+                f"model_kind={m5_summary.model_kind} "
+                f"sufficiency_passed={str(m5_summary.sufficiency_passed).lower()} "
+                f"validation_rmse={m5_summary.validation_rmse:.6f} "
+                f"resumed={m5_summary.resumed} target_values_exposed=false"
             )
             return 0
         from biointerfaceos.m1_workflow import M1Error, M1Workflow

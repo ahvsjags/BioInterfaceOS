@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "mode": "m5_dynamic_fixture",
+  "inputs": [
+    {"label": "T057 PRIDE QC receipt", "path": "reports/omics/pride_qc/qc_receipt.json", "sha256": "564ea9777d64149425fe26729d718b7809b662e145e6676bf786fbba00af1c65"},
+    {"label": "T056 corona module matrix", "path": "reports/omics/harmonization/module_matrix.json", "sha256": "898193343321c1220df90f8222c5c50994f75136f88c68a2c7ef595d61f99816"}
+  ],
+  "trajectories": [
+    {"trajectory_id": "TRAJ_TRAIN_A", "study": "STUDY_A", "split": "train", "times": [0, 1, 2], "components": [[0.6, 0.3, 0.1], [0.55, 0.32, 0.13], [0.5, 0.34, 0.16]]},
+    {"trajectory_id": "TRAJ_TRAIN_B", "study": "STUDY_B", "split": "train", "times": [0, 1, 2], "components": [[0.5, 0.35, 0.15], [0.46, 0.37, 0.17], [0.42, 0.39, 0.19]]},
+    {"trajectory_id": "TRAJ_VAL_C", "study": "STUDY_C", "split": "validation", "times": [0, 1, 2], "components": [[0.58, 0.28, 0.14], [0.52, 0.32, 0.16], [0.47, 0.35, 0.18]]}
+  ]
+}

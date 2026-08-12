@@ -1,0 +1,1 @@
+{"fallback_used":true,"g3_min_trajectories":6,"high_capacity_neural_ode":"WAIVED","observed_time_points":9,"observed_trajectories":3,"passed":false,"reason":"Trajectory count below G3 threshold","schema_version":1}
