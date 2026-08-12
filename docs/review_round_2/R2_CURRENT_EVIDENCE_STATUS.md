@@ -1,0 +1,22 @@
+# BioInterfaceOS 第二轮审稿：当前证据状态台账
+
+本台账将初始整改矩阵中的九项意见绑定到当前 receipt。`PASS` 只表示表中限定的过程或公开发布门禁通过；不表示形成可投稿的实证结论。`FALLBACK` 表示已验证降级定位；`OPEN` 表示原始科学问题仍缺少可接受证据。
+
+| ID | 当前可审计状态 | 当前定位 | 仍需满足的条件 |
+|---|---|---|---|
+| R2-01 | OPEN_EMPIRICAL_TARGET_UNAVAILABLE | 未冻结共同 target，禁止模型使用 | 真实、非 fixture 的跨研究共同终点与行级溯源；冻结模型输出和外部 held-out 评估 |
+| R2-02 | FALLBACK_PROTOCOL_ONLY_VERIFIED | Paper C 仅为预注册/协议稿，不是独立 replication | 独立 evaluator、冻结代码、受保护真实观测与签名 receipt |
+| R2-03 | OPEN_STATISTICAL_VALIDATION_UNAVAILABLE | 不报告模型、消融、OOD 或有效样本量结论 | 冻结 estimand/split、study-clustered 分析、nested selection、effective n |
+| R2-04 | OPEN_HISTORICAL_SEMANTIC_MIGRATION_REQUIRED | 历史 fixture 稿件仍有一处将独立研究表述混入，不能作为 scientific replication | 完成可审计语义迁移，并获得外部 scientific reproduction receipt |
+| R2-05 | PASS_LITERATURE_AND_DOMAIN_PACKET | 外部文献、comparators 与术语定义包可用于后续稿件 | 将其与真实数据和独立验证门禁共同满足，不能单独支持实证结论 |
+| R2-06 | PASS_PUBLIC_RELEASE_AUDIT | 公开包完整性已审计；历史 fixture bundle 未公开 | 与真实数据、运行环境和外部复现 receipt 一并通过提交门禁 |
+| R2-07 | FALLBACK_PROTOCOL_FIGURE_QA_VERIFIED | 三张 field-mapped 协议图通过 geometry/semantic QA，未绘制实证值 | 真实数据图的字段映射、统计与人工签署 |
+| R2-08 | FALLBACK_MERGED_PROTOCOL_PORTFOLIO_VERIFIED | A+B 合并，C 保持 protocol-only；历史 fixture 稿件不复用 | T123 真实 target 与 T124 独立评估后再决定 results 稿件 |
+| R2-09 | OPEN_EXTERNAL_ACCEPTANCE_REQUIRED | 项目仍为 IN_PROGRESS；T128 有十个阻塞项 | 外部复现、编辑复审、逐项 finding 映射与签名证明 |
+
+## 使用规则
+
+1. 任何状态变化必须先生成新的版本化 receipt，再更新本台账和 `REMEDIATION_MATRIX.md`。
+2. 任何 `OPEN` 项不得在摘要、图注、新闻稿或稿件中改写为已验证的实证结论。
+3. `FALLBACK` 与 `PASS` 项只能支持本行的当前定位；它们不将 `scientific_submission_ready` 改为 `true`。
+4. 只有全部仍适用于目标稿件的 R2 finding 均有符合其验收门禁的证据，且 T128 获得外部复现和编辑复审签名后，才可重新评估 submission-ready。

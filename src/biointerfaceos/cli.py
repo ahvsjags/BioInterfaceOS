@@ -165,6 +165,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "accept-r2", help="audit the R2 external reproduction and editorial acceptance path"
     )
     accept_r2_parser.add_argument("--strict", action="store_true")
+    remediation_r2_parser = project_subparsers.add_parser(
+        "audit-r2-remediation",
+        help="audit the current evidence disposition for every R2 reviewer finding",
+    )
+    remediation_r2_parser.add_argument("--strict", action="store_true")
 
     schema_parser = subparsers.add_parser("schema", help="validate versioned schemas")
     schema_subparsers = schema_parser.add_subparsers(dest="schema_command")
@@ -933,7 +938,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         print(task.id)
         return 0
     if args.command == "project":
-        if args.project_command not in {"accept", "accept-r2"}:
+        if args.project_command not in {"accept", "accept-r2", "audit-r2-remediation"}:
             parser.parse_args(["project", "--help"])
             return 0
         if args.project_command == "accept-r2":
@@ -956,6 +961,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"status={r2_acceptance_summary.status} "
                 f"blockers={r2_acceptance_summary.prerequisite_blocker_count} "
                 "external_reproduction_verified=false editorial_rereview_verified=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.project_command == "audit-r2-remediation":
+            from biointerfaceos.r2_remediation_workflow import (
+                R2RemediationError,
+                R2RemediationWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("R2_REMEDIATION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                remediation_summary = R2RemediationWorkflow(root).run(strict=args.strict)
+            except (R2RemediationError, OSError) as exc:
+                print(f"R2_REMEDIATION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R2_REMEDIATION_VALID "
+                f"status={remediation_summary.status} "
+                f"findings={remediation_summary.finding_count} "
+                f"open={remediation_summary.open_finding_count} "
+                f"fallback={remediation_summary.protocol_fallback_count} "
+                f"bounded_pass={remediation_summary.bounded_pass_count} "
                 "scientific_submission_ready=false"
             )
             return 0
