@@ -1,0 +1,1 @@
+{"events":[{"agents":3,"event":"typed_contracts_validated","tasks":3},{"event":"allowlist_and_budget_negative_checks","passed":true},{"event":"deterministic_replay_completed","passed":true},{"event":"append_only_trace_sealed","events":14}],"resume_key":"b79d1283046bd9865559c8fee98c27ce45b2ab206be8f167c1927e9435088777","schema_version":1}

@@ -11,10 +11,7 @@ from pathlib import Path
 
 from biointerfaceos import __version__
 
-FUTURE_COMMANDS = (
-    "agent",
-    "claim",
-)
+FUTURE_COMMANDS = ("claim",)
 
 REQUIRED_FILES = (
     "AGENTS.md",
@@ -199,6 +196,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     lockbox_parser = subparsers.add_parser("lockbox", help="test lockbox firewall")
     lockbox_subparsers = lockbox_parser.add_subparsers(dest="lockbox_command")
     lockbox_subparsers.add_parser("self-test", help="run offline firewall and scanner tests")
+    agent_parser = subparsers.add_parser("agent", help="run typed multi-agent runtime checks")
+    agent_subparsers = agent_parser.add_subparsers(dest="agent_command")
+    agent_subparsers.add_parser("self-test", help="run offline runtime contract self-test")
     ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
     ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
     ontology_sync_parser = ontology_subparsers.add_parser(
@@ -1775,6 +1775,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"LOCKBOX_VALID blocked_read={audit['blocked_development_lockbox_read']} "
             f"field_detected={audit['forbidden_field_detected']} "
             f"hash_detected={audit['forbidden_hash_detected']}"
+        )
+        return 0
+    if args.command == "agent":
+        if args.agent_command != "self-test":
+            parser.parse_args(["agent", "--help"])
+            return 0
+        from biointerfaceos.agent_runtime import AgentRuntime, AgentRuntimeError
+
+        root = find_repository_root()
+        if root is None:
+            print("AGENT_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            agent_summary = AgentRuntime(root).run(fixture=True)
+        except (AgentRuntimeError, OSError) as exc:
+            print(f"AGENT_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"AGENT_SELF_TEST_VALID agents={agent_summary.agents} tasks={agent_summary.tasks} "
+            f"events={agent_summary.events} schema_validated="
+            f"{str(agent_summary.schema_validated).lower()} "
+            f"tool_allowlist={str(agent_summary.tool_allowlist_passed).lower()} "
+            f"budget={str(agent_summary.budget_passed).lower()} "
+            f"replay={str(agent_summary.replay_passed).lower()} "
+            f"retries={str(agent_summary.retry_passed).lower()} "
+            f"trace_sealed={str(agent_summary.trace_sealed).lower()} "
+            f"provider_key_required={str(agent_summary.provider_key_required).lower()} "
+            f"resumed={agent_summary.resumed}"
         )
         return 0
     if args.command == "ontology":

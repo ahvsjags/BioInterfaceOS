@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "mode": "agent_runtime_fixture",
+  "agents": [
+    {"agent_id": "agent-1", "role": "retrieval", "enabled": true},
+    {"agent_id": "agent-2", "role": "extraction", "enabled": true},
+    {"agent_id": "agent-3", "role": "validation", "enabled": true}
+  ],
+  "tasks": [
+    {
+      "task_id": "task-lookup",
+      "agent_id": "agent-1",
+      "tool_allowlist": ["fixture.lookup"],
+      "budget_steps": 2,
+      "max_retries": 0,
+      "steps": [{"tool": "fixture.lookup", "arguments": {"key": "biointerface"}}]
+    },
+    {
+      "task_id": "task-retry",
+      "agent_id": "agent-2",
+      "tool_allowlist": ["flaky.check"],
+      "budget_steps": 3,
+      "max_retries": 1,
+      "steps": [{"tool": "flaky.check", "arguments": {"mode": "transient-once"}}]
+    },
+    {
+      "task_id": "task-claim",
+      "agent_id": "agent-3",
+      "tool_allowlist": ["claim.validate"],
+      "budget_steps": 1,
+      "max_retries": 0,
+      "steps": [{"tool": "claim.validate", "arguments": {"claim_id": "claim-001"}}]
+    }
+  ]
+}
