@@ -228,6 +228,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "render", help="render the frozen publication package"
     )
     render_parser.add_argument("--strict", action="store_true")
+    reproduce_parser = subparsers.add_parser(
+        "reproduce-clean", help="build and verify the network-free clean-room package"
+    )
+    reproduce_parser.add_argument("--strict", action="store_true")
     agent_parser = subparsers.add_parser("agent", help="run typed multi-agent runtime checks")
     agent_subparsers = agent_parser.add_subparsers(dest="agent_command")
     agent_subparsers.add_parser("self-test", help="run offline runtime contract self-test")
@@ -2695,6 +2699,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"source_data_files={publication_result['source_data_files']} "
             f"raster_dpi={publication_result['raster_dpi']} "
             "manual_numeric_edits=0 raw_values_written=false"
+        )
+        return 0
+    if args.command == "reproduce-clean":
+        from biointerfaceos.clean_room_workflow import CleanRoomError, CleanRoomWorkflow
+
+        root = find_repository_root()
+        if root is None:
+            print("CLEAN_ROOM_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            reproduction_result = CleanRoomWorkflow(root).run(strict=args.strict)
+        except (CleanRoomError, OSError) as exc:
+            print(f"CLEAN_ROOM_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"CLEAN_ROOM_VALID repro_id={reproduction_result['repro_id']} "
+            f"package_sha256={reproduction_result['package_sha256']} "
+            f"result_hash={reproduction_result['result_hash']} "
+            f"runs={reproduction_result['independent_runs']} "
+            f"tests_passed={reproduction_result['benchmark_tests_passed']} "
+            "network_accessed=false protected_values_read=false"
         )
         return 0
     if args.command == "agent":

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BioInterfaceOS clean-room reproduction",
+  "type": "object",
+  "required": ["schema_version", "status", "repro_id", "independent_runs", "package_sha256", "result_hash"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "VALID_CLEAN_ROOM_REPRODUCTION"},
+    "repro_id": {"const": "bioif-clean-room-v1.0.0"},
+    "independent_runs": {"const": 3},
+    "network_accessed": {"const": false},
+    "protected_values_read": {"const": false},
+    "raw_values_written": {"const": false}
+  },
+  "additionalProperties": true
+}

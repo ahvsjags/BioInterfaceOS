@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "mode": "clean_room_reproduction_once",
+  "preregistration": {
+    "repro_id": "bioif-clean-room-v1.0.0",
+    "release_id": "bioif-internal-prelock-v1.0.0",
+    "reproduced_at": "2026-08-12T00:00:00+00:00",
+    "once": true,
+    "network_allowed": false
+  },
+  "benchmark_command": "uv run --frozen --offline pytest -q tests/benchmark tests/test_catalog.py tests/test_manifest.py tests/test_lockbox.py",
+  "public_package": {
+    "exclude_locked_test": true,
+    "exclude_raw_data": true,
+    "exclude_cas_payloads": true,
+    "exclude_credentials": true,
+    "license_check_required": true
+  }
+}
