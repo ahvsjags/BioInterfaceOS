@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T074
-active_execplan: docs/execplans/T074_compositional_corona.md
+current_task: T075
+active_execplan: docs/execplans/T075_dynamic_corona.md
 completed_tasks:
   - T000
   - T001
@@ -81,10 +81,10 @@ completed_tasks:
   - T071
   - T072
   - T073
+  - T074
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T075
   - T076
   - T077
   - T078
