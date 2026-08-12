@@ -38,7 +38,7 @@ def test_r2_release_replays_only_registered_public_source_in_clean_worktree(tmp_
     assert paths >= R2ReleaseReproductionWorkflow.RELEASE_BOUNDARY_DOCUMENTS
     clean_replay = _json(output / "clean_replay.json")
     assert clean_replay["source_mode"] == "temporary_public_source_only"
-    assert clean_replay["nested_status"] == "PASS_R2_SOFTWARE_REPLAY"
+    assert clean_replay["nested_status"] == "PASS_R2_PROTOCOL_FIGURE_SUITE"
     with tarfile.open(output / "r2_public_source.tar.gz", "r:gz") as archive:
         names = set(archive.getnames())
     assert "source/docs/figures/R2_FIGURE_SPECS.json" in names

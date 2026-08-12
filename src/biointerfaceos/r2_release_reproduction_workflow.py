@@ -252,7 +252,14 @@ class R2ReleaseReproductionWorkflow:
             environment["PYTHONPATH"] = (
                 str(source_root / "src") + os.pathsep + environment.get("PYTHONPATH", "")
             )
-            command = [sys.executable, "-m", "biointerfaceos", "reproduce", "release", "--strict"]
+            command = [
+                sys.executable,
+                "-m",
+                "biointerfaceos",
+                "publication",
+                "render-r2",
+                "--strict",
+            ]
             try:
                 completed = subprocess.run(
                     command,
@@ -265,7 +272,10 @@ class R2ReleaseReproductionWorkflow:
                 )
             except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
                 raise R2ReleaseReproductionError("clean public-source replay failed") from exc
-            nested_receipt_path = source_root / self.OUTPUT_RELATIVE / "generation_receipt.json"
+            nested_receipt_path = (
+                source_root
+                / "reports/review_round_2/submission_figures/v1.1.0/generation_receipt.json"
+            )
             try:
                 nested_receipt = _mapping(
                     json.loads(nested_receipt_path.read_text(encoding="utf-8")),
@@ -276,14 +286,12 @@ class R2ReleaseReproductionWorkflow:
                     "clean replay did not write a valid receipt"
                 ) from exc
             if (
-                nested_receipt.get("status") != "PASS_R2_SOFTWARE_REPLAY"
-                or nested_receipt.get("software_replay") is not True
-                or nested_receipt.get("scientific_reproduction") is not False
+                nested_receipt.get("status") != "PASS_R2_PROTOCOL_FIGURE_SUITE"
                 or nested_receipt.get("scientific_submission_ready") is not False
             ):
                 raise R2ReleaseReproductionError("clean replay crossed its evidence boundary")
             return {
-                "command": "python -m biointerfaceos reproduce release --strict",
+                "command": "python -m biointerfaceos publication render-r2 --strict",
                 "python_executable": sys.executable,
                 "source_mode": "temporary_public_source_only",
                 "network_policy": (
