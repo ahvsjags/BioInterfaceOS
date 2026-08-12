@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "registry_id": "bioif-public-asset-registry-v1.1.0",
+  "registry_version": "1.1.0",
+  "release_scope": "repository_tracked_assets",
+  "entries": [
+    {
+      "asset_id": "first_party_software",
+      "include": ["src/**", "tests/**", "scripts/**", "containers/**", ".github/**", "slurm/**", "workflows/**"],
+      "asset_class": "repository_authored_software",
+      "origin": "BioInterfaceOS contributors",
+      "license_expression": "Apache-2.0",
+      "redistribution": "PUBLIC",
+      "evidence_status": "SOFTWARE_REPLAY_ONLY",
+      "policy": "public source; software behavior is not scientific validation"
+    },
+    {
+      "asset_id": "repository_configuration",
+      "include": ["config/**", "configs/**", "schemas/**", "CODEX_CONFIG_EXAMPLE.toml", "Makefile", "pyproject.toml", "uv.lock", ".gitattributes", ".gitignore"],
+      "asset_class": "repository_authored_configuration",
+      "origin": "BioInterfaceOS contributors",
+      "license_expression": "Apache-2.0",
+      "redistribution": "PUBLIC",
+      "evidence_status": "NOT_EVIDENCE",
+      "policy": "public configuration; no data or scientific performance claim"
+    },
+    {
+      "asset_id": "repository_documentation",
+      "include": ["AGENTS.md", "README_FIRST.md", "GOAL.md", "PLANS.md", "TASKS.md", "TASKS.tsv", "PROJECT_STATE.yaml", "CODEX_START_PROMPT.md", "SOURCE_POLICY.template.yaml", "CHECKSUMS.sha256", "LICENSE", "NOTICE", "CITATION.cff", "docs/**", "agents/**", "benchmarks/**", "experiments/**", "models/**"],
+      "asset_class": "repository_authored_documentation",
+      "origin": "BioInterfaceOS contributors",
+      "license_expression": "Apache-2.0",
+      "redistribution": "PUBLIC",
+      "evidence_status": "NOT_EVIDENCE",
+      "policy": "public documentation; historical claims retain their stated evidence boundaries"
+    },
+    {
+      "asset_id": "source_metadata_registry",
+      "include": ["registry/**"],
+      "asset_class": "source_derived_registry",
+      "origin": "external sources and repository processing",
+      "license_expression": "NOASSERTION",
+      "redistribution": "CONTROLLED",
+      "evidence_status": "SOURCE_METADATA_ONLY",
+      "policy": "controlled pending row-level provenance and license audit; excluded from the public release"
+    },
+    {
+      "asset_id": "data_and_fixture_payloads",
+      "include": ["data/**"],
+      "asset_class": "fixture_or_source_derived_data",
+      "origin": "fixtures, source pointers, and derived artifacts",
+      "license_expression": "NOASSERTION",
+      "redistribution": "EXCLUDED",
+      "evidence_status": "FIXTURE_ONLY",
+      "policy": "excluded until row-level provenance and source redistribution rights are independently verified"
+    },
+    {
+      "asset_id": "historical_reports",
+      "include": ["reports/**"],
+      "asset_class": "historical_audit_or_fixture_output",
+      "origin": "BioInterfaceOS historical execution records",
+      "license_expression": "NOASSERTION",
+      "redistribution": "EXCLUDED",
+      "evidence_status": "HISTORICAL_QUARANTINED",
+      "policy": "excluded from the current public release; retained immutable for audit and remediation traceability"
+    },
+    {
+      "asset_id": "historical_release_artifacts",
+      "include": ["release/**"],
+      "asset_class": "historical_fixture_or_development_release",
+      "origin": "BioInterfaceOS historical releases and source-derived artifacts",
+      "license_expression": "NOASSERTION",
+      "redistribution": "EXCLUDED",
+      "evidence_status": "HISTORICAL_QUARANTINED",
+      "policy": "excluded from the current public release; historical public bundles are retired and cannot support scientific claims"
+    }
+  ]
+}

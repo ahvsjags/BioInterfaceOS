@@ -210,6 +210,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     release_subparsers.add_parser(
         "verify-prelock", help="verify the signed internal pre-lock release"
     )
+    public_audit_parser = release_subparsers.add_parser(
+        "audit-public", help="audit licensing, asset inventory, and public-release boundaries"
+    )
+    public_audit_parser.add_argument("--strict", action="store_true")
     verify_parser = release_subparsers.add_parser("verify", help="verify an immutable release")
     verify_parser.add_argument(
         "--fixture", action="store_true", help="verify the fixture namespace"
@@ -2552,6 +2556,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         return 0
     if args.command == "release":
         if args.release_command not in {
+            "audit-public",
             "freeze",
             "freeze-dev",
             "freeze-prelock",
@@ -2560,6 +2565,28 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         }:
             parser.parse_args(["release", "--help"])
             return 0
+        if args.release_command == "audit-public":
+            root = find_repository_root()
+            if root is None:
+                print("PUBLIC_RELEASE_AUDIT_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            from biointerfaceos.public_release_audit_workflow import (
+                PublicReleaseAuditError,
+                PublicReleaseAuditWorkflow,
+            )
+
+            try:
+                public_audit = PublicReleaseAuditWorkflow(root).run(strict=args.strict)
+            except (PublicReleaseAuditError, OSError) as exc:
+                print(f"PUBLIC_RELEASE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"PUBLIC_RELEASE_AUDIT_VALID audit_id={public_audit['audit_id']} "
+                f"status={public_audit['status']} assets={public_audit['asset_count']} "
+                "historical_fixture_bundle_publicly_released=false "
+                "scientific_submission_ready=false"
+            )
+            return 0 if public_audit["status"] == "PASS_PUBLIC_RELEASE_AUDIT" else 1
         if args.release_command == "freeze-dev":
             root = find_repository_root()
             if root is None:
@@ -2701,9 +2728,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print(
                 f"LOCKBOX_EVALUATION_VALID release_id={evaluation_summary.release_id} "
                 f"predictions={evaluation_summary.prediction_count} "
-                f"replicated={evaluation_summary.replicated} "
-                f"refuted={evaluation_summary.refuted} "
-                f"inconclusive={evaluation_summary.inconclusive} "
+                f"contract_matched={evaluation_summary.contract_matched} "
+                f"contract_contradicted={evaluation_summary.contract_contradicted} "
+                f"contract_indeterminate={evaluation_summary.contract_indeterminate} "
                 f"abstentions={evaluation_summary.abstentions} "
                 f"raw_values_written={str(evaluation_summary.raw_values_written).lower()} "
                 f"train_calls={evaluation_summary.train_calls} "

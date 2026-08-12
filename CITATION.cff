@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the BioInterfaceOS contributors and the archived release commit."
+title: "BioInterfaceOS"
+type: software
+authors:
+  - name: "BioInterfaceOS Contributors"
+version: 0.1.0
+date-released: 2026-08-12
+license: Apache-2.0
+abstract: "Provenance-grounded software and protocol infrastructure for biomedical material biointerface research."

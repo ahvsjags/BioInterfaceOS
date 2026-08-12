@@ -4,10 +4,11 @@ manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
 task_count: 129
 ready_tasks:
-  - T117
+  - T118
   - T119
-current_task: T117
-active_execplan: docs/execplans/T117_public_release_integrity.md
+  - T120
+current_task: T119
+active_execplan: docs/execplans/T119_submission_figure_qa.md
 completed_tasks:
   - T000
   - T001
@@ -126,11 +127,10 @@ completed_tasks:
   - T114
   - T115
   - T116
+  - T117
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T118
-  - T120
   - T121
   - T122
   - T123
@@ -160,6 +160,7 @@ storage:
 notes:
   - 'T001 completed after the explicit repository-local non-human Git identity BioInterfaceOS-Codex <biointerfaceos-codex@localhost> resolved the recorded blocker.'
   - '2026-08-12: Round 2 created from the five-reviewer editorial report. T115–T128 are mandatory before any empirical submission-ready claim.'
+  - '2026-08-12: T117 completed a default-deny public asset audit. Historical fixture bundles, data, registries, reports, and manuscript artifacts remain excluded or controlled until their independent gates pass.'
 review_round_2:
   status: ACTIVE
   source: docs/review_round_2/REMEDIATION_MATRIX.md

@@ -1,0 +1,7 @@
+BioInterfaceOS
+Copyright 2026 BioInterfaceOS Contributors
+
+This repository's Apache-2.0 license applies only to files classified as PUBLIC
+in docs/release/PUBLIC_ASSET_REGISTRY.json. Third-party sources, source-derived
+records, historical fixture bundles, protected data pointers, and retired
+publication artifacts are not relicensed by this notice.

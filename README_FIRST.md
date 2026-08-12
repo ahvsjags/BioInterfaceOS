@@ -32,3 +32,7 @@ codex
 ```
 
 不要在本机使用无 sandbox 的高风险全权限参数。数据下载只允许访问匿名、无需注册/申请/API key 的公共来源；锁定时期数据在开发冻结前只能编目元数据。
+
+## 公开发布边界
+
+当前可公开复现的范围是软件、配置、测试 fixture 和软件重放合同；它是 **software replay only**，**not scientific replication**，也 **not empirical validation**。历史 fixture、数据派生物、旧文稿和旧 public bundle 均由 `docs/release/PUBLIC_ASSET_REGISTRY.json` 逐项分类；未明示为 `PUBLIC` 的项目不能进入新发行包。运行 `python -m biointerfaceos release audit-public --strict` 生成可审计清单。
