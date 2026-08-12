@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "workflow": "publication_selection_and_missingness_bias",
+  "required_inputs": [
+    "T047 silver data report",
+    "T071 hierarchical effects report",
+    "T091 mediation receipt",
+    "T093 symbolic-laws receipt",
+    "T100 OOD receipt"
+  ],
+  "models": ["complete_case", "inverse_probability_weighted", "pattern_mixture", "bounded_selection"],
+  "missing_mechanisms": ["MCAR", "MAR", "MNAR"],
+  "metrics": ["effect", "interval", "model_disagreement", "missingness_rate"],
+  "p_value_policy": "metadata_only_not_ground_truth",
+  "required_outputs": [
+    "selection_preregistration",
+    "missingness_audit",
+    "model_comparison",
+    "sensitivity_intervals",
+    "claim_gate",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "failure_policy": "use_conservative_selection_bound_and_downgrade_claim"
+}

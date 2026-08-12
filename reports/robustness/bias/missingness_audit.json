@@ -1,0 +1,1 @@
+{"cluster_count":4,"mechanism_counts":{"MAR":1,"MCAR":1,"MNAR":1},"missing_fields":["effect","variance"],"missing_rows":3,"observed_rows":5,"p_values_reported":3,"p_values_used":false,"rows":8,"schema_version":1}

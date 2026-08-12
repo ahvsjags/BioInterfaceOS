@@ -461,6 +461,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     robustness_ood_parser.add_argument(
         "--all", action="store_true", help="run all frozen OOD group dimensions"
     )
+    robustness_bias_parser = robustness_subparsers.add_parser(
+        "bias", help="assess publication selection and missingness bias"
+    )
+    robustness_bias_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized bias fixture"
+    )
     discover_parser = subparsers.add_parser(
         "discover", help="discover development-scope scientific representations"
     )
@@ -1154,6 +1160,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "robustness":
+        if args.robustness_command == "bias":
+            root = find_repository_root()
+            if root is None:
+                print("BIAS_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("BIAS_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.bias_workflow import BiasWorkflow, BiasWorkflowError
+
+            try:
+                robustness_bias_summary = BiasWorkflow(root).run(fixture=True)
+            except (BiasWorkflowError, OSError) as exc:
+                print(f"BIAS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"BIAS_VALID rows={robustness_bias_summary.rows} "
+                f"clusters={robustness_bias_summary.clusters} "
+                f"models={robustness_bias_summary.models} "
+                f"observed_rows={robustness_bias_summary.observed_rows} "
+                f"missing_rows={robustness_bias_summary.missing_rows} "
+                f"missing_mechanisms={robustness_bias_summary.missing_mechanisms} "
+                f"interval_records={robustness_bias_summary.interval_records} "
+                f"model_disagreement={robustness_bias_summary.model_disagreement:.6f} "
+                f"p_values_used={int(robustness_bias_summary.p_values_used)} "
+                f"claim_status={robustness_bias_summary.claim_status} "
+                f"resumed={robustness_bias_summary.resumed}"
+            )
+            return 0
         if args.robustness_command == "ood":
             root = find_repository_root()
             if root is None:

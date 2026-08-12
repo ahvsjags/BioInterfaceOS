@@ -1,0 +1,1 @@
+{"alpha":0.05,"bootstrap_samples":64,"cluster_key":"cluster_id","frozen_before_fitting":true,"material_disagreement_threshold":0.05,"missing_mechanisms":["MCAR","MAR","MNAR"],"models":["complete_case","inverse_probability_weighted","pattern_mixture","bounded_selection"],"p_values_used":false,"schema_version":1,"selection_delta":0.15,"target_values_exposed":false}
