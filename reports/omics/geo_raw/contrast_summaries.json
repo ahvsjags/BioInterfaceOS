@@ -1,0 +1,1 @@
+{"contrasts":[{"control_mean_count":2.0,"normalized_gene_id":"GENE1","study_accession":"SRPRAW0001","treated_control_ratio":2.0,"treated_mean_count":4.0,"treated_minus_control":2.0},{"control_mean_count":1.0,"normalized_gene_id":"GENE2","study_accession":"SRPRAW0001","treated_control_ratio":1.0,"treated_mean_count":1.0,"treated_minus_control":0.0}],"schema_version":1}

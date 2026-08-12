@@ -430,7 +430,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_geo_process_parser = omics_geo_subparsers.add_parser(
         "process", help="ingest eligible processed GEO/SRA matrices"
     )
-    omics_geo_process_parser.add_argument("--mode", choices=("processed",), default="processed")
+    omics_geo_process_parser.add_argument(
+        "--mode", choices=("processed", "raw"), default="processed"
+    )
+    omics_geo_process_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized GEO processing fixture"
+    )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -964,6 +969,38 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 if root is None:
                     print("GEO_PROCESS_INVALID: repository root not found", file=sys.stderr)
                     return 1
+                if args.mode == "raw":
+                    if not args.fixture:
+                        print(
+                            "GEO_PROCESS_INVALID: --fixture is required for raw mode",
+                            file=sys.stderr,
+                        )
+                        return 2
+                    from biointerfaceos.geo_raw_processing import (
+                        GeoRawProcessingError,
+                        GeoRawProcessingWorkflow,
+                    )
+
+                    try:
+                        raw_summary = GeoRawProcessingWorkflow(root).run(
+                            mode=args.mode, fixture=True
+                        )
+                    except (GeoRawProcessingError, OSError) as exc:
+                        print(f"GEO_PROCESS_INVALID: {exc}", file=sys.stderr)
+                        return 1
+                    print(
+                        f"GEO_PROCESS_VALID mode={args.mode} "
+                        f"studies_attempted={raw_summary.studies_attempted} "
+                        f"studies_passed={raw_summary.studies_passed} "
+                        f"excluded_studies={raw_summary.excluded_studies} "
+                        f"genes={raw_summary.genes} "
+                        f"samples={raw_summary.samples} "
+                        f"pairs={raw_summary.pairs} "
+                        f"matched_pairs={raw_summary.matched_pairs} "
+                        f"unmatched_pairs={raw_summary.unmatched_pairs} "
+                        f"resumed={raw_summary.resumed}"
+                    )
+                    return 0
                 from biointerfaceos.geo_processing import (
                     GeoProcessingError,
                     GeoProcessingWorkflow,

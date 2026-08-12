@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "mode": "raw",
+  "counting": {
+    "rule": "paired_end_exact_gene",
+    "min_pairs_per_condition": 2
+  },
+  "study": {
+    "accession": "SRPRAW0001",
+    "access_state": "PUBLIC",
+    "credential_required": false,
+    "manageable": true,
+    "source_checksum_material": "SRPRAW0001|paired-end-exact-v1|C1,C2,T1,T2",
+    "source_file_sha256": "de98875fe1691b83bc9c56a67d140fa828a2a49a6289b09392ce92b035aee6e0",
+    "reference": {
+      "version": "toy-ref-v1",
+      "checksum_material": "toy-ref-v1|GENE1=AAAA|GENE2=CCCC",
+      "sha256": "1762be867fe63d774799f263a6613e78005509b106392df27078f5b901c25919",
+      "genes": [
+        {"gene_id": "GENE1", "sequence": "AAAA"},
+        {"gene_id": "GENE2", "sequence": "CCCC"}
+      ]
+    },
+    "samples": [
+      {
+        "sample_id": "SRPRAW0001_C1",
+        "condition": "control",
+        "biological_replicate": 1,
+        "material": "silica nanoparticle",
+        "biological_system": "A549 cells",
+        "dose": "10 ug/mL",
+        "time": "24 h",
+        "expected_counts": {"GENE1": 2, "GENE2": 1},
+        "expected_unmatched_pairs": 1,
+        "pairs": [
+          {"pair_id": "C1_P1", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "C1_P2", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "C1_P3", "read1": "CCCC", "read2": "CCCC"},
+          {"pair_id": "C1_P4", "read1": "GGGG", "read2": "GGGG"}
+        ]
+      },
+      {
+        "sample_id": "SRPRAW0001_C2",
+        "condition": "control",
+        "biological_replicate": 2,
+        "material": "silica nanoparticle",
+        "biological_system": "A549 cells",
+        "dose": "10 ug/mL",
+        "time": "24 h",
+        "expected_counts": {"GENE1": 2, "GENE2": 1},
+        "expected_unmatched_pairs": 1,
+        "pairs": [
+          {"pair_id": "C2_P1", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "C2_P2", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "C2_P3", "read1": "CCCC", "read2": "CCCC"},
+          {"pair_id": "C2_P4", "read1": "TTTT", "read2": "TTTT"}
+        ]
+      },
+      {
+        "sample_id": "SRPRAW0001_T1",
+        "condition": "treated",
+        "biological_replicate": 1,
+        "material": "silica nanoparticle",
+        "biological_system": "A549 cells",
+        "dose": "50 ug/mL",
+        "time": "24 h",
+        "expected_counts": {"GENE1": 4, "GENE2": 1},
+        "expected_unmatched_pairs": 0,
+        "pairs": [
+          {"pair_id": "T1_P1", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "T1_P2", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "T1_P3", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "T1_P4", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "T1_P5", "read1": "CCCC", "read2": "CCCC"}
+        ]
+      },
+      {
+        "sample_id": "SRPRAW0001_T2",
+        "condition": "treated",
+        "biological_replicate": 2,
+        "material": "silica nanoparticle",
+        "biological_system": "A549 cells",
+        "dose": "50 ug/mL",
+        "time": "24 h",
+        "expected_counts": {"GENE1": 4, "GENE2": 1},
+        "expected_unmatched_pairs": 0,
+        "pairs": [
+          {"pair_id": "T2_P1", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "T2_P2", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "T2_P3", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "T2_P4", "read1": "AAAA", "read2": "AAAA"},
+          {"pair_id": "T2_P5", "read1": "CCCC", "read2": "CCCC"}
+        ]
+      }
+    ]
+  }
+}
