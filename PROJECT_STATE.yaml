@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T076
-active_execplan: docs/execplans/T076_hierarchical_causal_world.md
+current_task: T077
+active_execplan: docs/execplans/T077_cross_domain_invariance.md
 completed_tasks:
   - T000
   - T001
@@ -83,10 +83,10 @@ completed_tasks:
   - T073
   - T074
   - T075
+  - T076
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T077
   - T078
   - T079
   - T080
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: d538457
+last_successful_commit: 3220b11
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
