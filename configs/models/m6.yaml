@@ -1,0 +1,8 @@
+schema_version: 1
+model: M6
+seed: 47
+ridge: 0.15
+bootstrap_samples: 128
+overlap_threshold: 0.1
+language_policy: automatic_downgrade
+confounding_bias_strengths: [0.0, 0.1, 0.25, 0.5]

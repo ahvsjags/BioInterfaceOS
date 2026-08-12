@@ -416,6 +416,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     train_m5_parser.add_argument(
         "--config", default="configs/models/m5.yaml", help="path to the M5 YAML config"
     )
+    train_m6_parser = train_subparsers.add_parser(
+        "m6", help="fit the hierarchical causal-world M6 model"
+    )
+    train_m6_parser.add_argument(
+        "--config", default="configs/models/m6.yaml", help="path to the M6 YAML config"
+    )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
@@ -876,7 +882,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "train":
-        if args.train_command not in {"m1", "m2", "m3", "m4", "m5"}:
+        if args.train_command not in {"m1", "m2", "m3", "m4", "m5", "m6"}:
             parser.parse_args(["train", "--help"])
             return 0
         root = find_repository_root()
@@ -953,6 +959,23 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"sufficiency_passed={str(m5_summary.sufficiency_passed).lower()} "
                 f"validation_rmse={m5_summary.validation_rmse:.6f} "
                 f"resumed={m5_summary.resumed} target_values_exposed=false"
+            )
+            return 0
+        if args.train_command == "m6":
+            from biointerfaceos.m6_workflow import M6Error, M6Workflow
+
+            try:
+                m6_summary = M6Workflow(root, config_path=config_path).run(fixture=True)
+            except (M6Error, OSError) as exc:
+                print(f"M6_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"M6_VALID rows={m6_summary.rows} train={m6_summary.train} "
+                f"validation={m6_summary.validation} "
+                f"overlap_passed={str(m6_summary.overlap_passed).lower()} "
+                f"causal_claim_permitted={str(m6_summary.causal_claim_permitted).lower()} "
+                f"validation_rmse={m6_summary.validation_rmse:.6f} "
+                f"resumed={m6_summary.resumed} target_values_exposed=false"
             )
             return 0
         from biointerfaceos.m1_workflow import M1Error, M1Workflow

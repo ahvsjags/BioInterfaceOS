@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "mode": "m6_causal_fixture",
+  "inputs": [
+    {"label": "T073 M3 receipt", "path": "reports/models/m3/m3_receipt.json", "sha256": "0e86a9759d497bd9e0c0b16041f006f1e48dc24811f5329670f566f57a0d6566"},
+    {"label": "T074 M4 receipt", "path": "reports/models/m4/m4_receipt.json", "sha256": "a86fb1c74acdc0c5804bb7b4f4cf16e2e1be14689ae75b0864790ae750d54455"},
+    {"label": "T075 M5 receipt", "path": "reports/models/m5/m5_receipt.json", "sha256": "70ed6a8b32134239fa095af162bc5c1089ed5bc637fad056dfcc3f731ea0a79e"}
+  ],
+  "rows": [
+    {"row_id": "M6-001", "split": "train", "treatment": 0, "mediator": 0.20, "outcome": 0.20, "propensity": 0.25, "group_key": "FAMILY_010"},
+    {"row_id": "M6-002", "split": "train", "treatment": 1, "mediator": 0.40, "outcome": 0.70, "propensity": 0.75, "group_key": "FAMILY_010"},
+    {"row_id": "M6-003", "split": "train", "treatment": 0, "mediator": 0.30, "outcome": 0.30, "propensity": 0.30, "group_key": "FAMILY_010"},
+    {"row_id": "M6-004", "split": "train", "treatment": 1, "mediator": 0.60, "outcome": 0.90, "propensity": 0.70, "group_key": "FAMILY_010"},
+    {"row_id": "M6-005", "split": "train", "treatment": 0, "mediator": 0.25, "outcome": 0.25, "propensity": 0.35, "group_key": "FAMILY_010"},
+    {"row_id": "M6-006", "split": "train", "treatment": 1, "mediator": 0.55, "outcome": 0.85, "propensity": 0.65, "group_key": "FAMILY_010"},
+    {"row_id": "M6-007", "split": "train", "treatment": 0, "mediator": 0.35, "outcome": 0.40, "propensity": 0.40, "group_key": "FAMILY_010"},
+    {"row_id": "M6-008", "split": "train", "treatment": 1, "mediator": 0.65, "outcome": 0.95, "propensity": 0.60, "group_key": "FAMILY_010"},
+    {"row_id": "M6-009", "split": "validation", "treatment": 0, "mediator": 0.28, "outcome": 0.30, "propensity": 0.30, "group_key": "FAMILY_020"},
+    {"row_id": "M6-010", "split": "validation", "treatment": 1, "mediator": 0.58, "outcome": 0.82, "propensity": 0.70, "group_key": "FAMILY_020"},
+    {"row_id": "M6-011", "split": "validation", "treatment": 0, "mediator": 0.32, "outcome": 0.35, "propensity": 0.35, "group_key": "FAMILY_020"},
+    {"row_id": "M6-012", "split": "validation", "treatment": 1, "mediator": 0.62, "outcome": 0.90, "propensity": 0.65, "group_key": "FAMILY_020"}
+  ]
+}
