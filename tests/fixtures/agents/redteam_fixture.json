@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "mode": "redteam_fixture",
+  "inputs": [
+    {
+      "label": "T066 attack findings",
+      "path": "reports/splits/audit/attack_findings.json",
+      "sha256": "6f44789dcc78ecf153e1a29a69106481b7a74ee2e75ce73ca5ba9dca00085305"
+    },
+    {
+      "label": "T078 OOD detection",
+      "path": "reports/models/uncertainty/ood_detection.json",
+      "sha256": "b6226164c24fee30eac3c7f168f4db7ba2fd4596f8333ae28579620699ceb7ba"
+    },
+    {
+      "label": "T083 audit comparison",
+      "path": "reports/agents/audit/audit_comparison.json",
+      "sha256": "b79784b3d34e769d2a7257d2803f55542fc3935bf2f1ff348f7b61ed67b5aa1d"
+    }
+  ],
+  "attacks": [
+    {
+      "attack_id": "RED-LEAK-001",
+      "kind": "leakage",
+      "payload": {"feature": "paper_id", "source": "fixture_feature"},
+      "expected_status": "DETECTED",
+      "severity": "CRITICAL",
+      "remediation": "remove paper identity features and rerun split audit"
+    },
+    {
+      "attack_id": "RED-UNIT-001",
+      "kind": "unit_error",
+      "payload": {"unit_a": "mg", "unit_b": "g", "value": 10},
+      "expected_status": "DETECTED",
+      "severity": "HIGH",
+      "remediation": "quarantine the record until unit normalization is evidenced"
+    },
+    {
+      "attack_id": "RED-NEG-001",
+      "kind": "negative_control",
+      "payload": {"control": "permuted_outcome", "expected_signal": false},
+      "expected_status": "CLEAN",
+      "severity": "MEDIUM",
+      "remediation": "retain negative-control result and monitor for spurious signal"
+    },
+    {
+      "attack_id": "RED-CLAIM-001",
+      "kind": "adversarial_claim",
+      "payload": {"causal_claim": true, "wording": "material causes response"},
+      "expected_status": "BLOCKED",
+      "severity": "CRITICAL",
+      "remediation": "downgrade language to predictive or associational reporting"
+    },
+    {
+      "attack_id": "RED-LOCKBOX-001",
+      "kind": "lockbox",
+      "payload": {"path": "data/locked_test/payload.bin"},
+      "expected_status": "BLOCKED",
+      "severity": "CRITICAL",
+      "remediation": "keep evaluator disabled until signed freeze authorization"
+    }
+  ]
+}

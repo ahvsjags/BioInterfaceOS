@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "agent": "RedTeamAgent",
+  "finding_fields": [
+    "attack_id",
+    "kind",
+    "expected_status",
+    "observed_status",
+    "detector",
+    "severity",
+    "remediation",
+    "passed",
+    "adverse_result_preserved"
+  ],
+  "severity_levels": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+}

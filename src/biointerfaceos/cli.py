@@ -212,6 +212,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     agent_eval_subparsers.add_parser(
         "modeling", help="evaluate ModelBuilder and Statistician agents"
     )
+    redteam_parser = agent_subparsers.add_parser(
+        "red-team", help="run the mandatory RedTeam attack suite"
+    )
+    redteam_parser.add_argument("--all", action="store_true", help="run all mandatory attacks")
     ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
     ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
     ontology_sync_parser = ontology_subparsers.add_parser(
@@ -1791,6 +1795,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "agent":
+        if args.agent_command == "red-team":
+            from biointerfaceos.redteam_agent_workflow import RedTeamError, RedTeamWorkflow
+
+            root = find_repository_root()
+            if root is None:
+                print("REDTEAM_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                redteam_summary = RedTeamWorkflow(root).run(all_attacks=args.all)
+            except (RedTeamError, OSError) as exc:
+                print(f"REDTEAM_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"REDTEAM_VALID attacks={redteam_summary.attacks} "
+                f"executed={redteam_summary.executed} "
+                f"detected={redteam_summary.detected} "
+                f"blocked={redteam_summary.blocked} "
+                f"critical_findings={redteam_summary.critical_findings} "
+                f"remediations={redteam_summary.remediations} "
+                f"adverse_results_preserved="
+                f"{str(redteam_summary.adverse_results_preserved).lower()} "
+                f"release_blocked={str(redteam_summary.release_blocked).lower()} "
+                f"selected_pipeline={redteam_summary.selected_pipeline} "
+                f"trace_events={redteam_summary.trace_events} "
+                f"resumed={redteam_summary.resumed}"
+            )
+            return 0
         if args.agent_command == "eval" and args.agent_eval_command == "audit":
             from biointerfaceos.resolution_audit_workflow import (
                 ResolutionAuditError,
