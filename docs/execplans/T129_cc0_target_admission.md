@@ -85,6 +85,13 @@ evidence.
 - PXD050779's workbook describes three parallel protein-corona samples from a
   commercial human-plasma source. Its Corona1/2/3 labels and path tokens remain
   source identifiers, not inferred covariates or biological-replicate labels.
+- A metadata-first PRIDE API search yielded 80 unique `corona`/`nanoparticle`
+  project hits before CC0, human-context and date screening. Six high-priority
+  multi-particle or plasma leads were checked only at the official project and
+  file-listing level; no inspected listing supplied a source-matched,
+  unit-level numeric covariate map. The exact scope and the deliberately narrow
+  `NOT_ADMITTED_WITH_SCREENED_LISTING` decisions are recorded in
+  `docs/data/R2_T129_CC0_PRIDE_API_DISCOVERY_LOG.md`.
 
 ## Decisions
 
@@ -97,6 +104,9 @@ evidence.
 - The expansion tranche is also non-admitted: its two sources come from one
   laboratory, use heterogeneous top-down outputs, and establish neither a
   numeric source-matched covariate map nor a two-laboratory common endpoint.
+- Do not infer the absence of a mapping asset from a partial listing as a
+  universal absence claim. Reassess a lead only when an official, reusable
+  source asset provides the required unit-to-covariate mapping.
 
 ## Validation
 
