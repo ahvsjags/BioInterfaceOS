@@ -43,6 +43,10 @@ evaluator signature, or access protected values.
 
 - [x] 2026-08-12: Created the results-blind C outline, evaluator-receipt
   schema and strict portfolio audit; its current status is explicitly blocked.
+- [x] 2026-08-13: Upgraded the portfolio audit to bind the completed 23-profile
+  T123 result profile and both T129 CC0 non-admission receipts. The protocol
+  now names their current status without deriving candidates or evaluator
+  outcomes from source labels, author tables or paths.
 - [ ] T123 target admission and frozen real-model bundle.
 - [ ] Independent evaluator's signed aggregate-only receipt from protected
   observations.

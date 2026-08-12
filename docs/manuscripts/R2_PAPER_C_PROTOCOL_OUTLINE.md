@@ -20,6 +20,17 @@ with source-defined statistic, unit, biological condition and independent
 unit. The current receipt has zero compatible targets, so the candidate set,
 threshold ledger and prediction archive are unavailable by design.
 
+## Current target-admission evidence
+
+The current three-source author-result profile has zero compatible cross-study
+targets. T129 then screened two CC0 candidate workbooks from two laboratories
+and a separate two-source expansion from one laboratory; all four candidates
+remain non-admitted. The source labels, author result tables and file paths are
+not reinterpreted as numeric covariates, biological replicates or a common
+endpoint. Consequently the target remains `NOT_FROZEN`, model use remains
+`PROHIBITED`, and no candidate, threshold ledger, prediction archive or
+evaluator handoff exists.
+
 ## Frozen analysis and evaluator handoff
 
 Before protected evaluation, freeze the Git commit, environment lock, target

@@ -23,7 +23,7 @@ fixture, or call the project submission-ready.
 - Protocol:
   `docs/data/R2_EXTERNAL_REPRODUCTION_AND_EDITORIAL_PROTOCOL.json`.
 - Readiness command: `python -m biointerfaceos project accept-r2 --strict`.
-- Outputs: `reports/review_round_2/r2_acceptance/v1.0.0/`.
+- Outputs: `reports/review_round_2/r2_acceptance/v1.1.0/`.
 - External receipt must disclose the team, affiliation, conflict status,
   checkout, environment, data provenance, commands, scope, deviations,
   results and signed attestation.
@@ -47,6 +47,10 @@ fixture, or call the project submission-ready.
 - [x] 2026-08-12: Added a strict protocol and `project accept-r2` readiness
   command. It records six current blockers without pretending external work
   happened.
+- [x] 2026-08-13: Updated the readiness audit to bind the latest portfolio,
+  T123 result-profile receipt and both T129 CC0 non-admission receipts. These
+  add explicit current target-admission blockers; they do not create a model,
+  evaluator, reproduction or editorial result.
 - [ ] T123 compatible target and frozen real-model results.
 - [ ] T124 signed independent evaluator receipt.
 - [ ] Completed T126/T127 manuscript evidence packages.

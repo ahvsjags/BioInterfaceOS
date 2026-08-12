@@ -57,6 +57,16 @@ until at least three laboratories contribute a source-defined identical target,
 unit and biological-condition protocol. This is a data-admission requirement,
 not a negative or positive model result.
 
+## Current target-admission evidence
+
+The completed three-source author-result profile contains 23 profiles but zero
+compatible cross-study targets. The first T129 CC0 screen retains two
+laboratories and nine source-labelled conditions, while its expansion retains
+two further candidates from one laboratory and seven hashed result assets;
+neither screen admits a target. The relevant receipts explicitly keep the
+target `NOT_FROZEN`, model use `PROHIBITED`, and all model/OOD/independent
+validation fields false. These are data-coverage findings, not model results.
+
 ## Figures, data, code and availability
 
 Use only R2 Figures 1--3 with their source cards and QA receipt. Provide the

@@ -49,6 +49,9 @@ def test_portfolio_rejects_a_missing_protocol_boundary(tmp_path: Path) -> None:
         "reports/review_round_2/submission_figures/v1.1.0/withdrawal_ledger.json",
         "reports/review_round_2/related_work/v1.1.0/related_work_receipt.json",
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json",
+        "reports/review_round_2/real_proteomics_result_profile/v1.0.0/result_profile_receipt.json",
+        "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json",
+        "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json",
         "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json",
         "release/manuscripts/paper_a/paper_a.md",
         "release/manuscripts/paper_b/paper_b.md",
@@ -62,7 +65,7 @@ def test_portfolio_rejects_a_missing_protocol_boundary(tmp_path: Path) -> None:
     outline = root / "docs/manuscripts/R2_PAPER_AB_PROTOCOL_OUTLINE.md"
     outline.write_text(
         outline.read_text(encoding="utf-8").replace(
-                "T123 found\nzero compatible cross-study targets.", "T123 is pending."
+            "T123 found\nzero compatible cross-study targets.", "T123 is pending."
         ),
         encoding="utf-8",
     )
@@ -70,6 +73,24 @@ def test_portfolio_rejects_a_missing_protocol_boundary(tmp_path: Path) -> None:
     workflow = ManuscriptPortfolioWorkflow(root, output_root=root / "portfolio")
 
     with pytest.raises(ManuscriptPortfolioError, match="weakens a protocol boundary"):
+        workflow.run(strict=True)
+
+
+def test_portfolio_rejects_tampered_current_t129_receipt(tmp_path: Path) -> None:
+    root = tmp_path / "repository"
+    shutil.copytree(ROOT / "docs", root / "docs")
+    shutil.copytree(ROOT / "reports/review_round_2", root / "reports/review_round_2")
+    shutil.copytree(ROOT / "release/manuscripts", root / "release/manuscripts")
+    receipt = (
+        root / "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
+    )
+    receipt.chmod(0o600)
+    payload = json.loads(receipt.read_text(encoding="utf-8"))
+    payload["target_status"] = "FROZEN"
+    receipt.write_text(json.dumps(payload), encoding="utf-8")
+    workflow = ManuscriptPortfolioWorkflow(root, output_root=root / "portfolio")
+
+    with pytest.raises(ManuscriptPortfolioError, match="T123/T124/T129 evidence state"):
         workflow.run(strict=True)
 
 

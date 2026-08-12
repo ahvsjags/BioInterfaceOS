@@ -47,6 +47,10 @@ external-validation result before T123 passes.
 - [x] 2026-08-12: Created the merged A+B protocol outline and a strict audit
   that verifies its related-work scope, protocol figures and withdrawal of all
   legacy fixture figures.
+- [x] 2026-08-13: Upgraded the portfolio audit to bind the completed 23-profile
+  T123 result profile and both T129 CC0 non-admission receipts. The outline now
+  names their data-coverage boundary; no author scale, source label or path is
+  converted into a benchmark target.
 - [ ] Obtain a compatible cross-study target and real paired model outputs
   through T123.
 - [ ] Build the complete real-data A+B manuscript, methods, data/code

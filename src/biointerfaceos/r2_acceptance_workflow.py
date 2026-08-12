@@ -68,18 +68,25 @@ def _string_list(value: Any, label: str, *, minimum: int) -> list[str]:
 class R2AcceptanceWorkflow:
     """Emit a blocked receipt until external reproduction and editorial review exist."""
 
-    AUDIT_ID = "bioif-r2-acceptance-readiness-v1.0.0"
-    AUDITED_AT = "2026-08-12T00:00:00+00:00"
+    AUDIT_ID = "bioif-r2-acceptance-readiness-v1.1.0"
+    AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PROTOCOL_RELATIVE = "docs/data/R2_EXTERNAL_REPRODUCTION_AND_EDITORIAL_PROTOCOL.json"
-    PORTFOLIO_RELATIVE = (
-        "reports/review_round_2/manuscript_portfolio/v1.0.0/portfolio_receipt.json"
-    )
-    T123_RELATIVE = (
+    PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.1.0/portfolio_receipt.json"
+    T123_COMPATIBILITY_RELATIVE = (
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
+    )
+    T123_RESULT_PROFILE_RELATIVE = (
+        "reports/review_round_2/real_proteomics_result_profile/v1.0.0/result_profile_receipt.json"
+    )
+    T129_ADMISSION_RELATIVE = (
+        "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json"
+    )
+    T129_DISCOVERY_RELATIVE = (
+        "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
     TASKS_RELATIVE = "TASKS.tsv"
-    OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.0.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.1.0"
     REQUIRED_PROTOCOL_FIELDS = {
         "schema_version",
         "protocol_id",
@@ -180,25 +187,32 @@ class R2AcceptanceWorkflow:
             self.REQUIRED_EDITORIAL_REQUIREMENTS,
             "editorial re-review requirements",
         )
-        if set(
-            _string_list(
-                protocol["required_external_receipt_fields"],
-                "external receipt fields",
-                minimum=9,
+        if (
+            set(
+                _string_list(
+                    protocol["required_external_receipt_fields"],
+                    "external receipt fields",
+                    minimum=9,
+                )
             )
-        ) != self.REQUIRED_EXTERNAL_RECEIPT_FIELDS:
+            != self.REQUIRED_EXTERNAL_RECEIPT_FIELDS
+        ):
             raise R2AcceptanceError("external reproduction receipt fields are incomplete")
-        if set(
-            _string_list(
-                protocol["required_editorial_report_fields"],
-                "editorial report fields",
-                minimum=6,
+        if (
+            set(
+                _string_list(
+                    protocol["required_editorial_report_fields"],
+                    "editorial report fields",
+                    minimum=6,
+                )
             )
-        ) != self.REQUIRED_EDITORIAL_REPORT_FIELDS:
+            != self.REQUIRED_EDITORIAL_REPORT_FIELDS
+        ):
             raise R2AcceptanceError("editorial re-review report fields are incomplete")
-        if set(
-            _string_list(protocol["prohibited_actions"], "prohibited actions", minimum=5)
-        ) != self.REQUIRED_PROHIBITED_ACTIONS:
+        if (
+            set(_string_list(protocol["prohibited_actions"], "prohibited actions", minimum=5))
+            != self.REQUIRED_PROHIBITED_ACTIONS
+        ):
             raise R2AcceptanceError("external acceptance prohibitions are incomplete")
         return protocol, path
 
@@ -211,23 +225,52 @@ class R2AcceptanceWorkflow:
         statuses: dict[str, str] = {}
         for line in lines[1:]:
             columns = line.split("\t")
-            if len(columns) > 4 and columns[0] in {"T123", "T124", "T126", "T127", "T128"}:
+            if len(columns) > 4 and columns[0] in {
+                "T123",
+                "T124",
+                "T126",
+                "T127",
+                "T128",
+                "T129",
+            }:
                 statuses[columns[0]] = columns[4]
-        if set(statuses) != {"T123", "T124", "T126", "T127", "T128"}:
+        if set(statuses) != {"T123", "T124", "T126", "T127", "T128", "T129"}:
             raise R2AcceptanceError("R2 task ledger is missing final acceptance tasks")
         return statuses
 
     def _prerequisites(self) -> tuple[dict[str, Any], list[str]]:
         portfolio_path = self._path(self.PORTFOLIO_RELATIVE, "R2 manuscript portfolio receipt")
-        t123_path = self._path(self.T123_RELATIVE, "T123 receipt")
+        compatibility_path = self._path(
+            self.T123_COMPATIBILITY_RELATIVE, "T123 compatibility receipt"
+        )
+        result_profile_path = self._path(
+            self.T123_RESULT_PROFILE_RELATIVE, "T123 result-profile receipt"
+        )
+        t129_admission_path = self._path(self.T129_ADMISSION_RELATIVE, "T129 admission receipt")
+        t129_discovery_path = self._path(self.T129_DISCOVERY_RELATIVE, "T129 discovery receipt")
         t124_path = self._path(self.T124_RELATIVE, "T124 readiness receipt")
         portfolio = self._json(portfolio_path, "R2 manuscript portfolio receipt")
-        t123 = self._json(t123_path, "T123 receipt")
+        compatibility = self._json(compatibility_path, "T123 compatibility receipt")
+        result_profile = self._json(result_profile_path, "T123 result-profile receipt")
+        t129_admission = self._json(t129_admission_path, "T129 admission receipt")
+        t129_discovery = self._json(t129_discovery_path, "T129 discovery receipt")
         t124 = self._json(t124_path, "T124 readiness receipt")
         statuses = self._task_statuses()
         blockers: list[str] = []
-        if t123.get("compatible_target_count") != 1 or t123.get("model_fitted") is not True:
+        if (
+            compatibility.get("compatible_target_count") != 1
+            or compatibility.get("model_fitted") is not True
+        ):
             blockers.append("T123 compatible target and frozen real-model output are unavailable")
+        if (
+            result_profile.get("compatible_cross_study_target_count") != 1
+            or result_profile.get("target_status") != "FROZEN"
+        ):
+            blockers.append("T123 current result-profile evidence has no frozen compatible target")
+        if t129_admission.get("admissible_target_count") != 1:
+            blockers.append("T129 initial CC0 admission has not admitted a target")
+        if t129_discovery.get("admissible_target_count") != 1:
+            blockers.append("T129 CC0 discovery expansion has not admitted a target")
         if t124.get("external_evaluator_receipt_verified") is not True:
             blockers.append("T124 independent evaluator receipt is unavailable")
         if portfolio.get("status") != "READY_FOR_R2_RESULTS_MANUSCRIPTS":
@@ -237,10 +280,15 @@ class R2AcceptanceWorkflow:
                 blockers.append(f"{task_id} is not complete")
         if statuses["T128"] != "READY":
             blockers.append("T128 cannot start external acceptance from its current task state")
+        if statuses["T129"] != "DONE":
+            blockers.append("T129 target-admission work is not complete")
         return (
             {
                 "portfolio_receipt_sha256": _sha256(portfolio_path),
-                "t123_receipt_sha256": _sha256(t123_path),
+                "t123_compatibility_receipt_sha256": _sha256(compatibility_path),
+                "t123_result_profile_receipt_sha256": _sha256(result_profile_path),
+                "t129_admission_receipt_sha256": _sha256(t129_admission_path),
+                "t129_discovery_receipt_sha256": _sha256(t129_discovery_path),
                 "t124_readiness_receipt_sha256": _sha256(t124_path),
                 "task_statuses": statuses,
             },
@@ -321,9 +369,10 @@ class R2AcceptanceWorkflow:
             or claim_level is not AllowedClaimLevel.EXPLORATORY
         ):
             raise R2AcceptanceError("R2 acceptance readiness receipt is invalid")
-        if not isinstance(receipt.get("prerequisite_blocker_count"), int) or receipt[
-            "prerequisite_blocker_count"
-        ] < 1:
+        if (
+            not isinstance(receipt.get("prerequisite_blocker_count"), int)
+            or receipt["prerequisite_blocker_count"] < 1
+        ):
             raise R2AcceptanceError("R2 acceptance readiness blocker accounting is invalid")
         for field in (
             "external_reproduction_verified",

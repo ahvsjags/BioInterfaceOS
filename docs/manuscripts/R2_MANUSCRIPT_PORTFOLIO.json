@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "portfolio_id": "bioif-r2-manuscript-portfolio-v1.0.0",
-  "declared_at": "2026-08-12T00:00:00+00:00",
+  "portfolio_id": "bioif-r2-manuscript-portfolio-v1.1.0",
+  "declared_at": "2026-08-13T00:00:00+00:00",
   "status": "PROTOCOL_PORTFOLIO_PENDING_REAL_EVIDENCE",
   "required_legacy_withdrawal_count": 15,
   "historical_artifacts": [
@@ -17,11 +17,14 @@
       "current_status": "BLOCKED_PENDING_COMPATIBLE_REAL_MODEL_TARGET",
       "document_path": "docs/manuscripts/R2_PAPER_AB_PROTOCOL_OUTLINE.md",
       "comparator_scope_id": "R2_PAPER_AB_REAL_BENCHMARK_METHOD",
-      "prerequisite_tasks": ["T120", "T121", "T122", "T123", "T125", "T126"],
+      "prerequisite_tasks": ["T120", "T121", "T122", "T123", "T125", "T126", "T129"],
       "required_evidence_paths": [
         "reports/review_round_2/empirical_provenance/v1.1.0/audit_receipt.json",
         "reports/review_round_2/real_benchmark/v1.1.0/benchmark_receipt.json",
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json",
+        "reports/review_round_2/real_proteomics_result_profile/v1.0.0/result_profile_receipt.json",
+        "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json",
+        "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json",
         "reports/review_round_2/related_work/v1.1.0/related_work_receipt.json",
         "reports/review_round_2/submission_figures/v1.1.0/figure_manifest.json",
         "reports/review_round_2/submission_figures/v1.1.0/withdrawal_ledger.json"
@@ -40,6 +43,7 @@
         "Related work and comparator boundary",
         "Results available now",
         "Results withheld pending T123",
+        "Current target-admission evidence",
         "Figures, data, code and availability",
         "Limitations and transition criteria"
       ],
@@ -52,10 +56,13 @@
       "current_status": "BLOCKED_PENDING_EXTERNAL_EVALUATOR_RECEIPT",
       "document_path": "docs/manuscripts/R2_PAPER_C_PROTOCOL_OUTLINE.md",
       "comparator_scope_id": "R2_PAPER_C_PREREGISTERED_PROTOCOL",
-      "prerequisite_tasks": ["T121", "T123", "T124", "T125", "T127"],
+      "prerequisite_tasks": ["T121", "T123", "T124", "T125", "T127", "T129"],
       "required_evidence_paths": [
         "docs/data/R2_INDEPENDENT_EVALUATION_PROTOCOL.json",
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json",
+        "reports/review_round_2/real_proteomics_result_profile/v1.0.0/result_profile_receipt.json",
+        "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json",
+        "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json",
         "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json",
         "reports/review_round_2/related_work/v1.1.0/related_work_receipt.json",
         "reports/review_round_2/submission_figures/v1.1.0/figure_manifest.json",
@@ -71,6 +78,7 @@
         "Scope and status",
         "Research question and protocol contribution",
         "Candidate and target-admission boundary",
+        "Current target-admission evidence",
         "Frozen analysis and evaluator handoff",
         "Protected-data and independence safeguards",
         "Related work and comparator boundary",

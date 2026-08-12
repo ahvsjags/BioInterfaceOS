@@ -68,8 +68,8 @@ def _string_list(value: Any, label: str, *, minimum: int = 1) -> list[str]:
 class ManuscriptPortfolioWorkflow:
     """Create a fail-closed receipt for R2's protocol-only portfolio state."""
 
-    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.0.0"
-    AUDITED_AT = "2026-08-12T00:00:00+00:00"
+    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.1.0"
+    AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PORTFOLIO_RELATIVE = "docs/manuscripts/R2_MANUSCRIPT_PORTFOLIO.json"
     COMPARATOR_MAP_RELATIVE = "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json"
     FIGURE_MANIFEST_RELATIVE = (
@@ -77,11 +77,20 @@ class ManuscriptPortfolioWorkflow:
     )
     WITHDRAWAL_RELATIVE = "reports/review_round_2/submission_figures/v1.1.0/withdrawal_ledger.json"
     RELATED_WORK_RELATIVE = "reports/review_round_2/related_work/v1.1.0/related_work_receipt.json"
-    T123_RELATIVE = (
+    T123_COMPATIBILITY_RELATIVE = (
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
     )
+    T123_RESULT_PROFILE_RELATIVE = (
+        "reports/review_round_2/real_proteomics_result_profile/v1.0.0/result_profile_receipt.json"
+    )
+    T129_ADMISSION_RELATIVE = (
+        "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json"
+    )
+    T129_DISCOVERY_RELATIVE = (
+        "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
+    )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
-    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.0.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.1.0"
     REQUIRED_PORTFOLIO_FIELDS = {
         "schema_version",
         "portfolio_id",
@@ -125,6 +134,8 @@ class ManuscriptPortfolioWorkflow:
             "T123 found zero compatible cross-study targets.",
             "No model effect, paired ablation,",
             "generalisation or external OOD result belongs in this version.",
+            "The completed three-source author-result profile contains 23 profiles but zero",
+            "neither screen admits a target.",
         },
         "R2_PAPER_C_PROTOCOL": {
             "This is a results-blind R2 Paper C protocol outline.",
@@ -133,6 +144,9 @@ class ManuscriptPortfolioWorkflow:
             "The current receipt has zero compatible targets",
             "The author team cannot access values",
             "the protocol; they do not supply a result.",
+            "all four candidates remain non-admitted.",
+            "model use remains",
+            "`PROHIBITED`",
         },
     }
 
@@ -159,7 +173,7 @@ class ManuscriptPortfolioWorkflow:
         if set(portfolio) != self.REQUIRED_PORTFOLIO_FIELDS or portfolio.get("schema_version") != 1:
             raise ManuscriptPortfolioError("R2 manuscript portfolio schema is invalid")
         if (
-            portfolio.get("portfolio_id") != "bioif-r2-manuscript-portfolio-v1.0.0"
+            portfolio.get("portfolio_id") != "bioif-r2-manuscript-portfolio-v1.1.0"
             or portfolio.get("declared_at") != self.AUDITED_AT
             or portfolio.get("status") != "PROTOCOL_PORTFOLIO_PENDING_REAL_EVIDENCE"
             or portfolio.get("required_legacy_withdrawal_count") != 15
@@ -300,25 +314,62 @@ class ManuscriptPortfolioWorkflow:
             self._path(self.WITHDRAWAL_RELATIVE, "R2 withdrawal ledger"), "R2 withdrawal ledger"
         )
         withdrawals = withdrawal.get("withdrawals")
-        if not isinstance(withdrawals, list) or len(withdrawals) != 15 or any(
-            item.get("status") != "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE"
-            for item in withdrawals
-            if isinstance(item, dict)
+        if (
+            not isinstance(withdrawals, list)
+            or len(withdrawals) != 15
+            or any(
+                item.get("status") != "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE"
+                for item in withdrawals
+                if isinstance(item, dict)
+            )
         ):
             raise ManuscriptPortfolioError("R2 historical-figure withdrawal is incomplete")
-        t123 = self._json(self._path(self.T123_RELATIVE, "T123 receipt"), "T123 receipt")
+        compatibility = self._json(
+            self._path(self.T123_COMPATIBILITY_RELATIVE, "T123 compatibility receipt"),
+            "T123 compatibility receipt",
+        )
+        result_profile = self._json(
+            self._path(self.T123_RESULT_PROFILE_RELATIVE, "T123 result-profile receipt"),
+            "T123 result-profile receipt",
+        )
+        t129_admission = self._json(
+            self._path(self.T129_ADMISSION_RELATIVE, "T129 admission receipt"),
+            "T129 admission receipt",
+        )
+        t129_discovery = self._json(
+            self._path(self.T129_DISCOVERY_RELATIVE, "T129 discovery receipt"),
+            "T129 discovery receipt",
+        )
         t124 = self._json(
             self._path(self.T124_RELATIVE, "T124 readiness receipt"),
             "T124 readiness receipt",
         )
         if (
-            t123.get("status") != "BLOCKED_NO_COMPATIBLE_CROSS_STUDY_TARGET"
-            or t123.get("compatible_target_count") != 0
-            or t123.get("model_fitted") is not False
+            compatibility.get("status") != "BLOCKED_NO_COMPATIBLE_CROSS_STUDY_TARGET"
+            or compatibility.get("compatible_target_count") != 0
+            or compatibility.get("model_fitted") is not False
+            or result_profile.get("status") != "REAL_RESULT_PROFILE_COMPLETE_NOT_A_MODEL_TARGET"
+            or result_profile.get("compatible_cross_study_target_count") != 0
+            or result_profile.get("target_status") != "NOT_FROZEN"
+            or result_profile.get("model_use") != "PROHIBITED"
+            or result_profile.get("model_fitted") is not False
+            or t129_admission.get("status") != "BLOCKED_NO_CC0_COMMON_TARGET"
+            or t129_admission.get("admissible_target_count") != 0
+            or t129_admission.get("target_status") != "NOT_FROZEN"
+            or t129_admission.get("model_use") != "PROHIBITED"
+            or t129_admission.get("model_fitted") is not False
+            or t129_discovery.get("status")
+            != "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
+            or t129_discovery.get("admissible_target_count") != 0
+            or t129_discovery.get("target_status") != "NOT_FROZEN"
+            or t129_discovery.get("model_use") != "PROHIBITED"
+            or t129_discovery.get("model_fitted") is not False
             or t124.get("status") != "BLOCKED_T123_COMPATIBLE_TARGET_REQUIRED"
             or t124.get("external_evaluator_receipt_verified") is not False
         ):
-            raise ManuscriptPortfolioError("T123/T124 evidence state is not represented honestly")
+            raise ManuscriptPortfolioError(
+                "T123/T124/T129 evidence state is not represented honestly"
+            )
         return (
             {
                 "related_work_receipt_sha256": _sha256(
@@ -330,11 +381,25 @@ class ManuscriptPortfolioWorkflow:
                 "withdrawal_ledger_sha256": _sha256(
                     self._path(self.WITHDRAWAL_RELATIVE, "R2 withdrawal ledger")
                 ),
-                "t123_receipt_sha256": _sha256(self._path(self.T123_RELATIVE, "T123 receipt")),
+                "t123_compatibility_receipt_sha256": _sha256(
+                    self._path(self.T123_COMPATIBILITY_RELATIVE, "T123 compatibility receipt")
+                ),
+                "t123_result_profile_receipt_sha256": _sha256(
+                    self._path(self.T123_RESULT_PROFILE_RELATIVE, "T123 result-profile receipt")
+                ),
+                "t129_admission_receipt_sha256": _sha256(
+                    self._path(self.T129_ADMISSION_RELATIVE, "T129 admission receipt")
+                ),
+                "t129_discovery_receipt_sha256": _sha256(
+                    self._path(self.T129_DISCOVERY_RELATIVE, "T129 discovery receipt")
+                ),
                 "t124_readiness_receipt_sha256": _sha256(
                     self._path(self.T124_RELATIVE, "T124 readiness receipt")
                 ),
                 "t123_compatible_target_count": 0,
+                "t123_profile_compatible_cross_study_target_count": 0,
+                "t129_admission_admissible_target_count": 0,
+                "t129_discovery_admissible_target_count": 0,
                 "t124_external_evaluator_receipt_verified": False,
             },
             len(figure_rows),
@@ -383,6 +448,9 @@ class ManuscriptPortfolioWorkflow:
             "protocol_figure_count": figure_count,
             "legacy_withdrawal_count": portfolio["required_legacy_withdrawal_count"],
             "t123_compatible_target_count": 0,
+            "t123_profile_compatible_cross_study_target_count": 0,
+            "t129_admission_admissible_target_count": 0,
+            "t129_discovery_admissible_target_count": 0,
             "t124_external_evaluator_receipt_verified": False,
             "historical_fixture_manuscripts_reused": False,
             "model_fitted": False,
@@ -427,6 +495,9 @@ class ManuscriptPortfolioWorkflow:
             "protocol_figure_count": 3,
             "legacy_withdrawal_count": 15,
             "t123_compatible_target_count": 0,
+            "t123_profile_compatible_cross_study_target_count": 0,
+            "t129_admission_admissible_target_count": 0,
+            "t129_discovery_admissible_target_count": 0,
         }
         if any(receipt.get(key) != value for key, value in expected.items()) or any(
             receipt.get(field) is not False
