@@ -1,0 +1,11 @@
+schema_version: 1
+model: M7
+seed: 59
+ridge: 0.15
+bootstrap_samples: 128
+tuning_budget: 4
+random_effect_prior: 2.0
+primary_domain_field: study_domain
+secondary_domain_field: protocol_domain
+minimum_ood_improvement: 0.02
+fallback_model: hierarchical_erm

@@ -422,6 +422,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     train_m6_parser.add_argument(
         "--config", default="configs/models/m6.yaml", help="path to the M6 YAML config"
     )
+    train_m7_parser = train_subparsers.add_parser(
+        "m7", help="fit the cross-domain invariant-learning M7 comparison"
+    )
+    train_m7_parser.add_argument(
+        "--config", default="configs/models/m7.yaml", help="path to the M7 YAML config"
+    )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
@@ -882,7 +888,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "train":
-        if args.train_command not in {"m1", "m2", "m3", "m4", "m5", "m6"}:
+        if args.train_command not in {"m1", "m2", "m3", "m4", "m5", "m6", "m7"}:
             parser.parse_args(["train", "--help"])
             return 0
         root = find_repository_root()
@@ -976,6 +982,25 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"causal_claim_permitted={str(m6_summary.causal_claim_permitted).lower()} "
                 f"validation_rmse={m6_summary.validation_rmse:.6f} "
                 f"resumed={m6_summary.resumed} target_values_exposed=false"
+            )
+            return 0
+        if args.train_command == "m7":
+            from biointerfaceos.m7_workflow import M7Error, M7Workflow
+
+            try:
+                m7_summary = M7Workflow(root, config_path=config_path).run(fixture=True)
+            except (M7Error, OSError) as exc:
+                print(f"M7_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"M7_VALID rows={m7_summary.rows} train={m7_summary.train} "
+                f"validation={m7_summary.validation} "
+                f"domain_definitions={m7_summary.domain_definitions} "
+                f"selected_model={m7_summary.selected_model} "
+                f"hierarchical_erm_rmse={m7_summary.hierarchical_erm_rmse:.6f} "
+                f"ood_rmse={m7_summary.ood_rmse:.6f} "
+                f"leakage_passed={str(m7_summary.leakage_passed).lower()} "
+                f"resumed={m7_summary.resumed} target_values_exposed=false"
             )
             return 0
         from biointerfaceos.m1_workflow import M1Error, M1Workflow

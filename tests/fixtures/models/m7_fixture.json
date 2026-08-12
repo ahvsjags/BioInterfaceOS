@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "mode": "m7_invariance_fixture",
+  "inputs": [
+    {"label": "T071 M1 receipt", "path": "reports/models/m1/m1_receipt.json", "sha256": "6f11129540792ffe84e185b84f4b11d8d2d39466f906d226e28d0648789aca5f"},
+    {"label": "T074 M4 receipt", "path": "reports/models/m4/m4_receipt.json", "sha256": "a86fb1c74acdc0c5804bb7b4f4cf16e2e1be14689ae75b0864790ae750d54455"},
+    {"label": "T076 M6 receipt", "path": "reports/models/m6/m6_receipt.json", "sha256": "8ab469c76f87aa530743773d8582199a04f1eb4e91be62c6f0910f68622c759a"}
+  ],
+  "domain_definitions": [
+    {"name": "study_domain", "field": "study_domain", "source": "study_metadata", "target_derived": false},
+    {"name": "protocol_domain", "field": "protocol_domain", "source": "protocol_metadata", "target_derived": false}
+  ],
+  "rows": [
+    {"row_id": "M7-001", "split": "train", "x1": 0.10, "x2": 0.20, "target": 0.34, "study_domain": "STUDY_A", "protocol_domain": "PROTOCOL_1", "group_key": "FAMILY_010"},
+    {"row_id": "M7-002", "split": "train", "x1": 0.20, "x2": 0.30, "target": 0.51, "study_domain": "STUDY_A", "protocol_domain": "PROTOCOL_1", "group_key": "FAMILY_010"},
+    {"row_id": "M7-003", "split": "train", "x1": 0.30, "x2": 0.10, "target": 0.43, "study_domain": "STUDY_A", "protocol_domain": "PROTOCOL_2", "group_key": "FAMILY_011"},
+    {"row_id": "M7-004", "split": "train", "x1": 0.40, "x2": 0.20, "target": 0.60, "study_domain": "STUDY_A", "protocol_domain": "PROTOCOL_2", "group_key": "FAMILY_011"},
+    {"row_id": "M7-005", "split": "train", "x1": 0.50, "x2": 0.40, "target": 0.82, "study_domain": "STUDY_B", "protocol_domain": "PROTOCOL_1", "group_key": "FAMILY_012"},
+    {"row_id": "M7-006", "split": "train", "x1": 0.60, "x2": 0.50, "target": 0.99, "study_domain": "STUDY_B", "protocol_domain": "PROTOCOL_2", "group_key": "FAMILY_012"},
+    {"row_id": "M7-007", "split": "train", "x1": 0.70, "x2": 0.30, "target": 0.72, "study_domain": "STUDY_B", "protocol_domain": "PROTOCOL_1", "group_key": "FAMILY_013"},
+    {"row_id": "M7-008", "split": "train", "x1": 0.80, "x2": 0.40, "target": 0.90, "study_domain": "STUDY_B", "protocol_domain": "PROTOCOL_2", "group_key": "FAMILY_013"},
+    {"row_id": "M7-009", "split": "validation", "x1": 0.15, "x2": 0.25, "target": 0.42, "study_domain": "STUDY_C", "protocol_domain": "PROTOCOL_3", "group_key": "FAMILY_020"},
+    {"row_id": "M7-010", "split": "validation", "x1": 0.25, "x2": 0.35, "target": 0.59, "study_domain": "STUDY_C", "protocol_domain": "PROTOCOL_3", "group_key": "FAMILY_020"},
+    {"row_id": "M7-011", "split": "validation", "x1": 0.35, "x2": 0.15, "target": 0.47, "study_domain": "STUDY_C", "protocol_domain": "PROTOCOL_4", "group_key": "FAMILY_021"},
+    {"row_id": "M7-012", "split": "validation", "x1": 0.45, "x2": 0.25, "target": 0.65, "study_domain": "STUDY_C", "protocol_domain": "PROTOCOL_4", "group_key": "FAMILY_021"},
+    {"row_id": "M7-013", "split": "validation", "x1": 0.55, "x2": 0.45, "target": 0.87, "study_domain": "STUDY_D", "protocol_domain": "PROTOCOL_3", "group_key": "FAMILY_022"},
+    {"row_id": "M7-014", "split": "validation", "x1": 0.65, "x2": 0.55, "target": 1.04, "study_domain": "STUDY_D", "protocol_domain": "PROTOCOL_4", "group_key": "FAMILY_022"},
+    {"row_id": "M7-015", "split": "validation", "x1": 0.75, "x2": 0.35, "target": 0.82, "study_domain": "STUDY_D", "protocol_domain": "PROTOCOL_3", "group_key": "FAMILY_023"},
+    {"row_id": "M7-016", "split": "validation", "x1": 0.85, "x2": 0.45, "target": 1.00, "study_domain": "STUDY_D", "protocol_domain": "PROTOCOL_4", "group_key": "FAMILY_023"}
+  ]
+}

@@ -1,0 +1,1 @@
+{"best_alternative":"groupdro","best_alternative_rmse":0.065875,"held_out_domain_count":2,"held_out_domains":["STUDY_C","STUDY_D"],"hierarchical_erm_rmse":0.080885,"improved":false,"improvement_over_hierarchical_erm":0.01501,"minimum_required_improvement":0.02,"schema_version":1,"target_values_exposed":false}
