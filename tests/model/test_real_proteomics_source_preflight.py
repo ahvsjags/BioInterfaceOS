@@ -37,9 +37,7 @@ def test_preflight_requires_strict_mode(tmp_path: Path) -> None:
 
 def test_preflight_rejects_target_promotion_in_registry(tmp_path: Path) -> None:
     registry = json.loads(
-        (ROOT / "docs/data/R2_T123_PROTEOMICS_SOURCE_PREFLIGHT.json").read_text(
-            encoding="utf-8"
-        )
+        (ROOT / "docs/data/R2_T123_PROTEOMICS_SOURCE_PREFLIGHT.json").read_text(encoding="utf-8")
     )
     registry["preprocessing_contract"]["model_use"] = "ALLOWED"
     path = tmp_path / "registry.json"
