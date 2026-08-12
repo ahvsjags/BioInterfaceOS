@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "inputs": {
+    "project_cards_path": "reports/omics/pride/project_cards.json",
+    "project_cards_sha256": "56287b931705c1642538e2fb2430d51d596d696baf325be4405710ca0e088857",
+    "split_eligibility_path": "reports/omics/pride/split_eligibility.json",
+    "split_eligibility_sha256": "5780315a719c48c4c8f0e7db3d0c86edf990b3b2a3c84cb3e2a310c212e0f743",
+    "search_receipt_path": "reports/omics/search/search_receipt.json",
+    "search_receipt_sha256": "70499de81ce4b3d94ef1a732242abea159d4538f0ffe8c2d55cc86ee9424b688",
+    "ratio_recovery_path": "reports/omics/quantification/ratio_recovery.json",
+    "ratio_recovery_sha256": "e85cf01aea21b3fad20404cc152a79ff4654b595ff21786ddf1e17a081c883b3",
+    "harmonization_receipt_path": "reports/omics/harmonization/harmonization_receipt.json",
+    "harmonization_receipt_sha256": "b5ec283bafa299953e58e6a6e25af6351aba9e18ebe9cfacb0d509eda2e1fc14"
+  },
+  "gates": {
+    "min_replicates": 2,
+    "max_fdr": 0.01,
+    "min_observed_intensity_fraction": 0.75
+  },
+  "projects": [
+    {
+      "project_accession": "PXD000001",
+      "processed_metrics": {"search_fdr": 0.0, "observed_intensity_fraction": 0.875}
+    },
+    {
+      "project_accession": "PXD000002",
+      "processed_metrics": {"search_fdr": null, "observed_intensity_fraction": null}
+    },
+    {
+      "project_accession": "PXD000003",
+      "processed_metrics": {"search_fdr": null, "observed_intensity_fraction": null}
+    }
+  ],
+  "author_claims": [
+    {
+      "project_accession": "PXD000001",
+      "claim_id": "CLAIM-PXD000001-01",
+      "locator": "PAPER:PXD000001#figure=2;panel=A",
+      "protein_accession": "P0SPIKE1",
+      "author_ratio": 2.0,
+      "tolerance": 0.05
+    },
+    {
+      "project_accession": "PXD000001",
+      "claim_id": "CLAIM-PXD000001-02",
+      "locator": "PAPER:PXD000001#table=1;row=P0SPIKE2",
+      "protein_accession": "P0SPIKE2",
+      "author_ratio": 1.5,
+      "tolerance": 0.05
+    },
+    {
+      "project_accession": "PXD000002",
+      "claim_id": "CLAIM-PXD000002-01",
+      "locator": "PAPER:PXD000002#figure=3;panel=B",
+      "protein_accession": "P0SPIKE1",
+      "author_ratio": 1.2,
+      "tolerance": 0.05
+    }
+  ]
+}

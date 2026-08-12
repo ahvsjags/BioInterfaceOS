@@ -408,6 +408,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_harmonize_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized corona fixture"
     )
+    omics_qc_parser = omics_subparsers.add_parser(
+        "qc-pride", help="run PRIDE project QC and author-result concordance"
+    )
+    omics_qc_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized PRIDE QC fixture"
+    )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -908,6 +914,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"missing_cells={harmonization_summary.missing_cells} "
                 f"mapping_rows={harmonization_summary.mapping_rows} "
                 f"resumed={harmonization_summary.resumed}"
+            )
+            return 0
+        if args.omics_command == "qc-pride":
+            root = find_repository_root()
+            if root is None:
+                print("PRIDE_QC_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("PRIDE_QC_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.pride_qc import PrideQCError, PrideQCWorkflow
+
+            try:
+                pride_qc_summary = PrideQCWorkflow(root).run(fixture=True)
+            except (PrideQCError, OSError) as exc:
+                print(f"PRIDE_QC_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"PRIDE_QC_VALID attempted={pride_qc_summary.attempted_projects} "
+                f"processed_passed={pride_qc_summary.processed_qc_passed} "
+                f"failed={pride_qc_summary.failed_projects} claims={pride_qc_summary.claims} "
+                f"concordant={pride_qc_summary.concordant} "
+                f"discrepant={pride_qc_summary.discrepant} "
+                f"unavailable={pride_qc_summary.unavailable} "
+                f"resumed={pride_qc_summary.resumed}"
             )
             return 0
         if args.omics_command != "pride" or args.omics_pride_command != "triage":
