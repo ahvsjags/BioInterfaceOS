@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T113
-active_execplan: docs/execplans/T113_claim_language_audit.md
+current_task: T114
+active_execplan: docs/execplans/T114_final_project_acceptance.md
 completed_tasks:
   - T000
   - T001
@@ -120,11 +120,11 @@ completed_tasks:
   - T110
   - T111
   - T112
+  - T113
 failed_tasks: []
 waived_tasks: []
-blocked_tasks:
-  - T114
-last_successful_commit: f9d97b1
+blocked_tasks: []
+last_successful_commit: 7dea0e0
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
