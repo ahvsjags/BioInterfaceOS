@@ -46,7 +46,8 @@ historical fixture manuscripts.
 
 - [x] Verified external evidence registry, comparator map and glossary.
 - [x] Implemented strict citation/scope/comparator/glossary audit and tests.
-- [ ] Complete KAUST isolated validation and state transition.
+- [x] KAUST locked-environment validation passed: `ruff`, strict `mypy` for
+  both new modules, and 12 focused regression tests.
 
 ## Discoveries
 
@@ -82,4 +83,7 @@ only.
 
 ## Completion note
 
-Pending remote validation.
+T125 is complete as an external-evidence and terminology gate. It does not
+alter the immutable historical fixture manuscripts; T126/T127 must incorporate
+this packet into their rebuilt manuscript bytes after their upstream empirical
+gates are satisfied.
