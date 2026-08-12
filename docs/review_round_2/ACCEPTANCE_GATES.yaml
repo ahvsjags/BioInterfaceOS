@@ -1,0 +1,49 @@
+version: 1
+baseline_date: '2026-08-12'
+source: docs/review_round_2/REMEDIATION_MATRIX.md
+project_status_requirement: IN_PROGRESS_UNTIL_R2_ACCEPTED
+prohibitions:
+  - fixture outputs must not be labelled as empirical validation, replication, refutation, independent study, or law discovery
+  - software replay must not be labelled as scientific replication
+  - historical receipts and negative findings must not be overwritten or removed
+required_gates:
+  semantic_separation:
+    owner_tasks: [T116]
+    pass_evidence: versioned vocabulary policy and regression tests rejecting fixture-to-empirical claim transitions
+    fallback: release only contract-test outputs
+  public_release_integrity:
+    owner_tasks: [T117, T118]
+    pass_evidence: explicit asset licenses, resolved documentation paths, source-data/spec bundle, SBOM, portable rebuild receipt
+    fallback: partial release with exact missing-asset and reuse limitations
+  figure_semantics:
+    owner_tasks: [T119]
+    pass_evidence: declared field maps, zero geometry overflow, visual QA, axes/units/n/interval captions
+    fallback: withdraw invalid panels
+  real_data_provenance:
+    owner_tasks: [T120]
+    pass_evidence: non-fixture row-level source/study/lab/material/protocol/license lineage
+    fallback: software/protocol positioning
+  statistical_validity:
+    owner_tasks: [T121, T122, T123]
+    pass_evidence: frozen estimands and splits, independent groups, nested selection, raw predictions, cluster-aware uncertainty
+    fallback: exploratory-only claims
+  independent_lockbox:
+    owner_tasks: [T124]
+    pass_evidence: independent evaluator receipt from real protected observations using frozen code and thresholds
+    fallback: Paper C protocol-only
+  literature_and_domain_definition:
+    owner_tasks: [T125]
+    pass_evidence: external references, comparator rationale, operational variable and assay definitions
+    fallback: technical report only
+  manuscript_fit:
+    owner_tasks: [T126, T127]
+    pass_evidence: merged A+B or justified separation; C form selected by lockbox evidence; complete methods and availability statements
+    fallback: single software/protocol portfolio
+  external_scientific_reproduction:
+    owner_tasks: [T128]
+    pass_evidence: no-author-team empirical rebuild with documented scope, environment, deviations and results
+    fallback: no empirical submission-ready designation
+  final_editorial_audit:
+    owner_tasks: [T128]
+    pass_evidence: independent editorial re-review reports no unexplained Critical finding and maps every R2 ID to evidence or explicit downgrade
+    fallback: retain IN_PROGRESS and publish blocker ledger

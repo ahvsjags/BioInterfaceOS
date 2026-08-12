@@ -1,11 +1,65 @@
 # BioInterfaceOS：医学材料 AI-for-Science × 因果世界模型 × 科研 Agent
 ## Codex 逐步执行总手册（GOAL.md）
 
-> **版本**：1.0.0  
+> **版本**：1.1.0-revision2
 > **冻结日期**：2026-08-11  
+> **审稿整改基线**：2026-08-12 多智能体编辑评审；所有整改以真实科学证据、可公开复现和投稿级表达为共同验收标准
 > **项目性质**：纯计算、无湿实验、全公开匿名可访问数据  
 > **默认资源上限**：4×A100、1.5 TB 可写存储；可向更多 GPU 扩展，但不得依赖额外算力才能完成最低可发表版本  
 > **最高目标**：形成可投稿 Nature Machine Intelligence / Nature Communications / npj Computational Materials 的完整科学工作；方法和基准同步面向 ICLR / ICML / NeurIPS。Nature Biomedical Engineering / Nature Nanotechnology 仅在出现强普适科学规律和真正时间盲测成功时作为冲刺目标，不作保证。
+
+---
+
+# -1. 第二轮审稿整改合同（2026-08-12）
+
+## -1.1 触发原因与当前定位
+
+T000–T114 形成的是一个 fixture-backed、可审计的软件开发与发布原型。它证明了 schema、provenance、hash、状态机、失败封闭和确定性重放；它**尚未**证明材料科学性能、跨研究泛化、因果效应或可迁移规律。本轮任务以 [多智能体编辑评审报告](docs/review_round_2/REMEDIATION_MATRIX.md) 的所有 Critical/Major finding 为强制输入。
+
+在新的经验性证据完成前，公开措辞必须把输出限定为 `fixture demonstration`、`contract-test status` 或 `candidate expression`；不得把 fixture 结果称为 `replicated`、`refuted`、`independent scientific replication`、`law`、真实 `study` 或外部 OOD 验证。
+
+## -1.2 第二轮的最终目标
+
+在不破坏 T000–T114 的历史审计链的前提下，完成 T115–T128，使项目成为下列两种清晰、可审查路径之一：
+
+1. **真实实证路径**：基于可公开访问、逐行可溯源的非-fixture 数据，形成 study/lab/material 级独立单位上的 benchmark、方法和预注册 lockbox 科学结果；或
+2. **诚实的软件/协议路径**：若真实数据、外部 evaluator 或独立验证未达门槛，则将输出明确降级为 research-software、benchmark schema、technical report 和 preregistration/protocol，不保留经验性性能或 scientific-law 主张。
+
+任何路径都必须保留负结果、失败、abstention 和所有原始审计记录；不得以删改数据、改阈值、事后重跑或重新命名来规避门禁。
+
+## -1.3 不可绕过的整改门禁
+
+### A. 证据与统计门禁
+
+- 一个数字或图表只有在其输入来自非-fixture、逐行可追溯的真实观测时，才能支持经验性结论；fixtures 只可用于 CI/software tests。
+- primary estimand 必须以独立 study/lab/material/time unit 定义；不得把同一组内 rows 当作独立 studies。所有模型选择必须只在 development folds 内完成，最终评估使用 locked external groups。
+- 所有 benchmark、ablation 和 OOD 结果须保存 raw predictions、group membership、seeds、coverage、calibration、有效样本量和 cluster-aware interval。
+- symbolic candidate 只能在冻结的 development data 上生成；候选、阈值、复杂度惩罚和分析代码必须在 lockbox 前冻结。lockbox evaluator 必须从真实 protected observations 计算结果，并由独立 evaluator 出具签名 receipt。
+
+### B. 公开发布与可复现门禁
+
+- 代码、文稿、图表、派生数据和数据指针均须有明确许可证；所有公开可再分发资产需在 release manifest 中逐项声明来源、许可证、hash 和重建路径。
+- 所有 source-data、figure specs、run receipts、SBOM、环境锁定和容器说明须和对应 release 同步发布。若资产不能公开，必须提供合法的重建/受控审计路径，并将关联科学结论降级。
+- clean-room 复现分为 deterministic software replay 与 independent scientific reproduction；两者必须在术语、报告和验收中分开。
+
+### C. 投稿与表达门禁
+
+- 所有三篇稿件须补齐外部 related work、明确近邻方法对比、数据可用性、许可、统计方法、失败分析、图表 callout 和正式参考文献。
+- Paper A 与 Paper B 默认合并为一篇 benchmark/method manuscript；除非 B 获得独立数据、独立问题和独立证据，否则禁止拆分投稿。
+- Paper C 在真实的预注册、独立 lockbox 证据完成前只能作为 preregistration/protocol；只有在独立 evaluator 完成真实评估后，才能使用 scientific result、replicated、refuted 或 candidate-law discovery 表述。
+- 所有 figure 必须有明确字段映射、坐标/单位/样本量/区间、边界检查和人工视觉 QA；分辨率合格不能替代语义正确。
+
+## -1.4 阶段和失败处理
+
+| 阶段 | 任务 | 必须达到的结果 | 不达标时的唯一允许动作 |
+|---|---|---|---|
+| P0 发行与语义修复 | T115–T119 | 公开资产可解释、可合法使用、图表语义正确；fixture 与科学结论分层 | 停止把当前包称为实证 release，发布 software/protocol 修复版 |
+| P1 真实证据与外部验证 | T120–T125 | 真实数据、独立单位、统计设计、外部 comparison 和第三方 evaluator 均可审计 | 明确降级为 protocol/software；不得制造或补写 empirical results |
+| P2 稿件与最终验收 | T126–T128 | A+B 合并稿、C 的正确体裁、外部复现和编辑复审均通过 | 只发布已通过门禁的子产物，保持项目 IN_PROGRESS |
+
+## -1.5 第二轮完成定义
+
+第二轮不得仅因任务清单被勾选而宣布成功。只有 `docs/review_round_2/ACCEPTANCE_GATES.yaml` 的每项 required gate 有可审计 evidence，且 T128 的外部编辑复审未发现 Critical finding，才可将相应科学稿件标记为 submission-ready。若 P1 任何核心门禁未通过，项目必须保留 `IN_PROGRESS`，并以诚实的软件/协议定位发布。
 
 ---
 
@@ -3963,7 +4017,7 @@ claim_id        = BIOIF-CLAIM-000001
 
 只有同时满足以下条件才能把项目状态改为 `COMPLETE`：
 
-1. T000–T114 的 mandatory 任务均为 `DONE` 或有审计通过的 `WAIVED`；
+1. T000–T128 的 mandatory 任务均为 `DONE` 或有审计通过的 `WAIVED`；
 2. 所有数据来自匿名、无需申请注册的准入源；
 3. 数据和数字有完整 evidence lineage；
 4. 主要模型在预设 OOD 和校准门禁下有效，或负结果被完整报告；
@@ -3975,6 +4029,11 @@ claim_id        = BIOIF-CLAIM-000001
 10. 第三方在干净环境能重建主要结果；
 11. 三篇论文材料与代码、数据、图表、claim ledger 一致；
 12. `reports/FINAL_AUDIT.md` 中没有未解释的 critical finding。
+13. 所有第二轮 Critical/Major finding 均在 `docs/review_round_2/REMEDIATION_MATRIX.md` 中标明为已验证修复，或被诚实降级并从科学投稿主张中移除；
+14. empirical claims、software replay 和 scientific replication 分属不同 evidence class，且无 fixture-to-empirical 语义泄漏；
+15. 投稿级图件通过字段映射、边界、视觉和人工 caption QA；
+16. 至少一个无作者参与的外部团队完成可审计的 scientific reproduction，或相关稿件明确降级为 software/protocol；
+17. 对所有实际投稿主张，真实数据、独立单位、统计不确定性、external validation 和 evaluator responsibility 都可由编辑追溯；
+18. T128 的独立编辑复审没有未解释的 Critical finding。
 
 项目“完成”不等于论文一定接收。它表示研究问题、数据、方法、验证、审计和发布已经达到可独立送审的完整状态。
-
