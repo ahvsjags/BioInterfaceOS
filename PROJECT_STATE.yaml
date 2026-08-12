@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T078
-active_execplan: docs/execplans/T078_calibrated_uncertainty.md
+current_task: T079
+active_execplan: docs/execplans/T079_multimodal_representations.md
 completed_tasks:
   - T000
   - T001
@@ -85,10 +85,10 @@ completed_tasks:
   - T075
   - T076
   - T077
+  - T078
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T079
   - T080
   - T081
   - T082
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: b652387
+last_successful_commit: 895b27c
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
