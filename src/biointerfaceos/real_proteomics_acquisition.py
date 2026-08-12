@@ -549,12 +549,8 @@ class RealProteomicsAcquisitionWorkflow:
                 if close is not None:
                     close()
             bytes_after_stream = partial.stat().st_size if partial.is_file() else 0
-            incomplete = (
-                stream_error is not None
-                or (
-                    asset.expected_bytes is not None
-                    and bytes_after_stream < asset.expected_bytes
-                )
+            incomplete = stream_error is not None or (
+                asset.expected_bytes is not None and bytes_after_stream < asset.expected_bytes
             )
             if incomplete and stream_attempt < self._MAX_STREAM_RESUME_ATTEMPTS:
                 self._event(
@@ -569,7 +565,7 @@ class RealProteomicsAcquisitionWorkflow:
                         "stream_error": stream_error,
                     }
                 )
-                self._sleep(float(2**min(stream_attempt, 4)))
+                self._sleep(float(2 ** min(stream_attempt, 4)))
                 continue
             try:
                 record = self._verify_path(partial, asset)
