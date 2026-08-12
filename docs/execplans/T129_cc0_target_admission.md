@@ -75,6 +75,12 @@ evidence.
   mutate the CC0 cohort or promote article-derived labels; its current evidence
   and decision boundary are recorded in
   `docs/execplans/T130_license_bound_source_mapping.md`.
+- [x] Identified PXD017052 as a separate, higher-information public route:
+  its CC BY Nature Communications article declares three characterized SPIONs,
+  three assay replicates and source data, while the associated PRIDE release is
+  PXD017052.  It cannot enter this CC0 cohort from article text alone.  T131
+  records the required checksum-first workbook audit and the explicit future
+  cohort-policy decision.
 
 ## Discoveries
 
@@ -112,6 +118,12 @@ evidence.
   metrics, while their sample/process names do not map units to numeric material
   or size covariates or to a common cross-study endpoint; it is retained as a
   narrowly non-admitted lead rather than added to the five-source synthesis.
+- PXD017052 is not reopened as an admitted source based on the paper's
+  characterisation text.  The paper and NCBI metadata identify a potentially
+  useful CC BY source-data route, but its downloadable XLSX assets have not yet
+  been checksum-verified or mapped to PRIDE unit files.  The public CC0-only
+  T129 rule remains unchanged pending T131's audit and an explicit policy
+  decision.
 
 ## Decisions
 

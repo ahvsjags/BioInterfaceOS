@@ -58,6 +58,35 @@ This record preserves a narrowly inspected non-admission decision. It does not
 claim that all project files have been exhaustively interpreted and does not
 authorize reuse of the named source labels as covariates.
 
+## PXD017052 public source-data recovery route
+
+The high-priority PXD017052 listing screen above remains correct for the CC0
+archive itself: the inspected README only links search archives to raw IDs.  A
+separate first-party article route nevertheless warrants a bounded follow-up,
+not target promotion.
+
+- The CC BY Nature Communications article
+  [10.1038/s41467-020-17033-7](https://doi.org/10.1038/s41467-020-17033-7)
+  explicitly links its Fig. 3--5 proteomics data to PXD017052.  It describes
+  three SPIONs with distinct surface chemistries, DLS sizes and zeta potentials,
+  assayed as three independent replicates in pooled plasma.
+- NCBI's official OA record for PMC7376165 identifies the article as CC BY, and
+  its EFetch XML lists `41467_2020_17033_MOESM3_ESM.xlsx` (Supplementary Data
+  1) and `41467_2020_17033_MOESM12_ESM.xlsx` (Source Data) among the published
+  assets.
+- On 2026-08-13, the normal PMC attachment endpoint returned HTML verification
+  rather than a workbook.  The current NCBI OA package URL returned HTTPS 404,
+  and its FTP analogue denied directory traversal.  No attachment was
+  downloaded, parsed or used as a mapping source.
+
+**Current decision:** `NOT_ADMITTED_PENDING_OFFICIAL_WORKBOOK_DOWNLOAD_AND_CC_BY_COHORT_DECISION`.
+The paper's CC BY source map is public-redistributable under the project-wide
+policy, but it is not automatically part of T129's CC0-only cohort.  T131
+requires the two named official assets to be obtained through normal browser
+access, checksum-verified, schema-audited, and joined to declared PXD017052
+units before any further decision.  This still would not establish the required
+second independent laboratory or frozen common endpoint.
+
 ## Relation to existing T129 evidence
 
 PXD016229 and PXD054751 remain in the immutable admission receipt; PXD053359
