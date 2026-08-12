@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "mode": "agent_benchmark_fixture",
+  "tasks": [
+    {
+      "task_id": "T081-source-license",
+      "workflow": "source_license",
+      "tool_calls": 5,
+      "expected": {
+        "completion": true,
+        "correctness": true,
+        "evidence": true,
+        "schema": true,
+        "safety": true,
+        "reproducibility": true
+      }
+    },
+    {
+      "task_id": "T082-extraction",
+      "workflow": "extraction",
+      "tool_calls": 8,
+      "expected": {
+        "completion": true,
+        "correctness": true,
+        "evidence": true,
+        "schema": true,
+        "safety": true,
+        "reproducibility": true
+      }
+    },
+    {
+      "task_id": "T083-resolution-audit",
+      "workflow": "resolution_audit",
+      "tool_calls": 4,
+      "expected": {
+        "completion": true,
+        "correctness": true,
+        "evidence": true,
+        "schema": true,
+        "safety": true,
+        "reproducibility": true
+      }
+    },
+    {
+      "task_id": "T084-hypothesis",
+      "workflow": "hypothesis",
+      "tool_calls": 5,
+      "expected": {
+        "completion": true,
+        "correctness": true,
+        "evidence": true,
+        "schema": true,
+        "safety": true,
+        "reproducibility": true
+      }
+    },
+    {
+      "task_id": "T085-modeling",
+      "workflow": "modeling",
+      "tool_calls": 4,
+      "expected": {
+        "completion": true,
+        "correctness": true,
+        "evidence": true,
+        "schema": true,
+        "safety": true,
+        "reproducibility": true
+      }
+    },
+    {
+      "task_id": "T086-redteam",
+      "workflow": "redteam",
+      "tool_calls": 5,
+      "expected": {
+        "completion": true,
+        "correctness": true,
+        "evidence": true,
+        "schema": true,
+        "safety": true,
+        "reproducibility": true
+      }
+    },
+    {
+      "task_id": "T087-reproducibility",
+      "workflow": "reproducibility",
+      "tool_calls": 4,
+      "expected": {
+        "completion": true,
+        "correctness": true,
+        "evidence": true,
+        "schema": true,
+        "safety": true,
+        "reproducibility": true
+      }
+    }
+  ]
+}

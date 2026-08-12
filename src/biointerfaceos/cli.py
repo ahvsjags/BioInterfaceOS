@@ -407,6 +407,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     benchmark_subparsers.add_parser(
         "extraction", help="run the extraction calibration and G2 benchmark"
     )
+    benchmark_agents_parser = benchmark_subparsers.add_parser(
+        "agents", help="run the end-to-end scientific-agent benchmark"
+    )
+    benchmark_agents_parser.add_argument(
+        "--dev", action="store_true", help="run the development agent benchmark namespace"
+    )
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
     train_subparsers = train_parser.add_subparsers(dest="train_command")
@@ -1222,6 +1228,38 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"train={build_summary.train} validation={build_summary.validation} "
                 f"missingness_mean={build_summary.missingness_mean:.6f} "
                 f"resumed={build_summary.resumed} target_values_exposed=false"
+            )
+            return 0
+        if args.benchmark_command == "agents":
+            root = find_repository_root()
+            if root is None:
+                print("AGENT_BENCHMARK_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.dev:
+                print("AGENT_BENCHMARK_INVALID: --dev is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.agent_benchmark_workflow import (
+                AgentBenchmarkError,
+                AgentBenchmarkWorkflow,
+            )
+
+            try:
+                agent_benchmark_summary = AgentBenchmarkWorkflow(root).run(development=True)
+            except (AgentBenchmarkError, OSError) as exc:
+                print(f"AGENT_BENCHMARK_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"AGENT_BENCHMARK_VALID tasks={agent_benchmark_summary.tasks} "
+                f"modes={agent_benchmark_summary.modes} "
+                f"completion={agent_benchmark_summary.completion:.6f} "
+                f"correctness={agent_benchmark_summary.correctness:.6f} "
+                f"evidence={agent_benchmark_summary.evidence:.6f} "
+                f"schema={agent_benchmark_summary.schema:.6f} "
+                f"safety={agent_benchmark_summary.safety:.6f} "
+                f"reproducibility={agent_benchmark_summary.reproducibility:.6f} "
+                f"failures={agent_benchmark_summary.failures} "
+                f"selected_mode={agent_benchmark_summary.selected_mode} "
+                f"resumed={agent_benchmark_summary.resumed}"
             )
             return 0
         if args.benchmark_command != "extraction":

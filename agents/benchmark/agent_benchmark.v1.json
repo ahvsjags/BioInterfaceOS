@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "benchmark": "BioInterfaceAgentBench",
+  "modes": ["no_tool", "single_agent", "multi_agent"],
+  "metrics": [
+    "completion",
+    "correctness",
+    "evidence",
+    "schema",
+    "safety",
+    "reproducibility",
+    "cost"
+  ]
+}
