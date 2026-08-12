@@ -212,6 +212,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     agent_eval_subparsers.add_parser(
         "modeling", help="evaluate ModelBuilder and Statistician agents"
     )
+    agent_eval_subparsers.add_parser(
+        "reproducibility", help="evaluate reproducibility and disabled Lockbox agents"
+    )
     redteam_parser = agent_subparsers.add_parser(
         "red-team", help="run the mandatory RedTeam attack suite"
     )
@@ -1966,6 +1969,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"selected_pipeline={modeling_summary.selected_pipeline} "
                 f"trace_events={modeling_summary.trace_events} "
                 f"resumed={modeling_summary.resumed}"
+            )
+            return 0
+        if args.agent_command == "eval" and args.agent_eval_command == "reproducibility":
+            from biointerfaceos.reproducibility_agent_workflow import (
+                ReproducibilityAgentError,
+                ReproducibilityWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("AGENT_REPRODUCIBILITY_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                reproducibility_summary = ReproducibilityWorkflow(root).run(fixture=True)
+            except (ReproducibilityAgentError, OSError) as exc:
+                print(f"AGENT_REPRODUCIBILITY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"AGENT_REPRODUCIBILITY_VALID release_verified="
+                f"{str(reproducibility_summary.release_verified).lower()} "
+                f"rebuild_clean={str(reproducibility_summary.rebuild_clean).lower()} "
+                f"hash_match={str(reproducibility_summary.hash_match).lower()} "
+                f"lockbox_activation_blocked="
+                f"{str(reproducibility_summary.lockbox_activation_blocked).lower()} "
+                f"training_methods_exposed="
+                f"{str(reproducibility_summary.training_methods_exposed).lower()} "
+                f"selected_pipeline={reproducibility_summary.selected_pipeline} "
+                f"trace_events={reproducibility_summary.trace_events} "
+                f"resumed={reproducibility_summary.resumed}"
             )
             return 0
         if args.agent_command != "self-test":

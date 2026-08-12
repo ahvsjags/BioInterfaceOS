@@ -1,0 +1,4 @@
+{"event":"release_verified","release_id":"bioif-data-20260811-42783ef-e32d9290","sequence":1}
+{"event":"fixture_rebuilt","hash_match":true,"sequence":2}
+{"blocked":true,"event":"unsigned_lockbox_activation_blocked","sequence":3}
+{"event":"evaluator_capability_audited","sequence":4,"training_methods_exposed":false}

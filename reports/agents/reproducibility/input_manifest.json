@@ -1,0 +1,1 @@
+{"inputs":[{"label":"T068 grading receipt","path":"reports/benchmark/grading/grading_receipt.json","sha256":"6ffb2d8130b54e0291882f037a6ba9a050682101a9c0c647dea5740aa184a59b"},{"label":"T080 agent receipt","path":"reports/agents/agent_receipt.json","sha256":"09750940ab002de284939df873657c6013db25ef21e1d26c243d15046884094f"}],"schema_version":1}

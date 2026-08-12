@@ -1,0 +1,1 @@
+{"fixture":true,"metric_keys":["benchmark_version","cases","schema_version","status","target_values_exposed"],"release_manifest_hash":"e32d9290d59f89ffd98bd616540e31529cd27741ee7a97665c42b9dac06c2456","schema_version":1,"source_metrics_sha256":"a73e438ccde47a883fd7a9e0e6c566be6c66e39f6e96be100968bd749b6f32e5","status":"REBUILT_CLEAN","target_values_exposed":false}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "agent": "ReproducibilityLockboxEvaluator",
+  "capabilities": [
+    "verify_release",
+    "rebuild_fixture",
+    "compare_hashes",
+    "read_release_metadata"
+  ],
+  "forbidden_methods": ["train", "fit", "optimize", "backprop", "download"]
+}
