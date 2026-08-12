@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "mode": "ood_leave_group_and_sensitivity",
+  "inputs": [
+    {"label": "T099 ablations receipt", "path": "reports/robustness/ablations/ablations_receipt.json", "sha256": "bde553a6a188e2b0a733495d8b89493f9573086e05dd639db7c47edb7a2cee54"}
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "group_dimensions": ["study", "lab", "family", "species", "biofluid", "time"],
+    "split_id": "frozen_group_split_v1",
+    "minimum_group_n": 3,
+    "abstention_threshold": 0.25,
+    "sensitivity_scenarios": ["leave_largest_study", "drop_low_n", "evidence_grade_only"],
+    "target_values_exposed": false
+  },
+  "group_rows": [
+    {"dimension": "study", "group_id": "STUDY-A", "n": 6, "primary_metric": 0.78, "calibration_error": 0.08, "selective_risk": 0.14, "coverage": 0.86, "ood": false, "evidence_grade": "high", "is_largest_group": true, "key_source": "pre_outcome_group_key"},
+    {"dimension": "study", "group_id": "STUDY-B", "n": 2, "primary_metric": 0.61, "calibration_error": 0.19, "selective_risk": 0.28, "coverage": 0.50, "ood": true, "evidence_grade": "low", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "lab", "group_id": "LAB-A", "n": 5, "primary_metric": 0.76, "calibration_error": 0.09, "selective_risk": 0.16, "coverage": 0.82, "ood": false, "evidence_grade": "high", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "lab", "group_id": "LAB-B", "n": 2, "primary_metric": 0.63, "calibration_error": 0.18, "selective_risk": 0.27, "coverage": 0.50, "ood": true, "evidence_grade": "low", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "family", "group_id": "FAM-A", "n": 5, "primary_metric": 0.75, "calibration_error": 0.10, "selective_risk": 0.17, "coverage": 0.80, "ood": false, "evidence_grade": "high", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "family", "group_id": "FAM-B", "n": 2, "primary_metric": 0.62, "calibration_error": 0.20, "selective_risk": 0.29, "coverage": 0.50, "ood": true, "evidence_grade": "low", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "species", "group_id": "HUMAN", "n": 6, "primary_metric": 0.79, "calibration_error": 0.08, "selective_risk": 0.13, "coverage": 0.88, "ood": false, "evidence_grade": "high", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "species", "group_id": "MOUSE", "n": 2, "primary_metric": 0.60, "calibration_error": 0.21, "selective_risk": 0.30, "coverage": 0.50, "ood": true, "evidence_grade": "low", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "biofluid", "group_id": "PLASMA", "n": 5, "primary_metric": 0.77, "calibration_error": 0.09, "selective_risk": 0.15, "coverage": 0.84, "ood": false, "evidence_grade": "high", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "biofluid", "group_id": "SERUM", "n": 2, "primary_metric": 0.64, "calibration_error": 0.18, "selective_risk": 0.26, "coverage": 0.50, "ood": true, "evidence_grade": "low", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "time", "group_id": "EARLY", "n": 6, "primary_metric": 0.80, "calibration_error": 0.07, "selective_risk": 0.12, "coverage": 0.89, "ood": false, "evidence_grade": "high", "is_largest_group": false, "key_source": "pre_outcome_group_key"},
+    {"dimension": "time", "group_id": "LATE", "n": 2, "primary_metric": 0.58, "calibration_error": 0.22, "selective_risk": 0.31, "coverage": 0.50, "ood": true, "evidence_grade": "low", "is_largest_group": false, "key_source": "pre_outcome_group_key"}
+  ],
+  "sensitivity_rows": [
+    {"scenario": "leave_largest_study", "dimension": "study", "excluded_group": "STUDY-A", "primary_metric": 0.61, "calibration_error": 0.19, "selective_risk": 0.28, "evidence_grade_only": false},
+    {"scenario": "drop_low_n", "dimension": "all", "excluded_group": "LOW_N_GROUPS", "primary_metric": 0.78, "calibration_error": 0.09, "selective_risk": 0.15, "evidence_grade_only": false},
+    {"scenario": "evidence_grade_only", "dimension": "all", "excluded_group": "LOW_GRADE", "primary_metric": 0.79, "calibration_error": 0.08, "selective_risk": 0.14, "evidence_grade_only": true}
+  ]
+}

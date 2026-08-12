@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "workflow": "ood_leave_group_and_sensitivity_suite",
+  "required_inputs": ["T099 ablations receipt"],
+  "group_dimensions": ["study", "lab", "family", "species", "biofluid", "time"],
+  "metrics": ["primary_metric", "calibration_error", "selective_risk", "coverage"],
+  "sensitivity_scenarios": ["leave_largest_study", "drop_low_n", "evidence_grade_only"],
+  "required_outputs": [
+    "group_key_audit",
+    "primary_metrics",
+    "calibration_selective_risk",
+    "sensitivity_report",
+    "low_n_ledger",
+    "claim_gate",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "failure_policy": "narrow_applicability_domain_and_abstain"
+}

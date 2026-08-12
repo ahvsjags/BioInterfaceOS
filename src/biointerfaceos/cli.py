@@ -455,6 +455,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     robustness_ablations_parser.add_argument(
         "--all", action="store_true", help="run all mandatory ablations"
     )
+    robustness_ood_parser = robustness_subparsers.add_parser(
+        "ood", help="run the leave-group OOD and sensitivity suite"
+    )
+    robustness_ood_parser.add_argument(
+        "--all", action="store_true", help="run all frozen OOD group dimensions"
+    )
     discover_parser = subparsers.add_parser(
         "discover", help="discover development-scope scientific representations"
     )
@@ -1148,6 +1154,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "robustness":
+        if args.robustness_command == "ood":
+            root = find_repository_root()
+            if root is None:
+                print("OOD_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.all:
+                print("OOD_INVALID: --all is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.ood_workflow import OODWorkflow, OODWorkflowError
+
+            try:
+                robustness_ood_summary = OODWorkflow(root).run(all_groups=True)
+            except (OODWorkflowError, OSError) as exc:
+                print(f"OOD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"OOD_VALID dimensions={robustness_ood_summary.dimensions} "
+                f"groups={robustness_ood_summary.groups} "
+                f"low_n_groups={robustness_ood_summary.low_n_groups} "
+                f"leave_largest={robustness_ood_summary.leave_largest} "
+                f"sensitivity_records={robustness_ood_summary.sensitivity_records} "
+                f"primary_records={robustness_ood_summary.primary_records} "
+                f"calibration_records={robustness_ood_summary.calibration_records} "
+                f"selective_risk_records={robustness_ood_summary.selective_risk_records} "
+                f"claim_status={robustness_ood_summary.claim_status} "
+                f"resumed={robustness_ood_summary.resumed}"
+            )
+            return 0
         if args.robustness_command != "ablations":
             parser.parse_args(["robustness", "--help"])
             return 0
