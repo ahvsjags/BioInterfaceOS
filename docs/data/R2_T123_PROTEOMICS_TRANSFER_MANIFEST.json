@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "manifest_id": "bioif-r2-real-proteomics-transfer-manifest-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "source_preflight_registry_sha256": "6038ec56402055d4c10b9caaf597e9bb6513ecaf7ee6e42d5515ee6086673eee",
+  "source_preflight_receipt_sha256": "53f5b0d1ced6d68e9e500a6415b25e2536d0dd53254fe97d8b41799b7e47d9c7",
+  "transport_policy": {
+    "anonymous_https_only": true,
+    "allowed_host": "ftp.pride.ebi.ac.uk",
+    "resume_partial_files": true,
+    "preserve_failed_partials": true,
+    "record_local_sha256": true,
+    "prohibit_model_input": true
+  },
+  "sources": [
+    {
+      "source_id": "PRIDE-PXD017776",
+      "accession": "PXD017776",
+      "archive_prefix": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2020/02/PXD017776/",
+      "asset_count": 12,
+      "assets": [
+        {"asset_id": "PXD017776:dopc_chol_cleancorona_1", "file_name": "dopc_chol_cleancorona_1_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopc_chol_cleancorona_1_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 10297011, "expected_bytes": null, "publisher_checksum": "d7bb0aa287ac3e89872fdc725c84730f6ae60523", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:dopc_chol_cleancorona_2", "file_name": "dopc_chol_cleancorona_2_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopc_chol_cleancorona_2_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 11033191, "expected_bytes": null, "publisher_checksum": "34807b142a25ea6ad4e8e8b4e5f565f1a7a7cc82", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:dopc_chol_cleancorona_3", "file_name": "dopc_chol_cleancorona_3_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopc_chol_cleancorona_3_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 9808643, "expected_bytes": null, "publisher_checksum": "0fc6d5a407994c8ac818ebd64928f5df346393eb", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:dopcg_chol_cleancorona_1", "file_name": "dopcg_chol_cleancorona_1_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopcg_chol_cleancorona_1_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 10104740, "expected_bytes": null, "publisher_checksum": "11336286378bd442332c19ae03273be893c5bdb5", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:dopcg_chol_cleancorona_2", "file_name": "dopcg_chol_cleancorona_2_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopcg_chol_cleancorona_2_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 10724887, "expected_bytes": null, "publisher_checksum": "6f772171810602aa0be5adf66300fa3f2f60e719", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:dopcg_chol_cleancorona_3", "file_name": "dopcg_chol_cleancorona_3_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopcg_chol_cleancorona_3_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 9042700, "expected_bytes": null, "publisher_checksum": "06602248a762b9a2a2654ca0831bb468d628e53b", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:dopg_chol_cleancorona_1", "file_name": "dopg_chol_cleancorona_1_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopg_chol_cleancorona_1_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 8071499, "expected_bytes": null, "publisher_checksum": "f25a7e8c4d2889ec108e85e2d87d02eb8abe4fab", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:dopg_chol_cleancorona_2", "file_name": "dopg_chol_cleancorona_2_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopg_chol_cleancorona_2_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 8595726, "expected_bytes": null, "publisher_checksum": "62cef841aa8ccc80aee9780b5ab5797f16c3aad7", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:dopg_chol_cleancorona_3", "file_name": "dopg_chol_cleancorona_3_PXD.mzID.gz", "relative_path": "PXD017776/author_results/dopg_chol_cleancorona_3_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 8793590, "expected_bytes": null, "publisher_checksum": "8d6fe6ff79d0f8711c01a02909e18beca9ed73e3", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:hs_1", "file_name": "hs_1_PXD.mzID.gz", "relative_path": "PXD017776/author_results/hs_1_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 8825688, "expected_bytes": null, "publisher_checksum": "1fe10a566328f27df6a63534c85cb3d1491b20af", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:hs_2", "file_name": "hs_2_PXD.mzID.gz", "relative_path": "PXD017776/author_results/hs_2_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 9080816, "expected_bytes": null, "publisher_checksum": "0662f6b4616458802bc4e5dc95fe4f5733dd0468", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"},
+        {"asset_id": "PXD017776:hs_3", "file_name": "hs_3_PXD.mzID.gz", "relative_path": "PXD017776/author_results/hs_3_PXD.mzID.gz", "role": "author_result", "publisher_api_bytes": 8302680, "expected_bytes": null, "publisher_checksum": "ad5139de6037f91b9e37caa2dae87fae8b7c7256", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"}
+      ]
+    },
+    {
+      "source_id": "PRIDE-PXD052701",
+      "accession": "PXD052701",
+      "archive_prefix": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2024/09/PXD052701/",
+      "asset_count": 10,
+      "assets": [
+        {"asset_id": "PXD052701:LF1-L", "file_name": "LF1-L.msf", "relative_path": "PXD052701/author_results/LF1-L.msf", "role": "author_result", "publisher_api_bytes": 116969472, "expected_bytes": 116969472, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF1-S", "file_name": "LF1-S.msf", "relative_path": "PXD052701/author_results/LF1-S.msf", "role": "author_result", "publisher_api_bytes": 113307648, "expected_bytes": 113307648, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF2-L", "file_name": "LF2-L.msf", "relative_path": "PXD052701/author_results/LF2-L.msf", "role": "author_result", "publisher_api_bytes": 109576192, "expected_bytes": 109576192, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF2-S", "file_name": "LF2-S.msf", "relative_path": "PXD052701/author_results/LF2-S.msf", "role": "author_result", "publisher_api_bytes": 107171840, "expected_bytes": 107171840, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF3-L", "file_name": "LF3-L.msf", "relative_path": "PXD052701/author_results/LF3-L.msf", "role": "author_result", "publisher_api_bytes": 100790272, "expected_bytes": 100790272, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF3-S", "file_name": "LF3-S.msf", "relative_path": "PXD052701/author_results/LF3-S.msf", "role": "author_result", "publisher_api_bytes": 101212160, "expected_bytes": 101212160, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF4-L", "file_name": "LF4-L.msf", "relative_path": "PXD052701/author_results/LF4-L.msf", "role": "author_result", "publisher_api_bytes": 99729408, "expected_bytes": 99729408, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF4-S", "file_name": "LF4-S.msf", "relative_path": "PXD052701/author_results/LF4-S.msf", "role": "author_result", "publisher_api_bytes": 100110336, "expected_bytes": 100110336, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF5-L", "file_name": "LF5-L.msf", "relative_path": "PXD052701/author_results/LF5-L.msf", "role": "author_result", "publisher_api_bytes": 109969408, "expected_bytes": 109969408, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD052701:LF5-S", "file_name": "LF5-S.msf", "relative_path": "PXD052701/author_results/LF5-S.msf", "role": "author_result", "publisher_api_bytes": 103727104, "expected_bytes": 103727104, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"}
+      ]
+    },
+    {
+      "source_id": "PRIDE-PXD032162",
+      "accession": "PXD032162",
+      "archive_prefix": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2024/10/PXD032162/",
+      "asset_count": 5,
+      "assets": [
+        {"asset_id": "PXD032162:checksum", "file_name": "checksum.txt", "relative_path": "PXD032162/source_metadata/checksum.txt", "role": "publisher_checksum_ledger", "publisher_api_bytes": 1998, "expected_bytes": 1998, "publisher_checksum": null, "publisher_checksum_algorithm": null, "checksum_representation": "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD032162:experimental_design", "file_name": "ExperimentalDesign.xlsx", "relative_path": "PXD032162/source_metadata/ExperimentalDesign.xlsx", "role": "source_design", "publisher_api_bytes": 11901, "expected_bytes": 11901, "publisher_checksum": "1efb76ec8c31c1622dcffe0e588d044ca9ed5d0f", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD032162:correction_factors", "file_name": "CorrectionFactorsTMT.xlsx", "relative_path": "PXD032162/source_metadata/CorrectionFactorsTMT.xlsx", "role": "source_correction_factor", "publisher_api_bytes": 10301, "expected_bytes": 10301, "publisher_checksum": "5537d481b3baa8b9e847a0e4fe19bceb70c81a99", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD032162:mzidentml", "file_name": "Proteinkorona_Nanoplastik_static.mzid.gz", "relative_path": "PXD032162/author_results/Proteinkorona_Nanoplastik_static.mzid.gz", "role": "author_result", "publisher_api_bytes": 236353579, "expected_bytes": 236353579, "publisher_checksum": "414a437b9c75d3047a9eee1c187552b932d99042", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "GZIP_DECOMPRESSED_BYTES", "byte_verification": "EXACT_FILE_BYTES"},
+        {"asset_id": "PXD032162:quanspectra", "file_name": "Proteinkorona_Nanoplastik_static_QuanSpectra.txt", "relative_path": "PXD032162/author_results/Proteinkorona_Nanoplastik_static_QuanSpectra.txt", "role": "author_quantification", "publisher_api_bytes": 242655101, "expected_bytes": 242655101, "publisher_checksum": "acff791876dd37d1d08395852c35b48b363be643", "publisher_checksum_algorithm": "SHA1", "checksum_representation": "FILE_BYTES", "byte_verification": "EXACT_FILE_BYTES"}
+      ]
+    }
+  ]
+}

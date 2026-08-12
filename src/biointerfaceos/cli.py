@@ -519,6 +519,22 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="preflight public protein-corona sources without freezing a model target",
     )
     model_proteomics_preflight_parser.add_argument("--strict", action="store_true")
+    model_proteomics_acquire_parser = model_subparsers.add_parser(
+        "acquire-proteomics-sources",
+        help="resume and verify the fixed public protein-corona source transfer",
+    )
+    model_proteomics_acquire_parser.add_argument("--strict", action="store_true")
+    model_proteomics_acquire_parser.add_argument(
+        "--source",
+        action="append",
+        choices=("PRIDE-PXD017776", "PRIDE-PXD052701", "PRIDE-PXD032162"),
+        help="stage only one declared PRIDE source; repeat for multiple sources",
+    )
+    model_proteomics_acquisition_audit_parser = model_subparsers.add_parser(
+        "audit-proteomics-acquisition",
+        help="freeze a receipt only after every declared proteomics asset is verified",
+    )
+    model_proteomics_acquisition_audit_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2211,8 +2227,50 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-source-candidates",
             "audit-source-discovery",
             "audit-proteomics-sources",
+            "acquire-proteomics-sources",
+            "audit-proteomics-acquisition",
         }:
             parser.parse_args(["model", "--help"])
+            return 0
+        if args.model_command in {
+            "acquire-proteomics-sources",
+            "audit-proteomics-acquisition",
+        }:
+            from biointerfaceos.real_proteomics_acquisition import (
+                RealProteomicsAcquisitionError,
+                RealProteomicsAcquisitionWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("REAL_PROTEOMICS_ACQUISITION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            workflow = RealProteomicsAcquisitionWorkflow(root)
+            try:
+                if args.model_command == "acquire-proteomics-sources":
+                    acquisition_summary = workflow.stage(
+                        strict=args.strict,
+                        source_ids=args.source,
+                    )
+                    print(
+                        "REAL_PROTEOMICS_ACQUISITION_STAGED "
+                        f"assets={acquisition_summary.asset_count} "
+                        f"sources={acquisition_summary.source_count} "
+                        "target_frozen=false model_fitted=false scientific_submission_ready=false"
+                    )
+                else:
+                    acquisition_summary = workflow.run(strict=args.strict)
+                    workflow.verify()
+                    print(
+                        "REAL_PROTEOMICS_ACQUISITION_AUDIT_VALID "
+                        f"assets={acquisition_summary.asset_count} "
+                        f"sources={acquisition_summary.source_count} "
+                        f"publisher_checksums={acquisition_summary.publisher_checksum_verified_count} "
+                        "target_frozen=false model_fitted=false scientific_submission_ready=false"
+                    )
+            except (RealProteomicsAcquisitionError, OSError) as exc:
+                print(f"REAL_PROTEOMICS_ACQUISITION_INVALID: {exc}", file=sys.stderr)
+                return 1
             return 0
         if args.model_command == "audit-proteomics-sources":
             from biointerfaceos.real_proteomics_source_preflight import (

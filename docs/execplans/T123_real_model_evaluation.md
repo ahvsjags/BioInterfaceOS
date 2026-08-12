@@ -47,6 +47,11 @@ Do not convert deterministic locator resolution into a causal or biological mode
   as a common target. The immutable preflight records 30 source-defined run or
   acquisition-mix records, explicitly preserves unknown biological-replicate
   status, and blocks model fitting until a common preprocessing target is frozen.
+- [x] Resumable source-transfer contract. The selected author-result cohort is
+  fixed to 27 PRIDE assets, with a per-file HTTPS locator, publisher integrity
+  rule, exact-byte rule where available, partial-file preservation and local
+  SHA-256 capture. Download completion is an acquisition boundary only: its
+  strict receipt remains `NOT_A_MODEL_TARGET`.
 - [ ] Compatible target freeze.
 - [ ] Paired model/ablation/OOD execution.
 - [ ] Strict receipt and negative-control audit.
@@ -102,6 +107,13 @@ Do not convert deterministic locator resolution into a causal or biological mode
   `reports/review_round_2/real_proteomics_source_preflight/v1.0.0/`. It fixes
   the no-model boundary (`target_frozen=false`) while making exact staged raw
   acquisition and preprocessing requirements auditable.
+- 2026-08-13: `python -m biointerfaceos model acquire-proteomics-sources --strict`
+  resumes the fixed anonymous PRIDE transfer into ignored raw storage, validates
+  SHA-1 publisher checksums where released, preserves non-checksummed assets with
+  exact byte counts and local SHA-256, and writes an append-only transfer log.
+  `python -m biointerfaceos model audit-proteomics-acquisition --strict` remains
+  unavailable until all 27 files are locally verified; its output cannot freeze a
+  target or authorize model fitting.
 
 ## Failure recovery
 
