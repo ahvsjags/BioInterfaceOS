@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T071
-active_execplan: docs/execplans/T071_hierarchical_mixed_effect.md
+current_task: T072
+active_execplan: docs/execplans/T072_direct_black_box.md
 completed_tasks:
   - T000
   - T001
@@ -78,10 +78,10 @@ completed_tasks:
   - T068
   - T069
   - T070
+  - T071
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T072
   - T073
   - T074
   - T075
