@@ -47,4 +47,12 @@ If endpoint metadata is incomplete, retain the candidate as metadata-only with m
 
 ## Outputs
 
+## Completion evidence
+
+- Implementation commit: `89dd592`.
+- Development query `geo-train-01` was validated against the frozen search matrix and four candidates were discovered: two eligible processed-file candidates, one restricted/credentialed rejection, and one metadata-only candidate.
+- Eligibility cards captured material, biological system, dose, time, public-file checksum/provenance, paper-family link, and evidence locator. Three explicit coverage gaps were retained for the metadata-only candidate; no restricted or credentialed study was admitted.
+- Focused GEO discovery tests: 3 passed. Full offline gate: 217 tests passed; Ruff, formatting, mypy, UV lock/sync, Sage search, LFQ, corona harmonization, PRIDE QC, conversion, PRIDE triage, coverage, Silver/Gold-auto validation, review export, assets, catalog, lockbox, release, state validation, compileall, and `git diff --check` passed.
+- The first CLI run created deterministic discovery outputs and the second returned `resumed=1` without changing receipt bytes. No endpoint, credential, raw payload, or locked payload was accessed.
+
 GEO/SRA query receipt, candidate registry, eligibility cards, paper-family links, rejection ledger, coverage-gap report, deterministic logs/manifest, focused tests, this ExecPlan, evidence report, and task-ledger/state advancement.
