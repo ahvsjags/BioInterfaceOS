@@ -1,6 +1,6 @@
 # T115 — 第二轮审稿整改合同：完成记录
 
-日期：2026-08-12  
+日期：2026-08-12
 状态：DONE（规划和治理任务；不代表任何实证 finding 已修复）
 
 ## 交付
@@ -13,7 +13,7 @@
 
 ## 校验
 
-`python scripts/validate_execution_pack.py`：129 tasks，0 errors，1 existing readiness warning。  
+`python scripts/validate_execution_pack.py`：129 tasks，0 errors，1 existing readiness warning。
 任务图检查：ID 无重复、TSV 字段数正确、所有依赖可解析。
 
 ## 诚实状态
