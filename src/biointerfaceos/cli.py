@@ -1948,14 +1948,16 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 print("REAL_BENCHMARK_INVALID: repository root not found", file=sys.stderr)
                 return 1
             try:
-                summary = RealBenchmarkWorkflow(root).run(strict=args.strict)
+                real_benchmark_summary = RealBenchmarkWorkflow(root).run(strict=args.strict)
             except (RealBenchmarkError, OSError) as exc:
                 print(f"REAL_BENCHMARK_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
-                f"REAL_BENCHMARK_VALID benchmark_id={summary.benchmark_id} "
-                f"studies={summary.study_count} laboratories={summary.laboratory_count} "
-                f"items={summary.item_count} predictions={summary.prediction_count} "
+                f"REAL_BENCHMARK_VALID benchmark_id={real_benchmark_summary.benchmark_id} "
+                f"studies={real_benchmark_summary.study_count} "
+                f"laboratories={real_benchmark_summary.laboratory_count} "
+                f"items={real_benchmark_summary.item_count} "
+                f"predictions={real_benchmark_summary.prediction_count} "
                 "held_out_groups=true raw_predictions_published=true "
                 "independent_validation=false scientific_submission_ready=false"
             )
@@ -2567,14 +2569,19 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                summary = EmpiricalProvenanceWorkflow(root).run(strict=args.strict)
+                empirical_provenance_summary = EmpiricalProvenanceWorkflow(root).run(
+                    strict=args.strict
+                )
             except (EmpiricalProvenanceError, OSError) as exc:
                 print(f"EMPIRICAL_PROVENANCE_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
-                f"EMPIRICAL_PROVENANCE_VALID registry_id={summary.registry_id} "
-                f"sources={summary.source_count} laboratories={summary.laboratory_count} "
-                f"raw_assets={summary.raw_asset_count} observations={summary.observation_count} "
+                "EMPIRICAL_PROVENANCE_VALID "
+                f"registry_id={empirical_provenance_summary.registry_id} "
+                f"sources={empirical_provenance_summary.source_count} "
+                f"laboratories={empirical_provenance_summary.laboratory_count} "
+                f"raw_assets={empirical_provenance_summary.raw_asset_count} "
+                f"observations={empirical_provenance_summary.observation_count} "
                 "empirical_source=true statistical_conclusions=false "
                 "independent_validation=false scientific_submission_ready=false"
             )
@@ -2703,15 +2710,20 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print("EMPIRICAL_ANALYSIS_PLAN_INVALID: repository root not found", file=sys.stderr)
             return 1
         try:
-            summary = EmpiricalAnalysisPlanWorkflow(root).run(strict=args.strict)
+            empirical_analysis_plan_summary = EmpiricalAnalysisPlanWorkflow(root).run(
+                strict=args.strict
+            )
         except (EmpiricalAnalysisPlanError, OSError) as exc:
             print(f"EMPIRICAL_ANALYSIS_PLAN_INVALID: {exc}", file=sys.stderr)
             return 1
         print(
-            f"EMPIRICAL_ANALYSIS_PLAN_VALID plan_id={summary.plan_id} "
-            f"estimands={summary.estimand_count} "
-            f"development_estimands={summary.available_development_estimands} "
-            f"held_out_estimands_unavailable={summary.unavailable_held_out_estimands} "
+            "EMPIRICAL_ANALYSIS_PLAN_VALID "
+            f"plan_id={empirical_analysis_plan_summary.plan_id} "
+            f"estimands={empirical_analysis_plan_summary.estimand_count} "
+            "development_estimands="
+            f"{empirical_analysis_plan_summary.available_development_estimands} "
+            f"held_out_estimands_unavailable="
+            f"{empirical_analysis_plan_summary.unavailable_held_out_estimands} "
             "outcome_analysis_run=false model_fitted=false "
             "independent_validation=false scientific_submission_ready=false"
         )

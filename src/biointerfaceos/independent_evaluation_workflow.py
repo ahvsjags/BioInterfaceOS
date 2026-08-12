@@ -59,7 +59,7 @@ def _string(value: Any, label: str) -> str:
 def _integer(value: Any, label: str, *, minimum: int = 0) -> int:
     if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
         raise IndependentEvaluationError(f"{label} must be an integer >= {minimum}")
-    return value
+    return int(value)
 
 
 class IndependentEvaluationWorkflow:
