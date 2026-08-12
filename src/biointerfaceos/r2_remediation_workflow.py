@@ -83,8 +83,7 @@ class R2RemediationWorkflow:
             "T129 discovery receipt",
         ),
         "pxd030327_unit_map": (
-            "reports/review_round_2/cc0_pxd030327_unit_map/v1.0.0/"
-            "unit_map_correction_receipt.json",
+            "reports/review_round_2/cc0_pxd030327_unit_map/v1.0.0/unit_map_correction_receipt.json",
             "T129 PXD030327 unit-map correction receipt",
         ),
         "independent": (
@@ -192,8 +191,7 @@ class R2RemediationWorkflow:
             "R2-01",
         )
         self._require(
-            pxd030327_unit_map.get("status")
-            == "VERIFIED_SINGLE_LAB_UNIT_MAP_NOT_ADMITTED"
+            pxd030327_unit_map.get("status") == "VERIFIED_SINGLE_LAB_UNIT_MAP_NOT_ADMITTED"
             and pxd030327_unit_map.get("unexcluded_unit_count") == 636
             and pxd030327_unit_map.get("unique_matrix_run_count") == 819
             and pxd030327_unit_map.get("unmapped_matrix_column_count") == 183
