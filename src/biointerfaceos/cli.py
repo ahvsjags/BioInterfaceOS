@@ -12,7 +12,6 @@ from pathlib import Path
 from biointerfaceos import __version__
 
 FUTURE_COMMANDS = (
-    "split",
     "train",
     "agent",
     "claim",
@@ -477,6 +476,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     resolve_endpoints_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized endpoint fixture"
+    )
+
+    split_parser = subparsers.add_parser("split", help="build leakage-safe split group keys")
+    split_subparsers = split_parser.add_subparsers(dest="split_command")
+    split_groups_parser = split_subparsers.add_parser(
+        "build-groups", help="build canonical study/material/protocol group keys"
+    )
+    split_groups_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized group-key fixture"
     )
 
     for command in FUTURE_COMMANDS:
@@ -1632,6 +1640,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"budget_bytes={report.budget_bytes} duplicates={len(report.duplicates)}"
         )
         return 1 if args.strict and not report.within_budget else 0
+    if args.command == "split":
+        if args.split_command != "build-groups":
+            parser.parse_args(["split", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("GROUP_KEYS_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("GROUP_KEYS_INVALID: --fixture is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.group_keys import GroupKeysError, GroupKeysWorkflow
+
+        try:
+            group_summary = GroupKeysWorkflow(root).run(fixture=True)
+        except (GroupKeysError, OSError) as exc:
+            print(f"GROUP_KEYS_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"GROUP_KEYS_VALID rows={group_summary.rows} "
+            f"unique_study={group_summary.unique_study} "
+            f"unique_paper_families={group_summary.unique_paper_families} "
+            f"unique_projects={group_summary.unique_projects} "
+            f"collisions={group_summary.collisions} "
+            f"review_rows={group_summary.review_rows} "
+            f"resumed={group_summary.resumed} "
+            "outcome_leakage=false split_freeze=false"
+        )
+        return 0
     if args.command in FUTURE_COMMANDS:
         return not_implemented(args.command)
     parser.print_help()

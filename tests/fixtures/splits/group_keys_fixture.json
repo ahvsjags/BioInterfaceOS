@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "mode": "group_keys",
+  "inputs": [
+    {"label": "T030 family evidence", "path": "reports/T030_paper_families.md", "sha256": "c797dcaec2cc8e194d3db4b70f883c56afdc275d78489dc97a961f61dfc7183f"},
+    {"label": "T041 material registry", "path": "registry/material_entities.json", "sha256": "fe2746060f021db64c16a479f5e108b17e72b6a7c8dd8bf272215aed4d8388bc"},
+    {"label": "T043 protocol registry", "path": "registry/protocol_entities.json", "sha256": "2f7c3c15a5c4c06b0dd95f11098037613ded38558daaffd2e041c2f0807ebfbd"},
+    {"label": "T047 silver manifest", "path": "data/silver/silver_manifest.json", "sha256": "d55cabf07a3a44f877e76d00aed76a3a8f52d5eedef46790727f4c91fa440b12"},
+    {"label": "T057 PRIDE QC", "path": "reports/omics/pride_qc/project_qc.json", "sha256": "e5557012628afc97a4423ef3c21747539a174837539be297f94261678e3ee96e"}
+  ],
+  "records": [
+    {"record_id": "ROW-001", "study_id": "STUDY-001", "project_id": "PXD000001", "paper_family_id": "FAMILY-001", "lab_id": "LAB-001", "material_entity_id": "CHEBI:DSPC", "material_raw": "DSPC", "bioenvironment_id": "BIOENV-FBS", "protocol_id": "protocol-001", "date": "2026-02-20", "split_label": "train", "evidence_locator": "T030:FAMILY-001#member=article"},
+    {"record_id": "ROW-002", "study_id": "STUDY-002", "project_id": "PXD000001", "paper_family_id": "FAMILY-001", "lab_id": "LAB-001", "material_entity_id": "CHEBI:DSPC", "material_raw": "DSPC", "bioenvironment_id": "BIOENV-FBS", "protocol_id": "protocol-001", "date": "2026-02-20", "split_label": "train", "evidence_locator": "T030:FAMILY-001#member=supplement"},
+    {"record_id": "ROW-003", "study_id": "STUDY-003", "project_id": "PXD000002", "paper_family_id": "FAMILY-001", "lab_id": "LAB-001", "material_entity_id": "CHEBI:DSPC", "material_raw": "DSPC", "bioenvironment_id": "BIOENV-FBS", "protocol_id": "protocol-001", "date": "2026-02-20", "split_label": "validation", "evidence_locator": "T030:FAMILY-001#member=conflict"},
+    {"record_id": "ROW-004", "study_id": "STUDY-004", "project_id": "PXD000003", "paper_family_id": "FAMILY-002", "lab_id": null, "material_entity_id": null, "material_raw": "NanoCoat-X", "bioenvironment_id": null, "protocol_id": "protocol-002", "date": null, "split_label": "train", "evidence_locator": "T041:material_review#mention=mat-tradename"},
+    {"record_id": "ROW-005", "study_id": "STUDY-005", "project_id": "PXD000004", "paper_family_id": "FAMILY-003", "lab_id": "LAB-003", "material_entity_id": "CHEBI:46794", "material_raw": "PEG 2000", "bioenvironment_id": "BIOENV-PLASMA", "protocol_id": "protocol-003", "date": "2025-08-01", "split_label": "validation", "evidence_locator": "T047:SILVER#experiment=EXP-005"},
+    {"record_id": "ROW-006", "study_id": "STUDY-006", "project_id": "PXD000004", "paper_family_id": "FAMILY-001", "lab_id": "LAB-003", "material_entity_id": "CHEBI:46794", "material_raw": "PEG 2000", "bioenvironment_id": "BIOENV-PLASMA", "protocol_id": "protocol-003", "date": "2025-08-01", "split_label": "train", "evidence_locator": "T057:PRIDE-QC#project=PXD000004"}
+  ]
+}
