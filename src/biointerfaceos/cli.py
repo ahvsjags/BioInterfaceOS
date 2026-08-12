@@ -2325,18 +2325,18 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             if root is None:
                 print("CC0_TARGET_ADMISSION_INVALID: repository root not found", file=sys.stderr)
                 return 1
-            workflow = CC0TargetAdmissionWorkflow(root)
+            cc0_target_admission_workflow = CC0TargetAdmissionWorkflow(root)
             try:
-                summary = workflow.run(strict=args.strict)
-                workflow.verify()
+                cc0_target_admission_summary = cc0_target_admission_workflow.run(strict=args.strict)
+                cc0_target_admission_workflow.verify()
             except (CC0TargetAdmissionError, OSError) as exc:
                 print(f"CC0_TARGET_ADMISSION_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "CC0_TARGET_ADMISSION_VALID "
-                f"candidates={summary.candidate_source_count} "
-                f"laboratories={summary.candidate_laboratory_count} "
-                f"source_conditions={summary.source_condition_count} "
+                f"candidates={cc0_target_admission_summary.candidate_source_count} "
+                f"laboratories={cc0_target_admission_summary.candidate_laboratory_count} "
+                f"source_conditions={cc0_target_admission_summary.source_condition_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
