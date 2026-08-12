@@ -1,0 +1,1 @@
+{"rows":[{"canonical_protein":"P0SPIKE1","mapping_status":"EXACT","module":"adsorption_core","source_protein":"P0SPIKE1","species":"Homo sapiens"},{"canonical_protein":"P0SPIKE2","mapping_status":"EXACT","module":"receptor_interface","source_protein":"P0SPIKE2","species":"Homo sapiens"}],"schema_version":1}

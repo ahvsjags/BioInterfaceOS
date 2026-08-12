@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "inputs": {
+    "quantification_receipt_path": "reports/omics/quantification/quantification_receipt.json",
+    "quantification_receipt_sha256": "35e9ecbf1d76ec4b48aba4bd6fe82dfeb11ab146fb36de7278091b4f9cde78cc",
+    "normalized_matrix_path": "reports/omics/quantification/normalized_matrix.json",
+    "normalized_matrix_sha256": "ccd3ffc032776cb0a79ff1789b968fcfff3d884868129d267cfc823a21b6c7b7"
+  },
+  "policy": {
+    "compositional_transform": "closure_clr",
+    "batch_correction": "none",
+    "outcome_labels_used_for_transform": false
+  },
+  "projects": [
+    {
+      "project_accession": "PXD000001",
+      "source_scale": "project_relative_abundance_A",
+      "batch_id": "PXD000001_batch_A",
+      "samples": [
+        {"sample_id": "A_CTRL", "condition": "control", "values": {"P0SPIKE1": 60.0, "P0SPIKE2": 40.0}},
+        {"sample_id": "A_TRT", "condition": "treated", "values": {"P0SPIKE1": 75.0, "P0SPIKE2": 25.0}}
+      ]
+    },
+    {
+      "project_accession": "PXD000003",
+      "source_scale": "project_relative_abundance_B",
+      "batch_id": "PXD000003_batch_B",
+      "samples": [
+        {"sample_id": "B_CTRL", "condition": "control", "values": {"P0SPIKE1": 600.0, "P0SPIKE2": 400.0}},
+        {"sample_id": "B_TRT", "condition": "treated", "values": {"P0SPIKE1": 900.0, "P0SPIKE2": null}}
+      ]
+    }
+  ],
+  "mappings": [
+    {"source_protein": "P0SPIKE1", "canonical_protein": "P0SPIKE1", "species": "Homo sapiens", "mapping_status": "EXACT", "module": "adsorption_core"},
+    {"source_protein": "P0SPIKE2", "canonical_protein": "P0SPIKE2", "species": "Homo sapiens", "mapping_status": "EXACT", "module": "receptor_interface"}
+  ],
+  "modules": [
+    {"module": "adsorption_core", "members": ["P0SPIKE1"]},
+    {"module": "receptor_interface", "members": ["P0SPIKE2"]}
+  ]
+}

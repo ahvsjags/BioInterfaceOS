@@ -402,6 +402,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_quantify_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized LFQ fixture"
     )
+    omics_harmonize_parser = omics_subparsers.add_parser(
+        "harmonize-corona", help="harmonize project-preserving protein-corona matrices"
+    )
+    omics_harmonize_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized corona fixture"
+    )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -877,6 +883,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"contaminant_groups={quantification_summary.contaminant_groups} "
                 f"ratios={quantification_summary.ratios_passed}/"
                 f"{quantification_summary.ratios_total} resumed={quantification_summary.resumed}"
+            )
+            return 0
+        if args.omics_command == "harmonize-corona":
+            root = find_repository_root()
+            if root is None:
+                print("HARMONIZE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            from biointerfaceos.harmonize_corona import (
+                HarmonizationError,
+                HarmonizationWorkflow,
+            )
+
+            try:
+                harmonization_summary = HarmonizationWorkflow(root).run(fixture=True)
+            except (HarmonizationError, OSError) as exc:
+                print(f"HARMONIZE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"HARMONIZE_VALID projects={harmonization_summary.projects} "
+                f"samples={harmonization_summary.samples} "
+                f"proteins={harmonization_summary.proteins} "
+                f"modules={harmonization_summary.modules} "
+                f"missing_cells={harmonization_summary.missing_cells} "
+                f"mapping_rows={harmonization_summary.mapping_rows} "
+                f"resumed={harmonization_summary.resumed}"
             )
             return 0
         if args.omics_command != "pride" or args.omics_pride_command != "triage":

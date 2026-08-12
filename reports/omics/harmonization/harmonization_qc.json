@@ -1,0 +1,1 @@
+{"batches":["PXD000001_batch_A","PXD000003_batch_B"],"composition_sums_valid":true,"mapping_rows":2,"mapping_statuses":["EXACT"],"missing_cells":1,"modules":2,"no_combat":true,"no_outcome_leakage":true,"project_scale_preserved":true,"project_scales":["project_relative_abundance_A","project_relative_abundance_B"],"projects":2,"proteins":2,"samples":4,"schema_version":1}
