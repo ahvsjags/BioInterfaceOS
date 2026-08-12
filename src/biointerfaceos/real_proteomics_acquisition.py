@@ -18,7 +18,7 @@ from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, BinaryIO
+from typing import Any, Protocol
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
@@ -28,6 +28,12 @@ from biointerfaceos.network import PROJECT_USER_AGENT
 
 class RealProteomicsAcquisitionError(RuntimeError):
     """Raised when a T123 source transfer is incomplete or unverifiable."""
+
+
+class _ReadableBytes(Protocol):
+    """Minimal binary stream surface shared by plain and gzip file objects."""
+
+    def read(self, size: int = -1) -> bytes: ...
 
 
 def _canonical(value: Any) -> bytes:
@@ -184,7 +190,7 @@ class RealProteomicsAcquisitionWorkflow:
         return candidate
 
     @staticmethod
-    def _sha1_stream(stream: BinaryIO) -> str:
+    def _sha1_stream(stream: _ReadableBytes) -> str:
         digest = hashlib.sha1()
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)

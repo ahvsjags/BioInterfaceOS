@@ -2248,10 +2248,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                     file=sys.stderr,
                 )
                 return 1
-            workflow = RealProteomicsAcquisitionWorkflow(root)
+            acquisition_workflow = RealProteomicsAcquisitionWorkflow(root)
             try:
                 if args.model_command == "acquire-proteomics-sources":
-                    acquisition_summary = workflow.stage(
+                    acquisition_summary = acquisition_workflow.stage(
                         strict=args.strict,
                         source_ids=args.source,
                     )
@@ -2262,8 +2262,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                         "target_frozen=false model_fitted=false scientific_submission_ready=false"
                     )
                 else:
-                    acquisition_summary = workflow.run(strict=args.strict)
-                    workflow.verify()
+                    acquisition_summary = acquisition_workflow.run(strict=args.strict)
+                    acquisition_workflow.verify()
                     print(
                         "REAL_PROTEOMICS_ACQUISITION_AUDIT_VALID "
                         f"assets={acquisition_summary.asset_count} "
