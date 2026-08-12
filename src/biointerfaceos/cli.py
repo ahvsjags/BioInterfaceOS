@@ -367,6 +367,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     benchmark_grade_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized grading fixture"
     )
+    benchmark_baseline_parser = benchmark_subparsers.add_parser(
+        "run-baselines", help="run deterministic simple statistical baselines"
+    )
+    benchmark_baseline_parser.add_argument(
+        "--group", choices=("simple",), default=None, help="baseline group to execute"
+    )
     benchmark_build_parser = benchmark_subparsers.add_parser(
         "build", help="build leakage-safe BioInterfaceBench task instances"
     )
@@ -839,6 +845,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "benchmark":
+        if args.benchmark_command == "run-baselines":
+            root = find_repository_root()
+            if root is None:
+                print("BENCHMARK_BASELINE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if args.group != "simple":
+                print("BENCHMARK_BASELINE_INVALID: --group simple is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.benchmark_baselines import (
+                BenchmarkBaselineError,
+                BenchmarkBaselineWorkflow,
+            )
+
+            try:
+                baseline_summary = BenchmarkBaselineWorkflow(root).run(group=args.group)
+            except (BenchmarkBaselineError, OSError) as exc:
+                print(f"BENCHMARK_BASELINE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"BASELINES_VALID group={args.group} "
+                f"baselines={baseline_summary.baselines} "
+                f"successful={baseline_summary.successful} "
+                f"validation_instances={baseline_summary.validation_instances} "
+                f"best_rmse={baseline_summary.best_rmse:.6f} "
+                f"resumed={baseline_summary.resumed} target_values_exposed=false"
+            )
+            return 0
         if args.benchmark_command == "grade":
             root = find_repository_root()
             if root is None:

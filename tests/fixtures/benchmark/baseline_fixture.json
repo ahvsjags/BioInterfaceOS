@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "mode": "benchmark_baselines_simple",
+  "target_values_are_fixture_only": true,
+  "inputs": [
+    {"label": "T067 public instances", "path": "reports/benchmark/instances/public_instances.json", "sha256": "f86e3eaf4b5cf080cd07165b3e7a96254904a24f853e0524fa399206393d6a48"},
+    {"label": "T068 grader metrics", "path": "reports/benchmark/grading/metrics.json", "sha256": "a73e438ccde47a883fd7a9e0e6c566be6c66e39f6e96be100968bd749b6f32e5"}
+  ],
+  "config": {"group": "simple", "seed": 17, "bootstrap_samples": 128},
+  "targets": [
+    {"instance_id": "E1-001", "target": 0.2},
+    {"instance_id": "E1-002", "target": 0.4},
+    {"instance_id": "C1-001", "target": 0.5},
+    {"instance_id": "C1-002", "target": 0.7},
+    {"instance_id": "U1-001", "target": 0.3},
+    {"instance_id": "U1-002", "target": 0.6},
+    {"instance_id": "S1-001", "target": 0.4},
+    {"instance_id": "S1-002", "target": 0.8},
+    {"instance_id": "B1-001", "target": 0.1},
+    {"instance_id": "B1-002", "target": 0.9},
+    {"instance_id": "CF1-001", "target": 0.2},
+    {"instance_id": "CF1-002", "target": 0.85},
+    {"instance_id": "D1-001", "target": 0.55},
+    {"instance_id": "D1-002", "target": 0.75},
+    {"instance_id": "A1-001", "target": 0.35},
+    {"instance_id": "A1-002", "target": 0.65}
+  ]
+}
