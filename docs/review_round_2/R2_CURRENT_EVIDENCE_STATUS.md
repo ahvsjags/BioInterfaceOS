@@ -4,7 +4,7 @@
 
 | ID | 当前可审计状态 | 当前定位 | 仍需满足的条件 |
 |---|---|---|---|
-| R2-01 | OPEN_EMPIRICAL_TARGET_UNAVAILABLE | PXD030327 已验证 636 个来源 run 与 819 个矩阵列的映射，但 NP 标签仍为类别且仅单实验室暴露条件；未冻结共同 target，禁止模型使用 | 真实、非 fixture 的跨研究共同终点与行级溯源；冻结模型输出和外部 held-out 评估 |
+| R2-01 | OPEN_EMPIRICAL_TARGET_UNAVAILABLE | 当前 T129 汇总已覆盖 5 个候选来源、4 个实验室和 12 个已核验源资产；PXD030327 已验证 636 个来源 run 与 819 个矩阵列的映射，但 NP 标签仍为类别、数值字段仅为 P/NP 暴露且仅单实验室。未冻结共同 target，禁止模型使用 | 真实、非 fixture 的跨研究共同终点、数值材料/粒径协变量与行级溯源；冻结模型输出和外部 held-out 评估 |
 | R2-02 | FALLBACK_PROTOCOL_ONLY_VERIFIED | Paper C 仅为预注册/协议稿，不是独立 replication | 独立 evaluator、冻结代码、受保护真实观测与签名 receipt |
 | R2-03 | OPEN_STATISTICAL_VALIDATION_UNAVAILABLE | 不报告模型、消融、OOD 或有效样本量结论 | 冻结 estimand/split、study-clustered 分析、nested selection、effective n |
 | R2-04 | FALLBACK_SOFTWARE_REPLAY_BOUNDARY_VERIFIED | 历史 fixture 稿件的违规表述以源哈希隔离，排除于当前 R2 稿件与公开发布范围；不作为 scientific replication | 获得外部 scientific reproduction receipt |
