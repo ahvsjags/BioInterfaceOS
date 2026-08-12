@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T069
-active_execplan: docs/execplans/T069_statistical_baselines.md
+current_task: T070
+active_execplan: docs/execplans/T070_representation_baselines.md
 completed_tasks:
   - T000
   - T001
@@ -76,10 +76,10 @@ completed_tasks:
   - T066
   - T067
   - T068
+  - T069
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T070
   - T071
   - T072
   - T073
