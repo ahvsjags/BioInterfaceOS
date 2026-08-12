@@ -69,6 +69,7 @@ class R2ReleaseReproductionWorkflow:
         "junit.xml",
         "generation_receipt.json",
     )
+    CONTAINER_NETWORK_REQUIREMENT = "docker build --network=none; docker run --network=none"
 
     def __init__(self, root: Path, *, output_root: Path | None = None) -> None:
         self.root = root.resolve(strict=True)
@@ -205,19 +206,17 @@ class R2ReleaseReproductionWorkflow:
 
     def _write_source_archive(self, source_root: Path, manifest_path: Path) -> Path:
         archive = self.output_root / "r2_public_source.tar.gz"
-        with archive.open("wb") as raw:
-            with gzip.GzipFile(fileobj=raw, mode="wb", mtime=0) as compressed:
-                with tarfile.open(fileobj=compressed, mode="w") as tar:
-                    for path in sorted(item for item in source_root.rglob("*") if item.is_file()):
-                        relative = path.relative_to(source_root).as_posix()
-                        with path.open("rb") as stream:
-                            tar.addfile(
-                                self._tar_info(f"source/{relative}", path.stat().st_size), stream
-                            )
-                    payload = manifest_path.read_bytes()
-                    tar.addfile(
-                        self._tar_info("source_manifest.json", len(payload)), io.BytesIO(payload)
-                    )
+        with (
+            archive.open("wb") as raw,
+            gzip.GzipFile(fileobj=raw, mode="wb", mtime=0) as compressed,
+            tarfile.open(fileobj=compressed, mode="w") as tar,
+        ):
+            for path in sorted(item for item in source_root.rglob("*") if item.is_file()):
+                relative = path.relative_to(source_root).as_posix()
+                with path.open("rb") as stream:
+                    tar.addfile(self._tar_info(f"source/{relative}", path.stat().st_size), stream)
+            payload = manifest_path.read_bytes()
+            tar.addfile(self._tar_info("source_manifest.json", len(payload)), io.BytesIO(payload))
         return archive
 
     def _clean_replay(self, inventory: list[dict[str, Any]]) -> dict[str, Any]:
@@ -264,7 +263,10 @@ class R2ReleaseReproductionWorkflow:
                 "command": "python -m biointerfaceos reproduce release --strict",
                 "python_executable": sys.executable,
                 "source_mode": "temporary_public_source_only",
-                "network_policy": "BIOINTERFACEOS_NETWORK_DISABLED=1; container command requires --network=none",
+                "network_policy": (
+                    "BIOINTERFACEOS_NETWORK_DISABLED=1; "
+                    "container command requires --network=none"
+                ),
                 "return_code": completed.returncode,
                 "stdout_sha256": hashlib.sha256(completed.stdout.encode("utf-8")).hexdigest(),
                 "stderr_sha256": hashlib.sha256(completed.stderr.encode("utf-8")).hexdigest(),
@@ -279,7 +281,8 @@ class R2ReleaseReproductionWorkflow:
     def _junit(clean_replay: Mapping[str, Any]) -> str:
         return (
             '<?xml version="1.0" encoding="UTF-8"?>\n'
-            '<testsuite name="biointerfaceos.r2_software_replay" tests="1" failures="0" errors="0">\n'
+            '<testsuite name="biointerfaceos.r2_software_replay" tests="1" '
+            'failures="0" errors="0">\n'
             '  <testcase classname="biointerfaceos.reproducibility" '
             'name="public_source_clean_replay">\n'
             "    <system-out>"
@@ -329,7 +332,7 @@ class R2ReleaseReproductionWorkflow:
             "archive_sha256": _sha256(archive_path),
             "container_recipe": "containers/r2-software-replay.Dockerfile",
             "container_run_script": "containers/r2-software-replay-run.sh",
-            "container_network_requirement": "docker build --network=none; docker run --network=none",
+            "container_network_requirement": self.CONTAINER_NETWORK_REQUIREMENT,
             "software_replay": True,
             "scientific_reproduction": False,
             "scientific_submission_ready": False,
@@ -390,7 +393,7 @@ class R2ReleaseReproductionWorkflow:
             or receipt.get("scientific_submission_ready") is not False
             or source_manifest.get("scope") != "R2_PUBLIC_SOFTWARE_REPLAY_SOURCE"
             or release_manifest.get("container_network_requirement")
-            != "docker build --network=none; docker run --network=none"
+            != self.CONTAINER_NETWORK_REQUIREMENT
         ):
             raise R2ReleaseReproductionError("R2 software replay evidence boundary is invalid")
         files = source_manifest.get("files")

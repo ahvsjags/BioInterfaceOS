@@ -33,7 +33,7 @@ def test_r2_release_replays_only_registered_public_source_in_clean_worktree(tmp_
     source_manifest = _json(output / "source_manifest.json")
     assert source_manifest["scope"] == "R2_PUBLIC_SOFTWARE_REPLAY_SOURCE"
     paths = {row["path"] for row in source_manifest["files"]}
-    assert R2ReleaseReproductionWorkflow.REQUIRED_PUBLIC_PATHS <= paths
+    assert paths >= R2ReleaseReproductionWorkflow.REQUIRED_PUBLIC_PATHS
     assert not any(
         path.startswith(("data/", "registry/", "reports/", "release/")) for path in paths
     )
