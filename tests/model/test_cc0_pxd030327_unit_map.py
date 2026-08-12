@@ -104,8 +104,12 @@ def _fixture_root(tmp_path: Path) -> tuple[Path, Path]:
             "unexcluded_units_missing_from_matrices": 0,
         },
         "target_admission": {
-            "numeric_material_covariate_status": "MISSING_SOURCE_MATCHED_MATERIAL_OR_SIZE_COVARIATE",
-            "source_ratio_interpretation": "SOURCE_DEFINED_NUMERIC_EXPOSURE_NOT_MATERIAL_OR_SIZE_COVARIATE",
+            "numeric_material_covariate_status": (
+                "MISSING_SOURCE_MATCHED_MATERIAL_OR_SIZE_COVARIATE"
+            ),
+            "source_ratio_interpretation": (
+                "SOURCE_DEFINED_NUMERIC_EXPOSURE_NOT_MATERIAL_OR_SIZE_COVARIATE"
+            ),
             "categorical_np_label_status": "PROHIBITED_AS_PREDICTIVE_IDENTITY_FEATURE",
             "cross_laboratory_endpoint_status": "SINGLE_LAB_ONLY_NO_COMMON_ENDPOINT",
             "admission": "NOT_ADMITTED",
