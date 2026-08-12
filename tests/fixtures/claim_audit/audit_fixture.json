@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "mode": "final_claim_audit_once",
+  "preregistration": {
+    "audit_id": "bioif-final-claim-audit-v1.0.0",
+    "audited_at": "2026-08-12T00:00:00+00:00",
+    "once": true
+  },
+  "inputs": [
+    {"label": "paper_a manuscript", "path": "release/manuscripts/paper_a/paper_a.md", "sha256": "e144e825c233103706268c7b409f6e73f6d6dfd67d2cd22747ac3e49fce3987c"},
+    {"label": "paper_a claim matrix", "path": "release/manuscripts/paper_a/claim_matrix.json", "sha256": "a4c55ab16daafe9d97f9030d0889e1c81447b057dc922ca64e3aaada05a1c947"},
+    {"label": "paper_b manuscript", "path": "release/manuscripts/paper_b/paper_b.md", "sha256": "d974ea1766fd770212484a1d1a862a4c5a8f0b6789b05ac06e7b7742f31a3171"},
+    {"label": "paper_b claim matrix", "path": "release/manuscripts/paper_b/claim_matrix.json", "sha256": "2c331bbb33442692a0225c03d4e4412fc8d2d3d6e56284f49eae28a1779a83ca"},
+    {"label": "paper_c_prelock manuscript", "path": "release/manuscripts/paper_c_prelock/paper_c_prelock.md", "sha256": "ee6adf7f47b81b4dab588efd9cb910027a1b63876fc2044898c88f9f583c6080"},
+    {"label": "paper_c_prelock claim matrix", "path": "release/manuscripts/paper_c_prelock/claim_matrix.json", "sha256": "1910c153a37a68c2c8f51e0939e7cb4e6176ed7d681cc0231a76464ef8c5ec6b"},
+    {"label": "Paper C allowed wording", "path": "release/manuscripts/paper_c_prelock/allowed_wording.json", "sha256": "a2f434733c90d9b52f136b487d55ad38d9776b9c5144c48e1eccc047914d95b7"},
+    {"label": "T110 claim transitions", "path": "reports/lockbox/audit/bioif-lockbox-audit-v1.0.0/claim_transitions.json", "sha256": "35aee608552de3904b2c040f00bae854a952c528821ac2b80c9b0c3081372a09"},
+    {"label": "T110 audit receipt", "path": "reports/lockbox/audit/bioif-lockbox-audit-v1.0.0/audit_receipt.json", "sha256": "9b72d57cc29f404d4cd63c249292d7c3251e388fd2fbef3659732fa4cf98ff3b"},
+    {"label": "T112 reproduction report", "path": "reports/reproducibility/clean-room-v1.0.0/reproduction_report.json", "sha256": "f855e9a3210aa6ff56bf9263fb52635a69f323f1715a390fa1ffbd8d322fa8e8"},
+    {"label": "T112 public package", "path": "reports/reproducibility/clean-room-v1.0.0/public_package.tar.gz", "sha256": "dc795d0e62e420e77cb9e219f50b3f418f3bdd9950c17ae5ebe17757b6512eb3"}
+  ]
+}

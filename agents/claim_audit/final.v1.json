@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BioInterfaceOS final claim audit",
+  "type": "object",
+  "required": ["schema_version", "status", "audit_id", "sentence_count", "claim_count", "submission_blockers"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "VALID_FINAL_CLAIM_AUDIT"},
+    "audit_id": {"const": "bioif-final-claim-audit-v1.0.0"},
+    "claim_count": {"const": 24},
+    "orphan_sentences": {"const": 0},
+    "unresolved_evidence": {"const": 0},
+    "critical_language_findings": {"const": 0},
+    "submission_blockers": {"const": 0}
+  },
+  "additionalProperties": true
+}

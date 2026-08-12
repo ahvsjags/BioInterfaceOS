@@ -472,6 +472,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     claim_preregister_parser.add_argument(
         "--dev", action="store_true", help="use the development-only tournament fixture"
     )
+    claim_audit_parser = claim_subparsers.add_parser(
+        "audit-manuscripts", help="run the final claim-to-evidence and language audit"
+    )
+    claim_audit_parser.add_argument("--strict", action="store_true")
     design_parser = subparsers.add_parser(
         "design", help="run constrained multiobjective design baselines"
     )
@@ -1150,6 +1154,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "claim":
+        if args.claim_command == "audit-manuscripts":
+            from biointerfaceos.claim_audit_workflow import ClaimAuditError, ClaimAuditWorkflow
+
+            root = find_repository_root()
+            if root is None:
+                print("FINAL_CLAIM_AUDIT_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                claim_audit_result = ClaimAuditWorkflow(root).run(strict=args.strict)
+            except (ClaimAuditError, OSError) as exc:
+                print(f"FINAL_CLAIM_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"FINAL_CLAIM_AUDIT_VALID audit_id={claim_audit_result['audit_id']} "
+                f"papers={len(claim_audit_result['papers'])} "
+                f"claims={claim_audit_result['claim_count']} "
+                f"sentences={claim_audit_result['sentence_count']} "
+                f"evidence={claim_audit_result['evidence_reference_count']} "
+                "critical_findings=0 submission_blockers=0"
+            )
+            return 0
         if args.claim_command != "preregister":
             parser.parse_args(["claim", "--help"])
             return 0
