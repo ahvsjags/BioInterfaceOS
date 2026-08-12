@@ -24,7 +24,7 @@ required_gates:
     pass_evidence: non-fixture row-level source/study/lab/material/protocol/license lineage
     fallback: software/protocol positioning
   statistical_validity:
-    owner_tasks: [T121, T122, T123]
+    owner_tasks: [T121, T122, T123, T129]
     pass_evidence: frozen estimands and splits, independent groups, nested selection, raw predictions, cluster-aware uncertainty
     fallback: exploratory-only claims
   independent_lockbox:

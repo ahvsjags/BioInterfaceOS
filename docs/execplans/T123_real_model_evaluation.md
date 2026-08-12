@@ -56,6 +56,12 @@ Do not convert deterministic locator resolution into a causal or biological mode
   source runs could otherwise appear to supplement covariates. Its author-result
   workbooks identify bovine proteins, so it is explicitly rejected rather than
   misrepresented as a human or cross-species validation source.
+- [x] Author-result profile. The completed 27-asset transfer yielded 23
+  parseable result profiles: 12 PXD017776 mzIdentML detection sets, 10 PXD052701
+  MSF target-protein detection sets, and one combined PXD032162 mzIdentML
+  detection set. The immutable receipt records zero compatible cross-study
+  predictive targets, and neither derives nor concatenates author abundance
+  scales.
 - [ ] Compatible target freeze.
 - [ ] Paired model/ablation/OOD execution.
 - [ ] Strict receipt and negative-control audit.
@@ -74,6 +80,11 @@ Do not convert deterministic locator resolution into a causal or biological mode
   LF1-L through LF5-S covariates remain unresolved; PXD032162 publishes a TMT
   mix/PS/PVC/timepoint design sheet. Their author-result scales remain
   heterogeneous and are not concatenated.
+- The completed author-result profile confirms that this boundary is empirical,
+  not merely metadata-based: PXD052701's L/S runs have no reusable source-matched
+  material/size covariate map, while PXD032162 supplies one combined protein
+  result for eight design mixes. The common observable is a protein detection
+  set, not a frozen abundance endpoint or cross-study feature space.
 
 ## Decisions
 
@@ -93,6 +104,10 @@ Do not convert deterministic locator resolution into a causal or biological mode
 - Reject PXD017429 from the current cohort. Although it has a CC0 release and
   named runs, the inspected author sheets are bovine. It cannot repair the
   human-data covariate gap, and it cannot be used as an external validation set.
+- Keep the 23 completed result profiles as source-provenance evidence only.
+  They establish an explicit no-target result and activate T129; they do not
+  authorize an unamended T121 plan, model fitting, paired ablations, OOD scoring,
+  or independent validation.
 
 ## Validation
 
@@ -118,9 +133,14 @@ Do not convert deterministic locator resolution into a causal or biological mode
   resumes the fixed anonymous PRIDE transfer into ignored raw storage, validates
   SHA-1 publisher checksums where released, preserves non-checksummed assets with
   exact byte counts and local SHA-256, and writes an append-only transfer log.
-  `python -m biointerfaceos model audit-proteomics-acquisition --strict` remains
-  unavailable until all 27 files are locally verified; its output cannot freeze a
-  target or authorize model fitting.
+  `python -m biointerfaceos model audit-proteomics-acquisition --strict` verified
+  all 27 files locally. Neither output can freeze a target or authorize model
+  fitting.
+- 2026-08-13: `python -m biointerfaceos model profile-proteomics-results --strict`
+  parsed the completed author results and wrote immutable decision and receipt
+  files in `reports/review_round_2/real_proteomics_result_profile/v1.0.0/`.
+  It records 3 sources, 23 profiles, zero compatible cross-study targets and
+  `model_use=PROHIBITED`; workflow verification rejects tampered receipts.
 
 ## Failure recovery
 
@@ -131,6 +151,8 @@ If a compatible real target cannot be assembled, record a blocked data-coverage 
 - Compatibility report; frozen target/configuration/split manifests; paired predictions; ablations; OOD and negative-control audit; receipt.
 - Current compatibility-only output:
   `reports/review_round_2/real_model_compatibility/v1.1.0/`.
+- Current result-profile output:
+  `reports/review_round_2/real_proteomics_result_profile/v1.0.0/`.
 
 ## Completion note
 
