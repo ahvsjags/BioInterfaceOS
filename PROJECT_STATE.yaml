@@ -168,6 +168,7 @@ notes:
   - '2026-08-12: T122 admitted three CC BY 4.0 anonymous-public studies from distinct laboratories and froze leave-one-study-out raw-cell locator evaluation. The receipt publishes source admission, raw predictions, coverage, calibration and study-clustered interval artifacts, but it is explicitly not biological, predictive, external, or independent validation.'
   - '2026-08-12: T125 completed a source-verified external evidence packet with 12 citations, 8 nearest-neighbour comparators, two non-overlapping R2 manuscript scopes and seven operational glossary terms. It preserves the T123/T124 blockers and does not retroactively clear historical fixture manuscripts.'
   - '2026-08-12: T123 source expansion checksum-verified three open raw-table candidate packages, but the declared metrics are hydrodynamic mean, Z-average, and an unspecified hydrodynamic-size statistic. The strict audit preserves a non-admission receipt; model fitting, ablations, OOD and independent validation remain false.'
+  - '2026-08-12: T124 now has a strict external-evaluator readiness protocol that binds the T123 compatibility receipt, requires an independent evaluator and aggregate-only protected-data handoff, and fails closed with a blocked receipt while zero compatible targets and zero frozen real-model outputs exist. It does not create an evaluator receipt or scientific result.'
 review_round_2:
   status: ACTIVE
   source: docs/review_round_2/REMEDIATION_MATRIX.md

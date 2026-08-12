@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-independent-evaluation-receipt-v1.0.0",
+  "title": "BioInterfaceOS R2 external evaluator aggregate-only receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evaluation_id",
+    "protocol_id",
+    "evaluator",
+    "frozen_bundle",
+    "attestation",
+    "aggregate_metrics",
+    "threshold_statuses",
+    "environment_digest",
+    "raw_values_included",
+    "author_team_accessed_protected_observations",
+    "post_freeze_tuning"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "evaluation_id": {"type": "string", "minLength": 1},
+    "protocol_id": {"const": "bioif-r2-independent-evaluation-protocol-v1.0.0"},
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "institution", "conflict_disclosure"],
+      "properties": {
+        "identity": {"type": "string", "minLength": 1},
+        "institution": {"type": "string", "minLength": 1},
+        "conflict_disclosure": {"type": "string", "minLength": 1}
+      }
+    },
+    "frozen_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "git_commit",
+        "environment_lock_sha256",
+        "target_registry_sha256",
+        "split_manifest_sha256",
+        "model_configuration_sha256",
+        "prediction_archive_sha256",
+        "threshold_ledger_sha256"
+      ],
+      "properties": {
+        "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "environment_lock_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "target_registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "split_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "model_configuration_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "prediction_archive_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "threshold_ledger_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signed_attestation", "signature_fingerprint"],
+      "properties": {
+        "signed_attestation": {"type": "string", "minLength": 1},
+        "signature_fingerprint": {"type": "string", "minLength": 1}
+      }
+    },
+    "aggregate_metrics": {"type": "object"},
+    "threshold_statuses": {"type": "object"},
+    "environment_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "raw_values_included": {"const": false},
+    "author_team_accessed_protected_observations": {"const": false},
+    "post_freeze_tuning": {"const": false}
+  }
+}

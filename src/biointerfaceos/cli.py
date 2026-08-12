@@ -228,6 +228,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     evaluate_parser.add_argument("--release", required=True, choices=("FROZEN_DEV",))
     evaluate_parser.add_argument("--once", action="store_true")
+    independent_evaluate_parser = lockbox_subparsers.add_parser(
+        "evaluate-independent",
+        help="audit T124 readiness for an external protected-data evaluator",
+    )
+    independent_evaluate_parser.add_argument("--strict", action="store_true")
     audit_results_parser = lockbox_subparsers.add_parser(
         "audit-results", help="audit sealed lockbox results against the frozen claim package"
     )
@@ -2909,6 +2914,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "lockbox":
+        if args.lockbox_command == "evaluate-independent":
+            from biointerfaceos.independent_evaluation_workflow import (
+                IndependentEvaluationError,
+                IndependentEvaluationWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("INDEPENDENT_EVALUATION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                independent_summary = IndependentEvaluationWorkflow(root).run(
+                    strict=args.strict
+                )
+            except (IndependentEvaluationError, OSError) as exc:
+                print(f"INDEPENDENT_EVALUATION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "INDEPENDENT_EVALUATION_VALID "
+                f"status={independent_summary.status} "
+                f"compatible_targets={independent_summary.compatible_target_count} "
+                "external_evaluator_receipt_verified=false "
+                f"blocking_reasons={independent_summary.blocking_reason_count} "
+                "protected_observations_accessed=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
         if args.lockbox_command == "evaluate":
             from biointerfaceos.lockbox_evaluation_workflow import (
                 LockboxEvaluationError,

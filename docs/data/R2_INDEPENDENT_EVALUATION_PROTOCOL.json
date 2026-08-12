@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r2-independent-evaluation-protocol-v1.0.0",
+  "declared_at": "2026-08-12T00:00:00+00:00",
+  "status": "PROTOCOL_ONLY_PENDING_T123",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "t123_gate": {
+    "decision_path": "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_decision.json",
+    "receipt_path": "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json",
+    "required_status": "READY_FOR_FROZEN_REAL_MODEL_EVALUATION",
+    "required_false_fields": [
+      "model_fitted",
+      "paired_ablations_run",
+      "external_ood_evaluated",
+      "negative_controls_run"
+    ]
+  },
+  "independence_requirements": {
+    "external_evaluator_required": true,
+    "evaluator_must_not_be_author": true,
+    "evaluator_conflict_disclosure_required": true,
+    "author_team_access_to_protected_observations": false,
+    "author_team_may_tune_after_freeze": false
+  },
+  "protected_data_requirements": {
+    "data_must_remain_outside_repository": true,
+    "raw_values_must_not_enter_receipt": true,
+    "aggregate_metrics_only": true,
+    "evaluator_environment_separate_from_author_environment": true
+  },
+  "frozen_bundle_requirements": [
+    "git_commit",
+    "environment_lock_sha256",
+    "target_registry_sha256",
+    "split_manifest_sha256",
+    "model_configuration_sha256",
+    "prediction_archive_sha256",
+    "threshold_ledger_sha256"
+  ],
+  "result_receipt_requirements": [
+    "evaluator_identity_and_affiliation",
+    "conflict_disclosure",
+    "signed_attestation",
+    "frozen_bundle_hashes",
+    "aggregate_metrics",
+    "threshold_statuses",
+    "environment_digest",
+    "raw_values_included",
+    "author_team_accessed_protected_observations",
+    "post_freeze_tuning"
+  ],
+  "external_receipt_schema_path": "schemas/independent_evaluation_receipt.schema.json",
+  "prohibited_actions": [
+    "author_access_to_protected_observations",
+    "post_freeze_training",
+    "post_freeze_tuning",
+    "post_freeze_threshold_change",
+    "raw_value_export_to_repository",
+    "fixture_substitution"
+  ]
+}
