@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "mode": "signatures",
+  "inputs": [
+    {
+      "label": "T059 normalized matrices",
+      "path": "reports/omics/geo_processing/normalized_matrices.json",
+      "sha256": "37a34626cb6dd14b518e7d0225f5ba8f8ef5f89d9bc01c182742528cd9d361c4"
+    },
+    {
+      "label": "T059 sample metadata",
+      "path": "reports/omics/geo_processing/sample_metadata.json",
+      "sha256": "acf1fd4bfc9aa38e00f9a9446d41cdf5dc0bcd2fcaa6fe93960a83d6fc696b2a"
+    },
+    {
+      "label": "T060 raw counts",
+      "path": "reports/omics/geo_raw/raw_counts.json",
+      "sha256": "d381f4042d52fad2ac63fea05be6877eb60c41174299cb6543207d2d0c2d2755"
+    },
+    {
+      "label": "T060 sample metadata",
+      "path": "reports/omics/geo_raw/sample_metadata.json",
+      "sha256": "b4c446a5cd378d8abae5f5f2fac871e4a075d699d17ef8aca5cb58743ddde683"
+    }
+  ],
+  "signatures": [
+    {
+      "signature_id": "cell_stress",
+      "family": "predefined",
+      "provenance": "MSigDB-fixture-v1",
+      "method": "weighted_mean_z",
+      "gene_members": ["GENE1", "GENE2"],
+      "weights": {"GENE1": 1.0, "GENE2": 0.5}
+    },
+    {
+      "signature_id": "immune_response",
+      "family": "predefined",
+      "provenance": "Reactome-fixture-v1",
+      "method": "weighted_mean_z",
+      "gene_members": ["GENE2"],
+      "weights": {"GENE2": 1.0}
+    },
+    {
+      "signature_id": "data_factor_1",
+      "family": "data_driven",
+      "provenance": "BioInterfaceOS-data-driven-v1",
+      "method": "study_local_variance_rank",
+      "candidate_genes": ["GENE1", "GENE2"],
+      "max_genes": 2
+    }
+  ]
+}

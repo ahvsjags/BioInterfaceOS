@@ -414,6 +414,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_qc_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized PRIDE QC fixture"
     )
+    omics_signatures_parser = omics_subparsers.add_parser(
+        "derive-signatures", help="derive fixture-backed cell and immune response signatures"
+    )
+    omics_signatures_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized signature fixture"
+    )
     omics_geo_parser = omics_subparsers.add_parser(
         "geo", help="discover GEO/SRA biointerface response datasets"
     )
@@ -835,6 +841,28 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "omics":
+        if args.omics_command == "derive-signatures":
+            root = find_repository_root()
+            if root is None:
+                print("SIGNATURES_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            from biointerfaceos.signature_workflow import SignatureWorkflow, SignatureWorkflowError
+
+            try:
+                signature_summary = SignatureWorkflow(root).run(fixture=True)
+            except (SignatureWorkflowError, OSError) as exc:
+                print(f"SIGNATURES_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SIGNATURES_VALID studies={signature_summary.studies} "
+                f"samples={signature_summary.samples} "
+                f"signatures={signature_summary.signatures} "
+                f"scores={signature_summary.scores} "
+                f"stable_folds={signature_summary.stable_folds}/"
+                f"{signature_summary.total_folds} resumed={signature_summary.resumed} "
+                "predefined_data_driven_separate=true leakage_passed=true"
+            )
+            return 0
         if args.omics_command == "convert":
             root = find_repository_root()
             if root is None:
