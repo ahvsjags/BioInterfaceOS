@@ -1,0 +1,1 @@
+{"ad_penalty":0.3,"ad_threshold":0.45,"budget":6,"components":["DSPC","PEG2000","CHOL"],"frozen_before_generation":true,"methods":["enumeration","nsga_ii","bo_style"],"objectives":["performance","novelty","risk"],"schema_version":1,"uncertainty_penalty":0.5}

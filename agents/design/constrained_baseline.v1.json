@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "workflow": "constrained_multiobjective_design_baseline",
+  "required_inputs": [
+    "T041 material resolution",
+    "T078 uncertainty receipt",
+    "T090 functional axes receipt",
+    "T095 counterfactual receipt"
+  ],
+  "methods": ["enumeration", "nsga_ii", "bo_style"],
+  "required_outputs": [
+    "design_preregistration",
+    "candidate_ledger",
+    "constraint_audit",
+    "method_comparison",
+    "penalty_audit",
+    "control_recovery",
+    "pareto_set",
+    "abstention_ledger",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "gates": [
+    "simplex_and_structure_constraints",
+    "uncertainty_penalty",
+    "applicability_domain_penalty",
+    "observed_control_recovery",
+    "reproducible_pareto",
+    "ood_abstention"
+  ],
+  "failure_policy": "restrict_to_observed_components_and_ranges"
+}

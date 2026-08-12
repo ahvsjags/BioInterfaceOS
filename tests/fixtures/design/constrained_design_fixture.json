@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "mode": "constrained_design_baseline",
+  "inputs": [
+    {
+      "label": "T041 material resolution",
+      "path": "reports/T041_material_resolution.md",
+      "sha256": "01213db1497fd672ed710ef8259be1bd3c26a80b9dd8c04a2f20b6a24d5d54c7"
+    },
+    {
+      "label": "T078 uncertainty receipt",
+      "path": "reports/models/uncertainty/uncertainty_receipt.json",
+      "sha256": "f36a003c4c2afb5dc7713af841e6736274ee9582a58f9eef306bc7f537676a71"
+    },
+    {
+      "label": "T090 functional axes receipt",
+      "path": "reports/omics/functional_axes/functional_axes_receipt.json",
+      "sha256": "6ccd62a249ed8d1b255681b13c854864ae2757db0ada696aff4fb94662df304c"
+    },
+    {
+      "label": "T095 counterfactual receipt",
+      "path": "reports/omics/counterfactuals/counterfactuals_receipt.json",
+      "sha256": "2a7a7d6497569c642b93104317d8e9d1fa6145a4e88c2430be80679fe8e85319"
+    }
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "components": ["DSPC", "PEG2000", "CHOL"],
+    "objectives": ["performance", "novelty", "risk"],
+    "methods": ["enumeration", "nsga_ii", "bo_style"],
+    "budget": 6,
+    "uncertainty_penalty": 0.50,
+    "ad_penalty": 0.30,
+    "ad_threshold": 0.45,
+    "simplex_tolerance": 0.001,
+    "allowed_geometries": ["spherical", "bilayer"],
+    "structure_rules": {"charge_neutral": true, "valence_ok": true},
+    "observed_controls": ["CTRL-A", "CTRL-B"],
+    "control_tolerance": 0.10
+  },
+  "candidates": [
+    {"candidate_id": "CTRL-A", "material_id": "MAT-OBS-A", "fractions": {"DSPC": 0.50, "PEG2000": 0.30, "CHOL": 0.20}, "structure": {"charge_neutral": true, "allowed_geometry": "bilayer", "valence_ok": true}, "performance": 0.60, "risk": 0.20, "novelty": 0.20, "uncertainty": 0.04, "ad_distance": 0.10},
+    {"candidate_id": "CTRL-B", "material_id": "MAT-OBS-B", "fractions": {"DSPC": 0.20, "PEG2000": 0.50, "CHOL": 0.30}, "structure": {"charge_neutral": true, "allowed_geometry": "spherical", "valence_ok": true}, "performance": 0.55, "risk": 0.18, "novelty": 0.25, "uncertainty": 0.05, "ad_distance": 0.12},
+    {"candidate_id": "CAND-01", "material_id": "MAT-C-01", "fractions": {"DSPC": 0.60, "PEG2000": 0.20, "CHOL": 0.20}, "structure": {"charge_neutral": true, "allowed_geometry": "bilayer", "valence_ok": true}, "performance": 0.78, "risk": 0.15, "novelty": 0.30, "uncertainty": 0.04, "ad_distance": 0.15},
+    {"candidate_id": "CAND-02", "material_id": "MAT-C-02", "fractions": {"DSPC": 0.30, "PEG2000": 0.50, "CHOL": 0.20}, "structure": {"charge_neutral": true, "allowed_geometry": "spherical", "valence_ok": true}, "performance": 0.74, "risk": 0.12, "novelty": 0.35, "uncertainty": 0.05, "ad_distance": 0.18},
+    {"candidate_id": "CAND-03", "material_id": "MAT-C-03", "fractions": {"DSPC": 0.20, "PEG2000": 0.30, "CHOL": 0.50}, "structure": {"charge_neutral": true, "allowed_geometry": "bilayer", "valence_ok": true}, "performance": 0.70, "risk": 0.10, "novelty": 0.42, "uncertainty": 0.06, "ad_distance": 0.20},
+    {"candidate_id": "CAND-04", "material_id": "MAT-C-04", "fractions": {"DSPC": 0.45, "PEG2000": 0.10, "CHOL": 0.45}, "structure": {"charge_neutral": true, "allowed_geometry": "spherical", "valence_ok": true}, "performance": 0.82, "risk": 0.25, "novelty": 0.50, "uncertainty": 0.08, "ad_distance": 0.30},
+    {"candidate_id": "CAND-05", "material_id": "MAT-OOD-05", "fractions": {"DSPC": 0.10, "PEG2000": 0.10, "CHOL": 0.80}, "structure": {"charge_neutral": true, "allowed_geometry": "spherical", "valence_ok": true}, "performance": 0.92, "risk": 0.08, "novelty": 0.70, "uncertainty": 0.30, "ad_distance": 0.65},
+    {"candidate_id": "BAD-SUM", "material_id": "MAT-BAD-SUM", "fractions": {"DSPC": 0.70, "PEG2000": 0.40, "CHOL": 0.20}, "structure": {"charge_neutral": true, "allowed_geometry": "bilayer", "valence_ok": true}, "performance": 0.90, "risk": 0.10, "novelty": 0.80, "uncertainty": 0.02, "ad_distance": 0.10},
+    {"candidate_id": "BAD-STRUCT", "material_id": "MAT-BAD-STRUCT", "fractions": {"DSPC": 0.40, "PEG2000": 0.30, "CHOL": 0.30}, "structure": {"charge_neutral": false, "allowed_geometry": "unknown", "valence_ok": false}, "performance": 0.88, "risk": 0.09, "novelty": 0.75, "uncertainty": 0.02, "ad_distance": 0.10}
+  ]
+}

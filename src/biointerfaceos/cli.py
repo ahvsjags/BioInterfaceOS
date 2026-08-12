@@ -423,6 +423,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     claim_preregister_parser.add_argument(
         "--dev", action="store_true", help="use the development-only tournament fixture"
     )
+    design_parser = subparsers.add_parser(
+        "design", help="run constrained multiobjective design baselines"
+    )
+    design_subparsers = design_parser.add_subparsers(dest="design_command")
+    design_baseline_parser = design_subparsers.add_parser(
+        "baseline", help="run the fixture-backed constrained design baseline"
+    )
+    design_baseline_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized constrained-design fixture"
+    )
     discover_parser = subparsers.add_parser(
         "discover", help="discover development-scope scientific representations"
     )
@@ -1010,6 +1020,42 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"claims_auto_accepted={str(tournament_summary.claims_auto_accepted).lower()} "
             f"selected_pipeline={tournament_summary.selected_pipeline} "
             f"resumed={tournament_summary.resumed}"
+        )
+        return 0
+    if args.command == "design":
+        if args.design_command != "baseline":
+            parser.parse_args(["design", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("DESIGN_BASELINE_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("DESIGN_BASELINE_INVALID: --fixture is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.design_baseline_workflow import (
+            DesignBaselineError,
+            DesignBaselineWorkflow,
+        )
+
+        try:
+            design_summary = DesignBaselineWorkflow(root).run(fixture=True)
+        except (DesignBaselineError, OSError) as exc:
+            print(f"DESIGN_BASELINE_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"DESIGN_BASELINE_VALID candidates={design_summary.candidates} "
+            f"valid_candidates={design_summary.valid_candidates} "
+            f"invalid_candidates={design_summary.invalid_candidates} "
+            f"supported_candidates={design_summary.supported_candidates} "
+            f"methods={design_summary.methods} "
+            f"constraint_pass_rate={design_summary.constraint_pass_rate:.6f} "
+            f"controls_recovered={design_summary.controls_recovered} "
+            f"controls_total={design_summary.controls_total} "
+            f"pareto_members={design_summary.pareto_members} "
+            f"abstentions={design_summary.abstentions} "
+            f"selected_method={design_summary.selected_method} "
+            f"resumed={design_summary.resumed}"
         )
         return 0
     if args.command == "discover":
