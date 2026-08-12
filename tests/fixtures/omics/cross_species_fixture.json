@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "mode": "cross_species_transfer",
+  "inputs": [
+    {
+      "label": "T056 module matrix",
+      "path": "reports/omics/harmonization/module_matrix.json",
+      "sha256": "898193343321c1220df90f8222c5c50994f75136f88c68a2c7ef595d61f99816"
+    },
+    {
+      "label": "T078 uncertainty receipt",
+      "path": "reports/models/uncertainty/uncertainty_receipt.json",
+      "sha256": "f36a003c4c2afb5dc7713af841e6736274ee9582a58f9eef306bc7f537676a71"
+    },
+    {
+      "label": "T089 tournament config",
+      "path": "reports/claims/tournament/tournament_config.json",
+      "sha256": "a684c2f6730196a60818e4754594ac3bcbd0fc7e1904e37087d15cf2b553a636"
+    },
+    {
+      "label": "T090 functional axes receipt",
+      "path": "reports/omics/functional_axes/functional_axes_receipt.json",
+      "sha256": "6ccd62a249ed8d1b255681b13c854864ae2757db0ada696aff4fb94662df304c"
+    }
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "estimand": "target_functional_score_from_source_material_signal",
+    "methods": ["direct", "functional", "optimal_transport", "conditional"],
+    "source_domains": ["human_plasma", "human_serum"],
+    "target_domains": ["mouse_plasma", "human_serum"],
+    "abstention_threshold": 0.45,
+    "interval_scale": 1.96,
+    "split": "leave_material_out"
+  },
+  "rows": [
+    {"case_id": "HM-M1", "material_id": "MAT-1", "stratum": "human_mouse", "source_domain": "human_plasma", "target_domain": "mouse_plasma", "split": "development", "pair_status": "PAIRED", "pair_id": "PAIR-HM-M1", "source_signal": 0.20, "functional_axis": 0.30, "conditional_covariate": 0.10, "support_distance": 0.08, "target_available": true, "target_value": 0.42, "uncertainty": 0.08},
+    {"case_id": "HM-M2", "material_id": "MAT-2", "stratum": "human_mouse", "source_domain": "human_plasma", "target_domain": "mouse_plasma", "split": "development", "pair_status": "PAIRED", "pair_id": "PAIR-HM-M2", "source_signal": 0.50, "functional_axis": 0.60, "conditional_covariate": 0.20, "support_distance": 0.10, "target_available": true, "target_value": 0.74, "uncertainty": 0.08},
+    {"case_id": "HM-M3", "material_id": "MAT-3", "stratum": "human_mouse", "source_domain": "human_plasma", "target_domain": "mouse_plasma", "split": "development", "pair_status": "PAIRED", "pair_id": "PAIR-HM-M3", "source_signal": 0.80, "functional_axis": 0.70, "conditional_covariate": 0.30, "support_distance": 0.12, "target_available": true, "target_value": 0.98, "uncertainty": 0.09},
+    {"case_id": "HM-M4", "material_id": "MAT-4", "stratum": "human_mouse", "source_domain": "human_plasma", "target_domain": "mouse_plasma", "split": "heldout", "pair_status": "PAIRED", "pair_id": "PAIR-HM-M4", "source_signal": 0.35, "functional_axis": 0.45, "conditional_covariate": 0.15, "support_distance": 0.18, "target_available": true, "target_value": 0.58, "uncertainty": 0.10},
+    {"case_id": "HM-M5", "material_id": "MAT-5", "stratum": "human_mouse", "source_domain": "human_plasma", "target_domain": "mouse_plasma", "split": "heldout", "pair_status": "UNMATCHED", "pair_id": "UNMATCHED-HM-M5", "source_signal": 0.90, "functional_axis": 0.95, "conditional_covariate": 0.50, "support_distance": 0.95, "target_available": false, "target_value": null, "uncertainty": 0.20},
+    {"case_id": "BF-M1", "material_id": "MAT-1", "stratum": "biofluid", "source_domain": "human_plasma", "target_domain": "human_serum", "split": "development", "pair_status": "PAIRED", "pair_id": "PAIR-BF-M1", "source_signal": 0.25, "functional_axis": 0.35, "conditional_covariate": 0.10, "support_distance": 0.09, "target_available": true, "target_value": 0.40, "uncertainty": 0.08},
+    {"case_id": "BF-M2", "material_id": "MAT-2", "stratum": "biofluid", "source_domain": "human_plasma", "target_domain": "human_serum", "split": "development", "pair_status": "PAIRED", "pair_id": "PAIR-BF-M2", "source_signal": 0.55, "functional_axis": 0.65, "conditional_covariate": 0.25, "support_distance": 0.11, "target_available": true, "target_value": 0.71, "uncertainty": 0.08},
+    {"case_id": "BF-M3", "material_id": "MAT-3", "stratum": "biofluid", "source_domain": "human_plasma", "target_domain": "human_serum", "split": "development", "pair_status": "PAIRED", "pair_id": "PAIR-BF-M3", "source_signal": 0.75, "functional_axis": 0.80, "conditional_covariate": 0.30, "support_distance": 0.13, "target_available": true, "target_value": 0.92, "uncertainty": 0.09},
+    {"case_id": "BF-M4", "material_id": "MAT-4", "stratum": "biofluid", "source_domain": "human_plasma", "target_domain": "human_serum", "split": "heldout", "pair_status": "PAIRED", "pair_id": "PAIR-BF-M4", "source_signal": 0.40, "functional_axis": 0.50, "conditional_covariate": 0.15, "support_distance": 0.20, "target_available": true, "target_value": 0.57, "uncertainty": 0.10},
+    {"case_id": "BF-M5", "material_id": "MAT-5", "stratum": "biofluid", "source_domain": "human_plasma", "target_domain": "human_serum", "split": "heldout", "pair_status": "UNMATCHED", "pair_id": "UNMATCHED-BF-M5", "source_signal": 0.95, "functional_axis": 0.90, "conditional_covariate": 0.50, "support_distance": 0.92, "target_available": false, "target_value": null, "uncertainty": 0.20}
+  ]
+}

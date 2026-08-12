@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "workflow": "cross_species_transfer",
+  "required_inputs": [
+    "T056 module matrix",
+    "T078 uncertainty receipt",
+    "T089 tournament config",
+    "T090 functional axes receipt"
+  ],
+  "methods": ["direct", "functional", "optimal_transport", "conditional"],
+  "strata": ["human_mouse", "biofluid"],
+  "required_outputs": [
+    "transfer_preregistration",
+    "method_comparison",
+    "overlap_audit",
+    "pairing_audit",
+    "leave_material_report",
+    "calibration_report",
+    "abstention_ledger",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "gates": [
+    "explicit_pairing",
+    "overlap_and_positivity",
+    "leave_material_validation",
+    "calibration",
+    "abstention_on_unsupported_transfer"
+  ],
+  "failure_policy": "population_functional_comparison_or_abstain"
+}

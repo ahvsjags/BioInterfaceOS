@@ -1,0 +1,1 @@
+{"interval_scale":1.96,"methods":{"conditional":{"biofluid":1.0,"human_mouse":1.0},"direct":{"biofluid":1.0,"human_mouse":1.0},"functional":{"biofluid":1.0,"human_mouse":1.0},"optimal_transport":{"biofluid":1.0,"human_mouse":1.0}},"partial_overlap":true,"schema_version":1,"unsupported_cases_abstained":true}

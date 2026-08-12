@@ -1,0 +1,1 @@
+{"count":2,"entries":[{"case_id":"HM-M5","material_id":"MAT-5","reason":"unmatched_pair","stratum":"human_mouse","threshold":0.45},{"case_id":"BF-M5","material_id":"MAT-5","reason":"unmatched_pair","stratum":"biofluid","threshold":0.45}],"schema_version":1,"unsupported_cases_abstained":true}

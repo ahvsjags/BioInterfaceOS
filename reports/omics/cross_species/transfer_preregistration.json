@@ -1,0 +1,1 @@
+{"abstention_threshold":0.45,"estimand":"target_functional_score_from_source_material_signal","frozen_before_fit":true,"interval_scale":1.96,"methods":["direct","functional","optimal_transport","conditional"],"schema_version":1,"source_domains":["human_plasma","human_serum"],"target_domains":["mouse_plasma","human_serum"]}

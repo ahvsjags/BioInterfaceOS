@@ -439,6 +439,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     discover_mediation_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized development fixture"
     )
+    discover_transfer_parser = discover_subparsers.add_parser(
+        "cross-species", help="compare human-mouse and biofluid transfer models"
+    )
+    discover_transfer_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized development fixture"
+    )
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
     train_subparsers = train_parser.add_subparsers(dest="train_command")
@@ -989,6 +995,37 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "discover":
+        if args.discover_command == "cross-species":
+            root = find_repository_root()
+            if root is None:
+                print("CROSS_SPECIES_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("CROSS_SPECIES_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.cross_species_workflow import (
+                CrossSpeciesError,
+                CrossSpeciesWorkflow,
+            )
+
+            try:
+                transfer_summary = CrossSpeciesWorkflow(root).run(fixture=True)
+            except (CrossSpeciesError, OSError) as exc:
+                print(f"CROSS_SPECIES_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"CROSS_SPECIES_VALID rows={transfer_summary.rows} "
+                f"strata={transfer_summary.strata} methods={transfer_summary.methods} "
+                f"development_materials={transfer_summary.development_materials} "
+                f"heldout_materials={transfer_summary.heldout_materials} "
+                f"scored_heldout={transfer_summary.scored_heldout} "
+                f"abstentions={transfer_summary.abstentions} "
+                f"overlap_passed={str(transfer_summary.overlap_passed).lower()} "
+                f"pairing_passed={str(transfer_summary.pairing_passed).lower()} "
+                f"selected_method={transfer_summary.selected_method} "
+                f"resumed={transfer_summary.resumed}"
+            )
+            return 0
         if args.discover_command == "mediation":
             root = find_repository_root()
             if root is None:
