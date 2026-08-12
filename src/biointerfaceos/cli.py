@@ -2224,15 +2224,17 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 )
                 return 1
             try:
-                discovery_summary = RealModelSourceDiscoveryWorkflow(root).run(strict=args.strict)
+                source_discovery_summary = RealModelSourceDiscoveryWorkflow(root).run(
+                    strict=args.strict
+                )
             except (RealModelSourceDiscoveryError, OSError) as exc:
                 print(f"REAL_MODEL_SOURCE_DISCOVERY_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "REAL_MODEL_SOURCE_DISCOVERY_VALID "
-                f"candidates={discovery_summary.candidate_count} "
-                f"rejected={discovery_summary.rejected_candidate_count} "
-                f"reserved_lockbox={discovery_summary.reserved_lockbox_candidate_count} "
+                f"candidates={source_discovery_summary.candidate_count} "
+                f"rejected={source_discovery_summary.rejected_candidate_count} "
+                f"reserved_lockbox={source_discovery_summary.reserved_lockbox_candidate_count} "
                 "admitted=0 model_fitted=false scientific_submission_ready=false"
             )
             return 0
