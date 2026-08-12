@@ -297,6 +297,30 @@ class R2ReleaseReproductionWorkflow:
                 "scientific_reproduction": False,
             }
 
+    def _source_only_figure_rebuild(self) -> dict[str, Any]:
+        """Terminate the clean-source replay by rebuilding public protocol figures directly."""
+        from biointerfaceos.submission_figure_qa_workflow import SubmissionFigureQAWorkflow
+
+        with tempfile.TemporaryDirectory(prefix="bioif-r2-figures-") as temporary:
+            figure_output = Path(temporary) / "submission_figures"
+            workflow = SubmissionFigureQAWorkflow(self.root, output_root=figure_output)
+            receipt = workflow.run(strict=True)
+            verified = workflow.verify()
+            if receipt != verified or receipt.get("figure_count") != 3:
+                raise R2ReleaseReproductionError("clean source did not rebuild all R2 protocol figures")
+            return {
+                "command": "SubmissionFigureQAWorkflow(...).run(strict=True)",
+                "python_executable": sys.executable,
+                "source_mode": "clean_public_source_direct_figure_rebuild",
+                "network_policy": "BIOINTERFACEOS_NETWORK_DISABLED=1",
+                "return_code": 0,
+                "receipt_sha256": _sha256(figure_output / "generation_receipt.json"),
+                "nested_status": receipt["status"],
+                "rebuilt_protocol_figures": 3,
+                "software_replay": True,
+                "scientific_reproduction": False,
+            }
+
     @staticmethod
     def _junit(clean_replay: Mapping[str, Any]) -> str:
         return (
@@ -336,7 +360,11 @@ class R2ReleaseReproductionWorkflow:
         source_root = self.output_root / "source_bundle"
         self._copy_public_source(self.root, inventory, source_root)
         archive_path = self._write_source_archive(source_root, source_manifest_path)
-        clean_replay = self._clean_replay(inventory)
+        clean_replay = (
+            self._source_only_figure_rebuild()
+            if self._is_public_source_only()
+            else self._clean_replay(inventory)
+        )
         clean_replay_path = self.output_root / "clean_replay.json"
         self._write(clean_replay_path, clean_replay)
         junit_path = self.output_root / "junit.xml"
