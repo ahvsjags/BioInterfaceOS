@@ -117,7 +117,9 @@ class R2ReleaseReproductionWorkflow:
 
     def _is_public_source_only(self) -> bool:
         """Recognize a source bundle before it has created any excluded output directory."""
-        return not any((self.root / relative).exists() for relative in ("data", "registry", "reports"))
+        return not any(
+            (self.root / relative).exists() for relative in ("data", "registry", "reports")
+        )
 
     @classmethod
     def _forbidden_public_path(cls, path: str) -> bool:
