@@ -535,6 +535,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit the R2 external literature, comparator, and glossary packet",
     )
     manuscript_related_work_parser.add_argument("--strict", action="store_true")
+    manuscript_portfolio_parser = manuscript_subparsers.add_parser(
+        "audit-portfolio",
+        help="audit the R2 merged A+B and results-blind C manuscript routes",
+    )
+    manuscript_portfolio_parser.add_argument("--strict", action="store_true")
     claim_parser = subparsers.add_parser(
         "claim", help="freeze and preregister exploratory claim tournaments"
     )
@@ -2218,8 +2223,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "manuscript":
-        if args.manuscript_command != "audit-related-work":
+        if args.manuscript_command not in {"audit-related-work", "audit-portfolio"}:
             parser.parse_args(["manuscript", "--help"])
+            return 0
+        if args.manuscript_command == "audit-portfolio":
+            from biointerfaceos.manuscript_portfolio_workflow import (
+                ManuscriptPortfolioError,
+                ManuscriptPortfolioWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("MANUSCRIPT_PORTFOLIO_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                portfolio_summary = ManuscriptPortfolioWorkflow(root).run(strict=args.strict)
+            except (ManuscriptPortfolioError, OSError) as exc:
+                print(f"MANUSCRIPT_PORTFOLIO_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "MANUSCRIPT_PORTFOLIO_VALID "
+                f"status={portfolio_summary.status} "
+                f"manuscripts={portfolio_summary.manuscript_count} "
+                f"protocol_figures={portfolio_summary.protocol_figure_count} "
+                f"legacy_withdrawals={portfolio_summary.legacy_withdrawal_count} "
+                "historical_fixture_manuscripts_reused=false "
+                "independent_validation=false scientific_submission_ready=false"
+            )
             return 0
         from biointerfaceos.related_work_workflow import RelatedWorkError, RelatedWorkWorkflow
 

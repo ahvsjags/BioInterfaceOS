@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "portfolio_id": "bioif-r2-manuscript-portfolio-v1.0.0",
+  "declared_at": "2026-08-12T00:00:00+00:00",
+  "status": "PROTOCOL_PORTFOLIO_PENDING_REAL_EVIDENCE",
+  "required_legacy_withdrawal_count": 15,
+  "historical_artifacts": [
+    "release/manuscripts/paper_a/paper_a.md",
+    "release/manuscripts/paper_b/paper_b.md",
+    "release/manuscripts/paper_c_prelock/paper_c_prelock.md"
+  ],
+  "manuscripts": [
+    {
+      "manuscript_id": "R2_PAPER_AB_PROTOCOL",
+      "title": "BioInterfaceOS: auditable provenance and source-locator benchmark protocol for biointerface evidence",
+      "route": "MERGED_PROTOCOL_ONLY_PENDING_T123",
+      "current_status": "BLOCKED_PENDING_COMPATIBLE_REAL_MODEL_TARGET",
+      "document_path": "docs/manuscripts/R2_PAPER_AB_PROTOCOL_OUTLINE.md",
+      "comparator_scope_id": "R2_PAPER_AB_REAL_BENCHMARK_METHOD",
+      "prerequisite_tasks": ["T120", "T121", "T122", "T123", "T125", "T126"],
+      "required_evidence_paths": [
+        "reports/review_round_2/empirical_provenance/v1.1.0/audit_receipt.json",
+        "reports/review_round_2/real_benchmark/v1.1.0/benchmark_receipt.json",
+        "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json",
+        "reports/review_round_2/related_work/v1.1.0/related_work_receipt.json",
+        "reports/review_round_2/submission_figures/v1.1.0/figure_manifest.json",
+        "reports/review_round_2/submission_figures/v1.1.0/withdrawal_ledger.json"
+      ],
+      "forbidden_claims": [
+        "biological prediction performance",
+        "causal module effect",
+        "external OOD validation",
+        "independent scientific validation"
+      ],
+      "required_sections": [
+        "Scope and status",
+        "Research question and contribution",
+        "Real-data provenance and source-locator task",
+        "Benchmark design and statistical boundary",
+        "Related work and comparator boundary",
+        "Results available now",
+        "Results withheld pending T123",
+        "Figures, data, code and availability",
+        "Limitations and transition criteria"
+      ],
+      "figure_usage": ["R2 Figure 1", "R2 Figure 2", "R2 Figure 3"]
+    },
+    {
+      "manuscript_id": "R2_PAPER_C_PROTOCOL",
+      "title": "A results-blind independent-evaluation protocol for candidate biointerface expressions",
+      "route": "REGISTERED_PROTOCOL_ONLY_PENDING_T124",
+      "current_status": "BLOCKED_PENDING_EXTERNAL_EVALUATOR_RECEIPT",
+      "document_path": "docs/manuscripts/R2_PAPER_C_PROTOCOL_OUTLINE.md",
+      "comparator_scope_id": "R2_PAPER_C_PREREGISTERED_PROTOCOL",
+      "prerequisite_tasks": ["T121", "T123", "T124", "T125", "T127"],
+      "required_evidence_paths": [
+        "docs/data/R2_INDEPENDENT_EVALUATION_PROTOCOL.json",
+        "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json",
+        "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json",
+        "reports/review_round_2/related_work/v1.1.0/related_work_receipt.json",
+        "reports/review_round_2/submission_figures/v1.1.0/figure_manifest.json",
+        "reports/review_round_2/submission_figures/v1.1.0/withdrawal_ledger.json"
+      ],
+      "forbidden_claims": [
+        "law discovery",
+        "replicated result",
+        "refuted result",
+        "post-lock scientific result"
+      ],
+      "required_sections": [
+        "Scope and status",
+        "Research question and protocol contribution",
+        "Candidate and target-admission boundary",
+        "Frozen analysis and evaluator handoff",
+        "Protected-data and independence safeguards",
+        "Related work and comparator boundary",
+        "Predeclared aggregate reporting",
+        "Figures, data, code and availability",
+        "Limitations and transition criteria"
+      ],
+      "figure_usage": ["R2 Figure 1", "R2 Figure 3"]
+    }
+  ]
+}
