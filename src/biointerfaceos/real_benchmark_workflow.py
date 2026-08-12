@@ -506,10 +506,10 @@ class RealBenchmarkWorkflow:
         )
         return RealBenchmarkSummary(
             benchmark_id=self.BENCHMARK_ID,
-            study_count=receipt["study_count"],
-            laboratory_count=receipt["laboratory_count"],
-            item_count=receipt["item_count"],
-            prediction_count=receipt["prediction_count"],
+            study_count=_integer(receipt["study_count"], "benchmark study count"),
+            laboratory_count=_integer(receipt["laboratory_count"], "benchmark laboratory count"),
+            item_count=_integer(receipt["item_count"], "benchmark item count"),
+            prediction_count=_integer(receipt["prediction_count"], "benchmark prediction count"),
             receipt_path=receipt_path,
         )
 
