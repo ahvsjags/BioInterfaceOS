@@ -49,9 +49,9 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
 class T129CurrentTargetEvidenceWorkflow:
     """Verify all current T129 source tranches without allowing target promotion."""
 
-    AUDIT_ID = "bioif-r2-t129-current-target-evidence-v1.0.0"
+    AUDIT_ID = "bioif-r2-t129-current-target-evidence-v1.1.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
-    OUTPUT_RELATIVE = "reports/review_round_2/t129_current_target_evidence/v1.0.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/t129_current_target_evidence/v1.1.0"
     RECEIPTS = {
         "initial_admission": (
             "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json",
@@ -64,6 +64,10 @@ class T129CurrentTargetEvidenceWorkflow:
         "pxd030327_unit_map": (
             "reports/review_round_2/cc0_pxd030327_unit_map/v1.0.0/unit_map_correction_receipt.json",
             "T129 PXD030327 unit-map receipt",
+        ),
+        "pxd017052_source_data": (
+            "reports/review_round_2/pxd017052_source_data/v1.0.0/pxd017052_source_data_receipt.json",
+            "T131 PXD017052 source-data receipt",
         ),
     }
     REQUIRED_FALSE = (
@@ -110,6 +114,7 @@ class T129CurrentTargetEvidenceWorkflow:
         initial = sources["initial_admission"][1]
         discovery = sources["expansion_discovery"][1]
         pxd030327 = sources["pxd030327_unit_map"][1]
+        pxd017052 = sources["pxd017052_source_data"][1]
         self._require(
             initial.get("audit_id") == "bioif-r2-cc0-target-admission-v1.0.0"
             and initial.get("status") == "BLOCKED_NO_CC0_COMMON_TARGET"
@@ -144,6 +149,22 @@ class T129CurrentTargetEvidenceWorkflow:
             "PXD030327 source-mapped single-laboratory tranche",
         )
         self._require(
+            pxd017052.get("audit_id") == "bioif-r2-pxd017052-source-data-v1.0.0"
+            and pxd017052.get("status")
+            == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
+            and pxd017052.get("official_asset_count") == 4
+            and pxd017052.get("result_unit_count") == 9
+            and pxd017052.get("pride_raw_unit_count") == 9
+            and pxd017052.get("result_to_raw_match_count") == 9
+            and pxd017052.get("explicit_raw_to_particle_map_count") == 0
+            and pxd017052.get("material_record_count") == 3
+            and pxd017052.get("admission") == "NOT_ADMITTED"
+            and pxd017052.get("cc0_cohort_status") == "UNCHANGED"
+            and pxd017052.get("ccby_candidate_cohort_status") == "NOT_CREATED_INCOMPLETE_MAP"
+            and pxd017052.get("model_use") == "PROHIBITED",
+            "PXD017052 public source-data tranche",
+        )
+        self._require(
             all(
                 source[1].get(field) is False
                 for source in sources.values()
@@ -170,24 +191,39 @@ class T129CurrentTargetEvidenceWorkflow:
             "source_receipts": {
                 key: {"path": value[0], "sha256": value[2]} for key, value in sources.items()
             },
-            "candidate_source_count": 5,
-            "candidate_laboratory_count": 4,
-            "verified_source_asset_count": 12,
-            "source_condition_count": 9,
+            "candidate_source_count": 6,
+            "candidate_laboratory_count": 5,
+            "verified_source_asset_count": 16,
+            "source_condition_count": 18,
             "source_mapped_single_lab_unit_count": 636,
             "source_mapped_unique_matrix_run_count": 819,
             "unmapped_matrix_column_count": 183,
+            "incomplete_ccby_source_unit_route_count": 1,
             "admissible_target_count": 0,
             "target_status": "NOT_FROZEN",
             "model_use": "PROHIBITED",
             "blocked_reasons": [
-                "No current source tranche supplies a shared endpoint together with a source-matched numeric material or size covariate for every admitted unit.",
-                "PXD030327 verifies a single-laboratory run map and a source-defined numeric protein-to-nanoparticle exposure, not a numeric material or size covariate; categorical NP labels remain prohibited identity features.",
-                "The candidate outputs remain author-specific and heterogeneous, so they cannot be concatenated before a shared preprocessing and analysis-unit contract is frozen across independent laboratories.",
+                "No current source tranche supplies a shared endpoint together with a "
+                "source-matched numeric material or size covariate for every admitted unit.",
+                "PXD030327 verifies a single-laboratory run map and a source-defined numeric "
+                "protein-to-nanoparticle exposure, not a numeric material or size covariate; "
+                "categorical NP labels remain prohibited identity features.",
+                "PXD017052's four verified CC-BY publisher assets close nine result headers to "
+                "nine PRIDE raw-file basenames and document three numeric SPION records, but no "
+                "released asset joins the raw/result units to a particle identity.",
+                "The candidate outputs remain author-specific and heterogeneous, so they cannot "
+                "be concatenated before a shared preprocessing and analysis-unit contract is "
+                "frozen across independent laboratories.",
             ],
             "next_required_evidence": [
-                "Acquire at least two independent reusable sources with identically defined protein-corona endpoints and unit-level numeric material or size covariates.",
-                "Freeze the common preprocessing rule, biological-unit manifest, feature policy, study-held-out split and negative controls in T121 Amendment v1.0.1 before any T123 model run.",
+                "Acquire at least two independent reusable sources with identically defined "
+                "protein-corona endpoints and unit-level numeric material or size covariates.",
+                "For PXD017052 specifically, obtain an official raw/result-unit-to-SPION "
+                "crosswalk rather than inferring one from ordering, intensity values or "
+                "replicate grouping.",
+                "Freeze the common preprocessing rule, biological-unit manifest, feature policy, "
+                "study-held-out split and negative controls in T121 Amendment v1.0.1 before any "
+                "T123 model run.",
             ],
             **{field: False for field in self.REQUIRED_FALSE},
         }
@@ -214,7 +250,7 @@ class T129CurrentTargetEvidenceWorkflow:
         self.output_root.chmod(
             stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
         )
-        return T129CurrentTargetEvidenceSummary(5, 4, 12, receipt_path)
+        return T129CurrentTargetEvidenceSummary(6, 5, 16, receipt_path)
 
     def verify(self) -> T129CurrentTargetEvidenceSummary:
         """Verify all source hashes and the current no-target receipt."""
@@ -223,9 +259,9 @@ class T129CurrentTargetEvidenceWorkflow:
         report = self._json(report_path, "T129 current target evidence report")
         receipt = self._json(receipt_path, "T129 current target evidence receipt")
         required_counts = {
-            "candidate_source_count": 5,
-            "candidate_laboratory_count": 4,
-            "verified_source_asset_count": 12,
+            "candidate_source_count": 6,
+            "candidate_laboratory_count": 5,
+            "verified_source_asset_count": 16,
             "admissible_target_count": 0,
         }
         self._require(
@@ -238,7 +274,10 @@ class T129CurrentTargetEvidenceWorkflow:
             and receipt.get("target_status") == "NOT_FROZEN"
             and report.get("model_use") == "PROHIBITED"
             and receipt.get("model_use") == "PROHIBITED"
-            and all(report.get(key) == value and receipt.get(key) == value for key, value in required_counts.items())
+            and all(
+                report.get(key) == value and receipt.get(key) == value
+                for key, value in required_counts.items()
+            )
             and all(
                 report.get(field) is False and receipt.get(field) is False
                 for field in self.REQUIRED_FALSE
@@ -254,4 +293,9 @@ class T129CurrentTargetEvidenceWorkflow:
             report.get("source_receipts") == expected_sources,
             "current T129 source receipt hashes",
         )
-        return T129CurrentTargetEvidenceSummary(5, 4, 12, receipt_path)
+        self._require(
+            report.get("source_condition_count") == 18
+            and report.get("incomplete_ccby_source_unit_route_count") == 1,
+            "current T129 source accounting",
+        )
+        return T129CurrentTargetEvidenceSummary(6, 5, 16, receipt_path)

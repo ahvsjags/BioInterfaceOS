@@ -61,10 +61,10 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.4.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.5.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.4.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.5.0"
     RECEIPTS = {
         "semantics": (
             "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
@@ -87,8 +87,12 @@ class R2RemediationWorkflow:
             "T129 PXD030327 unit-map correction receipt",
         ),
         "t129_current_target_evidence": (
-            "reports/review_round_2/t129_current_target_evidence/v1.0.0/current_target_evidence_receipt.json",
+            "reports/review_round_2/t129_current_target_evidence/v1.1.0/current_target_evidence_receipt.json",
             "T129 current consolidated target-evidence receipt",
+        ),
+        "pxd017052_source_data": (
+            "reports/review_round_2/pxd017052_source_data/v1.0.0/pxd017052_source_data_receipt.json",
+            "T131 PXD017052 source-data receipt",
         ),
         "independent": (
             "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json",
@@ -107,11 +111,11 @@ class R2RemediationWorkflow:
             "R2 protocol-figure receipt",
         ),
         "portfolio": (
-            "reports/review_round_2/manuscript_portfolio/v1.2.0/portfolio_receipt.json",
+            "reports/review_round_2/manuscript_portfolio/v1.3.0/portfolio_receipt.json",
             "R2 manuscript-portfolio receipt",
         ),
         "acceptance": (
-            "reports/review_round_2/r2_acceptance/v1.2.0/acceptance_readiness_receipt.json",
+            "reports/review_round_2/r2_acceptance/v1.3.0/acceptance_readiness_receipt.json",
             "R2 acceptance-readiness receipt",
         ),
     }
@@ -179,6 +183,7 @@ class R2RemediationWorkflow:
         discovery = sources["discovery"].payload
         pxd030327_unit_map = sources["pxd030327_unit_map"].payload
         t129_current_target_evidence = sources["t129_current_target_evidence"].payload
+        pxd017052_source_data = sources["pxd017052_source_data"].payload
         independent = sources["independent"].payload
         semantics = sources["semantics"].payload
         related_work = sources["related_work"].payload
@@ -198,13 +203,24 @@ class R2RemediationWorkflow:
         self._require(
             t129_current_target_evidence.get("status")
             == "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
-            and t129_current_target_evidence.get("candidate_source_count") == 5
-            and t129_current_target_evidence.get("candidate_laboratory_count") == 4
-            and t129_current_target_evidence.get("verified_source_asset_count") == 12
+            and t129_current_target_evidence.get("candidate_source_count") == 6
+            and t129_current_target_evidence.get("candidate_laboratory_count") == 5
+            and t129_current_target_evidence.get("verified_source_asset_count") == 16
             and t129_current_target_evidence.get("admissible_target_count") == 0
             and t129_current_target_evidence.get("target_status") == "NOT_FROZEN"
             and t129_current_target_evidence.get("model_use") == "PROHIBITED"
             and t129_current_target_evidence.get("model_fitted") is False,
+            "R2-01",
+        )
+        self._require(
+            pxd017052_source_data.get("status")
+            == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
+            and pxd017052_source_data.get("official_asset_count") == 4
+            and pxd017052_source_data.get("result_to_raw_match_count") == 9
+            and pxd017052_source_data.get("explicit_raw_to_particle_map_count") == 0
+            and pxd017052_source_data.get("admission") == "NOT_ADMITTED"
+            and pxd017052_source_data.get("model_use") == "PROHIBITED"
+            and pxd017052_source_data.get("model_fitted") is False,
             "R2-01",
         )
         self._require(
@@ -293,8 +309,9 @@ class R2RemediationWorkflow:
                 "disposition": self.DISPOSITIONS["R2-01"],
                 "scientific_claim_ready": False,
                 "reviewer_readable_disposition": (
-                    "PXD030327 now has a verified 636-unit run map, but its categorical NP "
-                    "labels and single-lab exposure conditions do not freeze a common target."
+                    "PXD030327 now has a verified 636-unit run map, while PXD017052 now has "
+                    "four verified CC-BY assets and nine result-to-raw links; neither source "
+                    "freezes a cross-study numeric-material target."
                 ),
                 "evidence_source_keys": [
                     "profile",
@@ -302,6 +319,7 @@ class R2RemediationWorkflow:
                     "discovery",
                     "pxd030327_unit_map",
                     "t129_current_target_evidence",
+                    "pxd017052_source_data",
                 ],
             },
             {
@@ -380,7 +398,7 @@ class R2RemediationWorkflow:
                 "scientific_claim_ready": False,
                 "reviewer_readable_disposition": (
                     "External reproduction and editorial re-review remain absent; the acceptance "
-                    "audit lists ten blockers and submission readiness is false."
+                    "audit lists nine blockers and submission readiness is false."
                 ),
                 "evidence_source_keys": ["acceptance"],
             },

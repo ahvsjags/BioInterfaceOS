@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r2-pxd017052-source-data-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "development_cutoff": "2024-12-31T23:59:59+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "primary_study": {
+    "article_doi": "10.1038/s41467-020-17033-7",
+    "article_url": "https://doi.org/10.1038/s41467-020-17033-7",
+    "article_license": "CC-BY-4.0",
+    "pride_accession": "PXD017052",
+    "pride_file_index_url": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2020/08/PXD017052/"
+  },
+  "source_policy": {
+    "cc0_cohort_license": "CC0-1.0",
+    "candidate_ccby_policy": "EXPLICIT_AMENDMENT_REQUIRED",
+    "prohibit_implicit_source_unit_to_particle_inference": true,
+    "require_explicit_raw_to_particle_crosswalk": true,
+    "require_second_independent_lab_for_target": true,
+    "prohibit_model_use_before_t121_amendment": true
+  },
+  "assets": [
+    {
+      "asset_id": "supplementary_information",
+      "file_name": "41467_2020_17033_MOESM1_ESM.pdf",
+      "publisher_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17033-7/MediaObjects/41467_2020_17033_MOESM1_ESM.pdf",
+      "content_type": "application/pdf",
+      "bytes": 7465841,
+      "sha256": "70182694ae4c32e16708210bb0a961e0591b3edc6ec85cf16a75009a2183d52f",
+      "md5": "24d60381e2f6f14a75532af176425229",
+      "publisher_etag": "24d60381e2f6f14a75532af176425229",
+      "role": "SUPPLEMENTARY_INFORMATION",
+      "source_reference": "Supplementary Table 1, page 15"
+    },
+    {
+      "asset_id": "supplementary_file_description",
+      "file_name": "41467_2020_17033_MOESM2_ESM.docx",
+      "publisher_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17033-7/MediaObjects/41467_2020_17033_MOESM2_ESM.docx",
+      "content_type": "application/octet-stream",
+      "bytes": 16444,
+      "sha256": "9be41d54b5830937383c5580588467b1742cecf8a883f74fa9f94aa54f0ce5db",
+      "md5": "aeb5cebef31a71fed9be2e6e0a3b75b7",
+      "publisher_etag": "aeb5cebef31a71fed9be2e6e0a3b75b7",
+      "role": "SUPPLEMENTARY_FILE_DESCRIPTION",
+      "source_reference": "Description of Additional Supplementary Files"
+    },
+    {
+      "asset_id": "supplementary_data_1",
+      "file_name": "41467_2020_17033_MOESM3_ESM.xlsx",
+      "publisher_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17033-7/MediaObjects/41467_2020_17033_MOESM3_ESM.xlsx",
+      "content_type": "application/octet-stream",
+      "bytes": 1023367,
+      "sha256": "2538df0c7394221de239bb1688dd5a6aeb6dc0be757e1398ec0f3138feac94c0",
+      "md5": "0ff5b7df8c09c527b617f2227f801e28",
+      "publisher_etag": "0ff5b7df8c09c527b617f2227f801e28",
+      "role": "SUPPLEMENTARY_DATA_1",
+      "source_reference": "Publisher label: Supplementary Data 1; internal worksheet title is retained verbatim"
+    },
+    {
+      "asset_id": "source_data",
+      "file_name": "41467_2020_17033_MOESM12_ESM.xlsx",
+      "publisher_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17033-7/MediaObjects/41467_2020_17033_MOESM12_ESM.xlsx",
+      "content_type": "application/octet-stream",
+      "bytes": 20780854,
+      "sha256": "68e763df6e93cb879aa0e279c7dcf70f88478a806fe81ae8f690cfbbc36ff199",
+      "md5": "b4f7a67d6640560b6deab9b57473af03",
+      "publisher_etag": "b4f7a67d6640560b6deab9b57473af03",
+      "role": "SOURCE_DATA",
+      "source_reference": "Publisher label: Source Data"
+    }
+  ],
+  "workbook_schema": {
+    "supplementary_data_1": {
+      "file_name": "41467_2020_17033_MOESM3_ESM.xlsx",
+      "sheet_name": "Sheet1",
+      "row_count": 846,
+      "column_count": 97,
+      "internal_title": "Supplementary Data 2.   3 NP protein groups from MaxQuant",
+      "result_unit_ids": [
+        "EXP18102_X1066_A_MSB37240A",
+        "EXP18102_X1067_A_MSB37241A",
+        "EXP18102_X1068_A_MSB37242A",
+        "EXP18102_X1108_A_MSB37282A",
+        "EXP18102_X1109_A_MSB37283A",
+        "EXP18102_X1110_B_MSB37284B",
+        "EXP18102_X1114_A_MSB37288A",
+        "EXP18102_X1115_A_MSB37289A",
+        "EXP18102_X1116_A_MSB37290A"
+      ]
+    },
+    "source_data": {
+      "file_name": "41467_2020_17033_MOESM12_ESM.xlsx",
+      "figure_3a": {
+        "sheet_name": "Figure 3A",
+        "particle_replicates": [
+          {"particle": "SP-003-001", "assay_replicate": 1},
+          {"particle": "SP-003-001", "assay_replicate": 2},
+          {"particle": "SP-003-001", "assay_replicate": 3},
+          {"particle": "SP-007-002", "assay_replicate": 1},
+          {"particle": "SP-007-002", "assay_replicate": 2},
+          {"particle": "SP-007-002", "assay_replicate": 3},
+          {"particle": "SP-011-001", "assay_replicate": 1},
+          {"particle": "SP-011-001", "assay_replicate": 2},
+          {"particle": "SP-011-001", "assay_replicate": 3}
+        ]
+      },
+      "figure_2_dls_particle_labels": ["S-007-008", "S-003-001", "S-011-001"]
+    }
+  },
+  "material_records": [
+    {
+      "particle": "SP-003",
+      "supplement_label": "S-003",
+      "source_data_label": "S-003-001",
+      "surface_chemistry": "silica-coated SPION",
+      "z_average_size_nm": 233.0,
+      "pdi": 0.05,
+      "zeta_potential_mv": -37.0,
+      "source_reference": "41467_2020_17033_MOESM1_ESM.pdf page 15, Supplementary Table 1"
+    },
+    {
+      "particle": "SP-007",
+      "supplement_label": "S-007",
+      "source_data_label": "S-007-008",
+      "surface_chemistry": "PDMAPMA-coated SPION",
+      "z_average_size_nm": 283.4,
+      "pdi": 0.09,
+      "zeta_potential_mv": 26.0,
+      "source_reference": "41467_2020_17033_MOESM1_ESM.pdf page 15, Supplementary Table 1"
+    },
+    {
+      "particle": "SP-011",
+      "supplement_label": "S-011",
+      "source_data_label": "S-011-001",
+      "surface_chemistry": "PEG-coated SPION",
+      "z_average_size_nm": 237.7,
+      "pdi": 0.2,
+      "zeta_potential_mv": 0.0,
+      "source_reference": "41467_2020_17033_MOESM1_ESM.pdf page 15, Supplementary Table 1"
+    }
+  ],
+  "particle_unit_map": {
+    "pride_result_archive": "txt3NP.zip",
+    "pride_readme_url": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2020/08/PXD017052/README.txt",
+    "pride_readme_file_name": "README.txt",
+    "pride_readme_bytes": 984586,
+    "pride_readme_sha256": "30d06d8c90e73f4e8086ed6685c8be76f7ec2ab3bb6dacf51a35ae6f73e040f7",
+    "pride_readme_md5": "e648ce78d3e4f63e603904f68eeb4418",
+    "raw_unit_files": [
+      "EXP18102_X1066_A_MSB37240A.raw",
+      "EXP18102_X1067_A_MSB37241A.raw",
+      "EXP18102_X1068_A_MSB37242A.raw",
+      "EXP18102_X1108_A_MSB37282A.raw",
+      "EXP18102_X1109_A_MSB37283A.raw",
+      "EXP18102_X1110_B_MSB37284B.raw",
+      "EXP18102_X1114_A_MSB37288A.raw",
+      "EXP18102_X1115_A_MSB37289A.raw",
+      "EXP18102_X1116_A_MSB37290A.raw"
+    ],
+    "result_unit_ids": [
+      "EXP18102_X1066_A_MSB37240A",
+      "EXP18102_X1067_A_MSB37241A",
+      "EXP18102_X1068_A_MSB37242A",
+      "EXP18102_X1108_A_MSB37282A",
+      "EXP18102_X1109_A_MSB37283A",
+      "EXP18102_X1110_B_MSB37284B",
+      "EXP18102_X1114_A_MSB37288A",
+      "EXP18102_X1115_A_MSB37289A",
+      "EXP18102_X1116_A_MSB37290A"
+    ],
+    "result_to_raw_status": "EXACT_HEADER_TO_RAW_BASENAME_VERIFIED",
+    "source_data_particle_replicates": [
+      {"particle": "SP-003-001", "assay_replicate": 1},
+      {"particle": "SP-003-001", "assay_replicate": 2},
+      {"particle": "SP-003-001", "assay_replicate": 3},
+      {"particle": "SP-007-002", "assay_replicate": 1},
+      {"particle": "SP-007-002", "assay_replicate": 2},
+      {"particle": "SP-007-002", "assay_replicate": 3},
+      {"particle": "SP-011-001", "assay_replicate": 1},
+      {"particle": "SP-011-001", "assay_replicate": 2},
+      {"particle": "SP-011-001", "assay_replicate": 3}
+    ],
+    "explicit_raw_to_particle_crosswalk": [],
+    "raw_to_particle_status": "MISSING_IN_PUBLISHED_ASSETS",
+    "unit_to_material_map_status": "INCOMPLETE_NO_EXPLICIT_RAW_TO_PARTICLE_CROSSWALK"
+  },
+  "decision": {
+    "status": "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP",
+    "admission": "NOT_ADMITTED",
+    "cc0_cohort_status": "UNCHANGED",
+    "ccby_candidate_cohort_status": "NOT_CREATED_INCOMPLETE_MAP",
+    "model_use": "PROHIBITED",
+    "blocked_reasons": [
+      "The PRIDE README and MaxQuant result headers establish all nine result-to-raw basename joins, but no released source maps each raw/result unit to SP-003, SP-007, or SP-011.",
+      "Figure 3A reports three particle-labelled replicate triplets without the nine PRIDE raw identifiers; row ordering, intensity patterns and replicate ordering cannot be used as a crosswalk.",
+      "The CC-BY source is outside the frozen CC0 cohort, and a CC-BY candidate cohort cannot be created while its unit-level map remains incomplete.",
+      "Even a complete source map would remain one laboratory and would not provide the second independent study or shared frozen endpoint required for T121/T123."
+    ]
+  }
+}

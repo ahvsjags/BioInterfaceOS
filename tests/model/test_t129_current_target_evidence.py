@@ -21,9 +21,9 @@ def test_audit_binds_all_current_t129_tranches_without_target_promotion(tmp_path
     summary = workflow.run(strict=True)
     receipt = json.loads(summary.receipt_path.read_text(encoding="utf-8"))
 
-    assert summary.candidate_source_count == 5
-    assert summary.candidate_laboratory_count == 4
-    assert summary.verified_source_asset_count == 12
+    assert summary.candidate_source_count == 6
+    assert summary.candidate_laboratory_count == 5
+    assert summary.verified_source_asset_count == 16
     assert receipt["status"] == "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
     assert receipt["target_status"] == "NOT_FROZEN"
     assert workflow.verify() == summary
@@ -44,5 +44,8 @@ def test_audit_rejects_tampered_output_receipt(tmp_path: Path) -> None:
     receipt["model_use"] = "ALLOWED"
     summary.receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
 
-    with pytest.raises(T129CurrentTargetEvidenceError, match="current T129 target evidence receipt"):
+    with pytest.raises(
+        T129CurrentTargetEvidenceError,
+        match="current T129 target evidence receipt",
+    ):
         workflow.verify()

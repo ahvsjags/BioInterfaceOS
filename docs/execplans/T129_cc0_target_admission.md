@@ -62,7 +62,7 @@ evidence.
   pre-cutoff CC0 human-plasma sources attributed to Michigan State University.
   The new audit preserves seven local file hashes but admits zero targets.
 - [x] Reconciled all current T129 tranches in a strict consolidated receipt:
-  five candidates from four laboratories and twelve verified source assets still
+  six candidates from five laboratories and sixteen verified source assets still
   yield zero admitted targets. PXD030327 contributes a 636-unit, 819-matrix-run
   source map, but its numeric field is a protein-to-NP exposure rather than a
   material/size covariate and remains single-laboratory evidence.
@@ -75,12 +75,11 @@ evidence.
   mutate the CC0 cohort or promote article-derived labels; its current evidence
   and decision boundary are recorded in
   `docs/execplans/T130_license_bound_source_mapping.md`.
-- [x] Identified PXD017052 as a separate, higher-information public route:
-  its CC BY Nature Communications article declares three characterized SPIONs,
-  three assay replicates and source data, while the associated PRIDE release is
-  PXD017052.  It cannot enter this CC0 cohort from article text alone.  T131
-  records the required checksum-first workbook audit and the explicit future
-  cohort-policy decision.
+- [x] Completed T131's PXD017052 CC-BY source-data audit. Four verified
+  publisher assets close nine quantitative result headers to nine PRIDE raw-file
+  basenames and record three numeric SPION property records. No released source
+  joins those raw/result units to a particle identity, so zero units enter the
+  CC0 cohort and a separate CC-BY cohort is not created.
 
 ## Discoveries
 
@@ -118,12 +117,12 @@ evidence.
   metrics, while their sample/process names do not map units to numeric material
   or size covariates or to a common cross-study endpoint; it is retained as a
   narrowly non-admitted lead rather than added to the five-source synthesis.
-- PXD017052 is not reopened as an admitted source based on the paper's
-  characterisation text.  The paper and NCBI metadata identify a potentially
-  useful CC BY source-data route, but its downloadable XLSX assets have not yet
-  been checksum-verified or mapped to PRIDE unit files.  The public CC0-only
-  T129 rule remains unchanged pending T131's audit and an explicit policy
-  decision.
+- PXD017052's four publisher assets are now checksum-verified and schema-audited.
+  Supplementary Data 1 names all nine PRIDE raw-file basenames in quantitative
+  columns, while Source Data labels three SPION replicate triplets. No released
+  table joins the two identities. The public CC0-only T129 rule remains
+  unchanged; ordering, signal values and replicate grouping are prohibited map
+  substitutes.
 
 ## Decisions
 
@@ -160,9 +159,9 @@ evidence.
   `BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES` and all model,
   OOD and independent-validation fields false.
 - 2026-08-13: `python -m biointerfaceos model
-  audit-t129-current-target-evidence --strict` binds the initial, expansion and
-  PXD030327 receipts. It asserts five candidate sources, four laboratories,
-  twelve verified source assets, zero admitted targets and false model/OOD/
+  audit-t129-current-target-evidence --strict` binds the initial, expansion,
+  PXD030327 and PXD017052 receipts. It asserts six candidate sources, five
+  laboratories, sixteen verified source assets, zero admitted targets and false model/OOD/
   independent-validation fields.
 
 ## Acceptance evidence

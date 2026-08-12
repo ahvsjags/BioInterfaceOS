@@ -565,6 +565,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit licence-bound protein-corona mappings without promoting a target",
     )
     model_license_bound_source_maps_parser.add_argument("--strict", action="store_true")
+    model_pxd017052_source_data_parser = model_subparsers.add_parser(
+        "audit-pxd017052-source-data",
+        help="audit public PXD017052 source data without inferring a particle unit map",
+    )
+    model_pxd017052_source_data_parser.add_argument("--strict", action="store_true")
     model_cc0_pxd030327_parser = model_subparsers.add_parser(
         "audit-cc0-pxd030327-unit-map",
         help="verify corrected PXD030327 source units without admitting a model target",
@@ -2295,6 +2300,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-cc0-pxd030327-unit-map",
             "audit-t129-current-target-evidence",
             "audit-license-bound-source-maps",
+            "audit-pxd017052-source-data",
         }:
             parser.parse_args(["model", "--help"])
             return 0
@@ -2492,6 +2498,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"routes={summary.route_count} "
                 f"laboratories={summary.independent_laboratory_count} "
                 f"analysis_only_complete_maps={summary.analysis_only_complete_map_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-pxd017052-source-data":
+            from biointerfaceos.pxd017052_source_data import (
+                PXD017052SourceDataError,
+                PXD017052SourceDataWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("PXD017052_SOURCE_DATA_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            workflow = PXD017052SourceDataWorkflow(root)
+            try:
+                summary = workflow.run(strict=args.strict)
+                workflow.verify()
+            except (PXD017052SourceDataError, OSError) as exc:
+                print(f"PXD017052_SOURCE_DATA_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "PXD017052_SOURCE_DATA_VALID "
+                f"official_assets={summary.official_asset_count} "
+                f"result_units={summary.result_unit_count} "
+                f"result_to_raw_matches={summary.result_to_raw_match_count} "
+                f"explicit_raw_to_particle_maps={summary.explicit_raw_to_particle_map_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0

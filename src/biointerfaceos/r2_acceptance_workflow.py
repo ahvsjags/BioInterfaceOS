@@ -68,11 +68,11 @@ def _string_list(value: Any, label: str, *, minimum: int) -> list[str]:
 class R2AcceptanceWorkflow:
     """Emit a blocked receipt until external reproduction and editorial review exist."""
 
-    AUDIT_ID = "bioif-r2-acceptance-readiness-v1.2.0"
+    AUDIT_ID = "bioif-r2-acceptance-readiness-v1.3.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PROTOCOL_DECLARED_AT = "2026-08-12T00:00:00+00:00"
     PROTOCOL_RELATIVE = "docs/data/R2_EXTERNAL_REPRODUCTION_AND_EDITORIAL_PROTOCOL.json"
-    PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.2.0/portfolio_receipt.json"
+    PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.3.0/portfolio_receipt.json"
     T123_COMPATIBILITY_RELATIVE = (
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
     )
@@ -86,12 +86,16 @@ class R2AcceptanceWorkflow:
         "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
     )
     T129_CURRENT_TARGET_EVIDENCE_RELATIVE = (
-        "reports/review_round_2/t129_current_target_evidence/v1.0.0/"
+        "reports/review_round_2/t129_current_target_evidence/v1.1.0/"
         "current_target_evidence_receipt.json"
+    )
+    T131_SOURCE_DATA_RELATIVE = (
+        "reports/review_round_2/pxd017052_source_data/v1.0.0/"
+        "pxd017052_source_data_receipt.json"
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
     TASKS_RELATIVE = "TASKS.tsv"
-    OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.2.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.3.0"
     REQUIRED_PROTOCOL_FIELDS = {
         "schema_version",
         "protocol_id",
@@ -257,6 +261,10 @@ class R2AcceptanceWorkflow:
             self.T129_CURRENT_TARGET_EVIDENCE_RELATIVE,
             "T129 current target-evidence receipt",
         )
+        t131_source_data_path = self._path(
+            self.T131_SOURCE_DATA_RELATIVE,
+            "T131 PXD017052 source-data receipt",
+        )
         t124_path = self._path(self.T124_RELATIVE, "T124 readiness receipt")
         portfolio = self._json(portfolio_path, "R2 manuscript portfolio receipt")
         compatibility = self._json(compatibility_path, "T123 compatibility receipt")
@@ -267,6 +275,7 @@ class R2AcceptanceWorkflow:
             t129_current_target_evidence_path,
             "T129 current target-evidence receipt",
         )
+        t131_source_data = self._json(t131_source_data_path, "T131 PXD017052 source-data receipt")
         t124 = self._json(t124_path, "T124 readiness receipt")
         statuses = self._task_statuses()
         blockers: list[str] = []
@@ -281,17 +290,36 @@ class R2AcceptanceWorkflow:
         ):
             blockers.append("T123 current result-profile evidence has no frozen compatible target")
         if (
-            t129_current_target_evidence.get("status")
+            t129_admission.get("status") != "BLOCKED_NO_CC0_COMMON_TARGET"
+            or t129_admission.get("admissible_target_count") != 0
+            or t129_admission.get("target_status") != "NOT_FROZEN"
+            or t129_admission.get("model_use") != "PROHIBITED"
+            or t129_discovery.get("status")
+            != "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
+            or t129_discovery.get("admissible_target_count") != 0
+            or t129_discovery.get("target_status") != "NOT_FROZEN"
+            or t129_discovery.get("model_use") != "PROHIBITED"
+            or t129_current_target_evidence.get("status")
             != "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
-            or t129_current_target_evidence.get("candidate_source_count") != 5
-            or t129_current_target_evidence.get("candidate_laboratory_count") != 4
-            or t129_current_target_evidence.get("verified_source_asset_count") != 12
+            or t129_current_target_evidence.get("candidate_source_count") != 6
+            or t129_current_target_evidence.get("candidate_laboratory_count") != 5
+            or t129_current_target_evidence.get("verified_source_asset_count") != 16
             or t129_current_target_evidence.get("admissible_target_count") != 0
             or t129_current_target_evidence.get("target_status") != "NOT_FROZEN"
             or t129_current_target_evidence.get("model_use") != "PROHIBITED"
             or t129_current_target_evidence.get("model_fitted") is not False
         ):
             raise R2AcceptanceError("T129 current target-evidence receipt is invalid")
+        if (
+            t131_source_data.get("status")
+            != "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
+            or t131_source_data.get("official_asset_count") != 4
+            or t131_source_data.get("result_to_raw_match_count") != 9
+            or t131_source_data.get("explicit_raw_to_particle_map_count") != 0
+            or t131_source_data.get("admission") != "NOT_ADMITTED"
+            or t131_source_data.get("model_use") != "PROHIBITED"
+        ):
+            raise R2AcceptanceError("T131 source-data receipt is invalid")
         blockers.append(
             "T129 current CC0 synthesis has not admitted a cross-laboratory numeric-material target"
         )
@@ -316,6 +344,7 @@ class R2AcceptanceWorkflow:
                 "t129_current_target_evidence_receipt_sha256": _sha256(
                     t129_current_target_evidence_path
                 ),
+                "t131_source_data_receipt_sha256": _sha256(t131_source_data_path),
                 "t124_readiness_receipt_sha256": _sha256(t124_path),
                 "task_statuses": statuses,
             },
