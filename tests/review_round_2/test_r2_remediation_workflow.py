@@ -47,7 +47,7 @@ def test_r2_remediation_rejects_stale_semantic_state(tmp_path: Path) -> None:
     semantics_path = root / R2RemediationWorkflow.RECEIPTS["semantics"][0]
     semantics_path.chmod(0o600)
     payload = json.loads(semantics_path.read_text(encoding="utf-8"))
-    payload["blocking_findings"] = 0
+    payload["blocking_findings"] = 1
     semantics_path.write_text(json.dumps(payload), encoding="utf-8")
 
     workflow = R2RemediationWorkflow(root, output_root=root / "remediation")
