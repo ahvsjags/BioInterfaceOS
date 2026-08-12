@@ -61,6 +61,11 @@ evidence.
   TopPIC result TSVs) and PXD050779 (one TopPIC workbook), both official
   pre-cutoff CC0 human-plasma sources attributed to Michigan State University.
   The new audit preserves seven local file hashes but admits zero targets.
+- [x] Reconciled all current T129 tranches in a strict consolidated receipt:
+  five candidates from four laboratories and twelve verified source assets still
+  yield zero admitted targets. PXD030327 contributes a 636-unit, 819-matrix-run
+  source map, but its numeric field is a protein-to-NP exposure rather than a
+  material/size covariate and remains single-laboratory evidence.
 - [ ] Find a reusable CC0 source asset with a source-matched numeric material or
   size covariate map for every candidate analysis unit.
 - [ ] Freeze a shared preprocessing endpoint and an explicit analysis-unit
@@ -92,6 +97,12 @@ evidence.
   unit-level numeric covariate map. The exact scope and the deliberately narrow
   `NOT_ADMITTED_WITH_SCREENED_LISTING` decisions are recorded in
   `docs/data/R2_T129_CC0_PRIDE_API_DISCOVERY_LOG.md`.
+- PXD030327 corrects an earlier narrow listing-level screen: its official
+  `Sample_table.xlsx` maps 636 unexcluded source runs to 819 protein-matrix
+  columns, with 183 matrix columns deliberately left unmapped. The `P/NP ratio`
+  is a source-defined numeric exposure; it is not silently relabelled as a
+  numeric material/size feature. The corrected audit is retained in
+  `docs/data/R2_T129_PXD030327_UNIT_MAP_CORRECTION.md`.
 
 ## Decisions
 
@@ -104,6 +115,9 @@ evidence.
 - The expansion tranche is also non-admitted: its two sources come from one
   laboratory, use heterogeneous top-down outputs, and establish neither a
   numeric source-matched covariate map nor a two-laboratory common endpoint.
+- The current five-candidate, four-laboratory synthesis remains
+  `BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET`; source mapping alone
+  does not waive the shared-endpoint, cross-laboratory and covariate conditions.
 - Do not infer the absence of a mapping asset from a partial listing as a
   universal absence claim. Reassess a lead only when an official, reusable
   source asset provides the required unit-to-covariate mapping.
@@ -124,6 +138,11 @@ evidence.
   candidates, one laboratory and seven screened result assets, with
   `BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES` and all model,
   OOD and independent-validation fields false.
+- 2026-08-13: `python -m biointerfaceos model
+  audit-t129-current-target-evidence --strict` binds the initial, expansion and
+  PXD030327 receipts. It asserts five candidate sources, four laboratories,
+  twelve verified source assets, zero admitted targets and false model/OOD/
+  independent-validation fields.
 
 ## Acceptance evidence
 

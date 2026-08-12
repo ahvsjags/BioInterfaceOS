@@ -555,6 +555,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="record an additional CC0 screening tranche without freezing a target",
     )
     model_cc0_target_discovery_parser.add_argument("--strict", action="store_true")
+    model_t129_current_target_evidence_parser = model_subparsers.add_parser(
+        "audit-t129-current-target-evidence",
+        help="consolidate all current T129 receipts without promoting a target",
+    )
+    model_t129_current_target_evidence_parser.add_argument("--strict", action="store_true")
     model_cc0_pxd030327_parser = model_subparsers.add_parser(
         "audit-cc0-pxd030327-unit-map",
         help="verify corrected PXD030327 source units without admitting a model target",
@@ -2283,6 +2288,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-cc0-target-admission",
             "audit-cc0-target-discovery",
             "audit-cc0-pxd030327-unit-map",
+            "audit-t129-current-target-evidence",
         }:
             parser.parse_args(["model", "--help"])
             return 0
@@ -2430,6 +2436,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"unexcluded_units={summary.unexcluded_unit_count} "
                 f"matrix_runs={summary.matrix_run_count} "
                 f"unmapped_matrix_columns={summary.unmapped_matrix_column_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-t129-current-target-evidence":
+            from biointerfaceos.t129_current_target_evidence import (
+                T129CurrentTargetEvidenceError,
+                T129CurrentTargetEvidenceWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("T129_CURRENT_TARGET_EVIDENCE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            workflow = T129CurrentTargetEvidenceWorkflow(root)
+            try:
+                summary = workflow.run(strict=args.strict)
+                workflow.verify()
+            except (T129CurrentTargetEvidenceError, OSError) as exc:
+                print(f"T129_CURRENT_TARGET_EVIDENCE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "T129_CURRENT_TARGET_EVIDENCE_VALID "
+                f"candidates={summary.candidate_source_count} "
+                f"laboratories={summary.candidate_laboratory_count} "
+                f"verified_source_assets={summary.verified_source_asset_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
