@@ -110,6 +110,13 @@ class FinalAcceptanceWorkflow:
         state, tasks = validate_repository_state(self.root)
         task_map = {task.id: task for task in tasks}
         if set(task_map) != self.REQUIRED_TASK_IDS:
+            round_two = {f"T{index:03d}" for index in range(115, 129)}
+            review_round_2 = state.raw.get("review_round_2", {})
+            if round_two.issubset(task_map) and review_round_2.get("status") == "ACTIVE":
+                raise FinalAcceptanceError(
+                    "historical T114 acceptance is superseded while round-two remediation is active"
+                )
+        if set(task_map) != self.REQUIRED_TASK_IDS:
             raise FinalAcceptanceError("task ID set is incomplete")
         active = [task.id for task in tasks if task.status == "IN_PROGRESS"]
         if state.current_task != "T114" or active != ["T114"]:

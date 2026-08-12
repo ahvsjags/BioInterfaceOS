@@ -13,6 +13,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from biointerfaceos.evidence_semantics import (
+    AllowedClaimLevel,
+    EvidenceClass,
+    EvidenceSemanticsError,
+    metadata_for,
+    require_metadata,
+)
+
 
 class PaperCPrelockError(RuntimeError):
     """Raised when the Paper C pre-lock evidence contract is invalid."""
@@ -123,6 +131,15 @@ class PaperCPrelockWorkflow:
             or fixture.get("mode") != "paper_c_scientific_law_prelock"
         ):
             raise PaperCPrelockError("Paper C fixture schema or mode is invalid")
+        try:
+            evidence_class, claim_level = require_metadata(fixture, "Paper C fixture")
+        except EvidenceSemanticsError as exc:
+            raise PaperCPrelockError(str(exc)) from exc
+        if (
+            evidence_class is not EvidenceClass.FIXTURE_TEST
+            or claim_level is not AllowedClaimLevel.CONTRACT_TEST
+        ):
+            raise PaperCPrelockError("Paper C fixture must remain contract-only")
         inputs = fixture.get("inputs")
         if (
             not isinstance(inputs, list)
@@ -595,6 +612,7 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
         }
         table_manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "tables": [
                 {
                     "table_id": f"Table {index}",
@@ -607,6 +625,7 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
         }
         figure_manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "render_status": "SPEC_ONLY",
             "figures": [
                 {
@@ -648,6 +667,7 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
         }
         audit = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": style["status"],
             "rule_set": style["rule_set"],
             "violations_fixed": {"banned_terms": 0, "overlong_sentences": 0, "throat_clearing": 0},
@@ -656,23 +676,42 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
         payloads: dict[str, bytes] = {
             "paper_c_prelock.md": manuscript.encode("utf-8"),
             "draft_0_laws.md": draft_0.encode("utf-8"),
-            "candidate_cards.json": _canonical({"schema_version": 1, "candidates": cards}),
+            "candidate_cards.json": _canonical(
+                {
+                    "schema_version": 1,
+                    **metadata_for(EvidenceClass.FIXTURE_TEST),
+                    "candidates": cards,
+                }
+            ),
             "prediction_table.json": _canonical(
                 {
                     "schema_version": 1,
+                    **metadata_for(EvidenceClass.FIXTURE_TEST),
                     "predictions": predictions,
                     "protected_results_included": False,
                 }
             ),
-            "analysis_specs.json": _canonical({"schema_version": 1, "analyses": analyses}),
-            "allowed_wording.json": _canonical(allowed),
-            "claim_matrix.json": _canonical({"schema_version": 1, "claims": claims}),
+            "analysis_specs.json": _canonical(
+                {
+                    "schema_version": 1,
+                    **metadata_for(EvidenceClass.FIXTURE_TEST),
+                    "analyses": analyses,
+                }
+            ),
+            "allowed_wording.json": _canonical(
+                {**metadata_for(EvidenceClass.FIXTURE_TEST), **allowed}
+            ),
+            "claim_matrix.json": _canonical(
+                {"schema_version": 1, **metadata_for(EvidenceClass.FIXTURE_TEST), "claims": claims}
+            ),
             "table_manifest.json": _canonical(table_manifest),
             "figure_manifest.json": _canonical(figure_manifest),
             "style_audit.json": _canonical(audit),
         }
         for table_name, table_value in tables.items():
-            payloads[f"tables/{table_name}.json"] = _canonical(table_value)
+            payloads[f"tables/{table_name}.json"] = _canonical(
+                {**metadata_for(EvidenceClass.FIXTURE_TEST), **table_value}
+            )
         figure_specs = {
             "candidate_law_map.md": "# Figure 1: Candidate-law map\n\nMap support strength, evidence links, and blocked wording for C1--C5.\n",
             "symbolic_expression.md": "# Figure 2: Symbolic expression\n\nShow the frozen expression, unit gate, nested study-CV, and OOD rule.\n",
@@ -688,6 +727,7 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
         ]
         manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": "VALID",
             "paper_id": "paper_c_prelock",
             "target_values_exposed": False,
@@ -710,6 +750,7 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
         payloads["paper_c_prelock_manifest.json"] = manifest_bytes
         receipt = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": "VALID",
             "paper_id": "paper_c_prelock",
             "target_values_exposed": False,

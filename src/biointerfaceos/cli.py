@@ -484,6 +484,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "audit-manuscripts", help="run the final claim-to-evidence and language audit"
     )
     claim_audit_parser.add_argument("--strict", action="store_true")
+    claim_semantics_parser = claim_subparsers.add_parser(
+        "audit-semantics",
+        help="audit fixture, replay, and scientific-evidence boundaries for round two",
+    )
+    claim_semantics_parser.add_argument("--strict", action="store_true")
     design_parser = subparsers.add_parser(
         "design", help="run constrained multiobjective design baselines"
     )
@@ -1187,6 +1192,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "claim":
+        if args.claim_command == "audit-semantics":
+            from biointerfaceos.evidence_semantics_audit import (
+                EvidenceSemanticsAuditError,
+                EvidenceSemanticsAuditWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("EVIDENCE_SEMANTICS_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                result = EvidenceSemanticsAuditWorkflow(root).run(strict=args.strict)
+            except (EvidenceSemanticsAuditError, OSError) as exc:
+                print(f"EVIDENCE_SEMANTICS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"EVIDENCE_SEMANTICS_{result['status']} "
+                f"audit_id={result['audit_id']} blockers={result['blocking_findings']} "
+                "historical_sources_mutated=false submission_ready=false"
+            )
+            return 0 if result["status"] == "PASS_EVIDENCE_SEMANTICS" else 1
         if args.claim_command == "audit-manuscripts":
             from biointerfaceos.claim_audit_workflow import ClaimAuditError, ClaimAuditWorkflow
 

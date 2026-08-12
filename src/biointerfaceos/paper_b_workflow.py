@@ -13,6 +13,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from biointerfaceos.evidence_semantics import (
+    AllowedClaimLevel,
+    EvidenceClass,
+    EvidenceSemanticsError,
+    metadata_for,
+    require_metadata,
+)
+
 
 class PaperBError(RuntimeError):
     """Raised when the Paper B evidence contract is invalid."""
@@ -127,6 +135,15 @@ class PaperBWorkflow:
         fixture = self._json(self.fixture_path, "Paper B fixture")
         if fixture.get("schema_version") != 1 or fixture.get("mode") != "paper_b_method_manuscript":
             raise PaperBError("Paper B fixture schema or mode is invalid")
+        try:
+            evidence_class, claim_level = require_metadata(fixture, "Paper B fixture")
+        except EvidenceSemanticsError as exc:
+            raise PaperBError(str(exc)) from exc
+        if (
+            evidence_class is not EvidenceClass.FIXTURE_TEST
+            or claim_level is not AllowedClaimLevel.CONTRACT_TEST
+        ):
+            raise PaperBError("Paper B fixture must remain contract-only")
         inputs = fixture.get("inputs")
         if (
             not isinstance(inputs, list)
@@ -497,6 +514,7 @@ The claim matrix maps method statements to the T104, T088, T099, and T100 artifa
         ]
         table_manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "tables": [
                 {
                     "table_id": "Table 1",
@@ -538,6 +556,7 @@ The claim matrix maps method statements to the T104, T088, T099, and T100 artifa
         }
         figure_manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "render_status": "SPEC_ONLY",
             "figures": [
                 {
@@ -579,6 +598,7 @@ The claim matrix maps method statements to the T104, T088, T099, and T100 artifa
         }
         audit = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": style["status"],
             "rule_set": style["rule_set"],
             "violations_fixed": {"banned_terms": 0, "overlong_sentences": 0, "throat_clearing": 0},
@@ -587,13 +607,17 @@ The claim matrix maps method statements to the T104, T088, T099, and T100 artifa
         payloads: dict[str, bytes] = {
             "paper_b.md": manuscript.encode("utf-8"),
             "draft_0_method.md": draft_0.encode("utf-8"),
-            "claim_matrix.json": _canonical({"schema_version": 1, "claims": claims}),
+            "claim_matrix.json": _canonical(
+                {"schema_version": 1, **metadata_for(EvidenceClass.FIXTURE_TEST), "claims": claims}
+            ),
             "table_manifest.json": _canonical(table_manifest),
             "figure_manifest.json": _canonical(figure_manifest),
             "style_audit.json": _canonical(audit),
         }
         for table_name, table_value in tables.items():
-            payloads[f"tables/{table_name}.json"] = _canonical(table_value)
+            payloads[f"tables/{table_name}.json"] = _canonical(
+                {**metadata_for(EvidenceClass.FIXTURE_TEST), **table_value}
+            )
         figure_specs = {
             "release_layers.md": "# Figure 1: Release layers\n\nShow data, model, robustness, and manuscript layers as separate lanes. Keep protected results outside the diagram.\n",
             "ablation_effects.md": "# Figure 2: Paired ablation effects\n\nPlot full-minus-ablated effects with paired-unit markers and equal-budget annotations.\n",
@@ -609,6 +633,7 @@ The claim matrix maps method statements to the T104, T088, T099, and T100 artifa
         ]
         manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": "VALID",
             "release_id": release["release_id"],
             "paper_id": "paper_b",
@@ -624,6 +649,7 @@ The claim matrix maps method statements to the T104, T088, T099, and T100 artifa
         payloads["paper_b_manifest.json"] = manifest_bytes
         receipt = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": "VALID",
             "paper_id": "paper_b",
             "release_id": release["release_id"],

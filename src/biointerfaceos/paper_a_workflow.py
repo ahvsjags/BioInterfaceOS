@@ -14,6 +14,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from biointerfaceos.evidence_semantics import (
+    AllowedClaimLevel,
+    EvidenceClass,
+    EvidenceSemanticsError,
+    metadata_for,
+    require_metadata,
+)
+
 
 class PaperAError(RuntimeError):
     """Raised when the Paper A evidence contract is invalid."""
@@ -137,6 +145,15 @@ class PaperAWorkflow:
             or fixture.get("mode") != "paper_a_benchmark_manuscript"
         ):
             raise PaperAError("Paper A fixture schema or mode is invalid")
+        try:
+            evidence_class, claim_level = require_metadata(fixture, "Paper A fixture")
+        except EvidenceSemanticsError as exc:
+            raise PaperAError(str(exc)) from exc
+        if (
+            evidence_class is not EvidenceClass.FIXTURE_TEST
+            or claim_level is not AllowedClaimLevel.CONTRACT_TEST
+        ):
+            raise PaperAError("Paper A fixture must remain contract-only")
         if not isinstance(fixture.get("inputs"), list):
             raise PaperAError("Paper A inputs must be a list")
         if {row.get("label") for row in fixture["inputs"]} != self.REQUIRED_INPUTS:
@@ -326,7 +343,7 @@ class PaperAWorkflow:
 
 ## Abstract
 
-BioInterfaceBench evaluates scientific-interface prediction as an evidence problem. The frozen development release contains {benchmark["instances"]} instances across {benchmark["families"]} families, with {benchmark["train"]} training and {benchmark["validation"]} validation instances. We separate public inputs from hidden-target metadata, compare {benchmark["baselines"]} statistical baselines and {benchmark["representations"]} representation baselines, and retain extraction, coverage, and agent failures as first-class outputs. The best simple baseline reaches validation RMSE {best_baseline["validation_rmse"]:.6f}; the best representation reaches {best_representation["validation_rmse"]:.6f}. Extraction accuracy is {extraction["overall_accuracy"]:.3f}, while the high-confidence gate reaches precision {extraction["eligible_precision"]:.3f} and recall {extraction["eligible_recall"]:.3f}. The dataset covers {coverage["independent_studies"]} independent studies, with {missing_values} missing dimension values and {gaps} declared coverage gaps. These results define a reproducible development benchmark, not a production-scale estimate of scientific performance.
+BioInterfaceBench evaluates scientific-interface prediction as an evidence problem. The frozen development release contains {benchmark["instances"]} instances across {benchmark["families"]} families, with {benchmark["train"]} training and {benchmark["validation"]} validation instances. We separate public inputs from hidden-target metadata, compare {benchmark["baselines"]} statistical baselines and {benchmark["representations"]} representation baselines, and retain extraction, coverage, and agent failures as first-class outputs. The best simple baseline reaches validation RMSE {best_baseline["validation_rmse"]:.6f}; the best representation reaches {best_representation["validation_rmse"]:.6f}. Extraction accuracy is {extraction["overall_accuracy"]:.3f}, while the high-confidence gate reaches precision {extraction["eligible_precision"]:.3f} and recall {extraction["eligible_recall"]:.3f}. The fixture contains {coverage["independent_studies"]} synthetic study identifiers, with {missing_values} missing dimension values and {gaps} declared coverage gaps. These results define a reproducible development benchmark, not a production-scale estimate of scientific performance.
 
 ## 1. Introduction
 
@@ -338,7 +355,7 @@ This paper makes three contributions:
 
 1. **Benchmark contract.** We freeze {benchmark["instances"]} instances across {benchmark["families"]} families under an {benchmark["train"]}/{benchmark["validation"]} development split. The release records {benchmark["graders"]} grader cases and separates the public and hidden layers.
 2. **Evidence comparison.** We compare five named statistical baselines, four representations, and an extraction gate. The comparison reports primary validation metrics, confidence intervals, missingness coverage, and failure categories.
-3. **Scope accounting.** We quantify {coverage["independent_studies"]} independent studies, {missing_values} missing dimension values, {gaps} coverage gaps, and seven scientific-agent tasks. The manuscript maps each claim to an immutable artifact.
+3. **Scope accounting.** We quantify {coverage["independent_studies"]} synthetic study identifiers, {missing_values} missing dimension values, {gaps} coverage gaps, and seven scientific-agent tasks. The manuscript maps each claim to an immutable artifact.
 
 ## 2. The frozen benchmark boundary keeps evaluation auditable
 
@@ -378,7 +395,7 @@ The single-agent and multi-agent modes reach the same fixture quality metrics, w
 
 ## 7. Coverage limits constrain every benchmark claim
 
-The coverage audit counts {coverage["independent_studies"]} independent studies by stable study identifiers. It records {missing_values} missing dimension values and {gaps} declared gaps. The warning ledger contains {coverage["warning_count"]} warnings, and the audit performs no imputation. Table 4 lists the missing dimensions and Figure 5 maps the coverage gaps.
+The coverage audit counts {coverage["independent_studies"]} synthetic study identifiers. It records {missing_values} missing dimension values and {gaps} declared gaps. The warning ledger contains {coverage["warning_count"]} warnings, and the audit performs no imputation. Table 4 lists the missing dimensions and Figure 5 maps the coverage gaps.
 
 The observed studies cover only a subset of expected materials, endpoints, species, labs, and dates. One evidence row remains review-required. These patterns describe the fixture scope; they do not estimate literature prevalence.
 
@@ -386,7 +403,7 @@ The observed studies cover only a subset of expected materials, endpoints, speci
 
 ## 8. Limitations and reproducibility
 
-This manuscript uses sanitized, fixture-backed artifacts. The benchmark contains {benchmark["instances"]} instances and {coverage["independent_studies"]} independent studies, so its estimates do not represent production-scale performance. The hidden layer remains metadata-only, and this draft uses no locked target values.
+This manuscript uses sanitized, fixture-backed artifacts. The benchmark contains {benchmark["instances"]} instances and {coverage["independent_studies"]} synthetic study identifiers, so its estimates do not represent production-scale performance. The hidden layer remains metadata-only, and this draft uses no locked target values.
 
 All tables, figures, and claims point to checksummed repository artifacts. A changed input requires a new benchmark version. The release card, claim matrix, and receipt preserve the exact evidence boundary used by this draft.
 
@@ -521,7 +538,7 @@ The claim matrix maps labels E1--E8 to immutable repository artifacts and SHA-25
             },
             {
                 "claim_id": "E5",
-                "claim": f"The coverage audit counts {coverage_receipt['independent_studies']} independent studies, {missing_values} missing dimension values, and {coverage_receipt['gap_count']} gaps without imputation.",
+                "claim": f"The coverage audit counts {coverage_receipt['independent_studies']} synthetic study identifiers, {missing_values} missing dimension values, and {coverage_receipt['gap_count']} gaps without imputation.",
                 "status": "SUPPORTED_DEVELOPMENT_SCOPE",
                 "evidence": ["data_coverage_receipt.json", "coverage_report.json"],
             },
@@ -554,6 +571,7 @@ The claim matrix maps labels E1--E8 to immutable repository artifacts and SHA-25
         ]
         tables_manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "tables": [
                 {
                     "table_id": "Table 1",
@@ -595,6 +613,7 @@ The claim matrix maps labels E1--E8 to immutable repository artifacts and SHA-25
         }
         figures_manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "render_status": "SPEC_ONLY",
             "figures": [
                 {
@@ -636,6 +655,7 @@ The claim matrix maps labels E1--E8 to immutable repository artifacts and SHA-25
         }
         audit = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": style["status"],
             "rule_set": style["rule_set"],
             "violations_fixed": {"banned_terms": 0, "overlong_sentences": 0, "throat_clearing": 0},
@@ -644,13 +664,17 @@ The claim matrix maps labels E1--E8 to immutable repository artifacts and SHA-25
         payloads: dict[str, bytes] = {
             "paper_a.md": manuscript.encode("utf-8"),
             "draft_0_introduction.md": draft_0.encode("utf-8"),
-            "claim_matrix.json": _canonical({"schema_version": 1, "claims": claims}),
+            "claim_matrix.json": _canonical(
+                {"schema_version": 1, **metadata_for(EvidenceClass.FIXTURE_TEST), "claims": claims}
+            ),
             "table_manifest.json": _canonical(tables_manifest),
             "figure_manifest.json": _canonical(figures_manifest),
             "style_audit.json": _canonical(audit),
         }
         for table_name, table_value in tables.items():
-            payloads[f"tables/{table_name}.json"] = _canonical(table_value)
+            payloads[f"tables/{table_name}.json"] = _canonical(
+                {**metadata_for(EvidenceClass.FIXTURE_TEST), **table_value}
+            )
         figure_specs: dict[str, str] = {
             "evidence_boundary.md": "# Figure 1: Evidence boundary\n\nShow public instance inputs, frozen split keys, and the metadata-only hidden registry as separate lanes. Keep target values outside the diagram.\n",
             "extraction_quality.md": "# Figure 2: Extraction quality\n\nPlot modality-level accuracy and high-confidence eligibility from `tables/extraction_results.json`. Mark the G2 gate and retain error categories in the caption.\n",
@@ -667,6 +691,7 @@ The claim matrix maps labels E1--E8 to immutable repository artifacts and SHA-25
             )
         manifest: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": "VALID",
             "release_id": release["release_id"],
             "paper_id": "paper_a",
@@ -682,6 +707,7 @@ The claim matrix maps labels E1--E8 to immutable repository artifacts and SHA-25
         payloads["paper_a_manifest.json"] = manifest_bytes
         receipt: dict[str, Any] = {
             "schema_version": 1,
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "status": "VALID",
             "paper_id": "paper_a",
             "release_id": release["release_id"],

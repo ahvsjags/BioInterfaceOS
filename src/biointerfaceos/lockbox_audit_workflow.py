@@ -10,6 +10,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from biointerfaceos.evidence_semantics import (
+    AllowedClaimLevel,
+    EvidenceClass,
+    EvidenceSemanticsError,
+    require_metadata,
+)
 from biointerfaceos.lockbox import LockboxFirewall
 
 
@@ -244,6 +250,19 @@ class LockboxAuditWorkflow:
         results = inputs["evaluation results"]
         log = inputs["operation log"]
         receipt = inputs["first-run receipt"]
+        try:
+            evidence_class, claim_level = require_metadata(receipt, "first-run receipt")
+        except EvidenceSemanticsError as exc:
+            raise LockboxAuditError(
+                "legacy fixture evaluation cannot be consumed by a new scientific audit"
+            ) from exc
+        if (
+            evidence_class is not EvidenceClass.LOCKED_EVALUATION
+            or claim_level is not AllowedClaimLevel.EVALUATOR_BACKED
+        ):
+            raise LockboxAuditError(
+                "only independently evaluator-backed locked evidence may enter a scientific audit"
+            )
         if (
             results.get("status") != "SEALED_METADATA_ONLY"
             or results.get("raw_values_written") is not False
@@ -277,6 +296,11 @@ class LockboxAuditWorkflow:
             or log.get("protected_values_read") is not False
         ):
             raise LockboxAuditError("evaluation operation log violates the frozen protocol")
+        try:
+            require_metadata(results, "evaluation results")
+            require_metadata(log, "operation log")
+        except EvidenceSemanticsError as exc:
+            raise LockboxAuditError("evaluation evidence metadata is invalid") from exc
         rows = results.get("rows")
         if not isinstance(rows, list) or len(rows) != 5:
             raise LockboxAuditError("sealed evaluation does not contain five rows")

@@ -27,12 +27,15 @@ def test_paper_b_generates_method_draft_and_resumes(tmp_path: Path) -> None:
 
     manuscript = (tmp_path / "paper_b" / "paper_b.md").read_text()
     claims = json.loads((tmp_path / "paper_b" / "claim_matrix.json").read_text())
+    manifest = json.loads((tmp_path / "paper_b" / "paper_b_manifest.json").read_text())
     audit = json.loads((tmp_path / "paper_b" / "style_audit.json").read_text())
     assert "paired module ablations" in manuscript
     assert "causal decomposition" in manuscript
     assert "protected test values" in manuscript
     assert len(claims["claims"]) == 8
     assert claims["claims"][0]["claim_id"] == "M1"
+    assert manifest["evidence_class"] == "FIXTURE_TEST"
+    assert claims["allowed_claim_level"] == "CONTRACT_TEST"
     assert audit["status"] == "PASS"
     assert audit["observed"]["over_40_word_sentences"] == 0
 

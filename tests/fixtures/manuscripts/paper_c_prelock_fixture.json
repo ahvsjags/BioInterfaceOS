@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "mode": "paper_c_scientific_law_prelock",
+  "evidence_class": "FIXTURE_TEST",
+  "allowed_claim_level": "CONTRACT_TEST",
   "inputs": [
     {"label": "T090 functional-axis report", "kind": "text", "path": "reports/T090_functional_axes.md", "sha256": "536fab89abda463d3e4c73f8e17224d263e9dc200a0ec6eb708dc7a665347386"},
     {"label": "T091 mediation report", "kind": "text", "path": "reports/T091_material_corona_outcome_mediation.md", "sha256": "7789354a8b0d862742cb0ef57f44212e1a69707ec6911ea8a1bb97f6f0318fc9"},

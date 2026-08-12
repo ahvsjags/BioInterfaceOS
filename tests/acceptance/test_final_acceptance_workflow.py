@@ -15,11 +15,9 @@ def _json(path: Path) -> dict[str, Any]:
     return cast(dict[str, Any], json.loads(path.read_text(encoding="utf-8")))
 
 
-def test_final_acceptance_requires_t114_only_active() -> None:
-    gate = FinalAcceptanceWorkflow(_root())._task_gate()
-    assert gate["status"] == "PASS"
-    assert gate["current_task"] == "T114"
-    assert gate["completed_or_waived_before_T114"] == 114
+def test_historical_final_acceptance_is_blocked_during_round_two_remediation() -> None:
+    with pytest.raises(FinalAcceptanceError, match="round-two remediation is active"):
+        FinalAcceptanceWorkflow(_root())._task_gate()
 
 
 def test_final_acceptance_forbidden_paths_are_rejected() -> None:

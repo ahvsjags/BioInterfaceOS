@@ -27,11 +27,18 @@ def test_paper_a_generates_evidence_linked_draft_and_resumes(tmp_path: Path) -> 
 
     manuscript = (tmp_path / "paper_a" / "paper_a.md").read_text()
     claims = json.loads((tmp_path / "paper_a" / "claim_matrix.json").read_text())
+    manifest = json.loads((tmp_path / "paper_a" / "paper_a_manifest.json").read_text())
+    figures = json.loads((tmp_path / "paper_a" / "figure_manifest.json").read_text())
     audit = json.loads((tmp_path / "paper_a" / "style_audit.json").read_text())
     assert "BioInterfaceBench" in manuscript
     assert "hidden_target_sha256" not in manuscript.lower()
     assert "no locked target values" in manuscript.lower()
+    assert "independent studies" not in manuscript.lower()
     assert claims["claims"][0]["claim_id"] == "E1"
+    assert claims["evidence_class"] == "FIXTURE_TEST"
+    assert claims["allowed_claim_level"] == "CONTRACT_TEST"
+    assert manifest["evidence_class"] == "FIXTURE_TEST"
+    assert figures["allowed_claim_level"] == "CONTRACT_TEST"
     assert len(claims["claims"]) == 8
     assert audit["status"] == "PASS"
     assert audit["observed"]["over_40_word_sentences"] == 0

@@ -1,0 +1,1 @@
+{"audit_id":"bioif-evidence-semantics-audit-v1.1.0","audited_at":"2026-08-12T00:00:00+00:00","blocking_findings":1,"findings":[{"finding":"forbidden FIXTURE_TEST wording: \\bindependent stud(?:y|ies)\\b","path":"release/manuscripts/paper_a/paper_a.md"}],"historical_sources_mutated":false,"schema_version":1,"status":"BLOCKED_EVIDENCE_SEMANTICS","submission_ready":false}

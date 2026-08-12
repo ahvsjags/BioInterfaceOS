@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "mode": "paper_a_benchmark_manuscript",
+  "evidence_class": "FIXTURE_TEST",
+  "allowed_claim_level": "CONTRACT_TEST",
   "inputs": [
     {"label":"benchmark release manifest","path":"reports/benchmark/releases/biointerfacebench-dev-v1.0.0/release_manifest.json","sha256":"7e9e200cd3f71264d3926d846030c9186d9b2b0d1c03f63fa6326ce18e00adaf","kind":"json"},
     {"label":"benchmark freeze receipt","path":"reports/benchmark/releases/biointerfacebench-dev-v1.0.0/freeze_receipt.json","sha256":"932a8979adb91ea1c15b00db3af49f419adeeda8ae39e353d160d23510052b1b","kind":"json"},

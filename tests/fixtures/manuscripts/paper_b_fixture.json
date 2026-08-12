@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "mode": "paper_b_method_manuscript",
+  "evidence_class": "FIXTURE_TEST",
+  "allowed_claim_level": "CONTRACT_TEST",
   "inputs": [
     {"label": "data model release manifest", "kind": "json", "path": "release/dev_data_model/bioif-data-model-dev-v1.0.0/release_manifest.json", "sha256": "5037a83c862f61a389509a77bda6fe21a945a58b178bed5b81e6f241c99f9be5"},
     {"label": "data model freeze manifest", "kind": "json", "path": "release/dev_data_model/bioif-data-model-dev-v1.0.0/freeze_manifest.json", "sha256": "0645c1a5989ae3199c49d2e08caf728ac54bbaf3c4e10b5adb9df02748e8bcc5"},

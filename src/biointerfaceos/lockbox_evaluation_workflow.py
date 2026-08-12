@@ -13,6 +13,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from biointerfaceos.evidence_semantics import (
+    CONTRACT_STATUSES,
+    AllowedClaimLevel,
+    EvidenceClass,
+    EvidenceSemanticsError,
+    metadata_for,
+    require_metadata,
+)
 from biointerfaceos.lockbox import LockboxFirewall
 
 
@@ -26,9 +34,9 @@ class LockboxEvaluationSummary:
 
     release_id: str
     prediction_count: int
-    replicated: int
-    refuted: int
-    inconclusive: int
+    contract_matched: int
+    contract_contradicted: int
+    contract_indeterminate: int
     abstentions: int
     raw_values_written: bool
     train_calls: int
@@ -69,7 +77,7 @@ class LockboxEvaluationWorkflow:
         "evaluator authorization",
         "prediction table",
     }
-    ALLOWED_STATUSES = frozenset({"REPLICATED", "REFUTED", "INCONCLUSIVE"})
+    ALLOWED_STATUSES = CONTRACT_STATUSES
     FORBIDDEN_OPERATIONS = frozenset({"train", "tune", "select", "rewrite_prediction"})
 
     def __init__(
@@ -115,6 +123,15 @@ class LockboxEvaluationWorkflow:
             raise LockboxEvaluationError("lockbox evaluation identity is not frozen")
         if prereg.get("once") is not True or prereg.get("raw_values_allowed") is not False:
             raise LockboxEvaluationError("lockbox one-shot boundary is invalid")
+        try:
+            evidence_class, claim_level = require_metadata(fixture, "lockbox evaluation fixture")
+        except EvidenceSemanticsError as exc:
+            raise LockboxEvaluationError(str(exc)) from exc
+        if (
+            evidence_class is not EvidenceClass.FIXTURE_TEST
+            or claim_level is not AllowedClaimLevel.CONTRACT_TEST
+        ):
+            raise LockboxEvaluationError("lockbox fixture evidence class must remain contract-only")
         inputs = fixture.get("inputs")
         if (
             not isinstance(inputs, list)
@@ -253,13 +270,15 @@ class LockboxEvaluationWorkflow:
         evaluation_results = {
             "schema_version": 1,
             "release_id": "bioif-internal-prelock-v1.0.0",
-            "status": "SEALED_METADATA_ONLY",
+            "status": "SEALED_FIXTURE_CONTRACT_ONLY",
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "raw_values_written": False,
             "rows": result_rows,
         }
         operation_log = {
             "schema_version": 1,
             "release_id": "bioif-internal-prelock-v1.0.0",
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "operations": operations,
             "train_calls": 0,
             "tune_calls": 0,
@@ -272,8 +291,9 @@ class LockboxEvaluationWorkflow:
         log_bytes = _canonical(operation_log)
         receipt = {
             "schema_version": 1,
-            "status": "VALID_FIRST_RUN_SEALED",
+            "status": "VALID_FIXTURE_CONTRACT_RUN_SEALED",
             "release_id": "bioif-internal-prelock-v1.0.0",
+            **metadata_for(EvidenceClass.FIXTURE_TEST),
             "evaluated_at": prereg["evaluated_at"],
             "once": True,
             "first_run": True,
@@ -284,9 +304,9 @@ class LockboxEvaluationWorkflow:
             "tune_calls": 0,
             "prediction_rewrites": 0,
             "prediction_count": len(result_rows),
-            "replicated": counts["REPLICATED"],
-            "refuted": counts["REFUTED"],
-            "inconclusive": counts["INCONCLUSIVE"],
+            "contract_matched": counts["CONTRACT_EXPECTATION_MET"],
+            "contract_contradicted": counts["CONTRACT_EXPECTATION_CONTRADICTED"],
+            "contract_indeterminate": counts["CONTRACT_EVIDENCE_INDETERMINATE"],
             "abstentions": abstentions,
             "evaluation_results_sha256": _sha256(result_bytes),
             "operation_log_sha256": _sha256(log_bytes),
@@ -307,9 +327,9 @@ class LockboxEvaluationWorkflow:
         return LockboxEvaluationSummary(
             release_id="bioif-internal-prelock-v1.0.0",
             prediction_count=len(result_rows),
-            replicated=counts["REPLICATED"],
-            refuted=counts["REFUTED"],
-            inconclusive=counts["INCONCLUSIVE"],
+            contract_matched=counts["CONTRACT_EXPECTATION_MET"],
+            contract_contradicted=counts["CONTRACT_EXPECTATION_CONTRADICTED"],
+            contract_indeterminate=counts["CONTRACT_EVIDENCE_INDETERMINATE"],
             abstentions=abstentions,
             raw_values_written=False,
             train_calls=0,
@@ -327,7 +347,7 @@ class LockboxEvaluationWorkflow:
         result_bytes = _canonical(results)
         log_bytes = _canonical(log)
         if (
-            receipt.get("status") != "VALID_FIRST_RUN_SEALED"
+            receipt.get("status") != "VALID_FIXTURE_CONTRACT_RUN_SEALED"
             or receipt.get("once") is not True
             or receipt.get("first_run") is not True
         ):
@@ -337,7 +357,16 @@ class LockboxEvaluationWorkflow:
         ) != _sha256(log_bytes):
             raise LockboxEvaluationError("sealed evaluator hash mismatch")
         if (
-            receipt.get("raw_values_written") is not False
+            require_metadata(receipt, "sealed evaluator receipt")[0]
+            is not EvidenceClass.FIXTURE_TEST
+            or require_metadata(results, "sealed evaluation results")[0]
+            is not EvidenceClass.FIXTURE_TEST
+            or require_metadata(log, "sealed evaluator operation log")[0]
+            is not EvidenceClass.FIXTURE_TEST
+            or receipt.get("allowed_claim_level") != AllowedClaimLevel.CONTRACT_TEST.value
+            or results.get("allowed_claim_level") != AllowedClaimLevel.CONTRACT_TEST.value
+            or log.get("allowed_claim_level") != AllowedClaimLevel.CONTRACT_TEST.value
+            or receipt.get("raw_values_written") is not False
             or receipt.get("protected_values_read") is not False
             or receipt.get("train_calls") != 0
             or receipt.get("tune_calls") != 0
@@ -355,9 +384,9 @@ class LockboxEvaluationWorkflow:
         return LockboxEvaluationSummary(
             release_id=str(receipt["release_id"]),
             prediction_count=len(rows),
-            replicated=counts["REPLICATED"],
-            refuted=counts["REFUTED"],
-            inconclusive=counts["INCONCLUSIVE"],
+            contract_matched=counts["CONTRACT_EXPECTATION_MET"],
+            contract_contradicted=counts["CONTRACT_EXPECTATION_CONTRADICTED"],
+            contract_indeterminate=counts["CONTRACT_EVIDENCE_INDETERMINATE"],
             abstentions=abstentions,
             raw_values_written=False,
             train_calls=int(receipt["train_calls"]),

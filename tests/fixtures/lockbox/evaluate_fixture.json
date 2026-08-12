@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "mode": "lockbox_evaluation_once",
+  "evidence_class": "FIXTURE_TEST",
+  "allowed_claim_level": "CONTRACT_TEST",
   "preregistration": {
     "release_id": "bioif-internal-prelock-v1.0.0",
     "evaluated_at": "2026-08-12T00:00:00+00:00",
@@ -17,10 +19,10 @@
   ],
   "operations": ["verify_release", "load_prediction_metadata", "emit_aggregate_status", "seal_receipt"],
   "results": [
-    {"prediction_id": "P1", "status": "REPLICATED", "metric_digest": "1111111111111111111111111111111111111111111111111111111111111111", "abstained": false, "failure_class": "none"},
-    {"prediction_id": "P2", "status": "REPLICATED", "metric_digest": "2222222222222222222222222222222222222222222222222222222222222222", "abstained": false, "failure_class": "none"},
-    {"prediction_id": "P3", "status": "INCONCLUSIVE", "metric_digest": "3333333333333333333333333333333333333333333333333333333333333333", "abstained": true, "failure_class": "protocol_boundary"},
-    {"prediction_id": "P4", "status": "REFUTED", "metric_digest": "4444444444444444444444444444444444444444444444444444444444444444", "abstained": false, "failure_class": "overlap_failure"},
-    {"prediction_id": "P5", "status": "INCONCLUSIVE", "metric_digest": "5555555555555555555555555555555555555555555555555555555555555555", "abstained": true, "failure_class": "model_disagreement"}
+    {"prediction_id": "P1", "status": "CONTRACT_EXPECTATION_MET", "metric_digest": "1111111111111111111111111111111111111111111111111111111111111111", "abstained": false, "failure_class": "none"},
+    {"prediction_id": "P2", "status": "CONTRACT_EXPECTATION_MET", "metric_digest": "2222222222222222222222222222222222222222222222222222222222222222", "abstained": false, "failure_class": "none"},
+    {"prediction_id": "P3", "status": "CONTRACT_EVIDENCE_INDETERMINATE", "metric_digest": "3333333333333333333333333333333333333333333333333333333333333333", "abstained": true, "failure_class": "protocol_boundary"},
+    {"prediction_id": "P4", "status": "CONTRACT_EXPECTATION_CONTRADICTED", "metric_digest": "4444444444444444444444444444444444444444444444444444444444444444", "abstained": false, "failure_class": "overlap_failure"},
+    {"prediction_id": "P5", "status": "CONTRACT_EVIDENCE_INDETERMINATE", "metric_digest": "5555555555555555555555555555555555555555555555555555555555555555", "abstained": true, "failure_class": "model_disagreement"}
   ]
 }

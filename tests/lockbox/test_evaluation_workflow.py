@@ -17,15 +17,17 @@ def test_one_shot_evaluation_seals_metadata_only_results(tmp_path: Path) -> None
     workflow = LockboxEvaluationWorkflow(_root(), output_root=tmp_path / "evaluation")
     first = workflow.run(release="FROZEN_DEV", once=True)
     assert first.prediction_count == 5
-    assert first.replicated == 2
-    assert first.refuted == 1
-    assert first.inconclusive == 2
+    assert first.contract_matched == 2
+    assert first.contract_contradicted == 1
+    assert first.contract_indeterminate == 2
     assert first.abstentions == 2
     assert first.raw_values_written is False
     assert first.train_calls == 0
     assert first.tune_calls == 0
     verified = workflow.verify()
     assert verified.receipt_path.read_bytes() == first.receipt_path.read_bytes()
+    assert "REPLICATED" not in (tmp_path / "evaluation" / "evaluation_results.json").read_text()
+    assert "REFUTED" not in (tmp_path / "evaluation" / "evaluation_results.json").read_text()
     with pytest.raises(LockboxEvaluationError, match="already executed"):
         workflow.run(release="FROZEN_DEV", once=True)
 

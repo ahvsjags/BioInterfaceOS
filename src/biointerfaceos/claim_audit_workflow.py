@@ -10,6 +10,13 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from biointerfaceos.evidence_semantics import (
+    AllowedClaimLevel,
+    EvidenceClass,
+    EvidenceSemanticsError,
+    require_metadata,
+)
+
 
 class ClaimAuditError(RuntimeError):
     """Raised when manuscript claim or language audit fails."""
@@ -315,6 +322,20 @@ class ClaimAuditWorkflow:
         inputs = self._inputs(fixture)
         t110_receipt = self._json(inputs["T110 audit receipt"], "T110 audit receipt")
         t112_report = self._json(inputs["T112 reproduction report"], "T112 reproduction report")
+        try:
+            evidence_class, claim_level = require_metadata(t110_receipt, "T110 audit receipt")
+        except EvidenceSemanticsError as exc:
+            raise ClaimAuditError(
+                "legacy fixture lockbox receipt cannot support a new manuscript claim audit; "
+                "run claim audit-semantics and keep Paper C protocol-only"
+            ) from exc
+        if (
+            evidence_class is not EvidenceClass.LOCKED_EVALUATION
+            or claim_level is not AllowedClaimLevel.EVALUATOR_BACKED
+        ):
+            raise ClaimAuditError(
+                "T110 receipt is not evaluator-backed locked evidence; Paper C is protocol-only"
+            )
         if (
             t110_receipt.get("status") != "VALID_POSTLOCK_AUDIT_SEALED"
             or t112_report.get("status") != "VALID_CLEAN_ROOM_REPRODUCTION"

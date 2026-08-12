@@ -27,10 +27,15 @@ def test_paper_c_prelock_freezes_candidates_and_resumes(tmp_path: Path) -> None:
 
     manuscript = (tmp_path / "paper_c_prelock" / "paper_c_prelock.md").read_text()
     predictions = json.loads((tmp_path / "paper_c_prelock" / "prediction_table.json").read_text())
+    manifest = json.loads(
+        (tmp_path / "paper_c_prelock" / "paper_c_prelock_manifest.json").read_text()
+    )
     audit = json.loads((tmp_path / "paper_c_prelock" / "style_audit.json").read_text())
     assert "PREDICTED_BEFORE_LOCKBOX" in json.dumps(predictions)
     assert "protected payloads" in manuscript
     assert "universal biological laws" in manuscript
+    assert manifest["evidence_class"] == "FIXTURE_TEST"
+    assert predictions["allowed_claim_level"] == "CONTRACT_TEST"
     assert audit["status"] == "PASS"
     assert audit["observed"]["over_40_word_sentences"] == 0
 
