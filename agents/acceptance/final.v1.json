@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BioInterfaceOS final project acceptance",
+  "type": "object",
+  "required": ["schema_version", "status", "acceptance_id", "release_id", "critical_findings", "project_status"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "VALID_FINAL_PROJECT_ACCEPTANCE_WITH_SUBMISSION_LIMITATIONS"},
+    "acceptance_id": {"const": "bioif-final-acceptance-v1.0.0"},
+    "release_id": {"const": "bioif-public-v1.0.0"},
+    "critical_findings": {"const": 0},
+    "project_status": {"const": "IN_PROGRESS"}
+  },
+  "additionalProperties": true
+}

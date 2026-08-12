@@ -153,6 +153,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     state_subparsers = state_parser.add_subparsers(dest="state_command")
     state_subparsers.add_parser("validate", help="validate PROJECT_STATE.yaml and TASKS.tsv")
     state_subparsers.add_parser("next", help="print the next dependency-satisfied READY task")
+    project_parser = subparsers.add_parser(
+        "project", help="run final project acceptance and public release"
+    )
+    project_subparsers = project_parser.add_subparsers(dest="project_command")
+    accept_parser = project_subparsers.add_parser(
+        "accept", help="run G0-G10 final acceptance gates"
+    )
+    accept_parser.add_argument("--strict", action="store_true")
 
     schema_parser = subparsers.add_parser("schema", help="validate versioned schemas")
     schema_subparsers = schema_parser.add_subparsers(dest="schema_command")
@@ -805,6 +813,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print("NO_READY_TASK")
             return 1
         print(task.id)
+        return 0
+    if args.command == "project":
+        if args.project_command != "accept":
+            parser.parse_args(["project", "--help"])
+            return 0
+        from biointerfaceos.final_acceptance_workflow import (
+            FinalAcceptanceError,
+            FinalAcceptanceWorkflow,
+        )
+
+        root = find_repository_root()
+        if root is None:
+            print("PROJECT_ACCEPT_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            acceptance_result = FinalAcceptanceWorkflow(root).run(strict=args.strict)
+        except (FinalAcceptanceError, OSError) as exc:
+            print(f"PROJECT_ACCEPT_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"PROJECT_ACCEPT_VALID acceptance_id={acceptance_result['acceptance_id']} "
+            f"release_id={acceptance_result['release_id']} "
+            f"critical_findings={acceptance_result['critical_findings']} "
+            "project_status=IN_PROGRESS public_release_verified=true"
+        )
         return 0
     if args.command == "schema":
         if args.schema_command is None:
