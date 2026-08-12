@@ -1,4 +1,4 @@
-.PHONY: env check paper-a paper-b paper-c-prelock freeze-prelock
+.PHONY: env check paper-a paper-b paper-c-prelock freeze-prelock lockbox-evaluate
 
 BIOINTERFACEOS_UV ?= uv
 BIOINTERFACEOS_PYTHON ?= 3.11
@@ -24,3 +24,6 @@ paper-c-prelock:
 
 freeze-prelock:
 	.venv/bin/biointerfaceos release freeze-prelock --strict
+
+lockbox-evaluate:
+	.venv/bin/biointerfaceos lockbox evaluate --release FROZEN_DEV --once

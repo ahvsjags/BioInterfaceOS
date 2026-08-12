@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "mode": "lockbox_evaluation_once",
+  "release_id": "bioif-internal-prelock-v1.0.0",
+  "once": true,
+  "raw_values_allowed": false,
+  "allowed_statuses": ["REPLICATED", "REFUTED", "INCONCLUSIVE"],
+  "forbidden_operations": ["train", "tune", "select", "rewrite_prediction"]
+}

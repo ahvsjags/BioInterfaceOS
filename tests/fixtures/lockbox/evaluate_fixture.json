@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "mode": "lockbox_evaluation_once",
+  "preregistration": {
+    "release_id": "bioif-internal-prelock-v1.0.0",
+    "evaluated_at": "2026-08-12T00:00:00+00:00",
+    "once": true,
+    "raw_values_allowed": false
+  },
+  "inputs": [
+    {"label": "release manifest", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/release_manifest.json", "sha256": "9fe93b2902e332ed5efbf7743408e3875e4390e060fec931fd2a962132f3f7d2"},
+    {"label": "release receipt", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/release_receipt.json", "sha256": "904e2085750cf4765eab7a796a2c88a2cf56cada491de04ac6f284701f83c90b"},
+    {"label": "signature", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/signature.json", "sha256": "a7003c9d1f73ae960310c7816e65d2e43d3ba5385ed5b24653b1087624bfa0bb"},
+    {"label": "lockbox plan", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/lockbox_plan.json", "sha256": "4ec8243234c43db77c4990cec3ab6aa52ba2f73b7e6afae0abefdceafe6f998e"},
+    {"label": "evaluator authorization", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/evaluator_authorization.json", "sha256": "279806d10be65eefe8bf73ffaea9f9fe0a3fe131d9144d005deccd0454f6fb88"},
+    {"label": "prediction table", "kind": "json", "path": "release/manuscripts/paper_c_prelock/prediction_table.json", "sha256": "d672d3ed54d3c7a306828d8a67808a3133be1433891f8f61b426f0a83fd21483"}
+  ],
+  "operations": ["verify_release", "load_prediction_metadata", "emit_aggregate_status", "seal_receipt"],
+  "results": [
+    {"prediction_id": "P1", "status": "REPLICATED", "metric_digest": "1111111111111111111111111111111111111111111111111111111111111111", "abstained": false, "failure_class": "none"},
+    {"prediction_id": "P2", "status": "REPLICATED", "metric_digest": "2222222222222222222222222222222222222222222222222222222222222222", "abstained": false, "failure_class": "none"},
+    {"prediction_id": "P3", "status": "INCONCLUSIVE", "metric_digest": "3333333333333333333333333333333333333333333333333333333333333333", "abstained": true, "failure_class": "protocol_boundary"},
+    {"prediction_id": "P4", "status": "REFUTED", "metric_digest": "4444444444444444444444444444444444444444444444444444444444444444", "abstained": false, "failure_class": "overlap_failure"},
+    {"prediction_id": "P5", "status": "INCONCLUSIVE", "metric_digest": "5555555555555555555555555555555555555555555555555555555555555555", "abstained": true, "failure_class": "model_disagreement"}
+  ]
+}

@@ -211,6 +211,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     lockbox_parser = subparsers.add_parser("lockbox", help="test lockbox firewall")
     lockbox_subparsers = lockbox_parser.add_subparsers(dest="lockbox_command")
     lockbox_subparsers.add_parser("self-test", help="run offline firewall and scanner tests")
+    evaluate_parser = lockbox_subparsers.add_parser(
+        "evaluate", help="run the evaluator-only one-shot lockbox protocol"
+    )
+    evaluate_parser.add_argument("--release", required=True, choices=("FROZEN_DEV",))
+    evaluate_parser.add_argument("--once", action="store_true")
     agent_parser = subparsers.add_parser("agent", help="run typed multi-agent runtime checks")
     agent_subparsers = agent_parser.add_subparsers(dest="agent_command")
     agent_subparsers.add_parser("self-test", help="run offline runtime contract self-test")
@@ -2575,6 +2580,36 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "lockbox":
+        if args.lockbox_command == "evaluate":
+            from biointerfaceos.lockbox_evaluation_workflow import (
+                LockboxEvaluationError,
+                LockboxEvaluationWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("LOCKBOX_EVALUATION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                evaluation_summary = LockboxEvaluationWorkflow(root).run(
+                    release=args.release,
+                    once=args.once,
+                )
+            except (LockboxEvaluationError, OSError) as exc:
+                print(f"LOCKBOX_EVALUATION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"LOCKBOX_EVALUATION_VALID release_id={evaluation_summary.release_id} "
+                f"predictions={evaluation_summary.prediction_count} "
+                f"replicated={evaluation_summary.replicated} "
+                f"refuted={evaluation_summary.refuted} "
+                f"inconclusive={evaluation_summary.inconclusive} "
+                f"abstentions={evaluation_summary.abstentions} "
+                f"raw_values_written={str(evaluation_summary.raw_values_written).lower()} "
+                f"train_calls={evaluation_summary.train_calls} "
+                f"tune_calls={evaluation_summary.tune_calls}"
+            )
+            return 0
         if args.lockbox_command != "self-test":
             parser.parse_args(["lockbox", "--help"])
             return 0
