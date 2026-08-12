@@ -61,10 +61,10 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.1.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.2.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.1.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.2.0"
     RECEIPTS = {
         "semantics": (
             "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
@@ -81,6 +81,11 @@ class R2RemediationWorkflow:
         "discovery": (
             "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json",
             "T129 discovery receipt",
+        ),
+        "pxd030327_unit_map": (
+            "reports/review_round_2/cc0_pxd030327_unit_map/v1.0.0/"
+            "unit_map_correction_receipt.json",
+            "T129 PXD030327 unit-map correction receipt",
         ),
         "independent": (
             "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json",
@@ -169,6 +174,7 @@ class R2RemediationWorkflow:
         profile = sources["profile"].payload
         admission = sources["admission"].payload
         discovery = sources["discovery"].payload
+        pxd030327_unit_map = sources["pxd030327_unit_map"].payload
         independent = sources["independent"].payload
         semantics = sources["semantics"].payload
         related_work = sources["related_work"].payload
@@ -183,6 +189,17 @@ class R2RemediationWorkflow:
             and profile.get("target_status") == "NOT_FROZEN"
             and profile.get("model_fitted") is False
             and profile.get("model_use") == "PROHIBITED",
+            "R2-01",
+        )
+        self._require(
+            pxd030327_unit_map.get("status")
+            == "VERIFIED_SINGLE_LAB_UNIT_MAP_NOT_ADMITTED"
+            and pxd030327_unit_map.get("unexcluded_unit_count") == 636
+            and pxd030327_unit_map.get("unique_matrix_run_count") == 819
+            and pxd030327_unit_map.get("unmapped_matrix_column_count") == 183
+            and pxd030327_unit_map.get("admission") == "NOT_ADMITTED"
+            and pxd030327_unit_map.get("model_use") == "PROHIBITED"
+            and pxd030327_unit_map.get("model_fitted") is False,
             "R2-01",
         )
         self._require(
@@ -261,10 +278,15 @@ class R2RemediationWorkflow:
                 "disposition": self.DISPOSITIONS["R2-01"],
                 "scientific_claim_ready": False,
                 "reviewer_readable_disposition": (
-                    "No common target is frozen across the profiled or CC0-screened "
-                    "sources; model use remains prohibited."
+                    "PXD030327 now has a verified 636-unit run map, but its categorical NP "
+                    "labels and single-lab exposure conditions do not freeze a common target."
                 ),
-                "evidence_source_keys": ["profile", "admission", "discovery"],
+                "evidence_source_keys": [
+                    "profile",
+                    "admission",
+                    "discovery",
+                    "pxd030327_unit_map",
+                ],
             },
             {
                 "finding_id": "R2-02",
