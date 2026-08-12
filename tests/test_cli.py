@@ -30,6 +30,8 @@ class CliTests(unittest.TestCase):
         self.assertIn("doctor", help_text)
         publication_args = cli.build_parser().parse_args(["publication", "render-r2", "--strict"])
         self.assertEqual("render-r2", publication_args.publication_command)
+        reproduction_args = cli.build_parser().parse_args(["reproduce", "release", "--strict"])
+        self.assertEqual("release", reproduction_args.reproduce_command)
         for command in cli.FUTURE_COMMANDS:
             self.assertIn(command, help_text)
 

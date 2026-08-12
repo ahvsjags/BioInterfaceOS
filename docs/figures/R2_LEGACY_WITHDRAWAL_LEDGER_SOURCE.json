@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "ledger_id": "bioif-r2-withdrawals-v1.1.0",
+  "withdrawals": [
+    {
+      "legacy_figure": "paper_a:Figure 1",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_a:Figure 2",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_a:Figure 3",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_a:Figure 4",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_a:Figure 5",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_b:Figure 1",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_b:Figure 2",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_b:Figure 3",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_b:Figure 4",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_b:Figure 5",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_c_prelock:Figure 1",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_c_prelock:Figure 2",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_c_prelock:Figure 3",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_c_prelock:Figure 4",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    },
+    {
+      "legacy_figure": "paper_c_prelock:Figure 5",
+      "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
+      "reason": "Historical fixture specification lacks a field-mapped empirical source, independent-unit denominator, interval declaration, and R2 visual QA receipt.",
+      "replacement": "R2 protocol-only figures; real-data figures are deferred to T122-T124."
+    }
+  ]
+}

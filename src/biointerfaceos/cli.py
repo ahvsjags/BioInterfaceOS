@@ -249,9 +249,17 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     verify_r2_parser.add_argument("--strict", action="store_true")
     reproduce_parser = subparsers.add_parser(
+        "reproduce", help="rebuild and verify named reproducibility packages"
+    )
+    reproduce_subparsers = reproduce_parser.add_subparsers(dest="reproduce_command")
+    reproduce_release_parser = reproduce_subparsers.add_parser(
+        "release", help="rebuild the R2 public software-replay release"
+    )
+    reproduce_release_parser.add_argument("--strict", action="store_true")
+    clean_reproduce_parser = subparsers.add_parser(
         "reproduce-clean", help="build and verify the network-free clean-room package"
     )
-    reproduce_parser.add_argument("--strict", action="store_true")
+    clean_reproduce_parser.add_argument("--strict", action="store_true")
     agent_parser = subparsers.add_parser("agent", help="run typed multi-agent runtime checks")
     agent_subparsers = agent_parser.add_subparsers(dest="agent_command")
     agent_subparsers.add_parser("self-test", help="run offline runtime contract self-test")
@@ -2845,6 +2853,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"source_data_files={publication_result['source_data_files']} "
             f"raster_dpi={publication_result['raster_dpi']} "
             "manual_numeric_edits=0 raw_values_written=false"
+        )
+        return 0
+    if args.command == "reproduce":
+        if args.reproduce_command != "release":
+            parser.parse_args(["reproduce", "--help"])
+            return 0
+        from biointerfaceos.r2_release_reproduction_workflow import (
+            R2ReleaseReproductionError,
+            R2ReleaseReproductionWorkflow,
+        )
+
+        root = find_repository_root()
+        if root is None:
+            print("R2_SOFTWARE_REPLAY_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            replay = R2ReleaseReproductionWorkflow(root).run(strict=args.strict)
+        except (R2ReleaseReproductionError, OSError) as exc:
+            print(f"R2_SOFTWARE_REPLAY_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"R2_SOFTWARE_REPLAY_VALID repro_id={replay['repro_id']} "
+            f"status={replay['status']} source_assets={replay['source_asset_count']} "
+            f"rebuilt_protocol_figures={replay['rebuilt_protocol_figures']} "
+            "software_replay=true scientific_reproduction=false "
+            "scientific_submission_ready=false"
         )
         return 0
     if args.command == "reproduce-clean":

@@ -77,6 +77,7 @@ class SubmissionFigureQAWorkflow:
     RENDERED_AT = "2026-08-12T00:00:00+00:00"
     SPECS_RELATIVE = "docs/figures/R2_FIGURE_SPECS.json"
     DATA_RELATIVE = "docs/figures/R2_PROTOCOL_FIGURE_DATA.json"
+    WITHDRAWAL_LEDGER_RELATIVE = "docs/figures/R2_LEGACY_WITHDRAWAL_LEDGER_SOURCE.json"
     REQUIRED_MAPPINGS = {
         "node_id": "nodes[].node_id",
         "node_label": "nodes[].label_lines[]",
@@ -562,35 +563,42 @@ class SubmissionFigureQAWorkflow:
         }
 
     def _withdrawal_ledger(self) -> list[dict[str, str]]:
+        """Load a public withdrawal source rather than a quarantined legacy bundle."""
+        source_path = self._path(
+            self.WITHDRAWAL_LEDGER_RELATIVE,
+            "R2 legacy withdrawal ledger source",
+        )
+        source = self._json(source_path, "R2 legacy withdrawal ledger source")
+        if set(source) != {"schema_version", "ledger_id", "withdrawals"}:
+            raise SubmissionFigureQAError("R2 legacy withdrawal ledger source is invalid")
+        if source.get("schema_version") != 1 or source.get("ledger_id") != "bioif-r2-withdrawals-v1.1.0":
+            raise SubmissionFigureQAError("R2 legacy withdrawal ledger identity is invalid")
+        values = source.get("withdrawals")
+        if not isinstance(values, list):
+            raise SubmissionFigureQAError("R2 legacy withdrawal ledger rows are invalid")
         ledger: list[dict[str, str]] = []
-        for paper in ("paper_a", "paper_b", "paper_c_prelock"):
-            manifest_path = self._path(
-                f"release/manuscripts/{paper}/figure_manifest.json",
-                f"{paper} legacy figure manifest",
+        for value in values:
+            row = _mapping(value, "R2 legacy withdrawal")
+            if set(row) != {"legacy_figure", "status", "reason", "replacement"}:
+                raise SubmissionFigureQAError("R2 legacy withdrawal fields are invalid")
+            ledger.append(
+                {
+                    "legacy_figure": _string(row["legacy_figure"], "legacy figure"),
+                    "status": _string(row["status"], "legacy withdrawal status"),
+                    "reason": _string(row["reason"], "legacy withdrawal reason"),
+                    "replacement": _string(row["replacement"], "legacy withdrawal replacement"),
+                }
             )
-            manifest = self._json(manifest_path, f"{paper} legacy figure manifest")
-            figures = manifest.get("figures")
-            if not isinstance(figures, list):
-                raise SubmissionFigureQAError(f"{paper} legacy figure manifest is invalid")
-            for figure in figures:
-                row = _mapping(figure, "legacy figure")
-                ledger.append(
-                    {
-                        "legacy_figure": (
-                            f"{paper}:{_string(row.get('figure_id'), 'legacy figure ID')}"
-                        ),
-                        "status": "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE",
-                        "reason": (
-                            "Historical fixture specification lacks a field-mapped "
-                            "empirical source, independent-unit denominator, interval declaration, "
-                            "and R2 visual QA receipt."
-                        ),
-                        "replacement": (
-                            "R2 protocol-only figures; real-data figures are deferred to T122-T124."
-                        ),
-                    }
-                )
-        if len(ledger) != 15:
+        expected = {
+            f"{paper}:Figure {number}"
+            for paper in ("paper_a", "paper_b", "paper_c_prelock")
+            for number in range(1, 6)
+        }
+        if (
+            len(ledger) != 15
+            or {item["legacy_figure"] for item in ledger} != expected
+            or any(item["status"] != "WITHDRAWN_FROM_R2_SUBMISSION_SCOPE" for item in ledger)
+        ):
             raise SubmissionFigureQAError("legacy withdrawal ledger coverage is incomplete")
         return ledger
 
