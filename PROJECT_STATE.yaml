@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T088
-active_execplan: docs/execplans/T088_scientific_agent_benchmark.md
+current_task: T089
+active_execplan: docs/execplans/T089_hypothesis_tournament_preregistration.md
 completed_tasks:
   - T000
   - T001
@@ -95,10 +95,10 @@ completed_tasks:
   - T085
   - T086
   - T087
+  - T088
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T089
   - T090
   - T091
   - T092
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: d14a6bb
+last_successful_commit: 259fe20
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
