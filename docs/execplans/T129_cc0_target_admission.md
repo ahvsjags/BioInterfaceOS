@@ -47,6 +47,54 @@ evidence.
 4. Route only a successfully frozen target to T123 paired models; retain T124,
    T126, T127, and T128 as blocked until their independent gates are met.
 
+## Progress
+
+- [x] Screened two official, pre-cutoff CC0 candidates with locally hashed
+  small author-result workbooks: PXD016229 (Leiden University; four
+  source-labelled serum conditions) and PXD054751 (Sapienza University of Rome;
+  five source-labelled plasma conditions). The strict receipt preserves two
+  laboratories and nine source conditions, but no admitted target.
+- [x] Installed `python -m biointerfaceos model audit-cc0-target-admission
+  --strict`. It validates the candidate registry, fails if a candidate is
+  silently promoted, and writes an immutable read-only decision and receipt.
+- [ ] Find a reusable CC0 source asset with a source-matched numeric material or
+  size covariate map for every candidate analysis unit.
+- [ ] Freeze a shared preprocessing endpoint and an explicit analysis-unit
+  manifest across at least two independent laboratories.
+- [ ] Create T121 Amendment v1.0.1, then hand only its frozen target to T123.
+
+## Discoveries
+
+- PXD016229 exposes source-labelled quantitative columns for EndoTAG-1,
+  AmBisome, Myocet and a no-liposome control; it does not supply a numeric
+  material/size covariate map in the selected CC0 workbook.
+- PXD054751 exposes five source-labelled plasma-LNP conditions and three
+  author-labelled intensity columns per condition. Its formulation labels are
+  categorical descriptions, not reusable numeric covariates, and the A1-A3
+  suffixes do not establish biological-replicate status.
+- The two workbooks use author-specific quantitative outputs. Their numbers are
+  not a common cross-study abundance scale and are not concatenated.
+
+## Decisions
+
+- The audit status is `BLOCKED_NO_CC0_COMMON_TARGET`, with zero admissible
+  targets. This is a data-coverage result, not a failed model run.
+- Do not create T121 Amendment v1.0.1 until the required covariate, endpoint and
+  analysis-unit evidence is available. The current T121 plan remains immutable.
+- Preserve both candidate assets and their hashes under ignored screening storage;
+  do not download their bulk raw files until a source passes the metadata gate.
+
+## Validation
+
+- 2026-08-13: `python -m biointerfaceos model audit-cc0-target-admission
+  --strict` verified two candidates, two laboratories and nine source conditions
+  from `docs/data/R2_T129_CC0_TARGET_ADMISSION_REGISTRY.json`, and wrote
+  `reports/review_round_2/cc0_target_admission/v1.0.0/`.
+- The receipt is read-only and asserts `target_status=NOT_FROZEN`,
+  `model_use=PROHIBITED`, zero admissible targets and false model/OOD/independent
+  validation fields. Regression tests reject strict-mode omission, candidate
+  promotion and receipt tampering.
+
 ## Acceptance evidence
 
 - Candidate registry, immutable admission/non-admission receipt, source-asset
