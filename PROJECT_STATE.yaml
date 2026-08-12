@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T101
-active_execplan: docs/execplans/T101_publication_selection_missingness.md
+current_task: T102
+active_execplan: docs/execplans/T102_negative_controls_leakage_attacks.md
 completed_tasks:
   - T000
   - T001
@@ -108,10 +108,10 @@ completed_tasks:
   - T098
   - T099
   - T100
+  - T101
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T102
   - T103
   - T104
   - T105
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 5497ad3
+last_successful_commit: 177caf7
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
