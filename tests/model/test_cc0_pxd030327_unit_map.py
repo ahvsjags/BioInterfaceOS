@@ -28,21 +28,33 @@ def _fixture_root(tmp_path: Path) -> tuple[Path, Path]:
     workbook = Workbook()
     worksheet = workbook.active
     worksheet.title = "Run info"
-    worksheet.append(["Run", "NP", "P/NP ratio", "Replicate", "Remove from analysis", "Notes", "Incubation time"])
+    worksheet.append(
+        ["Run", "NP", "P/NP ratio", "Replicate", "Remove from analysis", "Notes", "Incubation time"]
+    )
     worksheet.append(["run1", "NP-A", 1, 1, False, None, 1])
     worksheet.append(["run2", "NP-B", 2, 2, False, None, 1])
     worksheet.append(["run3", "NP-A", 1, 1, True, None, 1])
     workbook.save(design_path)
     seven_path = asset_dir / "seven.tsv"
     ten_path = asset_dir / "ten.tsv"
-    metadata = ["Protein.Group", "Protein.Ids", "Protein.Names", "Genes", "First.Protein.Description"]
+    metadata = [
+        "Protein.Group",
+        "Protein.Ids",
+        "Protein.Names",
+        "Genes",
+        "First.Protein.Description",
+    ]
     for path, run in ((seven_path, "run1"), (ten_path, "run2")):
         with path.open("w", encoding="utf-8", newline="") as handle:
             writer = csv.writer(handle, delimiter="\t")
             writer.writerow([*metadata, f"D:\\\\raw\\\\{run}.d"])
             writer.writerow(["P1", "P1", "protein", "GENE", "description", "1.0"])
     assets = []
-    for asset_id, path in (("sample_table", design_path), ("seven_np_matrix", seven_path), ("ten_plate_matrix", ten_path)):
+    for asset_id, path in (
+        ("sample_table", design_path),
+        ("seven_np_matrix", seven_path),
+        ("ten_plate_matrix", ten_path),
+    ):
         assets.append(
             {
                 "asset_id": asset_id,
@@ -69,7 +81,15 @@ def _fixture_root(tmp_path: Path) -> tuple[Path, Path]:
         "assets": assets,
         "analysis_unit_contract": {
             "worksheet": "Run info",
-            "required_columns": ["Run", "NP", "P/NP ratio", "Replicate", "Remove from analysis", "Notes", "Incubation time"],
+            "required_columns": [
+                "Run",
+                "NP",
+                "P/NP ratio",
+                "Replicate",
+                "Remove from analysis",
+                "Notes",
+                "Incubation time",
+            ],
             "matrix_metadata_columns": metadata,
             "source_row_count": 3,
             "unexcluded_unit_count": 2,

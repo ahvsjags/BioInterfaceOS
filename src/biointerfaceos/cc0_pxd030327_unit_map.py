@@ -246,7 +246,9 @@ class CC0PXD030327UnitMapWorkflow:
             raise CC0PXD030327UnitMapError("PXD030327 source design columns are invalid")
         positions = {name: index for index, name in enumerate(required_columns)}
         source_rows = [row for row in rows[1:] if row[positions["Run"]] is not None]
-        included_rows = [row for row in source_rows if row[positions["Remove from analysis"]] is False]
+        included_rows = [
+            row for row in source_rows if row[positions["Remove from analysis"]] is False
+        ]
         included_runs = {str(row[positions["Run"]]) for row in included_rows}
         if len(included_runs) != len(included_rows):
             raise CC0PXD030327UnitMapError("PXD030327 unexcluded source runs are not unique")
@@ -344,9 +346,7 @@ class CC0PXD030327UnitMapWorkflow:
             "unit_map_correction_report_sha256": _sha256(report_path),
             "unexcluded_unit_count": observed["unexcluded_unit_count"],
             "unique_matrix_run_count": observed["unique_matrix_run_count"],
-            "unmapped_matrix_column_count": sum(
-                observed["unmapped_matrix_column_counts"].values()
-            ),
+            "unmapped_matrix_column_count": sum(observed["unmapped_matrix_column_counts"].values()),
             "admission": "NOT_ADMITTED",
             "model_use": "PROHIBITED",
             "model_fitted": False,
@@ -396,11 +396,18 @@ class CC0PXD030327UnitMapWorkflow:
             or receipt.get("model_use") != "PROHIBITED"
             or admission.get("admission") != "NOT_ADMITTED"
             or admission.get("model_use") != "PROHIBITED"
-            or any(report.get(field) is not False or receipt.get(field) is not False for field in required_false)
+            or any(
+                report.get(field) is not False or receipt.get(field) is not False
+                for field in required_false
+            )
             or receipt.get("unexcluded_unit_count") != observations.get("unexcluded_unit_count")
             or receipt.get("unique_matrix_run_count") != observations.get("unique_matrix_run_count")
             or receipt.get("unmapped_matrix_column_count")
-            != sum(_mapping(observations.get("unmapped_matrix_column_counts"), "PXD030327 unmapped columns").values())
+            != sum(
+                _mapping(
+                    observations.get("unmapped_matrix_column_counts"), "PXD030327 unmapped columns"
+                ).values()
+            )
         ):
             raise CC0PXD030327UnitMapError("PXD030327 unit-map receipt is invalid")
         return CC0PXD030327UnitMapSummary(
