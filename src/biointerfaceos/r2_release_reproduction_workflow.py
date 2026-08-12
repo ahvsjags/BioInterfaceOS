@@ -86,7 +86,14 @@ class R2ReleaseReproductionWorkflow:
         audit = PublicReleaseAuditWorkflow(self.root)
         _, entries = audit._load_registry()
         inventory, findings = audit._inventory(entries)
-        findings.extend(audit._readme_findings())
+        if self._is_public_source_only():
+            findings = [
+                finding
+                for finding in findings
+                if not finding.startswith("registry entry does not match a tracked asset:")
+            ]
+        else:
+            findings.extend(audit._readme_findings())
         if findings:
             raise R2ReleaseReproductionError(
                 "public-release boundary is not auditable: " + "; ".join(sorted(findings))
@@ -107,6 +114,10 @@ class R2ReleaseReproductionWorkflow:
                 + ", ".join(sorted(unsafe))
             )
         return public
+
+    def _is_public_source_only(self) -> bool:
+        """Recognize a source bundle before it has created any excluded output directory."""
+        return not any((self.root / relative).exists() for relative in ("data", "registry", "reports"))
 
     @classmethod
     def _forbidden_public_path(cls, path: str) -> bool:
@@ -144,6 +155,7 @@ class R2ReleaseReproductionWorkflow:
             "files": sources,
             "excluded_prefixes": list(self.FORBIDDEN_PUBLIC_PREFIXES),
             "allowed_release_boundary_documents": sorted(self.RELEASE_BOUNDARY_DOCUMENTS),
+            "clean_public_source_profile": self._is_public_source_only(),
             "software_replay": True,
             "scientific_reproduction": False,
             "scientific_submission_ready": False,
