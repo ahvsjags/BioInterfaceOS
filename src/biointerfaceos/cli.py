@@ -193,6 +193,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     freeze_dev_parser.add_argument(
         "--fixture", action="store_true", help="freeze the sanitized development release"
     )
+    freeze_prelock_parser = release_subparsers.add_parser(
+        "freeze-prelock", help="freeze the signed internal release before lockbox access"
+    )
+    freeze_prelock_parser.add_argument(
+        "--strict", action="store_true", help="require a clean working tree before freezing"
+    )
+    release_subparsers.add_parser(
+        "verify-prelock", help="verify the signed internal pre-lock release"
+    )
     verify_parser = release_subparsers.add_parser("verify", help="verify an immutable release")
     verify_parser.add_argument(
         "--fixture", action="store_true", help="verify the fixture namespace"
@@ -2437,7 +2446,13 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "release":
-        if args.release_command not in {"freeze", "freeze-dev", "verify"}:
+        if args.release_command not in {
+            "freeze",
+            "freeze-dev",
+            "freeze-prelock",
+            "verify",
+            "verify-prelock",
+        }:
             parser.parse_args(["release", "--help"])
             return 0
         if args.release_command == "freeze-dev":
@@ -2472,12 +2487,55 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"resumed={dev_freeze_summary.resumed} target_values_exposed=false"
             )
             return 0
+        if args.release_command == "freeze-prelock":
+            root = find_repository_root()
+            if root is None:
+                print("PRELOCK_RELEASE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            from biointerfaceos.prelock_release_workflow import (
+                PrelockReleaseError,
+                PrelockReleaseWorkflow,
+            )
+
+            try:
+                prelock_summary = PrelockReleaseWorkflow(root).run(fixture=True, strict=args.strict)
+            except (PrelockReleaseError, OSError) as exc:
+                print(f"PRELOCK_RELEASE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"PRELOCK_RELEASE_VALID release_id={prelock_summary.release_id} "
+                f"commit={prelock_summary.git_commit[:12]} inputs={prelock_summary.input_count} "
+                f"claims={prelock_summary.claim_count} "
+                f"manuscripts={prelock_summary.manuscript_count} "
+                f"figures={prelock_summary.figure_count} signature={prelock_summary.signature} "
+                f"authorization_scope={prelock_summary.authorization_scope} "
+                f"lockbox_accessed={str(prelock_summary.lockbox_accessed).lower()} "
+                f"resumed={prelock_summary.resumed}"
+            )
+            return 0
         from biointerfaceos.release import ReleaseError, ReleaseManager
 
         root = find_repository_root()
         if root is None:
             print("RELEASE_INVALID: repository root not found", file=sys.stderr)
             return 1
+        if args.release_command == "verify-prelock":
+            from biointerfaceos.prelock_release_workflow import (
+                PrelockReleaseError,
+                PrelockReleaseWorkflow,
+            )
+
+            try:
+                prelock_summary = PrelockReleaseWorkflow(root).verify()
+            except (PrelockReleaseError, OSError) as exc:
+                print(f"PRELOCK_RELEASE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"PRELOCK_RELEASE_VERIFIED release_id={prelock_summary.release_id} "
+                f"inputs={prelock_summary.input_count} signature={prelock_summary.signature} "
+                f"authorization_scope={prelock_summary.authorization_scope} lockbox_accessed=false"
+            )
+            return 0
         if args.release_command == "verify" and args.release_kind == "bronze":
             from biointerfaceos.bronze_release import (
                 BronzeReleaseBuilder,

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "mode": "internal_prelock_release",
+  "release_id": "bioif-internal-prelock-v1.0.0",
+  "semantic_version": "1.0.0",
+  "authorization_scope": "evaluator_only",
+  "target_values_exposed": false,
+  "lockbox_accessed": false,
+  "immutable": true,
+  "required_artifacts": [
+    "release_manifest.json",
+    "release_receipt.json",
+    "signature.json",
+    "lockbox_plan.json",
+    "evaluator_authorization.json",
+    "checksums.txt"
+  ]
+}
