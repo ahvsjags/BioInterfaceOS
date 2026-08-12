@@ -421,6 +421,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_provenance_parser.add_argument(
         "--strict", action="store_true", help="require row-level real-source provenance"
     )
+    stats_parser = subparsers.add_parser(
+        "stats", help="freeze and validate empirical analysis contracts"
+    )
+    stats_subparsers = stats_parser.add_subparsers(dest="stats_command")
+    stats_validate_plan_parser = stats_subparsers.add_parser(
+        "validate-plan", help="validate the frozen outcome-free empirical analysis plan"
+    )
+    stats_validate_plan_parser.add_argument("--strict", action="store_true")
     data_validate_parser = data_subparsers.add_parser(
         "validate", help="validate a normalized data release"
     )
@@ -2549,6 +2557,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"policy_skipped={data_summary.policy_skipped} "
             f"resumed={data_summary.resumed} "
             f"receipts={data_summary.receipts} bytes={data_summary.bytes} fixture=true"
+        )
+        return 0
+    if args.command == "stats":
+        if args.stats_command != "validate-plan":
+            parser.parse_args(["stats", "--help"])
+            return 0
+        from biointerfaceos.empirical_analysis_plan_workflow import (
+            EmpiricalAnalysisPlanError,
+            EmpiricalAnalysisPlanWorkflow,
+        )
+
+        root = find_repository_root()
+        if root is None:
+            print("EMPIRICAL_ANALYSIS_PLAN_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            summary = EmpiricalAnalysisPlanWorkflow(root).run(strict=args.strict)
+        except (EmpiricalAnalysisPlanError, OSError) as exc:
+            print(f"EMPIRICAL_ANALYSIS_PLAN_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"EMPIRICAL_ANALYSIS_PLAN_VALID plan_id={summary.plan_id} "
+            f"estimands={summary.estimand_count} "
+            f"development_estimands={summary.available_development_estimands} "
+            f"held_out_estimands_unavailable={summary.unavailable_held_out_estimands} "
+            "outcome_analysis_run=false model_fitted=false "
+            "independent_validation=false scientific_submission_ready=false"
         )
         return 0
     if args.command == "assets":

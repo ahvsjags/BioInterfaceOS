@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "plan_id": "bioif-r2-empirical-analysis-plan-v1.1.0",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "source_registry_id": "bioif-r2-open-observations-v1.1.0",
+  "source_audit_receipt": {
+    "path": "reports/review_round_2/empirical_provenance/v1.1.0/audit_receipt.json",
+    "sha256": "bccf515587c3f12119f8b988df2e5a32f653ce66d594f656a245b59573495f1d"
+  },
+  "scope": "DEVELOPMENT_ONLY",
+  "primary_independent_unit": {
+    "name": "giant unilamellar vesicle",
+    "identifier_field": "independent_unit_id",
+    "nesting_order": ["source_id", "study_id", "laboratory", "biological_system", "independent_unit_id"]
+  },
+  "estimands": [
+    {
+      "estimand_id": "E001_GUV_SHRINKING_RATE_DEVELOPMENT_DESCRIPTION",
+      "status": "PLANNED_DEVELOPMENT_ONLY",
+      "outcome_endpoint_id": "GUV_SHRINKING_RATE",
+      "target_population": "released GUV units in LEEDS-1450",
+      "independent_unit": "giant unilamellar vesicle",
+      "minimum_effective_n": 14,
+      "analysis_class": "DESCRIPTIVE_WITHOUT_CONFIRMATORY_TEST",
+      "analysis_rule": "retain source-local unit identity and report no cross-study conclusion",
+      "confirmatory": false
+    },
+    {
+      "estimand_id": "E002_STUDY_HELD_OUT_TRANSPORT",
+      "status": "UNAVAILABLE_PENDING_ADDITIONAL_STUDIES",
+      "outcome_endpoint_id": "GUV_SHRINKING_RATE",
+      "target_population": "unseen biointerface studies",
+      "independent_unit": "study",
+      "minimum_effective_n": 3,
+      "analysis_class": "STUDY_HELD_OUT_EVALUATION",
+      "analysis_rule": "do not estimate until at least three distinct studies are admitted",
+      "confirmatory": false
+    }
+  ],
+  "split_manifest": {
+    "development_source_ids": ["LEEDS-1450"],
+    "held_out_source_ids": [],
+    "held_out_group_key": "study_id",
+    "held_out_policy": "REQUIRED_BEFORE_T122",
+    "current_status": "UNAVAILABLE_PENDING_ADDITIONAL_STUDIES"
+  },
+  "model_selection": {
+    "outer_split": "STUDY_HELD_OUT",
+    "inner_selection": "NESTED_GROUP_CV",
+    "group_key": "study_id",
+    "minimum_distinct_studies": 3,
+    "current_status": "UNAVAILABLE_PENDING_ADDITIONAL_STUDIES",
+    "selection_before_held_out_access": true
+  },
+  "intervals": {
+    "method": "study-clustered bootstrap percentile interval",
+    "cluster_key": "study_id",
+    "minimum_distinct_studies": 3,
+    "current_status": "UNAVAILABLE_PENDING_ADDITIONAL_STUDIES"
+  },
+  "multiplicity": {
+    "family": "all endpoint-protocol estimands in one registered analysis family",
+    "method": "Holm step-down",
+    "current_status": "FROZEN_FOR_FUTURE_MULTI_ENDPOINT_ANALYSES"
+  },
+  "missingness": {
+    "endpoint_values": "do not impute",
+    "independent_unit_identity": "do not impute",
+    "reporting": "report missing cells, excluded units and exclusion reasons before any analysis",
+    "complete_case_substitution": "prohibited without a new registered amendment"
+  },
+  "prohibited_actions": [
+    "no outcome analysis in T121",
+    "no fixture or synthetic replacement",
+    "no current-study held-out label",
+    "no model fitting or performance claim",
+    "no independent validation claim"
+  ],
+  "claim_boundary": "This plan freezes exploratory development rules only; it neither reports an empirical result nor authorizes a validation claim."
+}
