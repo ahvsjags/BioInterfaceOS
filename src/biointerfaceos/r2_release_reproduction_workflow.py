@@ -139,7 +139,9 @@ class R2ReleaseReproductionWorkflow:
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
 
-    def _source_manifest(self, inventory: list[dict[str, Any]]) -> dict[str, Any]:
+    def _source_manifest(
+        self, inventory: list[dict[str, Any]], *, clean_public_source: bool
+    ) -> dict[str, Any]:
         sources = [
             {
                 "path": str(row["path"]),
@@ -157,7 +159,7 @@ class R2ReleaseReproductionWorkflow:
             "files": sources,
             "excluded_prefixes": list(self.FORBIDDEN_PUBLIC_PREFIXES),
             "allowed_release_boundary_documents": sorted(self.RELEASE_BOUNDARY_DOCUMENTS),
-            "clean_public_source_profile": self._is_public_source_only(),
+            "clean_public_source_profile": clean_public_source,
             "software_replay": True,
             "scientific_reproduction": False,
             "scientific_submission_ready": False,
@@ -353,10 +355,14 @@ class R2ReleaseReproductionWorkflow:
             raise R2ReleaseReproductionError(
                 "R2 software replay already executed; overwrite refused"
             )
+        clean_public_source = self._is_public_source_only()
         inventory = self._public_inventory()
         self.output_root.mkdir(parents=True, exist_ok=False)
         source_manifest_path = self.output_root / "source_manifest.json"
-        self._write(source_manifest_path, self._source_manifest(inventory))
+        self._write(
+            source_manifest_path,
+            self._source_manifest(inventory, clean_public_source=clean_public_source),
+        )
         sbom_path = self.output_root / "sbom.json"
         self._write(sbom_path, self._sbom(source_manifest_path))
         source_root = self.output_root / "source_bundle"
@@ -364,7 +370,7 @@ class R2ReleaseReproductionWorkflow:
         archive_path = self._write_source_archive(source_root, source_manifest_path)
         clean_replay = (
             self._source_only_figure_rebuild()
-            if self._is_public_source_only()
+            if clean_public_source
             else self._clean_replay(inventory)
         )
         clean_replay_path = self.output_root / "clean_replay.json"
