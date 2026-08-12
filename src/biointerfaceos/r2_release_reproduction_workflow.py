@@ -60,6 +60,7 @@ class R2ReleaseReproductionWorkflow:
         "src/biointerfaceos/r2_release_reproduction_workflow.py",
     }
     FORBIDDEN_PUBLIC_PREFIXES = ("data/", "registry/", "reports/", "release/")
+    RELEASE_BOUNDARY_DOCUMENTS = frozenset({"release/README.md", "release/public/README.md"})
     REQUIRED_OUTPUTS = (
         "source_manifest.json",
         "sbom.json",
@@ -100,7 +101,7 @@ class R2ReleaseReproductionWorkflow:
         unsafe = [
             str(row["path"])
             for row in public
-            if str(row["path"]).startswith(self.FORBIDDEN_PUBLIC_PREFIXES)
+            if self._forbidden_public_path(str(row["path"]))
         ]
         if unsafe:
             raise R2ReleaseReproductionError(
@@ -108,6 +109,12 @@ class R2ReleaseReproductionWorkflow:
                 + ", ".join(sorted(unsafe))
             )
         return public
+
+    @classmethod
+    def _forbidden_public_path(cls, path: str) -> bool:
+        return (
+            path.startswith(cls.FORBIDDEN_PUBLIC_PREFIXES) and path not in cls.RELEASE_BOUNDARY_DOCUMENTS
+        )
 
     @staticmethod
     def _copy_public_source(root: Path, inventory: list[dict[str, Any]], destination: Path) -> None:
@@ -137,6 +144,7 @@ class R2ReleaseReproductionWorkflow:
             "scope": "R2_PUBLIC_SOFTWARE_REPLAY_SOURCE",
             "files": sources,
             "excluded_prefixes": list(self.FORBIDDEN_PUBLIC_PREFIXES),
+            "allowed_release_boundary_documents": sorted(self.RELEASE_BOUNDARY_DOCUMENTS),
             "software_replay": True,
             "scientific_reproduction": False,
             "scientific_submission_ready": False,
@@ -401,7 +409,7 @@ class R2ReleaseReproductionWorkflow:
         for row in files:
             entry = _mapping(row, "R2 source file")
             path = entry.get("path")
-            if not isinstance(path, str) or path.startswith(self.FORBIDDEN_PUBLIC_PREFIXES):
+            if not isinstance(path, str) or self._forbidden_public_path(path):
                 raise R2ReleaseReproductionError("forbidden path entered R2 source manifest")
         hashes = _mapping(receipt.get("output_hashes"), "R2 replay output hashes")
         for name, expected in hashes.items():

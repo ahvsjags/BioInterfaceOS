@@ -35,6 +35,16 @@
       "policy": "public documentation; historical claims retain their stated evidence boundaries"
     },
     {
+      "asset_id": "release_boundary_documentation",
+      "include": ["release/README.md", "release/public/README.md"],
+      "asset_class": "repository_authored_release_boundary_documentation",
+      "origin": "BioInterfaceOS contributors",
+      "license_expression": "Apache-2.0",
+      "redistribution": "PUBLIC",
+      "evidence_status": "SOFTWARE_REPLAY_ONLY",
+      "policy": "public boundary documentation only; no historical release payload or scientific evidence is included"
+    },
+    {
       "asset_id": "source_metadata_registry",
       "include": ["registry/**"],
       "asset_class": "source_derived_registry",
@@ -66,7 +76,7 @@
     },
     {
       "asset_id": "historical_release_artifacts",
-      "include": ["release/**"],
+      "include": ["release/analysis_only/**", "release/bronze/**", "release/dev_data_model/**", "release/fixtures/**", "release/gold_auto/**", "release/internal_prelock/**", "release/manuscripts/**", "release/public/bioif-public-v1.0.0/**", "release/silver/**"],
       "asset_class": "historical_fixture_or_development_release",
       "origin": "BioInterfaceOS historical releases and source-derived artifacts",
       "license_expression": "NOASSERTION",
