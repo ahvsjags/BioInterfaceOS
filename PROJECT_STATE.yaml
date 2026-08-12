@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T103
-active_execplan: docs/execplans/T103_freeze_biointerfacebench_development.md
+current_task: T104
+active_execplan: docs/execplans/T104_freeze_development_data_model.md
 completed_tasks:
   - T000
   - T001
@@ -110,10 +110,10 @@ completed_tasks:
   - T100
   - T101
   - T102
+  - T103
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T104
   - T105
   - T106
   - T107
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 356b849
+last_successful_commit: 0e78fd9
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
