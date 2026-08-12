@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "registry_id": "bioif-public-asset-registry-v1.1.0",
-  "registry_version": "1.1.1",
+  "registry_version": "1.1.2",
   "release_scope": "repository_tracked_assets",
   "entries": [
     {
@@ -56,13 +56,33 @@
     },
     {
       "asset_id": "r2_empirical_source_records",
-      "include": ["data/empirical/**", "data/raw/r2_empirical/**"],
+      "include": ["data/empirical/R2_EMPIRICAL_REGISTRY.json", "data/raw/r2_empirical/**"],
       "asset_class": "open_source_derived_empirical_data",
-      "origin": "University of Leeds Research Data Repository",
+      "origin": "University of Leeds Research Data Repository and Mendeley Data",
       "license_expression": "CC-BY-4.0",
       "redistribution": "CONTROLLED",
       "evidence_status": "DEVELOPMENT_OBSERVATION",
       "policy": "controlled pending independent multi-study evaluation; excluded from the R2 public software-replay source bundle"
+    },
+    {
+      "asset_id": "r2_real_source_benchmark_records",
+      "include": ["data/empirical/R2_ANALYSIS_PLAN.json", "data/empirical/R2_BENCHMARK_SOURCE_REGISTRY.json"],
+      "asset_class": "open_source_derived_benchmark_metadata",
+      "origin": "University of Leeds Research Data Repository and Mendeley Data",
+      "license_expression": "CC-BY-4.0",
+      "redistribution": "CONTROLLED",
+      "evidence_status": "DEVELOPMENT_OBSERVATION",
+      "policy": "controlled benchmark provenance and source-cell metadata; excluded from the R2 public software-replay source bundle pending independent evaluation"
+    },
+    {
+      "asset_id": "r2_real_model_source_candidates",
+      "include": ["data/empirical/R2_T123_REAL_MODEL_SOURCE_CANDIDATES.json", "data/raw/r2_real_model/**"],
+      "asset_class": "open_source_derived_real_model_candidate_data",
+      "origin": "Mendeley Data source packages",
+      "license_expression": "CC-BY-4.0",
+      "redistribution": "CONTROLLED",
+      "evidence_status": "DEVELOPMENT_OBSERVATION",
+      "policy": "controlled candidate data only; excluded from the R2 public software-replay source bundle until a compatible target, independent evaluation, and release decision exist"
     },
     {
       "asset_id": "data_and_fixture_payloads",
