@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T107
-active_execplan: docs/execplans/T107_paper_c_scientific_law_prelock.md
+current_task: T108
+active_execplan: docs/execplans/T108_frozen_internal_release.md
 completed_tasks:
   - T000
   - T001
@@ -114,17 +114,17 @@ completed_tasks:
   - T104
   - T105
   - T106
+  - T107
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T108
   - T109
   - T110
   - T111
   - T112
   - T113
   - T114
-last_successful_commit: 2ec2db9
+last_successful_commit: dec93c5
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
