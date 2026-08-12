@@ -396,6 +396,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     train_m1_parser.add_argument(
         "--config", default="configs/models/m1.yaml", help="path to the M1 YAML config"
     )
+    train_m2_parser = train_subparsers.add_parser("m2", help="fit the direct black-box M2 baseline")
+    train_m2_parser.add_argument(
+        "--config", default="configs/models/m2.yaml", help="path to the M2 YAML config"
+    )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
@@ -856,7 +860,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "train":
-        if args.train_command != "m1":
+        if args.train_command not in {"m1", "m2"}:
             parser.parse_args(["train", "--help"])
             return 0
         root = find_repository_root()
@@ -869,6 +873,21 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         except ValueError:
             print("M1_INVALID: config path escaped repository", file=sys.stderr)
             return 1
+        if args.train_command == "m2":
+            from biointerfaceos.m2_workflow import M2Error, M2Workflow
+
+            try:
+                m2_summary = M2Workflow(root, config_path=config_path).run(fixture=True)
+            except (M2Error, OSError) as exc:
+                print(f"M2_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"M2_VALID instances={m2_summary.instances} train={m2_summary.train} "
+                f"validation={m2_summary.validation} model_kind={m2_summary.model_kind} "
+                f"validation_rmse={m2_summary.validation_rmse:.6f} "
+                f"resumed={m2_summary.resumed} target_values_exposed=false"
+            )
+            return 0
         from biointerfaceos.m1_workflow import M1Error, M1Workflow
 
         try:

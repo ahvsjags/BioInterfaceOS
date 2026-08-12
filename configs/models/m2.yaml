@@ -1,0 +1,13 @@
+schema_version: 1
+model: M2
+model_kind: regularized_polynomial_fallback
+seed: 31
+ridge: 0.2
+bootstrap_samples: 128
+feature_policy:
+  exclude:
+    - instance_id
+    - family
+    - group_key
+    - split
+  missingness_indicator: true

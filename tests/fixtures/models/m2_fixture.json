@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "mode": "m2_direct_fixture",
+  "inputs": [
+    {"label": "T067 public instances", "path": "reports/benchmark/instances/public_instances.json", "sha256": "f86e3eaf4b5cf080cd07165b3e7a96254904a24f853e0524fa399206393d6a48"},
+    {"label": "T069 baseline fixture", "path": "tests/fixtures/benchmark/baseline_fixture.json", "sha256": "af7e2de7e1ad323c2f2ab07962872663bdbb527403ae343e7a97980cd8abd7cd"}
+  ],
+  "rows": [
+    {"instance_id": "E1-001", "split": "train", "material_feature": "lipid", "environment_feature": "buffer_a", "protocol_feature": "protocol_001", "missingness": 0.0},
+    {"instance_id": "C1-001", "split": "train", "material_feature": "adsorption", "environment_feature": "buffer_a", "protocol_feature": "protocol_002", "missingness": 0.0},
+    {"instance_id": "U1-001", "split": "train", "material_feature": "unit_concentration", "environment_feature": "serum", "protocol_feature": "protocol_001", "missingness": 0.0},
+    {"instance_id": "S1-001", "split": "train", "material_feature": "DSPC_PEG", "environment_feature": "buffer_b", "protocol_feature": "protocol_002", "missingness": 0.0},
+    {"instance_id": "B1-001", "split": "train", "material_feature": "module_blend", "environment_feature": "serum", "protocol_feature": "protocol_003", "missingness": 0.0},
+    {"instance_id": "CF1-001", "split": "train", "material_feature": "formulation_direct", "environment_feature": "buffer_b", "protocol_feature": "protocol_004", "missingness": 0.0},
+    {"instance_id": "D1-001", "split": "train", "material_feature": "panel_linear", "environment_feature": "buffer_a", "protocol_feature": "protocol_003", "missingness": 0.0},
+    {"instance_id": "A1-001", "split": "train", "material_feature": "claim_concordant", "environment_feature": "serum", "protocol_feature": "protocol_004", "missingness": 0.0},
+    {"instance_id": "E1-002", "split": "validation", "material_feature": "polymer", "environment_feature": "buffer_c", "protocol_feature": "protocol_005", "missingness": 0.0},
+    {"instance_id": "C1-002", "split": "validation", "material_feature": "receptor", "environment_feature": "buffer_c", "protocol_feature": "protocol_006", "missingness": 0.0},
+    {"instance_id": "U1-002", "split": "validation", "material_feature": "unit_time", "environment_feature": "serum", "protocol_feature": "protocol_005", "missingness": 0.0},
+    {"instance_id": "S1-002", "split": "validation", "material_feature": "NanoCoat_X", "environment_feature": "buffer_d", "protocol_feature": "protocol_006", "missingness": 0.1},
+    {"instance_id": "B1-002", "split": "validation", "material_feature": "module_treatment", "environment_feature": "serum", "protocol_feature": "protocol_007", "missingness": 0.5},
+    {"instance_id": "CF1-002", "split": "validation", "material_feature": "formulation_indirect", "environment_feature": "buffer_d", "protocol_feature": "protocol_008", "missingness": 0.0},
+    {"instance_id": "D1-002", "split": "validation", "material_feature": "panel_log", "environment_feature": "buffer_c", "protocol_feature": "protocol_007", "missingness": 0.1},
+    {"instance_id": "A1-002", "split": "validation", "material_feature": "claim_unavailable", "environment_feature": "serum", "protocol_feature": "protocol_008", "missingness": 0.5}
+  ]
+}

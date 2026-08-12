@@ -1,0 +1,1 @@
+{"coefficients_finite":true,"converged":true,"fallback_reason":"Small fixture favors a low-capacity regularized polynomial model.","identity_features_used":false,"model_kind":"regularized_polynomial_fallback","ridge":0.2,"schema_version":1,"validation_tuning":false}

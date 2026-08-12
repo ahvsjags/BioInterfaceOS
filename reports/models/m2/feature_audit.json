@@ -1,0 +1,1 @@
+{"excluded_fields":["instance_id","family","group_key","split"],"feature_names":["material_feature","environment_feature","protocol_feature","missingness"],"identifier_features_used":false,"missingness_indicator_used":true,"schema_version":1,"train_only_fit":true,"validation_used_for_tuning":false}
