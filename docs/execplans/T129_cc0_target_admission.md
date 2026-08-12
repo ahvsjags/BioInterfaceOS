@@ -71,6 +71,10 @@ evidence.
 - [ ] Freeze a shared preprocessing endpoint and an explicit analysis-unit
   manifest across at least two independent laboratories.
 - [ ] Create T121 Amendment v1.0.1, then hand only its frozen target to T123.
+- [x] Opened T130 as a separate licence-bound mapping precheck. It must not
+  mutate the CC0 cohort or promote article-derived labels; its current evidence
+  and decision boundary are recorded in
+  `docs/execplans/T130_license_bound_source_mapping.md`.
 
 ## Discoveries
 

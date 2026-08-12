@@ -560,6 +560,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="consolidate all current T129 receipts without promoting a target",
     )
     model_t129_current_target_evidence_parser.add_argument("--strict", action="store_true")
+    model_license_bound_source_maps_parser = model_subparsers.add_parser(
+        "audit-license-bound-source-maps",
+        help="audit licence-bound protein-corona mappings without promoting a target",
+    )
+    model_license_bound_source_maps_parser.add_argument("--strict", action="store_true")
     model_cc0_pxd030327_parser = model_subparsers.add_parser(
         "audit-cc0-pxd030327-unit-map",
         help="verify corrected PXD030327 source units without admitting a model target",
@@ -2289,6 +2294,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-cc0-target-discovery",
             "audit-cc0-pxd030327-unit-map",
             "audit-t129-current-target-evidence",
+            "audit-license-bound-source-maps",
         }:
             parser.parse_args(["model", "--help"])
             return 0
@@ -2461,6 +2467,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"candidates={summary.candidate_source_count} "
                 f"laboratories={summary.candidate_laboratory_count} "
                 f"verified_source_assets={summary.verified_source_asset_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-license-bound-source-maps":
+            from biointerfaceos.license_bound_source_map import (
+                LicenseBoundSourceMapError,
+                LicenseBoundSourceMapWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("LICENSE_BOUND_SOURCE_MAP_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            workflow = LicenseBoundSourceMapWorkflow(root)
+            try:
+                summary = workflow.run(strict=args.strict)
+                workflow.verify()
+            except (LicenseBoundSourceMapError, OSError) as exc:
+                print(f"LICENSE_BOUND_SOURCE_MAP_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "LICENSE_BOUND_SOURCE_MAP_VALID "
+                f"routes={summary.route_count} "
+                f"laboratories={summary.independent_laboratory_count} "
+                f"analysis_only_complete_maps={summary.analysis_only_complete_map_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0

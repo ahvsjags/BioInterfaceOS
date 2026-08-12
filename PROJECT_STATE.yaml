@@ -2,7 +2,7 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 130
+task_count: 131
 ready_tasks:
   - T123
 current_task: T129
@@ -132,6 +132,7 @@ completed_tasks:
   - T121
   - T122
   - T125
+  - T130
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -179,6 +180,7 @@ notes:
   - '2026-08-13: T129 consolidated the current first-party screening receipts: five candidate sources from four laboratories and twelve verified source assets remain BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET. PXD030327 supplies 636 source-mapped units across 819 matrix runs, but its numeric P/NP field is an exposure rather than a material/size covariate, NP labels remain categorical identity features, and the study is single-laboratory. Zero targets are frozen; all model, OOD and independent-validation fields remain false.'
   - '2026-08-13: T126/T128 v1.2 now bind the consolidated T129 receipt into both protocol manuscripts and the final acceptance gate. The former two local T129 blockers are intentionally represented as one current cross-laboratory numeric-material target gate, leaving nine explicit acceptance blockers. This is a provenance consolidation only; external reproduction, editorial re-review and scientific submission readiness remain false.'
   - '2026-08-13: T126/T127 portfolio and T128 acceptance-readiness audits were versioned to bind the current T123 23-profile result receipt and both T129 CC0 non-admission receipts alongside the original compatibility/evaluator boundaries. The merged A+B and results-blind C outlines now state those data-coverage findings directly; the audit fails closed if a current receipt is altered to imply a frozen target. This strengthens protocol traceability only: model, evaluator, external reproduction, editorial re-review and scientific submission readiness remain false.'
+  - '2026-08-13: T130 completed a strict licence-bound mapping precheck after official PRIDE metadata and two RSC articles showed that scientific source mapping and reuse rights can diverge. It keeps the CC0 cohort unchanged: PXD052701 has a CC0 result release but its LF-L/LF-S size and formulation mapping is published under CC BY-NC 3.0, while the independently generated CC BY 3.0 C9NR08186K supplementary assets remain unverified behind a Cloudflare challenge and do not yet establish a common source-level endpoint. The immutable receipt records three routes and three laboratories, but zero public-redistributable complete maps and zero shared cross-study endpoints. No target, model fit, external evaluation or submission claim is enabled.'
   - '2026-08-12: T124 now has a strict external-evaluator readiness protocol that binds the T123 compatibility receipt, requires an independent evaluator and aggregate-only protected-data handoff, and fails closed with a blocked receipt while zero compatible targets and zero frozen real-model outputs exist. It does not create an evaluator receipt or scientific result.'
   - '2026-08-12: T126/T127 now have a strict two-route R2 portfolio: one merged A+B provenance/source-locator protocol and one results-blind C protocol. It excludes all three historical fixture manuscripts, binds three protocol-only figures and 15 legacy withdrawals, and remains blocked on T123/T124 rather than implying a result manuscript.'
   - '2026-08-12: T128 now has a strict external-reproduction and editorial-re-review protocol plus `project accept-r2 --strict`. The current receipt records six missing prerequisites and keeps external reproduction, editorial re-review and scientific submission readiness false.'
@@ -187,5 +189,5 @@ review_round_2:
   source: docs/review_round_2/REMEDIATION_MATRIX.md
   acceptance_gates: docs/review_round_2/ACCEPTANCE_GATES.yaml
   first_task: T115
-  last_task: T128
+  last_task: T130
   publication_rule: 'No fixture-derived output may be presented as empirical validation, scientific replication, or law discovery.'
