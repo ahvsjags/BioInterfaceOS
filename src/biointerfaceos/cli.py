@@ -216,6 +216,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     )
     evaluate_parser.add_argument("--release", required=True, choices=("FROZEN_DEV",))
     evaluate_parser.add_argument("--once", action="store_true")
+    audit_results_parser = lockbox_subparsers.add_parser(
+        "audit-results", help="audit sealed lockbox results against the frozen claim package"
+    )
+    audit_results_parser.add_argument("--strict", action="store_true")
     agent_parser = subparsers.add_parser("agent", help="run typed multi-agent runtime checks")
     agent_subparsers = agent_parser.add_subparsers(dest="agent_command")
     agent_subparsers.add_parser("self-test", help="run offline runtime contract self-test")
@@ -2608,6 +2612,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"raw_values_written={str(evaluation_summary.raw_values_written).lower()} "
                 f"train_calls={evaluation_summary.train_calls} "
                 f"tune_calls={evaluation_summary.tune_calls}"
+            )
+            return 0
+        if args.lockbox_command == "audit-results":
+            from biointerfaceos.lockbox_audit_workflow import (
+                LockboxAuditError,
+                LockboxAuditWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("LOCKBOX_AUDIT_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                lockbox_audit_summary = LockboxAuditWorkflow(root).run(strict=args.strict)
+            except (LockboxAuditError, OSError) as exc:
+                print(f"LOCKBOX_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"LOCKBOX_AUDIT_VALID audit_id={lockbox_audit_summary.audit_id} "
+                f"predictions={lockbox_audit_summary.prediction_count} "
+                f"replicated={lockbox_audit_summary.replicated} "
+                f"refuted={lockbox_audit_summary.refuted} "
+                f"inconclusive={lockbox_audit_summary.inconclusive} "
+                f"abstentions={lockbox_audit_summary.abstentions} "
+                f"claims={lockbox_audit_summary.claim_count} "
+                "threshold_changes=0 prediction_rewrites=0 raw_values_written=false"
             )
             return 0
         if args.lockbox_command != "self-test":

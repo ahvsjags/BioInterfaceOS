@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "mode": "lockbox_audit_once",
+  "preregistration": {
+    "audit_id": "bioif-lockbox-audit-v1.0.0",
+    "release_id": "bioif-internal-prelock-v1.0.0",
+    "audited_at": "2026-08-12T00:00:00+00:00",
+    "once": true
+  },
+  "inputs": [
+    {"label": "release manifest", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/release_manifest.json", "sha256": "9fe93b2902e332ed5efbf7743408e3875e4390e060fec931fd2a962132f3f7d2"},
+    {"label": "release receipt", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/release_receipt.json", "sha256": "904e2085750cf4765eab7a796a2c88a2cf56cada491de04ac6f284701f83c90b"},
+    {"label": "signature", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/signature.json", "sha256": "a7003c9d1f73ae960310c7816e65d2e43d3ba5385ed5b24653b1087624bfa0bb"},
+    {"label": "lockbox plan", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/lockbox_plan.json", "sha256": "4ec8243234c43db77c4990cec3ab6aa52ba2f73b7e6afae0abefdceafe6f998e"},
+    {"label": "evaluator authorization", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/evaluator_authorization.json", "sha256": "279806d10be65eefe8bf73ffaea9f9fe0a3fe131d9144d005deccd0454f6fb88"},
+    {"label": "prediction table", "kind": "json", "path": "release/manuscripts/paper_c_prelock/prediction_table.json", "sha256": "d672d3ed54d3c7a306828d8a67808a3133be1433891f8f61b426f0a83fd21483"},
+    {"label": "claim matrix", "kind": "json", "path": "release/manuscripts/paper_c_prelock/claim_matrix.json", "sha256": "1910c153a37a68c2c8f51e0939e7cb4e6176ed7d681cc0231a76464ef8c5ec6b"},
+    {"label": "allowed wording", "kind": "json", "path": "release/manuscripts/paper_c_prelock/allowed_wording.json", "sha256": "a2f434733c90d9b52f136b487d55ad38d9776b9c5144c48e1eccc047914d95b7"},
+    {"label": "evaluation results", "kind": "json", "path": "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0/evaluation_results.json", "sha256": "c313b6ce19daeedcaff8b42138bd8b3bdcebc90f4c25ca5674032c1c0617efd6"},
+    {"label": "operation log", "kind": "json", "path": "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0/operation_log.json", "sha256": "0f7b393ed369d10c306d2d55a03ad869c1efcad1dcf8528c924f7129717ef4ed"},
+    {"label": "first-run receipt", "kind": "json", "path": "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0/first_run_receipt.json", "sha256": "388ce2b36ed4f567e0baf5614260100d4cfdee36c2b446334e7822eaffd0234e"}
+  ]
+}

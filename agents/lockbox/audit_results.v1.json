@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BioInterfaceOS one-shot lockbox audit",
+  "type": "object",
+  "required": ["schema_version", "mode", "audit_id", "release_id", "status", "transitions"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "mode": {"const": "lockbox_audit_once"},
+    "audit_id": {"const": "bioif-lockbox-audit-v1.0.0"},
+    "release_id": {"const": "bioif-internal-prelock-v1.0.0"},
+    "status": {"enum": ["VALID_POSTLOCK_AUDIT", "VALID_POSTLOCK_AUDIT_SEALED"]},
+    "transitions": {"type": "array", "minItems": 8, "maxItems": 8}
+  },
+  "additionalProperties": true
+}
