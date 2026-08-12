@@ -423,6 +423,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     claim_preregister_parser.add_argument(
         "--dev", action="store_true", help="use the development-only tournament fixture"
     )
+    discover_parser = subparsers.add_parser(
+        "discover", help="discover development-scope scientific representations"
+    )
+    discover_subparsers = discover_parser.add_subparsers(dest="discover_command")
+    discover_axes_parser = discover_subparsers.add_parser(
+        "functional-axes", help="discover stable protein-corona functional axes"
+    )
+    discover_axes_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized development fixture"
+    )
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
     train_subparsers = train_parser.add_subparsers(dest="train_command")
@@ -970,6 +980,40 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"claims_auto_accepted={str(tournament_summary.claims_auto_accepted).lower()} "
             f"selected_pipeline={tournament_summary.selected_pipeline} "
             f"resumed={tournament_summary.resumed}"
+        )
+        return 0
+    if args.command == "discover":
+        if args.discover_command != "functional-axes":
+            parser.parse_args(["discover", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("FUNCTIONAL_AXES_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.fixture:
+            print("FUNCTIONAL_AXES_INVALID: --fixture is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.functional_axes_workflow import (
+            FunctionalAxesError,
+            FunctionalAxesWorkflow,
+        )
+
+        try:
+            axes_summary = FunctionalAxesWorkflow(root).run(fixture=True)
+        except (FunctionalAxesError, OSError) as exc:
+            print(f"FUNCTIONAL_AXES_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"FUNCTIONAL_AXES_VALID samples={axes_summary.samples} "
+            f"modules={axes_summary.modules} alternatives={axes_summary.alternatives} "
+            f"candidate_axes={axes_summary.candidate_axes} "
+            f"bootstrap_stability={axes_summary.bootstrap_stability:.6f} "
+            f"leave_study_stability={axes_summary.leave_study_stability:.6f} "
+            f"random_control_stability={axes_summary.random_control_stability:.6f} "
+            f"uncertainty_records={axes_summary.uncertainty_records} "
+            f"selected_model={axes_summary.selected_model} "
+            f"lockbox_clean={str(axes_summary.lockbox_clean).lower()} "
+            f"resumed={axes_summary.resumed}"
         )
         return 0
     if args.command == "train":

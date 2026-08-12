@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "workflow": "protein_corona_functional_axes",
+  "alternatives": ["nmf", "sparse", "log_ratio"],
+  "outputs": [
+    "axis_model_comparison",
+    "candidate_axes",
+    "axis_loadings",
+    "pathway_enrichment",
+    "stability_report",
+    "axis_uncertainty",
+    "lockbox_scan"
+  ]
+}

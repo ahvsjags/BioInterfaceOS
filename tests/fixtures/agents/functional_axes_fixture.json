@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "mode": "functional_axes_fixture",
+  "inputs": [
+    {
+      "label": "T056 module matrix",
+      "path": "reports/omics/harmonization/module_matrix.json",
+      "sha256": "898193343321c1220df90f8222c5c50994f75136f88c68a2c7ef595d61f99816"
+    },
+    {
+      "label": "T056 harmonization receipt",
+      "path": "reports/omics/harmonization/harmonization_receipt.json",
+      "sha256": "b5ec283bafa299953e58e6a6e25af6351aba9e18ebe9cfacb0d509eda2e1fc14"
+    },
+    {
+      "label": "T089 tournament config",
+      "path": "reports/claims/tournament/tournament_config.json",
+      "sha256": "a684c2f6730196a60818e4754594ac3bcbd0fc7e1904e37087d15cf2b553a636"
+    }
+  ],
+  "models": [
+    {
+      "model": "nmf",
+      "reconstruction_error": 0.08,
+      "bootstrap_stability": 0.78,
+      "leave_study_stability": 0.74
+    },
+    {
+      "model": "sparse",
+      "reconstruction_error": 0.06,
+      "bootstrap_stability": 0.84,
+      "leave_study_stability": 0.81
+    },
+    {
+      "model": "log_ratio",
+      "reconstruction_error": 0.04,
+      "bootstrap_stability": 0.93,
+      "leave_study_stability": 0.90
+    }
+  ]
+}

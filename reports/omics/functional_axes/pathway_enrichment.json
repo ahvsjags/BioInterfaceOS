@@ -1,0 +1,1 @@
+{"axes":[{"axis_id":"AXIS-001","evidence_locator":"T062:link#direct","pathway":"cell_stress","status":"CANDIDATE"},{"axis_id":"AXIS-002","evidence_locator":"T062:link#indirect","pathway":"immune_response","status":"CANDIDATE"}],"causal_claim":false,"schema_version":1}

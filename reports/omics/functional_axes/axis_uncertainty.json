@@ -1,0 +1,1 @@
+{"records":[{"axis_id":"AXIS-001","intervals":{"adsorption_core":[0.74,0.9],"receptor_interface":[-0.65,-0.49]},"method":"bootstrap_percentile_fixture"},{"axis_id":"AXIS-002","intervals":{"adsorption_core":[-0.49,-0.33],"receptor_interface":[0.83,0.99]},"method":"bootstrap_percentile_fixture"}],"schema_version":1}
