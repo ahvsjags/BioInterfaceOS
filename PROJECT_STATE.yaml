@@ -167,6 +167,7 @@ notes:
   - '2026-08-12: T121 froze source-level units, development-only estimands, study-held-out nested-selection requirements, cluster-aware interval rules, multiplicity and missingness policy. It runs no outcome analysis or model fit; one-study held-out evaluation remains unavailable.'
   - '2026-08-12: T122 admitted three CC BY 4.0 anonymous-public studies from distinct laboratories and froze leave-one-study-out raw-cell locator evaluation. The receipt publishes source admission, raw predictions, coverage, calibration and study-clustered interval artifacts, but it is explicitly not biological, predictive, external, or independent validation.'
   - '2026-08-12: T125 completed a source-verified external evidence packet with 12 citations, 8 nearest-neighbour comparators, two non-overlapping R2 manuscript scopes and seven operational glossary terms. It preserves the T123/T124 blockers and does not retroactively clear historical fixture manuscripts.'
+  - '2026-08-12: T123 source expansion checksum-verified three open raw-table candidate packages, but the declared metrics are hydrodynamic mean, Z-average, and an unspecified hydrodynamic-size statistic. The strict audit preserves a non-admission receipt; model fitting, ablations, OOD and independent validation remain false.'
 review_round_2:
   status: ACTIVE
   source: docs/review_round_2/REMEDIATION_MATRIX.md
