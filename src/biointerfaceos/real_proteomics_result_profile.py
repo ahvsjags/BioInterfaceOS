@@ -176,7 +176,9 @@ class RealProteomicsResultProfileWorkflow:
         path = (self.raw_root / relative).resolve(strict=False)
         raw_root = self.raw_root.resolve(strict=False)
         if raw_root not in path.parents or not path.is_file():
-            raise RealProteomicsResultProfileError(f"required acquired result is missing: {relative}")
+            raise RealProteomicsResultProfileError(
+                f"required acquired result is missing: {relative}"
+            )
         return path
 
     @staticmethod
@@ -225,7 +227,9 @@ class RealProteomicsResultProfileWorkflow:
                     elif tag not in {"PeptideEvidenceRef", "SpectrumIdentificationItem"}:
                         element.clear()
         except (OSError, ValueError) as exc:
-            raise RealProteomicsResultProfileError(f"cannot parse mzIdentML result: {path}") from exc
+            raise RealProteomicsResultProfileError(
+                f"cannot parse mzIdentML result: {path}"
+            ) from exc
         accessions: set[str] = set()
         unparseable = 0
         for database_id in detected_database_ids:
@@ -398,9 +402,12 @@ class RealProteomicsResultProfileWorkflow:
             "model_use": "PROHIBITED",
             "compatible_cross_study_target_count": 0,
             "blocked_reasons": [
-                "PXD052701 L/S labels lack a source-matched reusable material/size covariate map.",
-                "PXD032162's acquired mzIdentML is one combined result and cannot support mix-level protein observations.",
-                "The result formats define detection sets only; no common abundance endpoint or study-held-out predictive feature space is frozen.",
+                "PXD052701 L/S labels lack a source-matched reusable material/size "
+                "covariate map.",
+                "PXD032162's acquired mzIdentML is one combined result and cannot "
+                "support mix-level protein observations.",
+                "The result formats define detection sets only; no common abundance "
+                "endpoint or study-held-out predictive feature space is frozen.",
             ],
             "model_fitted": False,
             "paired_ablations_run": False,

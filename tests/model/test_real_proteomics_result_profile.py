@@ -92,5 +92,8 @@ def test_profile_requires_strict_mode_and_acquired_files(tmp_path: Path) -> None
 
     with pytest.raises(RealProteomicsResultProfileError, match="requires --strict"):
         workflow.run()
-    with pytest.raises(RealProteomicsResultProfileError, match="required acquired result is missing"):
+    with pytest.raises(
+        RealProteomicsResultProfileError,
+        match="required acquired result is missing",
+    ):
         workflow.run(strict=True)
