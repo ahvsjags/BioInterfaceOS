@@ -535,6 +535,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="freeze a receipt only after every declared proteomics asset is verified",
     )
     model_proteomics_acquisition_audit_parser.add_argument("--strict", action="store_true")
+    model_proteomics_profile_parser = model_subparsers.add_parser(
+        "profile-proteomics-results",
+        help="profile acquired author results without freezing a predictive target",
+    )
+    model_proteomics_profile_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2229,6 +2234,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-proteomics-sources",
             "acquire-proteomics-sources",
             "audit-proteomics-acquisition",
+            "profile-proteomics-results",
         }:
             parser.parse_args(["model", "--help"])
             return 0
@@ -2275,6 +2281,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             except (RealProteomicsAcquisitionError, OSError) as exc:
                 print(f"REAL_PROTEOMICS_ACQUISITION_INVALID: {exc}", file=sys.stderr)
                 return 1
+            return 0
+        if args.model_command == "profile-proteomics-results":
+            from biointerfaceos.real_proteomics_result_profile import (
+                RealProteomicsResultProfileError,
+                RealProteomicsResultProfileWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print(
+                    "REAL_PROTEOMICS_RESULT_PROFILE_INVALID: repository root not found",
+                    file=sys.stderr,
+                )
+                return 1
+            result_profile_workflow = RealProteomicsResultProfileWorkflow(root)
+            try:
+                result_profile_summary = result_profile_workflow.run(strict=args.strict)
+                result_profile_workflow.verify()
+            except (RealProteomicsResultProfileError, OSError) as exc:
+                print(f"REAL_PROTEOMICS_RESULT_PROFILE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "REAL_PROTEOMICS_RESULT_PROFILE_VALID "
+                f"sources={result_profile_summary.source_count} "
+                f"profiles={result_profile_summary.source_result_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
             return 0
         if args.model_command == "audit-proteomics-sources":
             from biointerfaceos.real_proteomics_source_preflight import (
