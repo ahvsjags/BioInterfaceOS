@@ -540,6 +540,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="profile acquired author results without freezing a predictive target",
     )
     model_proteomics_profile_parser.add_argument("--strict", action="store_true")
+    model_cc0_target_admission_parser = model_subparsers.add_parser(
+        "audit-cc0-target-admission",
+        help="screen CC0 protein-corona candidates without freezing a predictive target",
+    )
+    model_cc0_target_admission_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2235,6 +2240,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "acquire-proteomics-sources",
             "audit-proteomics-acquisition",
             "profile-proteomics-results",
+            "audit-cc0-target-admission",
         }:
             parser.parse_args(["model", "--help"])
             return 0
@@ -2306,6 +2312,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 "REAL_PROTEOMICS_RESULT_PROFILE_VALID "
                 f"sources={result_profile_summary.source_count} "
                 f"profiles={result_profile_summary.source_result_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-cc0-target-admission":
+            from biointerfaceos.cc0_target_admission import (
+                CC0TargetAdmissionError,
+                CC0TargetAdmissionWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("CC0_TARGET_ADMISSION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            workflow = CC0TargetAdmissionWorkflow(root)
+            try:
+                summary = workflow.run(strict=args.strict)
+                workflow.verify()
+            except (CC0TargetAdmissionError, OSError) as exc:
+                print(f"CC0_TARGET_ADMISSION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "CC0_TARGET_ADMISSION_VALID "
+                f"candidates={summary.candidate_source_count} "
+                f"laboratories={summary.candidate_laboratory_count} "
+                f"source_conditions={summary.source_condition_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
