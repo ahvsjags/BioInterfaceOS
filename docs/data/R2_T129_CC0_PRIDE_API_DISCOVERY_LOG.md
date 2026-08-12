@@ -44,6 +44,20 @@ reviewed official metadata and file pages do not meet the gate.  It does not
 assert that no relevant evidence exists elsewhere, and it does not authorize
 bulk download, author-contact claims, relabelling or model fitting.
 
+## Additional directory-level lead screen
+
+One directory inventory lead was small enough for a bounded asset inspection
+but fails the material-covariate gate before it can enter the consolidated
+five-candidate T129 synthesis.
+
+| PRIDE accession | Bounded official asset evidence | Non-admission finding | Current decision |
+| --- | --- | --- | --- |
+| PXD020584 | `README.txt` (18,032 bytes; SHA-256 `b33cf300e9554b9c35f00dacb94f04ac79b30a9c3d4306e01bfef32283a997c6`) links named XLSX search results to BAF files. Two representative official XLSX files (`Sample_1_HS_nascent_THP1.xlsx`, 42,225 bytes, SHA-256 `b53842f7d944e560437b33d1370e5a235023cbcf0c208ad2819e5ba6e655690b`; `Sample_1_RA_nascent_THP1.xlsx`, 30,031 bytes, SHA-256 `5eae25f1888e03d691de2321bdc14fad2f6c0200fac44c9db1ed238059b53cba`) contain protein-identification fields: accession, protein, molecular weight, pI, search score, peptide count, sequence coverage and mass error. | The released fields provide neither a source-matched numeric material/size covariate nor a common cross-study quantitative corona endpoint. `Sample`, HS/RA, THP1, nascent/washed/pellet and fraction-like tokens are source/process identifiers, not inferred predictive material features or independent biological units. | `NOT_ADMITTED_BOUNDED_RESULT_ASSET_SCREEN` |
+
+This record preserves a narrowly inspected non-admission decision. It does not
+claim that all project files have been exhaustively interpreted and does not
+authorize reuse of the named source labels as covariates.
+
 ## Relation to existing T129 evidence
 
 PXD016229 and PXD054751 remain in the immutable admission receipt; PXD053359

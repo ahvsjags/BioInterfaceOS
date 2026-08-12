@@ -103,6 +103,11 @@ evidence.
   is a source-defined numeric exposure; it is not silently relabelled as a
   numeric material/size feature. The corrected audit is retained in
   `docs/data/R2_T129_PXD030327_UNIT_MAP_CORRECTION.md`.
+- PXD020584 was examined as a bounded directory-level lead using its PRIDE
+  README and two small result workbooks. The files identify proteins and search
+  metrics, while their sample/process names do not map units to numeric material
+  or size covariates or to a common cross-study endpoint; it is retained as a
+  narrowly non-admitted lead rather than added to the five-source synthesis.
 
 ## Decisions
 
