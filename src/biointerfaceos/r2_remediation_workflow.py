@@ -61,13 +61,13 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.0.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.1.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.0.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.1.0"
     RECEIPTS = {
         "semantics": (
-            "reports/review_round_2/evidence_semantics/v1.1.0/audit_receipt.json",
+            "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
             "R2 evidence-semantics receipt",
         ),
         "profile": (
@@ -111,7 +111,7 @@ class R2RemediationWorkflow:
         "R2-01": "OPEN_EMPIRICAL_TARGET_UNAVAILABLE",
         "R2-02": "FALLBACK_PROTOCOL_ONLY_VERIFIED",
         "R2-03": "OPEN_STATISTICAL_VALIDATION_UNAVAILABLE",
-        "R2-04": "OPEN_HISTORICAL_SEMANTIC_MIGRATION_REQUIRED",
+        "R2-04": "FALLBACK_SOFTWARE_REPLAY_BOUNDARY_VERIFIED",
         "R2-05": "PASS_LITERATURE_AND_DOMAIN_PACKET",
         "R2-06": "PASS_PUBLIC_RELEASE_AUDIT",
         "R2-07": "FALLBACK_PROTOCOL_FIGURE_QA_VERIFIED",
@@ -209,8 +209,10 @@ class R2RemediationWorkflow:
             "R2-03",
         )
         self._require(
-            semantics.get("status") == "BLOCKED_EVIDENCE_SEMANTICS"
-            and semantics.get("blocking_findings") == 1
+            semantics.get("status")
+            == "PASS_EVIDENCE_SEMANTICS_WITH_QUARANTINED_LEGACY_FIXTURES"
+            and semantics.get("blocking_findings") == 0
+            and semantics.get("quarantined_historical_finding_count") == 1
             and semantics.get("historical_sources_mutated") is False,
             "R2-04",
         )
@@ -290,9 +292,8 @@ class R2RemediationWorkflow:
                 "disposition": self.DISPOSITIONS["R2-04"],
                 "scientific_claim_ready": False,
                 "reviewer_readable_disposition": (
-                    "A historical fixture manuscript still contains one forbidden "
-                    "independent-study "
-                    "wording; it is not retroactively edited or treated as a replication result."
+                    "The historical fixture wording is source-hash quarantined and excluded from "
+                    "current R2 manuscripts and public release; it is not a replication result."
                 ),
                 "evidence_source_keys": ["semantics"],
             },
@@ -370,8 +371,8 @@ class R2RemediationWorkflow:
                 for key, source in sources.items()
             },
             "finding_count": len(findings),
-            "open_finding_count": 4,
-            "protocol_fallback_count": 3,
+            "open_finding_count": 3,
+            "protocol_fallback_count": 4,
             "bounded_pass_count": 2,
             "findings": findings,
             "scientific_submission_ready": False,
@@ -400,8 +401,8 @@ class R2RemediationWorkflow:
         return R2RemediationSummary(
             status=report["status"],
             finding_count=len(findings),
-            open_finding_count=4,
-            protocol_fallback_count=3,
+            open_finding_count=3,
+            protocol_fallback_count=4,
             bounded_pass_count=2,
             receipt_path=receipt_path,
         )
@@ -414,8 +415,8 @@ class R2RemediationWorkflow:
         receipt = self._json(receipt_path, "R2 remediation status receipt")
         required_counts = {
             "finding_count": 9,
-            "open_finding_count": 4,
-            "protocol_fallback_count": 3,
+            "open_finding_count": 3,
+            "protocol_fallback_count": 4,
             "bounded_pass_count": 2,
         }
         if (
@@ -458,8 +459,8 @@ class R2RemediationWorkflow:
         return R2RemediationSummary(
             status=report["status"],
             finding_count=9,
-            open_finding_count=4,
-            protocol_fallback_count=3,
+            open_finding_count=3,
+            protocol_fallback_count=4,
             bounded_pass_count=2,
             receipt_path=receipt_path,
         )

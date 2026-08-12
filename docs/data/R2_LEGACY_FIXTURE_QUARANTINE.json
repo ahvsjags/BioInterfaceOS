@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "quarantine_id": "bioif-r2-legacy-fixture-quarantine-v1.0.0",
+  "declared_at": "2026-08-13T00:00:00+00:00",
+  "status": "ACTIVE_EXCLUDED_FROM_R2_CLAIM_AND_PUBLIC_RELEASE_SCOPE",
+  "quarantined_artifacts": [
+    {
+      "artifact_type": "paper_a_manuscript",
+      "path": "release/manuscripts/paper_a/paper_a.md",
+      "source_sha256": "e144e825c233103706268c7b409f6e73f6d6dfd67d2cd22747ac3e49fce3987c",
+      "evidence_class": "FIXTURE_TEST",
+      "scope": "EXCLUDED_FROM_CURRENT_R2_MANUSCRIPT_AND_PUBLIC_RELEASE",
+      "reason": "Historical fixture scope wording uses independent-study terminology that must not support a scientific replication claim."
+    }
+  ],
+  "prohibited_uses": [
+    "current_r2_manuscript_evidence",
+    "public_release_artifact",
+    "scientific_replication_evidence",
+    "empirical_validation_evidence"
+  ]
+}

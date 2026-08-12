@@ -7,7 +7,7 @@
 | R2-01 | OPEN_EMPIRICAL_TARGET_UNAVAILABLE | 未冻结共同 target，禁止模型使用 | 真实、非 fixture 的跨研究共同终点与行级溯源；冻结模型输出和外部 held-out 评估 |
 | R2-02 | FALLBACK_PROTOCOL_ONLY_VERIFIED | Paper C 仅为预注册/协议稿，不是独立 replication | 独立 evaluator、冻结代码、受保护真实观测与签名 receipt |
 | R2-03 | OPEN_STATISTICAL_VALIDATION_UNAVAILABLE | 不报告模型、消融、OOD 或有效样本量结论 | 冻结 estimand/split、study-clustered 分析、nested selection、effective n |
-| R2-04 | OPEN_HISTORICAL_SEMANTIC_MIGRATION_REQUIRED | 历史 fixture 稿件仍有一处将独立研究表述混入，不能作为 scientific replication | 完成可审计语义迁移，并获得外部 scientific reproduction receipt |
+| R2-04 | FALLBACK_SOFTWARE_REPLAY_BOUNDARY_VERIFIED | 历史 fixture 稿件的违规表述以源哈希隔离，排除于当前 R2 稿件与公开发布范围；不作为 scientific replication | 获得外部 scientific reproduction receipt |
 | R2-05 | PASS_LITERATURE_AND_DOMAIN_PACKET | 外部文献、comparators 与术语定义包可用于后续稿件 | 将其与真实数据和独立验证门禁共同满足，不能单独支持实证结论 |
 | R2-06 | PASS_PUBLIC_RELEASE_AUDIT | 公开包完整性已审计；历史 fixture bundle 未公开 | 与真实数据、运行环境和外部复现 receipt 一并通过提交门禁 |
 | R2-07 | FALLBACK_PROTOCOL_FIGURE_QA_VERIFIED | 三张 field-mapped 协议图通过 geometry/semantic QA，未绘制实证值 | 真实数据图的字段映射、统计与人工签署 |

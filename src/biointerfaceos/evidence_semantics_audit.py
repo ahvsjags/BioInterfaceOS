@@ -46,8 +46,9 @@ class ArtifactSpec:
 class EvidenceSemanticsAuditWorkflow:
     """Record legacy evidence boundaries without mutating their source artifacts."""
 
-    AUDIT_ID = "bioif-evidence-semantics-audit-v1.1.0"
-    AUDITED_AT = "2026-08-12T00:00:00+00:00"
+    AUDIT_ID = "bioif-evidence-semantics-audit-v1.2.0"
+    AUDITED_AT = "2026-08-13T00:00:00+00:00"
+    QUARANTINE_RELATIVE = "docs/data/R2_LEGACY_FIXTURE_QUARANTINE.json"
     ARTIFACTS = (
         ArtifactSpec(
             "fixture_lockbox_contract",
@@ -110,7 +111,7 @@ class EvidenceSemanticsAuditWorkflow:
     def __init__(self, root: Path, *, output_root: Path | None = None) -> None:
         self.root = root.resolve(strict=True)
         self.output_root = output_root or (
-            self.root / "reports/review_round_2/evidence_semantics/v1.1.0"
+            self.root / "reports/review_round_2/evidence_semantics/v1.2.0"
         )
 
     def _path(self, relative_path: str) -> Path:
@@ -122,6 +123,64 @@ class EvidenceSemanticsAuditWorkflow:
                 f"protected payload path is forbidden: {relative_path}"
             )
         return path
+
+    def _quarantine(self) -> tuple[dict[str, dict[str, str]], str]:
+        """Validate immutable quarantine metadata for known legacy wording."""
+        path = self._path(self.QUARANTINE_RELATIVE)
+        payload = self._declared_metadata(path)
+        if payload is None:
+            raise EvidenceSemanticsAuditError("legacy fixture quarantine is invalid")
+        required_fields = {
+            "schema_version",
+            "quarantine_id",
+            "declared_at",
+            "status",
+            "quarantined_artifacts",
+            "prohibited_uses",
+        }
+        if (
+            set(payload) != required_fields
+            or payload.get("schema_version") != 1
+            or payload.get("quarantine_id") != "bioif-r2-legacy-fixture-quarantine-v1.0.0"
+            or payload.get("declared_at") != self.AUDITED_AT
+            or payload.get("status")
+            != "ACTIVE_EXCLUDED_FROM_R2_CLAIM_AND_PUBLIC_RELEASE_SCOPE"
+        ):
+            raise EvidenceSemanticsAuditError("legacy fixture quarantine identity is invalid")
+        prohibited_uses = payload.get("prohibited_uses")
+        if not isinstance(prohibited_uses, list) or set(prohibited_uses) != {
+            "current_r2_manuscript_evidence",
+            "public_release_artifact",
+            "scientific_replication_evidence",
+            "empirical_validation_evidence",
+        }:
+            raise EvidenceSemanticsAuditError("legacy fixture quarantine prohibitions are invalid")
+        artifacts = payload.get("quarantined_artifacts")
+        if not isinstance(artifacts, list) or len(artifacts) != 1:
+            raise EvidenceSemanticsAuditError("legacy fixture quarantine artifact inventory is invalid")
+        artifact = artifacts[0]
+        if not isinstance(artifact, dict) or set(artifact) != {
+            "artifact_type",
+            "path",
+            "source_sha256",
+            "evidence_class",
+            "scope",
+            "reason",
+        }:
+            raise EvidenceSemanticsAuditError("legacy fixture quarantine artifact schema is invalid")
+        expected_path = "release/manuscripts/paper_a/paper_a.md"
+        source_path = self._path(expected_path)
+        if (
+            artifact.get("artifact_type") != "paper_a_manuscript"
+            or artifact.get("path") != expected_path
+            or artifact.get("source_sha256") != _sha256(source_path)
+            or artifact.get("evidence_class") != EvidenceClass.FIXTURE_TEST.value
+            or artifact.get("scope") != "EXCLUDED_FROM_CURRENT_R2_MANUSCRIPT_AND_PUBLIC_RELEASE"
+            or not isinstance(artifact.get("reason"), str)
+            or not artifact["reason"].strip()
+        ):
+            raise EvidenceSemanticsAuditError("legacy fixture quarantine artifact is stale")
+        return {expected_path: artifact}, _sha256(path)
 
     @staticmethod
     def _declared_metadata(path: Path) -> dict[str, Any] | None:
@@ -193,26 +252,37 @@ class EvidenceSemanticsAuditWorkflow:
             raise EvidenceSemanticsAuditError("T116 requires --strict")
         if self.output_root.exists():
             raise EvidenceSemanticsAuditError("evidence-semantics audit already executed")
+        quarantine, quarantine_sha256 = self._quarantine()
         records: list[dict[str, Any]] = []
         violations: list[dict[str, str]] = []
         for spec in self.ARTIFACTS:
             record, findings = self._record(spec)
             records.append(record)
             violations.extend(findings)
-        status = "PASS_EVIDENCE_SEMANTICS" if not violations else "BLOCKED_EVIDENCE_SEMANTICS"
+        quarantined = [finding for finding in violations if finding["path"] in quarantine]
+        blocking = [finding for finding in violations if finding["path"] not in quarantine]
+        status = (
+            "PASS_EVIDENCE_SEMANTICS_WITH_QUARANTINED_LEGACY_FIXTURES"
+            if not blocking
+            else "BLOCKED_EVIDENCE_SEMANTICS"
+        )
         ledger = {
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
             "audited_at": self.AUDITED_AT,
             "records": records,
+            "quarantine_manifest_sha256": quarantine_sha256,
+            "quarantined_artifacts": list(quarantine.values()),
         }
         report = {
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
             "audited_at": self.AUDITED_AT,
             "status": status,
-            "blocking_findings": len(violations),
-            "findings": violations,
+            "blocking_findings": len(blocking),
+            "findings": blocking,
+            "quarantined_historical_findings": quarantined,
+            "quarantine_manifest_sha256": quarantine_sha256,
             "submission_ready": False,
             "historical_sources_mutated": False,
         }
@@ -225,7 +295,9 @@ class EvidenceSemanticsAuditWorkflow:
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
             "status": status,
-            "blocking_findings": len(violations),
+            "blocking_findings": len(blocking),
+            "quarantined_historical_finding_count": len(quarantined),
+            "quarantine_manifest_sha256": quarantine_sha256,
             "ledger_sha256": _sha256(ledger_path),
             "report_sha256": _sha256(report_path),
             "historical_sources_mutated": False,
@@ -254,6 +326,10 @@ class EvidenceSemanticsAuditWorkflow:
             or receipt.get("report_sha256") != _sha256(report_path)
             or receipt.get("status") != report.get("status")
             or receipt.get("blocking_findings") != report.get("blocking_findings")
+            or receipt.get("quarantined_historical_finding_count")
+            != len(report.get("quarantined_historical_findings", []))
+            or receipt.get("quarantine_manifest_sha256")
+            != report.get("quarantine_manifest_sha256")
             or receipt.get("historical_sources_mutated") is not False
         ):
             raise EvidenceSemanticsAuditError("evidence-semantics audit receipt is invalid")

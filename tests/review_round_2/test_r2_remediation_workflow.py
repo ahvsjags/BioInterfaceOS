@@ -20,8 +20,8 @@ def test_r2_remediation_audit_preserves_open_empirical_gates(tmp_path: Path) -> 
 
     assert summary.status == "PARTIALLY_REMEDIATED_R2_EVIDENCE_GAPS_REMAIN"
     assert summary.finding_count == 9
-    assert summary.open_finding_count == 4
-    assert summary.protocol_fallback_count == 3
+    assert summary.open_finding_count == 3
+    assert summary.protocol_fallback_count == 4
     assert summary.bounded_pass_count == 2
     assert workflow.verify() == summary
 

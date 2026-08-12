@@ -49,14 +49,15 @@ def test_evidence_metadata_is_required_and_cannot_be_upgraded() -> None:
         )
 
 
-def test_audit_creates_append_only_migration_ledger_and_blocks_legacy_claims(
+def test_audit_quarantines_legacy_claims_without_mutating_their_sources(
     tmp_path: Path,
 ) -> None:
     paper_path = _root() / "release/manuscripts/paper_a/paper_a.md"
     before = paper_path.read_bytes()
     workflow = EvidenceSemanticsAuditWorkflow(_root(), output_root=tmp_path / "audit")
     report = workflow.run(strict=True)
-    assert report["status"] == "BLOCKED_EVIDENCE_SEMANTICS"
-    assert report["blocking_findings"] > 0
+    assert report["status"] == "PASS_EVIDENCE_SEMANTICS_WITH_QUARANTINED_LEGACY_FIXTURES"
+    assert report["blocking_findings"] == 0
+    assert len(report["quarantined_historical_findings"]) == 1
     assert workflow.verify()["historical_sources_mutated"] is False
     assert paper_path.read_bytes() == before
