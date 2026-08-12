@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "registry_id": "bioif-public-asset-registry-v1.1.4",
-  "registry_version": "1.1.6",
+  "registry_id": "bioif-public-asset-registry-v1.1.5",
+  "registry_version": "1.1.7",
   "release_scope": "repository_tracked_assets",
   "entries": [
     {
