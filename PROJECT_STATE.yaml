@@ -4,9 +4,9 @@ manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
 task_count: 129
 ready_tasks:
-  - T122
-current_task: T122
-active_execplan: docs/execplans/T122_real_biointerface_benchmark.md
+  - T123
+current_task: T123
+active_execplan: docs/execplans/T123_real_model_evaluation.md
 completed_tasks:
   - T000
   - T001
@@ -130,16 +130,16 @@ completed_tasks:
   - T119
   - T120
   - T121
+  - T122
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T123
   - T124
   - T125
   - T126
   - T127
   - T128
-last_successful_commit: c4555f4
+last_successful_commit: 3dc10db
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
@@ -165,6 +165,7 @@ notes:
   - '2026-08-12: T118 completed a clean public-source software replay with 668 registered public assets, a source manifest, SBOM, deterministic archive, JUnit receipt, and three rebuilt protocol figures. It explicitly reports scientific_reproduction=false and scientific_submission_ready=false.'
   - '2026-08-12: T120 admitted one CC BY 4.0 anonymous-public primary dataset (DOI 10.5518/1171), retained four hashed raw XLSX assets, and audited 14 GUV observations back to original worksheet cells. It is development observation evidence only; independent validation and scientific submission readiness remain false.'
   - '2026-08-12: T121 froze source-level units, development-only estimands, study-held-out nested-selection requirements, cluster-aware interval rules, multiplicity and missingness policy. It runs no outcome analysis or model fit; one-study held-out evaluation remains unavailable.'
+  - '2026-08-12: T122 admitted three CC BY 4.0 anonymous-public studies from distinct laboratories and froze leave-one-study-out raw-cell locator evaluation. The receipt publishes source admission, raw predictions, coverage, calibration and study-clustered interval artifacts, but it is explicitly not biological, predictive, external, or independent validation.'
 review_round_2:
   status: ACTIVE
   source: docs/review_round_2/REMEDIATION_MATRIX.md

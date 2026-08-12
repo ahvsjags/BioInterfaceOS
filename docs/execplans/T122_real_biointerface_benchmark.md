@@ -30,23 +30,25 @@ Do not relabel a source-local split as external validation, fabricate new study 
 
 ## Progress
 
-- [ ] Source scouting and licence verification.
-- [ ] Multi-study row-level provenance admission.
-- [ ] Annotation/benchmark protocol and split freeze.
-- [ ] Baseline evaluation and independent audit.
+- [x] 2026-08-12 — Verified two additional CC BY 4.0 anonymous-public data records and retained their source workbooks alongside the existing Leeds record.
+- [x] 2026-08-12 — Admitted three source/study/laboratory records with URL, licence, checksum, worksheet, unit-locator and value-locator lineage.
+- [x] 2026-08-12 — Froze one leave-one-study-out locator-resolution item per source and rejected registries with fewer than three sources.
+- [x] 2026-08-12 — Published raw predictions, coverage, calibration and deterministic study-cluster bootstrap artifacts; passed isolated KAUST command and static checks.
 
 ## Discoveries
 
-- Current registry coverage is insufficient for this task and must not be stretched beyond its one-study evidence boundary.
+- The three admitted studies have heterogeneous endpoints and measurement contexts. They support a real-source locator-resolution benchmark, not an endpoint-generalising biological predictor or a model-effect analysis.
 
 ## Decisions
 
-- Pending source admissions.
+- Use leave-one-study-out evaluation and publish every prediction. The deterministic cell-locator baseline is deliberately scoped to source-cell resolution; its metrics cannot be promoted to biological or independent-validation claims.
+- Retain the Mendeley niosome candidate as an exclusion because its public file listing supplies a PDF rather than a machine-readable row-level table.
 
 ## Validation
 
 - The strict command must reject fewer than three studies/laboratories, a source-local “held out” label, duplicate group leakage and absent raw prediction rows.
-- Successful evaluation must expose the planned uncertainty/coverage artifacts while maintaining exploratory-only claim language.
+- The strict command passes with 3 studies, 3 laboratories, 3 items and 3 raw predictions. It writes source admission, raw prediction, coverage/calibration and receipt JSON artifacts.
+- `ruff`, `mypy`, eight focused tests and the isolated command passed on KAUST. The public asset audit continues to pass with empirical payloads controlled and excluded from the software replay.
 
 ## Failure recovery
 
@@ -54,9 +56,9 @@ If no source satisfies both row-level location and licence requirements, preserv
 
 ## Outputs
 
-- Expanded empirical registry, raw-asset records and admission audit.
-- Real benchmark protocol, frozen study splits, adjudication package, predictions and strict evaluation receipt.
+- `data/empirical/R2_BENCHMARK_SOURCE_REGISTRY.json` and two additional raw workbooks.
+- `src/biointerfaceos/real_benchmark_workflow.py`, CLI, three-source admission record, leave-one-study-out predictions, coverage/calibration and receipt.
 
 ## Completion note
 
-Pending.
+T122 is complete at its declared source-locator scope. The benchmark uses real independent studies and held-out groups, but it does not establish biological prediction, model effectiveness or independent scientific validation; those stronger questions remain governed by T123–T124.
