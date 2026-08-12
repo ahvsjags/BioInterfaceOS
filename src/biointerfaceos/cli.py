@@ -433,6 +433,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     discover_axes_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized development fixture"
     )
+    discover_mediation_parser = discover_subparsers.add_parser(
+        "mediation", help="estimate preregistered material-corona-outcome mediation paths"
+    )
+    discover_mediation_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized development fixture"
+    )
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
     train_subparsers = train_parser.add_subparsers(dest="train_command")
@@ -983,6 +989,37 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "discover":
+        if args.discover_command == "mediation":
+            root = find_repository_root()
+            if root is None:
+                print("MEDIATION_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("MEDIATION_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.mediation_workflow import MediationError, MediationWorkflow
+
+            try:
+                mediation_summary = MediationWorkflow(root).run(fixture=True)
+            except (MediationError, OSError) as exc:
+                print(f"MEDIATION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"MEDIATION_VALID rows={mediation_summary.rows} "
+                f"development={mediation_summary.development_rows} "
+                f"replication={mediation_summary.replication_rows} "
+                f"study_clusters={mediation_summary.study_clusters} "
+                f"estimands={mediation_summary.estimands} "
+                f"alternative_mediators={mediation_summary.alternative_mediators} "
+                f"dag_scenarios={mediation_summary.dag_scenarios} "
+                f"cluster_bootstrap_records={mediation_summary.cluster_bootstrap_records} "
+                f"replication_attempted={str(mediation_summary.replication_attempted).lower()} "
+                f"replication_passed={str(mediation_summary.replication_passed).lower()} "
+                f"causal_claim_permitted={str(mediation_summary.causal_claim_permitted).lower()} "
+                f"language_status={mediation_summary.language_status} "
+                f"resumed={mediation_summary.resumed}"
+            )
+            return 0
         if args.discover_command != "functional-axes":
             parser.parse_args(["discover", "--help"])
             return 0

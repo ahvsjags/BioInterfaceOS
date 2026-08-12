@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "mode": "material_corona_outcome_mediation",
+  "inputs": [
+    {
+      "label": "T073 M3 receipt",
+      "path": "reports/models/m3/m3_receipt.json",
+      "sha256": "0e86a9759d497bd9e0c0b16041f006f1e48dc24811f5329670f566f57a0d6566"
+    },
+    {
+      "label": "T076 DAG card",
+      "path": "reports/models/m6/dag_card.json",
+      "sha256": "f6166082bf6ea1817a68cdb38d1f3dd4dcfa66e240dd33aa4bc30332ef28e1da"
+    },
+    {
+      "label": "T090 functional axes receipt",
+      "path": "reports/omics/functional_axes/functional_axes_receipt.json",
+      "sha256": "6ccd62a249ed8d1b255681b13c854864ae2757db0ada696aff4fb94662df304c"
+    },
+    {
+      "label": "T062 modality link graph",
+      "path": "reports/omics/modality_links/link_graph.json",
+      "sha256": "8833ff32e4ce55f2d502696119bc64431ecfb987a396fa888d8de20a2e9e6dbe"
+    }
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "estimands": ["total_effect", "direct_effect", "indirect_effect", "mediated_fraction"],
+    "cluster_field": "study_id",
+    "seed": 91,
+    "bootstrap_replicates": 32,
+    "language_policy": "automatic_downgrade"
+  },
+  "dag_scenarios": [
+    {
+      "dag_id": "DAG-PRIMARY-AXIS",
+      "mediator": "mediator_primary",
+      "assumptions": {
+        "randomized_intervention": false,
+        "temporal_order_verified": false,
+        "unmeasured_confounding_controlled": false
+      }
+    },
+    {
+      "dag_id": "DAG-MEDIATOR-CONFOUNDING",
+      "mediator": "mediator_primary",
+      "assumptions": {
+        "randomized_intervention": false,
+        "temporal_order_verified": false,
+        "unmeasured_confounding_controlled": false,
+        "mediator_outcome_confounder": "baseline_confounder"
+      }
+    },
+    {
+      "dag_id": "DAG-ALTERNATIVE-MEDIATOR",
+      "mediator": "mediator_alternative",
+      "assumptions": {
+        "randomized_intervention": false,
+        "temporal_order_verified": false,
+        "unmeasured_confounding_controlled": false
+      }
+    }
+  ],
+  "rows": [
+    {"row_id": "DEV-A-01", "study_id": "STUDY-A", "split": "development", "treatment": 0, "mediator_primary": 0.20, "mediator_alternative": 0.15, "outcome": 1.00, "baseline_confounder": 0.10},
+    {"row_id": "DEV-A-02", "study_id": "STUDY-A", "split": "development", "treatment": 1, "mediator_primary": 0.65, "mediator_alternative": 0.50, "outcome": 1.75, "baseline_confounder": 0.20},
+    {"row_id": "DEV-A-03", "study_id": "STUDY-A", "split": "development", "treatment": 0, "mediator_primary": 0.22, "mediator_alternative": 0.18, "outcome": 1.10, "baseline_confounder": 0.12},
+    {"row_id": "DEV-A-04", "study_id": "STUDY-A", "split": "development", "treatment": 1, "mediator_primary": 0.68, "mediator_alternative": 0.52, "outcome": 1.80, "baseline_confounder": 0.21},
+    {"row_id": "DEV-B-01", "study_id": "STUDY-B", "split": "development", "treatment": 0, "mediator_primary": 0.25, "mediator_alternative": 0.20, "outcome": 0.90, "baseline_confounder": 0.30},
+    {"row_id": "DEV-B-02", "study_id": "STUDY-B", "split": "development", "treatment": 1, "mediator_primary": 0.70, "mediator_alternative": 0.55, "outcome": 1.55, "baseline_confounder": 0.35},
+    {"row_id": "DEV-B-03", "study_id": "STUDY-B", "split": "development", "treatment": 0, "mediator_primary": 0.30, "mediator_alternative": 0.23, "outcome": 1.00, "baseline_confounder": 0.31},
+    {"row_id": "DEV-B-04", "study_id": "STUDY-B", "split": "development", "treatment": 1, "mediator_primary": 0.72, "mediator_alternative": 0.56, "outcome": 1.65, "baseline_confounder": 0.36},
+    {"row_id": "REP-C-01", "study_id": "STUDY-C", "split": "replication", "treatment": 0, "mediator_primary": 0.18, "mediator_alternative": 0.12, "outcome": 1.10, "baseline_confounder": 0.15},
+    {"row_id": "REP-C-02", "study_id": "STUDY-C", "split": "replication", "treatment": 1, "mediator_primary": 0.58, "mediator_alternative": 0.47, "outcome": 1.62, "baseline_confounder": 0.24},
+    {"row_id": "REP-D-01", "study_id": "STUDY-D", "split": "replication", "treatment": 0, "mediator_primary": 0.28, "mediator_alternative": 0.24, "outcome": 0.95, "baseline_confounder": 0.28},
+    {"row_id": "REP-D-02", "study_id": "STUDY-D", "split": "replication", "treatment": 1, "mediator_primary": 0.62, "mediator_alternative": 0.51, "outcome": 1.48, "baseline_confounder": 0.38}
+  ]
+}

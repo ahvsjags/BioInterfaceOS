@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "workflow": "material_corona_outcome_mediation",
+  "required_inputs": [
+    "T073 M3 receipt",
+    "T076 DAG card",
+    "T090 functional axes receipt",
+    "T062 modality link graph"
+  ],
+  "required_outputs": [
+    "preregistration",
+    "estimates",
+    "cluster_uncertainty",
+    "dag_sensitivity",
+    "independent_replication",
+    "language_gate",
+    "mediator_controls",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "estimands": [
+    "total_effect",
+    "direct_effect",
+    "indirect_effect",
+    "mediated_fraction"
+  ],
+  "gates": [
+    "preregistered_estimands",
+    "study_clustered_uncertainty",
+    "alternative_mediators",
+    "alternative_dags",
+    "independent_replication",
+    "automatic_language_downgrade"
+  ],
+  "claim_policy": "association_only_when_identification_fails"
+}

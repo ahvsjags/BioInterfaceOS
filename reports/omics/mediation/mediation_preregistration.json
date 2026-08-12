@@ -1,0 +1,1 @@
+{"alternative_mediators":["mediator_alternative","mediator_random"],"bootstrap_replicates":32,"cluster_field":"study_id","estimands":["total_effect","direct_effect","indirect_effect","mediated_fraction"],"frozen_before_estimation":true,"primary_mediator":"mediator_primary","schema_version":1,"seed":91}
