@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "mode": "unit_aware_symbolic_laws",
+  "inputs": [
+    {
+      "label": "T071 normalized model results",
+      "path": "reports/models/m1/m1_results.json",
+      "sha256": "46777fd6dc4838e027ae1da95e71de32d8cc66c2cd0717130ae9b17947059a39"
+    },
+    {
+      "label": "T089 tournament config",
+      "path": "reports/claims/tournament/tournament_config.json",
+      "sha256": "a684c2f6730196a60818e4754594ac3bcbd0fc7e1904e37087d15cf2b553a636"
+    },
+    {
+      "label": "T090 functional axes receipt",
+      "path": "reports/omics/functional_axes/functional_axes_receipt.json",
+      "sha256": "6ccd62a249ed8d1b255681b13c854864ae2757db0ada696aff4fb94662df304c"
+    }
+  ],
+  "features": {
+    "surface_norm": "1",
+    "charge_norm": "1",
+    "functional_axis": "1",
+    "dose_mg": "mg"
+  },
+  "preregistration": {
+    "schema_version": 1,
+    "grammar": "intercept_plus_additive_terms_power_1_or_2",
+    "complexity_penalty": 0.005,
+    "bootstrap_replicates": 32,
+    "seed": 93,
+    "ood_rmse_threshold": 0.08,
+    "stability_threshold": 0.75
+  },
+  "candidates": [
+    {
+      "candidate_id": "LAW-001",
+      "expression": "0.62*surface_norm + 0.28*functional_axis + 0.10*charge_norm",
+      "terms": [
+        {"feature": "surface_norm", "coefficient": 0.62, "power": 1},
+        {"feature": "functional_axis", "coefficient": 0.28, "power": 1},
+        {"feature": "charge_norm", "coefficient": 0.10, "power": 1}
+      ],
+      "output_unit": "1",
+      "complexity": 3
+    },
+    {
+      "candidate_id": "LAW-002",
+      "expression": "0.50*surface_norm + 0.50*functional_axis",
+      "terms": [
+        {"feature": "surface_norm", "coefficient": 0.50, "power": 1},
+        {"feature": "functional_axis", "coefficient": 0.50, "power": 1}
+      ],
+      "output_unit": "1",
+      "complexity": 2
+    },
+    {
+      "candidate_id": "LAW-003",
+      "expression": "0.75*surface_norm + 0.15*functional_axis + 0.10*charge_norm",
+      "terms": [
+        {"feature": "surface_norm", "coefficient": 0.75, "power": 1},
+        {"feature": "functional_axis", "coefficient": 0.15, "power": 1},
+        {"feature": "charge_norm", "coefficient": 0.10, "power": 1}
+      ],
+      "output_unit": "1",
+      "complexity": 3
+    },
+    {
+      "candidate_id": "LAW-004",
+      "expression": "0.80*surface_norm + 0.20/dose_mg",
+      "terms": [
+        {"feature": "surface_norm", "coefficient": 0.80, "power": 1},
+        {"feature": "dose_mg", "coefficient": 0.20, "power": 2}
+      ],
+      "output_unit": "1",
+      "complexity": 2
+    }
+  ],
+  "rows": [
+    {"row_id": "DEV-01", "study_id": "STUDY-1", "material_id": "MAT-1", "split": "development", "surface_norm": 0.20, "charge_norm": 0.10, "functional_axis": 0.30, "dose_mg": 1.0, "outcome": 0.218},
+    {"row_id": "DEV-02", "study_id": "STUDY-1", "material_id": "MAT-2", "split": "development", "surface_norm": 0.40, "charge_norm": 0.20, "functional_axis": 0.50, "dose_mg": 1.2, "outcome": 0.408},
+    {"row_id": "DEV-03", "study_id": "STUDY-2", "material_id": "MAT-3", "split": "development", "surface_norm": 0.60, "charge_norm": 0.30, "functional_axis": 0.40, "dose_mg": 1.4, "outcome": 0.514},
+    {"row_id": "DEV-04", "study_id": "STUDY-2", "material_id": "MAT-4", "split": "development", "surface_norm": 0.80, "charge_norm": 0.40, "functional_axis": 0.70, "dose_mg": 1.6, "outcome": 0.732},
+    {"row_id": "DEV-05", "study_id": "STUDY-3", "material_id": "MAT-5", "split": "development", "surface_norm": 0.30, "charge_norm": 0.20, "functional_axis": 0.60, "dose_mg": 1.1, "outcome": 0.374},
+    {"row_id": "DEV-06", "study_id": "STUDY-3", "material_id": "MAT-6", "split": "development", "surface_norm": 0.70, "charge_norm": 0.30, "functional_axis": 0.50, "dose_mg": 1.5, "outcome": 0.604},
+    {"row_id": "DEV-07", "study_id": "STUDY-4", "material_id": "MAT-7", "split": "development", "surface_norm": 0.50, "charge_norm": 0.10, "functional_axis": 0.20, "dose_mg": 1.3, "outcome": 0.376},
+    {"row_id": "DEV-08", "study_id": "STUDY-4", "material_id": "MAT-8", "split": "development", "surface_norm": 0.90, "charge_norm": 0.50, "functional_axis": 0.80, "dose_mg": 1.8, "outcome": 0.832},
+    {"row_id": "VAL-01", "study_id": "STUDY-5", "material_id": "MAT-9", "split": "validation", "surface_norm": 0.25, "charge_norm": 0.10, "functional_axis": 0.35, "dose_mg": 1.0, "outcome": 0.263},
+    {"row_id": "VAL-02", "study_id": "STUDY-5", "material_id": "MAT-10", "split": "validation", "surface_norm": 0.65, "charge_norm": 0.30, "functional_axis": 0.55, "dose_mg": 1.4, "outcome": 0.587},
+    {"row_id": "VAL-03", "study_id": "STUDY-6", "material_id": "MAT-11", "split": "validation", "surface_norm": 0.45, "charge_norm": 0.15, "functional_axis": 0.25, "dose_mg": 1.2, "outcome": 0.364},
+    {"row_id": "VAL-04", "study_id": "STUDY-6", "material_id": "MAT-12", "split": "validation", "surface_norm": 0.85, "charge_norm": 0.45, "functional_axis": 0.75, "dose_mg": 1.7, "outcome": 0.782},
+    {"row_id": "OOD-01", "study_id": "STUDY-7", "material_id": "MAT-13", "split": "ood", "surface_norm": 0.15, "charge_norm": 0.10, "functional_axis": 0.90, "dose_mg": 2.0, "outcome": 0.355},
+    {"row_id": "OOD-02", "study_id": "STUDY-7", "material_id": "MAT-14", "split": "ood", "surface_norm": 0.95, "charge_norm": 0.50, "functional_axis": 0.10, "dose_mg": 2.2, "outcome": 0.667},
+    {"row_id": "OOD-03", "study_id": "STUDY-8", "material_id": "MAT-15", "split": "ood", "surface_norm": 0.35, "charge_norm": 0.25, "functional_axis": 0.85, "dose_mg": 2.1, "outcome": 0.480},
+    {"row_id": "OOD-04", "study_id": "STUDY-8", "material_id": "MAT-16", "split": "ood", "surface_norm": 0.75, "charge_norm": 0.40, "functional_axis": 0.15, "dose_mg": 2.3, "outcome": 0.547}
+  ]
+}

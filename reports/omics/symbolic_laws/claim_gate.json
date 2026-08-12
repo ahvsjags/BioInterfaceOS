@@ -1,0 +1,1 @@
+{"allowed_wording":"stable unit-aware candidate law","fallback":false,"schema_version":1,"selected_expression":"0.62*surface_norm + 0.28*functional_axis + 0.10*charge_norm","symbolic_law_permitted":true}

@@ -1,0 +1,1 @@
+{"complexity_penalty_frozen":true,"front":[{"candidate_id":"LAW-001","dominated":false},{"candidate_id":"LAW-002","dominated":false},{"candidate_id":"LAW-003","dominated":true}],"schema_version":1,"selected_candidate":"LAW-001"}

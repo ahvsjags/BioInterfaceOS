@@ -1,0 +1,1 @@
+{"rejected_candidates":[{"candidate_id":"LAW-004","derived_units":["1","mg^2"],"output_unit":"1","reason":"dimensional_inconsistency","unit_valid":false}],"schema_version":1,"target_unit":"1","valid_candidates":["LAW-001","LAW-002","LAW-003"]}

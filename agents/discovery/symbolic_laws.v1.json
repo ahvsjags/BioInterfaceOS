@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "workflow": "unit_aware_symbolic_laws",
+  "required_inputs": [
+    "T071 normalized model results",
+    "T089 tournament config",
+    "T090 functional axes receipt"
+  ],
+  "required_outputs": [
+    "symbolic_preregistration",
+    "unit_audit",
+    "candidate_scores",
+    "nested_study_cv",
+    "bootstrap_stability",
+    "pareto_front",
+    "flexible_controls",
+    "ood_validation",
+    "claim_gate",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "controls": ["gam_control", "tree_control"],
+  "gates": [
+    "dimensional_consistency",
+    "nested_study_cv",
+    "frozen_complexity_penalty",
+    "bootstrap_expression_stability",
+    "validation_ood",
+    "flexible_control_separation"
+  ],
+  "failure_policy": "publish_no_simple_law_and_retain_flexible_baseline"
+}

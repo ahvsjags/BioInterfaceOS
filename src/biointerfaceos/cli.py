@@ -445,6 +445,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     discover_transfer_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized development fixture"
     )
+    discover_symbolic_parser = discover_subparsers.add_parser(
+        "symbolic-laws", help="discover unit-aware symbolic design laws"
+    )
+    discover_symbolic_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized development fixture"
+    )
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
     train_subparsers = train_parser.add_subparsers(dest="train_command")
@@ -995,6 +1001,37 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "discover":
+        if args.discover_command == "symbolic-laws":
+            root = find_repository_root()
+            if root is None:
+                print("SYMBOLIC_LAWS_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("SYMBOLIC_LAWS_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.symbolic_laws_workflow import (
+                SymbolicLawsError,
+                SymbolicLawsWorkflow,
+            )
+
+            try:
+                symbolic_summary = SymbolicLawsWorkflow(root).run(fixture=True)
+            except (SymbolicLawsError, OSError) as exc:
+                print(f"SYMBOLIC_LAWS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SYMBOLIC_LAWS_VALID candidates={symbolic_summary.candidates} "
+                f"unit_valid={symbolic_summary.unit_valid} "
+                f"rejected={symbolic_summary.rejected} "
+                f"nested_folds={symbolic_summary.nested_folds} "
+                f"controls={symbolic_summary.controls} "
+                f"bootstrap_stability={symbolic_summary.bootstrap_stability:.6f} "
+                f"ood_passed={str(symbolic_summary.ood_passed).lower()} "
+                f"selected_expression={symbolic_summary.selected_expression} "
+                f"fallback={str(symbolic_summary.fallback).lower()} "
+                f"resumed={symbolic_summary.resumed}"
+            )
+            return 0
         if args.discover_command == "cross-species":
             root = find_repository_root()
             if root is None:

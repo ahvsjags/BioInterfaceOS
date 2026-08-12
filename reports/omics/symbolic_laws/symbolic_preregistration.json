@@ -1,0 +1,1 @@
+{"bootstrap_replicates":32,"complexity_penalty":0.005,"features":{"charge_norm":"1","dose_mg":"mg","functional_axis":"1","surface_norm":"1"},"frozen_before_fit":true,"grammar":"intercept_plus_additive_terms_power_1_or_2","ood_rmse_threshold":0.08,"schema_version":1,"seed":93,"stability_threshold":0.75}
