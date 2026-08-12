@@ -516,6 +516,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit screened public sources without consuming reserved lockbox content",
     )
     model_source_discovery_parser.add_argument("--strict", action="store_true")
+    model_proteomics_preflight_parser = model_subparsers.add_parser(
+        "audit-proteomics-sources",
+        help="preflight public protein-corona sources without freezing a model target",
+    )
+    model_proteomics_preflight_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2207,8 +2212,36 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "evaluate-real",
             "audit-source-candidates",
             "audit-source-discovery",
+            "audit-proteomics-sources",
         }:
             parser.parse_args(["model", "--help"])
+            return 0
+        if args.model_command == "audit-proteomics-sources":
+            from biointerfaceos.real_proteomics_source_preflight import (
+                RealProteomicsSourcePreflightError,
+                RealProteomicsSourcePreflightWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print(
+                    "REAL_PROTEOMICS_SOURCE_PREFLIGHT_INVALID: repository root not found",
+                    file=sys.stderr,
+                )
+                return 1
+            try:
+                preflight_summary = RealProteomicsSourcePreflightWorkflow(root).run(
+                    strict=args.strict
+                )
+            except (RealProteomicsSourcePreflightError, OSError) as exc:
+                print(f"REAL_PROTEOMICS_SOURCE_PREFLIGHT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "REAL_PROTEOMICS_SOURCE_PREFLIGHT_VALID "
+                f"sources={preflight_summary.source_count} "
+                f"source_defined_units={preflight_summary.source_defined_unit_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
             return 0
         if args.model_command == "audit-source-discovery":
             from biointerfaceos.real_model_source_discovery_workflow import (

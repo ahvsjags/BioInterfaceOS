@@ -41,6 +41,12 @@ Do not convert deterministic locator resolution into a causal or biological mode
   it as development evidence. The 2024 Z-average workbook contains only
   Mean +/- SEM summaries and no matched biological-condition protocol; the
   other releases a figure index but no numerical DLS table.
+- [x] Protein-corona source-acquisition preflight. Three independently generated,
+  pre-cutoff, anonymous-public CC0 PRIDE studies were screened at asset and
+  sample-map level without treating their author-specific quantification outputs
+  as a common target. The immutable preflight records 30 source-defined run or
+  acquisition-mix records, explicitly preserves unknown biological-replicate
+  status, and blocks model fitting until a common preprocessing target is frozen.
 - [ ] Compatible target freeze.
 - [ ] Paired model/ablation/OOD execution.
 - [ ] Strict receipt and negative-control audit.
@@ -53,6 +59,12 @@ Do not convert deterministic locator resolution into a causal or biological mode
   page also does not state an institutional laboratory affiliation; the Y5 DLS
   worksheet omits its biological condition; and DG3 publishes source-level mean
   ± SD rows rather than matched raw replicate rows.
+- A separate protein-corona acquisition path has stronger biological alignment
+  than the DLS candidates: PXD017776 has explicit human-serum sample names and
+  open mzIdentML results; PXD052701 releases human-plasma liposome runs but its
+  LF1-L through LF5-S covariates remain unresolved; PXD032162 publishes a TMT
+  mix/PS/PVC/timepoint design sheet. Their author-result scales remain
+  heterogeneous and are not concatenated.
 
 ## Decisions
 
@@ -64,6 +76,11 @@ Do not convert deterministic locator resolution into a causal or biological mode
   statistic into one endpoint.
 - Keep post-freeze source files outside the development scope. Their
   landing-page metadata is not converted into an external validation result.
+- Treat the three PRIDE records as staged source-acquisition candidates only.
+  A model target remains unavailable until a source-matched covariate map and a
+  one-pipeline protein-crown endpoint have been frozen with explicit analysis
+  units; the preflight is not evidence of an effect, ablation, OOD result or
+  independent validation.
 
 ## Validation
 
@@ -80,6 +97,11 @@ Do not convert deterministic locator resolution into a causal or biological mode
   records three newly screened public records in
   `reports/review_round_2/real_model_source_discovery/v1.0.0/`; it preserves
   zero admissions and does not retrieve the reserved lockbox content.
+- 2026-08-12: `python -m biointerfaceos model audit-proteomics-sources --strict`
+  records a three-laboratory CC0 PRIDE preflight in
+  `reports/review_round_2/real_proteomics_source_preflight/v1.0.0/`. It fixes
+  the no-model boundary (`target_frozen=false`) while making exact staged raw
+  acquisition and preprocessing requirements auditable.
 
 ## Failure recovery
 
