@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "mode": "freeze_dev",
+  "inputs": [
+    {"label": "T063 group keys", "path": "reports/splits/group_keys/group_keys.json", "sha256": "794b128c7c5029eb0987fcf60e39ed7bc291e87be90d053c48a46db1043c2cba"},
+    {"label": "T064 cross-split audit", "path": "reports/splits/duplicates/cross_split_audit.json", "sha256": "9205d2ee5014358f1364b7a61504ac03a6d36c34287382dd1a61eef897eb8137"},
+    {"label": "T015 lockbox policy", "path": "config/lockbox.yaml", "sha256": "6f83ee6419fe6cb881cad5db346ad30816f4c92f93b196ab91c3ef12d4143f43"},
+    {"label": "T047 Silver manifest", "path": "data/silver/silver_manifest.json", "sha256": "d55cabf07a3a44f877e76d00aed76a3a8f52d5eedef46790727f4c91fa440b12"}
+  ],
+  "rules": {
+    "train_latest_date": "2023-12-31",
+    "validation_start_date": "2024-01-01",
+    "validation_end_date": "2024-12-31",
+    "feature_blacklist_version": "identity-blacklist-v1",
+    "required_evidence": true
+  },
+  "feature_blacklist": ["paper_id", "accession", "author", "journal", "layout_position", "file_path", "source_url", "split_label", "record_id", "project_accession"],
+  "candidates": [
+    {"record_id": "SPLIT-TRAIN-001", "study_id": "STUDY-TRAIN-001", "paper_family_group_key": "PAPER_FAMILY:FAMILY_010", "project_group_key": "PROJECT:PXD100001", "material_group_key": "MATERIAL:CHEBI_DSPC", "bioenvironment_group_key": "BIOENV:FBS", "duplicate_cluster_id": "DUP-TRAIN-001", "date": "2023-05-10", "evidence_locator": "T047:SILVER#experiment=TRAIN-001", "paper_id": "PAPER-TRAIN-001", "accession": "PXD100001", "author": "Author-Train", "journal": "Journal-A", "layout_position": "page1:x1", "file_path": "reports/train.csv", "source_url": "https://fixture/train", "outcome_value": 0.1},
+    {"record_id": "SPLIT-TRAIN-002", "study_id": "STUDY-TRAIN-002", "paper_family_group_key": "PAPER_FAMILY:FAMILY_010", "project_group_key": "PROJECT:PXD100001", "material_group_key": "MATERIAL:CHEBI_DSPC", "bioenvironment_group_key": "BIOENV:FBS", "duplicate_cluster_id": "DUP-TRAIN-001", "date": "2023-12-01", "evidence_locator": "T047:SILVER#experiment=TRAIN-002", "paper_id": "PAPER-TRAIN-001", "accession": "PXD100001", "author": "Author-Train", "journal": "Journal-A", "layout_position": "page1:x2", "file_path": "reports/train2.csv", "source_url": "https://fixture/train2", "outcome_value": 0.2},
+    {"record_id": "SPLIT-VAL-001", "study_id": "STUDY-VAL-001", "paper_family_group_key": "PAPER_FAMILY:FAMILY_020", "project_group_key": "PROJECT:PXD200001", "material_group_key": "MATERIAL:CHEBI_PEG", "bioenvironment_group_key": "BIOENV:PLASMA", "duplicate_cluster_id": "DUP-VAL-001", "date": "2024-03-15", "evidence_locator": "T047:SILVER#experiment=VAL-001", "paper_id": "PAPER-VAL-001", "accession": "PXD200001", "author": "Author-Val", "journal": "Journal-B", "layout_position": "page2:x1", "file_path": "reports/val.csv", "source_url": "https://fixture/val", "outcome_value": 0.3},
+    {"record_id": "SPLIT-LATE-001", "study_id": "STUDY-LATE-001", "paper_family_group_key": "PAPER_FAMILY:FAMILY_030", "project_group_key": "PROJECT:PXD300001", "material_group_key": "MATERIAL:CHEBI_DSPC", "bioenvironment_group_key": "BIOENV:FBS", "duplicate_cluster_id": "DUP-LATE-001", "date": "2025-01-10", "evidence_locator": "T047:SILVER#experiment=LATE-001", "paper_id": "PAPER-LATE-001", "accession": "PXD300001", "author": "Author-Late", "journal": "Journal-C", "layout_position": "page3:x1", "file_path": "reports/late.csv", "source_url": "https://fixture/late", "outcome_value": 0.4},
+    {"record_id": "SPLIT-UNKNOWN-001", "study_id": "STUDY-UNKNOWN-001", "paper_family_group_key": "PAPER_FAMILY:FAMILY_040", "project_group_key": "PROJECT:PXD400001", "material_group_key": "MATERIAL_UNKNOWN:NANOCOAT_X", "bioenvironment_group_key": "BIOENV_UNKNOWN", "duplicate_cluster_id": "DUP-UNKNOWN-001", "date": null, "evidence_locator": "T041:material_review#mention=mat-tradename", "paper_id": "PAPER-UNKNOWN-001", "accession": "PXD400001", "author": null, "journal": null, "layout_position": null, "file_path": null, "source_url": null, "outcome_value": 0.5}
+  ]
+}

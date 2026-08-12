@@ -492,6 +492,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     split_duplicates_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized duplicate fixture"
     )
+    split_freeze_parser = split_subparsers.add_parser(
+        "freeze-dev", help="freeze the development train and validation split"
+    )
+    split_freeze_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized split-freeze fixture"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -1647,6 +1653,29 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 1 if args.strict and not report.within_budget else 0
     if args.command == "split":
+        if args.split_command == "freeze-dev":
+            root = find_repository_root()
+            if root is None:
+                print("SPLIT_FREEZE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("SPLIT_FREEZE_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.split_freeze import SplitFreezeError, SplitFreezeWorkflow
+
+            try:
+                freeze_summary = SplitFreezeWorkflow(root).run(fixture=True)
+            except (SplitFreezeError, OSError) as exc:
+                print(f"SPLIT_FREEZE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SPLIT_FREEZE_VALID candidates={freeze_summary.candidates} "
+                f"train={freeze_summary.train} validation={freeze_summary.validation} "
+                f"excluded={freeze_summary.excluded} groups={freeze_summary.groups} "
+                f"blacklisted_features={freeze_summary.blacklisted_features} "
+                f"resumed={freeze_summary.resumed} outcome_leakage=false lockbox_accessed=false"
+            )
+            return 0
         if args.split_command == "detect-duplicates":
             root = find_repository_root()
             if root is None:

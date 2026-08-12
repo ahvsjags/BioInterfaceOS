@@ -1,0 +1,1 @@
+{"blacklisted_features":["paper_id","accession","author","journal","layout_position","file_path","source_url","split_label","record_id","project_accession"],"cross_split_duplicates":0,"identity_features_blacklisted":true,"lockbox_accessed":false,"outcome_values_used":false,"paper_family_project_duplicate_containment":true,"schema_version":1,"split_frozen":true,"status":"PASSED"}
