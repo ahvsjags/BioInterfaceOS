@@ -36,7 +36,9 @@ class _Response:
         self.closed = True
 
 
-def _asset(*, expected_bytes: int, checksum: str, representation: str = "FILE_BYTES") -> TransferAsset:
+def _asset(
+    *, expected_bytes: int, checksum: str, representation: str = "FILE_BYTES"
+) -> TransferAsset:
     return TransferAsset(
         source_id="PRIDE-PXD017776",
         accession="PXD017776",

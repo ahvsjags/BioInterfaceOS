@@ -18,7 +18,7 @@ from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, BinaryIO
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
@@ -184,20 +184,26 @@ class RealProteomicsAcquisitionWorkflow:
         return candidate
 
     @staticmethod
-    def _digest(path: Path, algorithm: str, representation: str) -> str:
+    def _sha1_stream(stream: BinaryIO) -> str:
+        digest = hashlib.sha1()
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+        return digest.hexdigest()
+
+    @classmethod
+    def _digest(cls, path: Path, algorithm: str, representation: str) -> str:
         if algorithm != "SHA1":
             raise RealProteomicsAcquisitionError("unsupported publisher checksum algorithm")
         try:
-            stream = gzip.open(path, "rb") if representation == "GZIP_DECOMPRESSED_BYTES" else path.open("rb")
-            with stream:
-                digest = hashlib.sha1()
-                for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-                    digest.update(chunk)
+            if representation == "GZIP_DECOMPRESSED_BYTES":
+                with gzip.open(path, "rb") as stream:
+                    return cls._sha1_stream(stream)
+            with path.open("rb") as stream:
+                return cls._sha1_stream(stream)
         except OSError as exc:
             raise RealProteomicsAcquisitionError(
                 f"cannot digest publisher checksum representation for {path}"
             ) from exc
-        return digest.hexdigest()
 
     def _assert_local_path(self, path: Path) -> Path:
         resolved = path.resolve(strict=False)
@@ -217,7 +223,9 @@ class RealProteomicsAcquisitionWorkflow:
             or parsed.query
             or parsed.fragment
         ):
-            raise RealProteomicsAcquisitionError("transfer URL is not an approved anonymous PRIDE URL")
+            raise RealProteomicsAcquisitionError(
+                "transfer URL is not an approved anonymous PRIDE URL"
+            )
         return url
 
     def _manifest(self) -> tuple[dict[str, Any], tuple[TransferAsset, ...]]:
@@ -230,15 +238,20 @@ class RealProteomicsAcquisitionWorkflow:
         if manifest.get("source_preflight_registry_sha256") != _sha256(
             self.root / self.PREFLIGHT_REGISTRY_RELATIVE
         ):
-            raise RealProteomicsAcquisitionError("transfer manifest does not bind preflight registry")
+            raise RealProteomicsAcquisitionError(
+                "transfer manifest does not bind preflight registry"
+            )
         if manifest.get("source_preflight_receipt_sha256") != _sha256(
             self.root / self.PREFLIGHT_RECEIPT_RELATIVE
         ):
-            raise RealProteomicsAcquisitionError("transfer manifest does not bind preflight receipt")
+            raise RealProteomicsAcquisitionError(
+                "transfer manifest does not bind preflight receipt"
+            )
 
         policy = _mapping(manifest.get("transport_policy"), "transfer transport policy")
         if set(policy) != self.REQUIRED_POLICY_FIELDS or any(
-            policy.get(field) is not True for field in self.REQUIRED_POLICY_FIELDS - {"allowed_host"}
+            policy.get(field) is not True
+            for field in self.REQUIRED_POLICY_FIELDS - {"allowed_host"}
         ):
             raise RealProteomicsAcquisitionError("transfer policy is unsafe")
         if policy.get("allowed_host") != self.ALLOWED_HOST:
@@ -281,7 +294,9 @@ class RealProteomicsAcquisitionWorkflow:
                 relative_path = _string(asset.get("relative_path"), "transfer relative_path")
                 relative = self._safe_relative(relative_path, "transfer relative_path")
                 if relative.parts[0] != accession or relative.name != file_name:
-                    raise RealProteomicsAcquisitionError("transfer asset path does not bind its source")
+                    raise RealProteomicsAcquisitionError(
+                        "transfer asset path does not bind its source"
+                    )
                 if asset_id in asset_ids or relative_path in relative_paths:
                     raise RealProteomicsAcquisitionError("transfer asset identity is not unique")
                 asset_ids.add(asset_id)
@@ -306,7 +321,10 @@ class RealProteomicsAcquisitionWorkflow:
                     asset.get("checksum_representation"), "transfer checksum_representation"
                 )
                 if checksum is None:
-                    if checksum_algorithm is not None or representation != "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD":
+                    if (
+                        checksum_algorithm is not None
+                        or representation != "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD"
+                    ):
                         raise RealProteomicsAcquisitionError(
                             "absent publisher checksum is represented unsafely"
                         )
@@ -318,17 +336,22 @@ class RealProteomicsAcquisitionWorkflow:
                         or any(character not in "0123456789abcdef" for character in checksum)
                         or representation not in {"FILE_BYTES", "GZIP_DECOMPRESSED_BYTES"}
                     ):
-                        raise RealProteomicsAcquisitionError("publisher checksum contract is invalid")
+                        raise RealProteomicsAcquisitionError(
+                            "publisher checksum contract is invalid"
+                        )
                 byte_verification = _string(
                     asset.get("byte_verification"), "transfer byte_verification"
                 )
                 if expected_bytes is None:
                     if (
                         source_id != "PRIDE-PXD017776"
-                        or byte_verification != "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"
+                        or byte_verification
+                        != "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"
                         or checksum is None
                     ):
-                        raise RealProteomicsAcquisitionError("unverified transfer size is not allowed")
+                        raise RealProteomicsAcquisitionError(
+                            "unverified transfer size is not allowed"
+                        )
                 elif byte_verification != "EXACT_FILE_BYTES":
                     raise RealProteomicsAcquisitionError("transfer byte verification is invalid")
                 assets.append(
@@ -353,7 +376,9 @@ class RealProteomicsAcquisitionWorkflow:
         return manifest, tuple(sorted(assets, key=lambda item: item.asset_id))
 
     def _asset_path(self, asset: TransferAsset) -> Path:
-        return self._assert_local_path(self.raw_root / self._safe_relative(asset.relative_path, "asset"))
+        return self._assert_local_path(
+            self.raw_root / self._safe_relative(asset.relative_path, "asset")
+        )
 
     def _verify_path(self, path: Path, asset: TransferAsset) -> dict[str, Any]:
         if not path.is_file():
@@ -361,7 +386,8 @@ class RealProteomicsAcquisitionWorkflow:
         bytes_on_disk = path.stat().st_size
         if asset.expected_bytes is not None and bytes_on_disk != asset.expected_bytes:
             raise RealProteomicsAcquisitionError(
-                f"byte count mismatch for {asset.asset_id}: expected {asset.expected_bytes}, got {bytes_on_disk}"
+                f"byte count mismatch for {asset.asset_id}: expected {asset.expected_bytes}, "
+                f"got {bytes_on_disk}"
             )
         publisher_checksum_verified = False
         if asset.publisher_checksum is not None:
@@ -472,8 +498,12 @@ class RealProteomicsAcquisitionWorkflow:
             append = existing_bytes > 0 and status == 206
             if existing_bytes > 0 and status == 206:
                 content_range = self._header(response, "Content-Range")
-                if content_range is None or not content_range.startswith(f"bytes {existing_bytes}-"):
-                    raise RealProteomicsAcquisitionError("server returned an incompatible Content-Range")
+                if content_range is None or not content_range.startswith(
+                    f"bytes {existing_bytes}-"
+                ):
+                    raise RealProteomicsAcquisitionError(
+                        "server returned an incompatible Content-Range"
+                    )
             elif existing_bytes > 0 and status == 200:
                 preserved = self._assert_local_path(
                     Path(f"{partial}.range-ignored-{existing_bytes}")
@@ -521,7 +551,9 @@ class RealProteomicsAcquisitionWorkflow:
         return record
 
     @staticmethod
-    def _select(assets: Iterable[TransferAsset], source_ids: Iterable[str] | None) -> tuple[TransferAsset, ...]:
+    def _select(
+        assets: Iterable[TransferAsset], source_ids: Iterable[str] | None
+    ) -> tuple[TransferAsset, ...]:
         requested = set(source_ids or ())
         known = {asset.source_id for asset in assets}
         if requested and not requested <= known:
@@ -561,7 +593,9 @@ class RealProteomicsAcquisitionWorkflow:
         if not strict:
             raise RealProteomicsAcquisitionError("proteomics acquisition audit requires --strict")
         if self.output_root.exists():
-            raise RealProteomicsAcquisitionError("real proteomics acquisition audit already executed")
+            raise RealProteomicsAcquisitionError(
+                "real proteomics acquisition audit already executed"
+            )
         manifest, assets, records = self._records()
         if len(records) != 27 or len({record["source_id"] for record in records}) != 3:
             raise RealProteomicsAcquisitionError("full transfer cohort is incomplete")
@@ -589,9 +623,12 @@ class RealProteomicsAcquisitionWorkflow:
             "independent_validation": False,
             "scientific_submission_ready": False,
             "required_before_target_freeze": [
-                "Resolve PXD052701 covariates from a source-matched reusable record without inferring L/S names.",
-                "Define and lock one common parser, protein-crown endpoint and analysis-unit manifest.",
-                "Revise the T121 analysis plan before any fit, ablation, OOD or external evaluation.",
+                "Resolve PXD052701 covariates from a source-matched reusable record "
+                "without inferring L/S names.",
+                "Define and lock one common parser, protein-crown endpoint and "
+                "analysis-unit manifest.",
+                "Revise the T121 analysis plan before any fit, ablation, OOD or "
+                "external evaluation.",
             ],
         }
         self.output_root.mkdir(parents=True, exist_ok=False)

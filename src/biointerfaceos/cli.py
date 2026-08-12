@@ -2243,7 +2243,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
 
             root = find_repository_root()
             if root is None:
-                print("REAL_PROTEOMICS_ACQUISITION_INVALID: repository root not found", file=sys.stderr)
+                print(
+                    "REAL_PROTEOMICS_ACQUISITION_INVALID: repository root not found",
+                    file=sys.stderr,
+                )
                 return 1
             workflow = RealProteomicsAcquisitionWorkflow(root)
             try:
@@ -2265,7 +2268,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                         "REAL_PROTEOMICS_ACQUISITION_AUDIT_VALID "
                         f"assets={acquisition_summary.asset_count} "
                         f"sources={acquisition_summary.source_count} "
-                        f"publisher_checksums={acquisition_summary.publisher_checksum_verified_count} "
+                        "publisher_checksums="
+                        f"{acquisition_summary.publisher_checksum_verified_count} "
                         "target_frozen=false model_fitted=false scientific_submission_ready=false"
                     )
             except (RealProteomicsAcquisitionError, OSError) as exc:
