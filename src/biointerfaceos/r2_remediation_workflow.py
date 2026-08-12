@@ -61,10 +61,10 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.6.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.7.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.6.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.7.0"
     RECEIPTS = {
         "semantics": (
             "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
@@ -93,6 +93,11 @@ class R2RemediationWorkflow:
         "pxd017052_source_data": (
             "reports/review_round_2/pxd017052_source_data/v1.0.0/pxd017052_source_data_receipt.json",
             "T131 PXD017052 source-data receipt",
+        ),
+        "pxd017052_complete_attachments": (
+            "reports/review_round_2/pxd017052_complete_attachments/v1.0.0/"
+            "complete_attachment_receipt.json",
+            "T132 PXD017052 complete-attachment correction receipt",
         ),
         "independent": (
             "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json",
@@ -184,6 +189,7 @@ class R2RemediationWorkflow:
         pxd030327_unit_map = sources["pxd030327_unit_map"].payload
         t129_current_target_evidence = sources["t129_current_target_evidence"].payload
         pxd017052_source_data = sources["pxd017052_source_data"].payload
+        pxd017052_complete_attachments = sources["pxd017052_complete_attachments"].payload
         independent = sources["independent"].payload
         semantics = sources["semantics"].payload
         related_work = sources["related_work"].payload
@@ -221,6 +227,17 @@ class R2RemediationWorkflow:
             and pxd017052_source_data.get("admission") == "NOT_ADMITTED"
             and pxd017052_source_data.get("model_use") == "PROHIBITED"
             and pxd017052_source_data.get("model_fitted") is False,
+            "R2-01",
+        )
+        self._require(
+            pxd017052_complete_attachments.get("status")
+            == "VERIFIED_COMPLETE_UNIT_TO_PARTICLE_MAP_SINGLE_LAB_CCBY"
+            and pxd017052_complete_attachments.get("extension_asset_count") == 8
+            and pxd017052_complete_attachments.get("explicit_unit_to_particle_map_count") == 9
+            and pxd017052_complete_attachments.get("admission")
+            == "NOT_ADMITTED_PENDING_CCBY_AMENDMENT_AND_SECOND_LAB"
+            and pxd017052_complete_attachments.get("cc0_cohort_status") == "UNCHANGED"
+            and pxd017052_complete_attachments.get("model_use") == "PROHIBITED",
             "R2-01",
         )
         self._require(
@@ -309,9 +326,9 @@ class R2RemediationWorkflow:
                 "disposition": self.DISPOSITIONS["R2-01"],
                 "scientific_claim_ready": False,
                 "reviewer_readable_disposition": (
-                    "PXD030327 now has a verified 636-unit run map, while PXD017052 now has "
-                    "four verified CC-BY assets and nine result-to-raw links; neither source "
-                    "freezes a cross-study numeric-material target."
+                    "PXD030327 now has a verified 636-unit run map, while T132 completes "
+                    "PXD017052's 12-asset CC-BY route with nine explicit unit-to-SPION joins; "
+                    "neither source freezes a cross-study numeric-material target."
                 ),
                 "evidence_source_keys": [
                     "profile",
@@ -320,6 +337,7 @@ class R2RemediationWorkflow:
                     "pxd030327_unit_map",
                     "t129_current_target_evidence",
                     "pxd017052_source_data",
+                    "pxd017052_complete_attachments",
                 ],
             },
             {
