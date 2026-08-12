@@ -511,6 +511,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify real raw-data candidates without promoting incompatible targets",
     )
     model_source_audit_parser.add_argument("--strict", action="store_true")
+    model_source_discovery_parser = model_subparsers.add_parser(
+        "audit-source-discovery",
+        help="audit screened public sources without consuming reserved lockbox content",
+    )
+    model_source_discovery_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2198,8 +2203,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "model":
-        if args.model_command not in {"evaluate-real", "audit-source-candidates"}:
+        if args.model_command not in {
+            "evaluate-real",
+            "audit-source-candidates",
+            "audit-source-discovery",
+        }:
             parser.parse_args(["model", "--help"])
+            return 0
+        if args.model_command == "audit-source-discovery":
+            from biointerfaceos.real_model_source_discovery_workflow import (
+                RealModelSourceDiscoveryError,
+                RealModelSourceDiscoveryWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("REAL_MODEL_SOURCE_DISCOVERY_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                discovery_summary = RealModelSourceDiscoveryWorkflow(root).run(strict=args.strict)
+            except (RealModelSourceDiscoveryError, OSError) as exc:
+                print(f"REAL_MODEL_SOURCE_DISCOVERY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "REAL_MODEL_SOURCE_DISCOVERY_VALID "
+                f"candidates={discovery_summary.candidate_count} "
+                f"rejected={discovery_summary.rejected_candidate_count} "
+                f"reserved_lockbox={discovery_summary.reserved_lockbox_candidate_count} "
+                "admitted=0 model_fitted=false scientific_submission_ready=false"
+            )
             return 0
         if args.model_command == "audit-source-candidates":
             from biointerfaceos.real_model_source_audit import (

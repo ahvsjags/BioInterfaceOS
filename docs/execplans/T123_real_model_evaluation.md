@@ -36,6 +36,11 @@ Do not convert deterministic locator resolution into a causal or biological mode
   were checksum- and header-verified, but the declared DLS metrics are
   hydrodynamic mean, Z-average, and an unspecified statistic. They were not
   combined into a target.
+- [x] Public-source discovery replay. A fresh, licence- and asset-level screening
+  checked two 2024 records and reserved one post-freeze record without consuming
+  it as development evidence. The 2024 Z-average workbook contains only
+  Mean +/- SEM summaries and no matched biological-condition protocol; the
+  other releases a figure index but no numerical DLS table.
 - [ ] Compatible target freeze.
 - [ ] Paired model/ablation/OOD execution.
 - [ ] Strict receipt and negative-control audit.
@@ -57,6 +62,8 @@ Do not convert deterministic locator resolution into a causal or biological mode
 - Do not harmonize source labels by assumption. A shared `nm` unit does not
   convert "hydrodynamic mean", "Z-average", and an unspecified hydrodynamic
   statistic into one endpoint.
+- Keep post-freeze source files outside the development scope. Their
+  landing-page metadata is not converted into an external validation result.
 
 ## Validation
 
@@ -69,6 +76,10 @@ Do not convert deterministic locator resolution into a causal or biological mode
 - 2026-08-12: `python -m biointerfaceos model audit-source-candidates --strict`
   checks the three source bundles and records the explicit non-admission
   decision in `reports/review_round_2/real_model_source_candidates/v1.1.0/`.
+- 2026-08-12: `python -m biointerfaceos model audit-source-discovery --strict`
+  records three newly screened public records in
+  `reports/review_round_2/real_model_source_discovery/v1.0.0/`; it preserves
+  zero admissions and does not retrieve the reserved lockbox content.
 
 ## Failure recovery
 

@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r2-real-model-source-discovery-audit-v1.0.0",
+  "evaluated_at": "2026-08-12T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "source_policy": {
+    "minimum_sources": 3,
+    "minimum_studies": 3,
+    "minimum_laboratories": 3,
+    "require_same_measurement_definition": true,
+    "require_same_endpoint_unit": true,
+    "require_matched_biological_condition": true,
+    "require_raw_source_defined_independent_units": true,
+    "require_anonymous_public_access": true,
+    "allowed_licenses": ["CC-BY-4.0", "CC0-1.0", "PDDL-1.0"]
+  },
+  "candidates": [
+    {
+      "candidate_id": "MENDELEY-4PJV66MHDW",
+      "landing_url": "https://data.mendeley.com/datasets/4pjv66mhdw/1",
+      "doi": "10.17632/4pjv66mhdw.1",
+      "published_at": "2024-08-08T18:07:58.651Z",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "institution_evidence": "International Islamic University Malaysia - Kuantan Campus",
+      "measurement_definition": "Z-average (nm)",
+      "endpoint_unit": "nm",
+      "asset_evidence": "CCD dataset.xlsx; 15059 bytes; SHA-256 0056ab08f230ed4a081b1b0fb7a4810bade6d166442f856bfebc9d1767bc0ead; source sheet CCD Prediction labels its DLS rows Mean +/- SEM.",
+      "biological_condition_evidence": "No matched biological-fluid, corona, serum, plasma, cell, or tissue condition is declared for the DLS response table.",
+      "independent_unit_evidence": "Eighteen formulation rows are published as source-level mean +/- SEM summaries; individual DLS measurements are not released.",
+      "decision": "REJECTED_NOT_ADMISSIBLE",
+      "rejection_reasons": [
+        "The released Z-average rows are source-level summaries rather than source-defined raw independent measurement units.",
+        "The DLS response table lacks a matched biological-condition protocol required for the BioInterfaceOS target."
+      ]
+    },
+    {
+      "candidate_id": "MENDELEY-YCW92C3YWY",
+      "landing_url": "https://data.mendeley.com/datasets/ycw92c3ywy/1",
+      "doi": "10.17632/ycw92c3ywy.1",
+      "published_at": "2024-06-11T19:05:57.993Z",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "institution_evidence": "University of Ottawa; Eberhard Karls Universitat Tubingen",
+      "measurement_definition": "Z-average particle size",
+      "endpoint_unit": "not released in a machine-readable numerical asset",
+      "asset_evidence": "The only released file is Data Key.txt; 2087 bytes; SHA-256 85c4673d5d7f92fdb220cde02480b3fb2f5c908927be737e6ba9c9d5bcbb8121; it enumerates Figure 4 but provides no numerical DLS table.",
+      "biological_condition_evidence": "The study includes microbial Fe(III) reduction, but no released row-level DLS table maps a size observation to that biological condition.",
+      "independent_unit_evidence": "No source-defined numerical DLS independent units are released.",
+      "decision": "REJECTED_NOT_ADMISSIBLE",
+      "rejection_reasons": [
+        "No machine-readable numerical DLS asset is released for audit or target construction.",
+        "The unit and row-level biological-condition mapping cannot be verified from the public files."
+      ]
+    },
+    {
+      "candidate_id": "MENDELEY-5NSXMZ2B5W",
+      "landing_url": "https://data.mendeley.com/datasets/5nsxmz2b5w/1",
+      "doi": "10.17632/5nsxmz2b5w.1",
+      "published_at": "2025-11-05T08:37:56.992Z",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "institution_evidence": "Universidade Federal Fluminense Instituto de Quimica",
+      "measurement_definition": "Z-average hydrodynamic diameter",
+      "endpoint_unit": "nm",
+      "asset_evidence": "The record lists proprietary .zmes DLS files but they were not downloaded or inspected because this post-freeze record is reserved for a future independent lockbox decision.",
+      "biological_condition_evidence": "Record-level context is an antibody-orientation biosensor, not a declared matched biological-fluid or corona condition.",
+      "independent_unit_evidence": "Not assessed; lockbox-reserved source content is not substituted into development evidence.",
+      "decision": "RESERVED_LOCKBOX_NOT_USED",
+      "rejection_reasons": [
+        "Published after the development and validation windows; it is not used to construct a development target.",
+        "No compatible three-study target is inferred from its landing-page metadata."
+      ]
+    }
+  ]
+}
