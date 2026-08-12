@@ -1,0 +1,1 @@
+{"allowed_actions":["evaluate_predeclared_predictions","write_evaluator_receipt"],"authorization_required":true,"blocked_actions":["modify_release","rewrite_predictions","read_development_only_secrets"],"development_access":false,"payload_read_by_freeze":false,"schema_version":1,"scope":"evaluator_only","token_delivery":"evaluator_out_of_band"}
