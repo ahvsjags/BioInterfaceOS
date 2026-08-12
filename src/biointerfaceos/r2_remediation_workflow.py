@@ -290,7 +290,8 @@ class R2RemediationWorkflow:
                 "disposition": self.DISPOSITIONS["R2-04"],
                 "scientific_claim_ready": False,
                 "reviewer_readable_disposition": (
-                    "A historical fixture manuscript still contains one forbidden independent-study "
+                    "A historical fixture manuscript still contains one forbidden "
+                    "independent-study "
                     "wording; it is not retroactively edited or treated as a replication result."
                 ),
                 "evidence_source_keys": ["semantics"],
