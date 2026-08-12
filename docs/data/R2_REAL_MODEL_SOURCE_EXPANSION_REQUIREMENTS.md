@@ -43,3 +43,19 @@ artifacts.
 
 No output from this process becomes independent validation; that remains the
 T124 protected-data evaluation performed by an external evaluator.
+
+## Candidate expansion audit (2026-08-12)
+
+The checked source-candidate registry is
+`data/empirical/R2_T123_REAL_MODEL_SOURCE_CANDIDATES.json`. It records three
+open, checksum-verified raw-table packages from distinct studies/laboratories:
+the Plaza-Oliver–Santander-Ortega nanoemulsion record, the Ege University
+polystyrene-radiotracer record, and the University of Texas at Dallas
+verteporfin-LNP record.
+
+They are *not* an admitted target. The source sheets name respectively a
+hydrodynamic mean size, a Z-average hydrodynamic diameter, and a hydrodynamic
+size with no stated estimator. Their shared `nm` unit is insufficient to claim
+one endpoint. Additional provenance and granularity limits are retained in the
+machine-readable decision; no model, ablation, OOD, or independent-validation
+claim may draw on this batch.

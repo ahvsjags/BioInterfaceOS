@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r2-real-model-source-candidate-audit-v1.1.0",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "sources": [
+    {
+      "source_id": "MENDELEY-B5Y2RM8DV4",
+      "study_id": "PLAZA_OLIVER_2019_NANOEMULSION",
+      "laboratory": "Plaza-Oliver–Santander-Ortega research group",
+      "affiliation_status": "NOT_STATED_IN_LANDING_PAGE_METADATA",
+      "doi": "10.17632/b5y2rm8dv4.1",
+      "landing_url": "https://data.mendeley.com/datasets/b5y2rm8dv4/1",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "biological_system": "intestinal-protein-corona nanoemulsion study",
+      "protocol_id": "CCC_HYDRODYNAMIC_MEAN_SIZE",
+      "asset": {
+        "path": "data/raw/r2_empirical/mendeley_b5y2rm8dv4/Size_measurements.xlsx",
+        "download_url": "https://data.mendeley.com/public-api/zip/b5y2rm8dv4/download/1",
+        "sha256": "b8b2930d6617b416d95e5cc957e3ac9016367da7a7c05897ed8aa984d7cc2ab8",
+        "bytes": 14982,
+        "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "archive_member": null
+      },
+      "worksheet": "NEE1-ADP",
+      "header_cells": [
+        {"cell": "J1", "expected": "Variations in the hydrodynamic mean size (nm)"},
+        {"cell": "B3", "expected": "Time (min)"}
+      ],
+      "declared_measurement_definition_id": "HYDRODYNAMIC_MEAN_SIZE",
+      "declared_measurement_definition": "hydrodynamic mean size",
+      "endpoint_family_id": "DLS_HYDRODYNAMIC_DIMENSION_NM",
+      "unit": "nm",
+      "biological_condition_status": "INTESTINAL_PROTEIN_CORONA_CONTEXT_DESCRIBED_AT_RECORD_LEVEL",
+      "observation_granularity": "RAW_EXPERIMENTAL_TABLE_CELLS"
+    },
+    {
+      "source_id": "MENDELEY-Y5SG54FSPK",
+      "study_id": "YOHO_2026_PS_TC99M",
+      "laboratory": "Ege University Institute of Nuclear Sciences",
+      "affiliation_status": "EXPLICIT_IN_LANDING_PAGE_METADATA",
+      "doi": "10.17632/y5sg54fspk.1",
+      "landing_url": "https://data.mendeley.com/datasets/y5sg54fspk/1",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "biological_system": "polystyrene microplastic radiotracer in biologically relevant media",
+      "protocol_id": "DLS_Z_AVERAGE_HYDRODYNAMIC_DIAMETER",
+      "asset": {
+        "path": "data/raw/r2_real_model/mendeley_y5sg54fspk/source_bundle.zip",
+        "download_url": "https://data.mendeley.com/public-api/zip/y5sg54fspk/download/1",
+        "sha256": "436585a4724047824075f7d007811914a806081f3f79439d2fdb0de45f2c163e",
+        "bytes": 20433,
+        "content_type": "application/zip",
+        "archive_member": "Experimental data supporting the radiolabelling of/raw-data-tc-ps-radiolabel.xlsx"
+      },
+      "worksheet": "Z-average hydrodynamic diameter",
+      "header_cells": [
+        {"cell": "A1", "expected": "Material"},
+        {"cell": "B1", "expected": "Z-Average (d.nm)"}
+      ],
+      "declared_measurement_definition_id": "Z_AVERAGE_HYDRODYNAMIC_DIAMETER",
+      "declared_measurement_definition": "Z-average hydrodynamic diameter",
+      "endpoint_family_id": "DLS_HYDRODYNAMIC_DIMENSION_NM",
+      "unit": "nm",
+      "biological_condition_status": "NOT_REPORTED_IN_DLS_WORKSHEET",
+      "observation_granularity": "SOURCE_DEFINED_MEASUREMENT_ROWS"
+    },
+    {
+      "source_id": "MENDELEY-DG3B9M2DTX",
+      "study_id": "OBAID_2026_VERTEPORFIN_LNP",
+      "laboratory": "University of Texas at Dallas",
+      "affiliation_status": "EXPLICIT_IN_LANDING_PAGE_METADATA",
+      "doi": "10.17632/dg3b9m2dtx.1",
+      "landing_url": "https://data.mendeley.com/datasets/dg3b9m2dtx/1",
+      "license_id": "CC-BY-4.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "biological_system": "verteporfin lipid nanoparticles with serum stability condition",
+      "protocol_id": "DLS_HYDRODYNAMIC_SIZE_SERUM_STABILITY",
+      "asset": {
+        "path": "data/raw/r2_real_model/mendeley_dg3b9m2dtx/source_bundle.zip",
+        "download_url": "https://data.mendeley.com/public-api/zip/dg3b9m2dtx/download/1",
+        "sha256": "fd546d8c7d6b08e826be3e7b18d186cfe41afcda22381d6c850077b898238f5e",
+        "bytes": 31251,
+        "content_type": "application/zip",
+        "archive_member": "Verteporfin-Lipid Nanoparticles for Photochemical/DLS Stability Data .xlsx"
+      },
+      "worksheet": "Stability Data Supp Figure 2",
+      "header_cells": [
+        {"cell": "A1", "expected": "LNP BPD- Hydrodynamic Size"},
+        {"cell": "H2", "expected": "Serum (37°C)"}
+      ],
+      "declared_measurement_definition_id": "HYDRODYNAMIC_SIZE_STATISTIC_NOT_STATED",
+      "declared_measurement_definition": "hydrodynamic size; statistical estimator not stated in workbook",
+      "endpoint_family_id": "DLS_HYDRODYNAMIC_DIMENSION_NM",
+      "unit": "nm",
+      "biological_condition_status": "SERUM_CONDITION_EXPLICIT_IN_WORKSHEET",
+      "observation_granularity": "SOURCE_DEFINED_MEAN_WITH_SD_AND_N"
+    }
+  ],
+  "excluded_sources": [
+    {
+      "source_id": "ZENODO-19827043",
+      "reason": "No explicit reusable data licence was present in the landing-page metadata."
+    },
+    {
+      "source_id": "ACS-FIGSHARE-28718619",
+      "reason": "CC BY-NC 4.0 is outside the R2 reusable-source policy."
+    }
+  ]
+}

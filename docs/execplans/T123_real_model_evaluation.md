@@ -32,19 +32,31 @@ Do not convert deterministic locator resolution into a causal or biological mode
 - [x] Compatibility and effective-n audit. The immutable strict gate found no
   compatible endpoint/unit across the three T122 study-held-out items; all
   candidate endpoint groups have one study, one laboratory and effective n=1.
-- [ ] Source expansion or target freeze.
+- [x] Source-candidate expansion audit. Three openly licensed, raw table packages
+  were checksum- and header-verified, but the declared DLS metrics are
+  hydrodynamic mean, Z-average, and an unspecified statistic. They were not
+  combined into a target.
+- [ ] Compatible target freeze.
 - [ ] Paired model/ablation/OOD execution.
 - [ ] Strict receipt and negative-control audit.
 
 ## Discoveries
 
 - The T122 source-locator benchmark must not be reused as a scientific model target.
+- The first source-expansion batch reaches three distinct studies/laboratories,
+  but it still lacks an identical source-declared size statistic. The B5 landing
+  page also does not state an institutional laboratory affiliation; the Y5 DLS
+  worksheet omits its biological condition; and DG3 publishes source-level mean
+  ± SD rows rather than matched raw replicate rows.
 
 ## Decisions
 
 - Do not fit a model or invent ablation/OOD outputs from the source-locator
   benchmark. T123 remains active until a compatible, pre-frozen cross-study
   target is admitted.
+- Do not harmonize source labels by assumption. A shared `nm` unit does not
+  convert "hydrodynamic mean", "Z-average", and an unspecified hydrodynamic
+  statistic into one endpoint.
 
 ## Validation
 
@@ -54,6 +66,9 @@ Do not convert deterministic locator resolution into a causal or biological mode
   and wrote the explicit blocked receipt without fitting a model.
 - Regression: the compatibility gate tests cover strict-mode enforcement,
   current blocked-state accounting, and receipt-tamper rejection.
+- 2026-08-12: `python -m biointerfaceos model audit-source-candidates --strict`
+  checks the three source bundles and records the explicit non-admission
+  decision in `reports/review_round_2/real_model_source_candidates/v1.1.0/`.
 
 ## Failure recovery
 

@@ -497,6 +497,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "evaluate-real", help="audit cross-study compatibility before any real model fit"
     )
     model_real_parser.add_argument("--strict", action="store_true")
+    model_source_audit_parser = model_subparsers.add_parser(
+        "audit-source-candidates",
+        help="verify real raw-data candidates without promoting incompatible targets",
+    )
+    model_source_audit_parser.add_argument("--strict", action="store_true")
     benchmark_agents_parser = benchmark_subparsers.add_parser(
         "agents", help="run the end-to-end scientific-agent benchmark"
     )
@@ -2154,8 +2159,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "model":
-        if args.model_command != "evaluate-real":
+        if args.model_command not in {"evaluate-real", "audit-source-candidates"}:
             parser.parse_args(["model", "--help"])
+            return 0
+        if args.model_command == "audit-source-candidates":
+            from biointerfaceos.real_model_source_audit import (
+                RealModelSourceAudit,
+                RealModelSourceAuditError,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("REAL_MODEL_SOURCE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                source_summary = RealModelSourceAudit(root).run(strict=args.strict)
+            except (RealModelSourceAuditError, OSError) as exc:
+                print(f"REAL_MODEL_SOURCE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"REAL_MODEL_SOURCE_AUDIT_VALID sources={source_summary.source_count} "
+                "studies=3 laboratories=3 "
+                f"measurement_definitions={source_summary.distinct_measurement_definitions} "
+                f"admissible_targets={source_summary.admissible_target_count} "
+                "model_fitted=false paired_ablations_run=false "
+                "external_ood_evaluated=false independent_validation=false "
+                "scientific_submission_ready=false"
+            )
             return 0
         from biointerfaceos.real_model_compatibility_workflow import (
             RealModelCompatibilityError,
