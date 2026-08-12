@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="biointerfaceos.r2_software_replay" tests="1" failures="0" errors="0">
+  <testcase classname="biointerfaceos.reproducibility" name="public_source_clean_replay">
+    <system-out>python -m biointerfaceos publication render-r2 --strict | PASS_R2_PROTOCOL_FIGURE_SUITE</system-out>
+  </testcase>
+</testsuite>
