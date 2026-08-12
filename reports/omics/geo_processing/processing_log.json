@@ -1,0 +1,1 @@
+{"events":[{"event":"T058_eligibility_verified","studies":2},{"event":"gene_ids_normalized","mapping_version":"fixture-gene-map-v1"},{"event":"within_study_qc_passed","studies":2},{"enabled":false,"event":"cross_study_merge_blocked"}],"resume_key":"10e18a8981abdf238f318c0c0260fd4956241e6b243145d0f19b60c34ae998fd","schema_version":1}

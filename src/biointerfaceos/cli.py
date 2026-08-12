@@ -427,6 +427,10 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_geo_discover_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized GEO discovery fixture"
     )
+    omics_geo_process_parser = omics_geo_subparsers.add_parser(
+        "process", help="ingest eligible processed GEO/SRA matrices"
+    )
+    omics_geo_process_parser.add_argument("--mode", choices=("processed",), default="processed")
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -955,6 +959,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
             return 0
         if args.omics_command == "geo":
+            if args.omics_geo_command == "process":
+                root = find_repository_root()
+                if root is None:
+                    print("GEO_PROCESS_INVALID: repository root not found", file=sys.stderr)
+                    return 1
+                from biointerfaceos.geo_processing import (
+                    GeoProcessingError,
+                    GeoProcessingWorkflow,
+                )
+
+                try:
+                    processing_summary = GeoProcessingWorkflow(root).run(mode=args.mode)
+                except (GeoProcessingError, OSError) as exc:
+                    print(f"GEO_PROCESS_INVALID: {exc}", file=sys.stderr)
+                    return 1
+                print(
+                    f"GEO_PROCESS_VALID mode={args.mode} "
+                    f"studies_attempted={processing_summary.studies_attempted} "
+                    f"studies_passed={processing_summary.studies_passed} "
+                    f"excluded_studies={processing_summary.excluded_studies} "
+                    f"genes={processing_summary.genes} "
+                    f"samples={processing_summary.samples} "
+                    f"contrasts={processing_summary.contrasts} "
+                    f"missing_cells={processing_summary.missing_cells} "
+                    f"resumed={processing_summary.resumed}"
+                )
+                return 0
             if args.omics_geo_command != "discover":
                 parser.parse_args(["omics", "geo", "--help"])
                 return 0
