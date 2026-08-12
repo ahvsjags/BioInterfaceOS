@@ -498,6 +498,15 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     split_freeze_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized split-freeze fixture"
     )
+    split_audit_parser = split_subparsers.add_parser(
+        "audit", help="run adversarial split leakage and lockbox audit"
+    )
+    split_audit_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized split-audit fixture"
+    )
+    split_audit_parser.add_argument(
+        "--strict", action="store_true", help="fail on any mandatory audit finding"
+    )
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -1653,6 +1662,28 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 1 if args.strict and not report.within_budget else 0
     if args.command == "split":
+        if args.split_command == "audit":
+            root = find_repository_root()
+            if root is None:
+                print("SPLIT_AUDIT_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("SPLIT_AUDIT_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.split_audit import SplitAuditError, SplitAuditWorkflow
+
+            try:
+                split_audit_result = SplitAuditWorkflow(root).run(strict=args.strict, fixture=True)
+            except (SplitAuditError, OSError) as exc:
+                print(f"SPLIT_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"SPLIT_AUDIT_VALID attacks={split_audit_result.attacks} "
+                f"detected={split_audit_result.detected} blocked={split_audit_result.blocked} "
+                f"critical_findings={split_audit_result.critical_findings} "
+                f"clean_scan={split_audit_result.clean_scan} resumed={split_audit_result.resumed}"
+            )
+            return 0
         if args.split_command == "freeze-dev":
             root = find_repository_root()
             if root is None:

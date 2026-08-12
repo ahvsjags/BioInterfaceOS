@@ -1,0 +1,1 @@
+{"checked_paths":["reports/splits/frozen_dev/leakage_audit.json","reports/splits/frozen_dev/split_manifest.json"],"clean":true,"findings":[],"forbidden_fields_checked":["paper_id","accession","author","journal","layout_position","file_path","source_url","split_label","record_id","project_accession"],"forbidden_read_blocked":true,"schema_version":1}

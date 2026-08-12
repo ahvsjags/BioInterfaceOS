@@ -1,0 +1,1 @@
+{"events":[{"attacks":10,"event":"T065_inputs_verified"},{"count":9,"event":"mandatory_leakage_attacks_detected"},{"blocked":true,"event":"lockbox_forbidden_read_blocked"},{"critical_findings":0,"event":"split_approval_issued"}],"resume_key":"e5e5a1c1c99f1c86611463f134c298132dc02328e1bf5dc6282e97ff38cb02fc","schema_version":1}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "mode": "split_audit",
+  "inputs": [
+    {"label": "T065 split manifest", "path": "reports/splits/frozen_dev/split_manifest.json", "sha256": "c1b32d9b2b23cca7ec9ba7bf7cc0471514fdf2a0fb07a3204461b5b8cfa150c2"},
+    {"label": "T065 feature blacklist", "path": "reports/splits/frozen_dev/feature_blacklist.json", "sha256": "ed8ded66663ceac9aeed4a88648ee60177ff98f09b718762b3ff8fb171ceb0af"},
+    {"label": "T065 leakage audit", "path": "reports/splits/frozen_dev/leakage_audit.json", "sha256": "3d426a4516c882430d919d39853150f9849bb0a5dc2ca3e1c60f19c630423d09"},
+    {"label": "T015 lockbox policy", "path": "config/lockbox.yaml", "sha256": "6f83ee6419fe6cb881cad5db346ad30816f4c92f93b196ab91c3ef12d4143f43"}
+  ],
+  "attacks": [
+    {"attack_id": "ATTACK-PAPER", "kind": "blacklisted_feature", "feature": "paper_id", "status": "DETECTED", "severity": "HIGH"},
+    {"attack_id": "ATTACK-ACCESSION", "kind": "blacklisted_feature", "feature": "accession", "status": "DETECTED", "severity": "HIGH"},
+    {"attack_id": "ATTACK-AUTHOR", "kind": "blacklisted_feature", "feature": "author", "status": "DETECTED", "severity": "HIGH"},
+    {"attack_id": "ATTACK-JOURNAL", "kind": "blacklisted_feature", "feature": "journal", "status": "DETECTED", "severity": "MEDIUM"},
+    {"attack_id": "ATTACK-LAYOUT", "kind": "blacklisted_feature", "feature": "layout_position", "status": "DETECTED", "severity": "HIGH"},
+    {"attack_id": "ATTACK-PATH", "kind": "blacklisted_feature", "feature": "file_path", "status": "DETECTED", "severity": "HIGH"},
+    {"attack_id": "ATTACK-STUDY", "kind": "study_only_attack", "feature": "study_id", "status": "DETECTED", "severity": "HIGH"},
+    {"attack_id": "ATTACK-IDHASH", "kind": "id_hash_attack", "feature": "hashed_study_id", "status": "DETECTED", "severity": "HIGH"},
+    {"attack_id": "ATTACK-DUPLICATE", "kind": "duplicate_attack", "feature": "duplicate_cluster_id", "status": "DETECTED", "severity": "HIGH"},
+    {"attack_id": "ATTACK-LOCKBOX", "kind": "forbidden_lockbox_read", "feature": "data/locked_test/payload.bin", "status": "BLOCKED", "severity": "CRITICAL"}
+  ]
+}
