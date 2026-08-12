@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "workflow": "protocol_effects_reversal",
+  "required_inputs": [
+    "T071 model receipt",
+    "T089 tournament config",
+    "T091 mediation receipt"
+  ],
+  "predefined_variables": ["species", "biofluid", "assay", "dose_bin"],
+  "required_outputs": [
+    "protocol_preregistration",
+    "protocol_ontology",
+    "raw_adjusted_effects",
+    "within_study_effects",
+    "protocol_strata",
+    "reversal_tests",
+    "heterogeneity_map",
+    "exclusion_ledger",
+    "language_gate",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "gates": [
+    "predefined_protocol_variables",
+    "within_comparable_study_analysis",
+    "simpson_reversal_test",
+    "heterogeneity_and_counterexamples",
+    "no_posthoc_subgroups",
+    "automatic_language_gate"
+  ],
+  "failure_policy": "protocol_dependence_or_boundary_wording"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "mode": "protocol_effects_reversal",
+  "inputs": [
+    {
+      "label": "T071 model receipt",
+      "path": "reports/models/m1/m1_receipt.json",
+      "sha256": "6f11129540792ffe84e185b84f4b11d8d2d39466f906d226e28d0648789aca5f"
+    },
+    {
+      "label": "T089 tournament config",
+      "path": "reports/claims/tournament/tournament_config.json",
+      "sha256": "a684c2f6730196a60818e4754594ac3bcbd0fc7e1904e37087d15cf2b553a636"
+    },
+    {
+      "label": "T091 mediation receipt",
+      "path": "reports/omics/mediation/mediation_receipt.json",
+      "sha256": "11e522edee14fa5e5daf2482f044df6163db6573ca7a6a6a3d9eb7ac442dc945"
+    }
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "variables": ["species", "biofluid", "assay", "dose_bin"],
+    "contrast": "within_comparable_study_raw_vs_protocol_adjusted",
+    "reversal_tolerance": 0.02,
+    "heterogeneity_threshold": 0.20,
+    "no_posthoc_subgroups": true
+  },
+  "rows": [
+    {"row_id": "DEV-01", "study_id": "STUDY-A", "material_id": "MAT-1", "split": "development", "species": "human", "biofluid": "plasma", "assay": "uptake", "dose_bin": "low", "protocol_family": "P-A", "comparable": true, "raw_effect": 0.22, "adjusted_effect": -0.10, "sample_size": 12},
+    {"row_id": "DEV-02", "study_id": "STUDY-B", "material_id": "MAT-2", "split": "development", "species": "mouse", "biofluid": "plasma", "assay": "uptake", "dose_bin": "high", "protocol_family": "P-B", "comparable": true, "raw_effect": 0.18, "adjusted_effect": -0.08, "sample_size": 14},
+    {"row_id": "DEV-03", "study_id": "STUDY-C", "material_id": "MAT-3", "split": "development", "species": "human", "biofluid": "serum", "assay": "binding", "dose_bin": "low", "protocol_family": "P-A", "comparable": true, "raw_effect": -0.16, "adjusted_effect": -0.12, "sample_size": 10},
+    {"row_id": "DEV-04", "study_id": "STUDY-D", "material_id": "MAT-4", "split": "development", "species": "mouse", "biofluid": "serum", "assay": "binding", "dose_bin": "high", "protocol_family": "P-C", "comparable": true, "raw_effect": 0.12, "adjusted_effect": 0.05, "sample_size": 11},
+    {"row_id": "VAL-01", "study_id": "STUDY-E", "material_id": "MAT-5", "split": "validation", "species": "human", "biofluid": "plasma", "assay": "uptake", "dose_bin": "low", "protocol_family": "P-A", "comparable": true, "raw_effect": 0.20, "adjusted_effect": -0.06, "sample_size": 13},
+    {"row_id": "VAL-02", "study_id": "STUDY-F", "material_id": "MAT-6", "split": "validation", "species": "mouse", "biofluid": "serum", "assay": "binding", "dose_bin": "high", "protocol_family": "P-C", "comparable": true, "raw_effect": -0.10, "adjusted_effect": 0.04, "sample_size": 9}
+  ]
+}

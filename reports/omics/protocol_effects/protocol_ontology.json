@@ -1,0 +1,1 @@
+{"frozen_before_analysis":true,"levels":{"assay":["binding","uptake"],"biofluid":["plasma","serum"],"dose_bin":["high","low"],"species":["human","mouse"]},"no_posthoc_subgroups":true,"schema_version":1,"variables":["species","biofluid","assay","dose_bin"]}

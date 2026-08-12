@@ -1,0 +1,1 @@
+{"contrast":"within_comparable_study_raw_vs_protocol_adjusted","frozen_before_analysis":true,"heterogeneity_threshold":0.2,"no_posthoc_subgroups":true,"reversal_tolerance":0.02,"schema_version":1,"variables":["species","biofluid","assay","dose_bin"]}

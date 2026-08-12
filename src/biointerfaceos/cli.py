@@ -451,6 +451,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     discover_symbolic_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized development fixture"
     )
+    discover_protocol_parser = discover_subparsers.add_parser(
+        "protocol-effects", help="test protocol correction and reversal hypotheses"
+    )
+    discover_protocol_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized development fixture"
+    )
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
     train_subparsers = train_parser.add_subparsers(dest="train_command")
@@ -1001,6 +1007,40 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "discover":
+        if args.discover_command == "protocol-effects":
+            root = find_repository_root()
+            if root is None:
+                print("PROTOCOL_EFFECTS_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("PROTOCOL_EFFECTS_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.protocol_effects_workflow import (
+                ProtocolEffectsError,
+                ProtocolEffectsWorkflow,
+            )
+
+            try:
+                protocol_effects_summary = ProtocolEffectsWorkflow(root).run(fixture=True)
+            except (ProtocolEffectsError, OSError) as exc:
+                print(f"PROTOCOL_EFFECTS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"PROTOCOL_EFFECTS_VALID rows={protocol_effects_summary.rows} "
+                f"variables={protocol_effects_summary.variables} "
+                f"studies={protocol_effects_summary.studies} "
+                f"raw_effect={protocol_effects_summary.raw_effect:.6f} "
+                f"adjusted_effect={protocol_effects_summary.adjusted_effect:.6f} "
+                f"reversal_tests={protocol_effects_summary.reversal_tests} "
+                f"reversals_detected={protocol_effects_summary.reversals_detected} "
+                f"counterexamples={protocol_effects_summary.counterexamples} "
+                f"heterogeneity_max={protocol_effects_summary.heterogeneity_max:.6f} "
+                "universal_reversal_permitted="
+                f"{str(protocol_effects_summary.universal_reversal_permitted).lower()} "
+                f"language_status={protocol_effects_summary.language_status} "
+                f"resumed={protocol_effects_summary.resumed}"
+            )
+            return 0
         if args.discover_command == "symbolic-laws":
             root = find_repository_root()
             if root is None:
