@@ -129,6 +129,8 @@ class PrelockReleaseWorkflow:
             or prereg.get("semantic_version") != "1.0.0"
         ):
             raise PrelockReleaseError("pre-lock release identity is not frozen")
+        if prereg.get("created_at") != "2026-08-12T00:00:00+00:00":
+            raise PrelockReleaseError("pre-lock freeze timestamp is not frozen")
         if (
             prereg.get("target_values_exposed") is not False
             or prereg.get("lockbox_access") != "evaluator_only"
@@ -279,6 +281,7 @@ class PrelockReleaseWorkflow:
         current = now or datetime.now(UTC)
         if current.tzinfo is None:
             raise PrelockReleaseError("freeze timestamp must include timezone")
+        created_at = _string(prereg.get("created_at"), "pre-lock created_at")
         signature_record = {
             "schema_version": 1,
             "signature_scheme": manifest["signature_scheme"],
@@ -313,7 +316,7 @@ class PrelockReleaseWorkflow:
             "status": "VALID",
             "release_id": prereg["release_id"],
             "semantic_version": prereg["semantic_version"],
-            "created_at": current.astimezone(UTC).isoformat(),
+            "created_at": created_at,
             "git_commit": commit,
             "immutable": True,
             "strict": strict,
