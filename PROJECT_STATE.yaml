@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T085
-active_execplan: docs/execplans/T085_modeling_statistician_agents.md
+current_task: T086
+active_execplan: docs/execplans/T086_redteam_agent_suite.md
 completed_tasks:
   - T000
   - T001
@@ -92,10 +92,10 @@ completed_tasks:
   - T082
   - T083
   - T084
+  - T085
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T086
   - T087
   - T088
   - T089
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: bc6a5bd
+last_successful_commit: 033b979
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
