@@ -318,9 +318,12 @@ class RealProteomicsSourcePreflightWorkflow:
             "model_use": "PROHIBITED",
             "status": "READY_FOR_STAGED_RAW_ACQUISITION_NOT_A_MODEL_TARGET",
             "not_a_model_target_reasons": [
-                "The releases use author-specific semi-quantitative, label-free and TMT workflows; their values are not concatenated into one scale.",
-                "PXD052701 requires a reusable source-matched material/size covariate map before a target can be frozen.",
-                "Source run, fraction, channel and biological-replication roles have not yet been resolved into an analysis-unit manifest.",
+                "The releases use author-specific semi-quantitative, label-free and TMT "
+                "workflows; their values are not concatenated into one scale.",
+                "PXD052701 requires a reusable source-matched material/size covariate map "
+                "before a target can be frozen.",
+                "Source run, fraction, channel and biological-replication roles have not "
+                "yet been resolved into an analysis-unit manifest.",
             ],
             "model_fitted": False,
             "paired_ablations_run": False,
