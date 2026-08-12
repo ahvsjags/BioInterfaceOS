@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "workflow": "target_corona_conditional_generative_design",
+  "required_inputs": [
+    "T079 multimodal receipt",
+    "T096 constrained design receipt"
+  ],
+  "gates": [
+    "data_sufficiency",
+    "heldout_validity",
+    "ood_uncertainty",
+    "ablation_completeness"
+  ],
+  "methods": ["bo_style_baseline", "conditional_generator"],
+  "ablations": [
+    "without_conditioning",
+    "without_uncertainty_penalty",
+    "without_support_restriction"
+  ],
+  "required_outputs": [
+    "generative_preregistration",
+    "sufficiency_audit",
+    "proposal_ledger",
+    "validity_novelty_pareto",
+    "uncertainty_abstentions",
+    "ablation_matrix",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "failure_policy": "waive_deep_generator_and_retain_T096_baseline"
+}

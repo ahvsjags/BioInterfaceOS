@@ -433,6 +433,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     design_baseline_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized constrained-design fixture"
     )
+    design_generative_parser = design_subparsers.add_parser(
+        "generative", help="run the gated target-corona conditional generator"
+    )
+    design_generative_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized generative-design fixture"
+    )
     discover_parser = subparsers.add_parser(
         "discover", help="discover development-scope scientific representations"
     )
@@ -1023,6 +1029,42 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "design":
+        if args.design_command == "generative":
+            root = find_repository_root()
+            if root is None:
+                print("DESIGN_GENERATIVE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("DESIGN_GENERATIVE_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.target_corona_generative_workflow import (
+                TargetCoronaGenerativeError,
+                TargetCoronaGenerativeWorkflow,
+            )
+
+            try:
+                generative_summary = TargetCoronaGenerativeWorkflow(root).run(fixture=True)
+            except (TargetCoronaGenerativeError, OSError) as exc:
+                print(f"DESIGN_GENERATIVE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"DESIGN_GENERATIVE_VALID rows={generative_summary.rows} "
+                f"groups={generative_summary.groups} "
+                f"heldout={generative_summary.heldout} "
+                f"sufficiency_passed={int(generative_summary.sufficiency_passed)} "
+                f"generator_attempted={int(generative_summary.generator_attempted)} "
+                f"baseline_validity={generative_summary.baseline_validity:.6f} "
+                f"generator_validity={generative_summary.generator_validity:.6f} "
+                f"novelty_gain={generative_summary.novelty_gain:.6f} "
+                f"pareto_gain={generative_summary.pareto_gain} "
+                f"ood_uncertainty_delta={generative_summary.ood_uncertainty_delta:.6f} "
+                f"ablations={generative_summary.ablations} "
+                f"selected_method={generative_summary.selected_method} "
+                f"fallback={generative_summary.fallback} "
+                f"abstentions={generative_summary.abstentions} "
+                f"resumed={generative_summary.resumed}"
+            )
+            return 0
         if args.design_command != "baseline":
             parser.parse_args(["design", "--help"])
             return 0

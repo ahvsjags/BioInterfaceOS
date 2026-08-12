@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "mode": "target_corona_generative_design",
+  "inputs": [
+    {
+      "label": "T079 multimodal receipt",
+      "path": "reports/models/multimodal/multimodal_receipt.json",
+      "sha256": "abcee7f3ba8daf2d53f112cd4e3fb0a0147b1c5e269f243c3fbd61e27733292a"
+    },
+    {
+      "label": "T096 constrained design receipt",
+      "path": "reports/design/baseline/design_baseline_receipt.json",
+      "sha256": "e6fc606f63b278246e4bb5c150c139fd5b389d6a15016d7f61d5365a9a551bee"
+    }
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "condition_fields": ["target_axis", "material_context", "protocol_context"],
+    "methods": ["bo_style_baseline", "conditional_generator"],
+    "ablations": [
+      "without_conditioning",
+      "without_uncertainty_penalty",
+      "without_support_restriction"
+    ],
+    "min_independent_groups": 4,
+    "min_train_rows": 8,
+    "min_heldout_rows": 4,
+    "min_target_coverage": 0.75,
+    "min_support_density": 0.75,
+    "support_distance_threshold": 0.55,
+    "validity_margin": 0.05,
+    "novelty_margin": 0.05,
+    "pareto_margin": 1,
+    "ood_uncertainty_tolerance": 0.0,
+    "budget": 6,
+    "components": ["DSPC", "PEG2000", "CHOL"],
+    "target_values_exposed": false,
+    "seed": 97
+  },
+  "support_rows": [
+    {"row_id": "SUP-001", "group_id": "G1", "split": "train", "target_covered": true, "support_distance": 0.20},
+    {"row_id": "SUP-002", "group_id": "G1", "split": "train", "target_covered": true, "support_distance": 0.25},
+    {"row_id": "SUP-003", "group_id": "G2", "split": "train", "target_covered": true, "support_distance": 0.30},
+    {"row_id": "SUP-004", "group_id": "G2", "split": "train", "target_covered": true, "support_distance": 0.35},
+    {"row_id": "SUP-005", "group_id": "G3", "split": "train", "target_covered": true, "support_distance": 0.40},
+    {"row_id": "SUP-006", "group_id": "G3", "split": "train", "target_covered": true, "support_distance": 0.42},
+    {"row_id": "SUP-007", "group_id": "G4", "split": "train", "target_covered": true, "support_distance": 0.50},
+    {"row_id": "SUP-008", "group_id": "G4", "split": "train", "target_covered": true, "support_distance": 0.60},
+    {"row_id": "HOLD-001", "group_id": "G1", "split": "heldout", "target_covered": true, "support_distance": 0.33},
+    {"row_id": "HOLD-002", "group_id": "G2", "split": "heldout", "target_covered": true, "support_distance": 0.38},
+    {"row_id": "HOLD-003", "group_id": "G3", "split": "heldout", "target_covered": true, "support_distance": 0.44},
+    {"row_id": "HOLD-004", "group_id": "G4", "split": "heldout", "target_covered": true, "support_distance": 0.49}
+  ],
+  "proposals": [
+    {"proposal_id": "BASE-01", "method": "bo_style_baseline", "valid": true, "ood": false, "uncertainty": 0.10, "novelty": 0.36, "pareto_member": true, "abstain": false},
+    {"proposal_id": "BASE-02", "method": "bo_style_baseline", "valid": true, "ood": false, "uncertainty": 0.12, "novelty": 0.40, "pareto_member": true, "abstain": false},
+    {"proposal_id": "BASE-03", "method": "bo_style_baseline", "valid": true, "ood": false, "uncertainty": 0.14, "novelty": 0.42, "pareto_member": false, "abstain": false},
+    {"proposal_id": "BASE-04", "method": "bo_style_baseline", "valid": true, "ood": false, "uncertainty": 0.16, "novelty": 0.46, "pareto_member": false, "abstain": false},
+    {"proposal_id": "BASE-05", "method": "bo_style_baseline", "valid": false, "ood": false, "uncertainty": 0.18, "novelty": 0.50, "pareto_member": false, "abstain": false},
+    {"proposal_id": "BASE-06", "method": "bo_style_baseline", "valid": false, "ood": true, "uncertainty": 0.34, "novelty": 0.58, "pareto_member": false, "abstain": true},
+    {"proposal_id": "GEN-01", "method": "conditional_generator", "valid": true, "ood": false, "uncertainty": 0.08, "novelty": 0.48, "pareto_member": true, "abstain": false},
+    {"proposal_id": "GEN-02", "method": "conditional_generator", "valid": true, "ood": false, "uncertainty": 0.09, "novelty": 0.52, "pareto_member": true, "abstain": false},
+    {"proposal_id": "GEN-03", "method": "conditional_generator", "valid": true, "ood": false, "uncertainty": 0.10, "novelty": 0.55, "pareto_member": true, "abstain": false},
+    {"proposal_id": "GEN-04", "method": "conditional_generator", "valid": true, "ood": false, "uncertainty": 0.11, "novelty": 0.57, "pareto_member": false, "abstain": false},
+    {"proposal_id": "GEN-05", "method": "conditional_generator", "valid": true, "ood": false, "uncertainty": 0.12, "novelty": 0.59, "pareto_member": false, "abstain": false},
+    {"proposal_id": "GEN-06", "method": "conditional_generator", "valid": false, "ood": true, "uncertainty": 0.24, "novelty": 0.68, "pareto_member": false, "abstain": true},
+    {"proposal_id": "ABL-01", "method": "without_conditioning", "valid": true, "ood": false, "uncertainty": 0.15, "novelty": 0.43, "pareto_member": false, "abstain": false},
+    {"proposal_id": "ABL-02", "method": "without_uncertainty_penalty", "valid": true, "ood": false, "uncertainty": 0.20, "novelty": 0.50, "pareto_member": false, "abstain": false},
+    {"proposal_id": "ABL-03", "method": "without_support_restriction", "valid": true, "ood": true, "uncertainty": 0.32, "novelty": 0.64, "pareto_member": false, "abstain": true}
+  ],
+  "ablations": [
+    {"name": "without_conditioning", "validity_rate": 0.666667, "novelty_score": 0.430000, "pareto_members": 1, "ood_uncertainty": 0.300000, "complete": true},
+    {"name": "without_uncertainty_penalty", "validity_rate": 0.666667, "novelty_score": 0.500000, "pareto_members": 2, "ood_uncertainty": 0.320000, "complete": true},
+    {"name": "without_support_restriction", "validity_rate": 0.666667, "novelty_score": 0.640000, "pareto_members": 2, "ood_uncertainty": 0.320000, "complete": true}
+  ]
+}
