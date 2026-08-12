@@ -361,6 +361,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "benchmark", help="run deterministic quality benchmarks"
     )
     benchmark_subparsers = benchmark_parser.add_subparsers(dest="benchmark_command")
+    benchmark_grade_parser = benchmark_subparsers.add_parser(
+        "grade", help="grade deterministic benchmark submissions and abstention metrics"
+    )
+    benchmark_grade_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized grading fixture"
+    )
     benchmark_build_parser = benchmark_subparsers.add_parser(
         "build", help="build leakage-safe BioInterfaceBench task instances"
     )
@@ -833,6 +839,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "benchmark":
+        if args.benchmark_command == "grade":
+            root = find_repository_root()
+            if root is None:
+                print("BENCHMARK_GRADE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("BENCHMARK_GRADE_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.benchmark_grading import (
+                BenchmarkGradeError,
+                BenchmarkGradingWorkflow,
+            )
+
+            try:
+                grade_summary = BenchmarkGradingWorkflow(root).run(fixture=True)
+            except (BenchmarkGradeError, OSError) as exc:
+                print(f"BENCHMARK_GRADE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"BENCHMARK_GRADE_VALID cases={grade_summary.cases} "
+                f"instances={grade_summary.instances} "
+                f"perfect_accuracy={grade_summary.perfect_accuracy:.6f} "
+                f"wrong_accuracy={grade_summary.wrong_accuracy:.6f} "
+                f"abstain_coverage={grade_summary.abstain_coverage:.6f} "
+                f"resumed={grade_summary.resumed} target_values_exposed=false"
+            )
+            return 0
         if args.benchmark_command == "build":
             root = find_repository_root()
             if root is None:

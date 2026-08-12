@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "mode": "benchmark_grade_fixture",
+  "target_values_are_fixture_only": true,
+  "inputs": [
+    {"label": "T067 public instances", "path": "reports/benchmark/instances/public_instances.json", "sha256": "f86e3eaf4b5cf080cd07165b3e7a96254904a24f853e0524fa399206393d6a48"},
+    {"label": "T067 hidden registry metadata", "path": "reports/benchmark/instances/hidden_target_registry.json", "sha256": "4868976412358d9e8d0c5766abff8b57ecaea1b0433ea0e0a86ee534da13d51d"}
+  ],
+  "targets": [
+    {"instance_id": "E1-001", "target": "lipid"},
+    {"instance_id": "E1-002", "target": "polymer"},
+    {"instance_id": "C1-001", "target": "adsorption_core"},
+    {"instance_id": "C1-002", "target": "receptor_interface"},
+    {"instance_id": "U1-001", "target": "mM"},
+    {"instance_id": "U1-002", "target": "s"},
+    {"instance_id": "S1-001", "target": "DSPC PEG"},
+    {"instance_id": "S1-002", "target": "NanoCoat-X"},
+    {"instance_id": "B1-001", "target": "A_CTRL"},
+    {"instance_id": "B1-002", "target": "B_TRT"},
+    {"instance_id": "CF1-001", "target": "direct"},
+    {"instance_id": "CF1-002", "target": "indirect"},
+    {"instance_id": "D1-001", "target": 0.5},
+    {"instance_id": "D1-002", "target": 1.25},
+    {"instance_id": "A1-001", "target": "CONCORDANT"},
+    {"instance_id": "A1-002", "target": "UNAVAILABLE"}
+  ],
+  "cases": [
+    {"case_id": "perfect", "mode": "perfect", "uncertainty": 0.0},
+    {"case_id": "wrong", "mode": "wrong", "uncertainty": 1.0},
+    {"case_id": "abstain", "mode": "abstain", "uncertainty": 1.0}
+  ]
+}
