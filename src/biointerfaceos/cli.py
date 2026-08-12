@@ -205,6 +205,7 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     agent_eval_subparsers = agent_eval_parser.add_subparsers(dest="agent_eval_command")
     agent_eval_subparsers.add_parser("source-license", help="evaluate SourceScout and LicenseGate")
     agent_eval_subparsers.add_parser("extraction", help="evaluate the multimodal ExtractionAgent")
+    agent_eval_subparsers.add_parser("audit", help="evaluate Resolution and EvidenceAuditor")
     ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
     ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
     ontology_sync_parser = ontology_subparsers.add_parser(
@@ -1784,6 +1785,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "agent":
+        if args.agent_command == "eval" and args.agent_eval_command == "audit":
+            from biointerfaceos.resolution_audit_workflow import (
+                ResolutionAuditError,
+                ResolutionAuditWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("AGENT_AUDIT_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                resolution_audit_summary = ResolutionAuditWorkflow(root).run(fixture=True)
+            except (ResolutionAuditError, OSError) as exc:
+                print(f"AGENT_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"AGENT_AUDIT_VALID cases={resolution_audit_summary.cases} "
+                f"conflicts={resolution_audit_summary.conflicts} "
+                f"detected={resolution_audit_summary.detected} "
+                f"quarantined={resolution_audit_summary.quarantined} "
+                f"original_assertions_preserved="
+                f"{str(resolution_audit_summary.original_assertions_preserved).lower()} "
+                f"false_merge_rate={resolution_audit_summary.false_merge_rate:.6f} "
+                f"selected_pipeline={resolution_audit_summary.selected_pipeline} "
+                f"trace_events={resolution_audit_summary.trace_events} "
+                f"resumed={resolution_audit_summary.resumed}"
+            )
+            return 0
         if args.agent_command == "eval" and args.agent_eval_command == "extraction":
             from biointerfaceos.extraction_agent_workflow import (
                 ExtractionAgentError,

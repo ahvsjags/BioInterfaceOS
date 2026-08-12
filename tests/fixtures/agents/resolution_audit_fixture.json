@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "mode": "resolution_audit_fixture",
+  "inputs": [
+    {"label": "T080 agent receipt", "path": "reports/agents/agent_receipt.json", "sha256": "09750940ab002de284939df873657c6013db25ef21e1d26c243d15046884094f"}
+  ],
+  "cases": [
+    {"case_id": "unit-conflict-001", "kind": "unit", "original_assertion": {"value": 10, "unit": "mg", "evidence_locator": "asset:unit-001/value"}, "candidate_assertions": [{"value": 10, "unit": "mg", "evidence_locator": "asset:unit-001/value"}, {"value": 0.01, "unit": "g", "evidence_locator": "asset:unit-001/value"}], "expected_conflict": true},
+    {"case_id": "entity-conflict-001", "kind": "entity", "original_assertion": {"value": "CHEBI:DSPC", "unit": null, "evidence_locator": "asset:entity-001/name"}, "candidate_assertions": [{"value": "CHEBI:DSPC", "unit": null, "evidence_locator": "asset:entity-001/name"}, {"value": "CHEBI:DPPC", "unit": null, "evidence_locator": "asset:entity-001/name"}], "expected_conflict": true},
+    {"case_id": "evidence-conflict-001", "kind": "evidence", "original_assertion": {"value": 5, "unit": null, "evidence_locator": "asset:evidence-001/table/cell:A3"}, "candidate_assertions": [{"value": 5, "unit": null, "evidence_locator": "asset:evidence-001/table/cell:A3"}, {"value": 5, "unit": null, "evidence_locator": "asset:evidence-002/table/cell:B4"}], "expected_conflict": true},
+    {"case_id": "agreement-001", "kind": "unit", "original_assertion": {"value": 2, "unit": "mg", "evidence_locator": "asset:unit-002/value"}, "candidate_assertions": [{"value": 2, "unit": "mg", "evidence_locator": "asset:unit-002/value"}, {"value": 2, "unit": "mg", "evidence_locator": "asset:unit-002/value"}], "expected_conflict": false}
+  ]
+}
