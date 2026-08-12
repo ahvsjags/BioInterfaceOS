@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "screening_id": "bioif-r2-real-proteomics-candidate-screening-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "scope": "Pre-admission source screening only; no candidate in this registry is a model target.",
+  "source_policy": {
+    "require_anonymous_public_access": true,
+    "require_reusable_license": true,
+    "require_human_biofluid_corona_context": true,
+    "prohibit_cross_species_substitution": true,
+    "prohibit_model_use": true
+  },
+  "screened_candidates": [
+    {
+      "source_id": "PRIDE-PXD017429",
+      "project_api_url": "https://www.ebi.ac.uk/pride/ws/archive/v2/projects/PXD017429",
+      "landing_url": "https://www.ebi.ac.uk/pride/archive/projects/PXD017429",
+      "publication_date": "2020-02-24",
+      "license_id": "CC0-1.0",
+      "access": "ANONYMOUS_PUBLIC",
+      "candidate_rationale": "The project exposes 20 clearly named NP01?NP04 runs and a 137,662-byte author-result archive containing four spreadsheets, so it was screened as a possible source-level covariate-map supplement.",
+      "screened_asset": {
+        "file_name": "xlxs.rar",
+        "download_url": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2020/02/PXD017429/xlxs.rar",
+        "publisher_api_bytes": 137662,
+        "local_bytes": 137662,
+        "local_sha256": "3737d81671598c6185924c150956f967fc1612ffebb408ad66b8186f197daee8",
+        "archive_members": [
+          "NP01-1  NP01-2  NP01-3  NP01-4  NP01-5.xlsx",
+          "NP02-1  NP02-2  NP02-3  NP02-4  NP02-5.xlsx",
+          "NP03-1  NP03-2  NP03-3  NP03-4  NP03-5.xlsx",
+          "NP04-1  NP04-2  NP04-3  NP04-4  NP04-5.xlsx"
+        ]
+      },
+      "species_evidence": "All inspected Protein worksheets contain source protein headers with OS=Bos taurus, including APOA1_BOVIN, HBA_BOVIN, HBBF_BOVIN, ALBU_BOVIN and SERPINC1_BOVIN.",
+      "decision": "REJECTED_NON_HUMAN_BIOFLUID_CONTEXT",
+      "admission": false,
+      "model_use": "PROHIBITED",
+      "reason": "A bovine protein-corona study cannot be silently substituted for the pre-frozen human-biofluid cohort or described as cross-species validation."
+    }
+  ]
+}

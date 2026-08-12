@@ -52,6 +52,10 @@ Do not convert deterministic locator resolution into a causal or biological mode
   rule, exact-byte rule where available, partial-file preservation and local
   SHA-256 capture. Download completion is an acquisition boundary only: its
   strict receipt remains `NOT_A_MODEL_TARGET`.
+- [x] Candidate exclusion replay. PXD017429 was checked because its 20 named
+  source runs could otherwise appear to supplement covariates. Its author-result
+  workbooks identify bovine proteins, so it is explicitly rejected rather than
+  misrepresented as a human or cross-species validation source.
 - [ ] Compatible target freeze.
 - [ ] Paired model/ablation/OOD execution.
 - [ ] Strict receipt and negative-control audit.
@@ -86,6 +90,9 @@ Do not convert deterministic locator resolution into a causal or biological mode
   one-pipeline protein-crown endpoint have been frozen with explicit analysis
   units; the preflight is not evidence of an effect, ablation, OOD result or
   independent validation.
+- Reject PXD017429 from the current cohort. Although it has a CC0 release and
+  named runs, the inspected author sheets are bovine. It cannot repair the
+  human-data covariate gap, and it cannot be used as an external validation set.
 
 ## Validation
 
