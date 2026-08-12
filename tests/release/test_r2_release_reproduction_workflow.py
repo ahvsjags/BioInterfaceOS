@@ -34,7 +34,9 @@ def test_r2_release_replays_only_registered_public_source_in_clean_worktree(tmp_
     assert source_manifest["scope"] == "R2_PUBLIC_SOFTWARE_REPLAY_SOURCE"
     paths = {row["path"] for row in source_manifest["files"]}
     assert R2ReleaseReproductionWorkflow.REQUIRED_PUBLIC_PATHS <= paths
-    assert not any(path.startswith(("data/", "registry/", "reports/", "release/")) for path in paths)
+    assert not any(
+        path.startswith(("data/", "registry/", "reports/", "release/")) for path in paths
+    )
     clean_replay = _json(output / "clean_replay.json")
     assert clean_replay["source_mode"] == "temporary_public_source_only"
     assert clean_replay["nested_status"] == "PASS_R2_SOFTWARE_REPLAY"

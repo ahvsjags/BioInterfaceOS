@@ -571,7 +571,10 @@ class SubmissionFigureQAWorkflow:
         source = self._json(source_path, "R2 legacy withdrawal ledger source")
         if set(source) != {"schema_version", "ledger_id", "withdrawals"}:
             raise SubmissionFigureQAError("R2 legacy withdrawal ledger source is invalid")
-        if source.get("schema_version") != 1 or source.get("ledger_id") != "bioif-r2-withdrawals-v1.1.0":
+        if (
+            source.get("schema_version") != 1
+            or source.get("ledger_id") != "bioif-r2-withdrawals-v1.1.0"
+        ):
             raise SubmissionFigureQAError("R2 legacy withdrawal ledger identity is invalid")
         values = source.get("withdrawals")
         if not isinstance(values, list):

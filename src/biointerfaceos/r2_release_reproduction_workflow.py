@@ -109,9 +109,7 @@ class R2ReleaseReproductionWorkflow:
         return public
 
     @staticmethod
-    def _copy_public_source(
-        root: Path, inventory: list[dict[str, Any]], destination: Path
-    ) -> None:
+    def _copy_public_source(root: Path, inventory: list[dict[str, Any]], destination: Path) -> None:
         for row in inventory:
             relative = Path(str(row["path"]))
             source = root / relative
@@ -147,7 +145,9 @@ class R2ReleaseReproductionWorkflow:
         pyproject_path = self.root / "pyproject.toml"
         lock_path = self.root / "uv.lock"
         try:
-            pyproject = _mapping(tomllib.loads(pyproject_path.read_text(encoding="utf-8")), "pyproject")
+            pyproject = _mapping(
+                tomllib.loads(pyproject_path.read_text(encoding="utf-8")), "pyproject"
+            )
             lock = _mapping(tomllib.loads(lock_path.read_text(encoding="utf-8")), "uv lock")
         except (OSError, UnicodeError, tomllib.TOMLDecodeError) as exc:
             raise R2ReleaseReproductionError("cannot read pinned Python environment") from exc
@@ -211,9 +211,13 @@ class R2ReleaseReproductionWorkflow:
                     for path in sorted(item for item in source_root.rglob("*") if item.is_file()):
                         relative = path.relative_to(source_root).as_posix()
                         with path.open("rb") as stream:
-                            tar.addfile(self._tar_info(f"source/{relative}", path.stat().st_size), stream)
+                            tar.addfile(
+                                self._tar_info(f"source/{relative}", path.stat().st_size), stream
+                            )
                     payload = manifest_path.read_bytes()
-                    tar.addfile(self._tar_info("source_manifest.json", len(payload)), io.BytesIO(payload))
+                    tar.addfile(
+                        self._tar_info("source_manifest.json", len(payload)), io.BytesIO(payload)
+                    )
         return archive
 
     def _clean_replay(self, inventory: list[dict[str, Any]]) -> dict[str, Any]:
@@ -223,8 +227,8 @@ class R2ReleaseReproductionWorkflow:
             self._copy_public_source(self.root, inventory, source_root)
             environment = os.environ.copy()
             environment["BIOINTERFACEOS_NETWORK_DISABLED"] = "1"
-            environment["PYTHONPATH"] = str(source_root / "src") + os.pathsep + environment.get(
-                "PYTHONPATH", ""
+            environment["PYTHONPATH"] = (
+                str(source_root / "src") + os.pathsep + environment.get("PYTHONPATH", "")
             )
             command = [sys.executable, "-m", "biointerfaceos", "reproduce", "release", "--strict"]
             try:
@@ -246,7 +250,9 @@ class R2ReleaseReproductionWorkflow:
                     "clean replay receipt",
                 )
             except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-                raise R2ReleaseReproductionError("clean replay did not write a valid receipt") from exc
+                raise R2ReleaseReproductionError(
+                    "clean replay did not write a valid receipt"
+                ) from exc
             if (
                 nested_receipt.get("status") != "PASS_R2_SOFTWARE_REPLAY"
                 or nested_receipt.get("software_replay") is not True
@@ -295,7 +301,9 @@ class R2ReleaseReproductionWorkflow:
         if not strict:
             raise R2ReleaseReproductionError("T118 requires --strict")
         if self.output_root.exists():
-            raise R2ReleaseReproductionError("R2 software replay already executed; overwrite refused")
+            raise R2ReleaseReproductionError(
+                "R2 software replay already executed; overwrite refused"
+            )
         inventory = self._public_inventory()
         self.output_root.mkdir(parents=True, exist_ok=False)
         source_manifest_path = self.output_root / "source_manifest.json"
@@ -329,7 +337,14 @@ class R2ReleaseReproductionWorkflow:
         self._write(release_manifest_path, release_manifest)
         output_hashes = {
             path.name: _sha256(path)
-            for path in (source_manifest_path, sbom_path, release_manifest_path, archive_path, clean_replay_path, junit_path)
+            for path in (
+                source_manifest_path,
+                sbom_path,
+                release_manifest_path,
+                archive_path,
+                clean_replay_path,
+                junit_path,
+            )
         }
         receipt = {
             "schema_version": 1,
