@@ -12,7 +12,7 @@
 | R2-06 | PASS_PUBLIC_RELEASE_AUDIT | 公开包完整性已审计；历史 fixture bundle 未公开 | 与真实数据、运行环境和外部复现 receipt 一并通过提交门禁 |
 | R2-07 | FALLBACK_PROTOCOL_FIGURE_QA_VERIFIED | 三张 field-mapped 协议图通过 geometry/semantic QA，未绘制实证值 | 真实数据图的字段映射、统计与人工签署 |
 | R2-08 | FALLBACK_MERGED_PROTOCOL_PORTFOLIO_VERIFIED | A+B 合并，C 保持 protocol-only；历史 fixture 稿件不复用 | T123 真实 target 与 T124 独立评估后再决定 results 稿件 |
-| R2-09 | OPEN_EXTERNAL_ACCEPTANCE_REQUIRED | 项目仍为 IN_PROGRESS；T128 有十个阻塞项 | 外部复现、编辑复审、逐项 finding 映射与签名证明 |
+| R2-09 | OPEN_EXTERNAL_ACCEPTANCE_REQUIRED | 项目仍为 IN_PROGRESS；T128 v1.2 将两个重复的 T129 局部筛查收敛为一个当前综合准入门，现有九个阻塞项 | 外部复现、编辑复审、逐项 finding 映射与签名证明 |
 
 ## 使用规则
 

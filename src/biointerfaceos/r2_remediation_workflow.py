@@ -61,10 +61,10 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.3.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.4.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.3.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.4.0"
     RECEIPTS = {
         "semantics": (
             "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
@@ -107,11 +107,11 @@ class R2RemediationWorkflow:
             "R2 protocol-figure receipt",
         ),
         "portfolio": (
-            "reports/review_round_2/manuscript_portfolio/v1.1.0/portfolio_receipt.json",
+            "reports/review_round_2/manuscript_portfolio/v1.2.0/portfolio_receipt.json",
             "R2 manuscript-portfolio receipt",
         ),
         "acceptance": (
-            "reports/review_round_2/r2_acceptance/v1.1.0/acceptance_readiness_receipt.json",
+            "reports/review_round_2/r2_acceptance/v1.2.0/acceptance_readiness_receipt.json",
             "R2 acceptance-readiness receipt",
         ),
     }
@@ -281,7 +281,7 @@ class R2RemediationWorkflow:
         )
         self._require(
             acceptance.get("status") == "BLOCKED_R2_EXTERNAL_EVIDENCE_REQUIRED"
-            and acceptance.get("prerequisite_blocker_count") == 10
+            and acceptance.get("prerequisite_blocker_count") == 9
             and acceptance.get("external_reproduction_verified") is False
             and acceptance.get("editorial_rereview_verified") is False
             and acceptance.get("scientific_submission_ready") is False,

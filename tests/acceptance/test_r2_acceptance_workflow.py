@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -28,6 +30,25 @@ def test_r2_acceptance_requires_strict_mode(tmp_path: Path) -> None:
 
     with pytest.raises(R2AcceptanceError, match="requires --strict"):
         workflow.run()
+
+
+def test_r2_acceptance_rejects_tampered_current_t129_receipt(tmp_path: Path) -> None:
+    root = tmp_path / "repository"
+    shutil.copytree(ROOT / "docs", root / "docs")
+    shutil.copytree(ROOT / "reports/review_round_2", root / "reports/review_round_2")
+    shutil.copy2(ROOT / "TASKS.tsv", root / "TASKS.tsv")
+    receipt_path = root / (
+        "reports/review_round_2/t129_current_target_evidence/v1.0.0/"
+        "current_target_evidence_receipt.json"
+    )
+    receipt_path.chmod(0o600)
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["candidate_laboratory_count"] = 3
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+    workflow = R2AcceptanceWorkflow(root, output_root=root / "r2-acceptance")
+
+    with pytest.raises(R2AcceptanceError, match="T129 current target-evidence receipt"):
+        workflow.run(strict=True)
 
 
 def test_r2_acceptance_rejects_tampered_receipt(tmp_path: Path) -> None:
