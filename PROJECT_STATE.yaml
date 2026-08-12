@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T059
-active_execplan: docs/execplans/T059_geo_process.md
+current_task: T060
+active_execplan: docs/execplans/T060_geo_raw.md
 completed_tasks:
   - T000
   - T001
@@ -66,10 +66,10 @@ completed_tasks:
   - T056
   - T057
   - T058
+  - T059
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T060
   - T061
   - T062
   - T063

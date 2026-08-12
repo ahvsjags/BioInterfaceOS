@@ -48,3 +48,11 @@ If a processed file fails checksum, metadata, gene-ID, or within-study QC, quara
 ## Outputs
 
 Study-level expression objects, sample metadata, normalized matrices, contrast summaries, within-study QC reports, exclusion ledger, deterministic receipts/logs, focused tests, this ExecPlan, evidence report, and task-ledger/state advancement.
+
+## Completion evidence
+
+- Implementation commit: `5a55064`.
+- Two T058 eligible studies passed processing: 8 samples, 2 normalized genes, 4 contrasts, 0 missing cells, and 0 exclusions. Both studies retain independent study objects and within-study QC; cross-study batch merging is explicitly disabled.
+- ENTREZ and ENSEMBL identifiers were normalized through `fixture-gene-map-v1`. Sample metadata retain material, biological system, dose, time, conditions, and biological replicate identifiers.
+- Focused GEO processing tests: 3 passed. Full offline gate: 220 tests passed; Ruff, formatting, mypy, UV lock/sync, assets, catalog, lockbox, immutable release verification, state validation, compileall, and `git diff --check` passed.
+- The first CLI run created deterministic outputs and the second returned `resumed=1` without changing receipt bytes. No raw download, locked payload access, or live network request occurred.
