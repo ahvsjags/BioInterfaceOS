@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T099
-active_execplan: docs/execplans/T099_mandatory_ablations.md
+current_task: T100
+active_execplan: docs/execplans/T100_ood_leave_group_sensitivity.md
 completed_tasks:
   - T000
   - T001
@@ -106,10 +106,10 @@ completed_tasks:
   - T096
   - T097
   - T098
+  - T099
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T100
   - T101
   - T102
   - T103
@@ -124,7 +124,7 @@ blocked_tasks:
   - T112
   - T113
   - T114
-last_successful_commit: 759b496
+last_successful_commit: e8127af
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
