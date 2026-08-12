@@ -1,0 +1,1 @@
+{"admissible_ranges":{"functional_axis":[0.0,1.0],"surface_norm":[0.0,1.0]},"disagreement_threshold":0.15,"frozen_before_calculation":true,"interventions":["surface_norm","functional_axis"],"model_families":["linear","protocol_adjusted"],"ood_threshold":0.4,"positivity_threshold":0.15,"schema_version":1}

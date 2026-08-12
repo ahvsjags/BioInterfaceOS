@@ -1,0 +1,1 @@
+{"count":3,"entries":[{"case_id":"CF-03","disagreement":0.21,"reason":"model_disagreement_exceeded","threshold":0.15},{"case_id":"CF-04","reason":"positivity_failed"},{"case_id":"CF-05","reason":"ood_distance_exceeded"}],"schema_version":1,"unsupported_interventions_excluded":true}

@@ -457,6 +457,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     discover_protocol_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized development fixture"
     )
+    discover_counterfactual_parser = discover_subparsers.add_parser(
+        "counterfactuals", help="rank supported counterfactuals and explain contradictions"
+    )
+    discover_counterfactual_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized development fixture"
+    )
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
     train_subparsers = train_parser.add_subparsers(dest="train_command")
@@ -1007,6 +1013,39 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "discover":
+        if args.discover_command == "counterfactuals":
+            root = find_repository_root()
+            if root is None:
+                print("COUNTERFACTUALS_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("COUNTERFACTUALS_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.counterfactual_workflow import (
+                CounterfactualError,
+                CounterfactualWorkflow,
+            )
+
+            try:
+                counterfactual_summary = CounterfactualWorkflow(root).run(fixture=True)
+            except (CounterfactualError, OSError) as exc:
+                print(f"COUNTERFACTUALS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"COUNTERFACTUALS_VALID rows={counterfactual_summary.rows} "
+                f"interventions={counterfactual_summary.interventions} "
+                f"supported={counterfactual_summary.supported} "
+                f"rejected={counterfactual_summary.rejected} "
+                f"model_families={counterfactual_summary.model_families} "
+                f"scored={counterfactual_summary.scored} "
+                f"abstentions={counterfactual_summary.abstentions} "
+                f"rank_pairs={counterfactual_summary.rank_pairs} "
+                f"rank_stability={counterfactual_summary.rank_stability:.6f} "
+                f"contradictions={counterfactual_summary.contradictions} "
+                f"unresolved={counterfactual_summary.unresolved} "
+                f"resumed={counterfactual_summary.resumed}"
+            )
+            return 0
         if args.discover_command == "protocol-effects":
             root = find_repository_root()
             if root is None:

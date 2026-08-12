@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "mode": "counterfactual_ranking",
+  "inputs": [
+    {
+      "label": "T076 M6 receipt",
+      "path": "reports/models/m6/m6_receipt.json",
+      "sha256": "8ab469c76f87aa530743773d8582199a04f1eb4e91be62c6f0910f68622c759a"
+    },
+    {
+      "label": "T090 functional axes receipt",
+      "path": "reports/omics/functional_axes/functional_axes_receipt.json",
+      "sha256": "6ccd62a249ed8d1b255681b13c854864ae2757db0ada696aff4fb94662df304c"
+    },
+    {
+      "label": "T091 mediation receipt",
+      "path": "reports/omics/mediation/mediation_receipt.json",
+      "sha256": "11e522edee14fa5e5daf2482f044df6163db6573ca7a6a6a3d9eb7ac442dc945"
+    },
+    {
+      "label": "T093 symbolic laws receipt",
+      "path": "reports/omics/symbolic_laws/symbolic_laws_receipt.json",
+      "sha256": "bce24812c8b301a7133522b9647b1c13c6b6629d19f1e8601836cec1a637ae55"
+    },
+    {
+      "label": "T094 protocol effects receipt",
+      "path": "reports/omics/protocol_effects/protocol_effects_receipt.json",
+      "sha256": "ab62c2fabbe096375a01aa2d163e2662b510fbf90f1163f1090da11377dad6cc"
+    }
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "interventions": ["surface_norm", "functional_axis"],
+    "admissible_ranges": {
+      "surface_norm": [0.0, 1.0],
+      "functional_axis": [0.0, 1.0]
+    },
+    "model_families": ["linear", "protocol_adjusted"],
+    "positivity_threshold": 0.15,
+    "ood_threshold": 0.40,
+    "disagreement_threshold": 0.15,
+    "rank_metric": "pairwise_order_agreement"
+  },
+  "rows": [
+    {"case_id": "CF-01", "material_id": "MAT-1", "intervention_id": "INT-01", "stratum": "human_plasma", "split": "development", "surface_norm": 0.30, "functional_axis": 0.40, "positivity": true, "ood_distance": 0.05, "model_linear": 0.52, "model_protocol_adjusted": 0.50, "uncertainty_linear": 0.05, "uncertainty_protocol_adjusted": 0.06, "target_available": true, "target_value": 0.51},
+    {"case_id": "CF-02", "material_id": "MAT-2", "intervention_id": "INT-02", "stratum": "human_serum", "split": "development", "surface_norm": 0.60, "functional_axis": 0.65, "positivity": true, "ood_distance": 0.08, "model_linear": 0.70, "model_protocol_adjusted": 0.72, "uncertainty_linear": 0.06, "uncertainty_protocol_adjusted": 0.06, "target_available": true, "target_value": 0.71},
+    {"case_id": "CF-03", "material_id": "MAT-3", "intervention_id": "INT-03", "stratum": "mouse_plasma", "split": "validation", "surface_norm": 0.50, "functional_axis": 0.20, "positivity": true, "ood_distance": 0.12, "model_linear": 0.61, "model_protocol_adjusted": 0.82, "uncertainty_linear": 0.10, "uncertainty_protocol_adjusted": 0.12, "target_available": true, "target_value": 0.70},
+    {"case_id": "CF-04", "material_id": "MAT-4", "intervention_id": "INT-04", "stratum": "mouse_serum", "split": "validation", "surface_norm": 0.45, "functional_axis": 0.55, "positivity": false, "ood_distance": 0.10, "model_linear": 0.55, "model_protocol_adjusted": 0.54, "uncertainty_linear": 0.08, "uncertainty_protocol_adjusted": 0.08, "target_available": true, "target_value": 0.54},
+    {"case_id": "CF-05", "material_id": "MAT-5", "intervention_id": "INT-05", "stratum": "human_plasma", "split": "validation", "surface_norm": 1.30, "functional_axis": 1.20, "positivity": true, "ood_distance": 0.80, "model_linear": 1.10, "model_protocol_adjusted": 1.05, "uncertainty_linear": 0.15, "uncertainty_protocol_adjusted": 0.16, "target_available": false, "target_value": null}
+  ],
+  "contradictions": [
+    {"edge_id": "EDGE-01", "stratum": "plasma_vs_serum", "claim_a": "surface axis improves response", "claim_b": "surface axis reduces response", "category": "resolved_by_protocol", "resolution": "protocol family and biofluid differ; retain boundary", "evidence_links": ["T094:protocol_strata#biofluid"]},
+    {"edge_id": "EDGE-02", "stratum": "human_vs_mouse", "claim_a": "functional axis ranking transfers", "claim_b": "functional axis ranking reverses", "category": "model_disagreement", "resolution": "T095 abstains when model disagreement exceeds threshold", "evidence_links": ["T092:method_comparison#human_mouse", "T095:ranking_uncertainty"]},
+    {"edge_id": "EDGE-03", "stratum": "assay_binding", "claim_a": "corona signal predicts uptake", "claim_b": "corona signal predicts no uptake", "category": "unresolved", "resolution": "retain unresolved until independent assay replication", "evidence_links": ["T062:link#indirect", "T094:counterexample#DEV-03"]}
+  ]
+}

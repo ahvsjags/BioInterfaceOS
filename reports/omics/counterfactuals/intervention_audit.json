@@ -1,0 +1,1 @@
+{"rejected":[{"case_id":"CF-03","disagreement":0.21,"reason":"model_disagreement_exceeded","threshold":0.15},{"case_id":"CF-04","reason":"positivity_failed","threshold":0.15},{"case_id":"CF-05","reason":"ood_distance_exceeded","threshold":0.4}],"rows":5,"schema_version":1,"supported":2,"supported_only_predictions":true}

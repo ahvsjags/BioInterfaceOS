@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "workflow": "counterfactual_ranking_contradictions",
+  "required_inputs": [
+    "T076 M6 receipt",
+    "T090 functional axes receipt",
+    "T091 mediation receipt",
+    "T093 symbolic laws receipt",
+    "T094 protocol effects receipt"
+  ],
+  "model_families": ["linear", "protocol_adjusted"],
+  "required_outputs": [
+    "counterfactual_preregistration",
+    "intervention_audit",
+    "counterfactual_predictions",
+    "counterfactual_rankings",
+    "ranking_uncertainty",
+    "abstention_ledger",
+    "contradiction_graph",
+    "language_gate",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "gates": [
+    "supported_interventions_only",
+    "positivity",
+    "ood_support",
+    "multi_model_rank_stability",
+    "contradiction_preservation",
+    "automatic_abstention"
+  ],
+  "failure_policy": "model_based_hypothesis_and_abstain"
+}
