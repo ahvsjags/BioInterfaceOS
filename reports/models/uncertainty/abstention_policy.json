@@ -1,0 +1,1 @@
+{"abstain_on_distance_at_least":1.0,"abstain_on_uncertainty_at_least":0.13,"fallback_used":true,"overconfident_ood_rejected":true,"schema_version":1,"selected_model":"conservative_conformal","target_values_exposed":false}

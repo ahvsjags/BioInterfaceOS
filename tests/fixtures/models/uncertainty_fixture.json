@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "mode": "uncertainty_fixture",
+  "inputs": [
+    {"label": "T071 M1 receipt", "path": "reports/models/m1/m1_receipt.json", "sha256": "6f11129540792ffe84e185b84f4b11d8d2d39466f906d226e28d0648789aca5f"},
+    {"label": "T072 M2 receipt", "path": "reports/models/m2/m2_receipt.json", "sha256": "69c8ca21da919bdfdcf5139c806f1e5807abef4ccb0d2c72b5303b6dce4be517"},
+    {"label": "T074 M4 receipt", "path": "reports/models/m4/m4_receipt.json", "sha256": "a86fb1c74acdc0c5804bb7b4f4cf16e2e1be14689ae75b0864790ae750d54455"},
+    {"label": "T076 M6 receipt", "path": "reports/models/m6/m6_receipt.json", "sha256": "8ab469c76f87aa530743773d8582199a04f1eb4e91be62c6f0910f68622c759a"},
+    {"label": "T077 M7 receipt", "path": "reports/models/m7/m7_receipt.json", "sha256": "819df04448f30434233f7fcd5909e71716b35a7fe78adbcd974d9a011ad28cd6"}
+  ],
+  "rows": [
+    {"row_id": "U-001", "split": "calibration", "domain": "DOMAIN_A", "distance": 0.10, "ood": false, "target": 0.40, "pred_m1": 0.39, "pred_m2": 0.41, "pred_m7": 0.40},
+    {"row_id": "U-002", "split": "calibration", "domain": "DOMAIN_A", "distance": 0.20, "ood": false, "target": 0.60, "pred_m1": 0.58, "pred_m2": 0.59, "pred_m7": 0.60},
+    {"row_id": "U-003", "split": "calibration", "domain": "DOMAIN_B", "distance": 0.30, "ood": false, "target": 0.80, "pred_m1": 0.77, "pred_m2": 0.79, "pred_m7": 0.78},
+    {"row_id": "U-004", "split": "calibration", "domain": "DOMAIN_B", "distance": 0.40, "ood": false, "target": 0.50, "pred_m1": 0.52, "pred_m2": 0.51, "pred_m7": 0.50},
+    {"row_id": "U-005", "split": "calibration", "domain": "DOMAIN_A", "distance": 0.50, "ood": false, "target": 1.00, "pred_m1": 0.94, "pred_m2": 0.96, "pred_m7": 0.95},
+    {"row_id": "U-006", "split": "calibration", "domain": "DOMAIN_B", "distance": 0.60, "ood": false, "target": 0.30, "pred_m1": 0.34, "pred_m2": 0.33, "pred_m7": 0.35},
+    {"row_id": "U-007", "split": "validation", "domain": "DOMAIN_A", "distance": 0.10, "ood": false, "target": 0.45, "pred_m1": 0.44, "pred_m2": 0.46, "pred_m7": 0.45},
+    {"row_id": "U-008", "split": "validation", "domain": "DOMAIN_B", "distance": 0.20, "ood": false, "target": 0.65, "pred_m1": 0.63, "pred_m2": 0.64, "pred_m7": 0.62},
+    {"row_id": "U-009", "split": "validation", "domain": "DOMAIN_A", "distance": 0.40, "ood": false, "target": 0.85, "pred_m1": 0.80, "pred_m2": 0.82, "pred_m7": 0.81},
+    {"row_id": "U-010", "split": "validation", "domain": "DOMAIN_B", "distance": 0.70, "ood": false, "target": 0.35, "pred_m1": 0.43, "pred_m2": 0.45, "pred_m7": 0.44},
+    {"row_id": "U-011", "split": "validation", "domain": "DOMAIN_C_OOD", "distance": 1.40, "ood": true, "target": 1.10, "pred_m1": 0.94, "pred_m2": 0.96, "pred_m7": 0.95},
+    {"row_id": "U-012", "split": "validation", "domain": "DOMAIN_C_OOD", "distance": 1.80, "ood": true, "target": 0.10, "pred_m1": 0.35, "pred_m2": 0.37, "pred_m7": 0.36}
+  ]
+}

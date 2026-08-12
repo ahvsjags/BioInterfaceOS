@@ -1,0 +1,10 @@
+schema_version: 1
+model: UNCERTAINTY
+seed: 61
+bootstrap_samples: 128
+coverage_target: 0.8
+conformal_quantile: 0.9
+selective_thresholds: [0.21, 0.13, 0.08, 0.05]
+ood_distance_threshold: 1.0
+ood_uncertainty_threshold: 0.13
+fallback_model: conservative_conformal

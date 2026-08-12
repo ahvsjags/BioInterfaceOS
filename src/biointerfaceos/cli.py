@@ -428,6 +428,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     train_m7_parser.add_argument(
         "--config", default="configs/models/m7.yaml", help="path to the M7 YAML config"
     )
+    train_uncertainty_parser = train_subparsers.add_parser(
+        "uncertainty", help="fit calibrated uncertainty and abstention policy"
+    )
+    train_uncertainty_parser.add_argument(
+        "--config",
+        default="configs/models/uncertainty.yaml",
+        help="path to the uncertainty YAML config",
+    )
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
@@ -888,7 +896,16 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "train":
-        if args.train_command not in {"m1", "m2", "m3", "m4", "m5", "m6", "m7"}:
+        if args.train_command not in {
+            "m1",
+            "m2",
+            "m3",
+            "m4",
+            "m5",
+            "m6",
+            "m7",
+            "uncertainty",
+        }:
             parser.parse_args(["train", "--help"])
             return 0
         root = find_repository_root()
@@ -1001,6 +1018,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"ood_rmse={m7_summary.ood_rmse:.6f} "
                 f"leakage_passed={str(m7_summary.leakage_passed).lower()} "
                 f"resumed={m7_summary.resumed} target_values_exposed=false"
+            )
+            return 0
+        if args.train_command == "uncertainty":
+            from biointerfaceos.uncertainty_workflow import (
+                UncertaintyError,
+                UncertaintyWorkflow,
+            )
+
+            try:
+                uncertainty_summary = UncertaintyWorkflow(root, config_path=config_path).run(
+                    fixture=True
+                )
+            except (UncertaintyError, OSError) as exc:
+                print(f"UNCERTAINTY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"UNCERTAINTY_VALID rows={uncertainty_summary.rows} "
+                f"calibration={uncertainty_summary.calibration} "
+                f"validation={uncertainty_summary.validation} "
+                f"selected_model={uncertainty_summary.selected_model} "
+                f"calibration_passed={str(uncertainty_summary.calibration_passed).lower()} "
+                f"coverage={uncertainty_summary.coverage:.6f} "
+                "selective_risk_decreases="
+                f"{str(uncertainty_summary.selective_risk_decreases).lower()} "
+                f"ood_abstentions={uncertainty_summary.ood_abstentions} "
+                f"resumed={uncertainty_summary.resumed} target_values_exposed=false"
             )
             return 0
         from biointerfaceos.m1_workflow import M1Error, M1Workflow
