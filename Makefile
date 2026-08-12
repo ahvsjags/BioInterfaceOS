@@ -1,4 +1,4 @@
-.PHONY: env check paper-a paper-b paper-c-prelock freeze-prelock lockbox-evaluate lockbox-audit
+.PHONY: env check paper-a paper-b paper-c-prelock freeze-prelock lockbox-evaluate lockbox-audit publication-render
 
 BIOINTERFACEOS_UV ?= uv
 BIOINTERFACEOS_PYTHON ?= 3.11
@@ -30,3 +30,6 @@ lockbox-evaluate:
 
 lockbox-audit:
 	.venv/bin/biointerfaceos lockbox audit-results --strict
+
+publication-render:
+	.venv/bin/biointerfaceos publication render --strict

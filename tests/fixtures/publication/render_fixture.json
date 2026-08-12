@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "mode": "publication_render_once",
+  "preregistration": {
+    "render_id": "bioif-publication-final-v1.0.0",
+    "release_id": "bioif-internal-prelock-v1.0.0",
+    "rendered_at": "2026-08-12T00:00:00+00:00",
+    "once": true
+  },
+  "papers": [
+    {
+      "paper_id": "paper_a",
+      "figure_manifest": "release/manuscripts/paper_a/figure_manifest.json",
+      "figure_manifest_sha256": "802829fb675f3cdec16e98106c84dc0e1f00136947ce93db12390531f709591f",
+      "table_manifest": "release/manuscripts/paper_a/table_manifest.json",
+      "table_manifest_sha256": "80613611db7cecdbd5114d057bc37163b620779347939982786fad0fd5647446"
+    },
+    {
+      "paper_id": "paper_b",
+      "figure_manifest": "release/manuscripts/paper_b/figure_manifest.json",
+      "figure_manifest_sha256": "20e123395d4e5cc78a1801a1241ae938f52e9abfe00e0b55dcbd26923456b3bd",
+      "table_manifest": "release/manuscripts/paper_b/table_manifest.json",
+      "table_manifest_sha256": "cf17eb65d0d5dbfb21f10dbd15e846e7941c1eeae34e7c25a7e1fe23e95dde8b"
+    },
+    {
+      "paper_id": "paper_c_prelock",
+      "figure_manifest": "release/manuscripts/paper_c_prelock/figure_manifest.json",
+      "figure_manifest_sha256": "c9a43bba947e4e170f86766fe2ba9476e0823e252c528af08d7eb72e181dbcab",
+      "table_manifest": "release/manuscripts/paper_c_prelock/table_manifest.json",
+      "table_manifest_sha256": "e9bbda029bbca5d47c0f75451d01385d831d48947f34de09550dcdeacbb51468"
+    }
+  ],
+  "inputs": [
+    {"label": "T108 release manifest", "kind": "json", "path": "release/internal_prelock/bioif-internal-prelock-v1.0.0/release_manifest.json", "sha256": "9fe93b2902e332ed5efbf7743408e3875e4390e060fec931fd2a962132f3f7d2"},
+    {"label": "T110 audit receipt", "kind": "json", "path": "reports/lockbox/audit/bioif-lockbox-audit-v1.0.0/audit_receipt.json", "sha256": "9b72d57cc29f404d4cd63c249292d7c3251e388fd2fbef3659732fa4cf98ff3b"},
+    {"label": "T110 claim transitions", "kind": "json", "path": "reports/lockbox/audit/bioif-lockbox-audit-v1.0.0/claim_transitions.json", "sha256": "35aee608552de3904b2c040f00bae854a952c528821ac2b80c9b0c3081372a09"},
+    {"label": "Paper C allowed wording", "kind": "json", "path": "release/manuscripts/paper_c_prelock/allowed_wording.json", "sha256": "a2f434733c90d9b52f136b487d55ad38d9776b9c5144c48e1eccc047914d95b7"}
+  ]
+}

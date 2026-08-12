@@ -220,6 +220,14 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "audit-results", help="audit sealed lockbox results against the frozen claim package"
     )
     audit_results_parser.add_argument("--strict", action="store_true")
+    publication_parser = subparsers.add_parser(
+        "publication", help="generate final publication figures and tables"
+    )
+    publication_subparsers = publication_parser.add_subparsers(dest="publication_command")
+    render_parser = publication_subparsers.add_parser(
+        "render", help="render the frozen publication package"
+    )
+    render_parser.add_argument("--strict", action="store_true")
     agent_parser = subparsers.add_parser("agent", help="run typed multi-agent runtime checks")
     agent_subparsers = agent_parser.add_subparsers(dest="agent_command")
     agent_subparsers.add_parser("self-test", help="run offline runtime contract self-test")
@@ -2660,6 +2668,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"LOCKBOX_VALID blocked_read={audit['blocked_development_lockbox_read']} "
             f"field_detected={audit['forbidden_field_detected']} "
             f"hash_detected={audit['forbidden_hash_detected']}"
+        )
+        return 0
+    if args.command == "publication":
+        if args.publication_command != "render":
+            parser.parse_args(["publication", "--help"])
+            return 0
+        from biointerfaceos.publication_render_workflow import (
+            PublicationRenderError,
+            PublicationRenderWorkflow,
+        )
+
+        root = find_repository_root()
+        if root is None:
+            print("PUBLICATION_RENDER_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        try:
+            publication_result = PublicationRenderWorkflow(root).run(strict=args.strict)
+        except (PublicationRenderError, OSError) as exc:
+            print(f"PUBLICATION_RENDER_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"PUBLICATION_RENDER_VALID render_id={publication_result['render_id']} "
+            f"figures={publication_result['figures']} "
+            f"tables={publication_result['tables']} "
+            f"source_data_files={publication_result['source_data_files']} "
+            f"raster_dpi={publication_result['raster_dpi']} "
+            "manual_numeric_edits=0 raw_values_written=false"
         )
         return 0
     if args.command == "agent":

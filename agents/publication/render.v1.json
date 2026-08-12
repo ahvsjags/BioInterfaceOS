@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BioInterfaceOS final publication render",
+  "type": "object",
+  "required": ["schema_version", "status", "render_id", "figures", "tables", "source_data_files"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "VALID_FINAL_PUBLICATION_RENDER"},
+    "render_id": {"const": "bioif-publication-final-v1.0.0"},
+    "figures": {"const": 15},
+    "tables": {"const": 18},
+    "source_data_files": {"type": "integer", "minimum": 1},
+    "raster_dpi": {"const": 600},
+    "manual_numeric_edits": {"const": 0}
+  },
+  "additionalProperties": true
+}
