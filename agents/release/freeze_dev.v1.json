@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "workflow": "development_data_model_release_freeze",
+  "required_inputs": [
+    "T047 silver manifest",
+    "T048 gold-auto manifest",
+    "T057 PRIDE QC report",
+    "T062 modality-link receipt",
+    "T078 uncertainty receipt",
+    "T079 multimodal receipt",
+    "T102 negative-controls receipt",
+    "uncertainty config",
+    "multimodal config",
+    "uncertainty results",
+    "multimodal results"
+  ],
+  "required_outputs": ["release_manifest", "data_model_card", "freeze_receipt"],
+  "semantic_version": "1.0.0",
+  "license_layers": ["analysis_only", "redistributable_config", "not_included_locked_targets"],
+  "failure_policy": "abort_without_overwrite"
+}

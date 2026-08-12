@@ -187,6 +187,12 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     freeze_parser.add_argument(
         "--fixture", action="store_true", help="freeze the fixture namespace"
     )
+    freeze_dev_parser = release_subparsers.add_parser(
+        "freeze-dev", help="freeze the development data and model release"
+    )
+    freeze_dev_parser.add_argument(
+        "--fixture", action="store_true", help="freeze the sanitized development release"
+    )
     verify_parser = release_subparsers.add_parser("verify", help="verify an immutable release")
     verify_parser.add_argument(
         "--fixture", action="store_true", help="verify the fixture namespace"
@@ -2353,8 +2359,40 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         )
         return 0
     if args.command == "release":
-        if args.release_command not in {"freeze", "verify"}:
+        if args.release_command not in {"freeze", "freeze-dev", "verify"}:
             parser.parse_args(["release", "--help"])
+            return 0
+        if args.release_command == "freeze-dev":
+            root = find_repository_root()
+            if root is None:
+                print("DEVELOPMENT_RELEASE_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("DEVELOPMENT_RELEASE_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.release_freeze_dev import (
+                DevelopmentReleaseFreezeError,
+                DevelopmentReleaseFreezeWorkflow,
+            )
+
+            try:
+                dev_freeze_summary = DevelopmentReleaseFreezeWorkflow(root).run(fixture=True)
+            except (DevelopmentReleaseFreezeError, OSError) as exc:
+                print(f"DEVELOPMENT_RELEASE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"DEVELOPMENT_RELEASE_VALID release_id={dev_freeze_summary.release_id} "
+                f"version={dev_freeze_summary.semantic_version} "
+                f"inputs={dev_freeze_summary.input_count} "
+                f"data_layers={dev_freeze_summary.data_layers} "
+                f"model_layers={dev_freeze_summary.model_layers} "
+                f"thresholds={dev_freeze_summary.thresholds} "
+                "license_layers_separated="
+                f"{str(dev_freeze_summary.license_layers_separated).lower()} "
+                "negative_controls_clean="
+                f"{str(dev_freeze_summary.negative_controls_clean).lower()} "
+                f"resumed={dev_freeze_summary.resumed} target_values_exposed=false"
+            )
             return 0
         from biointerfaceos.release import ReleaseError, ReleaseManager
 
