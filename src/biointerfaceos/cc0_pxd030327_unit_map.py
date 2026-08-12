@@ -259,7 +259,9 @@ class CC0PXD030327UnitMapWorkflow:
             "source_np_labels": sorted({str(row[positions["NP"]]) for row in included_rows}),
             "source_ratio_values": sorted(
                 {row[positions["P/NP ratio"]] for row in included_rows},
-                key=lambda value: (isinstance(value, str), str(value)),
+                key=lambda value: (1, 0.0, value)
+                if isinstance(value, str)
+                else (0, float(value), ""),
             ),
             "source_replicate_values": sorted(
                 {row[positions["Replicate"]] for row in included_rows}
