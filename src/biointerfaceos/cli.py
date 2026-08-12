@@ -445,6 +445,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     design_audit_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized candidate-audit fixture"
     )
+    robustness_parser = subparsers.add_parser(
+        "robustness", help="run mandatory robustness and ablation analyses"
+    )
+    robustness_subparsers = robustness_parser.add_subparsers(dest="robustness_command")
+    robustness_ablations_parser = robustness_subparsers.add_parser(
+        "ablations", help="run the frozen model and data ablation matrix"
+    )
+    robustness_ablations_parser.add_argument(
+        "--all", action="store_true", help="run all mandatory ablations"
+    )
     discover_parser = subparsers.add_parser(
         "discover", help="discover development-scope scientific representations"
     )
@@ -1135,6 +1145,38 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             f"abstentions={design_summary.abstentions} "
             f"selected_method={design_summary.selected_method} "
             f"resumed={design_summary.resumed}"
+        )
+        return 0
+    if args.command == "robustness":
+        if args.robustness_command != "ablations":
+            parser.parse_args(["robustness", "--help"])
+            return 0
+        root = find_repository_root()
+        if root is None:
+            print("ABLATIONS_INVALID: repository root not found", file=sys.stderr)
+            return 1
+        if not args.all:
+            print("ABLATIONS_INVALID: --all is required", file=sys.stderr)
+            return 2
+        from biointerfaceos.ablation_workflow import AblationError, AblationWorkflow
+
+        try:
+            robustness_ablation_summary = AblationWorkflow(root).run(all_ablations=True)
+        except (AblationError, OSError) as exc:
+            print(f"ABLATIONS_INVALID: {exc}", file=sys.stderr)
+            return 1
+        print(
+            f"ABLATIONS_VALID comparisons={robustness_ablation_summary.comparisons} "
+            f"rows={robustness_ablation_summary.rows} "
+            f"same_splits={int(robustness_ablation_summary.same_splits)} "
+            f"same_budget={int(robustness_ablation_summary.same_budget)} "
+            f"mean_effect={robustness_ablation_summary.mean_effect:.6f} "
+            f"interval_records={robustness_ablation_summary.interval_records} "
+            f"calibration_records={robustness_ablation_summary.calibration_records} "
+            f"ood_records={robustness_ablation_summary.ood_records} "
+            f"missing_ablations={robustness_ablation_summary.missing_ablations} "
+            f"claim_blocks={robustness_ablation_summary.claim_blocks} "
+            f"resumed={robustness_ablation_summary.resumed}"
         )
         return 0
     if args.command == "discover":

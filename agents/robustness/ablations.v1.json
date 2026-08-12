@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "workflow": "mandatory_model_and_data_ablations",
+  "required_inputs": [
+    "T078 uncertainty receipt",
+    "T079 multimodal receipt",
+    "T091 mediation receipt",
+    "T093 symbolic-laws receipt",
+    "T098 candidate-audit receipt"
+  ],
+  "paired_unit": "pair_id",
+  "split_policy": "frozen_group_split_v1",
+  "metrics": ["primary_effect", "calibration_error", "ood_rmse"],
+  "required_outputs": [
+    "ablation_preregistration",
+    "paired_effects",
+    "interval_report",
+    "calibration_ood",
+    "missingness_ledger",
+    "claim_gate",
+    "lockbox_scan",
+    "receipt",
+    "manifest"
+  ],
+  "failure_policy": "block_associated_claim_on_missing_essential_ablation"
+}

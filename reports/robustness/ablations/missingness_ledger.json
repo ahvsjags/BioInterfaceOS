@@ -1,0 +1,1 @@
+{"records":[{"claim_blocked":false,"essential":false,"interface_test":"network_disabled","justification":"offline reproducibility contract forbids provider access","name":"provider_backed_raw_data","result":"BLOCKED_EXPECTED"}],"schema_version":1}

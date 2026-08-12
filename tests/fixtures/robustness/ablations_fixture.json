@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "mode": "mandatory_model_and_data_ablations",
+  "inputs": [
+    {"label": "T078 uncertainty receipt", "path": "reports/models/uncertainty/uncertainty_receipt.json", "sha256": "f36a003c4c2afb5dc7713af841e6736274ee9582a58f9eef306bc7f537676a71"},
+    {"label": "T079 multimodal receipt", "path": "reports/models/multimodal/multimodal_receipt.json", "sha256": "abcee7f3ba8daf2d53f112cd4e3fb0a0147b1c5e269f243c3fbd61e27733292a"},
+    {"label": "T091 mediation receipt", "path": "reports/omics/mediation/mediation_receipt.json", "sha256": "11e522edee14fa5e5daf2482f044df6163db6573ca7a6a6a3d9eb7ac442dc945"},
+    {"label": "T093 symbolic-laws receipt", "path": "reports/omics/symbolic_laws/symbolic_laws_receipt.json", "sha256": "bce24812c8b301a7133522b9647b1c13c6b6629d19f1e8601836cec1a637ae55"},
+    {"label": "T098 candidate-audit receipt", "path": "reports/design/candidates/candidate_audit_receipt.json", "sha256": "dde1e0c1c0d647893918c3b16e9db10f63a1aea9251140e5c1db86d616f517a6"}
+  ],
+  "preregistration": {
+    "schema_version": 1,
+    "split_id": "frozen_group_split_v1",
+    "splits": ["development", "heldout"],
+    "groups": ["G1", "G2", "G3", "G4"],
+    "budget": 8,
+    "bootstrap_samples": 64,
+    "alpha": 0.05,
+    "ablations": [
+      "multimodal_fusion",
+      "uncertainty_calibration",
+      "mediation_path",
+      "symbolic_law",
+      "candidate_audit_support"
+    ],
+    "target_values_exposed": false
+  },
+  "paired_rows": [
+    {"ablation": "multimodal_fusion", "pair_id": "MM-01", "group_id": "G1", "split": "development", "full_metric": 0.78, "ablated_metric": 0.70, "full_calibration_error": 0.08, "ablated_calibration_error": 0.13, "full_ood_rmse": 0.18, "ablated_ood_rmse": 0.24, "budget": 8},
+    {"ablation": "multimodal_fusion", "pair_id": "MM-02", "group_id": "G2", "split": "development", "full_metric": 0.80, "ablated_metric": 0.73, "full_calibration_error": 0.07, "ablated_calibration_error": 0.12, "full_ood_rmse": 0.19, "ablated_ood_rmse": 0.25, "budget": 8},
+    {"ablation": "multimodal_fusion", "pair_id": "MM-03", "group_id": "G3", "split": "heldout", "full_metric": 0.76, "ablated_metric": 0.68, "full_calibration_error": 0.09, "ablated_calibration_error": 0.14, "full_ood_rmse": 0.20, "ablated_ood_rmse": 0.27, "budget": 8},
+    {"ablation": "multimodal_fusion", "pair_id": "MM-04", "group_id": "G4", "split": "heldout", "full_metric": 0.82, "ablated_metric": 0.75, "full_calibration_error": 0.08, "ablated_calibration_error": 0.11, "full_ood_rmse": 0.17, "ablated_ood_rmse": 0.23, "budget": 8},
+    {"ablation": "uncertainty_calibration", "pair_id": "UC-01", "group_id": "G1", "split": "development", "full_metric": 0.81, "ablated_metric": 0.74, "full_calibration_error": 0.06, "ablated_calibration_error": 0.16, "full_ood_rmse": 0.16, "ablated_ood_rmse": 0.25, "budget": 8},
+    {"ablation": "uncertainty_calibration", "pair_id": "UC-02", "group_id": "G2", "split": "development", "full_metric": 0.79, "ablated_metric": 0.72, "full_calibration_error": 0.07, "ablated_calibration_error": 0.15, "full_ood_rmse": 0.17, "ablated_ood_rmse": 0.24, "budget": 8},
+    {"ablation": "uncertainty_calibration", "pair_id": "UC-03", "group_id": "G3", "split": "heldout", "full_metric": 0.77, "ablated_metric": 0.70, "full_calibration_error": 0.08, "ablated_calibration_error": 0.14, "full_ood_rmse": 0.18, "ablated_ood_rmse": 0.26, "budget": 8},
+    {"ablation": "uncertainty_calibration", "pair_id": "UC-04", "group_id": "G4", "split": "heldout", "full_metric": 0.83, "ablated_metric": 0.76, "full_calibration_error": 0.06, "ablated_calibration_error": 0.13, "full_ood_rmse": 0.15, "ablated_ood_rmse": 0.22, "budget": 8},
+    {"ablation": "mediation_path", "pair_id": "MED-01", "group_id": "G1", "split": "development", "full_metric": 0.66, "ablated_metric": 0.59, "full_calibration_error": 0.11, "ablated_calibration_error": 0.15, "full_ood_rmse": 0.23, "ablated_ood_rmse": 0.29, "budget": 8},
+    {"ablation": "mediation_path", "pair_id": "MED-02", "group_id": "G2", "split": "development", "full_metric": 0.68, "ablated_metric": 0.62, "full_calibration_error": 0.10, "ablated_calibration_error": 0.14, "full_ood_rmse": 0.22, "ablated_ood_rmse": 0.28, "budget": 8},
+    {"ablation": "mediation_path", "pair_id": "MED-03", "group_id": "G3", "split": "heldout", "full_metric": 0.64, "ablated_metric": 0.58, "full_calibration_error": 0.12, "ablated_calibration_error": 0.16, "full_ood_rmse": 0.24, "ablated_ood_rmse": 0.30, "budget": 8},
+    {"ablation": "mediation_path", "pair_id": "MED-04", "group_id": "G4", "split": "heldout", "full_metric": 0.67, "ablated_metric": 0.61, "full_calibration_error": 0.11, "ablated_calibration_error": 0.15, "full_ood_rmse": 0.23, "ablated_ood_rmse": 0.29, "budget": 8},
+    {"ablation": "symbolic_law", "pair_id": "SYM-01", "group_id": "G1", "split": "development", "full_metric": 0.74, "ablated_metric": 0.65, "full_calibration_error": 0.09, "ablated_calibration_error": 0.13, "full_ood_rmse": 0.19, "ablated_ood_rmse": 0.26, "budget": 8},
+    {"ablation": "symbolic_law", "pair_id": "SYM-02", "group_id": "G2", "split": "development", "full_metric": 0.75, "ablated_metric": 0.67, "full_calibration_error": 0.08, "ablated_calibration_error": 0.12, "full_ood_rmse": 0.20, "ablated_ood_rmse": 0.25, "budget": 8},
+    {"ablation": "symbolic_law", "pair_id": "SYM-03", "group_id": "G3", "split": "heldout", "full_metric": 0.72, "ablated_metric": 0.63, "full_calibration_error": 0.10, "ablated_calibration_error": 0.14, "full_ood_rmse": 0.21, "ablated_ood_rmse": 0.28, "budget": 8},
+    {"ablation": "symbolic_law", "pair_id": "SYM-04", "group_id": "G4", "split": "heldout", "full_metric": 0.76, "ablated_metric": 0.67, "full_calibration_error": 0.09, "ablated_calibration_error": 0.13, "full_ood_rmse": 0.18, "ablated_ood_rmse": 0.25, "budget": 8},
+    {"ablation": "candidate_audit_support", "pair_id": "AUD-01", "group_id": "G1", "split": "development", "full_metric": 0.70, "ablated_metric": 0.59, "full_calibration_error": 0.08, "ablated_calibration_error": 0.14, "full_ood_rmse": 0.17, "ablated_ood_rmse": 0.29, "budget": 8},
+    {"ablation": "candidate_audit_support", "pair_id": "AUD-02", "group_id": "G2", "split": "development", "full_metric": 0.72, "ablated_metric": 0.61, "full_calibration_error": 0.07, "ablated_calibration_error": 0.13, "full_ood_rmse": 0.18, "ablated_ood_rmse": 0.28, "budget": 8},
+    {"ablation": "candidate_audit_support", "pair_id": "AUD-03", "group_id": "G3", "split": "heldout", "full_metric": 0.68, "ablated_metric": 0.57, "full_calibration_error": 0.09, "ablated_calibration_error": 0.15, "full_ood_rmse": 0.19, "ablated_ood_rmse": 0.31, "budget": 8},
+    {"ablation": "candidate_audit_support", "pair_id": "AUD-04", "group_id": "G4", "split": "heldout", "full_metric": 0.71, "ablated_metric": 0.60, "full_calibration_error": 0.08, "ablated_calibration_error": 0.14, "full_ood_rmse": 0.18, "ablated_ood_rmse": 0.30, "budget": 8}
+  ],
+  "missing_ablations": [
+    {"name": "provider_backed_raw_data", "essential": false, "interface_test": "network_disabled", "result": "BLOCKED_EXPECTED", "justification": "offline reproducibility contract forbids provider access", "claim_blocked": false}
+  ]
+}
