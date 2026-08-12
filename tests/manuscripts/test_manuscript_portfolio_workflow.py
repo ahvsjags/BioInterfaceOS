@@ -52,6 +52,7 @@ def test_portfolio_rejects_a_missing_protocol_boundary(tmp_path: Path) -> None:
         "reports/review_round_2/real_proteomics_result_profile/v1.0.0/result_profile_receipt.json",
         "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json",
         "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json",
+        "reports/review_round_2/t129_current_target_evidence/v1.0.0/current_target_evidence_receipt.json",
         "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json",
         "release/manuscripts/paper_a/paper_a.md",
         "release/manuscripts/paper_b/paper_b.md",
@@ -81,12 +82,13 @@ def test_portfolio_rejects_tampered_current_t129_receipt(tmp_path: Path) -> None
     shutil.copytree(ROOT / "docs", root / "docs")
     shutil.copytree(ROOT / "reports/review_round_2", root / "reports/review_round_2")
     shutil.copytree(ROOT / "release/manuscripts", root / "release/manuscripts")
-    receipt = (
-        root / "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
+    receipt = root / (
+        "reports/review_round_2/t129_current_target_evidence/v1.0.0/"
+        "current_target_evidence_receipt.json"
     )
     receipt.chmod(0o600)
     payload = json.loads(receipt.read_text(encoding="utf-8"))
-    payload["target_status"] = "FROZEN"
+    payload["candidate_source_count"] = 4
     receipt.write_text(json.dumps(payload), encoding="utf-8")
     workflow = ManuscriptPortfolioWorkflow(root, output_root=root / "portfolio")
 
