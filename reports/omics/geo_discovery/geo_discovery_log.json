@@ -1,0 +1,1 @@
+{"events":[{"event":"query_matrix_verified","sha256":"70c767c0d38cf3a87a196bfa8dc107d8110630264d034ae4a745a5820491800d"},{"candidates":4,"event":"candidate_registry_written"},{"event":"restricted_access_rejected","projects":1},{"event":"coverage_gaps_recorded","gaps":3}],"resume_key":"1b5cfc12a941195186e89f4d86161a50145ac6b76c51753c58205c4a94d43080","schema_version":1}

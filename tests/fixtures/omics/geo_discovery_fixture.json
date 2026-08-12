@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "scope": "development",
+  "inputs": {
+    "search_matrix_path": "configs/search_queries.yaml",
+    "search_matrix_sha256": "70c767c0d38cf3a87a196bfa8dc107d8110630264d034ae4a745a5820491800d",
+    "geo_adapter_report_path": "reports/T020_geo.md",
+    "geo_adapter_report_sha256": "c4e698175e99e8468175ae003258a22dfd057c1d1dfee4adcd104c6fc8a2dda9",
+    "query_matrix_report_path": "reports/T026_query_matrix.md",
+    "query_matrix_report_sha256": "4c2ebc275b0bd487b484d090d7c473b8c52062de01740ba6599c9c8e8d054663",
+    "coverage_report_path": "reports/T051_data_coverage.md",
+    "coverage_report_sha256": "af026f972fd6b42326ba0ee9a515b2edab27a1d16747c0dd4a8761095598ed30"
+  },
+  "query_blocks": [
+    {
+      "query_id": "geo-train-01",
+      "scope": "development",
+      "source": "geo",
+      "response": {"provider": "NCBI GEO/SRA", "candidate_ids": ["geo:GSE12345", "geo:GSE99999", "geo:GSE54321", "sra:SRP000001"]}
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "geo:GSE12345",
+      "accession": "GSE12345",
+      "source": "GEO",
+      "query_id": "geo-train-01",
+      "title": "Silica nanoparticle response in A549 cells",
+      "paper_family_id": "FAMILY-005",
+      "publication_date": "2025-10-12",
+      "material": "silica nanoparticle",
+      "biological_system": "A549 cells",
+      "dose": "10 and 50 ug/mL",
+      "time": "24 h",
+      "public_files": [{"kind": "SERIES_MATRIX", "access": "PUBLIC", "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE12nnn/GSE12345/matrix/GSE12345_series_matrix.txt.gz", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "checksum_status": "CAPTURED", "credential_required": false}],
+      "raw_access": "PUBLIC",
+      "restricted": false,
+      "credential_required": false,
+      "evidence_locator": "GEO:GSE12345#series-matrix"
+    },
+    {
+      "candidate_id": "geo:GSE99999",
+      "accession": "GSE99999",
+      "source": "GEO",
+      "query_id": "geo-train-01",
+      "title": "Controlled-access material response",
+      "paper_family_id": "FAMILY-006",
+      "publication_date": "2024-11-03",
+      "material": "polymer nanoparticle",
+      "biological_system": "primary hepatocytes",
+      "dose": "25 ug/mL",
+      "time": "48 h",
+      "public_files": [{"kind": "SERIES_MATRIX", "access": "CONTROLLED", "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE99999", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "checksum_status": "CAPTURED_NOT_DOWNLOADED", "credential_required": true}],
+      "raw_access": "CONTROLLED",
+      "restricted": true,
+      "credential_required": true,
+      "evidence_locator": "GEO:GSE99999#access"
+    },
+    {
+      "candidate_id": "geo:GSE54321",
+      "accession": "GSE54321",
+      "source": "GEO",
+      "query_id": "geo-train-01",
+      "title": "Gold material exploratory study",
+      "paper_family_id": "FAMILY-007",
+      "publication_date": "2023-07-21",
+      "material": "gold nanoparticle",
+      "biological_system": "HUVEC cells",
+      "dose": null,
+      "time": null,
+      "public_files": [],
+      "raw_access": "PUBLIC_METADATA_ONLY",
+      "restricted": false,
+      "credential_required": false,
+      "evidence_locator": "GEO:GSE54321#series"
+    },
+    {
+      "candidate_id": "sra:SRP000001",
+      "accession": "SRP000001",
+      "source": "SRA",
+      "query_id": "geo-train-01",
+      "title": "Silica exposure mouse liver response",
+      "paper_family_id": "FAMILY-008",
+      "publication_date": "2022-05-16",
+      "material": "silica nanoparticle",
+      "biological_system": "mouse liver tissue",
+      "dose": "5 mg/kg",
+      "time": "48 h",
+      "public_files": [{"kind": "PROCESSED_MATRIX", "access": "PUBLIC", "url": "https://ftp.ncbi.nlm.nih.gov/sra/example/SRP000001/processed.tsv.gz", "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "checksum_status": "CAPTURED", "credential_required": false}],
+      "raw_access": "PUBLIC",
+      "restricted": false,
+      "credential_required": false,
+      "evidence_locator": "SRA:SRP000001#processed-matrix"
+    }
+  ]
+}

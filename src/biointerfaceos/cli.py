@@ -414,6 +414,19 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     omics_qc_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized PRIDE QC fixture"
     )
+    omics_geo_parser = omics_subparsers.add_parser(
+        "geo", help="discover GEO/SRA biointerface response datasets"
+    )
+    omics_geo_subparsers = omics_geo_parser.add_subparsers(dest="omics_geo_command")
+    omics_geo_discover_parser = omics_geo_subparsers.add_parser(
+        "discover", help="discover development-scope GEO/SRA candidates"
+    )
+    omics_geo_discover_parser.add_argument(
+        "--scope", choices=("development",), default="development"
+    )
+    omics_geo_discover_parser.add_argument(
+        "--fixture", action="store_true", help="use the sanitized GEO discovery fixture"
+    )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
@@ -939,6 +952,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"discrepant={pride_qc_summary.discrepant} "
                 f"unavailable={pride_qc_summary.unavailable} "
                 f"resumed={pride_qc_summary.resumed}"
+            )
+            return 0
+        if args.omics_command == "geo":
+            if args.omics_geo_command != "discover":
+                parser.parse_args(["omics", "geo", "--help"])
+                return 0
+            root = find_repository_root()
+            if root is None:
+                print("GEO_DISCOVERY_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            if not args.fixture:
+                print("GEO_DISCOVERY_INVALID: --fixture is required", file=sys.stderr)
+                return 2
+            from biointerfaceos.geo_discovery import GeoDiscoveryError, GeoDiscoveryWorkflow
+
+            try:
+                discovery_summary = GeoDiscoveryWorkflow(root).run(fixture=True, scope=args.scope)
+            except (GeoDiscoveryError, OSError) as exc:
+                print(f"GEO_DISCOVERY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                f"GEO_DISCOVERY_VALID scope={args.scope} "
+                f"candidates={discovery_summary.candidates} "
+                f"eligible={discovery_summary.eligible} "
+                f"restricted_rejected={discovery_summary.restricted_rejected} "
+                f"metadata_only={discovery_summary.metadata_only} "
+                f"coverage_gaps={discovery_summary.coverage_gaps} "
+                f"resumed={discovery_summary.resumed}"
             )
             return 0
         if args.omics_command != "pride" or args.omics_pride_command != "triage":
