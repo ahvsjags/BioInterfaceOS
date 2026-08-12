@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "mode": "paper_b_method_manuscript",
+  "required_input_labels": [
+    "data model release manifest",
+    "data model freeze manifest",
+    "data model freeze receipt",
+    "data model card",
+    "T088 agent evidence report",
+    "ablation paired effects",
+    "ablation calibration OOD",
+    "ablation claim gate",
+    "ablation receipt",
+    "ablation manifest",
+    "OOD primary metrics",
+    "OOD sensitivity report",
+    "OOD claim gate",
+    "OOD receipt",
+    "OOD manifest"
+  ],
+  "output_contract": {
+    "paper_id": "paper_b",
+    "claims": 8,
+    "tables": 6,
+    "figures": 5,
+    "target_values_exposed": false,
+    "render_status": "SPEC_ONLY"
+  }
+}

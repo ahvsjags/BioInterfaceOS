@@ -1,4 +1,4 @@
-.PHONY: env check paper-a
+.PHONY: env check paper-a paper-b
 
 BIOINTERFACEOS_UV ?= uv
 BIOINTERFACEOS_PYTHON ?= 3.11
@@ -15,3 +15,6 @@ check:
 
 paper-a:
 	.venv/bin/biointerfaceos paper-a
+
+paper-b:
+	.venv/bin/biointerfaceos paper-b

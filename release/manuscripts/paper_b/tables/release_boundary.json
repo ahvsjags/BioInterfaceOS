@@ -1,0 +1,1 @@
+{"rows":[{"measure":"silver_tables","value":8},{"measure":"gold_auto_rows","value":3},{"measure":"uncertainty_model","value":"conservative_conformal"},{"measure":"multimodal_model","value":"material_protocol_masked"},{"measure":"frozen_thresholds","value":6},{"measure":"dependency_entries","value":4}],"schema_version":1,"title":"Frozen data/model method boundary"}

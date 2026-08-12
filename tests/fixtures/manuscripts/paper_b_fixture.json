@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "mode": "paper_b_method_manuscript",
+  "inputs": [
+    {"label": "data model release manifest", "kind": "json", "path": "release/dev_data_model/bioif-data-model-dev-v1.0.0/release_manifest.json", "sha256": "5037a83c862f61a389509a77bda6fe21a945a58b178bed5b81e6f241c99f9be5"},
+    {"label": "data model freeze manifest", "kind": "json", "path": "release/dev_data_model/bioif-data-model-dev-v1.0.0/freeze_manifest.json", "sha256": "0645c1a5989ae3199c49d2e08caf728ac54bbaf3c4e10b5adb9df02748e8bcc5"},
+    {"label": "data model freeze receipt", "kind": "json", "path": "release/dev_data_model/bioif-data-model-dev-v1.0.0/freeze_receipt.json", "sha256": "c87d14eebfd44c2189eab8d029fc7141b0b8b209ee2f2a2c29ead54e22a79805"},
+    {"label": "data model card", "kind": "text", "path": "release/dev_data_model/bioif-data-model-dev-v1.0.0/data_model_card.md", "sha256": "46bdde074aa4c829f40126b1a2c19e3cfbcbbd3ce2592789b536eb464196de19"},
+    {"label": "T088 agent evidence report", "kind": "text", "path": "reports/T088_scientific_agent_benchmark.md", "sha256": "803996f244068eb50e7a02d6118f2de6405549d888665a870ea2dbad340e5dc8"},
+    {"label": "ablation paired effects", "kind": "json", "path": "reports/robustness/ablations/paired_effects.json", "sha256": "fe67e83424349c9240f12762f3f02bfde1f30356717489cc633def750d0aef9d"},
+    {"label": "ablation calibration OOD", "kind": "json", "path": "reports/robustness/ablations/calibration_ood.json", "sha256": "b5b4d449ca9e6f2d00844e77fb56f365ec723e847a2797693f4577145379245d"},
+    {"label": "ablation claim gate", "kind": "json", "path": "reports/robustness/ablations/claim_gate.json", "sha256": "27f969da98c2b70ce858500d5c1bb2ae494975295dde649a5df58a17dc584ca8"},
+    {"label": "ablation receipt", "kind": "json", "path": "reports/robustness/ablations/ablations_receipt.json", "sha256": "bde553a6a188e2b0a733495d8b89493f9573086e05dd639db7c47edb7a2cee54"},
+    {"label": "ablation manifest", "kind": "json", "path": "reports/robustness/ablations/ablations_manifest.json", "sha256": "9b0ba9a8dc28347c6077e4d1037420e990339c808ef067a9e657a9b853dbafaf"},
+    {"label": "OOD primary metrics", "kind": "json", "path": "reports/robustness/ood/primary_metrics.json", "sha256": "de77d70915bea9ba6e6163ca09dc7afd5b6382720cc1259b06dc753ce595c611"},
+    {"label": "OOD sensitivity report", "kind": "json", "path": "reports/robustness/ood/sensitivity_report.json", "sha256": "86d3200e76b79b8d3fead8463828ff6524e66623f9d3b9214dc3bbb9cc726f10"},
+    {"label": "OOD claim gate", "kind": "json", "path": "reports/robustness/ood/claim_gate.json", "sha256": "6e0ec21a872522c48064a97ceed35fe6c3f196006cb4e8f465cef794b40870ee"},
+    {"label": "OOD receipt", "kind": "json", "path": "reports/robustness/ood/ood_receipt.json", "sha256": "2172d6139361a6b10e5d80ba199c21c7854830eeaa2152dc82f10931387beb2e"},
+    {"label": "OOD manifest", "kind": "json", "path": "reports/robustness/ood/ood_manifest.json", "sha256": "ab64d08f2f86c5ac59e14d3d92d1b72a18ca65d2c979bafcc0498516d8ced3bf"}
+  ]
+}
