@@ -48,3 +48,12 @@ If the fixture does not contain enough independent runs to support the declared 
 ## Outputs
 
 Run/sample manifest, raw and normalized protein matrices, protein-group table, missingness/contaminant/QC summaries, expected-ratio recovery report, deterministic receipts/logs, focused tests, this ExecPlan, evidence report, and task-ledger/state advancement.
+
+## Completion evidence
+
+- Implementation commit: `c060481`.
+- The fixture contained 4 independent runs across 2 conditions, with 2 biological replicates per condition. Two accepted T054 proteins were quantified; one contaminant group and one ambiguous shared protein group were retained and flagged rather than silently promoted.
+- The primary declared-run-scaling route recovered expected treated/control ratios for both proteins (2/2): `P0SPIKE1=2.0` and `P0SPIKE2=1.88235294` against expected `2.0` and `1.88`. A median-centering comparison route was also emitted; raw values and normalized values were both preserved.
+- One protein-by-run cell remained missing (`P0SPIKE2` in `TRT_R2`); `no_imputation=true`. No pseudo-replicates were created, and contaminant handling remained explicit.
+- Focused LFQ tests: 3 passed. Full offline gate: 208 tests passed; Ruff, formatting, mypy, UV lock/sync, Sage search, conversion, PRIDE triage, coverage, Silver/Gold-auto validation, review export, assets, catalog, lockbox, release, state validation, compileall, and `git diff --check` passed.
+- The first CLI run created deterministic outputs and the second returned `resumed=1` without changing receipt bytes. No raw download, locked payload access, or live network request occurred.

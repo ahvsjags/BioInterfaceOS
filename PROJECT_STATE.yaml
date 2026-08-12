@@ -4,8 +4,8 @@ manual_frozen_at: '2026-08-11'
 status: IN_PROGRESS
 task_count: 115
 ready_tasks: []
-current_task: T055
-active_execplan: docs/execplans/T055_label_free_quant.md
+current_task: T056
+active_execplan: docs/execplans/T056_harmonize_corona.md
 completed_tasks:
   - T000
   - T001
@@ -62,10 +62,10 @@ completed_tasks:
   - T052
   - T053
   - T054
+  - T055
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
-  - T056
   - T057
   - T058
   - T059
