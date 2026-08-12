@@ -38,7 +38,7 @@ def test_r2_acceptance_rejects_tampered_current_t129_receipt(tmp_path: Path) -> 
     shutil.copytree(ROOT / "reports/review_round_2", root / "reports/review_round_2")
     shutil.copy2(ROOT / "TASKS.tsv", root / "TASKS.tsv")
     receipt_path = root / (
-        "reports/review_round_2/t129_current_target_evidence/v1.1.0/"
+        "reports/review_round_2/t129_current_target_evidence/v1.2.0/"
         "current_target_evidence_receipt.json"
     )
     receipt_path.chmod(0o600)

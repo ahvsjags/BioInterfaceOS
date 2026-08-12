@@ -62,7 +62,7 @@ evidence.
   pre-cutoff CC0 human-plasma sources attributed to Michigan State University.
   The new audit preserves seven local file hashes but admits zero targets.
 - [x] Reconciled all current T129 tranches in a strict consolidated receipt:
-  six candidates from five laboratories and sixteen verified source assets still
+  six candidates from five laboratories and twenty-four verified source assets still
   yield zero admitted targets. PXD030327 contributes a 636-unit, 819-matrix-run
   source map, but its numeric field is a protein-to-NP exposure rather than a
   material/size covariate and remains single-laboratory evidence.
@@ -75,11 +75,10 @@ evidence.
   mutate the CC0 cohort or promote article-derived labels; its current evidence
   and decision boundary are recorded in
   `docs/execplans/T130_license_bound_source_mapping.md`.
-- [x] Completed T131's PXD017052 CC-BY source-data audit. Four verified
-  publisher assets close nine quantitative result headers to nine PRIDE raw-file
-  basenames and record three numeric SPION property records. No released source
-  joins those raw/result units to a particle identity, so zero units enter the
-  CC0 cohort and a separate CC-BY cohort is not created.
+- [x] Completed T131 and T132's PXD017052 CC-BY source-data audits. Twelve
+  verified publisher assets now close nine quantitative result headers and raw
+  basenames to explicit SPION/replicate records. The complete route remains one
+  laboratory and outside the CC0 cohort pending an explicit CC-BY amendment.
 
 ## Discoveries
 
@@ -117,12 +116,11 @@ evidence.
   metrics, while their sample/process names do not map units to numeric material
   or size covariates or to a common cross-study endpoint; it is retained as a
   narrowly non-admitted lead rather than added to the five-source synthesis.
-- PXD017052's four publisher assets are now checksum-verified and schema-audited.
-  Supplementary Data 1 names all nine PRIDE raw-file basenames in quantitative
-  columns, while Source Data labels three SPION replicate triplets. No released
-  table joins the two identities. The public CC0-only T129 rule remains
-  unchanged; ordering, signal values and replicate grouping are prohibited map
-  substitutes.
+- PXD017052's twelve publisher assets are checksum-verified and schema-audited.
+  Supplementary Data 6 explicitly joins all nine quantitative result/raw units
+  to a SPION and replicate number. The public CC0-only T129 rule remains
+  unchanged; the complete CC-BY single-laboratory route still needs an explicit
+  amendment and a shared second-laboratory endpoint.
 
 ## Decisions
 

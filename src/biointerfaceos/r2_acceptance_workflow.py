@@ -68,11 +68,11 @@ def _string_list(value: Any, label: str, *, minimum: int) -> list[str]:
 class R2AcceptanceWorkflow:
     """Emit a blocked receipt until external reproduction and editorial review exist."""
 
-    AUDIT_ID = "bioif-r2-acceptance-readiness-v1.3.0"
+    AUDIT_ID = "bioif-r2-acceptance-readiness-v1.4.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PROTOCOL_DECLARED_AT = "2026-08-12T00:00:00+00:00"
     PROTOCOL_RELATIVE = "docs/data/R2_EXTERNAL_REPRODUCTION_AND_EDITORIAL_PROTOCOL.json"
-    PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.3.0/portfolio_receipt.json"
+    PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.4.0/portfolio_receipt.json"
     T123_COMPATIBILITY_RELATIVE = (
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
     )
@@ -86,7 +86,7 @@ class R2AcceptanceWorkflow:
         "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
     )
     T129_CURRENT_TARGET_EVIDENCE_RELATIVE = (
-        "reports/review_round_2/t129_current_target_evidence/v1.1.0/"
+        "reports/review_round_2/t129_current_target_evidence/v1.2.0/"
         "current_target_evidence_receipt.json"
     )
     T131_SOURCE_DATA_RELATIVE = (
@@ -95,7 +95,7 @@ class R2AcceptanceWorkflow:
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
     TASKS_RELATIVE = "TASKS.tsv"
-    OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.3.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.4.0"
     REQUIRED_PROTOCOL_FIELDS = {
         "schema_version",
         "protocol_id",
@@ -303,7 +303,7 @@ class R2AcceptanceWorkflow:
             != "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
             or t129_current_target_evidence.get("candidate_source_count") != 6
             or t129_current_target_evidence.get("candidate_laboratory_count") != 5
-            or t129_current_target_evidence.get("verified_source_asset_count") != 16
+            or t129_current_target_evidence.get("verified_source_asset_count") != 24
             or t129_current_target_evidence.get("admissible_target_count") != 0
             or t129_current_target_evidence.get("target_status") != "NOT_FROZEN"
             or t129_current_target_evidence.get("model_use") != "PROHIBITED"

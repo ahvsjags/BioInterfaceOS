@@ -49,9 +49,9 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
 class T129CurrentTargetEvidenceWorkflow:
     """Verify all current T129 source tranches without allowing target promotion."""
 
-    AUDIT_ID = "bioif-r2-t129-current-target-evidence-v1.1.0"
+    AUDIT_ID = "bioif-r2-t129-current-target-evidence-v1.2.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
-    OUTPUT_RELATIVE = "reports/review_round_2/t129_current_target_evidence/v1.1.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/t129_current_target_evidence/v1.2.0"
     RECEIPTS = {
         "initial_admission": (
             "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json",
@@ -68,6 +68,11 @@ class T129CurrentTargetEvidenceWorkflow:
         "pxd017052_source_data": (
             "reports/review_round_2/pxd017052_source_data/v1.0.0/pxd017052_source_data_receipt.json",
             "T131 PXD017052 source-data receipt",
+        ),
+        "pxd017052_complete_attachments": (
+            "reports/review_round_2/pxd017052_complete_attachments/v1.0.0/"
+            "complete_attachment_receipt.json",
+            "T132 PXD017052 complete-attachment receipt",
         ),
     }
     REQUIRED_FALSE = (
@@ -115,6 +120,7 @@ class T129CurrentTargetEvidenceWorkflow:
         discovery = sources["expansion_discovery"][1]
         pxd030327 = sources["pxd030327_unit_map"][1]
         pxd017052 = sources["pxd017052_source_data"][1]
+        pxd017052_complete = sources["pxd017052_complete_attachments"][1]
         self._require(
             initial.get("audit_id") == "bioif-r2-cc0-target-admission-v1.0.0"
             and initial.get("status") == "BLOCKED_NO_CC0_COMMON_TARGET"
@@ -165,6 +171,19 @@ class T129CurrentTargetEvidenceWorkflow:
             "PXD017052 public source-data tranche",
         )
         self._require(
+            pxd017052_complete.get("audit_id")
+            == "bioif-r2-pxd017052-complete-attachments-v1.0.0"
+            and pxd017052_complete.get("status")
+            == "VERIFIED_COMPLETE_UNIT_TO_PARTICLE_MAP_SINGLE_LAB_CCBY"
+            and pxd017052_complete.get("extension_asset_count") == 8
+            and pxd017052_complete.get("explicit_unit_to_particle_map_count") == 9
+            and pxd017052_complete.get("admission")
+            == "NOT_ADMITTED_PENDING_CCBY_AMENDMENT_AND_SECOND_LAB"
+            and pxd017052_complete.get("cc0_cohort_status") == "UNCHANGED"
+            and pxd017052_complete.get("model_use") == "PROHIBITED",
+            "PXD017052 complete CC-BY source-map correction",
+        )
+        self._require(
             all(
                 source[1].get(field) is False
                 for source in sources.values()
@@ -193,12 +212,12 @@ class T129CurrentTargetEvidenceWorkflow:
             },
             "candidate_source_count": 6,
             "candidate_laboratory_count": 5,
-            "verified_source_asset_count": 16,
+            "verified_source_asset_count": 24,
             "source_condition_count": 18,
             "source_mapped_single_lab_unit_count": 636,
             "source_mapped_unique_matrix_run_count": 819,
             "unmapped_matrix_column_count": 183,
-            "incomplete_ccby_source_unit_route_count": 1,
+            "complete_ccby_source_unit_route_count": 1,
             "admissible_target_count": 0,
             "target_status": "NOT_FROZEN",
             "model_use": "PROHIBITED",
@@ -208,9 +227,10 @@ class T129CurrentTargetEvidenceWorkflow:
                 "PXD030327 verifies a single-laboratory run map and a source-defined numeric "
                 "protein-to-nanoparticle exposure, not a numeric material or size covariate; "
                 "categorical NP labels remain prohibited identity features.",
-                "PXD017052's four verified CC-BY publisher assets close nine result headers to "
-                "nine PRIDE raw-file basenames and document three numeric SPION records, but no "
-                "released asset joins the raw/result units to a particle identity.",
+                "T132 verifies the eight remaining PXD017052 publisher assets and a complete "
+                "nine-unit-to-SPION map, but this CC-BY single-laboratory route remains outside "
+                "the frozen CC0 cohort pending an explicit amendment and lacks a cross-study "
+                "endpoint.",
                 "The candidate outputs remain author-specific and heterogeneous, so they cannot "
                 "be concatenated before a shared preprocessing and analysis-unit contract is "
                 "frozen across independent laboratories.",
@@ -218,9 +238,9 @@ class T129CurrentTargetEvidenceWorkflow:
             "next_required_evidence": [
                 "Acquire at least two independent reusable sources with identically defined "
                 "protein-corona endpoints and unit-level numeric material or size covariates.",
-                "For PXD017052 specifically, obtain an official raw/result-unit-to-SPION "
-                "crosswalk rather than inferring one from ordering, intensity values or "
-                "replicate grouping.",
+                "For PXD017052 specifically, decide any explicit CC-BY cohort amendment without "
+                "weakening the CC0 public-release boundary, then obtain a second independent "
+                "laboratory with the same frozen endpoint.",
                 "Freeze the common preprocessing rule, biological-unit manifest, feature policy, "
                 "study-held-out split and negative controls in T121 Amendment v1.0.1 before any "
                 "T123 model run.",
@@ -250,7 +270,7 @@ class T129CurrentTargetEvidenceWorkflow:
         self.output_root.chmod(
             stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
         )
-        return T129CurrentTargetEvidenceSummary(6, 5, 16, receipt_path)
+        return T129CurrentTargetEvidenceSummary(6, 5, 24, receipt_path)
 
     def verify(self) -> T129CurrentTargetEvidenceSummary:
         """Verify all source hashes and the current no-target receipt."""
@@ -261,7 +281,7 @@ class T129CurrentTargetEvidenceWorkflow:
         required_counts = {
             "candidate_source_count": 6,
             "candidate_laboratory_count": 5,
-            "verified_source_asset_count": 16,
+            "verified_source_asset_count": 24,
             "admissible_target_count": 0,
         }
         self._require(
@@ -295,7 +315,7 @@ class T129CurrentTargetEvidenceWorkflow:
         )
         self._require(
             report.get("source_condition_count") == 18
-            and report.get("incomplete_ccby_source_unit_route_count") == 1,
+            and report.get("complete_ccby_source_unit_route_count") == 1,
             "current T129 source accounting",
         )
-        return T129CurrentTargetEvidenceSummary(6, 5, 16, receipt_path)
+        return T129CurrentTargetEvidenceSummary(6, 5, 24, receipt_path)

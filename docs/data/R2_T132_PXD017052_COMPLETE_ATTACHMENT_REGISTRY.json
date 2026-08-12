@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r2-pxd017052-complete-attachments-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "base_t131_registry": "docs/data/R2_T131_PXD017052_SOURCE_DATA_AUDIT_REGISTRY.json",
+  "base_t131_receipt": "reports/review_round_2/pxd017052_source_data/v1.0.0/pxd017052_source_data_receipt.json",
+  "raw_directory": "data/raw/r2_t131_pxd017052",
+  "assets": [
+    {"file_name":"41467_2020_17033_MOESM4_ESM.xlsx","bytes":3533022,"sha256":"13917c5c2c12c898056cf985c7364d58fc8072bef568946adc86cfc3a92c22e6","md5":"fec88175634360eaf3dd8d7c36ff9ca0","publisher_etag":"fec88175634360eaf3dd8d7c36ff9ca0","role":"SUPPLEMENTARY_DATA_2"},
+    {"file_name":"41467_2020_17033_MOESM5_ESM.xlsx","bytes":19457,"sha256":"af01230d9245c9f05cac22578d1e33d0d727b54e324fc8c57b5913b5a61de3b1","md5":"9272c6dc86498b2f671c7d26c7a90069","publisher_etag":"9272c6dc86498b2f671c7d26c7a90069","role":"SUPPLEMENTARY_DATA_3"},
+    {"file_name":"41467_2020_17033_MOESM6_ESM.xlsx","bytes":3164590,"sha256":"831b791147efeb5ead3cb18d3b6395d6d5a47e9d4ed7eae0655656c837c7ba1a","md5":"25cd70c1cd47721bcd6e7652c8317d30","publisher_etag":"25cd70c1cd47721bcd6e7652c8317d30","role":"SUPPLEMENTARY_DATA_4"},
+    {"file_name":"41467_2020_17033_MOESM7_ESM.xlsx","bytes":16098665,"sha256":"2f133be55c63b5959c19381f830c83304192063403c5f1ab8e2a8e3f3c7dab74","md5":"c65ecf9754a0adb88823e9ef1744875b","publisher_etag":"c65ecf9754a0adb88823e9ef1744875b","role":"SUPPLEMENTARY_DATA_5"},
+    {"file_name":"41467_2020_17033_MOESM8_ESM.xlsx","bytes":98396,"sha256":"3f49b1ebaf00a71e5ba2d2a6d3f520eeae7eb8d21a6e2359fc87352ec5c37005","md5":"75006abc765377eecf27dbd180f7b1eb","publisher_etag":"75006abc765377eecf27dbd180f7b1eb","role":"SUPPLEMENTARY_DATA_6_UNIT_MAP"},
+    {"file_name":"41467_2020_17033_MOESM9_ESM.xlsx","bytes":20134,"sha256":"ea37b7253145d204a8123dbf5fa70e46660d398099cccc0e294b6c370f3517c0","md5":"8ff0e3413af49e36f65eade8e814753f","publisher_etag":"8ff0e3413af49e36f65eade8e814753f","role":"SUPPLEMENTARY_DATA_7"},
+    {"file_name":"41467_2020_17033_MOESM10_ESM.xlsx","bytes":29138,"sha256":"7f024ca30894a91c132ad2e9d51559dde281f8089058f6147cd6586b0731960a","md5":"21098061dce5679df2f6b8f1a5b4d775","publisher_etag":"21098061dce5679df2f6b8f1a5b4d775","role":"SUPPLEMENTARY_DATA_8"},
+    {"file_name":"41467_2020_17033_MOESM11_ESM.pdf","bytes":138851,"sha256":"0f74c230e168cf527729b713c01a61d929bc5d30d57a3b84a5c2b007df7b2a64","md5":"d1d3181a7ea2ce6f1ffce8d5cf574758","publisher_etag":"d1d3181a7ea2ce6f1ffce8d5cf574758","role":"REPORTING_SUMMARY"}
+  ],
+  "unit_map": [
+    {"particle":"SP-003-001","result_unit_id":"EXP18102_X1067_A_MSB37241A","assay_replicate":1},
+    {"particle":"SP-003-001","result_unit_id":"EXP18102_X1066_A_MSB37240A","assay_replicate":2},
+    {"particle":"SP-003-001","result_unit_id":"EXP18102_X1068_A_MSB37242A","assay_replicate":3},
+    {"particle":"SP-007-002","result_unit_id":"EXP18102_X1108_A_MSB37282A","assay_replicate":1},
+    {"particle":"SP-007-002","result_unit_id":"EXP18102_X1110_B_MSB37284B","assay_replicate":2},
+    {"particle":"SP-007-002","result_unit_id":"EXP18102_X1109_A_MSB37283A","assay_replicate":3},
+    {"particle":"SP-011-001","result_unit_id":"EXP18102_X1116_A_MSB37290A","assay_replicate":1},
+    {"particle":"SP-011-001","result_unit_id":"EXP18102_X1115_A_MSB37289A","assay_replicate":2},
+    {"particle":"SP-011-001","result_unit_id":"EXP18102_X1114_A_MSB37288A","assay_replicate":3}
+  ],
+  "decision": {
+    "status": "VERIFIED_COMPLETE_UNIT_TO_PARTICLE_MAP_SINGLE_LAB_CCBY",
+    "admission": "NOT_ADMITTED_PENDING_CCBY_AMENDMENT_AND_SECOND_LAB",
+    "cc0_cohort_status": "UNCHANGED",
+    "model_use": "PROHIBITED"
+  }
+}

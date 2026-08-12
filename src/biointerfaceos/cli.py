@@ -570,6 +570,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit public PXD017052 source data without inferring a particle unit map",
     )
     model_pxd017052_source_data_parser.add_argument("--strict", action="store_true")
+    model_pxd017052_complete_attachments_parser = model_subparsers.add_parser(
+        "audit-pxd017052-complete-attachments",
+        help="correct T131 against the complete PXD017052 publisher attachment set",
+    )
+    model_pxd017052_complete_attachments_parser.add_argument("--strict", action="store_true")
     model_cc0_pxd030327_parser = model_subparsers.add_parser(
         "audit-cc0-pxd030327-unit-map",
         help="verify corrected PXD030327 source units without admitting a model target",
@@ -2301,6 +2306,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-t129-current-target-evidence",
             "audit-license-bound-source-maps",
             "audit-pxd017052-source-data",
+            "audit-pxd017052-complete-attachments",
         }:
             parser.parse_args(["model", "--help"])
             return 0
@@ -2459,7 +2465,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
 
             root = find_repository_root()
             if root is None:
-                print("T129_CURRENT_TARGET_EVIDENCE_INVALID: repository root not found", file=sys.stderr)
+                print(
+                    "T129_CURRENT_TARGET_EVIDENCE_INVALID: repository root not found",
+                    file=sys.stderr,
+                )
                 return 1
             workflow = T129CurrentTargetEvidenceWorkflow(root)
             try:
@@ -2484,7 +2493,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
 
             root = find_repository_root()
             if root is None:
-                print("LICENSE_BOUND_SOURCE_MAP_INVALID: repository root not found", file=sys.stderr)
+                print(
+                    "LICENSE_BOUND_SOURCE_MAP_INVALID: repository root not found", file=sys.stderr
+                )
                 return 1
             workflow = LicenseBoundSourceMapWorkflow(root)
             try:
@@ -2524,6 +2535,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"result_units={summary.result_unit_count} "
                 f"result_to_raw_matches={summary.result_to_raw_match_count} "
                 f"explicit_raw_to_particle_maps={summary.explicit_raw_to_particle_map_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-pxd017052-complete-attachments":
+            from biointerfaceos.pxd017052_complete_attachments import (
+                PXD017052CompleteAttachmentsError,
+                PXD017052CompleteAttachmentsWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print(
+                    "PXD017052_COMPLETE_ATTACHMENTS_INVALID: repository root not found",
+                    file=sys.stderr,
+                )
+                return 1
+            try:
+                summary = PXD017052CompleteAttachmentsWorkflow(root).run(strict=args.strict)
+            except (PXD017052CompleteAttachmentsError, OSError) as exc:
+                print(f"PXD017052_COMPLETE_ATTACHMENTS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "PXD017052_COMPLETE_ATTACHMENTS_VALID "
+                f"extension_assets={summary.asset_count} "
+                f"explicit_unit_particle_maps={summary.unit_map_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0

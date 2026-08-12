@@ -68,7 +68,7 @@ def _string_list(value: Any, label: str, *, minimum: int = 1) -> list[str]:
 class ManuscriptPortfolioWorkflow:
     """Create a fail-closed receipt for R2's protocol-only portfolio state."""
 
-    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.3.0"
+    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.4.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PORTFOLIO_RELATIVE = "docs/manuscripts/R2_MANUSCRIPT_PORTFOLIO.json"
     COMPARATOR_MAP_RELATIVE = "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json"
@@ -90,11 +90,11 @@ class ManuscriptPortfolioWorkflow:
         "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
     )
     T129_CURRENT_TARGET_EVIDENCE_RELATIVE = (
-        "reports/review_round_2/t129_current_target_evidence/v1.1.0/"
+        "reports/review_round_2/t129_current_target_evidence/v1.2.0/"
         "current_target_evidence_receipt.json"
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
-    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.3.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.4.0"
     REQUIRED_PORTFOLIO_FIELDS = {
         "schema_version",
         "portfolio_id",
@@ -178,7 +178,7 @@ class ManuscriptPortfolioWorkflow:
         if set(portfolio) != self.REQUIRED_PORTFOLIO_FIELDS or portfolio.get("schema_version") != 1:
             raise ManuscriptPortfolioError("R2 manuscript portfolio schema is invalid")
         if (
-            portfolio.get("portfolio_id") != "bioif-r2-manuscript-portfolio-v1.3.0"
+            portfolio.get("portfolio_id") != "bioif-r2-manuscript-portfolio-v1.4.0"
             or portfolio.get("declared_at") != self.AUDITED_AT
             or portfolio.get("status") != "PROTOCOL_PORTFOLIO_PENDING_REAL_EVIDENCE"
             or portfolio.get("required_legacy_withdrawal_count") != 15
@@ -380,7 +380,7 @@ class ManuscriptPortfolioWorkflow:
             != "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
             or t129_current_target_evidence.get("candidate_source_count") != 6
             or t129_current_target_evidence.get("candidate_laboratory_count") != 5
-            or t129_current_target_evidence.get("verified_source_asset_count") != 16
+            or t129_current_target_evidence.get("verified_source_asset_count") != 24
             or t129_current_target_evidence.get("admissible_target_count") != 0
             or t129_current_target_evidence.get("target_status") != "NOT_FROZEN"
             or t129_current_target_evidence.get("model_use") != "PROHIBITED"
@@ -429,7 +429,7 @@ class ManuscriptPortfolioWorkflow:
                 "t129_discovery_admissible_target_count": 0,
                 "t129_current_target_evidence_candidate_source_count": 6,
                 "t129_current_target_evidence_candidate_laboratory_count": 5,
-                "t129_current_target_evidence_verified_source_asset_count": 16,
+                "t129_current_target_evidence_verified_source_asset_count": 24,
                 "t124_external_evaluator_receipt_verified": False,
             },
             len(figure_rows),
@@ -483,7 +483,7 @@ class ManuscriptPortfolioWorkflow:
             "t129_discovery_admissible_target_count": 0,
             "t129_current_target_evidence_candidate_source_count": 6,
             "t129_current_target_evidence_candidate_laboratory_count": 5,
-            "t129_current_target_evidence_verified_source_asset_count": 16,
+            "t129_current_target_evidence_verified_source_asset_count": 24,
             "t124_external_evaluator_receipt_verified": False,
             "historical_fixture_manuscripts_reused": False,
             "model_fitted": False,
@@ -533,7 +533,7 @@ class ManuscriptPortfolioWorkflow:
             "t129_discovery_admissible_target_count": 0,
             "t129_current_target_evidence_candidate_source_count": 6,
             "t129_current_target_evidence_candidate_laboratory_count": 5,
-            "t129_current_target_evidence_verified_source_asset_count": 16,
+            "t129_current_target_evidence_verified_source_asset_count": 24,
         }
         if any(receipt.get(key) != value for key, value in expected.items()) or any(
             receipt.get(field) is not False

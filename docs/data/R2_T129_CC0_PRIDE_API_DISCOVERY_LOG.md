@@ -87,6 +87,14 @@ T131 retains the exact verified records and prohibits inference; no separate
 CC-BY candidate cohort is created. This still would not establish the required
 second independent laboratory or frozen common endpoint.
 
+**Correction (T132):** This decision is superseded for the complete publisher
+attachment set. Checksum-verified Supplementary Data 6 explicitly maps all
+nine T131 result/raw unit identifiers to SP-003-001, SP-007-002 or SP-011-001
+and a replicate number. The route is now a complete **CC-BY,
+single-laboratory** source, not a CC0 target: it remains non-admitted pending
+an explicit CC-BY cohort amendment, a second independent laboratory and a
+frozen shared endpoint.
+
 ## Relation to existing T129 evidence
 
 PXD016229 and PXD054751 remain in the immutable admission receipt; PXD053359

@@ -63,9 +63,20 @@ If a future asset supplies the crosswalk, issue a new versioned audit. Do not
 infer it from file order, value patterns or replicate order; do not query
 authors on behalf of the user or copy article labels into a public CC0 registry.
 
-## Completion note
+## Scope correction and completion note
+
+The v1.0 receipt is correct for its four checksum-verified, explicitly scoped
+assets, but its statement that no *released* crosswalk was available was too
+broad. On 2026-08-13, a normal publisher listing review identified
+Supplementary Data 6 (`MOESM8`), outside the v1.0 asset inventory. Its first
+section appears to name the same nine result units beside particle identifiers
+and replicate numbers. T132 is opened to checksum and parse the complete
+remaining publisher attachment set, verify that apparent map against the T131
+units, and issue a separate correction receipt. Until that audit succeeds,
+T131's negative conclusion is limited to its original four assets.
 
 T131 is complete at its recovery-and-audit scope. The immutable receipt is
 `reports/review_round_2/pxd017052_source_data/v1.0.0/`; it records
 `NOT_ADMITTED`, `model_use=PROHIBITED`, zero explicit raw-to-particle maps and
-false model/OOD/independent-validation fields.
+false model/OOD/independent-validation fields. It is not the final statement
+about uninspected publisher assets.
