@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-external-evaluator-and-reproduction-v1.0.0",
+  "declared_at": "2026-08-13T00:00:00+00:00",
+  "status": "HANDOFF_OPEN_NO_RECEIPT",
+  "public_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "tag": "v0.1.0-r4",
+    "commit": "79607ae9bfd8cd79095262df61f075dafe468819",
+    "doi_status": "PENDING_NOT_ARCHIVED"
+  },
+  "independent_evaluator_requirements": {
+    "must_not_include_authors": true,
+    "must_not_be_under_author_project_control": true,
+    "conflict_disclosure_required": true,
+    "protected_input_held_by_evaluator": true,
+    "author_access_to_row_level_input_or_intermediate_results": false,
+    "aggregate_receipt_only": true
+  },
+  "external_reproduction_requirements": {
+    "clean_checkout_required": true,
+    "environment_lockfile_or_container_digest_required": true,
+    "source_accession_reacquisition_or_attestation_required": true,
+    "complete_commands_and_logs_required": true,
+    "deviation_ledger_required": true,
+    "negative_and_failed_runs_must_be_reported": true
+  },
+  "frozen_primary_outputs": [
+    "mean measurement-batch Spearman correlation",
+    "cluster-aware 95% interval",
+    "mean measurement-batch MAE and RMSE",
+    "full-minus-composition paired ablation",
+    "within-batch rank permutation negative control",
+    "effective counts by batch, target, lineage and institution"
+  ],
+  "required_receipt_fields": [
+    "evaluator_or_reproduction_team_identity",
+    "institution_and_contact",
+    "conflict_disclosure",
+    "protocol_sha256",
+    "input_manifest_sha256_or_protected_data_attestation",
+    "checkout_commit",
+    "environment_digest",
+    "dependency_lockfile_sha256",
+    "commands_and_scope",
+    "stdout_stderr_hashes",
+    "raw_output_hashes",
+    "deviation_ledger",
+    "complete_result_summary",
+    "failure_and_negative_result_record",
+    "signed_attestation",
+    "immutable_archive_locator"
+  ],
+  "prohibited_actions": [
+    "author_team_self_certification_as_independent_evaluation",
+    "using_public_development_data_as_a_protected_lockbox",
+    "fixture_substitution_for_scientific_reproduction",
+    "unlogged_manual_tuning_or_data_repair",
+    "omitting_failed_or_negative_runs",
+    "changing_primary_endpoint_after_data_access",
+    "setting_scientific_submission_ready_true_before_receipt_verification"
+  ],
+  "claim_boundary": "This protocol defines a handoff and receipt contract. Until a real non-author evaluator or reproduction team submits a verifiable receipt, independent_validation and external_scientific_reproduction remain false."
+}
