@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-output_root="\${1:-external_reproduction_run}"
+output_root="${1:-external_reproduction_run}"
+analysis_output_root="reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0"
 mkdir -p "$output_root"
 
 git rev-parse HEAD | tee "$output_root/checkout_commit.txt"
@@ -18,13 +19,15 @@ uv sync --locked --all-groups 2>&1 | tee "$output_root/environment_install.log"
 {
   printf '%s\n' 'uv run python -m biointerfaceos data verify-r4-pxd064962-source --assets-root data/raw/r4_candidate_pxd064962_ucd --strict'
   uv run python -m biointerfaceos data verify-r4-pxd064962-source --assets-root data/raw/r4_candidate_pxd064962_ucd --strict
-  printf '%s\n' 'uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict'
-  uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict
+  printf '%s\n' 'uv run python -m biointerfaceos data evaluate-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0'
+  uv run python -m biointerfaceos data evaluate-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0
+  printf '%s\n' 'uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0'
+  uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0
 } 2>&1 | tee "$output_root/receipt_verification.log"
 
 uv lock --check 2>&1 | tee "$output_root/lock_check.log"
 sha256sum uv.lock pyproject.toml CITATION.cff > "$output_root/environment_input_hashes.txt"
-find reports/review_round_4/pxd064962_low_coverage_sensitivity/v1.0.0 -type f -print0 \
+find "$analysis_output_root" -type f -print0 \
   | sort -z \
   | xargs -0 sha256sum > "$output_root/t190_output_hashes.txt"
 

@@ -740,11 +740,23 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="execute the frozen PXD064962 low-coverage sensitivity analysis",
     )
     data_r4_pxd064962_sensitivity_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd064962_sensitivity_parser.add_argument(
+        "--output-root",
+        type=Path,
+        default=None,
+        help="optional repository-relative output directory for an independent rerun",
+    )
     data_r4_pxd064962_sensitivity_verify_parser = data_subparsers.add_parser(
         "verify-r4-pxd064962-low-coverage-sensitivity",
         help="verify the frozen PXD064962 low-coverage sensitivity receipt",
     )
     data_r4_pxd064962_sensitivity_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd064962_sensitivity_verify_parser.add_argument(
+        "--output-root",
+        type=Path,
+        default=None,
+        help="optional repository-relative output directory to verify",
+    )
     data_r4_small_molecule_ood_parser = data_subparsers.add_parser(
         "evaluate-r4-small-molecule-corona-ood",
         help="run the frozen author-run public OOD evaluation on the separate PMC11544298 candidate",
@@ -4479,7 +4491,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(root).run(
+                sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(
+                    root, output_root=args.output_root
+                ).run(
                     strict=args.strict
                 )
             except (R4PXD064962SensitivityError, OSError) as exc:
@@ -4509,7 +4523,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 print("R4_PXD064962_SENSITIVITY_VERIFY_INVALID: requires --strict", file=sys.stderr)
                 return 1
             try:
-                sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(root).verify()
+                sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(
+                    root, output_root=args.output_root
+                ).verify()
             except (R4PXD064962SensitivityError, OSError) as exc:
                 print(f"R4_PXD064962_SENSITIVITY_VERIFY_INVALID: {exc}", file=sys.stderr)
                 return 1
