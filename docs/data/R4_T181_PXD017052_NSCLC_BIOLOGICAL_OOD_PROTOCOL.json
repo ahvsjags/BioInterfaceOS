@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-pxd017052-nsclc-biological-ood-protocol-v1.0.0",
+  "frozen_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "references": {
+    "r3_analysis_protocol_receipt": {
+      "relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/analysis_protocol_receipt.json",
+      "sha256": "238fb3cdf5932d60810e587b4a58c86c30ed9456d7a2f7b4223e94ddef4baf1f"
+    },
+    "r3_common_target_ledger": {
+      "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+      "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+    },
+    "r3_sequence_feature_table": {
+      "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+      "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+    },
+    "r4_source_audit_receipt": {
+      "relative_path": "reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/pxd017052_nsclc_source_audit_receipt.json",
+      "sha256": "dd1ef23771ab9fad2493651726977928a10786ecd35da9daa478572b6582d56d"
+    },
+    "r4_source_cell_map": {
+      "relative_path": "data/raw/r4_candidate_pxd017052_nsclc/derived/R4_PXD017052_NSCLC_source_cell_map.csv",
+      "sha256": "2b5074a825108675aa28fd63f644a3f9aadb7996d6772943b84451a460239e2d"
+    }
+  },
+  "target": {
+    "target_id": "R4_WITHIN_SUBJECT_NP_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "development_target": "the frozen R3 source-local descending midrank percentile",
+    "external_target": "descending midrank percentile among strictly positive finite mapped protein values within each subject-particle NP-corona measurement batch",
+    "cross_study_raw_scale": "PROHIBITED",
+    "missingness": "NA and zero are retained as non-rank-eligible; no imputation or non-detection inference"
+  },
+  "development_selection": {
+    "fit_population": "all 2,724 eligible frozen R3 development observations",
+    "alpha_selection": "nested leave-one-measurement-batch-out selection over alpha grid [0.01, 0.1, 1.0, 10.0, 100.0]",
+    "outer_external_data_isolation": "the 141-subject cohort is not used for feature selection, alpha selection or refitting"
+  },
+  "external_evaluation": {
+    "source_id": "PXD017052_SEER_BROAD_NSCLC_COHORT",
+    "laboratory_anchor": "Seer, Inc. / Broad Institute of MIT and Harvard",
+    "biological_unit": "individual subject plasma sample identified by the first header token",
+    "measurement_role": "NP_CORONA only; depleted plasma columns excluded",
+    "expected_biological_unit_count": 141,
+    "expected_measurement_batch_count": 705,
+    "expected_rank_qualified_measurement_batch_count": 666,
+    "expected_external_observation_count": 17026,
+    "expected_shared_canonical_protein_count": 34,
+    "minimum_proteins_per_measurement_batch": 10,
+    "access_condition": "paper-attached CC-BY-4.0 Supplementary Data 5; author-run exploratory cohort OOD; not a protected lockbox and not an independent evaluator"
+  },
+  "feature_policy": {
+    "feature_table": "frozen R3 UniProt sequence descriptors",
+    "full_model": "all frozen sequence descriptors",
+    "composition_only_model": "amino-acid composition descriptors only",
+    "no_external_retraining": true
+  },
+  "models": [
+    {
+      "model_id": "CONSTANT_TRAINING_MEAN",
+      "hyperparameters": {}
+    },
+    {
+      "model_id": "SEQUENCE_RIDGE_FULL",
+      "hyperparameters": {
+        "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]
+      }
+    },
+    {
+      "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+      "hyperparameters": {
+        "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]
+      }
+    }
+  ],
+  "metrics": {
+    "primary": "subject-equal mean of within-subject batch Spearman correlations",
+    "secondary": [
+      "batch-weighted mean Spearman",
+      "subject-equal mean absolute error",
+      "subject-equal root mean squared error",
+      "paired full-minus-composition subject-equal Spearman difference"
+    ],
+    "constant_baseline_spearman": "undefined by construction and reported as such",
+    "failure_reporting": "all qualified batches and all 141 subject clusters remain in the denominator; undefined correlations are not silently dropped"
+  },
+  "uncertainty": {
+    "cluster": "biological_unit_id",
+    "resamples": 2000,
+    "random_seed": 181,
+    "interval": "percentile 95% cluster bootstrap over 141 subjects"
+  },
+  "negative_control": {
+    "type": "within-development-batch target permutation",
+    "resamples": 256,
+    "random_seed": 1811,
+    "primary_endpoint": "subject-equal mean Spearman on the held-out cohort"
+  },
+  "claim_boundary": "This is an author-run exploratory biological-cohort OOD execution. It can quantify subject-level effective n and test transport to a paper-attached 141-subject cohort, but it is not a protected lockbox evaluation, independent evaluator receipt, no-author reproduction, new laboratory anchor or submission-readiness gate."
+}

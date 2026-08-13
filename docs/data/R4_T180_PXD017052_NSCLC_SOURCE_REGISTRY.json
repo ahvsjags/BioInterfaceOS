@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-pxd017052-nsclc-source-audit-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "article": {
+    "pmcid": "PMC7376165",
+    "doi": "10.1038/s41467-020-17033-7",
+    "title": "Rapid, deep and precise profiling of the plasma proteome with multi-nanoparticle protein corona",
+    "publication_year": 2020,
+    "license": "CC-BY-4.0",
+    "full_text_locator": "https://europepmc.org/articles/PMC7376165"
+  },
+  "source_scope": {
+    "source_id": "PXD017052_SEER_BROAD_NSCLC_COHORT",
+    "laboratory_anchor": "Seer, Inc. / Broad Institute of MIT and Harvard",
+    "biofluid": "individual human plasma samples",
+    "measurement_design": "five nanoparticle corona conditions plus depleted-plasma control per subject",
+    "analysis_role": "SEPARATE_R4_BIOLOGICAL_COHORT_OOD_CANDIDATE",
+    "prohibited_interpretations": [
+      "not an independent laboratory anchor",
+      "not a protected lockbox evaluator",
+      "not a no-author scientific reproduction",
+      "not a clinical diagnostic validation"
+    ]
+  },
+  "source_assets": [
+    {
+      "asset_id": "supplementary_data_5_nsclc",
+      "relative_path": "41467_2020_17033_MOESM7_ESM.xlsx",
+      "sha256": "2f133be55c63b5959c19381f830c83304192063403c5f1ab8e2a8e3f3c7dab74",
+      "expected_bytes": 16098665
+    }
+  ],
+  "reference_assets": [
+    {
+      "asset_id": "r3_common_target_ledger",
+      "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+      "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+    },
+    {
+      "asset_id": "r3_feature_table",
+      "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+      "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+    },
+    {
+      "asset_id": "source_identifier_resolution",
+      "relative_path": "data/raw/r3_uniprot_v1_0_1/uniprot_human_mapping/source_identifier_resolution.csv",
+      "sha256": "7eea5921521831c8e0b3cd6c084370ad00d6f5498248af9f3f9513e2b00bd740"
+    }
+  ],
+  "worksheet_contract": {
+    "worksheet": "Sheet1",
+    "expected_rows": 2586,
+    "expected_columns": 847,
+    "header_row": 2,
+    "protein_row_start": 3,
+    "subject_count": 141,
+    "nanoparticle_condition_count": 5,
+    "depleted_plasma_control_count": 141
+  },
+  "quantification_contract": {
+    "source_protein_column": "prot_group",
+    "source_identifier_resolution": "exact source_identifier_resolution row with UNIQUE_HUMAN_CANONICAL_ACCESSION; no ambiguous group splitting",
+    "rank_eligibility": "strictly positive finite author-reported value within one subject-particle measurement batch",
+    "na_policy": "retain NA as AUTHOR_NA and exclude from rank; no imputation",
+    "zero_policy": "retain explicit numeric zero as AUTHOR_EXPLICIT_ZERO and exclude from rank",
+    "depleted_plasma_policy": "retain as provenance control but exclude from NP-corona analysis ledger",
+    "raw_scale_cross_study_use": "PROHIBITED"
+  },
+  "admission_minimums": {
+    "biological_unit_count": 141,
+    "measurement_batch_count": 705,
+    "rank_qualified_measurement_batch_count": 600,
+    "shared_canonical_protein_count": 30,
+    "minimum_positive_shared_proteins_per_measurement_batch": 10
+  },
+  "claim_boundary": "This receipt establishes a paper-attached, row-traceable 141-subject NP-corona cohort with 34 uniquely mapped members of the frozen R3 target universe. It improves biological-unit accounting and permits a separately frozen exploratory cohort analysis; it does not create a new laboratory anchor, protected lockbox, independent evaluator, no-author reproduction, or scientific submission readiness."
+}

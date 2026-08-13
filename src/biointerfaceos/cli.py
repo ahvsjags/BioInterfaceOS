@@ -594,6 +594,38 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the byte-verified PMC13106918 package and extracted MaxQuant files",
     )
     data_r4_pmc13106918_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd017052_nsclc_source_parser = data_subparsers.add_parser(
+        "audit-r4-pxd017052-nsclc-source",
+        help="audit the paper-attached 141-subject PXD017052 NSCLC corona matrix",
+    )
+    data_r4_pxd017052_nsclc_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified Supplementary Data 5 workbook",
+    )
+    data_r4_pxd017052_nsclc_source_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd017052_nsclc_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pxd017052-nsclc-source",
+        help="verify the frozen 141-subject PXD017052 NSCLC source receipt",
+    )
+    data_r4_pxd017052_nsclc_verify_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified Supplementary Data 5 workbook",
+    )
+    data_r4_pxd017052_nsclc_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd017052_nsclc_ood_parser = data_subparsers.add_parser(
+        "evaluate-r4-pxd017052-nsclc-biological-ood",
+        help="run the frozen exploratory OOD analysis on the 141-subject cohort",
+    )
+    data_r4_pxd017052_nsclc_ood_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd017052_nsclc_ood_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pxd017052-nsclc-biological-ood",
+        help="verify the frozen 141-subject biological OOD receipt",
+    )
+    data_r4_pxd017052_nsclc_ood_verify_parser.add_argument("--strict", action="store_true")
     data_r4_pmc13106918_ood_parser = data_subparsers.add_parser(
         "evaluate-r4-pmc13106918-technical-ood",
         help="run the frozen author-run technical OOD analysis for PMC13106918",
@@ -3506,6 +3538,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-r4-small-molecule-corona-source",
             "audit-r4-pmc13106918-source",
             "verify-r4-pmc13106918-source",
+            "audit-r4-pxd017052-nsclc-source",
+            "verify-r4-pxd017052-nsclc-source",
+            "evaluate-r4-pxd017052-nsclc-biological-ood",
+            "verify-r4-pxd017052-nsclc-biological-ood",
             "evaluate-r4-pmc13106918-technical-ood",
             "verify-r4-pmc13106918-technical-ood",
             "audit-r4-three-lab-common-target",
@@ -3863,6 +3899,114 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"shared_canonical_proteins={pmc13106918_summary.shared_canonical_protein_count} "
                 f"source_cells={pmc13106918_summary.source_cell_count} "
                 f"positive_source_cells={pmc13106918_summary.positive_source_cell_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-pxd017052-nsclc-source":
+            from biointerfaceos.r4_pxd017052_nsclc_source_audit import (
+                R4PXD017052NSCLCSourceAuditError,
+                R4PXD017052NSCLCSourceAuditWorkflow,
+            )
+
+            try:
+                nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (R4PXD017052NSCLCSourceAuditError, OSError) as exc:
+                print(f"R4_PXD017052_NSCLC_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD017052_NSCLC_SOURCE_AUDIT_VALID "
+                f"assets={nsclc_summary.source_asset_count} "
+                f"protein_rows={nsclc_summary.protein_row_count} "
+                f"biological_units={nsclc_summary.biological_unit_count} "
+                f"measurement_batches={nsclc_summary.measurement_batch_count} "
+                f"rank_qualified_measurement_batches={nsclc_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={nsclc_summary.shared_canonical_protein_count} "
+                f"source_cells={nsclc_summary.source_cell_count} "
+                f"positive_source_cells={nsclc_summary.positive_source_cell_count} "
+                "laboratories=1 model_fitted=false independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pxd017052-nsclc-source":
+            from biointerfaceos.r4_pxd017052_nsclc_source_audit import (
+                R4PXD017052NSCLCSourceAuditError,
+                R4PXD017052NSCLCSourceAuditWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PXD017052_NSCLC_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(
+                    root, args.assets_root
+                ).verify()
+            except (R4PXD017052NSCLCSourceAuditError, OSError) as exc:
+                print(f"R4_PXD017052_NSCLC_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD017052_NSCLC_SOURCE_VERIFY_VALID "
+                f"biological_units={nsclc_summary.biological_unit_count} "
+                f"measurement_batches={nsclc_summary.measurement_batch_count} "
+                f"rank_qualified_measurement_batches={nsclc_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={nsclc_summary.shared_canonical_protein_count} "
+                f"source_cells={nsclc_summary.source_cell_count} "
+                f"positive_source_cells={nsclc_summary.positive_source_cell_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-pxd017052-nsclc-biological-ood":
+            from biointerfaceos.r4_pxd017052_nsclc_biological_ood import (
+                R4PXD017052NSCLCBOODError,
+                R4PXD017052NSCLCBOODWorkflow,
+            )
+
+            try:
+                nsclc_ood = R4PXD017052NSCLCBOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    root / "data/raw/r4_candidate_pxd017052_nsclc",
+                ).run(strict=args.strict)
+            except (R4PXD017052NSCLCBOODError, OSError) as exc:
+                print(f"R4_PXD017052_NSCLC_BIOLOGICAL_OOD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD017052_NSCLC_BIOLOGICAL_OOD_VALID "
+                f"development_observations={nsclc_ood.development_observation_count} "
+                f"external_observations={nsclc_ood.external_observation_count} "
+                f"external_shared_canonical_proteins={nsclc_ood.external_shared_canonical_protein_count} "
+                f"external_measurement_batches={nsclc_ood.external_measurement_batch_count} "
+                f"biological_units={nsclc_ood.biological_unit_count} models={nsclc_ood.model_count} laboratories=1 "
+                "independent_validation=false external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pxd017052-nsclc-biological-ood":
+            from biointerfaceos.r4_pxd017052_nsclc_biological_ood import (
+                R4PXD017052NSCLCBOODError,
+                R4PXD017052NSCLCBOODWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PXD017052_NSCLC_BIOLOGICAL_OOD_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                nsclc_ood = R4PXD017052NSCLCBOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    root / "data/raw/r4_candidate_pxd017052_nsclc",
+                ).verify()
+            except (R4PXD017052NSCLCBOODError, OSError) as exc:
+                print(f"R4_PXD017052_NSCLC_BIOLOGICAL_OOD_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD017052_NSCLC_BIOLOGICAL_OOD_VERIFY_VALID "
+                f"development_observations={nsclc_ood.development_observation_count} "
+                f"external_observations={nsclc_ood.external_observation_count} "
+                f"external_measurement_batches={nsclc_ood.external_measurement_batch_count} "
+                f"biological_units={nsclc_ood.biological_unit_count} models={nsclc_ood.model_count} "
                 "scientific_submission_ready=false"
             )
             return 0

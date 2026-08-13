@@ -55,6 +55,12 @@ cd /ibex/user/xup0a/BioInterfaceOS-r3-real-data
 uv sync --locked --all-groups
 uv run pytest -q tests/review_round_3 tests/review_round_4
 uv run biointerfaceos data verify-r4-three-lab-common-target --strict
+
+## T180/T181 实施更新
+
+T180/T181 已把“真实数据拿不到”转化为一条可复核的论文数据路线：复用 PMC7376165 的 CC-BY-4.0 Supplementary Data 5，冻结 141 个 individual plasma subjects、705 个 NP-corona batches、34 个冻结 target 子集，并在 141 个 biological-unit clusters 上执行真实模型、成对消融、不确定性和负对照。结果为 full sequence ridge 的 subject-equal mean Spearman `0.06845`（95% cluster CI `[0.05253, 0.08293]`），composition-only `0.03917`（`[0.02132, 0.05493]`），paired delta `0.02928`（`[0.02413, 0.03451]`），negative-control upper-tail `p=0.24125`。
+
+该进展将“统计执行与有效样本”从仅有 technical/pool evidence 提高为有 141 个 biological-unit 的可运行 cohort evidence，也使模型/OOD 结果有更完整的有效 n 和 cluster-aware CI。但它仍来自 Seer/Broad 同一 laboratory anchor，结果仍为 author-run exploratory；负对照不显著、sequence 增量较小，不能升级为确认性机制结论。因此 T180/T181 不关闭 protected lockbox、非作者独立 evaluator、无作者科学复现、外部采用、版本 DOI 或 `scientific_submission_ready`。
 uv run biointerfaceos data verify-r4-pmc13106918-source --assets-root data/raw/r4_candidate_pmc13106918 --strict
 uv run biointerfaceos data verify-r4-pmc13106918-technical-ood --strict
 ```
