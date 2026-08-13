@@ -2,7 +2,7 @@
 
 ## 结论
 
-本轮完成了一个真实的工程改进：公开版本升级为 `v0.1.2-r7`，新增 cluster-sensitive OOD 审计、PMC13106918 technical source、三类外部 receipt 的结构预检、哈希校验、非作者声明校验和不晋级输出；KAUST 锁定环境完成 `28 passed`。这提高了交付与审计完整性，但没有产生任何第三方事实。因此 `scientific_submission_ready` 仍为 `false`，稿件仍是方法/软件与可审计 benchmark 的 Major Revision，而不是强 Q1 生物学发现论文。
+本轮完成了一个真实的工程改进：公开版本升级为 `v0.1.2-r8`，新增 cluster-sensitive OOD 审计、PMC13106918 technical source、三类外部 receipt 的结构预检、三实验室共同 target admission、哈希校验、非作者声明校验和不晋级输出；KAUST 锁定环境完成 `28 passed`。这提高了交付与审计完整性，但没有产生任何第三方事实。因此 `scientific_submission_ready` 仍为 `false`，稿件仍是方法/软件与可审计 benchmark 的 Major Revision，而不是强 Q1 生物学发现论文。
 
 ## 三类评审角色
 
@@ -37,7 +37,7 @@
 
 ## 本轮新增、可核查的交付
 
-- GitHub 版本化 handoff tag：`v0.1.2-r7`（固定 checkout，不使用移动的 `main`）。
+- GitHub 版本化 handoff tag：`v0.1.2-r8`（固定 checkout，不使用移动的 `main`）。
 - R4 receipt 结构预检：`src/biointerfaceos/r4_external_receipt_preflight.py`。
 - CLI：`biointerfaceos data preflight-r4-external-receipts --strict`。
 - 提交模板：`docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`。
@@ -99,3 +99,9 @@ remain false.
 但 T177 的 full sequence ridge 外部批次均值 Spearman 为 `0.0240`（95% bootstrap interval `[-0.0254, 0.0854]`），composition-only 为 `-0.0296`，within-batch permutation negative-control 上尾 `p=0.3268`。该来源只有一个 pooled biological unit，不能用 16 个 technical batches 或 pooled eight-donor description 替代独立 biological n。
 
 更新后的保守评分为：数据兼容性与样本基础 `64`、统计设计 `84`、统计执行与有效样本 `62`、模型/消融/OOD `57`、protected lockbox `4`、外部科学复现 `0`、外部采用 `25`；严格强 Q1 综合 `30/100`，`scientific_submission_ready=false`。完整五角色报告见 `docs/review_round_4/R4_T177_MULTI_AGENT_REVIEW_20260813.md`。该评分没有把作者运行、GitHub handoff、Issue 或下载行为当作第三方证据。
+
+## T178 三独立实验室共同 target admission 更新
+
+T178 对当前主 ledger 进行了独立重算并闭合了此前未明确验证的资产门槛：3 个 CC-BY source packages、3 个 laboratory anchors、3 份行级 source-cell maps、99 个三方交集 target、2,724 个共同 rank observations、47 个 measurement batches 和 20,469 个源单元格均通过哈希与 receipt 核验。数据兼容性与样本基础据此上调为保守的 `78/100`。
+
+该更新不改变其它硬门槛：Michigan State multi-core 的 core facilities 是技术测量单元而非独立生物学 cohort；三实验室资料属于 development population，不是非作者 protected lockbox；无作者科学复现和外部采用仍没有真实 receipt。当前严格强 Q1 综合仍为 `30/100`，`scientific_submission_ready=false`。

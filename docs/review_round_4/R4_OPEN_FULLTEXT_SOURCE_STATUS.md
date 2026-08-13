@@ -72,3 +72,20 @@ uv run biointerfaceos data verify-r4-pmc13106918-technical-ood --strict
 ```
 
 T177 只能提高“统计执行/模型证据”这一作者运行模块的可审计性；因为 biological unit=1、laboratory anchor=1、model execution 仍为作者运行，独立 lockbox、无作者复现、外部采用和 `scientific_submission_ready` 仍未关闭。
+
+## T178：三独立实验室共同 target admission closure
+
+对 R3 当前主 ledger 重新执行了跨实验室 admission audit，而不是沿用旧报告中的“identified/not yet admitted”文字。三个明确 CC-BY 来源及其行级 source-cell map 均通过 registry、source-audit report、receipt 和 SHA-256 核验：Seer/Broad、Michigan State multi-core、OUHSC。三者的共同 target intersection 为 `99` 个 UniProt accession；共同且 rank-eligible 的 observations 为 `2,724`，覆盖 `47` 个 measurement batches；三份 source-cell map 合计 `20,469` 个源单元格。
+
+这关闭了“是否已经有至少三个独立实验室共同真实 target”的资产审计缺口，但不把 Michigan State 的 12 个 core facility 写成 12 个生物学 cohort，也不把三实验室 development population 写成 protected lockbox 或无作者复现。所有源仍使用 source-local rank estimand，原始量纲不跨研究合并。
+
+可复核产物：
+
+- 注册表：`docs/data/R4_T178_THREE_LAB_COMMON_TARGET_ADMISSION.json`
+- 报告与 receipt：`reports/review_round_4/three_lab_common_target/v1.0.0/`
+- 命令：
+
+```bash
+uv run biointerfaceos data audit-r4-three-lab-common-target --strict
+uv run biointerfaceos data verify-r4-three-lab-common-target --strict
+```

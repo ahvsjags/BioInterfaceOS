@@ -604,6 +604,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen PMC13106918 technical OOD receipt",
     )
     data_r4_pmc13106918_ood_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_three_lab_parser = data_subparsers.add_parser(
+        "audit-r4-three-lab-common-target",
+        help="verify the three independent CC-BY laboratory common-target admission",
+    )
+    data_r4_three_lab_parser.add_argument("--strict", action="store_true")
+    data_r4_three_lab_verify_parser = data_subparsers.add_parser(
+        "verify-r4-three-lab-common-target",
+        help="verify the frozen three-laboratory common-target receipt",
+    )
+    data_r4_three_lab_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3498,6 +3508,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-pmc13106918-source",
             "evaluate-r4-pmc13106918-technical-ood",
             "verify-r4-pmc13106918-technical-ood",
+            "audit-r4-three-lab-common-target",
+            "verify-r4-three-lab-common-target",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-small-molecule-corona-ood",
@@ -3906,6 +3918,54 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"external_observations={technical_ood.external_observation_count} "
                 f"external_shared_canonical_proteins={technical_ood.shared_canonical_protein_count} "
                 f"external_measurement_batches={technical_ood.external_measurement_batch_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-three-lab-common-target":
+            from biointerfaceos.r4_three_lab_common_target_audit import (
+                R4ThreeLabCommonTargetAuditError,
+                R4ThreeLabCommonTargetAuditWorkflow,
+            )
+
+            try:
+                three_lab_summary = R4ThreeLabCommonTargetAuditWorkflow(root).run(strict=args.strict)
+            except (R4ThreeLabCommonTargetAuditError, OSError) as exc:
+                print(f"R4_THREE_LAB_COMMON_TARGET_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_THREE_LAB_COMMON_TARGET_AUDIT_VALID "
+                f"sources={three_lab_summary.source_count} "
+                f"laboratories={three_lab_summary.laboratory_anchor_count} "
+                f"common_targets={three_lab_summary.common_target_count} "
+                f"common_rank_observations={three_lab_summary.common_rank_observation_count} "
+                f"selected_source_rows={three_lab_summary.selected_source_row_count} "
+                f"measurement_batches={three_lab_summary.measurement_batch_count} "
+                f"source_cells={three_lab_summary.source_cell_count} "
+                "development_only=true independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-three-lab-common-target":
+            from biointerfaceos.r4_three_lab_common_target_audit import (
+                R4ThreeLabCommonTargetAuditError,
+                R4ThreeLabCommonTargetAuditWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_THREE_LAB_COMMON_TARGET_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                three_lab_summary = R4ThreeLabCommonTargetAuditWorkflow(root).verify()
+            except (R4ThreeLabCommonTargetAuditError, OSError) as exc:
+                print(f"R4_THREE_LAB_COMMON_TARGET_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_THREE_LAB_COMMON_TARGET_VERIFY_VALID "
+                f"sources={three_lab_summary.source_count} "
+                f"laboratories={three_lab_summary.laboratory_anchor_count} "
+                f"common_targets={three_lab_summary.common_target_count} "
+                f"common_rank_observations={three_lab_summary.common_rank_observation_count} "
+                f"measurement_batches={three_lab_summary.measurement_batch_count} "
                 "scientific_submission_ready=false"
             )
             return 0

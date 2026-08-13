@@ -79,3 +79,9 @@ T176/T177 解决了两项此前真实缺口：一个公开全文来源的 datase
 4. 获取非作者 clean-checkout scientific reproduction receipt；记录环境、命令、输入/输出哈希和偏差。
 5. 获取至少两名不同机构非作者的实际使用/adoption receipt；GitHub Issue、下载、star 或作者邀请不能替代它们。
 6. 取得版本 DOI 后，重新运行五角色复评；只有所有硬门槛都有真实 artifact，才重新计算是否达到 `90+`，在此之前不得打开 `scientific_submission_ready`。
+
+## T178 证据更新
+
+T178 已验证三个 CC-BY source packages 和三个独立 laboratory anchors 的 source-cell map 与当前 common-rank ledger 完整闭合：三方共同 target 为 `99` 个 accession，共同 rank observations 为 `2,724`，measurement batches 为 `47`，源单元格为 `20,469`。因此“至少三个独立实验室共同 target”的数据资产门槛已获得可复核 receipt，数据兼容性与样本基础保守更新为 `78/100`。
+
+该 receipt 仍属于 development evidence；它不改变 protected lockbox=`4`、外部科学复现=`0`、外部采用=`25`，也不把 technical core facilities 解释成独立生物学 cohort。完整 T178 产物位于 `docs/data/R4_T178_THREE_LAB_COMMON_TARGET_ADMISSION.json` 与 `reports/review_round_4/three_lab_common_target/v1.0.0/`。
