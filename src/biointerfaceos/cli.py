@@ -623,6 +623,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit a two-laboratory human-plasma corona candidate pair without admission",
     )
     model_two_lab_pair_parser.add_argument("--strict", action="store_true")
+    model_two_lab_asset_parser = model_subparsers.add_parser(
+        "audit-two-lab-corona-assets",
+        help="audit named first-party corona supplementary assets without admission",
+    )
+    model_two_lab_asset_parser.add_argument("--strict", action="store_true")
     model_t129_current_target_evidence_parser = model_subparsers.add_parser(
         "audit-t129-current-target-evidence",
         help="consolidate all current T129 receipts without promoting a target",
@@ -2402,6 +2407,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-cc0-target-discovery",
             "audit-cc0-target-rescreen",
             "audit-two-lab-corona-pair",
+            "audit-two-lab-corona-assets",
             "audit-cc0-pxd030327-unit-map",
             "audit-t129-current-target-evidence",
             "audit-license-bound-source-maps",
@@ -2578,6 +2584,35 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"candidates={summary.candidate_source_count} "
                 f"laboratories={summary.independent_laboratory_count} "
                 f"sizes_nm={summary.candidate_size_count} "
+                f"status={summary.status} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-two-lab-corona-assets":
+            from biointerfaceos.two_lab_corona_asset_audit import (
+                TwoLabCoronaAssetAuditError,
+                TwoLabCoronaAssetAuditWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print(
+                    "TWO_LAB_CORONA_ASSET_AUDIT_INVALID: repository root not found",
+                    file=sys.stderr,
+                )
+                return 1
+            workflow = TwoLabCoronaAssetAuditWorkflow(root)
+            try:
+                summary = workflow.run(strict=args.strict)
+                workflow.verify()
+            except (TwoLabCoronaAssetAuditError, OSError) as exc:
+                print(f"TWO_LAB_CORONA_ASSET_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "TWO_LAB_CORONA_ASSET_AUDIT_VALID "
+                f"assets={summary.asset_count} sources={summary.source_count} "
+                f"byte_verified={summary.byte_verified_count} "
+                f"redistributable={summary.redistributable_count} "
                 f"status={summary.status} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )

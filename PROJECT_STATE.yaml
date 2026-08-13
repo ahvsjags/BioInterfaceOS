@@ -2,7 +2,7 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 142
+task_count: 143
 ready_tasks:
   - T123
 current_task: T129
@@ -144,6 +144,7 @@ completed_tasks:
   - T139
   - T140
   - T141
+  - T142
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -204,6 +205,7 @@ notes:
   - '2026-08-13: T139 adds a trusted-key OpenPGP verification path for future T136-preflighted evaluator, reproducer and editorial documents. It binds exact bundle/document/signature/public-key hashes, requires three distinct registry-approved primary keys and writes a non-accepting receipt. KAUST generated three ephemeral test keys and verified rejection of role-key reuse, signature substitution and receipt overwrite; no real identity, external action, scientific result or submission acceptance is asserted.'
   - '2026-08-13: T140 records a bounded two-laboratory candidate pair from the UCD PNAS 2008 and PNNL Proteomics 2011 primary articles. Both describe human-plasma polystyrene coronas and 50/100 nm size designs, but first-party supplementary bytes, reuse terms, unit-level size maps and a harmonized endpoint are not yet verified. The pair remains non-admitted and does not alter the CC0 T129 cohort, T121 amendment, model gate or external acceptance gates.'
   - '2026-08-13: T141 binds the T140 non-admission receipt into both A+B/C protocol outlines and the versioned manuscript portfolio. Public replay, acceptance, external handoff and remediation receipts are refreshed to hash the new portfolio; a stale T132 source hash was caught and corrected by versioning the final remediation receipt, with no target, model, independent evaluator, external reproduction or scientific submission claim created.'
+  - '2026-08-13: T142 inventories the five supplementary assets named by the UCD PNAS and PNNL Proteomics primary pages. The audit confirms page-level metadata only: zero bytes are checksum-verified, zero assets are redistributable, and zero unit maps are established. T129, T121, model use, independent evaluation, external reproduction and scientific submission remain unchanged and blocked.'
   - '2026-08-12: T124 now has a strict external-evaluator readiness protocol that binds the T123 compatibility receipt, requires an independent evaluator and aggregate-only protected-data handoff, and fails closed with a blocked receipt while zero compatible targets and zero frozen real-model outputs exist. It does not create an evaluator receipt or scientific result.'
   - '2026-08-12: T126/T127 now have a strict two-route R2 portfolio: one merged A+B provenance/source-locator protocol and one results-blind C protocol. It excludes all three historical fixture manuscripts, binds three protocol-only figures and 15 legacy withdrawals, and remains blocked on T123/T124 rather than implying a result manuscript.'
   - '2026-08-12: T128 now has a strict external-reproduction and editorial-re-review protocol plus `project accept-r2 --strict`. The current receipt records six missing prerequisites and keeps external reproduction, editorial re-review and scientific submission readiness false.'
@@ -212,5 +214,5 @@ review_round_2:
   source: docs/review_round_2/REMEDIATION_MATRIX.md
   acceptance_gates: docs/review_round_2/ACCEPTANCE_GATES.yaml
   first_task: T115
-  last_task: T141
+  last_task: T142
   publication_rule: 'No fixture-derived output may be presented as empirical validation, scientific replication, or law discovery.'

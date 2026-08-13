@@ -4,7 +4,7 @@
 
 | ID | 当前可审计状态 | 当前定位 | 仍需满足的条件 |
 |---|---|---|---|
-| R2-01 | OPEN_EMPIRICAL_TARGET_UNAVAILABLE | 当前 T129 汇总覆盖 8 个候选来源、5 个实验室和 31 个已核验源资产。PXD030327 的 636 个来源 run 与 819 个矩阵列已映射，但 NP 标签仍为类别、数值字段仅为 P/NP 暴露且仅单实验室。T132 审计 PXD017052 的完整 12 个 CC-BY 出版方资产，并将 9 个结果/原始单位显式闭合到 SPION 与重复号；该路线仍为单实验室、尚未获 CC-BY cohort amendment，且无跨研究共同终点。T140 另记录 UCD/PNNL 两实验室文章级 50/100 nm 候选对，但补充文件字节、复用条款、单位级粒径映射和共享终点仍未核验，因此不改变 T129。未冻结共同 target，禁止模型使用 | 真实、非 fixture 的跨研究共同终点、数值材料/粒径协变量与行级溯源；冻结模型输出和外部 held-out 评估 |
+| R2-01 | OPEN_EMPIRICAL_TARGET_UNAVAILABLE | 当前 T129 汇总覆盖 8 个候选来源、5 个实验室和 31 个已核验源资产。PXD030327 的 636 个来源 run 与 819 个矩阵列已映射，但 NP 标签仍为类别、数值字段仅为 P/NP 暴露且仅单实验室。T132 审计 PXD017052 的完整 12 个 CC-BY 出版方资产，并将 9 个结果/原始单位显式闭合到 SPION 与重复号；该路线仍为单实验室、尚未获 CC-BY cohort amendment，且无跨研究共同终点。T140/T142 记录 UCD/PNNL 两实验室文章级 50/100 nm 候选对及 5 个页面声明的补充文件，但当前仍为页面元数据：0 个字节核验、0 个可再分发资产、0 个单位级映射，因此不改变 T129。未冻结共同 target，禁止模型使用 | 真实、非 fixture 的跨研究共同终点、数值材料/粒径协变量与行级溯源；冻结模型输出和外部 held-out 评估 |
 | R2-02 | FALLBACK_PROTOCOL_ONLY_VERIFIED | Paper C 仅为预注册/协议稿，不是独立 replication | 独立 evaluator、冻结代码、受保护真实观测与签名 receipt |
 | R2-03 | OPEN_STATISTICAL_VALIDATION_UNAVAILABLE | 不报告模型、消融、OOD 或有效样本量结论 | 冻结 estimand/split、study-clustered 分析、nested selection、effective n |
 | R2-04 | FALLBACK_SOFTWARE_REPLAY_BOUNDARY_VERIFIED | 历史 fixture 稿件的违规表述以源哈希隔离，排除于当前 R2 稿件与公开发布范围；不作为 scientific replication | 获得外部 scientific reproduction receipt |
