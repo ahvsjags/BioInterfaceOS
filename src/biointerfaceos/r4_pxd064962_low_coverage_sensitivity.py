@@ -68,7 +68,10 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
     def __init__(self, root: Path, *, output_root: Path | None = None) -> None:
         self.root = root.resolve(strict=True)
         self.protocol_path = self.root / self.PROTOCOL_RELATIVE
-        self.output_root = output_root or self.root / self.OUTPUT_RELATIVE
+        candidate_output = (output_root or self.root / self.OUTPUT_RELATIVE).resolve(strict=False)
+        if not candidate_output.is_relative_to(self.root):
+            raise R4PXD064962SensitivityError("sensitivity output must stay under repository root")
+        self.output_root = candidate_output
 
     @staticmethod
     def _json(path: Path, label: str) -> dict[str, Any]:
