@@ -35,6 +35,7 @@ See:
 - `docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json`
 - `docs/data/R4_T167_EXTERNAL_USER_ADOPTION_INTAKE.json`
 - `docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`
+- `docs/data/R4_T174_OOD_EFFECTIVE_N_MISSINGNESS_PROTOCOL.json`
 - `docs/data/R4_T162_PXD060795_DALIAN_SOURCE_REGISTRY.json`
 
 The public handoff is tracked in [GitHub Issue #1](https://github.com/ahvsjags/BioInterfaceOS/issues/1).
@@ -53,6 +54,16 @@ The command intentionally returns
 `STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW` and keeps
 `scientific_submission_ready=false` until the editorial identity and
 independence audit is complete.
+
+The R4 same-lineage OOD candidate also has a non-promoting effective-n and
+missingness audit:
+
+```bash
+uv run biointerfaceos data audit-r4-ood-effective-n --strict
+```
+
+It reports 8,064 source rows, 7,075 rank-eligible rows, 142 measurement
+batches, 134 primary-eligible batches, 5 biological units and 1 laboratory.
 
 ## License and data policy
 
