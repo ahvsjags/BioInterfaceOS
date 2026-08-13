@@ -6,7 +6,7 @@
   "public_release": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS",
     "tag": "v0.1.2-r8",
-    "commit": "9741ba6",
+    "commit": "c1673d9b01cc039edf91880b847a352a1cf6b300",
     "analysis_freeze_commit": "1407cf2ad631d55e0b26abf5d0b5e82aad676bf3",
     "doi_status": "PENDING_NOT_ARCHIVED"
   },
