@@ -8,9 +8,9 @@
 - 公开仓库：[https://github.com/ahvsjags/BioInterfaceOS](https://github.com/ahvsjags/BioInterfaceOS)
 - 默认分支：`main`
 - 执行分支：`r3-real-data-execution-20260813`
-- GitHub 版本标签：`v0.1.0-r4`
-- GitHub release：[BioInterfaceOS v0.1.0-r4](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.0-r4)
-- 当前公开 release commit：`79607ae9bfd8cd79095262df61f075dafe468819`
+- GitHub 版本标签：`v0.1.1-r4`
+- GitHub release：[BioInterfaceOS v0.1.1-r4](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.1-r4)
+- 当前公开 release commit：`d8668476aff69e79ee532ff4edd717c470f5e287`
 - KAUST 服务器任务路径：`/ibex/user/xup0a/BioInterfaceOS-r3-real-data`
 - KAUST 当前文档提交：`bf396f8`
 
@@ -29,4 +29,3 @@
 - `scientific_submission_ready=false`
 
 公开仓库和版本 release 解决了版本可追溯与独立安装的基础设施问题，但尚未产生非作者 lockbox receipt、非作者端到端复现 receipt 或真实外部用户采用记录。
-
