@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "handoff_id": "bioif-r4-t189-external-evidence-handoff-v1.0.0",
+  "created_at": "2026-08-14T00:00:00+00:00",
+  "status": "HANDOFF_READY_NO_EXTERNAL_RECEIPT",
+  "claim_status": {
+    "independent_validation": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "public_candidate": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "branch": "r3-real-data-execution-20260813",
+    "checkout_commit": "44bcac3",
+    "immutable_release": "NOT_YET_CREATED",
+    "doi": "NOT_YET_DEPOSITED"
+  },
+  "frozen_protocols": [
+    {
+      "relative_path": "docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json",
+      "sha256": "259f0407c57949576b3ed7e8a1f2242946a5fa8d60623cbb7e77da8894c15076"
+    },
+    {
+      "relative_path": "docs/data/R4_T167_EXTERNAL_USER_ADOPTION_INTAKE.json",
+      "sha256": "bba173a063dd107365358c0439d8c7853645f97f4e7d44494583660cf4bd01b7"
+    },
+    {
+      "relative_path": "docs/data/R4_T186_MANCHESTER_NANOOMIC_BIOLOGICAL_OOD_PROTOCOL.json",
+      "sha256": "23ad5a31f2ce274067c64ab0526ce0b272ee06828d424c85006cbb7b8e1a0d3a"
+    },
+    {
+      "relative_path": "docs/data/R4_T188_PXD064962_LOW_COVERAGE_SENSITIVITY_PROTOCOL.json",
+      "sha256": "09e1561dbdf301fec44f57f45f1cffed7cdda6c5a80cb4892fe651665e152423"
+    }
+  ],
+  "non_author_evaluator_scope": {
+    "required": true,
+    "protected_input_holder": "external evaluator only",
+    "author_row_level_access": false,
+    "required_outputs": [
+      "primary endpoint and cluster-aware uncertainty",
+      "full-minus-composition paired ablation",
+      "selection-aware within-batch negative control",
+      "effective counts and missingness ledger",
+      "failed and negative runs",
+      "signed aggregate receipt and immutable archive locator"
+    ],
+    "author_run_is_not_acceptable": true
+  },
+  "no_author_reproduction_scope": {
+    "required": true,
+    "starting_point": "clean checkout at checkout_commit with raw public inputs reacquired from their official locators",
+    "required_outputs": [
+      "environment digest",
+      "dependency lockfile hash",
+      "commands and stdout/stderr hashes",
+      "raw output hashes",
+      "deviation ledger",
+      "signed no-author attestation"
+    ],
+    "author_run_is_not_acceptable": true
+  },
+  "adoption_scope": {
+    "required_receipts": 2,
+    "each_user_must_be_non_author": true,
+    "each_user_must_use_clean_environment": true,
+    "page_views_or_downloads_are_not_adoption": true
+  },
+  "release_scope": {
+    "required": true,
+    "must_include": [
+      "corrected Manchester OOD code, protocol and receipts",
+      "T188 CC0 source registry, metadata snapshot, source map and audit receipt",
+      "final manifest and checksums",
+      "data and license boundaries"
+    ],
+    "must_not_include": [
+      "unlicensed author-repository matrix redistribution"
+    ],
+    "doi_provider": "Zenodo or equivalent immutable research archive"
+  },
+  "handoff_boundary": "This document prepares exact external work packages and hashes. It is not an evaluator receipt, reproduction receipt, adoption receipt or DOI deposit receipt."
+}
