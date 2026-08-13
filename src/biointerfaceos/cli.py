@@ -572,6 +572,17 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the byte-verified PMC11544298 package and extracted workbooks",
     )
     data_r4_small_molecule_source_parser.add_argument("--strict", action="store_true")
+    data_r4_small_molecule_ood_parser = data_subparsers.add_parser(
+        "evaluate-r4-small-molecule-corona-ood",
+        help="run the frozen author-run public OOD evaluation on the separate PMC11544298 candidate",
+    )
+    data_r4_small_molecule_ood_parser.add_argument(
+        "--source-assets-root",
+        type=Path,
+        default=Path("data/raw/r4_candidate_pmc11544298"),
+        help="directory containing the byte-verified R4 source assets",
+    )
+    data_r4_small_molecule_ood_parser.add_argument("--strict", action="store_true")
     data_r3_silver_ood_parser = data_subparsers.add_parser(
         "evaluate-r3-silver-external-ood",
         help="run the frozen author-run external-laboratory OOD evaluation on the silver source",
@@ -3399,6 +3410,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-r3-silver-plasma-source",
             "audit-r4-edinburgh-clinical-source",
             "audit-r4-small-molecule-corona-source",
+            "evaluate-r4-small-molecule-corona-ood",
             "evaluate-r3-silver-external-ood",
             "preflight-external-source-intake",
             "preflight-external-verification",
@@ -3691,6 +3703,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"source_cells={small_molecule_summary.source_cell_count} "
                 f"positive_source_cells={small_molecule_summary.candidate_positive_source_cell_count} "
                 "model_fitted=false independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-small-molecule-corona-ood":
+            from biointerfaceos.r4_small_molecule_corona_ood import (
+                R4SmallMoleculeCoronaOODError,
+                R4SmallMoleculeCoronaOODWorkflow,
+            )
+
+            try:
+                r4_ood_summary = R4SmallMoleculeCoronaOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    args.source_assets_root,
+                ).run(strict=args.strict)
+            except (R4SmallMoleculeCoronaOODError, OSError) as exc:
+                print(f"R4_SMALL_MOLECULE_CORONA_OOD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_SMALL_MOLECULE_CORONA_OOD_VALID "
+                f"development_observations={r4_ood_summary.development_observation_count} "
+                f"external_observations={r4_ood_summary.external_observation_count} "
+                f"external_shared_canonical_proteins={r4_ood_summary.shared_canonical_protein_count} "
+                f"external_measurement_batches={r4_ood_summary.external_measurement_batch_count} "
+                f"models={r4_ood_summary.model_count} "
+                "independent_validation=false external_scientific_reproduction=false scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r3-silver-external-ood":
