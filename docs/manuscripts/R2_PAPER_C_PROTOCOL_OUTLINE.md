@@ -39,6 +39,11 @@ T129 cohort: first-party supplementary bytes, reuse terms, unit-level maps and
 shared preprocessing/endpoint evidence remain outstanding, so it cannot create
 a candidate, target, model result or evaluator handoff.
 
+T142 records the five named supplementary assets as page-metadata-only intake:
+no bytes, reuse terms or unit-level maps are verified. It therefore strengthens
+the intake checklist without creating a candidate, threshold result or
+independent evaluator handoff.
+
 ## Frozen analysis and evaluator handoff
 
 Before protected evaluation, freeze the Git commit, environment lock, target

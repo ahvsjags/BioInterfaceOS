@@ -27,6 +27,8 @@ def test_r2_external_handoff_audit_is_intake_only(tmp_path: Path) -> None:
     assert {
         "external_source_intake_template",
         "external_verification_bundle_template",
+        "t142_asset_audit_report",
+        "t142_asset_audit_receipt",
     } <= set(R2ExternalHandoffWorkflow.REFERENCES)
     assert workflow.verify() == summary
 

@@ -29,6 +29,10 @@ def test_portfolio_keeps_r2_manuscripts_protocol_only(tmp_path: Path) -> None:
     assert receipt["t140_pair_rescreen_candidate_source_count"] == 2
     assert receipt["t140_pair_rescreen_independent_laboratory_count"] == 2
     assert receipt["t140_pair_rescreen_admissible_target_count"] == 0
+    assert receipt["t142_asset_audit_asset_count"] == 5
+    assert receipt["t142_asset_audit_byte_verified_count"] == 0
+    assert receipt["t142_asset_audit_redistributable_count"] == 0
+    assert receipt["t142_asset_audit_unit_map_verified_count"] == 0
     assert workflow.verify() == summary
 
 

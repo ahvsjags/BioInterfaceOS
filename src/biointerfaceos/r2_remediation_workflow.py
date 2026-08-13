@@ -61,10 +61,10 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.14.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.16.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.14.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.16.0"
     RECEIPTS = {
         "semantics": (
             "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
@@ -108,7 +108,7 @@ class R2RemediationWorkflow:
             "R2 related-work receipt",
         ),
         "public_release": (
-            "reports/review_round_2/public_release_audit/v1.5.0/audit_receipt.json",
+            "reports/review_round_2/public_release_audit/v1.6.0/audit_receipt.json",
             "R2 public-release receipt",
         ),
         "figures": (
@@ -116,17 +116,25 @@ class R2RemediationWorkflow:
             "R2 protocol-figure receipt",
         ),
         "portfolio": (
-            "reports/review_round_2/manuscript_portfolio/v1.7.0/portfolio_receipt.json",
+            "reports/review_round_2/manuscript_portfolio/v1.8.0/portfolio_receipt.json",
             "R2 manuscript-portfolio receipt",
         ),
         "acceptance": (
-            "reports/review_round_2/r2_acceptance/v1.7.0/acceptance_readiness_receipt.json",
+            "reports/review_round_2/r2_acceptance/v1.8.0/acceptance_readiness_receipt.json",
             "R2 acceptance-readiness receipt",
         ),
         "external_handoff": (
-            "reports/review_round_2/external_evidence_handoff/v1.7.0/"
+            "reports/review_round_2/external_evidence_handoff/v1.9.0/"
             "external_evidence_handoff_receipt.json",
             "T133/T135/T136 external-evidence handoff receipt",
+        ),
+        "t142_asset_audit_report": (
+            "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_report.json",
+            "T142 two-lab corona asset-audit report",
+        ),
+        "t142_asset_audit_receipt": (
+            "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_receipt.json",
+            "T142 two-lab corona asset-audit receipt",
         ),
     }
     DISPOSITIONS = {
@@ -202,6 +210,8 @@ class R2RemediationWorkflow:
         figures = sources["figures"].payload
         portfolio = sources["portfolio"].payload
         acceptance = sources["acceptance"].payload
+        t142_asset_report = sources["t142_asset_audit_report"].payload
+        t142_asset_receipt = sources["t142_asset_audit_receipt"].payload
 
         self._require(
             profile.get("status") == "REAL_RESULT_PROFILE_COMPLETE_NOT_A_MODEL_TARGET"
@@ -222,6 +232,28 @@ class R2RemediationWorkflow:
             and t129_current_target_evidence.get("model_use") == "PROHIBITED"
             and t129_current_target_evidence.get("model_fitted") is False,
             "R2-01",
+        )
+        self._require(
+            t142_asset_report.get("status")
+            == "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
+            and t142_asset_report.get("asset_count") == 5
+            and t142_asset_report.get("source_count") == 2
+            and t142_asset_report.get("byte_verified_asset_count") == 0
+            and t142_asset_report.get("redistributable_asset_count") == 0
+            and t142_asset_report.get("unit_map_verified_asset_count") == 0
+            and t142_asset_report.get("target_status") == "NOT_FROZEN"
+            and t142_asset_report.get("model_use") == "PROHIBITED"
+            and t142_asset_report.get("scientific_submission_ready") is False
+            and t142_asset_receipt.get("audit_id") == t142_asset_report.get("audit_id")
+            and t142_asset_receipt.get("status") == t142_asset_report.get("status")
+            and t142_asset_receipt.get("asset_count") == 5
+            and t142_asset_receipt.get("source_count") == 2
+            and t142_asset_receipt.get("byte_verified_asset_count") == 0
+            and t142_asset_receipt.get("redistributable_asset_count") == 0
+            and t142_asset_receipt.get("target_status") == "NOT_FROZEN"
+            and t142_asset_receipt.get("model_use") == "PROHIBITED"
+            and t142_asset_receipt.get("scientific_submission_ready") is False,
+            "R2-01 T142 asset audit",
         )
         self._require(
             pxd017052_source_data.get("status")
@@ -333,7 +365,9 @@ class R2RemediationWorkflow:
                 "reviewer_readable_disposition": (
                     "PXD030327 now has a verified 636-unit run map, while T132 completes "
                     "PXD017052's 12-asset CC-BY route with nine explicit unit-to-SPION joins; "
-                    "neither source freezes a cross-study numeric-material target."
+                    "T142 additionally confirms that the five named T140 supplementary assets "
+                    "remain page-metadata-only, so neither source freezes a cross-study "
+                    "numeric-material target."
                 ),
                 "evidence_source_keys": [
                     "profile",
@@ -343,6 +377,8 @@ class R2RemediationWorkflow:
                     "t129_current_target_evidence",
                     "pxd017052_source_data",
                     "pxd017052_complete_attachments",
+                    "t142_asset_audit_report",
+                    "t142_asset_audit_receipt",
                 ],
             },
             {

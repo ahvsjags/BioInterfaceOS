@@ -80,6 +80,12 @@ supplementary bytes, reuse terms, source-unit-to-size maps and a shared
 preprocessing/endpoint contract are not yet verified. T140 therefore does not
 change the T129 cohort, T121 amendment, model gate or external-evaluation gates.
 
+T142 inventories the five supplementary assets named by the two primary pages,
+but confirms only page metadata: zero file bytes are checksum-verified, zero
+assets are marked redistributable, and zero result-unit maps are established.
+This access audit preserves the same non-admission boundary and does not create
+an empirical endpoint.
+
 ## Figures, data, code and availability
 
 Use only R2 Figures 1--3 with their source cards and QA receipt. Provide the

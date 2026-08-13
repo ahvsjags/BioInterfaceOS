@@ -68,7 +68,7 @@ def _string_list(value: Any, label: str, *, minimum: int = 1) -> list[str]:
 class ManuscriptPortfolioWorkflow:
     """Create a fail-closed receipt for R2's protocol-only portfolio state."""
 
-    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.7.0"
+    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.8.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PORTFOLIO_RELATIVE = "docs/manuscripts/R2_MANUSCRIPT_PORTFOLIO.json"
     COMPARATOR_MAP_RELATIVE = "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json"
@@ -94,12 +94,18 @@ class ManuscriptPortfolioWorkflow:
         "current_target_evidence_receipt.json"
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
-    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.7.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.8.0"
     T140_PAIR_REPORT_RELATIVE = (
         "reports/review_round_2/two_lab_corona_pair_rescreen/v1.0.0/pair_rescreen_report.json"
     )
     T140_PAIR_RECEIPT_RELATIVE = (
         "reports/review_round_2/two_lab_corona_pair_rescreen/v1.0.0/pair_rescreen_receipt.json"
+    )
+    T142_ASSET_REPORT_RELATIVE = (
+        "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_report.json"
+    )
+    T142_ASSET_RECEIPT_RELATIVE = (
+        "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_receipt.json"
     )
     REQUIRED_PORTFOLIO_FIELDS = {
         "schema_version",
@@ -148,6 +154,7 @@ class ManuscriptPortfolioWorkflow:
             "neither screen admits a target.",
             "The current consolidated T129 receipt binds eight candidate sources",
             "A separate T140 primary-source rescreen identifies a UCD PNAS 2008 and PNNL",
+            "T142 inventories the five supplementary assets named by the two primary pages",
         },
         "R2_PAPER_C_PROTOCOL": {
             "This is a results-blind R2 Paper C protocol outline.",
@@ -160,6 +167,7 @@ class ManuscriptPortfolioWorkflow:
             "model use remains",
             "`PROHIBITED`",
             "T140 separately records an article-level UCD/PNNL two-laboratory candidate pair",
+            "T142 records the five named supplementary assets as page-metadata-only intake",
         },
     }
 
@@ -186,7 +194,7 @@ class ManuscriptPortfolioWorkflow:
         if set(portfolio) != self.REQUIRED_PORTFOLIO_FIELDS or portfolio.get("schema_version") != 1:
             raise ManuscriptPortfolioError("R2 manuscript portfolio schema is invalid")
         if (
-            portfolio.get("portfolio_id") != "bioif-r2-manuscript-portfolio-v1.5.0"
+            portfolio.get("portfolio_id") != "bioif-r2-manuscript-portfolio-v1.6.0"
             or portfolio.get("declared_at") != self.AUDITED_AT
             or portfolio.get("status") != "PROTOCOL_PORTFOLIO_PENDING_REAL_EVIDENCE"
             or portfolio.get("required_legacy_withdrawal_count") != 15
@@ -368,6 +376,14 @@ class ManuscriptPortfolioWorkflow:
             self._path(self.T140_PAIR_RECEIPT_RELATIVE, "T140 pair-rescreen receipt"),
             "T140 pair-rescreen receipt",
         )
+        t142_asset_report = self._json(
+            self._path(self.T142_ASSET_REPORT_RELATIVE, "T142 asset-audit report"),
+            "T142 asset-audit report",
+        )
+        t142_asset_receipt = self._json(
+            self._path(self.T142_ASSET_RECEIPT_RELATIVE, "T142 asset-audit receipt"),
+            "T142 asset-audit receipt",
+        )
         t124 = self._json(
             self._path(self.T124_RELATIVE, "T124 readiness receipt"),
             "T124 readiness receipt",
@@ -419,6 +435,25 @@ class ManuscriptPortfolioWorkflow:
             or t140_pair_receipt.get("target_status") != "NOT_FROZEN"
             or t140_pair_receipt.get("model_use") != "PROHIBITED"
             or t140_pair_receipt.get("scientific_submission_ready") is not False
+            or t142_asset_report.get("status")
+            != "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
+            or t142_asset_report.get("asset_count") != 5
+            or t142_asset_report.get("source_count") != 2
+            or t142_asset_report.get("byte_verified_asset_count") != 0
+            or t142_asset_report.get("redistributable_asset_count") != 0
+            or t142_asset_report.get("unit_map_verified_asset_count") != 0
+            or t142_asset_report.get("target_status") != "NOT_FROZEN"
+            or t142_asset_report.get("model_use") != "PROHIBITED"
+            or t142_asset_report.get("scientific_submission_ready") is not False
+            or t142_asset_receipt.get("audit_id") != t142_asset_report.get("audit_id")
+            or t142_asset_receipt.get("status") != t142_asset_report.get("status")
+            or t142_asset_receipt.get("asset_count") != 5
+            or t142_asset_receipt.get("source_count") != 2
+            or t142_asset_receipt.get("byte_verified_asset_count") != 0
+            or t142_asset_receipt.get("redistributable_asset_count") != 0
+            or t142_asset_receipt.get("target_status") != "NOT_FROZEN"
+            or t142_asset_receipt.get("model_use") != "PROHIBITED"
+            or t142_asset_receipt.get("scientific_submission_ready") is not False
             or t124.get("status") != "BLOCKED_T123_COMPATIBLE_TARGET_REQUIRED"
             or t124.get("external_evaluator_receipt_verified") is not False
         ):
@@ -474,6 +509,16 @@ class ManuscriptPortfolioWorkflow:
                 "t140_pair_rescreen_independent_laboratory_count": 2,
                 "t140_pair_rescreen_candidate_size_count": 2,
                 "t140_pair_rescreen_admissible_target_count": 0,
+                "t142_asset_audit_report_sha256": _sha256(
+                    self._path(self.T142_ASSET_REPORT_RELATIVE, "T142 asset-audit report")
+                ),
+                "t142_asset_audit_receipt_sha256": _sha256(
+                    self._path(self.T142_ASSET_RECEIPT_RELATIVE, "T142 asset-audit receipt")
+                ),
+                "t142_asset_audit_asset_count": 5,
+                "t142_asset_audit_byte_verified_count": 0,
+                "t142_asset_audit_redistributable_count": 0,
+                "t142_asset_audit_unit_map_verified_count": 0,
                 "t124_external_evaluator_receipt_verified": False,
             },
             len(figure_rows),
@@ -532,6 +577,10 @@ class ManuscriptPortfolioWorkflow:
             "t140_pair_rescreen_independent_laboratory_count": 2,
             "t140_pair_rescreen_candidate_size_count": 2,
             "t140_pair_rescreen_admissible_target_count": 0,
+            "t142_asset_audit_asset_count": 5,
+            "t142_asset_audit_byte_verified_count": 0,
+            "t142_asset_audit_redistributable_count": 0,
+            "t142_asset_audit_unit_map_verified_count": 0,
             "t124_external_evaluator_receipt_verified": False,
             "historical_fixture_manuscripts_reused": False,
             "model_fitted": False,
@@ -586,6 +635,10 @@ class ManuscriptPortfolioWorkflow:
             "t140_pair_rescreen_independent_laboratory_count": 2,
             "t140_pair_rescreen_candidate_size_count": 2,
             "t140_pair_rescreen_admissible_target_count": 0,
+            "t142_asset_audit_asset_count": 5,
+            "t142_asset_audit_byte_verified_count": 0,
+            "t142_asset_audit_redistributable_count": 0,
+            "t142_asset_audit_unit_map_verified_count": 0,
         }
         if any(receipt.get(key) != value for key, value in expected.items()) or any(
             receipt.get(field) is not False

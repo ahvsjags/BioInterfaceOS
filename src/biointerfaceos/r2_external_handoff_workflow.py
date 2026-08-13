@@ -67,10 +67,10 @@ def _string_list(value: Any, label: str, *, minimum: int) -> list[str]:
 class R2ExternalHandoffWorkflow:
     """Audit a no-results package for external source and evaluator intake."""
 
-    AUDIT_ID = "bioif-r2-external-evidence-handoff-v1.7.0"
+    AUDIT_ID = "bioif-r2-external-evidence-handoff-v1.9.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     HANDOFF_RELATIVE = "docs/data/R2_EXTERNAL_EVIDENCE_HANDOFF.json"
-    OUTPUT_RELATIVE = "reports/review_round_2/external_evidence_handoff/v1.7.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/external_evidence_handoff/v1.9.0"
     REFERENCES = {
         "analysis_plan": (
             "docs/data/R2_EMPIRICAL_ANALYSIS_PLAN.md",
@@ -102,7 +102,7 @@ class R2ExternalHandoffWorkflow:
             "T136 external verification preflight template",
         ),
         "portfolio": (
-            "reports/review_round_2/manuscript_portfolio/v1.7.0/portfolio_receipt.json",
+            "reports/review_round_2/manuscript_portfolio/v1.8.0/portfolio_receipt.json",
             "R2 manuscript portfolio receipt",
         ),
         "protocol_figures": (
@@ -110,8 +110,16 @@ class R2ExternalHandoffWorkflow:
             "R2 protocol-figure receipt",
         ),
         "public_release": (
-            "reports/review_round_2/public_release_audit/v1.5.0/audit_receipt.json",
+            "reports/review_round_2/public_release_audit/v1.6.0/audit_receipt.json",
             "R2 public-release receipt",
+        ),
+        "t142_asset_audit_report": (
+            "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_report.json",
+            "T142 two-lab corona asset-audit report",
+        ),
+        "t142_asset_audit_receipt": (
+            "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_receipt.json",
+            "T142 two-lab corona asset-audit receipt",
         ),
     }
     REQUIRED_TOP_LEVEL = {
@@ -364,6 +372,38 @@ class R2ExternalHandoffWorkflow:
             or release.get("scientific_submission_ready") is not False
         ):
             raise R2ExternalHandoffError("R2 public-release state is invalid")
+        asset_report_path = self._path(
+            *self.REFERENCES["t142_asset_audit_report"]
+        )
+        asset_report = self._json(asset_report_path, "T142 two-lab corona asset-audit report")
+        asset_receipt_path = self._path(
+            *self.REFERENCES["t142_asset_audit_receipt"]
+        )
+        asset_receipt = self._json(
+            asset_receipt_path, "T142 two-lab corona asset-audit receipt"
+        )
+        if (
+            asset_report.get("status")
+            != "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
+            or asset_report.get("asset_count") != 5
+            or asset_report.get("source_count") != 2
+            or asset_report.get("byte_verified_asset_count") != 0
+            or asset_report.get("redistributable_asset_count") != 0
+            or asset_report.get("unit_map_verified_asset_count") != 0
+            or asset_report.get("target_status") != "NOT_FROZEN"
+            or asset_report.get("model_use") != "PROHIBITED"
+            or asset_report.get("scientific_submission_ready") is not False
+            or asset_receipt.get("audit_id") != asset_report.get("audit_id")
+            or asset_receipt.get("status") != asset_report.get("status")
+            or asset_receipt.get("asset_count") != 5
+            or asset_receipt.get("source_count") != 2
+            or asset_receipt.get("byte_verified_asset_count") != 0
+            or asset_receipt.get("redistributable_asset_count") != 0
+            or asset_receipt.get("target_status") != "NOT_FROZEN"
+            or asset_receipt.get("model_use") != "PROHIBITED"
+            or asset_receipt.get("scientific_submission_ready") is not False
+        ):
+            raise R2ExternalHandoffError("T142 asset-audit state is invalid")
 
     def run(self, *, strict: bool = False) -> R2ExternalHandoffSummary:
         """Write one immutable audit receipt for the external-evidence handoff pack."""

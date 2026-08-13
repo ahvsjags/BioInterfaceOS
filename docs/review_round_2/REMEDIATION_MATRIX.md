@@ -4,7 +4,7 @@
 
 | ID | 审稿 finding | 严重性 | Owner tasks | 通过证据 | 不通过时的公开定位 | 初始状态 | 当前证据状态 |
 |---|---|---|---|---|---|---|
-| R2-01 | 关键 quantitative outputs 由 fixtures 驱动 | Critical | T116,T120,T122,T123,T129,T140,T141 | 非-fixture row-level provenance、raw predictions、external held-out evidence；T140 候选对的补充文件、复用条款、单位映射与共享终点审计 | software/schema/protocol only | OPEN | OPEN_EMPIRICAL_TARGET_UNAVAILABLE |
+| R2-01 | 关键 quantitative outputs 由 fixtures 驱动 | Critical | T116,T120,T122,T123,T129,T140,T141,T142 | 非-fixture row-level provenance、raw predictions、external held-out evidence；T140 候选对的补充文件、复用条款、单位映射与共享终点审计 | software/schema/protocol only | OPEN | OPEN_EMPIRICAL_TARGET_UNAVAILABLE |
 | R2-02 | Paper C 的 status 预置，非独立科学 replication | Critical | T116,T121,T124,T127 | 独立 evaluator、frozen code、真实 protected observations、签名 receipt | preregistration/protocol | OPEN | FALLBACK_PROTOCOL_ONLY_VERIFIED |
 | R2-03 | 有效独立单位和不确定性不足；selection leakage | Critical | T121,T122,T123,T124,T129 | frozen estimand/split、study-clustered analysis、nested selection、effective n | exploratory analysis only | OPEN | OPEN_STATISTICAL_VALIDATION_UNAVAILABLE |
 | R2-04 | software replay 与 scientific replication 混用 | Major | T116,T118,T124,T128 | 分开定义、report labels、外部 scientific reproduction receipt | deterministic software replay only | OPEN | FALLBACK_SOFTWARE_REPLAY_BOUNDARY_VERIFIED |
