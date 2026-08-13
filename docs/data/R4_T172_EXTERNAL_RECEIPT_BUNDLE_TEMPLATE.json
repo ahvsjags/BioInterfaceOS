@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "submission_state": "TEMPLATE_NOT_EVIDENCE",
+  "bundle_id": "REPLACE_WITH_EXTERNAL_BUNDLE_ID",
+  "submitted_at": "REPLACE_WITH_RFC3339_TIMESTAMP",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "identity_and_scope_audit_pending": true,
+  "scientific_submission_ready": false,
+  "documents": [
+    {
+      "document_type": "independent_evaluator_receipt",
+      "relative_path": "independent_evaluator_receipt.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "role_not_author_declared": true
+    },
+    {
+      "document_type": "external_reproduction_receipt",
+      "relative_path": "external_reproduction_receipt.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "role_not_author_declared": true
+    },
+    {
+      "document_type": "external_user_adoption_receipt",
+      "relative_path": "external_user_adoption_receipt.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "role_not_author_declared": true
+    }
+  ],
+  "claim_boundary": "Template only. It is not a receipt and cannot support independent validation, external reproduction, adoption or scientific_submission_ready."
+}

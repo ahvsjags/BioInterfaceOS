@@ -31,7 +31,28 @@ See:
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
 - `docs/review_round_4/R4_STRONG_Q1_REMEDIATION_GOAL.md`
 - `docs/review_round_3/R3_EXTERNAL_LOCKBOX_AND_REPRODUCTION_HANDOFF.md`
+- `docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF.md`
+- `docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json`
+- `docs/data/R4_T167_EXTERNAL_USER_ADOPTION_INTAKE.json`
+- `docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`
 - `docs/data/R4_T162_PXD060795_DALIAN_SOURCE_REGISTRY.json`
+
+The public handoff is tracked in [GitHub Issue #1](https://github.com/ahvsjags/BioInterfaceOS/issues/1).
+Issue creation, page views and author-controlled reruns are not evidence of
+independent reproduction or adoption.
+
+```bash
+uv run biointerfaceos data preflight-r4-external-receipts \
+  --bundle external_bundle.json \
+  --documents-root external_receipts \
+  --receipt-out r4_preflight_receipt.json \
+  --strict
+```
+
+The command intentionally returns
+`STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW` and keeps
+`scientific_submission_ready=false` until the editorial identity and
+independence audit is complete.
 
 ## License and data policy
 
