@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "screen_id": "bioif-r4-pmc12305297-source-screen-v1.0.0",
+  "screened_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "PUBLIC_CANDIDATE_NOT_ADMITTED",
+  "scope": "Full-text, supplementary-workbook and repository screening for a public human-plasma nanoparticle-corona source after the frozen R3 analysis.",
+  "article": {
+    "pmcid": "PMC12305297",
+    "doi": "10.1039/d5ay00721f",
+    "title": "High-throughput plasma/serum proteomics by coupling nanoparticle protein corona-based sample preparation and capillary zone electrophoresis-tandem mass spectrometry",
+    "publication_year": 2025,
+    "license": "CC-BY-3.0",
+    "full_text_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12305297/",
+    "supplementary_locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12305297/supplementaryFiles"
+  },
+  "repository": {
+    "name": "ProteomeXchange / PRIDE",
+    "dataset_accession": "PXD063043",
+    "dataset_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD063043",
+    "raw_data_available": true,
+    "processed_supplementary_asset": "NCBI OA package PMC12305297.tar.gz",
+    "package_sha256": "1105900cd42527f20e4372eedecf5841cd1025892022800e3af7791826f2a17b",
+    "rights_decision": "ARTICLE_AND_OA_PACKAGE_CC_BY_BUT_ANALYSIS_ASSET_NOT_ADMITTED"
+  },
+  "source_scope": {
+    "laboratory_anchor": "Authors of the CZE-MS/MS nanoparticle-corona workflow; distinct from the frozen Seer/Broad, Michigan State, OUHSC and Gorshkov R3 source anchors pending author-affiliation reconciliation.",
+    "biofluid": "commercial healthy human plasma for the human experiment; mouse serum is excluded",
+    "human_design": "five nanoparticle conditions; the paper states that triplicate runs of each condition were combined for joint database searching",
+    "analysis_unit_observed": "condition-level protein-identification lists, not sample-level abundance columns",
+    "analysis_role": "METHOD_COMPATIBILITY_CANDIDATE_ONLY",
+    "prohibited_interpretations": [
+      "The mouse-serum workbook cannot be used as a human-plasma source.",
+      "Triplicate runs combined for database searching cannot be reconstructed as three quantitative target columns from the supplied human workbook.",
+      "A set of identified proteins is not silently converted into an abundance rank or missingness pattern.",
+      "The public raw-data accession is not treated as analyzed evidence until a reproducible raw-data processing contract is implemented and frozen."
+    ]
+  },
+  "asset_probe": {
+    "package_files": [
+      {
+        "relative_path": "AY-017-D5AY00721F-s001.xlsx",
+        "sha256": "dbe2a2aaca5fef9634fe59f208946fb616ff13e334177a162523c6d3dcc26e2b",
+        "bytes": 77169,
+        "role": "human plasma identification lists"
+      },
+      {
+        "relative_path": "AY-017-D5AY00721F-s002.xlsx",
+        "sha256": "50ce7c723d0ae791506e20e03457eb3b649b77fbf551878a7a14548695a0c98c",
+        "bytes": 4299947,
+        "role": "mouse serum proteinGroups and peptide tables; excluded by species"
+      }
+    ],
+    "human_workbook_sheets": {
+      "Human plasma": {"reported_protein_rows": 180, "direct_shared_frozen_r3_accessions": 3},
+      "Amine nanoparticles": {"reported_protein_rows": 191, "direct_shared_frozen_r3_accessions": 8},
+      "Carboxylate nanoparticles": {"reported_protein_rows": 153, "direct_shared_frozen_r3_accessions": 6},
+      "SP3 hydrophilic nanoparticles": {"reported_protein_rows": 104, "direct_shared_frozen_r3_accessions": 3},
+      "SP3 hydrophobic nanoparticles": {"reported_protein_rows": 140, "direct_shared_frozen_r3_accessions": 5}
+    },
+    "mapping_policy": "Only exact non-empty UniProt accessions occurring in the frozen R3 sequence-feature table were counted; no protein-group collapse, abundance imputation or inferred ranks were added."
+  },
+  "admission_contract": {
+    "minimum_positive_shared_proteins_per_measurement_batch": 10,
+    "minimum_measurement_batch_count": 12,
+    "observed_human_condition_count": 5,
+    "observed_condition_level_shared_counts": [3, 8, 6, 3, 5],
+    "row_level_quantitative_target_present": false,
+    "raw_reanalysis_required": true
+  },
+  "decision": {
+    "status": "NOT_ADMITTED_NO_QUANTITATIVE_HUMAN_TARGET_AND_INSUFFICIENT_SHARED_OVERLAP",
+    "model_use": "PROHIBITED",
+    "rationale": "The article and data are publicly licensed and the PRIDE raw accession is valuable, but the supplied human workbook contains condition-level identification lists rather than row-level quantitative abundance. Each of the five supplied human conditions also falls below the predeclared ten-positive-shared-protein threshold against the frozen R3 table, and there are fewer than twelve conditions. Raw-data reprocessing could be a future separate protocol, but it is not silently substituted for an executed target."
+  },
+  "claim_boundary": "This screen records a legitimate public source and a reproducible reason for non-admission. It does not increase the independent-validation, lockbox, external-reproduction or submission-readiness scores."
+}

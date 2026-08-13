@@ -572,6 +572,22 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the byte-verified PMC11544298 package and extracted workbooks",
     )
     data_r4_small_molecule_source_parser.add_argument("--strict", action="store_true")
+    data_r4_dalian_source_parser = data_subparsers.add_parser(
+        "audit-r4-dalian-plasma-corona-source",
+        help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
+    )
+    data_r4_dalian_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PXD060795 result workbook",
+    )
+    data_r4_dalian_source_parser.add_argument("--strict", action="store_true")
+    data_r4_dalian_sensitivity_parser = data_subparsers.add_parser(
+        "evaluate-r4-dalian-plasma-corona-sensitivity",
+        help="execute the frozen small-n PXD060795 sensitivity analysis",
+    )
+    data_r4_dalian_sensitivity_parser.add_argument("--strict", action="store_true")
     data_r4_small_molecule_ood_parser = data_subparsers.add_parser(
         "evaluate-r4-small-molecule-corona-ood",
         help="run the frozen author-run public OOD evaluation on the separate PMC11544298 candidate",
@@ -3410,6 +3426,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-r3-silver-plasma-source",
             "audit-r4-edinburgh-clinical-source",
             "audit-r4-small-molecule-corona-source",
+            "audit-r4-dalian-plasma-corona-source",
+            "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-small-molecule-corona-ood",
             "evaluate-r3-silver-external-ood",
             "preflight-external-source-intake",
@@ -3703,6 +3721,52 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"source_cells={small_molecule_summary.source_cell_count} "
                 f"positive_source_cells={small_molecule_summary.candidate_positive_source_cell_count} "
                 "model_fitted=false independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-dalian-plasma-corona-source":
+            from biointerfaceos.r4_dalian_plasma_corona_source_audit import (
+                R4DalianPlasmaCoronaSourceAuditError,
+                R4DalianPlasmaCoronaSourceAuditWorkflow,
+            )
+
+            try:
+                dalian_summary = R4DalianPlasmaCoronaSourceAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (R4DalianPlasmaCoronaSourceAuditError, OSError) as exc:
+                print(f"R4_DALIAN_PLASMA_CORONA_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_DALIAN_PLASMA_CORONA_SOURCE_AUDIT_VALID "
+                f"assets={dalian_summary.source_asset_count} "
+                f"protein_rows={dalian_summary.protein_row_count} "
+                f"all_measurement_batches={dalian_summary.all_measurement_batch_count} "
+                f"corona_measurement_batches={dalian_summary.corona_measurement_batch_count} "
+                f"rank_qualified_measurement_batches={dalian_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={dalian_summary.shared_canonical_protein_count} "
+                f"source_cells={dalian_summary.source_cell_count} "
+                f"positive_source_cells={dalian_summary.candidate_positive_source_cell_count} "
+                "primary_ood_minimum_met=false model_fitted=false independent_validation=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-dalian-plasma-corona-sensitivity":
+            from biointerfaceos.r4_dalian_plasma_corona_sensitivity import (
+                R4DalianPlasmaCoronaSensitivityError,
+                R4DalianPlasmaCoronaSensitivityWorkflow,
+            )
+
+            try:
+                sensitivity = R4DalianPlasmaCoronaSensitivityWorkflow(root).run(strict=args.strict)
+            except (R4DalianPlasmaCoronaSensitivityError, OSError) as exc:
+                print(f"R4_DALIAN_PLASMA_CORONA_SENSITIVITY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_DALIAN_PLASMA_CORONA_SENSITIVITY_VALID "
+                f"external_observations={sensitivity['external_observation_count']} "
+                f"external_measurement_batches={sensitivity['external_measurement_batch_count']} "
+                "small_n_sensitivity_only=true model_fitted=true independent_validation=false "
+                "scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-small-molecule-corona-ood":

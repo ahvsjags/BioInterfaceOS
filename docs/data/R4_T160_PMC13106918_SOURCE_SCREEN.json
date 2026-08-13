@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "screen_id": "bioif-r4-pmc13106918-source-screen-v1.0.0",
+  "screened_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "PUBLIC_CANDIDATE_NOT_ADMITTED",
+  "scope": "Full-text and official repository screening for a new laboratory source after the frozen R3 analysis. This record preserves the candidate and the reasons it is not currently eligible for model fitting or external-OOD claims.",
+  "article": {
+    "pmcid": "PMC13106918",
+    "doi": "10.1002/pmic.70118",
+    "title": "Mass Spectrometry Proteomics of the Nanoparticle Corona Is Highly Dependent on Sample Preparation Protocol",
+    "publication_year": 2026,
+    "license": "CC-BY-4.0",
+    "full_text_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13106918/",
+    "supplementary_locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13106918/supplementaryFiles"
+  },
+  "repository": {
+    "name": "Zenodo",
+    "record_doi": "10.5281/zenodo.16813857",
+    "record_locator": "https://zenodo.org/records/16813857",
+    "record_license_field": null,
+    "rights_decision": "HOLD_UNTIL_EXPLICIT_DATA_LICENSE_IS_VERIFIED",
+    "rights_rationale": "The article is CC-BY, but the Zenodo data record exposes no explicit license value. The raw/MaxQuant archive therefore cannot be committed or redistributed as an admitted source until the dataset-level grant is documented. Article-level open access is not silently propagated to an associated data archive."
+  },
+  "source_scope": {
+    "laboratory_anchor": "Royal College of Surgeons in Ireland and Dublin City University",
+    "source_lineage": "NEW_TO_CURRENT_R3_ANCHORS",
+    "biofluid": "pooled human plasma from eight healthy donors",
+    "experimental_design": "five sample-preparation protocols with four technical replicates per protocol",
+    "analysis_role": "TECHNICAL_PROTOCOL_ROBUSTNESS_CANDIDATE_ONLY",
+    "biological_independence": "NOT_AN_INDEPENDENT_DONOR_COHORT",
+    "prohibited_interpretations": [
+      "Twenty technical columns are not twenty independent biological samples.",
+      "The source cannot be called an independent biological external validation until donor-level independence and the target definition are preregistered.",
+      "The source is not used for R3 model selection, tuning, outcome selection or retrospective claim repair.",
+      "The source is not a lockbox, independent evaluator receipt or no-author-team scientific reproduction."
+    ]
+  },
+  "asset_probe": {
+    "asset_name": "MaxQuant_txt.zip",
+    "repository_bytes": 227035673,
+    "repository_sha256": "01e8a8287779b1f8231c42d95b90c5f1d003924d68e35a1d7f6791ba3077f7fe",
+    "probed_file": "proteinGroups.txt",
+    "probed_file_bytes": 1752352,
+    "probed_file_sha256": "e9c5e98fdd9ebf2aeef2743af6c7700aaf483eb5d5a40b5256aaec7708a92402f",
+    "row_count_after_header": 751,
+    "lfq_measurement_columns": 20,
+    "direct_shared_frozen_r3_accessions": 57,
+    "direct_mapping_policy": "Only exact non-empty UniProt accessions from Majority protein IDs that occur in the frozen R3 sequence-feature table were counted; no protein-group collapse or inferred missingness was added."
+  },
+  "batch_audit": {
+    "minimum_positive_shared_proteins_per_candidate_measurement_batch": 10,
+    "positive_shared_proteins_by_column": {
+      "LFQ intensity iST_1": 35,
+      "LFQ intensity iST_2": 34,
+      "LFQ intensity iST_3": 32,
+      "LFQ intensity iST_4": 33,
+      "LFQ intensity Pmax_1": 32,
+      "LFQ intensity Pmax_2": 18,
+      "LFQ intensity Pmax_3": 30,
+      "LFQ intensity Pmax_4": 10,
+      "LFQ intensity RapiG_1": 22,
+      "LFQ intensity RapiG_2": 32,
+      "LFQ intensity RapiG_3": 29,
+      "LFQ intensity RapiG_4": 28,
+      "LFQ intensity STD_1": 8,
+      "LFQ intensity STD_2": 9,
+      "LFQ intensity STD_3": 23,
+      "LFQ intensity STD_4": 11,
+      "LFQ intensity Strap_1": 24,
+      "LFQ intensity Strap_2": 28,
+      "LFQ intensity Strap_3": 25,
+      "LFQ intensity Strap_4": 26
+    },
+    "rank_qualified_batch_count": 18,
+    "union_shared_accession_count": 57,
+    "interpretation": "The file is quantitatively compatible enough to justify a rights-resolved technical robustness protocol, but its four-replicate-per-protocol columns are technical replicates of one pooled material and cannot be counted as independent biological OOD batches."
+  },
+  "decision": {
+    "status": "HOLD_NOT_ADMITTED_DATASET_LICENSE_AND_BIOLOGICAL_UNIT_UNRESOLVED",
+    "model_use": "PROHIBITED",
+    "next_action": "Obtain an explicit dataset-level license or redistribution grant, then preregister whether the analysis unit is protocol-level technical robustness or donor-level external validation. Do not promote this source to independent OOD without donor-level evidence."
+  },
+  "claim_boundary": "This screen increases the evidence auditability of the project but does not increase the independent-validation, lockbox, external-reproduction or submission-readiness scores."
+}
