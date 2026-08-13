@@ -23,7 +23,7 @@
 | 独立 evaluator / protected lockbox | **4/100** | 只有 protocol/handoff；没有非作者 evaluator 的一次性 receipt |
 | 无作者科学复现 | **0/100** | 没有无作者团队从原始输入起步的 clean-checkout receipt |
 | 外部用户采用与可用性 | **0/100** | 没有真实外部用户/机构安装、issue/PR、采用记录 |
-| DOI 与不可变归档 | **30/100** | Git tag/release manifest 路径已准备并计划更新至 v0.1.3-r10.6；DOI/Zenodo 等外部归档 receipt 仍缺失 |
+| DOI 与不可变归档 | **30/100** | Git tag/release manifest 路径已准备并计划更新至 v0.1.3-r10.7；DOI/Zenodo 等外部归档 receipt 仍缺失 |
 | 强 Q1 综合成熟度 | **31/100** | 内部 protocol、执行与可审计性显著增强，但外部证据硬门禁全部未闭合，且模型 superiority 不稳定 |
 
 ## 3. T193 实际结果
