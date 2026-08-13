@@ -20,7 +20,7 @@ uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
 ```
 
-The audited KAUST run passed 17 tests. The test result establishes software and data-pipeline reproducibility under the reported environment; it does not establish non-author scientific replication.
+The audited KAUST run passed 21 tests. The test result establishes software and data-pipeline reproducibility under the reported environment; it does not establish non-author scientific replication.
 
 ## Evidence boundary
 
