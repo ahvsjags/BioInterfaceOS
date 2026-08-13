@@ -4,7 +4,7 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.14` (resolve the commit with `git rev-parse v0.1.3-r10.14^{}`) and includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.15` (resolve the commit with `git rev-parse v0.1.3-r10.15^{}`) and includes:
 
 - a frozen 99-target rank benchmark spanning three laboratory anchors, 47 measurement batches and 2,724 rank-eligible development observations;
 - a strict nine-accession common-target sensitivity route spanning three laboratory anchors, 809 row-traceable observations and 85 measurement batches;
@@ -16,7 +16,7 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 - nested selection, laboratory-held-out evaluation, cluster-aware uncertainty, paired composition ablation and within-batch negative controls;
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
-- an immutable release tag `v0.1.3-r10.14`, with the T180/T181 source audit and OOD receipts, T192-T200 analyses, the external evaluator handoff contract and byte-exact source-cell maps.
+- an immutable release tag `v0.1.3-r10.15`, with the T180/T181 source audit and OOD receipts, T192-T200 analyses, the external evaluator handoff contract and byte-exact source-cell maps.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
