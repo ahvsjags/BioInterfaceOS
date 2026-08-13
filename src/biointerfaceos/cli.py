@@ -594,6 +594,28 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the byte-verified PMC13106918 package and extracted MaxQuant files",
     )
     data_r4_pmc13106918_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc3252235_source_parser = data_subparsers.add_parser(
+        "audit-r4-pmc3252235-source",
+        help="audit and preserve the negative decision for the PNNL full-text human-plasma source",
+    )
+    data_r4_pmc3252235_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PMC3252235 supplementary XLS",
+    )
+    data_r4_pmc3252235_source_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc3252235_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pmc3252235-source",
+        help="verify the frozen PMC3252235 negative source-screen receipt",
+    )
+    data_r4_pmc3252235_verify_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PMC3252235 supplementary XLS",
+    )
+    data_r4_pmc3252235_verify_parser.add_argument("--strict", action="store_true")
     data_r4_pxd017052_nsclc_source_parser = data_subparsers.add_parser(
         "audit-r4-pxd017052-nsclc-source",
         help="audit the paper-attached 141-subject PXD017052 NSCLC corona matrix",
@@ -3538,6 +3560,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-r4-small-molecule-corona-source",
             "audit-r4-pmc13106918-source",
             "verify-r4-pmc13106918-source",
+            "audit-r4-pmc3252235-source",
+            "verify-r4-pmc3252235-source",
             "audit-r4-pxd017052-nsclc-source",
             "verify-r4-pxd017052-nsclc-source",
             "evaluate-r4-pxd017052-nsclc-biological-ood",
@@ -3899,6 +3923,51 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"shared_canonical_proteins={pmc13106918_summary.shared_canonical_protein_count} "
                 f"source_cells={pmc13106918_summary.source_cell_count} "
                 f"positive_source_cells={pmc13106918_summary.positive_source_cell_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-pmc3252235-source":
+            from biointerfaceos.r4_pmc3252235_source_screen import (
+                R4PMC3252235SourceScreenError,
+                R4PMC3252235SourceScreenWorkflow,
+            )
+
+            try:
+                pnnl_summary = R4PMC3252235SourceScreenWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
+            except (R4PMC3252235SourceScreenError, OSError) as exc:
+                print(f"R4_PMC3252235_SOURCE_SCREEN_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC3252235_SOURCE_SCREEN_VALID "
+                f"source_bytes={pnnl_summary.source_bytes} "
+                f"direct_overlap_accessions={pnnl_summary.direct_overlap_accessions} "
+                f"measurement_columns={pnnl_summary.measurement_columns} "
+                f"rank_qualified_columns={pnnl_summary.rank_qualified_columns} "
+                "model_fitted=false independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pmc3252235-source":
+            from biointerfaceos.r4_pmc3252235_source_screen import (
+                R4PMC3252235SourceScreenError,
+                R4PMC3252235SourceScreenWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PMC3252235_SOURCE_SCREEN_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                pnnl_summary = R4PMC3252235SourceScreenWorkflow(root, args.assets_root).verify()
+            except (R4PMC3252235SourceScreenError, OSError) as exc:
+                print(f"R4_PMC3252235_SOURCE_SCREEN_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC3252235_SOURCE_SCREEN_VERIFY_VALID "
+                f"source_bytes={pnnl_summary.source_bytes} "
+                f"direct_overlap_accessions={pnnl_summary.direct_overlap_accessions} "
+                f"measurement_columns={pnnl_summary.measurement_columns} "
+                f"rank_qualified_columns={pnnl_summary.rank_qualified_columns} "
                 "scientific_submission_ready=false"
             )
             return 0
