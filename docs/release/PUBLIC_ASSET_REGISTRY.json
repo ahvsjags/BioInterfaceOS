@@ -26,7 +26,7 @@
     },
     {
       "asset_id": "repository_documentation",
-      "include": ["AGENTS.md", "README_FIRST.md", "GOAL.md", "PLANS.md", "TASKS.md", "TASKS.tsv", "PROJECT_STATE.yaml", "CODEX_START_PROMPT.md", "SOURCE_POLICY.template.yaml", "CHECKSUMS.sha256", "LICENSE", "NOTICE", "CITATION.cff", "docs/**", "agents/**", "benchmarks/**", "experiments/**", "models/**"],
+      "include": ["AGENTS.md", "README.md", "README_FIRST.md", "GOAL.md", "PLANS.md", "TASKS.md", "TASKS.tsv", "PROJECT_STATE.yaml", "CODEX_START_PROMPT.md", "SOURCE_POLICY.template.yaml", "CHECKSUMS.sha256", "LICENSE", "NOTICE", "CITATION.cff", "docs/**", "agents/**", "benchmarks/**", "experiments/**", "models/**"],
       "asset_class": "repository_authored_documentation",
       "origin": "BioInterfaceOS contributors",
       "license_expression": "Apache-2.0",
@@ -86,7 +86,7 @@
     },
     {
       "asset_id": "data_and_fixture_payloads",
-      "include": ["data/README.md", "data/bronze/**", "data/cas/**", "data/features/**", "data/gold_auto/**", "data/gold_consensus/**", "data/gold_expert/**", "data/locked_test/**", "data/quarantine/**", "data/raw/README.md", "data/raw/external/**", "data/raw/geo/**", "data/raw/literature/**", "data/raw/pride/**", "data/raw/supplementary/**", "data/silver/**", "data/splits/**"],
+      "include": ["data/README.md", "data/bronze/**", "data/cas/**", "data/features/**", "data/gold_auto/**", "data/gold_consensus/**", "data/gold_expert/**", "data/locked_test/**", "data/quarantine/**", "data/raw/**", "data/silver/**", "data/splits/**"],
       "asset_class": "fixture_or_source_derived_data",
       "origin": "fixtures, source pointers, and derived artifacts",
       "license_expression": "NOASSERTION",
