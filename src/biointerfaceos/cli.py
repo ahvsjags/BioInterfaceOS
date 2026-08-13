@@ -759,6 +759,26 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T195 strict-common-target execution receipt",
     )
     data_r4_t195_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t197_parser = data_subparsers.add_parser(
+        "evaluate-r4-t197-source-availability",
+        help="execute the source-availability-aware outer-fold target sensitivity",
+    )
+    data_r4_t197_parser.add_argument("--strict", action="store_true")
+    data_r4_t197_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t197-source-availability",
+        help="verify the T197 source-availability-aware execution receipt",
+    )
+    data_r4_t197_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t198_parser = data_subparsers.add_parser(
+        "evaluate-r4-t198-paper-cohort-missingness",
+        help="execute the paper-cohort threshold and missingness sensitivity",
+    )
+    data_r4_t198_parser.add_argument("--strict", action="store_true")
+    data_r4_t198_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t198-paper-cohort-missingness",
+        help="verify the T198 paper-cohort missingness receipt",
+    )
+    data_r4_t198_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3703,6 +3723,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t194-fulltext-core-facility",
             "evaluate-r4-t195-three-lab-common-target",
             "verify-r4-t195-three-lab-common-target",
+            "evaluate-r4-t197-source-availability",
+            "verify-r4-t197-source-availability",
+            "evaluate-r4-t198-paper-cohort-missingness",
+            "verify-r4-t198-paper-cohort-missingness",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-pxd064962-low-coverage-sensitivity",
@@ -4659,6 +4683,90 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"target_universe={t195_summary.target_universe_count} "
                 f"laboratories={t195_summary.laboratory_anchor_count} "
                 f"measurement_batches={t195_summary.measurement_batch_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t197-source-availability":
+            from biointerfaceos.r4_t197_source_availability_execution import (
+                R4T197SourceAvailabilityError,
+                R4T197SourceAvailabilityWorkflow,
+            )
+
+            try:
+                t197_summary = R4T197SourceAvailabilityWorkflow(root).run(strict=args.strict)
+            except (R4T197SourceAvailabilityError, OSError) as exc:
+                print(f"R4_T197_SOURCE_AVAILABILITY_EXECUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T197_SOURCE_AVAILABILITY_EXECUTION_VALID "
+                f"observations={t197_summary.observation_count} "
+                f"outer_folds={t197_summary.outer_fold_count} "
+                f"target_count_minimum={t197_summary.target_count_minimum} "
+                f"measurement_batches={t197_summary.measurement_batch_count} "
+                f"models={t197_summary.model_count} "
+                "development_only_target_membership=true selection_reexecuted=true "
+                "independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t197-source-availability":
+            from biointerfaceos.r4_t197_source_availability_execution import (
+                R4T197SourceAvailabilityError,
+                R4T197SourceAvailabilityWorkflow,
+            )
+
+            try:
+                t197_summary = R4T197SourceAvailabilityWorkflow(root).verify(strict=args.strict)
+            except (R4T197SourceAvailabilityError, OSError) as exc:
+                print(f"R4_T197_SOURCE_AVAILABILITY_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T197_SOURCE_AVAILABILITY_VERIFY_VALID "
+                f"observations={t197_summary.observation_count} "
+                f"outer_folds={t197_summary.outer_fold_count} "
+                f"target_count_minimum={t197_summary.target_count_minimum} "
+                f"measurement_batches={t197_summary.measurement_batch_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t198-paper-cohort-missingness":
+            from biointerfaceos.r4_t198_paper_cohort_missingness import (
+                R4T198MissingnessError,
+                R4T198PaperCohortMissingnessWorkflow,
+            )
+
+            try:
+                t198_summary = R4T198PaperCohortMissingnessWorkflow(root).run(strict=args.strict)
+            except (R4T198MissingnessError, OSError) as exc:
+                print(f"R4_T198_PAPER_COHORT_MISSINGNESS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T198_PAPER_COHORT_MISSINGNESS_VALID "
+                f"thresholds={t198_summary.threshold_count} "
+                f"primary_threshold={t198_summary.primary_threshold} "
+                f"primary_batches={t198_summary.primary_batch_count} "
+                f"primary_biological_units={t198_summary.primary_biological_unit_count} "
+                f"primary_observations={t198_summary.primary_observation_count} "
+                "selection_reexecuted=true independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t198-paper-cohort-missingness":
+            from biointerfaceos.r4_t198_paper_cohort_missingness import (
+                R4T198MissingnessError,
+                R4T198PaperCohortMissingnessWorkflow,
+            )
+
+            try:
+                t198_summary = R4T198PaperCohortMissingnessWorkflow(root).verify(strict=args.strict)
+            except (R4T198MissingnessError, OSError) as exc:
+                print(f"R4_T198_PAPER_COHORT_MISSINGNESS_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T198_PAPER_COHORT_MISSINGNESS_VERIFY_VALID "
+                f"thresholds={t198_summary.threshold_count} "
+                f"primary_threshold={t198_summary.primary_threshold} "
+                f"primary_batches={t198_summary.primary_batch_count} "
+                f"primary_biological_units={t198_summary.primary_biological_unit_count} "
+                f"primary_observations={t198_summary.primary_observation_count} "
                 "scientific_submission_ready=false"
             )
             return 0

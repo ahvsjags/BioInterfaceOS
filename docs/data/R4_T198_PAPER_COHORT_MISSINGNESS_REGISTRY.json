@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t198-paper-cohort-missingness-v1.0.0",
+  "protocol_id": "bioif-r4-t198-paper-cohort-missingness-v1.0.0",
+  "status": "T198_PAPER_COHORT_MISSINGNESS_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T198_PAPER_COHORT_MISSINGNESS_PROTOCOL.json",
+    "sha256": "1a8854f9733cd340e6bebecb6ab7c588499686416840ae75dceff3ae10697485"
+  },
+  "source_map": {
+    "relative_path": "data/raw/r4_candidate_pxd017052_nsclc/derived/R4_PXD017052_NSCLC_source_cell_map.csv",
+    "sha256": "2b5074a825108675aa28fd63f644a3f9aadb7996d6772943b84451a460239e2d"
+  },
+  "source_audit_receipt": {
+    "relative_path": "reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/pxd017052_nsclc_source_audit_receipt.json",
+    "sha256": "dd1ef23771ab9fad2493651726977928a10786ecd35da9daa478572b6582d56d"
+  },
+  "r3_common_target_ledger": {
+    "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+    "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+  },
+  "r3_sequence_feature_table": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "output_contract": {
+    "relative_path": "reports/review_round_4/t198_paper_cohort_missingness/v1.0.0"
+  },
+  "claim_boundary": "The receipt reports threshold and retention sensitivity only; it does not turn paper data into independent validation or a submission-ready lockbox result.",
+  "scientific_submission_ready": false
+}

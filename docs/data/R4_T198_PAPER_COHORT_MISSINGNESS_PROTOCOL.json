@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t198-paper-cohort-missingness-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "status": "FROZEN_BEFORE_T198_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Quantify effective biological-unit retention and model sensitivity to the positive mapped-protein qualification threshold in the paper-attached 141-subject cohort without imputation.",
+  "primary_threshold": 10,
+  "threshold_sensitivity": {
+    "minimum_mapped_positive_proteins_per_batch": [5, 7, 10, 12, 15, 20, 25, 30]
+  },
+  "eligibility": {
+    "rank_target": "finite strictly positive source value mapped to a frozen R3 sequence feature",
+    "source_na_policy": "retain and report AUTHOR_NA; exclude from rank; no imputation",
+    "source_zero_policy": "retain and report AUTHOR_EXPLICIT_ZERO; exclude from rank; no imputation",
+    "threshold_unit": "mapped rank-eligible canonical target rows per subject-particle batch",
+    "rank_denominator": "all finite strictly positive source rows within the source-defined batch, before model scoring"
+  },
+  "nested_selection": {
+    "population": "frozen R3 development observations only",
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "selection_metric": "measurement-batch Spearman",
+    "minimum_proteins_per_batch": 10,
+    "external_data_used_for_selection": false
+  },
+  "models": [
+    "SEQUENCE_RIDGE_FULL",
+    "SEQUENCE_RIDGE_COMPOSITION_ONLY"
+  ],
+  "uncertainty": {
+    "cluster": "biological_unit_id",
+    "resamples": 2000,
+    "random_seed": 1980,
+    "interval": "percentile 95% cluster bootstrap over retained biological units"
+  },
+  "negative_control": {
+    "type": "within-development-measurement-batch target permutation",
+    "resamples": 256,
+    "random_seed": 1981,
+    "primary_threshold": 10,
+    "selection_reexecuted_per_resample": true,
+    "external_targets_never_used_in_fitting": true,
+    "tail": "one-sided upper tail"
+  },
+  "claim_boundary": "This is an author-run missingness and threshold sensitivity on a paper-attached biological cohort. It does not establish an independent laboratory, protected lockbox, no-author reproduction, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t197-source-availability-execution-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "status": "FROZEN_BEFORE_T197_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Sensitivity execution that derives each outer-fold target set from development sources only and then scores the held-out laboratory source without using its target availability for selection.",
+  "outer_split": {
+    "type": "leave_one_laboratory_anchor_out",
+    "fold_count": 3,
+    "source_ids": [
+      "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "PXD064962_UCD_EVENT"
+    ],
+    "target_selection": "exact intersection of rank-eligible canonical accessions in the two development sources only",
+    "held_out_source_used_for_target_membership": false,
+    "held_out_source_used_for_alpha_selection": false,
+    "held_out_source_used_for_model_selection": false,
+    "minimum_development_target_count": 9
+  },
+  "nested_selection": {
+    "type": "leave_one_measurement_batch_out_within_development_sources",
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "selection_metric": "measurement-batch Spearman",
+    "tie_break": "smallest alpha",
+    "minimum_proteins_per_batch": 7
+  },
+  "models": {
+    "constant": "development-target mean; Spearman is undefined by contract",
+    "full": "unpenalized-intercept ridge on the frozen sequence feature table",
+    "composition_only": "unpenalized-intercept ridge on frozen amino-acid composition features",
+    "standardization": "development-partition mean and standard deviation; zero standard deviation replaced by 1.0",
+    "solver": "numpy.linalg.solve"
+  },
+  "uncertainty": {
+    "cluster": "held-out measurement batch",
+    "resamples": 2000,
+    "random_seed": 1970,
+    "interval": "percentile 95% measurement-batch bootstrap",
+    "low_cluster_count_policy": "report every fold's batch count and do not convert source or batch counts into donor-level n"
+  },
+  "negative_control": {
+    "type": "within-development-measurement-batch target permutation",
+    "resamples": 256,
+    "random_seed": 1971,
+    "alpha_policy": "re-run nested alpha selection independently within every permutation",
+    "tail": "one-sided upper tail"
+  },
+  "claim_boundary": "This is an availability-aware exploratory sensitivity analysis on three redistributable paper-linked source maps. It does not establish independent biological validation, protected lockbox evaluation, no-author reproduction, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

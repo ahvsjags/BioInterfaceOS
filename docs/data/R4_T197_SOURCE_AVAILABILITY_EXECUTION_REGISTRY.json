@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t197-source-availability-execution-v1.0.0",
+  "protocol_id": "bioif-r4-t197-source-availability-execution-v1.0.0",
+  "status": "T197_SOURCE_AVAILABILITY_EXECUTION_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T197_SOURCE_AVAILABILITY_EXECUTION_PROTOCOL.json",
+    "sha256": "950e8b926b9575c7f0ae627d93ee8488d695abcb1644b846d8db326b3efd1f4f"
+  },
+  "t192_source_registry": {
+    "relative_path": "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json",
+    "sha256": "07b30eead07712f36f0d95565d3373b04e0b21253ad2159e56acfee1acf8136a"
+  },
+  "r3_sequence_feature_table": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "sources": [
+    "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+    "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+    "PXD064962_UCD_EVENT"
+  ],
+  "expected_accounting": {
+    "outer_fold_count": 3,
+    "minimum_development_only_target_count": 12
+  },
+  "output_contract": {
+    "relative_path": "reports/review_round_4/t197_source_availability_execution/v1.0.0"
+  },
+  "claim_boundary": "The receipt verifies only an outer-fold target-availability sensitivity. It does not upgrade the three paper-linked sources to independent biological cohorts or to scientific submission readiness.",
+  "scientific_submission_ready": false
+}
