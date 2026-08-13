@@ -1,0 +1,59 @@
+name: Independent reproduction or external use
+description: Submit a non-author reproduction or independent user report for BioInterfaceOS.
+title: "Independent reproduction/use report: "
+labels:
+  - external-reproduction
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please do not upload protected row-level data, credentials, or private human data. Follow the handoff contract in `docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF.md`.
+  - type: input
+    id: identity
+    attributes:
+      label: Team and institution
+      description: State the team/institution or choose anonymous with a private contact route.
+    validations:
+      required: true
+  - type: textarea
+    id: conflict
+    attributes:
+      label: Conflict disclosure
+      description: Disclose authorship, project control, funding or other relevant relationships.
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Checkout commit or tag
+      placeholder: v0.1.0-r4 / full SHA
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Task and input scope
+      description: Describe what was run and where the inputs came from.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and commands
+      description: Include OS, dependency/container digest, commands and test output.
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Results, failures and output hashes
+      description: Report successes and failures; attach or link an immutable receipt when possible.
+    validations:
+      required: true
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Publication consent
+      options:
+        - label: I confirm that this report contains no credentials or protected row-level data and may be publicly visible.
+          required: true

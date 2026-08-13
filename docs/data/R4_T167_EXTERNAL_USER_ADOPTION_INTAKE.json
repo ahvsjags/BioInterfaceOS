@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "intake_protocol_id": "bioif-r4-external-user-adoption-v1.0.0",
+  "declared_at": "2026-08-13T00:00:00+00:00",
+  "status": "OPEN_NO_EXTERNAL_USER_RECEIPT",
+  "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+  "required_user_evidence": {
+    "non_author_user": true,
+    "distinct_institution_or_independent_project": true,
+    "clean_environment_install": true,
+    "task_and_input_scope_recorded": true,
+    "software_version_or_commit_recorded": true,
+    "environment_and_dependency_digest_recorded": true,
+    "stdout_stderr_and_output_hash_recorded": true,
+    "limitations_and_failures_reported": true,
+    "user_consent_to_public_summary": true
+  },
+  "adoption_does_not_mean": [
+    "repository page views",
+    "automated downloads",
+    "author-run tests",
+    "author-controlled accounts",
+    "a citation without an independently described use"
+  ],
+  "required_intake_fields": [
+    "user_or_team_identity",
+    "institution_or_project",
+    "conflict_disclosure",
+    "task_description",
+    "input_provenance",
+    "checkout_commit",
+    "environment_digest",
+    "commands",
+    "output_hashes",
+    "successes_and_failures",
+    "limitations_feedback",
+    "public_summary_consent",
+    "timestamp"
+  ],
+  "current_count": 0,
+  "claim_boundary": "No external adoption claim is permitted until a non-author user submits a verifiable intake record."
+}
