@@ -88,4 +88,47 @@ T177 只能提高“统计执行/模型证据”这一作者运行模块的可�
 ```bash
 uv run biointerfaceos data audit-r4-three-lab-common-target --strict
 uv run biointerfaceos data verify-r4-three-lab-common-target --strict
+
+## T180：PXD017052 论文级 141-subject biological cohort
+
+为解决“development 中的 pooled/technical 单位不能替代 biological effective n”的核心问题，新增了同一篇公开全文的 Supplementary Data 5 审计。该表来自 Nature Communications 的 multi-nanoparticle protein-corona/Proteograph 研究（DOI `10.1038/s41467-020-17033-7`，PMCID `PMC7376165`），不是重新模拟的数据，也没有下载不可处理的原始谱图。表格保留了 141 个 individual plasma subject、5 个 NP-corona 条件和 141 个 depleted-plasma control 列；本项目的分析账本只纳入 5 个 NP 条件。
+
+T180 的严格 cell-level receipt 记录：
+
+- 1 个纸面来源资产，工作簿 `Sheet1` 为 2,586 行 × 847 列；
+- 141 个 biological units、705 个 NP-corona measurement batches；
+- 666 个批次达到每批至少 10 个正值 target 的预先阈值；
+- 34 个唯一且无歧义映射到冻结 R3 target universe 的 canonical proteins；
+- 23,970 个逐单元格可追溯 source cells，其中 17,330 个为正值，6,640 个为作者报告的 `NA`；无插补、无把 NA 当作负值；
+- 每个 source row 保留 workbook、worksheet、row、cell、subject、clinical group、particle、batch 和 canonical accession。
+
+该数据提高的是 biological-unit accounting 和 paper-attached cohort OOD 候选质量；它仍来自 Seer/Broad 同一 laboratory anchor，不能把 141 个 subject 写成 141 个实验室，也不能称为独立 lockbox、非作者复现或 clinical validation。机器可核验入口为：
+
+- registry：`docs/data/R4_T180_PXD017052_NSCLC_SOURCE_REGISTRY.json`；
+- 执行模块：`src/biointerfaceos/r4_pxd017052_nsclc_source_audit.py`；
+- receipt：`reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/`；
+- source-cell map：`data/raw/r4_candidate_pxd017052_nsclc/derived/R4_PXD017052_NSCLC_source_cell_map.csv`。
+
+## T181：141-subject biological-cohort OOD 执行
+
+在 T180 receipt 验证通过后，冻结了单独的 `R4_T181_PXD017052_NSCLC_BIOLOGICAL_OOD_PROTOCOL.json` 并执行了模型。模型只在冻结的 2,724 个 R3 development observations 上拟合；外部表格只用于 scoring。执行包含 constant baseline、full sequence ridge、composition-only ridge、nested alpha selection、subject-equal cluster bootstrap、paired ablation 和 256 次 within-development-batch permutation negative control。
+
+真实执行结果如下，均为作者运行的 exploratory evidence：
+
+| 模型 | subject-equal mean Spearman | 95% biological-unit cluster CI | batch-weighted Spearman |
+|---|---:|---:|---:|
+| constant baseline | undefined（按协议） | — | — |
+| sequence ridge full | 0.06845 | [0.05253, 0.08293] | 0.07686 |
+| composition-only | 0.03917 | [0.02132, 0.05493] | 0.05005 |
+
+full − composition 的成对 subject-equal差值为 `0.02928`，141 个 biological units 的 cluster bootstrap 95% CI 为 `[0.02413, 0.03451]`。负对照的 observed primary endpoint 为 `0.06845`，256 次 within-development-batch permutation 的 one-sided upper-tail `p=0.24125`；因此不能把这项结果写成确认性的 sequence mechanism 或稳健泛化结论。该执行确认了真实大样本 cohort 上的统计链路能够运行，但模型增量仍小、负对照不显著，且没有独立 laboratory、lockbox 或无作者复现。
+
+执行模块与 receipt：
+
+- `src/biointerfaceos/r4_pxd017052_nsclc_biological_ood.py`；
+- `reports/review_round_4/pxd017052_nsclc_biological_ood/v1.0.0/`；
+- CLI：`uv run biointerfaceos data evaluate-r4-pxd017052-nsclc-biological-ood --strict`；
+- 验证：`uv run biointerfaceos data verify-r4-pxd017052-nsclc-biological-ood --strict`。
+
+`scientific_submission_ready` 在 T181 后仍为 `false`。
 ```
