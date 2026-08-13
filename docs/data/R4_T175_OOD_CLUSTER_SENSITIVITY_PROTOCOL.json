@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-ood-cluster-sensitivity-v1.0.0",
+  "frozen_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "source_map": {
+    "relative_path": "data/raw/r4_candidate_pmc11544298/derived/R4_PMC11544298_small_molecule_corona_source_cell_map.csv",
+    "sha256": "18c917eb27b6f2797d0d34a2dc9a249c139f82a9c0f5bee22f6dad9435222bef"
+  },
+  "batch_metrics": {
+    "relative_path": "reports/review_round_4/small_molecule_corona_ood/v1.0.0/r4_external_measurement_batch_metrics.csv",
+    "sha256": "ed2b2b3b53b6eabdd7cb8354b5664dce6a92627abb93cacf9bfef8336f229ab1"
+  },
+  "upstream_ood_report": {
+    "relative_path": "reports/review_round_4/small_molecule_corona_ood/v1.0.0/r4_external_ood_report.json",
+    "sha256": "604bcc8f4ae9f1ab5986f98311ba541f9ae49ccf25ea9675b203f954df952381"
+  },
+  "cluster_unit": "biological_unit_id",
+  "pooled_unit_rule": "biological_unit_id values containing POOLED are pooled units; all other values are donor-labelled units",
+  "models": [
+    "SEQUENCE_RIDGE_FULL",
+    "SEQUENCE_RIDGE_COMPOSITION_ONLY"
+  ],
+  "paired_ablation": "full-minus-composition Spearman within identical measurement batches, summarized both batch-weighted and biological-unit-weighted",
+  "uncertainty": {
+    "method": "equal-weight biological-unit bootstrap over unit-level means",
+    "resamples": 2000,
+    "random_seed": 20260827
+  },
+  "claim_boundary": "This is an author-run same-lineage cluster sensitivity audit. It does not turn pooled or donor-labelled units from one laboratory into independent external laboratories, and it cannot establish independent validation, external scientific reproduction or scientific submission readiness."
+}
