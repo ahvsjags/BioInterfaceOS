@@ -74,6 +74,25 @@ and table headers were used.  These checks are limited to the named official
 assets and do not claim that undocumented treatment details are absent from
 all external sources.
 
+## Follow-up API additions: complete listing and licence gates
+
+Two further exact-accession leads were checked through the official PRIDE v3
+project and project-file endpoints.  The checks preserve the same narrow
+evidence boundary: a topical title, a licence, or a condition token in a raw
+file name is not an analysis-unit-to-numeric-covariate map.
+
+| PRIDE accession | Bounded official evidence | Non-admission finding | Current decision |
+| --- | --- | --- | --- |
+| PXD007648 | The [official project record](https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD007648) reports `Protein Corona of 60nm Silver Nanoparticles`, *Homo sapiens*, publication date 2019-01-23, and licence `EBI terms of use`. | The topical, pre-cutoff record fails T129's CC0-only licence gate.  Its title is not used as a material covariate, and no file-level interpretation was undertaken. | `NOT_ELIGIBLE_NON_CC0_LICENSE` |
+| PXD018160 | The [official project record](https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD018160) reports CC0, *Homo sapiens*, and publication date 2020-08-19.  Its complete official file-list response at `page=0&pageSize=1000` returns 14 assets (16,873,216,920 bytes): twelve `.baf` raw streams (16,239,725,376 bytes), `2peptidesperprotein.zip` (620,094,058 bytes; API category `Search engine output file URI`) and `SPhumanCr_20170302.fasta` (13,397,486 bytes).  The list has no separately released sample-design, SDRF, annotation, or result-to-unit mapping asset. | The listing exposes only raw-source labels (including `Plasma`, `Fetal` and `Maternal`), a bulk result archive and a FASTA database.  Those labels and the project title cannot be converted into biological units or numeric material/size covariates; no bulk asset was downloaded merely to search for an unstated map.  This does not assert that such evidence is absent inside an uninspected archive or elsewhere. | `NOT_ADMITTED_WITH_SCREENED_LISTING` |
+
+The two API responses were queried on 2026-08-13 using the linked official
+project records and `https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD018160/files?page=0&pageSize=1000`.
+The stated archive-byte accounting comes directly from the returned
+`fileSizeBytes` fields; it is not a local transfer receipt.  Neither record
+changes the six-source, five-laboratory consolidated T129 candidate synthesis
+or authorizes a T121 amendment.
+
 ## PXD017052 public source-data recovery route
 
 The high-priority PXD017052 listing screen above remains correct for the CC0
