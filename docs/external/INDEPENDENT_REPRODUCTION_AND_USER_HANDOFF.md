@@ -1,11 +1,11 @@
 # Independent reproduction and external-user handoff
 
-BioInterfaceOS is accepting independent reproduction and external-use reports for the public R4 release. This page is a handoff contract, not a completed receipt.
+BioInterfaceOS is accepting independent reproduction and external-use reports for the public R5 release. This page is a handoff contract, not a completed receipt.
 
 ## Public checkout
 
 ```bash
-git clone --branch v0.1.1-r4 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.2-r5 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
 uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q

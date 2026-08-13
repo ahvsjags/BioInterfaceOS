@@ -8,9 +8,9 @@
 - 公开仓库：[https://github.com/ahvsjags/BioInterfaceOS](https://github.com/ahvsjags/BioInterfaceOS)
 - 默认分支：`main`
 - 执行分支：`r3-real-data-execution-20260813`
-- GitHub 版本标签：`v0.1.1-r4`
-- GitHub release：[BioInterfaceOS v0.1.1-r4](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.1-r4)
-- 当前公开 release commit：`d8668476aff69e79ee532ff4edd717c470f5e287`
+- GitHub 版本标签：`v0.1.2-r5`
+- GitHub release：[BioInterfaceOS v0.1.2-r5](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.2-r5)
+- 当前公开 release commit：`1407cf2ad631d55e0b26abf5d0b5e82aad676bf3`
 - KAUST 服务器任务路径：`/ibex/user/xup0a/BioInterfaceOS-r3-real-data`
 - KAUST 服务器路径：`/ibex/user/xup0a/BioInterfaceOS-r3-real-data`；当前状态以服务器分支 `r3-real-data-execution-20260813` 的 HEAD 为准
 
