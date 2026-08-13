@@ -22,3 +22,6 @@
 *.jpg binary
 *.jpeg binary
 *.webp binary
+
+# Byte-verified primary-source metadata must retain its downloaded line endings.
+data/raw/r4_candidate_edinburgh_ds7545/README.txt binary

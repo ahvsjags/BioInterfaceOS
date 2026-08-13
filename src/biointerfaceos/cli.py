@@ -550,6 +550,28 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the downloaded PMC6592156 supplementary package and extraction",
     )
     data_r3_silver_source_parser.add_argument("--strict", action="store_true")
+    data_r4_edinburgh_source_parser = data_subparsers.add_parser(
+        "audit-r4-edinburgh-clinical-source",
+        help="audit a CC-BY clinical human-plasma nanoparticle-enrichment source without merging it into R3",
+    )
+    data_r4_edinburgh_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified Edinburgh DataShare source assets",
+    )
+    data_r4_edinburgh_source_parser.add_argument("--strict", action="store_true")
+    data_r4_small_molecule_source_parser = data_subparsers.add_parser(
+        "audit-r4-small-molecule-corona-source",
+        help="audit the CC-BY PMC11544298 human-plasma corona source for a separately frozen R4 protocol",
+    )
+    data_r4_small_molecule_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PMC11544298 package and extracted workbooks",
+    )
+    data_r4_small_molecule_source_parser.add_argument("--strict", action="store_true")
     data_r3_silver_ood_parser = data_subparsers.add_parser(
         "evaluate-r3-silver-external-ood",
         help="run the frozen author-run external-laboratory OOD evaluation on the silver source",
@@ -3375,6 +3397,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "freeze-r3-analysis-protocol",
             "evaluate-r3-common-rank-models",
             "audit-r3-silver-plasma-source",
+            "audit-r4-edinburgh-clinical-source",
+            "audit-r4-small-molecule-corona-source",
             "evaluate-r3-silver-external-ood",
             "preflight-external-source-intake",
             "preflight-external-verification",
@@ -3616,6 +3640,56 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"measurement_batches={silver_source_summary.analysis_measurement_batch_count} "
                 f"source_cells={silver_source_summary.source_cell_count} "
                 f"positive_source_cells={silver_source_summary.positive_source_cell_count} "
+                "model_fitted=false independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-edinburgh-clinical-source":
+            from biointerfaceos.r4_edinburgh_clinical_source_audit import (
+                R4EdinburghClinicalSourceAuditError,
+                R4EdinburghClinicalSourceAuditWorkflow,
+            )
+
+            try:
+                edinburgh_summary = R4EdinburghClinicalSourceAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (R4EdinburghClinicalSourceAuditError, OSError) as exc:
+                print(f"R4_EDINBURGH_CLINICAL_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_EDINBURGH_CLINICAL_SOURCE_AUDIT_VALID "
+                f"assets={edinburgh_summary.source_asset_count} "
+                f"protein_rows={edinburgh_summary.protein_row_count} "
+                f"measurement_batches={edinburgh_summary.measurement_batch_count} "
+                f"shared_canonical_proteins={edinburgh_summary.shared_canonical_protein_count} "
+                f"source_cells={edinburgh_summary.source_cell_count} "
+                f"positive_source_cells={edinburgh_summary.positive_source_cell_count} "
+                "model_fitted=false independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-small-molecule-corona-source":
+            from biointerfaceos.r4_small_molecule_corona_source_audit import (
+                R4SmallMoleculeCoronaSourceAuditError,
+                R4SmallMoleculeCoronaSourceAuditWorkflow,
+            )
+
+            try:
+                small_molecule_summary = R4SmallMoleculeCoronaSourceAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (R4SmallMoleculeCoronaSourceAuditError, OSError) as exc:
+                print(f"R4_SMALL_MOLECULE_CORONA_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_SMALL_MOLECULE_CORONA_SOURCE_AUDIT_VALID "
+                f"assets={small_molecule_summary.source_asset_count} "
+                f"protein_rows={small_molecule_summary.protein_row_count} "
+                f"all_measurement_batches={small_molecule_summary.all_measurement_batch_count} "
+                f"corona_measurement_batches={small_molecule_summary.corona_measurement_batch_count} "
+                f"rank_qualified_measurement_batches={small_molecule_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={small_molecule_summary.shared_canonical_protein_count} "
+                f"source_cells={small_molecule_summary.source_cell_count} "
+                f"positive_source_cells={small_molecule_summary.candidate_positive_source_cell_count} "
                 "model_fitted=false independent_validation=false scientific_submission_ready=false"
             )
             return 0

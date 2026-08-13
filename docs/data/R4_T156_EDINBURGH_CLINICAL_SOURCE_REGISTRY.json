@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-edinburgh-clinical-plasma-source-audit-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "article": {
+    "pmcid": "PMC11106005",
+    "doi": "10.1038/s41565-023-01572-3",
+    "title": "First-in-human controlled inhalation of thin graphene oxide nanosheets to study acute cardiorespiratory responses",
+    "publication_year": 2024,
+    "license": "CC-BY-4.0",
+    "full_text_locator": "https://europepmc.org/articles/PMC11106005"
+  },
+  "dataset": {
+    "doi": "10.7488/ds/7545",
+    "handle": "10283/8569",
+    "license": "CC-BY-4.0",
+    "repository_locator": "https://datashare.ed.ac.uk/handle/10283/8569"
+  },
+  "source_scope": {
+    "source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+    "laboratory_anchor": "University of Edinburgh-led controlled human exposure study",
+    "biofluid": "human plasma",
+    "nanoparticle_enrichment": "lipid-nanoparticle NanoOmics plasma enrichment",
+    "analysis_role": "SEPARATE_R4_EXTERNAL_OOD_CANDIDATE_ONLY",
+    "prohibited_interpretations": [
+      "This public clinical source is not an independent evaluator or a no-author-team scientific reproduction.",
+      "Before/after exposure columns are longitudinal clinical sample measurements, not nanoparticle-condition replicates or protected lockbox data.",
+      "The source-local rank target is not the frozen R3 corona-rank target and must not be concatenated into it.",
+      "No material safety, clinical efficacy, causal mechanism or submission-ready claim follows from this source audit."
+    ]
+  },
+  "source_assets": [
+    {
+      "asset_id": "blood_proteomics_xlsx",
+      "relative_path": "blood_proteomics_data.xlsx",
+      "sha256": "0d1dbc59537536c6adc23c1bff7b593de440672812fa8d0018f78a41f5683414",
+      "expected_bytes": 610136,
+      "repository_md5": "3b72e4539a5f736677559a74da9d31a9"
+    },
+    {
+      "asset_id": "dataset_readme",
+      "relative_path": "README.txt",
+      "sha256": "2f15f78934b99f37516f35230aa71fb273519fcb842d974797c7d8a88636d729",
+      "expected_bytes": 7080,
+      "repository_md5": "77280746596b0a1014c8cbe18cad61ed"
+    }
+  ],
+  "r3_reference_assets": [
+    {
+      "asset_id": "feature_table",
+      "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+      "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+    },
+    {
+      "asset_id": "fasta_batch_0001",
+      "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/fasta_response_batches/batch-0001.fasta",
+      "sha256": "282e36108fecebb789f51db7ec44fb5fe4f0203ea59ecd9f69f7071cac1a466d"
+    },
+    {
+      "asset_id": "fasta_batch_0002",
+      "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/fasta_response_batches/batch-0002.fasta",
+      "sha256": "811c83d671edda367b63947753d31e130a5ab39e3dede5589b000ea2225ea25f"
+    }
+  ],
+  "worksheet_contracts": [
+    {
+      "worksheet": "sGO 0h v 6h",
+      "expected_rows": 702,
+      "expected_columns": 25,
+      "sample_column_count": 23,
+      "unambiguous_shared_protein_rows": 19
+    },
+    {
+      "worksheet": "usGO 0h vs 6h",
+      "expected_rows": 782,
+      "expected_columns": 28,
+      "sample_column_count": 26,
+      "unambiguous_shared_protein_rows": 21
+    }
+  ],
+  "quantification_contract": {
+    "source_accession_column": "Accession",
+    "author_quantity_type": "NORMALIZED_ABUNDANCE",
+    "entry_name_mapping": "map only a source row with exactly one R3 FASTA entry-name match; exclude all zero-or-many-match rows",
+    "rank_eligibility": "strictly positive finite author-reported abundance within one sample column",
+    "numeric_zero_policy": "retain as NUMERIC_ZERO and exclude from rank; never impute",
+    "blank_policy": "retain as SOURCE_BLANK and exclude from rank; never impute",
+    "raw_scale_cross_study_use": "PROHIBITED"
+  },
+  "admission_minimums": {
+    "measurement_batch_count": 49,
+    "minimum_positive_shared_proteins_per_measurement_batch": 10,
+    "independent_laboratory_anchor_count": 1
+  },
+  "claim_boundary": "This audit admits a byte-verified CC-BY clinical human-plasma nanoparticle-enrichment source only as a separately labelled R4 external-OOD candidate. It does not alter the frozen R3 target, construct an independent evaluator receipt, establish no-author-team scientific reproduction, or make the project submission ready."
+}

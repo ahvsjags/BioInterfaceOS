@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-small-molecule-corona-source-audit-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "article": {
+    "pmcid": "PMC11544298",
+    "doi": "10.1038/s41467-024-53966-z",
+    "title": "Small molecule modulation of protein corona for deep plasma proteome profiling",
+    "publication_year": 2024,
+    "license": "CC-BY-4.0",
+    "full_text_locator": "https://europepmc.org/articles/PMC11544298",
+    "supplementary_locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11544298/supplementaryFiles"
+  },
+  "source_scope": {
+    "source_id": "PMC11544298_SMALL_MOLECULE_HUMAN_PLASMA_CORONA",
+    "laboratory_anchor": "Michigan State University-led small-molecule protein-corona study",
+    "source_lineage": "NOT_INDEPENDENT_OF_EXISTING_R3_MICHIGAN_STATE_LINEAGE",
+    "biofluid": "commercial pooled healthy human plasma plus four-donor plasma panel",
+    "nanoparticle": "80 nm polystyrene nanoparticles",
+    "analysis_role": "SEPARATE_R4_NEW_PROTOCOL_CANDIDATE_ONLY",
+    "prohibited_interpretations": [
+      "This source was discovered after R3 was frozen and cannot be added to R3, used for R3 model selection, or used to alter R3 conclusions.",
+      "The source shares the Michigan State University lineage of an existing R3 source and contributes zero new independent laboratory anchors.",
+      "Technical small-molecule conditions and technical replicates are not additional independent human donor cohorts.",
+      "The plasma-alone rows are controls, not nanoparticle-corona observations, and must not be used as candidate OOD batches.",
+      "This public author-run candidate is not a protected lockbox, independent evaluator, no-author-team reproduction, material-design result, clinical-effect result or submission-ready claim."
+    ]
+  },
+  "source_assets": [
+    {
+      "asset_id": "supplementary_package_zip",
+      "relative_path": "PMC11544298_supplementary.zip",
+      "sha256": "3b226c964fb00fd25fcfaa2eb5a39edad1fca644f6fb823fdc759aae2783a6fa",
+      "expected_bytes": 13499660
+    },
+    {
+      "asset_id": "data_1",
+      "relative_path": "official_extracted/41467_2024_53966_MOESM3_ESM.xlsx",
+      "sha256": "d30aae89515ab11568d1ba9e45410015925ab74927d7beabd5f312cdca282844",
+      "expected_bytes": 1592388
+    },
+    {
+      "asset_id": "data_3",
+      "relative_path": "official_extracted/41467_2024_53966_MOESM5_ESM.xlsx",
+      "sha256": "93392931dad44fabd54a83358941329e43c2572133c4ad74b3bb1cdbb3904aa4",
+      "expected_bytes": 410555
+    },
+    {
+      "asset_id": "data_5",
+      "relative_path": "official_extracted/41467_2024_53966_MOESM7_ESM.xlsx",
+      "sha256": "78a6ad45b38dbb3a1d79e773699713431f863ffd4b7d40e6db885c408b6b4c8d",
+      "expected_bytes": 718470
+    }
+  ],
+  "r3_reference_asset": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "worksheet_contracts": [
+    {
+      "asset_id": "data_1",
+      "worksheet": "Supp Data 1",
+      "header_row": 3,
+      "first_data_row": 4,
+      "expected_rows": 20592,
+      "expected_columns": 12,
+      "expected_direct_r3_rows": 1609,
+      "expected_direct_r3_accessions": 90,
+      "candidate_condition_count": 31
+    },
+    {
+      "asset_id": "data_3",
+      "worksheet": "Supp Data 3",
+      "header_row": 3,
+      "first_data_row": 4,
+      "expected_rows": 5080,
+      "expected_columns": 12,
+      "expected_direct_r3_rows": 379,
+      "expected_direct_r3_accessions": 89,
+      "candidate_condition_count": 5
+    },
+    {
+      "asset_id": "data_5",
+      "worksheet": "20240825_ProteinData_Choline_PS",
+      "header_row": 4,
+      "first_data_row": 5,
+      "expected_rows": 1260,
+      "expected_columns": 54,
+      "expected_direct_r3_rows": 75,
+      "expected_direct_r3_accessions": 75,
+      "candidate_condition_count": 28
+    }
+  ],
+  "quantification_contract": {
+    "source_accession_policy": "map only a non-empty direct UniProt accession that is exactly present in the frozen R3 feature table; never collapse semicolon-delimited source groups",
+    "author_quantity_type_data_1_and_3": "NORMALIZED_INTENSITY",
+    "author_quantity_type_data_5": "AUTHOR_REPORTED_ABUNDANCE",
+    "rank_eligibility": "candidate-eligible source condition plus strictly positive finite author-reported value",
+    "numeric_zero_policy": "retain as NUMERIC_ZERO and exclude from rank; never impute",
+    "source_na_policy": "retain literal author NA markers as SOURCE_NA and exclude from rank; never coerce to zero or impute",
+    "blank_policy": "retain as SOURCE_BLANK and exclude from rank; never impute",
+    "plasma_alone_policy": "retain in source cell map with analysis_candidate_eligible=false; never treat as a corona measurement batch",
+    "raw_scale_cross_study_use": "PROHIBITED"
+  },
+  "admission_minimums": {
+    "corona_measurement_batch_count": 136,
+    "rank_qualified_measurement_batch_count": 134,
+    "minimum_positive_shared_proteins_per_candidate_measurement_batch": 10,
+    "independent_laboratory_anchor_count_contributed": 0
+  },
+  "claim_boundary": "This audit makes three CC-BY supplementary workbooks from PMC11544298 row- and cell-traceable for a new, separately preregistered R4 protocol only. It retains plasma-alone controls but excludes them from corona candidate batches, makes no change to frozen R3, contributes no new independent laboratory anchor, and cannot establish independent validation, external scientific reproduction or scientific submission readiness."
+}
