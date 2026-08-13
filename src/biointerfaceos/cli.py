@@ -749,6 +749,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T194 full-text core-facility execution receipt",
     )
     data_r4_t194_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t195_parser = data_subparsers.add_parser(
+        "evaluate-r4-t195-three-lab-common-target",
+        help="execute the frozen strict-common-target three-laboratory sensitivity analysis",
+    )
+    data_r4_t195_parser.add_argument("--strict", action="store_true")
+    data_r4_t195_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t195-three-lab-common-target",
+        help="verify the frozen T195 strict-common-target execution receipt",
+    )
+    data_r4_t195_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3691,6 +3701,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t193-three-lab-prefrozen-target",
             "evaluate-r4-t194-fulltext-core-facility",
             "verify-r4-t194-fulltext-core-facility",
+            "evaluate-r4-t195-three-lab-common-target",
+            "verify-r4-t195-three-lab-common-target",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-pxd064962-low-coverage-sensitivity",
@@ -4600,6 +4612,53 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"target_universe={t194_summary.target_universe_count} "
                 f"core_facilities={t194_summary.core_facility_count} "
                 f"measurement_batches={t194_summary.measurement_batch_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t195-three-lab-common-target":
+            from biointerfaceos.r4_t195_three_lab_common_target_execution import (
+                R4T195CommonTargetExecutionError,
+                R4T195ThreeLabCommonTargetExecutionWorkflow,
+            )
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
+
+            try:
+                t195_summary = R4T195ThreeLabCommonTargetExecutionWorkflow(root).run(
+                    strict=args.strict
+                )
+            except (R4T195CommonTargetExecutionError, OSError, R3ModelEvaluationError) as exc:
+                print(f"R4_T195_COMMON_TARGET_EXECUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T195_COMMON_TARGET_EXECUTION_VALID "
+                f"observations={t195_summary.observation_count} "
+                f"target_universe={t195_summary.target_universe_count} "
+                f"laboratories={t195_summary.laboratory_anchor_count} "
+                f"measurement_batches={t195_summary.measurement_batch_count} "
+                f"models={t195_summary.model_count} "
+                "study_held_out=true nested_selection=true cluster_aware=true "
+                "independent_biological_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t195-three-lab-common-target":
+            from biointerfaceos.r4_t195_three_lab_common_target_execution import (
+                R4T195CommonTargetExecutionError,
+                R4T195ThreeLabCommonTargetExecutionWorkflow,
+            )
+
+            try:
+                t195_summary = R4T195ThreeLabCommonTargetExecutionWorkflow(root).verify(
+                    strict=args.strict
+                )
+            except (R4T195CommonTargetExecutionError, OSError) as exc:
+                print(f"R4_T195_COMMON_TARGET_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T195_COMMON_TARGET_VERIFY_VALID "
+                f"observations={t195_summary.observation_count} "
+                f"target_universe={t195_summary.target_universe_count} "
+                f"laboratories={t195_summary.laboratory_anchor_count} "
+                f"measurement_batches={t195_summary.measurement_batch_count} "
                 "scientific_submission_ready=false"
             )
             return 0

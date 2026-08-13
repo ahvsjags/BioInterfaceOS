@@ -2,7 +2,7 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 145
+task_count: 146
 ready_tasks:
   - T123
 current_task: T129
@@ -147,6 +147,7 @@ completed_tasks:
   - T142
   - T143
   - T194
+  - T195
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -174,6 +175,7 @@ storage:
   last_measured_bytes: 0
 notes:
   - '2026-08-14: T194 adds a frozen full-text execution route from the CC-BY-4.0 PMC9633814 supplementary quantitative table. The receipt closes 9,909 source-map rows into 707 frozen-target observations across 12 core-facility folds and executes nested selection, model ablation, core-cluster bootstrap and within-core negative controls. It is explicitly one common pooled human-plasma aliquot and technical-domain evidence, not independent biological validation; external evaluator, no-author reproduction, adoption, DOI and scientific submission readiness remain false.'
+  - '2026-08-14: T195 executes the exact nine-accession intersection frozen by T192 across the three audited laboratory source maps. It closes 809 row-traceable observations across 85 measurement batches with leave-one-laboratory-anchor-out, nested selection, paired ablation, cluster bootstrap and within-batch permutation controls. It remains exploratory source-availability-conditioned evidence; pooled/unspecified, donor-unresolved and technical-replicate boundaries remain explicit and all external gates stay false.'
   - 'T001 completed after the explicit repository-local non-human Git identity BioInterfaceOS-Codex <biointerfaceos-codex@localhost> resolved the recorded blocker.'
   - '2026-08-12: Round 2 created from the five-reviewer editorial report. T115–T128 are mandatory before any empirical submission-ready claim.'
   - '2026-08-12: T117 completed a default-deny public asset audit. Historical fixture bundles, data, registries, reports, and manuscript artifacts remain excluded or controlled until their independent gates pass.'

@@ -1,0 +1,769 @@
+outer_fold_id,held_out_laboratory_anchor,selected_alpha,resample,null_mean_spearman
+T193_OUTER_01,"Dalian University of Technology, China",100.0,1,0.2222222222222222
+T193_OUTER_01,"Dalian University of Technology, China",100.0,2,-0.5246031746031746
+T193_OUTER_01,"Dalian University of Technology, China",100.0,3,0.0015873015873015771
+T193_OUTER_01,"Dalian University of Technology, China",100.0,4,-0.45476190476190476
+T193_OUTER_01,"Dalian University of Technology, China",100.0,5,-0.22222222222222224
+T193_OUTER_01,"Dalian University of Technology, China",100.0,6,-0.7206349206349206
+T193_OUTER_01,"Dalian University of Technology, China",100.0,7,-0.4293650793650794
+T193_OUTER_01,"Dalian University of Technology, China",100.0,8,-0.38293650793650796
+T193_OUTER_01,"Dalian University of Technology, China",100.0,9,-0.0626984126984127
+T193_OUTER_01,"Dalian University of Technology, China",100.0,10,0.12738095238095237
+T193_OUTER_01,"Dalian University of Technology, China",100.0,11,-0.5190476190476191
+T193_OUTER_01,"Dalian University of Technology, China",100.0,12,-0.5642857142857142
+T193_OUTER_01,"Dalian University of Technology, China",100.0,13,-0.37142857142857144
+T193_OUTER_01,"Dalian University of Technology, China",100.0,14,-0.7194444444444444
+T193_OUTER_01,"Dalian University of Technology, China",100.0,15,-0.10515873015873016
+T193_OUTER_01,"Dalian University of Technology, China",100.0,16,-0.11190476190476191
+T193_OUTER_01,"Dalian University of Technology, China",100.0,17,-0.7337301587301588
+T193_OUTER_01,"Dalian University of Technology, China",100.0,18,0.7988095238095237
+T193_OUTER_01,"Dalian University of Technology, China",100.0,19,-0.2611111111111111
+T193_OUTER_01,"Dalian University of Technology, China",100.0,20,-0.0630952380952381
+T193_OUTER_01,"Dalian University of Technology, China",100.0,21,0.2821428571428571
+T193_OUTER_01,"Dalian University of Technology, China",100.0,22,-0.5904761904761905
+T193_OUTER_01,"Dalian University of Technology, China",100.0,23,-0.5928571428571429
+T193_OUTER_01,"Dalian University of Technology, China",100.0,24,-0.1884920634920635
+T193_OUTER_01,"Dalian University of Technology, China",100.0,25,-0.04404761904761903
+T193_OUTER_01,"Dalian University of Technology, China",100.0,26,-0.1714285714285714
+T193_OUTER_01,"Dalian University of Technology, China",100.0,27,-0.4043650793650794
+T193_OUTER_01,"Dalian University of Technology, China",100.0,28,-0.3452380952380952
+T193_OUTER_01,"Dalian University of Technology, China",100.0,29,-0.29761904761904767
+T193_OUTER_01,"Dalian University of Technology, China",100.0,30,0.08571428571428573
+T193_OUTER_01,"Dalian University of Technology, China",100.0,31,-0.4924603174603175
+T193_OUTER_01,"Dalian University of Technology, China",100.0,32,0.176984126984127
+T193_OUTER_01,"Dalian University of Technology, China",100.0,33,-0.08571428571428573
+T193_OUTER_01,"Dalian University of Technology, China",100.0,34,0.10873015873015872
+T193_OUTER_01,"Dalian University of Technology, China",100.0,35,0.5313492063492063
+T193_OUTER_01,"Dalian University of Technology, China",100.0,36,-0.30357142857142855
+T193_OUTER_01,"Dalian University of Technology, China",100.0,37,-0.559126984126984
+T193_OUTER_01,"Dalian University of Technology, China",100.0,38,-0.1626984126984127
+T193_OUTER_01,"Dalian University of Technology, China",100.0,39,-0.2634920634920635
+T193_OUTER_01,"Dalian University of Technology, China",100.0,40,-0.398015873015873
+T193_OUTER_01,"Dalian University of Technology, China",100.0,41,0.1706349206349206
+T193_OUTER_01,"Dalian University of Technology, China",100.0,42,-0.2123015873015873
+T193_OUTER_01,"Dalian University of Technology, China",100.0,43,-0.49047619047619045
+T193_OUTER_01,"Dalian University of Technology, China",100.0,44,0.014682539682539672
+T193_OUTER_01,"Dalian University of Technology, China",100.0,45,-0.5162698412698412
+T193_OUTER_01,"Dalian University of Technology, China",100.0,46,0.0361111111111111
+T193_OUTER_01,"Dalian University of Technology, China",100.0,47,-0.1511904761904762
+T193_OUTER_01,"Dalian University of Technology, China",100.0,48,-0.05595238095238095
+T193_OUTER_01,"Dalian University of Technology, China",100.0,49,-0.058730158730158744
+T193_OUTER_01,"Dalian University of Technology, China",100.0,50,0.5079365079365079
+T193_OUTER_01,"Dalian University of Technology, China",100.0,51,0.3761904761904762
+T193_OUTER_01,"Dalian University of Technology, China",100.0,52,-0.5630952380952382
+T193_OUTER_01,"Dalian University of Technology, China",100.0,53,0.27738095238095234
+T193_OUTER_01,"Dalian University of Technology, China",100.0,54,0.06269841269841271
+T193_OUTER_01,"Dalian University of Technology, China",100.0,55,0.1361111111111111
+T193_OUTER_01,"Dalian University of Technology, China",100.0,56,-0.31666666666666665
+T193_OUTER_01,"Dalian University of Technology, China",100.0,57,0.47658730158730167
+T193_OUTER_01,"Dalian University of Technology, China",100.0,58,-0.26825396825396824
+T193_OUTER_01,"Dalian University of Technology, China",100.0,59,0.14642857142857144
+T193_OUTER_01,"Dalian University of Technology, China",100.0,60,-0.42539682539682544
+T193_OUTER_01,"Dalian University of Technology, China",100.0,61,-0.5424603174603175
+T193_OUTER_01,"Dalian University of Technology, China",100.0,62,-0.20555555555555557
+T193_OUTER_01,"Dalian University of Technology, China",100.0,63,-0.5162698412698413
+T193_OUTER_01,"Dalian University of Technology, China",100.0,64,-0.43333333333333335
+T193_OUTER_01,"Dalian University of Technology, China",100.0,65,-0.5876984126984127
+T193_OUTER_01,"Dalian University of Technology, China",100.0,66,0.05238095238095238
+T193_OUTER_01,"Dalian University of Technology, China",100.0,67,-0.273015873015873
+T193_OUTER_01,"Dalian University of Technology, China",100.0,68,-0.02777777777777778
+T193_OUTER_01,"Dalian University of Technology, China",100.0,69,0.20476190476190473
+T193_OUTER_01,"Dalian University of Technology, China",100.0,70,-0.24920634920634918
+T193_OUTER_01,"Dalian University of Technology, China",100.0,71,-0.303968253968254
+T193_OUTER_01,"Dalian University of Technology, China",100.0,72,-0.13968253968253969
+T193_OUTER_01,"Dalian University of Technology, China",100.0,73,-0.16309523809523807
+T193_OUTER_01,"Dalian University of Technology, China",100.0,74,0.13174603174603175
+T193_OUTER_01,"Dalian University of Technology, China",100.0,75,-0.30238095238095236
+T193_OUTER_01,"Dalian University of Technology, China",100.0,76,-0.5146825396825397
+T193_OUTER_01,"Dalian University of Technology, China",100.0,77,-0.5007936507936509
+T193_OUTER_01,"Dalian University of Technology, China",100.0,78,-0.3587301587301588
+T193_OUTER_01,"Dalian University of Technology, China",100.0,79,-0.057936507936507946
+T193_OUTER_01,"Dalian University of Technology, China",100.0,80,0.0015873015873015886
+T193_OUTER_01,"Dalian University of Technology, China",100.0,81,-0.19365079365079366
+T193_OUTER_01,"Dalian University of Technology, China",100.0,82,-0.48730158730158735
+T193_OUTER_01,"Dalian University of Technology, China",100.0,83,-0.7984126984126986
+T193_OUTER_01,"Dalian University of Technology, China",100.0,84,-0.7742063492063492
+T193_OUTER_01,"Dalian University of Technology, China",100.0,85,-0.4908730158730159
+T193_OUTER_01,"Dalian University of Technology, China",100.0,86,-0.4702380952380953
+T193_OUTER_01,"Dalian University of Technology, China",100.0,87,-0.6619047619047619
+T193_OUTER_01,"Dalian University of Technology, China",100.0,88,-0.13174603174603172
+T193_OUTER_01,"Dalian University of Technology, China",100.0,89,0.17222222222222225
+T193_OUTER_01,"Dalian University of Technology, China",100.0,90,0.038095238095238085
+T193_OUTER_01,"Dalian University of Technology, China",100.0,91,-0.14325396825396827
+T193_OUTER_01,"Dalian University of Technology, China",100.0,92,-0.073015873015873
+T193_OUTER_01,"Dalian University of Technology, China",100.0,93,-0.6273809523809524
+T193_OUTER_01,"Dalian University of Technology, China",100.0,94,-0.5123015873015873
+T193_OUTER_01,"Dalian University of Technology, China",100.0,95,-0.3988095238095238
+T193_OUTER_01,"Dalian University of Technology, China",100.0,96,-0.3146825396825397
+T193_OUTER_01,"Dalian University of Technology, China",100.0,97,-0.10753968253968255
+T193_OUTER_01,"Dalian University of Technology, China",100.0,98,-0.42063492063492064
+T193_OUTER_01,"Dalian University of Technology, China",100.0,99,-0.36944444444444446
+T193_OUTER_01,"Dalian University of Technology, China",100.0,100,0.12063492063492065
+T193_OUTER_01,"Dalian University of Technology, China",100.0,101,0.2912698412698413
+T193_OUTER_01,"Dalian University of Technology, China",100.0,102,-0.26944444444444443
+T193_OUTER_01,"Dalian University of Technology, China",100.0,103,-0.33809523809523806
+T193_OUTER_01,"Dalian University of Technology, China",100.0,104,-0.22341269841269842
+T193_OUTER_01,"Dalian University of Technology, China",100.0,105,-0.4317460317460317
+T193_OUTER_01,"Dalian University of Technology, China",100.0,106,-0.25912698412698415
+T193_OUTER_01,"Dalian University of Technology, China",100.0,107,-0.198015873015873
+T193_OUTER_01,"Dalian University of Technology, China",100.0,108,-0.6599206349206349
+T193_OUTER_01,"Dalian University of Technology, China",100.0,109,-0.6095238095238096
+T193_OUTER_01,"Dalian University of Technology, China",100.0,110,0.24126984126984127
+T193_OUTER_01,"Dalian University of Technology, China",100.0,111,0.251984126984127
+T193_OUTER_01,"Dalian University of Technology, China",100.0,112,0.040079365079365076
+T193_OUTER_01,"Dalian University of Technology, China",100.0,113,-0.7428571428571429
+T193_OUTER_01,"Dalian University of Technology, China",100.0,114,-0.23095238095238094
+T193_OUTER_01,"Dalian University of Technology, China",100.0,115,-0.596031746031746
+T193_OUTER_01,"Dalian University of Technology, China",100.0,116,0.19007936507936507
+T193_OUTER_01,"Dalian University of Technology, China",100.0,117,-0.1488095238095238
+T193_OUTER_01,"Dalian University of Technology, China",100.0,118,-0.6718253968253968
+T193_OUTER_01,"Dalian University of Technology, China",100.0,119,-0.022222222222222216
+T193_OUTER_01,"Dalian University of Technology, China",100.0,120,0.27499999999999997
+T193_OUTER_01,"Dalian University of Technology, China",100.0,121,-0.27777777777777773
+T193_OUTER_01,"Dalian University of Technology, China",100.0,122,-0.6654761904761904
+T193_OUTER_01,"Dalian University of Technology, China",100.0,123,-0.47460317460317464
+T193_OUTER_01,"Dalian University of Technology, China",100.0,124,-0.5345238095238095
+T193_OUTER_01,"Dalian University of Technology, China",100.0,125,-0.4813492063492064
+T193_OUTER_01,"Dalian University of Technology, China",100.0,126,-0.01944444444444444
+T193_OUTER_01,"Dalian University of Technology, China",100.0,127,-0.36984126984126986
+T193_OUTER_01,"Dalian University of Technology, China",100.0,128,0.48214285714285715
+T193_OUTER_01,"Dalian University of Technology, China",100.0,129,-0.46428571428571436
+T193_OUTER_01,"Dalian University of Technology, China",100.0,130,-0.8313492063492064
+T193_OUTER_01,"Dalian University of Technology, China",100.0,131,-0.4496031746031746
+T193_OUTER_01,"Dalian University of Technology, China",100.0,132,0.15
+T193_OUTER_01,"Dalian University of Technology, China",100.0,133,-0.3646825396825397
+T193_OUTER_01,"Dalian University of Technology, China",100.0,134,-0.5376984126984126
+T193_OUTER_01,"Dalian University of Technology, China",100.0,135,-0.42103174603174603
+T193_OUTER_01,"Dalian University of Technology, China",100.0,136,-0.20515873015873018
+T193_OUTER_01,"Dalian University of Technology, China",100.0,137,-0.36349206349206353
+T193_OUTER_01,"Dalian University of Technology, China",100.0,138,0.3357142857142857
+T193_OUTER_01,"Dalian University of Technology, China",100.0,139,-0.19246031746031747
+T193_OUTER_01,"Dalian University of Technology, China",100.0,140,-0.42103174603174603
+T193_OUTER_01,"Dalian University of Technology, China",100.0,141,-0.19126984126984126
+T193_OUTER_01,"Dalian University of Technology, China",100.0,142,-0.6349206349206349
+T193_OUTER_01,"Dalian University of Technology, China",100.0,143,-0.5011904761904762
+T193_OUTER_01,"Dalian University of Technology, China",100.0,144,-0.021428571428571425
+T193_OUTER_01,"Dalian University of Technology, China",100.0,145,-0.08253968253968254
+T193_OUTER_01,"Dalian University of Technology, China",100.0,146,-0.5936507936507937
+T193_OUTER_01,"Dalian University of Technology, China",100.0,147,-0.31507936507936507
+T193_OUTER_01,"Dalian University of Technology, China",100.0,148,-0.5750000000000001
+T193_OUTER_01,"Dalian University of Technology, China",100.0,149,-0.5932539682539683
+T193_OUTER_01,"Dalian University of Technology, China",100.0,150,-0.7468253968253968
+T193_OUTER_01,"Dalian University of Technology, China",100.0,151,-0.8722222222222222
+T193_OUTER_01,"Dalian University of Technology, China",100.0,152,-0.37142857142857144
+T193_OUTER_01,"Dalian University of Technology, China",100.0,153,0.2912698412698413
+T193_OUTER_01,"Dalian University of Technology, China",100.0,154,-0.1246031746031746
+T193_OUTER_01,"Dalian University of Technology, China",100.0,155,-0.3146825396825397
+T193_OUTER_01,"Dalian University of Technology, China",100.0,156,-0.20317460317460315
+T193_OUTER_01,"Dalian University of Technology, China",100.0,157,-0.4523809523809524
+T193_OUTER_01,"Dalian University of Technology, China",100.0,158,-0.6281746031746033
+T193_OUTER_01,"Dalian University of Technology, China",100.0,159,-0.09087301587301588
+T193_OUTER_01,"Dalian University of Technology, China",100.0,160,-0.1638888888888889
+T193_OUTER_01,"Dalian University of Technology, China",100.0,161,-0.5023809523809524
+T193_OUTER_01,"Dalian University of Technology, China",100.0,162,0.18412698412698414
+T193_OUTER_01,"Dalian University of Technology, China",100.0,163,-0.26746031746031745
+T193_OUTER_01,"Dalian University of Technology, China",100.0,164,0.13095238095238096
+T193_OUTER_01,"Dalian University of Technology, China",100.0,165,-0.6162698412698412
+T193_OUTER_01,"Dalian University of Technology, China",100.0,166,-0.11706349206349205
+T193_OUTER_01,"Dalian University of Technology, China",100.0,167,-0.14484126984126985
+T193_OUTER_01,"Dalian University of Technology, China",100.0,168,-0.06706349206349206
+T193_OUTER_01,"Dalian University of Technology, China",100.0,169,-0.7718253968253967
+T193_OUTER_01,"Dalian University of Technology, China",100.0,170,-0.7662698412698412
+T193_OUTER_01,"Dalian University of Technology, China",100.0,171,-0.10277777777777776
+T193_OUTER_01,"Dalian University of Technology, China",100.0,172,-0.1126984126984127
+T193_OUTER_01,"Dalian University of Technology, China",100.0,173,0.0035714285714285704
+T193_OUTER_01,"Dalian University of Technology, China",100.0,174,-0.4769841269841269
+T193_OUTER_01,"Dalian University of Technology, China",100.0,175,-0.48373015873015873
+T193_OUTER_01,"Dalian University of Technology, China",100.0,176,0.1626984126984127
+T193_OUTER_01,"Dalian University of Technology, China",100.0,177,0.6035714285714285
+T193_OUTER_01,"Dalian University of Technology, China",100.0,178,-0.7496031746031746
+T193_OUTER_01,"Dalian University of Technology, China",100.0,179,-0.45436507936507936
+T193_OUTER_01,"Dalian University of Technology, China",100.0,180,-0.2738095238095238
+T193_OUTER_01,"Dalian University of Technology, China",100.0,181,-0.196031746031746
+T193_OUTER_01,"Dalian University of Technology, China",100.0,182,-0.21626984126984125
+T193_OUTER_01,"Dalian University of Technology, China",100.0,183,0.3674603174603175
+T193_OUTER_01,"Dalian University of Technology, China",100.0,184,0.12063492063492065
+T193_OUTER_01,"Dalian University of Technology, China",100.0,185,-0.425
+T193_OUTER_01,"Dalian University of Technology, China",100.0,186,0.1527777777777778
+T193_OUTER_01,"Dalian University of Technology, China",100.0,187,-0.1246031746031746
+T193_OUTER_01,"Dalian University of Technology, China",100.0,188,-0.342063492063492
+T193_OUTER_01,"Dalian University of Technology, China",100.0,189,-0.30753968253968256
+T193_OUTER_01,"Dalian University of Technology, China",100.0,190,0.48095238095238096
+T193_OUTER_01,"Dalian University of Technology, China",100.0,191,0.42936507936507934
+T193_OUTER_01,"Dalian University of Technology, China",100.0,192,-0.20158730158730157
+T193_OUTER_01,"Dalian University of Technology, China",100.0,193,-0.19007936507936507
+T193_OUTER_01,"Dalian University of Technology, China",100.0,194,0.030158730158730163
+T193_OUTER_01,"Dalian University of Technology, China",100.0,195,0.6063492063492063
+T193_OUTER_01,"Dalian University of Technology, China",100.0,196,0.006746031746031732
+T193_OUTER_01,"Dalian University of Technology, China",100.0,197,-0.0007936507936507908
+T193_OUTER_01,"Dalian University of Technology, China",100.0,198,-0.3123015873015873
+T193_OUTER_01,"Dalian University of Technology, China",100.0,199,-0.08293650793650792
+T193_OUTER_01,"Dalian University of Technology, China",100.0,200,-0.044444444444444446
+T193_OUTER_01,"Dalian University of Technology, China",100.0,201,0.282936507936508
+T193_OUTER_01,"Dalian University of Technology, China",100.0,202,-0.3
+T193_OUTER_01,"Dalian University of Technology, China",100.0,203,-0.4218253968253969
+T193_OUTER_01,"Dalian University of Technology, China",100.0,204,-0.2519841269841269
+T193_OUTER_01,"Dalian University of Technology, China",100.0,205,-0.20912698412698413
+T193_OUTER_01,"Dalian University of Technology, China",100.0,206,-0.3765873015873016
+T193_OUTER_01,"Dalian University of Technology, China",100.0,207,-0.5412698412698412
+T193_OUTER_01,"Dalian University of Technology, China",100.0,208,-0.5365079365079365
+T193_OUTER_01,"Dalian University of Technology, China",100.0,209,-0.4595238095238096
+T193_OUTER_01,"Dalian University of Technology, China",100.0,210,-0.125
+T193_OUTER_01,"Dalian University of Technology, China",100.0,211,-0.012301587301587305
+T193_OUTER_01,"Dalian University of Technology, China",100.0,212,-0.9107142857142856
+T193_OUTER_01,"Dalian University of Technology, China",100.0,213,-0.528968253968254
+T193_OUTER_01,"Dalian University of Technology, China",100.0,214,-0.5126984126984128
+T193_OUTER_01,"Dalian University of Technology, China",100.0,215,0.08769841269841268
+T193_OUTER_01,"Dalian University of Technology, China",100.0,216,-0.44563492063492066
+T193_OUTER_01,"Dalian University of Technology, China",100.0,217,-0.05238095238095238
+T193_OUTER_01,"Dalian University of Technology, China",100.0,218,-0.3353174603174603
+T193_OUTER_01,"Dalian University of Technology, China",100.0,219,-0.15753968253968254
+T193_OUTER_01,"Dalian University of Technology, China",100.0,220,-0.34920634920634913
+T193_OUTER_01,"Dalian University of Technology, China",100.0,221,-0.23253968253968252
+T193_OUTER_01,"Dalian University of Technology, China",100.0,222,0.1503968253968254
+T193_OUTER_01,"Dalian University of Technology, China",100.0,223,0.6892857142857142
+T193_OUTER_01,"Dalian University of Technology, China",100.0,224,-0.5055555555555555
+T193_OUTER_01,"Dalian University of Technology, China",100.0,225,0.10674603174603176
+T193_OUTER_01,"Dalian University of Technology, China",100.0,226,-0.3535714285714286
+T193_OUTER_01,"Dalian University of Technology, China",100.0,227,0.4619047619047619
+T193_OUTER_01,"Dalian University of Technology, China",100.0,228,-0.4341269841269841
+T193_OUTER_01,"Dalian University of Technology, China",100.0,229,-0.15873015873015872
+T193_OUTER_01,"Dalian University of Technology, China",100.0,230,-0.5837301587301588
+T193_OUTER_01,"Dalian University of Technology, China",100.0,231,-0.9202380952380952
+T193_OUTER_01,"Dalian University of Technology, China",100.0,232,-0.10952380952380952
+T193_OUTER_01,"Dalian University of Technology, China",100.0,233,-0.2345238095238095
+T193_OUTER_01,"Dalian University of Technology, China",100.0,234,-0.5615079365079366
+T193_OUTER_01,"Dalian University of Technology, China",100.0,235,-0.7785714285714286
+T193_OUTER_01,"Dalian University of Technology, China",100.0,236,-0.4238095238095238
+T193_OUTER_01,"Dalian University of Technology, China",100.0,237,-0.30317460317460315
+T193_OUTER_01,"Dalian University of Technology, China",100.0,238,-0.3599206349206349
+T193_OUTER_01,"Dalian University of Technology, China",100.0,239,-0.6813492063492063
+T193_OUTER_01,"Dalian University of Technology, China",100.0,240,-0.05714285714285714
+T193_OUTER_01,"Dalian University of Technology, China",100.0,241,-0.12777777777777777
+T193_OUTER_01,"Dalian University of Technology, China",100.0,242,-0.10873015873015872
+T193_OUTER_01,"Dalian University of Technology, China",100.0,243,0.051190476190476196
+T193_OUTER_01,"Dalian University of Technology, China",100.0,244,-0.4202380952380953
+T193_OUTER_01,"Dalian University of Technology, China",100.0,245,-0.4047619047619047
+T193_OUTER_01,"Dalian University of Technology, China",100.0,246,-0.24603174603174605
+T193_OUTER_01,"Dalian University of Technology, China",100.0,247,-0.23611111111111116
+T193_OUTER_01,"Dalian University of Technology, China",100.0,248,-0.3261904761904762
+T193_OUTER_01,"Dalian University of Technology, China",100.0,249,-0.1765873015873016
+T193_OUTER_01,"Dalian University of Technology, China",100.0,250,-0.6460317460317461
+T193_OUTER_01,"Dalian University of Technology, China",100.0,251,-0.5686507936507937
+T193_OUTER_01,"Dalian University of Technology, China",100.0,252,0.07341269841269842
+T193_OUTER_01,"Dalian University of Technology, China",100.0,253,-0.271031746031746
+T193_OUTER_01,"Dalian University of Technology, China",100.0,254,0.42698412698412697
+T193_OUTER_01,"Dalian University of Technology, China",100.0,255,-0.5825396825396826
+T193_OUTER_01,"Dalian University of Technology, China",100.0,256,-0.198015873015873
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,1,-0.12296738845842893
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,2,0.5640008185332603
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,3,0.40749965198864346
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,4,-0.4209107177712076
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,5,0.30766413175271884
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,6,-0.6469467700970294
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,7,0.18746989363759822
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,8,-0.7204693889894992
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,9,0.6227127921302674
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,10,0.31065612490060607
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,11,-0.12198814143348473
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,12,0.14976274147196106
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,13,-0.28520612127528533
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,14,0.005596859429951811
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,15,-0.026941936587326538
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,16,-0.3317863167419172
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,17,-0.3437180714544204
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,18,-0.6791150553764288
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,19,0.6322036669287604
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,20,0.748616712353268
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,21,0.29415605109259474
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,22,-0.3416972538887921
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,23,0.10939733931408462
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,24,0.07541724720531465
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,25,-0.40392373310793706
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,26,-0.3368779063822921
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,27,-0.4668152617112783
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,28,-0.369418255919402
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,29,0.05922231287875179
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,30,-0.4612243956954512
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,31,0.29556795478424697
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,32,-0.3493179516768053
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,33,-0.447409032892356
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,34,0.299088467301198
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,35,-0.07981642835723345
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,36,0.07156430638865792
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,37,-0.3715403480033898
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,38,0.3593050865530355
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,39,-0.5800896212356486
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,40,-0.3951617093295979
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,41,0.28244326893732874
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,42,-0.023410767078337624
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,43,-0.02250885150314781
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,44,-0.2603070720278304
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,45,0.3124741826973603
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,46,-0.3569567358288452
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,47,0.17672956047676394
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,48,0.005257483932896099
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,49,-0.5150327229091172
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,50,0.725195807762592
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,51,0.31341018467613146
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,52,0.40560104046572315
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,53,-0.43180096547390256
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,54,0.33068804315821354
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,55,0.23560809439143326
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,56,0.0825165594229425
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,57,0.14317027063811294
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,58,0.0753174021663283
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,59,0.31090608315441165
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,60,0.09847824824347318
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,61,0.16024432025209348
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,62,-0.5621003230180069
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,63,0.35873908749051636
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,64,0.6343875841259201
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,65,-0.167800017108907
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,66,-0.5636382498480075
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,67,0.5687432288221377
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,68,-0.795697296205869
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,69,-0.44611917182312477
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,70,-0.0013730754169928186
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,71,-0.015275558745649313
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,72,-0.0915510013226814
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,73,0.6306917138863497
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,74,-0.22981455680527024
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,75,-0.21235408432865313
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,76,0.11401207229724325
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,77,0.3339367499276679
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,78,-0.2879136694177794
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,79,-0.4369976162542462
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,80,-0.12941330328101716
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,81,0.14220689947972293
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,82,0.2965551605565134
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,83,-0.3401850238881629
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,84,-0.6089393656995444
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,85,0.17408235787857373
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,86,0.23499995294717838
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,87,0.5307099066185459
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,88,0.45654105468052963
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,89,0.40444348921187806
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,90,-0.6999923187257069
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,91,0.06615032417409908
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,92,-0.23500114377053974
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,93,0.3194946137775336
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,94,-0.28926133032672535
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,95,-0.6086538955499137
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,96,-0.233136206363319
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,97,0.04651399093198511
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,98,-0.6517616011572029
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,99,-0.04835247516001348
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,100,-0.2664312274585634
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,101,-0.3745629973422294
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,102,-0.24557159814155943
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,103,0.3882108738469864
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,104,-0.4207696958712842
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,105,0.42987313860590565
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,106,-0.03002781945806908
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,107,-0.27145693171914753
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,108,-0.1864479539790283
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,109,-0.12722034234309915
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,110,0.32565455336958776
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,111,0.5257322047920634
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,112,0.029092064962791646
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,113,-0.19028061338250424
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,114,0.7552077597864724
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,115,-0.4026356053316587
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,116,0.21280573098332892
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,117,-0.33542761440529884
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,118,-0.18694408809211702
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,119,-0.6191317795614817
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,120,0.253043424152028
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,121,0.45357816531436806
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,122,0.3208093094275374
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,123,0.378664377534241
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,124,-0.4762136606311287
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,125,-0.11745591515282872
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,126,-0.22228163482502244
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,127,0.37539487859123305
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,128,-0.5512143202364629
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,129,0.21356106156585764
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,130,-0.3600240133959561
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,131,0.13578014411599454
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,132,0.5800293894754527
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,133,0.29015685234480565
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,134,0.6016564604878647
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,135,0.8376626668368112
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,136,-0.35996734670648384
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,137,-0.19612048153886724
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,138,0.7214946339013566
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,139,0.08262716795336099
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,140,-0.44086593212592057
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,141,-0.35954877921156775
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,142,0.14583254228725967
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,143,0.5360498452924709
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,144,0.24972229636165066
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,145,-0.5464032428523825
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,146,-0.06208079742126492
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,147,-0.5433449461378808
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,148,0.5822744455375178
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,149,0.47927733991521904
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,150,-0.4112643780654398
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,151,-0.055148002074019244
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,152,0.6182288348892043
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,153,-0.32298275569693263
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,154,0.20847897816357555
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,155,-0.42342972751995556
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,156,-0.35690134516034333
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,157,-0.21929897770295523
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,158,0.5220039142079478
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,159,0.24963480055455103
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,160,-0.15596167608505135
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,161,0.053078693148273896
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,162,0.41228434836877514
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,163,0.05793266272517059
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,164,0.3278316394259508
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,165,-0.5646658260764252
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,166,-0.2027586197838785
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,167,0.027090017228101632
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,168,0.3795519440945353
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,169,-0.25930641463888154
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,170,-0.6098634397469971
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,171,0.35082834761605625
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,172,-0.4399179442769475
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,173,-0.2333805642749394
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,174,-0.08737633634447045
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,175,-0.12307934333359817
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,176,0.7795545032342485
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,177,0.33420866277166805
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,178,0.2575700800357609
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,179,-0.4591201688463698
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,180,0.3877339043540475
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,181,0.02221965697809417
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,182,-0.4215225410156018
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,183,0.15499865495428017
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,184,-0.03828776225851291
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,185,-0.48715910004439483
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,186,0.20189974013859796
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,187,0.32735597740484107
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,188,0.1928351295450224
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,189,-0.5390235549719412
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,190,0.25538468896701655
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,191,0.14634275065537777
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,192,-0.1646120472433447
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,193,0.03487157493367034
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,194,0.42224839752828297
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,195,0.14033078497310386
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,196,-0.41266710514612653
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,197,-0.35109417090282496
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,198,0.4293148023337372
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,199,-0.16168132094960946
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,200,-0.1538497372211199
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,201,0.09787237061728225
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,202,0.6652654508647644
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,203,-0.3897470179527021
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,204,0.34486012845691116
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,205,-0.15633045027613998
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,206,-0.3866002667748123
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,207,-0.7788917066490753
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,208,0.41935144036393657
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,209,-0.537100040558234
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,210,0.2674512754620627
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,211,-0.6690616306550681
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,212,0.6330258372508454
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,213,0.3678447633486291
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,214,-0.26837268300412426
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,215,-0.24921424400613032
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,216,0.5994915535932382
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,217,0.20975945600575382
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,218,0.12475419774343167
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,219,-0.36115777048754666
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,220,-0.6274797943603396
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,221,-0.06755897427891402
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,222,0.4450586068789889
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,223,-0.2738930785520217
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,224,0.20458687451390825
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,225,0.04609259401160401
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,226,0.2066160085884547
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,227,-0.22922755413451706
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,228,-0.2534822151136485
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,229,0.34059657685801753
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,230,-0.01728427556305519
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,231,-0.6748038776970992
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,232,-0.047361966221007454
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,233,-0.26538498053751225
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,234,-0.4460401438951281
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,235,-0.5546684520954341
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,236,-0.22042220685726624
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,237,-0.30286680222094925
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,238,-0.2289748573098799
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,239,0.31170784884562625
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,240,0.37410413564437767
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,241,-0.05064856904572055
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,242,0.07355640645151883
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,243,-0.3434616198285531
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,244,0.365451737793868
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,245,0.14100863988855541
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,246,0.17751631606289378
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,247,-0.12509886470742151
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,248,-0.594081300007916
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,249,-0.3739524984379516
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,250,0.5478519873444581
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,251,0.16586355139862294
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,252,0.30667439621487047
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,253,-0.009391478601390217
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,254,-0.3740776252824401
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,255,0.45799099632236584
+T193_OUTER_02,University College Dublin / Conway Institute,0.01,256,-0.45217990079106357
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,1,-0.5102526724975704
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,2,0.5057337220602527
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,3,-0.10617103984450924
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,4,-0.16350826044703592
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,5,-0.20262390670553937
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,6,-0.6224003887269193
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,7,0.010592808551992221
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,8,0.14839650145772595
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,9,-0.080466472303207
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,10,0.10228377065111759
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,11,-0.66622934888241
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,12,0.1294460641399417
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,13,0.04212827988338192
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,14,-0.2290573372206025
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,15,-0.0682701652089407
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,16,-0.2910106899902818
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,17,0.16681243926141887
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,18,-0.08430515063168123
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,19,0.3660835762876578
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,20,-0.33153547133138966
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,21,-0.007142857142857139
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,22,-0.05587949465500485
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,23,0.12672497570456753
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,24,-0.015014577259475217
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,25,-0.3340621963070942
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,26,0.03702623906705539
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,27,-0.14931972789115647
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,28,-0.39169096209912535
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,29,0.24708454810495628
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,30,-0.1524295432458698
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,31,-0.13547133138969875
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,32,-0.03960155490767736
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,33,0.5129737609329447
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,34,-0.277405247813411
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,35,0.7015549076773566
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,36,0.14023323615160352
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,37,0.12852283770651118
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,38,-0.023809523809523815
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,39,-0.35150631681243927
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,40,-0.044995140913508265
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,41,-0.19732750242954325
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,42,-0.14047619047619048
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,43,-0.5536443148688047
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,44,-0.14271137026239067
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,45,-0.4374149659863946
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,46,0.06263362487852284
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,47,-0.06166180758017493
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,48,-0.35636540330417876
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,49,-0.15830903790087464
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,50,0.20359572400388726
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,51,-0.4085519922254616
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,52,-0.2920796890184645
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,53,-0.29363459669582115
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,54,-0.3431486880466472
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,55,-0.12303206997084548
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,56,0.5642371234207969
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,57,0.04859086491739553
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,58,0.25510204081632654
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,59,0.04037900874635569
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,60,-0.2857142857142857
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,61,-0.5306608357628766
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,62,-0.019873663751214774
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,63,-0.3937803692905734
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,64,-0.2708940719144801
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,65,-0.551360544217687
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,66,-0.07609329446064138
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,67,-0.35447035957240036
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,68,-0.344849368318756
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,69,-0.11588921282798835
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,70,-0.123955296404276
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,71,-0.3963556851311954
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,72,0.3196793002915452
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,73,0.18051506316812443
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,74,-0.1750728862973761
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,75,0.18313896987366377
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,76,0.29086491739552967
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,77,0.27006802721088435
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,78,0.24319727891156462
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,79,-0.6155490767735666
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,80,0.39110787172011663
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,81,-0.32026239067055395
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,82,0.14178814382896016
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,83,-0.1531584062196307
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,84,-0.08070942662779397
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,85,-0.4138483965014577
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,86,0.20699708454810495
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,87,-0.6506316812439262
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,88,-0.14854227405247813
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,89,-0.09368318756073857
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,90,0.1531098153547133
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,91,-0.6638483965014578
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,92,-0.06068999028182702
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,93,-0.302332361516035
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,94,-0.38828960155490766
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,95,-0.5255587949465501
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,96,-0.40038872691933913
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,97,-0.28007774538386787
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,98,0.26477162293488826
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,99,-0.354178814382896
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,100,-0.599514091350826
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,101,-0.41909620991253643
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,102,-0.03002915451895043
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,103,-0.3814868804664724
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,104,0.1586977648202138
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,105,-0.2982507288629737
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,106,0.4050048590864918
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,107,0.21044703595724004
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,108,-0.5241010689990282
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,109,-0.09159378036929057
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,110,-0.2875607385811467
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,111,-0.5490281827016521
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,112,-0.2436831875607386
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,113,0.43367346938775503
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,114,0.14776482021379977
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,115,0.210932944606414
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,116,-0.06938775510204082
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,117,-0.019144800777453834
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,118,-0.2954324586977648
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,119,0.21146744412050533
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,120,-0.20913508260447033
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,121,-0.511661807580175
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,122,-0.22196307094266282
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,123,0.5848396501457727
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,124,-0.590913508260447
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,125,0.15058309037900874
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,126,0.01112730806608358
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,127,-0.20398445092322642
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,128,-0.21064139941690962
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,129,-0.3895529640427599
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,130,-0.33916423712342075
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,131,-0.055636540330417886
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,132,-0.42346938775510207
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,133,-0.3129737609329446
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,134,-0.3068999028182702
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,135,0.30505344995140915
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,136,0.10388726919339164
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,137,0.13056365403304176
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,138,-0.0933430515063168
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,139,-0.41948493683187565
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,140,0.2275024295432459
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,141,-0.053352769679300284
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,142,0.18858114674441206
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,143,-0.3563654033041788
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,144,-0.22172011661807575
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,145,-0.06005830903790088
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,146,0.38809523809523816
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,147,-0.05471331389698737
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,148,-0.18095238095238098
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,149,-0.022448979591836726
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,150,-0.30529640427599614
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,151,0.23935860058309036
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,152,0.12162293488824104
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,153,0.6249271137026239
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,154,-0.0005344995140913498
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,155,-0.7748299319727892
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,156,-0.3795918367346938
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,157,-0.3538872691933917
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,158,-0.19922254616132165
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,159,0.14105928085519923
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,160,-0.3031098153547133
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,161,-0.021963070942662782
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,162,-0.6199708454810496
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,163,-0.13751214771622935
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,164,-0.1578717201166181
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,165,-0.21608357628765792
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,166,0.5762390670553936
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,167,-0.602575315840622
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,168,-0.14504373177842564
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,169,-0.221865889212828
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,170,-0.09786200194363459
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,171,0.10913508260447037
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,172,0.014382896015549075
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,173,-0.22327502429543247
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,174,-0.4080660835762876
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,175,-0.09358600583090379
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,176,0.011467444120505347
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,177,-0.08780369290573371
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,178,-0.3566569484936832
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,179,0.20675413022351796
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,180,-0.32342079689018466
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,181,-0.254178814382896
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,182,-0.1172983479105928
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,183,-0.21846452866861032
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,184,-0.08751214771622935
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,185,-0.06224489795918367
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,186,0.20471331389698738
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,187,-0.3785228377065112
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,188,-0.2145772594752187
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,189,-0.24266277939747327
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,190,-0.36428571428571427
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,191,0.08862973760932943
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,192,-0.572108843537415
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,193,-0.2597667638483965
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,194,-0.30971817298347915
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,195,-0.12784256559766766
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,196,-0.6111273080660835
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,197,0.10102040816326531
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,198,0.25966958211856167
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,199,-0.018172983479105925
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,200,-0.24368318756073856
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,201,0.5174927113702623
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,202,-0.09533527696793004
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,203,-0.22881438289601555
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,204,0.018561710398445095
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,205,0.08775510204081631
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,206,0.517687074829932
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,207,-0.41895043731778425
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,208,0.29018464528668614
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,209,0.2803692905733722
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,210,0.001311953352769677
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,211,0.581438289601555
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,212,-0.06535471331389699
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,213,-0.477405247813411
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,214,-0.16268221574344024
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,215,-0.03527696793002915
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,216,0.04645286686103013
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,217,-0.1345481049562682
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,218,-0.12531584062196308
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,219,-0.215354713313897
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,220,0.12774538386783285
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,221,-0.2140913508260447
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,222,-0.03770651117589892
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,223,0.21642371234207972
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,224,-0.4092322643343051
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,225,0.0001457725947521906
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,226,-0.11127308066083577
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,227,-0.4170068027210884
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,228,-0.09907677356656949
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,229,-0.1707482993197279
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,230,0.039698736637512146
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,231,-0.2658892128279884
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,232,-0.05884353741496598
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,233,-0.23571428571428568
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,234,0.23498542274052478
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,235,-0.34421768707482986
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,236,-0.7261904761904763
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,237,-0.7043731778425656
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,238,-0.0023323615160349793
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,239,0.14844509232264333
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,240,-0.10607385811467443
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,241,0.11686103012633625
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,242,-0.35267249757045677
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,243,0.10510204081632651
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,244,0.25733722060252673
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,245,-0.10116618075801749
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,246,-0.10481049562682217
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,247,0.5620505344995141
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,248,0.1956268221574344
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,249,-0.3047619047619047
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,250,-0.4821185617103985
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,251,-0.3357628765792031
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,252,-0.2084548104956268
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,253,-0.311175898931001
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,254,-0.15685131195335275
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,255,-0.20758017492711373
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,1.0,256,-0.02293488824101069

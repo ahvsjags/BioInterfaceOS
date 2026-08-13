@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t195-three-lab-common-target-execution-v1.0.0",
+  "protocol_id": "bioif-r4-t195-three-lab-common-target-execution-v1.0.0",
+  "status": "T195_COMMON_TARGET_EXECUTION_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T195_THREE_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json",
+    "sha256": "f2e1e8573e5f34748a9360ec2ec9e18be8c1a343c4ba9b890f55d2b12a9d5ab3"
+  },
+  "t192_source_registry": {
+    "relative_path": "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json",
+    "sha256": "07b30eead07712f36f0d95565d3373b04e0b21253ad2159e56acfee1acf8136a"
+  },
+  "r3_common_target_ledger": {
+    "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+    "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+  },
+  "r3_sequence_feature_table": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "target_universe": {
+    "source": "R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY",
+    "count": 9,
+    "selection_after_outer_split": false
+  },
+  "sources": [
+    {
+      "source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "expected_observation_count": 404,
+      "expected_target_count": 9,
+      "expected_batch_count": 49
+    },
+    {
+      "source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "expected_observation_count": 52,
+      "expected_target_count": 9,
+      "expected_batch_count": 6
+    },
+    {
+      "source_id": "PXD064962_UCD_EVENT",
+      "expected_observation_count": 353,
+      "expected_target_count": 9,
+      "expected_batch_count": 30
+    }
+  ],
+  "expected_accounting": {
+    "source_count": 3,
+    "laboratory_anchor_count": 3,
+    "target_universe_count": 9,
+    "observation_count": 809,
+    "outer_fold_count": 3,
+    "model_count": 3
+  },
+  "output_contract": {
+    "relative_path": "reports/review_round_4/t195_three_lab_common_target_execution/v1.0.0"
+  },
+  "claim_boundary": "T195 is an exploratory strict-common-target portability sensitivity analysis on three paper-linked laboratory anchors. It does not establish independent biological validation, donor-level generalization, evaluator lockbox performance, no-author scientific reproduction, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

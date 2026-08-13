@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t195-three-lab-common-target-execution-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "status": "FROZEN_BEFORE_T195_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Execute a leakage-controlled, study-held-out, nested and cluster-aware sensitivity analysis on the exact nine-accession intersection frozen from three redistributable laboratory source maps by T192.",
+  "target_universe": {
+    "source": "R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY",
+    "common_targets": ["P04004", "P04264", "P05556", "P06396", "P07996", "P26038", "P60174", "Q04695", "Q9HDC9"],
+    "selection_is_performance_free": true,
+    "selection_is_model_free": true,
+    "selection_is_frozen_before_t195": true,
+    "availability_rule": "A common target contributes only when the audited source map records a finite strictly positive author value; blank, explicit zero and NA states remain missing.",
+    "rank_direction": "DESCENDING_MIDRANK_PERCENTILE_WITHIN_SOURCE_DEFINED_MEASUREMENT_BATCH",
+    "cross_source_abundance_scale_use": "PROHIBITED"
+  },
+  "outer_split": {
+    "type": "leave_one_laboratory_anchor_out",
+    "fold_count": 3,
+    "held_out_unit": "entire laboratory anchor",
+    "held_out_source_used_for_target_membership": false,
+    "held_out_source_used_for_alpha_selection": false,
+    "held_out_source_used_for_model_selection": false
+  },
+  "nested_selection": {
+    "type": "leave_one_measurement_batch_out_within_outer_development_anchors",
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "selection_metric": "measurement-batch Spearman",
+    "tie_break": "smallest alpha",
+    "minimum_proteins_per_selection_batch": 3
+  },
+  "models": {
+    "constant": "development-target mean; Spearman is undefined by contract",
+    "full": "unpenalized-intercept ridge on the frozen sequence feature table",
+    "composition_only": "unpenalized-intercept ridge on amino-acid composition features only",
+    "standardization": "development-partition mean and standard deviation; zero standard deviation replaced by 1.0",
+    "solver": "numpy.linalg.solve"
+  },
+  "uncertainty": {
+    "cluster": "held-out measurement batch; no donor independence is inferred from laboratory count",
+    "resamples": 2000,
+    "random_seed": 1950,
+    "interval": "percentile 95% cluster bootstrap",
+    "low_cluster_count_policy": "Report measurement-batch count and avoid donor-level effective-n claims."
+  },
+  "negative_control": {
+    "type": "within-development-measurement-batch target permutation",
+    "resamples": 256,
+    "random_seed": 1951,
+    "alpha_policy": "hold the observed nested-selected full-model alpha fixed within each outer fold",
+    "tail": "one-sided upper tail"
+  },
+  "claim_boundary": "This is an exploratory strict-common-target portability sensitivity analysis on three paper-linked laboratory anchors. It does not establish independent biological validation, donor-level generalization, evaluator lockbox performance, no-author scientific reproduction, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}
