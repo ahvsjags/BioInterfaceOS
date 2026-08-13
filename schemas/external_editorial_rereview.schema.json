@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-external-editorial-rereview-v1.0.0",
+  "title": "BioInterfaceOS R2 external editorial re-review report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "report_id", "protocol_id", "reviewer", "r2_finding_matrix", "critical_finding_count", "manuscript_dispositions", "attestation"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "minLength": 1},
+    "protocol_id": {"const": "bioif-r2-external-reproduction-editorial-protocol-v1.0.0"},
+    "reviewer": {"type": "object"},
+    "r2_finding_matrix": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"type": "object"}},
+    "critical_finding_count": {"type": "integer", "minimum": 0},
+    "manuscript_dispositions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "attestation": {"type": "object"}
+  }
+}

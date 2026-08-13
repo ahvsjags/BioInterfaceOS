@@ -451,6 +451,19 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--assets-root", type=Path, required=True, help="root containing contributor source assets"
     )
     data_external_intake_parser.add_argument("--strict", action="store_true")
+    data_external_verification_parser = data_subparsers.add_parser(
+        "preflight-external-verification",
+        help=(
+            "verify external evaluation, reproduction and editorial receipts without accepting them"
+        ),
+    )
+    data_external_verification_parser.add_argument(
+        "--bundle", type=Path, required=True, help="external verification bundle JSON"
+    )
+    data_external_verification_parser.add_argument(
+        "--documents-root", type=Path, required=True, help="root containing external receipt files"
+    )
+    data_external_verification_parser.add_argument("--strict", action="store_true")
     stats_parser = subparsers.add_parser(
         "stats", help="freeze and validate empirical analysis contracts"
     )
@@ -3076,6 +3089,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "validate",
             "audit-provenance",
             "preflight-external-source-intake",
+            "preflight-external-verification",
         }:
             parser.parse_args(["data", "--help"])
             return 0
@@ -3105,6 +3119,27 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"analysis_units={external_intake_summary.analysis_unit_count} "
                 "target_admitted=false t121_amendment=false model_fitted=false "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "preflight-external-verification":
+            from biointerfaceos.external_verification_intake import (
+                ExternalVerificationIntakeError,
+                ExternalVerificationIntakeWorkflow,
+            )
+
+            try:
+                external_verification_summary = ExternalVerificationIntakeWorkflow(
+                    args.bundle, args.documents_root
+                ).run(strict=args.strict)
+            except (ExternalVerificationIntakeError, OSError) as exc:
+                print(f"EXTERNAL_VERIFICATION_INTAKE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "EXTERNAL_VERIFICATION_INTAKE_VALID "
+                f"status={external_verification_summary.status} "
+                f"documents={external_verification_summary.document_count} "
+                f"r2_findings={external_verification_summary.finding_count} "
+                "external_receipts_accepted=false scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "audit-provenance":

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-external-reproduction-receipt-v1.0.0",
+  "title": "BioInterfaceOS R2 external scientific reproduction receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "report_id", "protocol_id", "reproduction_team", "checkout_commit", "environment_digest", "source_data_attestation", "commands_and_scope", "deviation_ledger", "result_summary", "attestation", "raw_protected_values_included"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "minLength": 1},
+    "protocol_id": {"const": "bioif-r2-external-reproduction-editorial-protocol-v1.0.0"},
+    "reproduction_team": {"type": "object"},
+    "checkout_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "environment_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_data_attestation": {"type": "object"},
+    "commands_and_scope": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "deviation_ledger": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "result_summary": {"type": "object"},
+    "attestation": {"type": "object"},
+    "raw_protected_values_included": {"const": false}
+  }
+}

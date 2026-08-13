@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-external-verification-bundle-v1.0.0",
+  "title": "BioInterfaceOS R2 external verification preflight bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "submission_state", "intake_id", "submitted_at", "evidence_class", "allowed_claim_level", "identity_and_scope_audit_pending", "scientific_submission_ready", "documents"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "submission_state": {"enum": ["TEMPLATE_NOT_FOR_VALIDATION", "SUBMITTED_FOR_PREFLIGHT"]},
+    "intake_id": {"type": "string", "minLength": 1},
+    "submitted_at": {"type": "string", "minLength": 1},
+    "evidence_class": {"const": "DEVELOPMENT_OBSERVATION"},
+    "allowed_claim_level": {"const": "EXPLORATORY"},
+    "identity_and_scope_audit_pending": {"const": true},
+    "scientific_submission_ready": {"const": false},
+    "documents": {"type": "array", "items": {"$ref": "#/$defs/document"}}
+  },
+  "$defs": {
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_type", "relative_path", "sha256", "role_not_author_declared"],
+      "properties": {
+        "document_type": {"enum": ["independent_evaluator_receipt", "external_reproduction_receipt", "editorial_rereview_report"]},
+        "relative_path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "role_not_author_declared": {"const": true}
+      }
+    }
+  }
+}

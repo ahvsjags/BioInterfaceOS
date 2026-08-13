@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "submission_state": "TEMPLATE_NOT_FOR_VALIDATION",
+  "intake_id": "replace-with-external-verification-intake-id",
+  "submitted_at": "replace-with-rfc3339-timestamp",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "identity_and_scope_audit_pending": true,
+  "scientific_submission_ready": false,
+  "documents": []
+}
