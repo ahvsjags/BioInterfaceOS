@@ -6,7 +6,7 @@ Status: `PUBLIC_VERSION_RELEASED_DOI_PENDING`
 
 - repository: `https://github.com/ahvsjags/BioInterfaceOS`
 - branch: `r3-real-data-execution-20260813`
-- immutable tag: `v0.1.3-r9`
+- immutable tag: `v0.1.3-r9.1`
 - release scope: T180/T181 source registry, protocol, source-cell map, model/OOD receipts, tests, and external handoff documentation;
 - raw candidate folders under `data/raw/` remain outside the tracked public release unless their source licence and redistribution status are explicitly admitted.
 
@@ -31,7 +31,7 @@ The remaining gates are external to the author-controlled repository: one real n
 ## Verification
 
 ```bash
-git clone --branch v0.1.3-r9 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.3-r9.1 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
 uv sync --locked --all-groups
 uv run pytest -q tests/review_round_3 tests/review_round_4
