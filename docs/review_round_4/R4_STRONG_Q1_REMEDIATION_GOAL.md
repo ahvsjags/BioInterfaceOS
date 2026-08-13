@@ -5,6 +5,10 @@
 
 ## 1. 不可妥协的总验收条件
 
+### 当前已验证的进展（T178）
+
+T178 已将三份 CC-BY 全文来源及其行级 source-cell map 与共同 rank ledger 重新绑定并通过 SHA-256 审计：3 个 laboratory anchors、99 个共同 target、2,724 个共同 rank observations、47 个 measurement batches 和 20,469 个源单元格。该证据只关闭开发集的跨实验室资产审计，不替代 donor-level biological independence、protected lockbox、无作者科学复现、真实外部采用或 DOI 归档；因此总体目标仍为 `IN_PROGRESS`，`scientific_submission_ready` 必须保持 `false`。
+
 强 Q1 目标不是把缺失证据用作者端重跑补齐，而是同时满足以下条件：
 
 1. 至少两个真正独立于开发 lineage 的外部来源；每个来源必须有可重获原始输入、明确许可、accession、SHA-256、样本设计、target mapping 和 batch 元数据。
@@ -96,4 +100,3 @@ git status --short
 ## 5. 终止规则
 
 如果在预设期限内无法获得非作者 lockbox 和复现团队，稿件必须转为“方法/软件与可审计 benchmark，外部结果为 exploratory”的诚实定位；不得为了达到 90 分而改写权重、删除负结果、扩大 technical replicate 的独立性或把作者端运行称为第三方验证。
-
