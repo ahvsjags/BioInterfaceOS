@@ -2,7 +2,7 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 137
+task_count: 138
 ready_tasks:
   - T123
 current_task: T129
@@ -202,5 +202,5 @@ review_round_2:
   source: docs/review_round_2/REMEDIATION_MATRIX.md
   acceptance_gates: docs/review_round_2/ACCEPTANCE_GATES.yaml
   first_task: T115
-  last_task: T136
+  last_task: T137
   publication_rule: 'No fixture-derived output may be presented as empirical validation, scientific replication, or law discovery.'

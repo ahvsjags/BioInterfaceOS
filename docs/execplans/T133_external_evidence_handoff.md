@@ -37,13 +37,14 @@ remain externally gated.
 
 1. Version the machine-readable handoff package with the source-intake fields,
    routing rules, freeze items, external-role safeguards and prohibited actions.
-2. Bind it to the current T121, T129, T124, T126/T127, T128, figure and public
-   release receipts using a strict one-shot audit.
+2. Bind it to the current T121, T129, T124, T126/T127, T128, T135/T136, figure
+   and public-release receipts using a strict one-shot audit.
 3. Publish a read-only report and receipt that state the package is ready for
    intake but that no source, evaluator, reproducer or editor has yet acted.
-4. When an external party supplies evidence, create a new version and validate
-   it against the existing independent-evaluation and acceptance schemas; do
-   not edit this package or fabricate a receipt.
+4. When a contributor supplies a source, run the T135 byte-and-structure
+   preflight before source audit.  When independent roles later supply their
+   documents, run the T136 verification-bundle preflight before identity,
+   signature and scientific-scope audit; neither command accepts a result.
 
 ## Validation
 
@@ -57,7 +58,8 @@ python -m biointerfaceos state validate
 
 - `docs/data/R2_EXTERNAL_EVIDENCE_HANDOFF.json`.
 - A checksum-bound report and receipt in
-  `reports/review_round_2/external_evidence_handoff/v1.2.0/`.
+  `reports/review_round_2/external_evidence_handoff/v1.3.0/` that also binds
+  the two non-submittable T135/T136 templates.
 - Strict tests that reject removed source fields, weakened cohort routing and
   fabricated external-result flags.
 

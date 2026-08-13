@@ -24,6 +24,10 @@ def test_r2_external_handoff_audit_is_intake_only(tmp_path: Path) -> None:
     assert summary.status == "READY_FOR_EXTERNAL_SOURCE_INTAKE"
     assert summary.source_intake_field_count == 6
     assert summary.analysis_unit_field_count == 11
+    assert {
+        "external_source_intake_template",
+        "external_verification_bundle_template",
+    } <= set(R2ExternalHandoffWorkflow.REFERENCES)
     assert workflow.verify() == summary
 
 
