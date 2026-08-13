@@ -60,6 +60,7 @@ missingness audit:
 
 ```bash
 uv run biointerfaceos data audit-r4-ood-effective-n --strict
+uv run biointerfaceos data verify-r4-ood-effective-n --strict
 ```
 
 It reports 8,064 source rows, 7,075 rank-eligible rows, 142 measurement

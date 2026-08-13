@@ -604,6 +604,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit R4 OOD effective sampling units and missingness without changing the primary endpoint",
     )
     data_r4_effective_n_parser.add_argument("--strict", action="store_true")
+    data_r4_effective_n_verify_parser = data_subparsers.add_parser(
+        "verify-r4-ood-effective-n",
+        help="verify the frozen R4 effective-n and missingness audit receipt",
+    )
+    data_r4_effective_n_verify_parser.add_argument("--strict", action="store_true")
     data_r3_silver_ood_parser = data_subparsers.add_parser(
         "evaluate-r3-silver-external-ood",
         help="run the frozen author-run external-laboratory OOD evaluation on the silver source",
@@ -3451,6 +3456,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-small-molecule-corona-ood",
             "audit-r4-ood-effective-n",
+            "verify-r4-ood-effective-n",
             "evaluate-r3-silver-external-ood",
             "preflight-external-source-intake",
             "preflight-external-verification",
@@ -3831,6 +3837,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 return 1
             print(
                 "R4_OOD_EFFECTIVE_N_AUDIT_VALID "
+                f"source_rows={effective_n_summary.source_row_count} "
+                f"measurement_batches={effective_n_summary.measurement_batch_count} "
+                f"primary_rank_eligible_batches={effective_n_summary.primary_rank_eligible_batch_count} "
+                f"biological_units={effective_n_summary.biological_unit_count} "
+                f"laboratories={effective_n_summary.laboratory_count} "
+                "independent_validation=false external_scientific_reproduction=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-ood-effective-n":
+            from biointerfaceos.r4_ood_effective_n_audit import (
+                R4OODEffectiveNAuditError,
+                R4OODEffectiveNAuditWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_OOD_EFFECTIVE_N_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                effective_n_summary = R4OODEffectiveNAuditWorkflow(root).verify()
+            except (R4OODEffectiveNAuditError, OSError) as exc:
+                print(f"R4_OOD_EFFECTIVE_N_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_OOD_EFFECTIVE_N_VERIFY_VALID "
                 f"source_rows={effective_n_summary.source_row_count} "
                 f"measurement_batches={effective_n_summary.measurement_batch_count} "
                 f"primary_rank_eligible_batches={effective_n_summary.primary_rank_eligible_batch_count} "
