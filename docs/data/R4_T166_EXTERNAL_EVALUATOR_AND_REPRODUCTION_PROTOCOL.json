@@ -5,8 +5,8 @@
   "status": "HANDOFF_OPEN_NO_RECEIPT",
   "public_release": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS",
-    "tag": "v0.1.0-r4",
-    "commit": "79607ae9bfd8cd79095262df61f075dafe468819",
+    "tag": "v0.1.1-r4",
+    "commit": "d8668476aff69e79ee532ff4edd717c470f5e287",
     "doi_status": "PENDING_NOT_ARCHIVED"
   },
   "independent_evaluator_requirements": {
