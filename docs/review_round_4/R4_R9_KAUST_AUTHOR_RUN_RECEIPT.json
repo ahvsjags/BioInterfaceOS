@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bioif-r4-r9-kaust-author-run-v1.0.0",
+  "status": "AUTHOR_RUN_ENGINEERING_VERIFICATION_ONLY",
+  "observed_at": "2026-08-13T00:00:00+00:00",
+  "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+  "release_tag": "v0.1.3-r9",
+  "release_tag_commit": "81d7c27a88ce8359ee0f4115e1edc8b6706f9754",
+  "execution_branch": "r3-real-data-execution-20260813",
+  "execution_commit": "466ed8de5157b0b52941b537e53215177bbd858a",
+  "release_tree_equal_execution_tree": true,
+  "environment": {
+    "host": "KAUST Ibex",
+    "python": "3.11.15",
+    "package_version": "0.1.3"
+  },
+  "test_result": {
+    "command": "pytest -q tests/review_round_3 tests/review_round_4",
+    "passed": 32,
+    "failed": 0
+  },
+  "verifier_results": [
+    {
+      "command": "biointerfaceos data verify-r4-pxd017052-nsclc-source --assets-root data/raw/r4_candidate_pxd017052_nsclc --strict",
+      "status": "VALID",
+      "summary": "biological_units=141 measurement_batches=705 rank_qualified_measurement_batches=666 shared_canonical_proteins=34 source_cells=23970 positive_source_cells=17330 scientific_submission_ready=false"
+    },
+    {
+      "command": "biointerfaceos data verify-r4-pxd017052-nsclc-biological-ood --strict",
+      "status": "VALID",
+      "summary": "development_observations=2724 external_observations=17026 external_measurement_batches=666 biological_units=141 models=3 scientific_submission_ready=false"
+    }
+  ],
+  "artifact_sha256": {
+    "docs/data/R4_T180_PXD017052_NSCLC_SOURCE_REGISTRY.json": "ac9f7290d78ef0021581a1e3e0494f61b3ff790627f0057820405faa0ef04e17",
+    "docs/data/R4_T181_PXD017052_NSCLC_BIOLOGICAL_OOD_PROTOCOL.json": "18642d226429bc34db740b1b8b7e906b58ad5032dcf3a6efdcedfb7c89f2035c",
+    "reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/pxd017052_nsclc_source_audit_report.json": "f6f51f46766f76a26abb66aea16ab63683053adac7280e7a9bda2b7ffa757aaf",
+    "reports/review_round_4/pxd017052_nsclc_biological_ood/v1.0.0/r4_pxd017052_nsclc_biological_ood_report.json": "268c64faf98582150d4039859dc748916a05fb48f910f6464f8ede7fb81c3ae4"
+  },
+  "independent_validation": false,
+  "external_scientific_reproduction": false,
+  "scientific_submission_ready": false,
+  "claim_boundary": "This is an author-controlled KAUST engineering verification receipt. It is not a non-author evaluator receipt, protected lockbox result, no-author scientific reproduction, external adoption receipt, or clinical validation."
+}
