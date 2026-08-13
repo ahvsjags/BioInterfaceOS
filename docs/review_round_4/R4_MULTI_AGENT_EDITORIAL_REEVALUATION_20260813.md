@@ -105,3 +105,17 @@ remain false.
 T178 对当前主 ledger 进行了独立重算并闭合了此前未明确验证的资产门槛：3 个 CC-BY source packages、3 个 laboratory anchors、3 份行级 source-cell maps、99 个三方交集 target、2,724 个共同 rank observations、47 个 measurement batches 和 20,469 个源单元格均通过哈希与 receipt 核验。数据兼容性与样本基础据此上调为保守的 `78/100`。
 
 该更新不改变其它硬门槛：Michigan State multi-core 的 core facilities 是技术测量单元而非独立生物学 cohort；三实验室资料属于 development population，不是非作者 protected lockbox；无作者科学复现和外部采用仍没有真实 receipt。当前严格强 Q1 综合仍为 `30/100`，`scientific_submission_ready=false`。
+
+## T179 并行代理复评与下一轮门槛
+
+三位并行代理分别从方法学、计算生物学领域和可复现性/期刊编辑角度复核了 T178、T177、R8 handoff 与服务器状态。意见一致：T178 足以支持“可追溯的三来源 source-local rank benchmark”表述，但不能支持生物学独立性、稳健泛化、独立验证或强 Q1 生物学发现。
+
+| 评审角色 | 关键保守判断 |
+|---|---|
+| 方法学编辑 | T178 数据资产 `82`；estimand `78`、nested selection `85`；cluster/effective biological n `25`；T177 model validity `42`、ablation `50`、negative control `48`；独立验证 `0`。主要模型全 ridge 的外部均值 Spearman `0.0240`，不能写成有用的外部预测能力。 |
+| 计算生物学领域编辑 | 数据适合审计型方法/软件 benchmark；MSU multi-core 是 pooled aliquot 的技术跨 core 测量，不是 12 个独立 cohort；OUHSC 留出结果接近零，不能写成 robust generalization 或 biological discovery。 |
+| 可复现性/期刊编辑 | R8 public release 和 handoff 已具备；lockbox 实际证据 `4`、无作者科学复现 `0`、已确认外部采用 `0`、DOI 仍 pending；preflight 只验证结构，不能认证第三方身份或科学结论。 |
+| EIC 综合判断 | 继续 `Major Revision`；严格综合 `30/100`，所有 `scientific_submission_ready` 相关 flags 保持 false。 |
+| Devil's Advocate | 不得用 47 个 measurement batches、12 个 core 或 pooled eight-donor description 替代 biological n；不应删去 full model 跨零 CI、baseline 劣势、失败批次或负对照。 |
+
+下一轮执行目标已经单独固化在 `docs/review_round_4/R4_T179_STRONG_Q1_GATE_CLOSURE_GOAL_20260813.md`：只有真实 protected lockbox、无作者端到端复现、两份外部采用 receipt、不可变 DOI 和所有模块 >=90 同时成立，才允许重新打开投稿就绪判定。
