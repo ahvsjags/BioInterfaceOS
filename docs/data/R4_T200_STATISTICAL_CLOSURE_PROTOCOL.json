@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t200-statistical-closure-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "status": "FROZEN_BEFORE_T200_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Add the missing statistical reporting contract to the already executed T197/T198 paper-data analyses without refitting models or changing a frozen target set.",
+  "inputs": [
+    "reports/review_round_4/t197_source_availability_execution/v1.0.0/t197_source_availability_execution_report.json",
+    "reports/review_round_4/t197_source_availability_execution/v1.0.0/outer_fold_batch_metrics.csv",
+    "data/raw/r4_candidate_pxd017052_nsclc/derived/R4_PXD017052_NSCLC_source_cell_map.csv",
+    "reports/review_round_4/t198_paper_cohort_missingness/v1.0.0/threshold_summary.csv"
+  ],
+  "estimands": {
+    "T197_primary": {
+      "analysis_population": "Each held-out laboratory-anchor fold; the target set is the exact intersection of rank-eligible accessions in the two development sources.",
+      "independent_unit": "held-out measurement batch",
+      "prediction_row": "one source-local rank-percentile observation for one frozen canonical accession",
+      "primary_metric": "arithmetic mean of held-out measurement-batch Spearman correlations within each outer fold",
+      "primary_contrast": "paired batch-level full-sequence ridge minus composition-only ridge",
+      "uncertainty": "percentile bootstrap over held-out measurement batches, 2,000 resamples per fold/model/metric",
+      "secondary": ["MAE", "RMSE", "constant training-mean baseline", "batch-weighted summaries"],
+      "claim_status": "exploratory; not independent biological validation"
+    },
+    "T198_primary": {
+      "analysis_population": "The 141 biological units represented in the CC-BY paper-attached cohort at the predeclared threshold of at least 10 mapped positive proteins per subject-particle batch.",
+      "independent_unit": "biological_unit_id (subject-level cluster)",
+      "prediction_row": "one source-local rank-percentile observation for one mapped canonical accession",
+      "primary_metric": "subject-equal mean Spearman: average batch Spearman within each biological unit, then average equally over biological units",
+      "primary_contrast": "full-sequence ridge versus composition-only ridge; paired batch delta is secondary",
+      "uncertainty": "percentile bootstrap over biological units, 2,000 resamples",
+      "secondary": ["batch-weighted Spearman", "threshold grid 5/7/10/12/15/20/25/30", "MAE", "RMSE"],
+      "claim_status": "exploratory; author-run paper-cohort sensitivity"
+    }
+  },
+  "multiplicity": {
+    "T197_outer_fold_negative_control": {
+      "family": "three outer-fold negative-control p-values for the predeclared full-model primary metric",
+      "adjustment": "Holm step-down",
+      "all_other_results": "descriptive only; no threshold, model, fold or secondary metric is treated as confirmatory"
+    },
+    "T198_threshold_grid": {
+      "family": "eight threshold settings",
+      "adjustment": "no confirmatory p-value; report all settings descriptively with intervals",
+      "primary": "threshold 10 is the only predeclared primary setting"
+    }
+  },
+  "missingness": {
+    "audit_dimensions": ["biological_unit_id", "clinical_group", "particle"],
+    "reported_states": ["POSITIVE_FINITE", "AUTHOR_NA", "AUTHOR_EXPLICIT_ZERO"],
+    "mechanism_claim": "descriptive missingness and qualification audit; no MAR/MCAR assumption and no imputation"
+  },
+  "uncertainty": {
+    "resamples": 2000,
+    "random_seed_base": 1970,
+    "seed_derivation": "T197 seed = 1970 + 1000*outer_fold_number + 100*model_index + metric_index; T198 stratum tables are deterministic counts",
+    "low_cluster_policy": "report cluster count and retain exploratory claim boundary; do not convert batches into donor-level n"
+  },
+  "claim_boundary": "T200 closes statistical reporting gaps for paper-attached exploratory analyses. It does not create independent biological validation, a protected lockbox receipt, no-author reproduction, external adoption, DOI archival evidence or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

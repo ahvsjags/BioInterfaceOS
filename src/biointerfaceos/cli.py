@@ -779,6 +779,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the T198 paper-cohort missingness receipt",
     )
     data_r4_t198_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t200_parser = data_subparsers.add_parser(
+        "evaluate-r4-t200-statistical-closure",
+        help="execute the T197/T198 statistical-contract closure and stratified missingness audit",
+    )
+    data_r4_t200_parser.add_argument("--strict", action="store_true")
+    data_r4_t200_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t200-statistical-closure",
+        help="verify the T200 statistical-closure receipt",
+    )
+    data_r4_t200_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3727,6 +3737,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t197-source-availability",
             "evaluate-r4-t198-paper-cohort-missingness",
             "verify-r4-t198-paper-cohort-missingness",
+            "evaluate-r4-t200-statistical-closure",
+            "verify-r4-t200-statistical-closure",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-pxd064962-low-coverage-sensitivity",
@@ -4768,6 +4780,46 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"primary_biological_units={t198_summary.primary_biological_unit_count} "
                 f"primary_observations={t198_summary.primary_observation_count} "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t200-statistical-closure":
+            from biointerfaceos.r4_t200_statistical_closure import (
+                R4T200StatisticalClosureError,
+                R4T200StatisticalClosureWorkflow,
+            )
+
+            try:
+                t200_summary = R4T200StatisticalClosureWorkflow(root).run(strict=args.strict)
+            except (R4T200StatisticalClosureError, OSError) as exc:
+                print(f"R4_T200_STATISTICAL_CLOSURE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T200_STATISTICAL_CLOSURE_VALID "
+                f"t197_fold_intervals={t200_summary.t197_fold_interval_count} "
+                f"t198_strata={t200_summary.t198_stratum_count} "
+                f"t198_threshold_strata={t200_summary.t198_threshold_stratum_count} "
+                "estimand_frozen=true multiplicity_policy_frozen=true "
+                "missingness_stratified=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t200-statistical-closure":
+            from biointerfaceos.r4_t200_statistical_closure import (
+                R4T200StatisticalClosureError,
+                R4T200StatisticalClosureWorkflow,
+            )
+
+            try:
+                t200_summary = R4T200StatisticalClosureWorkflow(root).verify(strict=args.strict)
+            except (R4T200StatisticalClosureError, OSError) as exc:
+                print(f"R4_T200_STATISTICAL_CLOSURE_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T200_STATISTICAL_CLOSURE_VERIFY_VALID "
+                f"t197_fold_intervals={t200_summary.t197_fold_interval_count} "
+                f"t198_strata={t200_summary.t198_stratum_count} "
+                f"t198_threshold_strata={t200_summary.t198_threshold_stratum_count} "
+                "estimand_frozen=true multiplicity_policy_frozen=true "
+                "missingness_stratified=true scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "audit-r4-dalian-plasma-corona-source":

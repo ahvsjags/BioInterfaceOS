@@ -11,11 +11,12 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 - a CC-BY-4.0 paper-attached biological-cohort route with 141 subject units, 705 subject-by-particle batches, 666 rank-qualified batches and 17,026 external target observations;
 - a T197 outer-fold target-availability sensitivity with development-only target membership, 2,792 fold-specific observations, 85 measurement batches and selection-aware permutation nulls;
 - a T198 paper-cohort threshold/missingness sensitivity over eight coverage thresholds, including 6,640 retained `AUTHOR_NA` rows and biological-unit retention accounting;
+- a T200 statistical closure with fold-level measurement-batch intervals, frozen estimands, Holm bookkeeping and stratified paper-cohort missingness tables;
 - a locally executed analysis-only Manchester paper/author-matrix OOD route with 61 patient clusters, 289 longitudinal batches and 4,169 external observations; its unlicensed raw matrix remains locator-only and is not redistributed;
 - nested selection, laboratory-held-out evaluation, cluster-aware uncertainty, paired composition ablation and within-batch negative controls;
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
-- an immutable release tag `v0.1.3-r10.14`, with the T180/T181 source audit and OOD receipts, T192–T198 analyses, the external evaluator handoff contract and byte-exact source-cell maps.
+- an immutable release tag `v0.1.3-r10.14`, with the T180/T181 source audit and OOD receipts, T192-T200 analyses, the external evaluator handoff contract and byte-exact source-cell maps.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -26,7 +27,7 @@ uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
 ```
 
-The audited KAUST run includes the T197/T198 receipt checks across the review-round suites. The result establishes software and data-pipeline reproducibility under the reported environment; it does not establish non-author scientific replication.
+The audited KAUST run includes the T197/T198/T200 receipt checks across the review-round suites. The result establishes software and data-pipeline reproducibility under the reported environment; it does not establish non-author scientific replication.
 
 ## Evidence boundary
 
@@ -40,6 +41,7 @@ See:
 - `docs/review_round_4/R4_T197_SOURCE_AVAILABILITY_STATUS_20260814.md`
 - `docs/review_round_4/R4_T198_PAPER_COHORT_MISSINGNESS_STATUS_20260814.md`
 - `docs/review_round_4/R4_T199_STRONG_Q1_REMEDIATION_GOAL_20260814.md`
+- `docs/review_round_4/R4_T200_STATISTICAL_CLOSURE_STATUS_20260814.md`
 - `docs/execplans/T196_publish_paper_attached_biological_cohort.md`
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
 - `docs/review_round_4/R4_STRONG_Q1_REMEDIATION_GOAL.md`
