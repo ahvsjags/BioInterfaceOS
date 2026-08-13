@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-dalian-plasma-corona-sensitivity-v1.0.0",
+  "frozen_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "references": {
+    "r3_analysis_protocol_receipt": {
+      "relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/analysis_protocol_receipt.json",
+      "sha256": "238fb3cdf5932d60810e587b4a58c86c30ed9456d7a2f7b4223e94ddef4baf1f"
+    },
+    "r3_common_target_ledger": {
+      "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+      "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+    },
+    "r3_sequence_feature_table": {
+      "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+      "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+    },
+    "r4_source_audit_receipt": {
+      "relative_path": "reports/review_round_4/dalian_plasma_corona_source_audit/v1.0.0/dalian_plasma_corona_source_audit_receipt.json",
+      "sha256": "cc3716527dcda6e3ae786afe1f323698b160b29e199c6d7b9f4cbff192134d78"
+    },
+    "r4_source_cell_map": {
+      "relative_path": "data/raw/r4_candidate_pxd060795/derived/R4_PXD060795_dalian_plasma_corona_source_cell_map.csv",
+      "sha256": "47111b1c37e9a7a8b858ab5673de026ebfb8541a49f411c41ea685f36e35103f"
+    }
+  },
+  "target": {
+    "target_id": "R4_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "external_target": "descending midrank percentile among strictly positive finite PXD060795 source values within each eligible corona measurement batch",
+    "cross_study_raw_scale": "PROHIBITED"
+  },
+  "external_evaluation": {
+    "source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+    "laboratory_anchor": "Dalian University of Technology, China",
+    "minimum_proteins_per_measurement_batch": 10,
+    "expected_measurement_batch_count": 6,
+    "expected_shared_canonical_protein_count": 22,
+    "small_n_sensitivity_only": true,
+    "access_condition": "public CC0 result workbook; author-run exploratory sensitivity analysis; not a protected lockbox and not an independent evaluator"
+  },
+  "models": [
+    {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
+    {"model_id": "SEQUENCE_RIDGE_FULL", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+    {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}}
+  ],
+  "uncertainty": {"resamples": 1000, "random_seed": 42163},
+  "negative_control": {"resamples": 1000, "random_seed": 42164},
+  "claim_boundary": "This is a small-n author-run sensitivity analysis on a new laboratory source. It reports a frozen analysis contract and executable model, ablation, uncertainty and permutation outputs, but it cannot establish primary external OOD validity, independent validation, lockbox evaluation, external scientific reproduction or scientific submission readiness."
+}
