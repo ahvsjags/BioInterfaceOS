@@ -351,7 +351,7 @@ class ExternalVerificationIntakeWorkflow:
             )
         _string_list(report["manuscript_dispositions"], "manuscript dispositions", minimum=1)
         cls._attestation(report["attestation"], "editorial attestation")
-        return critical_count
+        return int(critical_count)
 
     def _bundle(self) -> dict[str, Any]:
         if not self.bundle_path.is_file():
