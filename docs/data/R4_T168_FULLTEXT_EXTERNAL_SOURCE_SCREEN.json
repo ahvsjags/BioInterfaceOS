@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "screen_id": "bioif-r4-fulltext-external-source-screen-v1.0.0",
+  "screened_at": "2026-08-13",
+  "status": "SCREENED_NOT_ADMITTED",
+  "evidence_class": "SOURCE_SCREENING_ONLY",
+  "allowed_claim_level": "NONE",
+  "screening_question": "Can openly accessible full-text or supporting files add a row-traceable, compatible external human-plasma corona source to the frozen R3 rank endpoint?",
+  "frozen_r3_constraints": {
+    "feature_population": 99,
+    "minimum_positive_shared_proteins_per_measurement_batch": 10,
+    "rank_definition": "descending within-measurement-batch midrank percentile",
+    "raw_scale_cross_study_use": "PROHIBITED",
+    "primary_ood_requires": "at least 12 qualifying measurement batches"
+  },
+  "candidates": [
+    {
+      "candidate_id": "WALKEY_2014_ACS_NANO",
+      "citation": "Walkey et al., Protein Corona Fingerprinting Predicts the Cellular Interaction of Gold and Silver Nanoparticles, ACS Nano 2014, DOI 10.1021/nn406018q",
+      "article_url": "https://pubs.acs.org/doi/abs/10.1021/nn406018q",
+      "source_assets": [
+        {
+          "relative_path": "data/raw/r4_candidate_walkey_nn406018q/nn406018q_si_001.xlsx",
+          "sha256": "574832F669CBAD0F1E89BAD1DBBB08DD5B576420329480306465126D30CB2586",
+          "bytes": 767771,
+          "access_url": "https://ndownloader.figshare.com/files/3949918"
+        },
+        {
+          "relative_path": "data/raw/r4_candidate_walkey_nn406018q/nn406018q_si_002.pdf",
+          "sha256": "46933265301B7F91B4BECEECE107E354DE2E882D2F9D7C57E20755EA6822C71C",
+          "bytes": 5364006,
+          "access_url": "https://ndownloader.figshare.com/files/3949924"
+        }
+      ],
+      "laboratory_anchor": "University of Toronto / UCLA collaboration",
+      "biological_fluid": "human serum",
+      "workbook_observation": {
+        "worksheet": "LCMSMS",
+        "protein_rows": 783,
+        "measurement_columns": 121,
+        "unique_direct_accessions": 783,
+        "direct_accessions_overlapping_frozen_r3_features": 14,
+        "maximum_overlapping_positive_proteins_in_one_measurement_column": 5,
+        "qualifying_measurement_columns_at_minimum_10": 0
+      },
+      "license_and_release_boundary": "Supporting information is downloadable from ACS/figshare, but no explicit redistributable open-data license was located for the workbook; retain as source-dependent screening material, not a public release asset.",
+      "decision": "NOT_ADMITTED_TO_R3_OR_PRIMARY_R4_OOD",
+      "reason": "The source has insufficient overlap with the frozen R3 feature population and fails the predeclared per-batch coverage threshold. It cannot support a valid rank endpoint without changing the target or missingness protocol after inspection."
+    },
+    {
+      "candidate_id": "TRINH_2022_ACS_NANO_PMC9047655",
+      "citation": "Trinh et al., Nanoparticle Biomolecular Corona-Based Enrichment of Plasma Glycoproteins for N-Glycan Profiling and Application in Biomarker Discovery, ACS Nano 2022, DOI 10.1021/acsnano.1c09564",
+      "article_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9047655/",
+      "source_assets": [
+        {
+          "relative_path": "data/raw/r4_candidate_pmc9047655/nn1c09564_si_001.pdf",
+          "sha256": "4D54DE813D48275C4E5B00CCD4671FE6C5C63DA45845E841D821F9A495E16CE7",
+          "bytes": 677333,
+          "access_url": "https://ndownloader.figshare.com/files/34524979"
+        },
+        {
+          "relative_path": "data/raw/r4_candidate_pmc9047655/nn1c09564_si_002.xlsx",
+          "sha256": "3B305A361A02B242368D13FDA8C06281DC469BECB7D9C608B116066BA01B97A2",
+          "bytes": 39437,
+          "access_url": "https://ndownloader.figshare.com/files/34524982"
+        }
+      ],
+      "laboratory_anchor": "Royal College of Surgeons in Ireland and collaborating institutions",
+      "biological_fluid": "human plasma",
+      "paper_level_observation": {
+        "cohort_samples": 51,
+        "reported_lfq_comparison_samples": 8,
+        "reported_lfq_proteins": 291,
+        "available_supporting_xlsx_role": "glycan assignments and glycan-level statistics",
+        "protein_lfq_row_matrix_available_in_public_supporting_files": false,
+        "proteome_xchange_accession_for_protein_lfq": null
+      },
+      "decision": "NOT_ADMITTED_TO_R3_OR_PRIMARY_R4_OOD",
+      "reason": "The article is useful biological context, but the public supporting package does not contain the sample-by-protein abundance matrix required to reconstruct row-traceable within-batch protein ranks. The available workbook is glycan-level rather than the required protein-LFQ endpoint."
+    }
+  ],
+  "claim_boundary": "These screens document reproducible exclusion decisions. They do not create new model evidence, independent validation, lockbox evidence, external scientific reproduction, or user adoption.",
+  "scientific_submission_ready": false
+}
