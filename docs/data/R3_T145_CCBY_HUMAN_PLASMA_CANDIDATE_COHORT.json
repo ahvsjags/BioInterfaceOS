@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "registry_id": "bioif-r3-ccby-human-plasma-candidate-cohort-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "cohort_status": "CANDIDATE_ONLY_TARGET_NOT_FROZEN",
+  "common_context": "human_plasma_nanoparticle_protein_corona_proteomics",
+  "source_policy": {
+    "allowed_article_licenses": ["CC-BY-4.0"],
+    "allow_raw_abundance_concatenation": false,
+    "allow_implicit_non_detection_from_absent_row": false,
+    "require_source_to_cell_map_before_primary_analysis": true,
+    "require_study_held_out_evaluation": true,
+    "require_protocol_amendment_before_model_fitting": true
+  },
+  "sources": [
+    {
+      "source_id": "PXD017052_SEER_BROAD",
+      "article_doi": "10.1038/s41467-020-17033-7",
+      "pmcid": "PMC7376165",
+      "article_license": "CC-BY-4.0",
+      "article_locator": "https://europepmc.org/articles/PMC7376165",
+      "independent_laboratory_anchor": "Seer, Inc. / Broad Institute of MIT and Harvard",
+      "material_context": "three source-mapped SPION formulations with published size and zeta-potential records",
+      "human_plasma_evidence": "Article Methods and source-data audit identify plasma-incubated nanoparticle corona assays.",
+      "asset_evidence": "docs/data/R2_T131_PXD017052_SOURCE_DATA_AUDIT_REGISTRY.json and docs/data/R2_T132_PXD017052_COMPLETE_ATTACHMENT_REGISTRY.json",
+      "source_unit_map_status": "ADMITTED_SOURCE_NATIVE_CCBY_WITH_EXPLICIT_UNIT_TO_PARTICLE_MAP",
+      "analysis_role": "candidate development source after R3 protocol amendment",
+      "limitations": [
+        "One laboratory only; it cannot establish an independent-laboratory claim by itself.",
+        "Raw author intensity values must remain source-specific and cannot be concatenated with the other studies.",
+        "R3 source-to-cell receipt: reports/review_round_3/pxd017052_source_cell_audit/v1.0.0/pxd017052_source_cell_audit_receipt.json."
+      ]
+    },
+    {
+      "source_id": "PMC9633814_MSU_MULTICORE",
+      "article_doi": "10.1038/s41467-022-34438-8",
+      "pmcid": "PMC9633814",
+      "article_license": "CC-BY-4.0",
+      "article_locator": "https://europepmc.org/articles/PMC9633814",
+      "independent_laboratory_anchor": "Michigan State University-led study with 12 semiquantitative independent proteomics core facilities",
+      "material_context": "human-plasma protein corona formed on plain polystyrene nanoparticles and sent as identical aliquots to core facilities",
+      "asset_evidence": "docs/data/R3_T144_FULLTEXT_MULTICORE_SOURCE_REGISTRY.json",
+      "source_unit_map_status": "ADMITTED_TECHNICAL_CROSS_CORE_BENCHMARK_ONLY",
+      "analysis_role": "primary technical held-out-core benchmark; not a biological-cohort generalization source",
+      "limitations": [
+        "The centres vary LC-MS/MS measurement workflows, not biological cohorts or nanoparticle formulations.",
+        "8524 of 29727 replicate source cells are author-marked NA and must be retained as missingness, not imputed at intake.",
+        "R3 source-to-cell receipt: reports/review_round_3/fulltext_multicore_audit/v1.0.0/fulltext_multicore_audit_receipt.json."
+      ]
+    },
+    {
+      "source_id": "PMC7788026_OUHSC_GOLD",
+      "article_doi": "10.1186/s12645-020-00071-6",
+      "pmcid": "PMC7788026",
+      "article_license": "CC-BY-4.0",
+      "article_locator": "https://europepmc.org/articles/PMC7788026",
+      "independent_laboratory_anchor": "University of Oklahoma Health Sciences Center",
+      "material_context": "gold-nanoparticle corona experiments in human plasma and enriched low-abundance plasma",
+      "asset_evidence": {
+        "supplementary_package": {
+          "relative_path": "data/raw/r3_fulltext_candidates/PMC7788026_supplementary.zip",
+          "sha256": "89ad123f1b6a8ee80c78b6970a9514754449306c59ad513b7cbefe5ea5c2e761"
+        },
+        "machine_readable_tables": [
+          {
+            "relative_path": "data/raw/r3_fulltext_candidates/PMC7788026_extracted/12645_2020_71_MOESM2_ESM.xlsx",
+            "worksheet": "RIPA-PC",
+            "sha256": "a7240cf3a0c1b56c046347f4178598b88a4360edee4927f303066472484677ab"
+          },
+          {
+            "relative_path": "data/raw/r3_fulltext_candidates/PMC7788026_extracted/12645_2020_71_MOESM3_ESM.xlsx",
+            "worksheet": "Urea-PC",
+            "sha256": "23eed9f82dafab7286e55675548f0a396ee671b01cc06d5246c6fb0ebc100174"
+          },
+          {
+            "relative_path": "data/raw/r3_fulltext_candidates/PMC7788026_extracted/12645_2020_71_MOESM4_ESM.xlsx",
+            "worksheet": "95%",
+            "sha256": "26c4e29fc7ba0cfe7126c48af6ebf3a319c56c054a986333157a17abfafe1d6f"
+          }
+        ]
+      },
+      "source_unit_map_status": "ADMITTED_SOURCE_NATIVE_RANK_ONLY_EXTERNAL_CANDIDATE",
+      "analysis_role": "candidate external rank-only source after row-level mapping",
+      "limitations": [
+        "The available tables are source-reported identified-protein lists and aggregate spectral-count columns; absence of a row cannot be converted into a non-detection label.",
+        "No cross-study abundance scale may be inferred from its spectral counts.",
+        "R3 source-to-cell receipt: reports/review_round_3/fulltext_gold_source_audit/v1.0.0/fulltext_gold_source_audit_receipt.json."
+      ]
+    }
+  ],
+  "independence_assessment": {
+    "independent_laboratory_anchor_count": 3,
+    "anchors": [
+      "Seer, Inc. / Broad Institute of MIT and Harvard",
+      "Michigan State University-led multi-core study",
+      "University of Oklahoma Health Sciences Center"
+    ],
+    "status": "THREE_INDEPENDENT_LABORATORY_ANCHORS_IDENTIFIED_NOT_YET_TARGET_ADMITTED"
+  },
+  "next_gate": {
+    "required_artifact": "R3 protocol amendment with a source-to-cell map for every selected source, source-specific analysis-unit manifest, endpoint dictionary and nested study-held-out analysis plan.",
+    "model_use": "PROHIBITED",
+    "scientific_submission_ready": false
+  }
+}

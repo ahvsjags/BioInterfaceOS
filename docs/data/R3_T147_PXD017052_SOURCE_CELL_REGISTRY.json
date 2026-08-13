@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r3-pxd017052-source-cell-audit-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "source": {
+    "doi": "10.1038/s41467-020-17033-7",
+    "pmcid": "PMC7376165",
+    "license": "CC-BY-4.0",
+    "article_locator": "https://europepmc.org/articles/PMC7376165"
+  },
+  "source_assets": [
+    {
+      "asset_id": "supplementary_data_2_lfq",
+      "relative_path": "41467_2020_17033_MOESM3_ESM.xlsx",
+      "sha256": "2538df0c7394221de239bb1688dd5a6aeb6dc0be757e1398ec0f3138feac94c0",
+      "expected_bytes": 1023367
+    },
+    {
+      "asset_id": "supplementary_data_6_unit_map",
+      "relative_path": "41467_2020_17033_MOESM8_ESM.xlsx",
+      "sha256": "3f49b1ebaf00a71e5ba2d2a6d3f520eeae7eb8d21a6e2359fc87352ec5c37005",
+      "expected_bytes": 98396
+    }
+  ],
+  "table": {
+    "asset_id": "supplementary_data_2_lfq",
+    "worksheet": "Sheet1",
+    "title_cell": "A1",
+    "title_value": "Supplementary Data 2.   3 NP protein groups from MaxQuant",
+    "header_row": 2,
+    "protein_identifier_column": "Protein IDs",
+    "lfq_header_prefix": "LFQ intensity ",
+    "expected_protein_rows": 844,
+    "expected_lfq_cells": 7596,
+    "expected_numeric_lfq_cells": 7578,
+    "expected_source_blank_lfq_cells": 18,
+    "expected_explicit_zero_lfq_cells": 3318
+  },
+  "unit_to_particle_map": [
+    {"particle": "SP-003-001", "result_unit_id": "EXP18102_X1067_A_MSB37241A", "assay_replicate": 1},
+    {"particle": "SP-003-001", "result_unit_id": "EXP18102_X1066_A_MSB37240A", "assay_replicate": 2},
+    {"particle": "SP-003-001", "result_unit_id": "EXP18102_X1068_A_MSB37242A", "assay_replicate": 3},
+    {"particle": "SP-007-002", "result_unit_id": "EXP18102_X1108_A_MSB37282A", "assay_replicate": 1},
+    {"particle": "SP-007-002", "result_unit_id": "EXP18102_X1110_B_MSB37284B", "assay_replicate": 2},
+    {"particle": "SP-007-002", "result_unit_id": "EXP18102_X1109_A_MSB37283A", "assay_replicate": 3},
+    {"particle": "SP-011-001", "result_unit_id": "EXP18102_X1116_A_MSB37290A", "assay_replicate": 1},
+    {"particle": "SP-011-001", "result_unit_id": "EXP18102_X1115_A_MSB37289A", "assay_replicate": 2},
+    {"particle": "SP-011-001", "result_unit_id": "EXP18102_X1114_A_MSB37288A", "assay_replicate": 3}
+  ],
+  "scope": {
+    "admission_status": "ADMITTED_SOURCE_NATIVE_CCBY_WITH_EXPLICIT_UNIT_TO_PARTICLE_MAP",
+    "data_semantics": "SOURCE_NATIVE_LFQ_CELLS",
+    "prohibited_use": [
+      "Do not concatenate these LFQ values with another study's intensity, PSM or spectral-count scale.",
+      "Do not convert published blank cells or explicit zeros into a new detection label without a locked R3 missingness amendment."
+    ],
+    "model_status": "NOT_FITTED",
+    "scientific_submission_ready": false
+  }
+}

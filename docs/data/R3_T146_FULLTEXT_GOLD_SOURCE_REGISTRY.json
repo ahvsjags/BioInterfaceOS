@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r3-fulltext-gold-source-audit-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "source": {
+    "source_id": "PMC7788026",
+    "doi": "10.1186/s12645-020-00071-6",
+    "pmcid": "PMC7788026",
+    "license": "CC-BY-4.0",
+    "article_locator": "https://europepmc.org/articles/PMC7788026",
+    "supplementary_package_locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7788026/supplementaryFiles"
+  },
+  "source_assets": [
+    {
+      "asset_id": "supplementary_package_zip",
+      "relative_path": "PMC7788026_supplementary.zip",
+      "sha256": "89ad123f1b6a8ee80c78b6970a9514754449306c59ad513b7cbefe5ea5c2e761",
+      "expected_bytes": 7645484
+    },
+    {
+      "asset_id": "ripa_pc_table",
+      "relative_path": "PMC7788026_extracted/12645_2020_71_MOESM2_ESM.xlsx",
+      "sha256": "a7240cf3a0c1b56c046347f4178598b88a4360edee4927f303066472484677ab",
+      "expected_bytes": 202201
+    },
+    {
+      "asset_id": "urea_pc_table",
+      "relative_path": "PMC7788026_extracted/12645_2020_71_MOESM3_ESM.xlsx",
+      "sha256": "23eed9f82dafab7286e55675548f0a396ee671b01cc06d5246c6fb0ebc100174",
+      "expected_bytes": 259013
+    },
+    {
+      "asset_id": "elaps_pc_table",
+      "relative_path": "PMC7788026_extracted/12645_2020_71_MOESM4_ESM.xlsx",
+      "sha256": "26c4e29fc7ba0cfe7126c48af6ebf3a319c56c054a986333157a17abfafe1d6f",
+      "expected_bytes": 21899
+    }
+  ],
+  "source_tables": [
+    {
+      "asset_id": "ripa_pc_table",
+      "worksheet": "RIPA-PC",
+      "header_row": 1,
+      "condition_id": "PMC7788026:RIPA_PC",
+      "protein_identifier_column": "protein.Entry",
+      "quantification_column": "Top3_normalized_RIPA",
+      "expected_data_rows": 1198,
+      "expected_explicit_zero_count": 0
+    },
+    {
+      "asset_id": "urea_pc_table",
+      "worksheet": "Urea-PC",
+      "header_row": 1,
+      "condition_id": "PMC7788026:UREA_PC",
+      "protein_identifier_column": "protein.Entry",
+      "quantification_column": "Top3_normalized_Urea",
+      "expected_data_rows": 1597,
+      "expected_explicit_zero_count": 0
+    },
+    {
+      "asset_id": "elaps_pc_table",
+      "worksheet": "95%",
+      "header_row": 2,
+      "condition_id": "PMC7788026:ELAPS_PC",
+      "protein_identifier_column": "Accession Number",
+      "quantification_column": "eLAPs-PCs",
+      "expected_data_rows": 169,
+      "expected_explicit_zero_count": 36
+    }
+  ],
+  "scope": {
+    "admission_status": "ADMITTED_SOURCE_NATIVE_RANK_ONLY_EXTERNAL_CANDIDATE",
+    "data_semantics": "SOURCE_NATIVE_REPORTED_PROTEIN_ROWS",
+    "permitted_use": [
+      "Create a source-to-cell map and source-local rank transform after the R3 protocol amendment.",
+      "Use as an independent-laboratory external rank-only source with all source-specific caveats retained."
+    ],
+    "prohibited_use": [
+      "Do not concatenate spectral counts or normalized abundances with any other study's raw quantitative scale.",
+      "Do not treat a missing table row as non-detection, and do not claim clinical or biological generalization from this single source."
+    ],
+    "model_status": "NOT_FITTED",
+    "scientific_submission_ready": false
+  }
+}

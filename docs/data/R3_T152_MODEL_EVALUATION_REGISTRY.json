@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r3-common-rank-model-evaluation-v1.0.0",
+  "executed_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "analysis_protocol_receipt": {"relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/analysis_protocol_receipt.json", "sha256": "238fb3cdf5932d60810e587b4a58c86c30ed9456d7a2f7b4223e94ddef4baf1f"},
+  "frozen_analysis_protocol": {"relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/frozen_analysis_protocol.json", "sha256": "69d16109dc8fcf9b7f6f9088f2da473f4b2eba88cb3081be47d416e8d87ae31d"},
+  "frozen_outer_split_manifest": {"relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/frozen_outer_split_manifest.csv", "sha256": "f9cc2fa509c68062417a0d07c5b075597e2f412cb8985d39bb7999bc2297cb5b"},
+  "common_target_ledger": {"relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv", "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"},
+  "sequence_feature_table": {"relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv", "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"},
+  "execution_contract": {
+    "full_model_feature_set": "R3_UNIPROT_SEQUENCE_COMPOSITION_PHYSICOCHEMICAL_V1",
+    "ablation_feature_set": "AA_FRACTION_ONLY",
+    "ridge_intercept": "unpenalized",
+    "ridge_solver": "numpy.linalg.solve",
+    "zero_variance_feature_policy": "set development-partition standard deviation to 1.0 after centering",
+    "constant_rank_metric_policy": "undefined; report MAE and RMSE only",
+    "negative_control_hyperparameter_policy": "hold the observed nested-selected full-model alpha fixed for each outer fold; permute development targets independently within each development measurement batch; never use held-out targets in fitting or selection",
+    "negative_control_tail": "one-sided upper tail; p=(1+count(null_primary>=observed_primary))/(1+resamples)",
+    "significance_policy": "no unpredeclared hypothesis test is manufactured; Holm adjustment is reported as not applicable when no predeclared p-values exist"
+  },
+  "claim_boundary": "This execution estimates only exploratory cross-laboratory recovery of source-local positive-quantification rank from release-fixed protein sequence descriptors. It does not establish material-design, clinical, causal, evaluator-independent, external-reproduction or broad generalization claims."
+}

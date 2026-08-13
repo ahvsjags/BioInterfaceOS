@@ -445,6 +445,125 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_provenance_parser.add_argument(
         "--strict", action="store_true", help="require row-level real-source provenance"
     )
+    data_fulltext_multicore_parser = data_subparsers.add_parser(
+        "audit-fulltext-multicore",
+        help="audit a CC-BY full-text multi-core technical benchmark with source-to-cell mapping",
+    )
+    data_fulltext_multicore_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the downloaded Europe PMC supplementary package and extraction",
+    )
+    data_fulltext_multicore_parser.add_argument("--strict", action="store_true")
+    data_fulltext_gold_parser = data_subparsers.add_parser(
+        "audit-fulltext-gold-source",
+        help="audit CC-BY human-plasma gold-nanoparticle tables with source-to-cell mapping",
+    )
+    data_fulltext_gold_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the downloaded Europe PMC PMC7788026 supplementary package",
+    )
+    data_fulltext_gold_parser.add_argument("--strict", action="store_true")
+    data_pxd017052_source_cell_parser = data_subparsers.add_parser(
+        "audit-pxd017052-source-cells",
+        help="audit PXD017052 CC-BY LFQ cells against its explicit unit-to-particle map",
+    )
+    data_pxd017052_source_cell_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the downloaded PXD017052 publisher attachments",
+    )
+    data_pxd017052_source_cell_parser.add_argument("--strict", action="store_true")
+    data_r3_uniprot_mapping_parser = data_subparsers.add_parser(
+        "map-r3-uniprot-human",
+        help="resolve R3 source-native identifiers to uniquely mapped human UniProt accessions",
+    )
+    data_r3_uniprot_mapping_parser.add_argument(
+        "--mapping-root",
+        type=Path,
+        required=True,
+        help="directory where UniProt query and source-cell mapping artifacts will be written",
+    )
+    data_r3_uniprot_mapping_parser.add_argument("--strict", action="store_true")
+    data_r3_common_rank_target_parser = data_subparsers.add_parser(
+        "admit-r3-common-rank-target",
+        help="build a source-local rank target ledger across the three R3 human-plasma studies",
+    )
+    data_r3_common_rank_target_parser.add_argument(
+        "--output-data-root",
+        type=Path,
+        required=True,
+        help="directory where the row-level common-target ledger will be written",
+    )
+    data_r3_common_rank_target_parser.add_argument("--strict", action="store_true")
+    data_r3_uniprot_sequence_parser = data_subparsers.add_parser(
+        "build-r3-uniprot-sequence-features",
+        help="build release-fixed UniProt sequence descriptors for the R3 common target",
+    )
+    data_r3_uniprot_sequence_parser.add_argument(
+        "--feature-root",
+        type=Path,
+        required=True,
+        help="directory where exact UniProt FASTA responses and feature table will be written",
+    )
+    data_r3_uniprot_sequence_parser.add_argument("--strict", action="store_true")
+    data_r3_analysis_protocol_parser = data_subparsers.add_parser(
+        "freeze-r3-analysis-protocol",
+        help="freeze R3 common-target study-held-out partitions and model-selection rules",
+    )
+    data_r3_analysis_protocol_parser.add_argument(
+        "--output-data-root",
+        type=Path,
+        required=True,
+        help="directory containing the immutable row-level R3 common-target ledger",
+    )
+    data_r3_analysis_protocol_parser.add_argument("--strict", action="store_true")
+    data_r3_model_evaluation_parser = data_subparsers.add_parser(
+        "evaluate-r3-common-rank-models",
+        help="execute the frozen R3 study-held-out sequence-only benchmark",
+    )
+    data_r3_model_evaluation_parser.add_argument(
+        "--output-data-root",
+        type=Path,
+        required=True,
+        help="registry-fixed data/raw directory containing the immutable R3 target ledger",
+    )
+    data_r3_model_evaluation_parser.add_argument(
+        "--feature-root",
+        type=Path,
+        required=True,
+        help="registry-fixed directory containing the exact UniProt feature table",
+    )
+    data_r3_model_evaluation_parser.add_argument("--strict", action="store_true")
+    data_r3_silver_source_parser = data_subparsers.add_parser(
+        "audit-r3-silver-plasma-source",
+        help="audit the CC-BY silver-nanoparticle human-plasma LFQ source at cell level",
+    )
+    data_r3_silver_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the downloaded PMC6592156 supplementary package and extraction",
+    )
+    data_r3_silver_source_parser.add_argument("--strict", action="store_true")
+    data_r3_silver_ood_parser = data_subparsers.add_parser(
+        "evaluate-r3-silver-external-ood",
+        help="run the frozen author-run external-laboratory OOD evaluation on the silver source",
+    )
+    data_r3_silver_ood_parser.add_argument(
+        "--output-data-root", type=Path, required=True, help="registry-fixed data/raw directory"
+    )
+    data_r3_silver_ood_parser.add_argument(
+        "--feature-root", type=Path, required=True, help="registry-fixed R3 sequence-feature directory"
+    )
+    data_r3_silver_ood_parser.add_argument(
+        "--silver-assets-root", type=Path, required=True, help="registry-fixed silver-source asset directory"
+    )
+    data_r3_silver_ood_parser.add_argument("--strict", action="store_true")
     data_external_intake_parser = data_subparsers.add_parser(
         "preflight-external-source-intake",
         help="verify an externally supplied source package without admitting a target",
@@ -3247,6 +3366,16 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "build-gold-auto",
             "validate",
             "audit-provenance",
+            "audit-fulltext-multicore",
+            "audit-fulltext-gold-source",
+            "audit-pxd017052-source-cells",
+            "map-r3-uniprot-human",
+            "admit-r3-common-rank-target",
+            "build-r3-uniprot-sequence-features",
+            "freeze-r3-analysis-protocol",
+            "evaluate-r3-common-rank-models",
+            "audit-r3-silver-plasma-source",
+            "evaluate-r3-silver-external-ood",
             "preflight-external-source-intake",
             "preflight-external-verification",
             "verify-external-verification-signatures",
@@ -3278,6 +3407,239 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"assets={external_intake_summary.source_asset_count} "
                 f"analysis_units={external_intake_summary.analysis_unit_count} "
                 "target_admitted=false t121_amendment=false model_fitted=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-fulltext-multicore":
+            from biointerfaceos.fulltext_multicore_audit import (
+                FulltextMulticoreAuditError,
+                FulltextMulticoreAuditWorkflow,
+            )
+
+            try:
+                fulltext_multicore_summary = FulltextMulticoreAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (FulltextMulticoreAuditError, OSError) as exc:
+                print(f"FULLTEXT_MULTICORE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "FULLTEXT_MULTICORE_AUDIT_VALID "
+                f"status={fulltext_multicore_summary.status} "
+                f"assets={fulltext_multicore_summary.source_asset_count} "
+                f"cores={fulltext_multicore_summary.semiquantitative_core_count} "
+                f"analysis_units={fulltext_multicore_summary.analysis_unit_count} "
+                f"replicate_source_cells={fulltext_multicore_summary.replicate_source_cell_count} "
+                f"numeric_replicate_values={fulltext_multicore_summary.numeric_replicate_value_count} "
+                "target=technical_only model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-fulltext-gold-source":
+            from biointerfaceos.fulltext_gold_source_audit import (
+                FulltextGoldSourceAuditError,
+                FulltextGoldSourceAuditWorkflow,
+            )
+
+            try:
+                fulltext_gold_summary = FulltextGoldSourceAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (FulltextGoldSourceAuditError, OSError) as exc:
+                print(f"FULLTEXT_GOLD_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "FULLTEXT_GOLD_SOURCE_AUDIT_VALID "
+                f"status={fulltext_gold_summary.status} "
+                f"assets={fulltext_gold_summary.source_asset_count} "
+                f"tables={fulltext_gold_summary.table_count} "
+                f"analysis_units={fulltext_gold_summary.analysis_unit_count} "
+                f"explicit_zeros={fulltext_gold_summary.explicit_zero_count} "
+                "target=source_native_rank_only model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-pxd017052-source-cells":
+            from biointerfaceos.pxd017052_source_cell_audit import (
+                PXD017052SourceCellAuditError,
+                PXD017052SourceCellAuditWorkflow,
+            )
+
+            try:
+                pxd017052_source_cell_summary = PXD017052SourceCellAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (PXD017052SourceCellAuditError, OSError) as exc:
+                print(f"PXD017052_SOURCE_CELL_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "PXD017052_SOURCE_CELL_AUDIT_VALID "
+                f"status={pxd017052_source_cell_summary.status} "
+                f"assets={pxd017052_source_cell_summary.source_asset_count} "
+                f"protein_rows={pxd017052_source_cell_summary.protein_row_count} "
+                f"result_units={pxd017052_source_cell_summary.result_unit_count} "
+                f"analysis_units={pxd017052_source_cell_summary.analysis_unit_count} "
+                f"source_blanks={pxd017052_source_cell_summary.source_blank_count} "
+                "target=source_native_only model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "map-r3-uniprot-human":
+            from biointerfaceos.r3_uniprot_mapping import (
+                R3UniProtMappingError,
+                R3UniProtMappingWorkflow,
+            )
+
+            try:
+                r3_uniprot_summary = R3UniProtMappingWorkflow(
+                    root, args.mapping_root
+                ).run(strict=args.strict)
+            except (R3UniProtMappingError, OSError) as exc:
+                print(f"R3_UNIPROT_MAPPING_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R3_UNIPROT_MAPPING_VALID "
+                f"status={r3_uniprot_summary.status} "
+                f"queried_tokens={r3_uniprot_summary.queried_token_count} "
+                f"resolved_identifiers={r3_uniprot_summary.resolved_identifier_count} "
+                f"shared_canonical_proteins={r3_uniprot_summary.shared_canonical_protein_count} "
+                f"shared_source_cells={r3_uniprot_summary.shared_source_cell_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "admit-r3-common-rank-target":
+            from biointerfaceos.r3_common_rank_target import (
+                R3CommonRankTargetError,
+                R3CommonRankTargetWorkflow,
+            )
+
+            try:
+                common_rank_summary = R3CommonRankTargetWorkflow(
+                    root, args.output_data_root
+                ).run(strict=args.strict)
+            except (R3CommonRankTargetError, OSError) as exc:
+                print(f"R3_COMMON_RANK_TARGET_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R3_COMMON_RANK_TARGET_VALID "
+                f"status={common_rank_summary.status} "
+                f"shared_proteins={common_rank_summary.shared_canonical_protein_count} "
+                f"eligible_observations={common_rank_summary.eligible_rank_observation_count} "
+                f"laboratory_anchors={common_rank_summary.laboratory_anchor_count} "
+                f"measurement_batches={common_rank_summary.measurement_batch_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "build-r3-uniprot-sequence-features":
+            from biointerfaceos.r3_uniprot_sequence_features import (
+                R3UniProtSequenceFeaturesError,
+                R3UniProtSequenceFeaturesWorkflow,
+            )
+
+            try:
+                sequence_features_summary = R3UniProtSequenceFeaturesWorkflow(
+                    root, args.feature_root
+                ).run(strict=args.strict)
+            except (R3UniProtSequenceFeaturesError, OSError) as exc:
+                print(f"R3_UNIPROT_SEQUENCE_FEATURES_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R3_UNIPROT_SEQUENCE_FEATURES_VALID "
+                f"status={sequence_features_summary.status} "
+                f"canonical_proteins={sequence_features_summary.canonical_protein_count} "
+                f"descriptors={sequence_features_summary.descriptor_count} "
+                f"response_batches={sequence_features_summary.response_batch_count} "
+                "model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "freeze-r3-analysis-protocol":
+            from biointerfaceos.r3_analysis_protocol import (
+                R3AnalysisProtocolError,
+                R3AnalysisProtocolWorkflow,
+            )
+
+            try:
+                protocol_summary = R3AnalysisProtocolWorkflow(
+                    root, args.output_data_root
+                ).run(strict=args.strict)
+            except (R3AnalysisProtocolError, OSError) as exc:
+                print(f"R3_ANALYSIS_PROTOCOL_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R3_ANALYSIS_PROTOCOL_VALID "
+                f"eligible_observations={protocol_summary.eligible_observation_count} "
+                f"canonical_proteins={protocol_summary.canonical_protein_count} "
+                f"laboratory_anchors={protocol_summary.laboratory_anchor_count} "
+                f"measurement_batches={protocol_summary.measurement_batch_count} "
+                f"outer_folds={protocol_summary.outer_fold_count} "
+                "target_frozen=true model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r3-common-rank-models":
+            from biointerfaceos.r3_model_evaluation import (
+                R3ModelEvaluationError,
+                R3ModelEvaluationWorkflow,
+            )
+
+            try:
+                model_evaluation_summary = R3ModelEvaluationWorkflow(
+                    root, args.output_data_root, args.feature_root
+                ).run(strict=args.strict)
+            except (R3ModelEvaluationError, OSError) as exc:
+                print(f"R3_MODEL_EVALUATION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R3_MODEL_EVALUATION_VALID "
+                f"eligible_observations={model_evaluation_summary.eligible_observation_count} "
+                f"canonical_proteins={model_evaluation_summary.canonical_protein_count} "
+                f"laboratory_anchors={model_evaluation_summary.laboratory_anchor_count} "
+                f"measurement_batches={model_evaluation_summary.measurement_batch_count} "
+                f"models={model_evaluation_summary.model_count} "
+                "target_frozen=true model_fitted=true independent_validation=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r3-silver-plasma-source":
+            from biointerfaceos.r3_silver_plasma_source_audit import (
+                R3SilverPlasmaSourceAuditError,
+                R3SilverPlasmaSourceAuditWorkflow,
+            )
+
+            try:
+                silver_source_summary = R3SilverPlasmaSourceAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (R3SilverPlasmaSourceAuditError, OSError) as exc:
+                print(f"R3_SILVER_PLASMA_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R3_SILVER_PLASMA_SOURCE_AUDIT_VALID "
+                f"assets={silver_source_summary.source_asset_count} "
+                f"protein_rows={silver_source_summary.protein_row_count} "
+                f"measurement_batches={silver_source_summary.analysis_measurement_batch_count} "
+                f"source_cells={silver_source_summary.source_cell_count} "
+                f"positive_source_cells={silver_source_summary.positive_source_cell_count} "
+                "model_fitted=false independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r3-silver-external-ood":
+            from biointerfaceos.r3_silver_external_ood import (
+                R3SilverExternalOODWorkflow,
+                R3SilverExternalOODerror,
+            )
+
+            try:
+                silver_ood_summary = R3SilverExternalOODWorkflow(
+                    root, args.output_data_root, args.feature_root, args.silver_assets_root
+                ).run(strict=args.strict)
+            except (R3SilverExternalOODerror, OSError) as exc:
+                print(f"R3_SILVER_EXTERNAL_OOD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R3_SILVER_EXTERNAL_OOD_VALID "
+                f"development_observations={silver_ood_summary.development_observation_count} "
+                f"external_observations={silver_ood_summary.external_observation_count} "
+                f"shared_canonical_proteins={silver_ood_summary.shared_canonical_protein_count} "
+                f"external_measurement_batches={silver_ood_summary.external_measurement_batch_count} "
+                f"models={silver_ood_summary.model_count} "
+                "independent_validation=false external_scientific_reproduction=false "
                 "scientific_submission_ready=false"
             )
             return 0

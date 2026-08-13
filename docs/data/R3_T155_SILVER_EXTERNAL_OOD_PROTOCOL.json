@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r3-silver-external-ood-protocol-v1.0.0",
+  "frozen_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "references": {
+    "r3_analysis_protocol_receipt": {"relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/analysis_protocol_receipt.json", "sha256": "238fb3cdf5932d60810e587b4a58c86c30ed9456d7a2f7b4223e94ddef4baf1f"},
+    "r3_common_target_ledger": {"relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv", "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"},
+    "r3_sequence_feature_table": {"relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv", "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"},
+    "silver_source_audit_receipt": {"relative_path": "reports/review_round_3/silver_plasma_source_audit/v1.0.0/silver_plasma_source_audit_receipt.json", "sha256": "46aedf3c35ff94eb04cf80d1e87f301de608a62eb2a5faf34a4f04f12f5c624f"},
+    "silver_source_cell_map": {"relative_path": "data/raw/r3_candidate_pmc6592156/derived/R3_PMC6592156_silver_plasma_source_cell_map.csv", "sha256": "43617a0b87bec445143f46b506f9c24c501de6f5cc3518e5319f97bd946bafac"}
+  },
+  "target": {
+    "target_id": "R3_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "development_target": "the frozen R3 source-local descending midrank percentile",
+    "external_target": "descending midrank percentile among all strictly positive finite author-reported LOG_CONVERTED_LFQ_ABUNDANCE values in the same silver-source measurement batch",
+    "cross_study_raw_scale": "PROHIBITED"
+  },
+  "development_selection": {
+    "population": "all 2,724 frozen R3 eligible observations from the three original laboratory anchors",
+    "method": "LEAVE_ONE_R3_DEVELOPMENT_MEASUREMENT_BATCH_OUT_NESTED_SELECTION",
+    "tuning_metric": "mean development measurement-batch Spearman correlation",
+    "tie_breaker": "smaller regularization then lexical model identifier",
+    "final_refit": "fit the selected configuration on all frozen R3 development observations"
+  },
+  "external_evaluation": {
+    "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+    "laboratory_anchor": "University of Southern Denmark / Russian Academy of Sciences study",
+    "analysis_population": "strictly positive source rows whose direct UniProt accession exists in the frozen R3 sequence-feature table",
+    "minimum_proteins_per_measurement_batch": 10,
+    "expected_measurement_batch_count": 30,
+    "expected_shared_canonical_protein_count_at_least": 45,
+    "access_condition": "public author-accessible source; not a protected lockbox and not an independent evaluator"
+  },
+  "feature_policy": {
+    "allowed_feature_set": "R3_UNIPROT_SEQUENCE_COMPOSITION_PHYSICOCHEMICAL_V1",
+    "feature_standardization": "fit only on all frozen R3 development observations",
+    "prohibited_features": ["protein identity", "source identity", "laboratory identity", "worksheet", "condition", "replicate", "source coordinate", "author quantification value", "author rank"]
+  },
+  "models": [
+    {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
+    {"model_id": "SEQUENCE_RIDGE_FULL", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+    {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}}
+  ],
+  "metrics": {
+    "primary": "equal-weight mean external measurement-batch Spearman correlation",
+    "secondary": ["equal-weight mean external measurement-batch mean absolute error", "equal-weight mean external measurement-batch root mean square error"],
+    "constant_rank_metric_policy": "undefined; report MAE and RMSE only"
+  },
+  "uncertainty": {"method": "external measurement-batch cluster bootstrap percentile interval", "resamples": 2000, "random_seed": 20260816},
+  "negative_control": {"method": "permute R3 development targets independently within each development measurement batch while holding observed nested-selected alpha fixed", "resamples": 256, "random_seed": 20260817, "tail": "one-sided upper tail"},
+  "claim_boundary": "A positive or negative result is an author-run exploratory OOD test on one public external laboratory source. It cannot establish independent evaluation, no-author-team scientific reproduction, material design, clinical utility, causal mechanism or submission readiness."
+}

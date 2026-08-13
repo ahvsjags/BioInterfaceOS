@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r3-uniprot-sequence-features-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "common_target_receipt": {
+    "relative_path": "reports/review_round_3/common_rank_target/v1.0.0/common_rank_target_receipt.json",
+    "sha256": "0b8ce139596acf3709c707e9cce2ed05da6e1568037f53e1d6c5bf1b7f827379"
+  },
+  "common_target_ledger": {
+    "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+    "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+  },
+  "uniprot_source": {
+    "api_locator": "https://rest.uniprot.org/uniprotkb/stream",
+    "license": "CC-BY-4.0",
+    "batch_size": 50
+  },
+  "feature_definition": {
+    "feature_set_id": "R3_UNIPROT_SEQUENCE_COMPOSITION_PHYSICOCHEMICAL_V1",
+    "feature_names": [
+      "sequence_length", "estimated_molecular_mass_da", "hydrophobic_fraction", "aromatic_fraction", "acidic_fraction", "basic_fraction", "cysteine_fraction", "proline_fraction", "mean_kyte_doolittle",
+      "aa_fraction_A", "aa_fraction_C", "aa_fraction_D", "aa_fraction_E", "aa_fraction_F", "aa_fraction_G", "aa_fraction_H", "aa_fraction_I", "aa_fraction_K", "aa_fraction_L", "aa_fraction_M", "aa_fraction_N", "aa_fraction_P", "aa_fraction_Q", "aa_fraction_R", "aa_fraction_S", "aa_fraction_T", "aa_fraction_V", "aa_fraction_W", "aa_fraction_Y"
+    ],
+    "unknown_residue_policy": "FAIL_CLOSED"
+  },
+  "scope": {
+    "status": "R3_SEQUENCE_FEATURES_READY_FOR_PROTOCOL_FREEZE",
+    "prohibited_features": [
+      "canonical accession or source protein identifier encoded as a predictive feature",
+      "study, paper, laboratory-anchor, facility-code, worksheet or file-path feature",
+      "author quantification value or rank from the held-out measurement batch",
+      "source row, cell coordinate or asset checksum feature",
+      "clinical label, disease status or unverified annotation inferred from source text",
+      "any feature obtained after outer held-out laboratory access"
+    ],
+    "model_status": "NOT_FITTED",
+    "scientific_submission_ready": false
+  }
+}

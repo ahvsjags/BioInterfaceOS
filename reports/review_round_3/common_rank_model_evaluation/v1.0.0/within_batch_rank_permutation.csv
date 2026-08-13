@@ -1,0 +1,769 @@
+outer_fold_id,held_out_laboratory_anchor,selected_alpha,resample,null_mean_spearman
+R3-OUTER-01,Michigan State University-led multi-core study,100,1,-0.13858847295858526
+R3-OUTER-01,Michigan State University-led multi-core study,100,2,-0.14500032163870644
+R3-OUTER-01,Michigan State University-led multi-core study,100,3,0.0099586825608057334
+R3-OUTER-01,Michigan State University-led multi-core study,100,4,-0.18907534431180359
+R3-OUTER-01,Michigan State University-led multi-core study,100,5,-0.10067391582032871
+R3-OUTER-01,Michigan State University-led multi-core study,100,6,0.061707111936386748
+R3-OUTER-01,Michigan State University-led multi-core study,100,7,0.16044573891385788
+R3-OUTER-01,Michigan State University-led multi-core study,100,8,-0.089149189368550319
+R3-OUTER-01,Michigan State University-led multi-core study,100,9,-0.11758053986154983
+R3-OUTER-01,Michigan State University-led multi-core study,100,10,-0.16218804910726334
+R3-OUTER-01,Michigan State University-led multi-core study,100,11,-0.1360124539743604
+R3-OUTER-01,Michigan State University-led multi-core study,100,12,-0.10173347957600648
+R3-OUTER-01,Michigan State University-led multi-core study,100,13,-0.12022571746632806
+R3-OUTER-01,Michigan State University-led multi-core study,100,14,-0.018341002863618824
+R3-OUTER-01,Michigan State University-led multi-core study,100,15,-0.069811190177029678
+R3-OUTER-01,Michigan State University-led multi-core study,100,16,-0.10212601516050417
+R3-OUTER-01,Michigan State University-led multi-core study,100,17,0.043792322346282359
+R3-OUTER-01,Michigan State University-led multi-core study,100,18,0.062744197683036532
+R3-OUTER-01,Michigan State University-led multi-core study,100,19,-0.17097489265069887
+R3-OUTER-01,Michigan State University-led multi-core study,100,20,-0.11333905575150904
+R3-OUTER-01,Michigan State University-led multi-core study,100,21,-0.078226124907942896
+R3-OUTER-01,Michigan State University-led multi-core study,100,22,-0.013624326819940445
+R3-OUTER-01,Michigan State University-led multi-core study,100,23,-0.097512653765088594
+R3-OUTER-01,Michigan State University-led multi-core study,100,24,0.12836313973306024
+R3-OUTER-01,Michigan State University-led multi-core study,100,25,0.045216014172800419
+R3-OUTER-01,Michigan State University-led multi-core study,100,26,-0.16166715725229286
+R3-OUTER-01,Michigan State University-led multi-core study,100,27,-0.10196936843540089
+R3-OUTER-01,Michigan State University-led multi-core study,100,28,-0.15760123351112537
+R3-OUTER-01,Michigan State University-led multi-core study,100,29,0.023185745442641882
+R3-OUTER-01,Michigan State University-led multi-core study,100,30,-0.11280439181124431
+R3-OUTER-01,Michigan State University-led multi-core study,100,31,-0.1908719518727823
+R3-OUTER-01,Michigan State University-led multi-core study,100,32,0.05792085206288608
+R3-OUTER-01,Michigan State University-led multi-core study,100,33,0.0088094966571273924
+R3-OUTER-01,Michigan State University-led multi-core study,100,34,-0.11919599973816578
+R3-OUTER-01,Michigan State University-led multi-core study,100,35,0.018635360373024573
+R3-OUTER-01,Michigan State University-led multi-core study,100,36,0.043732578712729078
+R3-OUTER-01,Michigan State University-led multi-core study,100,37,-0.086977082850419288
+R3-OUTER-01,Michigan State University-led multi-core study,100,38,-0.019799806116767002
+R3-OUTER-01,Michigan State University-led multi-core study,100,39,0.096178424648707586
+R3-OUTER-01,Michigan State University-led multi-core study,100,40,-0.069370816181701475
+R3-OUTER-01,Michigan State University-led multi-core study,100,41,0.043430364860612136
+R3-OUTER-01,Michigan State University-led multi-core study,100,42,-0.074442116789549095
+R3-OUTER-01,Michigan State University-led multi-core study,100,43,-0.032338004229862882
+R3-OUTER-01,Michigan State University-led multi-core study,100,44,-0.11392071345864926
+R3-OUTER-01,Michigan State University-led multi-core study,100,45,-0.028355698304080523
+R3-OUTER-01,Michigan State University-led multi-core study,100,46,-0.042956886726299694
+R3-OUTER-01,Michigan State University-led multi-core study,100,47,-0.12207986864615829
+R3-OUTER-01,Michigan State University-led multi-core study,100,48,-0.04065598762234672
+R3-OUTER-01,Michigan State University-led multi-core study,100,49,-0.10181599282727694
+R3-OUTER-01,Michigan State University-led multi-core study,100,50,0.12667903804907096
+R3-OUTER-01,Michigan State University-led multi-core study,100,51,-0.023094431816264614
+R3-OUTER-01,Michigan State University-led multi-core study,100,52,-0.11055103108634692
+R3-OUTER-01,Michigan State University-led multi-core study,100,53,0.078255152141013765
+R3-OUTER-01,Michigan State University-led multi-core study,100,54,-0.22598393905112779
+R3-OUTER-01,Michigan State University-led multi-core study,100,55,-0.032487729809346194
+R3-OUTER-01,Michigan State University-led multi-core study,100,56,0.043368237837764029
+R3-OUTER-01,Michigan State University-led multi-core study,100,57,0.066958395209194943
+R3-OUTER-01,Michigan State University-led multi-core study,100,58,-0.0057450319287741802
+R3-OUTER-01,Michigan State University-led multi-core study,100,59,-0.067739294274518594
+R3-OUTER-01,Michigan State University-led multi-core study,100,60,-0.20879120090247966
+R3-OUTER-01,Michigan State University-led multi-core study,100,61,-0.13055662534025214
+R3-OUTER-01,Michigan State University-led multi-core study,100,62,-0.14600595597292992
+R3-OUTER-01,Michigan State University-led multi-core study,100,63,0.036024691287227018
+R3-OUTER-01,Michigan State University-led multi-core study,100,64,-0.17551993449578437
+R3-OUTER-01,Michigan State University-led multi-core study,100,65,-0.14448480256357193
+R3-OUTER-01,Michigan State University-led multi-core study,100,66,-0.12930897486974463
+R3-OUTER-01,Michigan State University-led multi-core study,100,67,-0.011993752647265224
+R3-OUTER-01,Michigan State University-led multi-core study,100,68,-0.0051224376205247189
+R3-OUTER-01,Michigan State University-led multi-core study,100,69,-0.070785628658247529
+R3-OUTER-01,Michigan State University-led multi-core study,100,70,-0.040481640612459242
+R3-OUTER-01,Michigan State University-led multi-core study,100,71,-0.10100184354143175
+R3-OUTER-01,Michigan State University-led multi-core study,100,72,0.02575274181620205
+R3-OUTER-01,Michigan State University-led multi-core study,100,73,-0.033258406670209711
+R3-OUTER-01,Michigan State University-led multi-core study,100,74,-0.079028740448562285
+R3-OUTER-01,Michigan State University-led multi-core study,100,75,0.13615979397639633
+R3-OUTER-01,Michigan State University-led multi-core study,100,76,0.13374331843270687
+R3-OUTER-01,Michigan State University-led multi-core study,100,77,-0.076575080372728185
+R3-OUTER-01,Michigan State University-led multi-core study,100,78,0.10889730677454842
+R3-OUTER-01,Michigan State University-led multi-core study,100,79,-0.14408585695571904
+R3-OUTER-01,Michigan State University-led multi-core study,100,80,0.0064178594501860132
+R3-OUTER-01,Michigan State University-led multi-core study,100,81,-0.22497348495102093
+R3-OUTER-01,Michigan State University-led multi-core study,100,82,-0.0091882235592255761
+R3-OUTER-01,Michigan State University-led multi-core study,100,83,0.080771027696202563
+R3-OUTER-01,Michigan State University-led multi-core study,100,84,0.077560848854499043
+R3-OUTER-01,Michigan State University-led multi-core study,100,85,0.14526870530562014
+R3-OUTER-01,Michigan State University-led multi-core study,100,86,-0.078264173181100613
+R3-OUTER-01,Michigan State University-led multi-core study,100,87,-0.035598908351406985
+R3-OUTER-01,Michigan State University-led multi-core study,100,88,-0.052338698844595341
+R3-OUTER-01,Michigan State University-led multi-core study,100,89,-0.0086814024254041298
+R3-OUTER-01,Michigan State University-led multi-core study,100,90,-0.057410993445525124
+R3-OUTER-01,Michigan State University-led multi-core study,100,91,0.041001335899845219
+R3-OUTER-01,Michigan State University-led multi-core study,100,92,0.0438387587702724
+R3-OUTER-01,Michigan State University-led multi-core study,100,93,-0.12428551892208851
+R3-OUTER-01,Michigan State University-led multi-core study,100,94,0.020058777338628899
+R3-OUTER-01,Michigan State University-led multi-core study,100,95,0.046860177797403896
+R3-OUTER-01,Michigan State University-led multi-core study,100,96,-0.04778678229099171
+R3-OUTER-01,Michigan State University-led multi-core study,100,97,-0.14926566021248769
+R3-OUTER-01,Michigan State University-led multi-core study,100,98,-0.070485622903139838
+R3-OUTER-01,Michigan State University-led multi-core study,100,99,0.076782433555001792
+R3-OUTER-01,Michigan State University-led multi-core study,100,100,0.13937991075013551
+R3-OUTER-01,Michigan State University-led multi-core study,100,101,0.011110274699629837
+R3-OUTER-01,Michigan State University-led multi-core study,100,102,-0.013257405587550789
+R3-OUTER-01,Michigan State University-led multi-core study,100,103,-0.11909710929144314
+R3-OUTER-01,Michigan State University-led multi-core study,100,104,-0.085738288239957619
+R3-OUTER-01,Michigan State University-led multi-core study,100,105,-0.055541966299340585
+R3-OUTER-01,Michigan State University-led multi-core study,100,106,-0.11082333362078907
+R3-OUTER-01,Michigan State University-led multi-core study,100,107,0.062485098641821425
+R3-OUTER-01,Michigan State University-led multi-core study,100,108,-0.02847166216189935
+R3-OUTER-01,Michigan State University-led multi-core study,100,109,-0.016662622704775372
+R3-OUTER-01,Michigan State University-led multi-core study,100,110,-0.15578616928742037
+R3-OUTER-01,Michigan State University-led multi-core study,100,111,-0.082106517717261254
+R3-OUTER-01,Michigan State University-led multi-core study,100,112,-0.024971600633435093
+R3-OUTER-01,Michigan State University-led multi-core study,100,113,-0.063894929239337164
+R3-OUTER-01,Michigan State University-led multi-core study,100,114,-0.13229172009993201
+R3-OUTER-01,Michigan State University-led multi-core study,100,115,-0.0558674016898923
+R3-OUTER-01,Michigan State University-led multi-core study,100,116,0.098354181370227431
+R3-OUTER-01,Michigan State University-led multi-core study,100,117,-0.092053269678914293
+R3-OUTER-01,Michigan State University-led multi-core study,100,118,-0.088400496351621963
+R3-OUTER-01,Michigan State University-led multi-core study,100,119,0.14837745671344738
+R3-OUTER-01,Michigan State University-led multi-core study,100,120,-0.022626231326618101
+R3-OUTER-01,Michigan State University-led multi-core study,100,121,-0.20182530311911936
+R3-OUTER-01,Michigan State University-led multi-core study,100,122,-0.089183063468493223
+R3-OUTER-01,Michigan State University-led multi-core study,100,123,0.017258804158653239
+R3-OUTER-01,Michigan State University-led multi-core study,100,124,-0.18279173052120049
+R3-OUTER-01,Michigan State University-led multi-core study,100,125,0.053797387834785937
+R3-OUTER-01,Michigan State University-led multi-core study,100,126,-0.071186848503868722
+R3-OUTER-01,Michigan State University-led multi-core study,100,127,-0.038550470673670179
+R3-OUTER-01,Michigan State University-led multi-core study,100,128,0.16475491420416594
+R3-OUTER-01,Michigan State University-led multi-core study,100,129,0.060578627341721231
+R3-OUTER-01,Michigan State University-led multi-core study,100,130,-0.02341592088742335
+R3-OUTER-01,Michigan State University-led multi-core study,100,131,-0.086821415872833596
+R3-OUTER-01,Michigan State University-led multi-core study,100,132,-0.14533630418825216
+R3-OUTER-01,Michigan State University-led multi-core study,100,133,-0.083986490798026184
+R3-OUTER-01,Michigan State University-led multi-core study,100,134,0.013305989701532683
+R3-OUTER-01,Michigan State University-led multi-core study,100,135,0.075222490128585631
+R3-OUTER-01,Michigan State University-led multi-core study,100,136,0.0096457919711903182
+R3-OUTER-01,Michigan State University-led multi-core study,100,137,0.010633008435048722
+R3-OUTER-01,Michigan State University-led multi-core study,100,138,0.07266732693404486
+R3-OUTER-01,Michigan State University-led multi-core study,100,139,-0.1224604851324225
+R3-OUTER-01,Michigan State University-led multi-core study,100,140,-0.16878649108589125
+R3-OUTER-01,Michigan State University-led multi-core study,100,141,0.096086314349746307
+R3-OUTER-01,Michigan State University-led multi-core study,100,142,-0.034987901232240812
+R3-OUTER-01,Michigan State University-led multi-core study,100,143,-0.19571892471305255
+R3-OUTER-01,Michigan State University-led multi-core study,100,144,-0.12300258748340859
+R3-OUTER-01,Michigan State University-led multi-core study,100,145,-0.14859649871248953
+R3-OUTER-01,Michigan State University-led multi-core study,100,146,-0.050775755088416613
+R3-OUTER-01,Michigan State University-led multi-core study,100,147,-0.16646501941981662
+R3-OUTER-01,Michigan State University-led multi-core study,100,148,-0.016212587367212324
+R3-OUTER-01,Michigan State University-led multi-core study,100,149,0.082890671584742809
+R3-OUTER-01,Michigan State University-led multi-core study,100,150,-0.21366191547558819
+R3-OUTER-01,Michigan State University-led multi-core study,100,151,0.033082698049325683
+R3-OUTER-01,Michigan State University-led multi-core study,100,152,-0.065994963316844915
+R3-OUTER-01,Michigan State University-led multi-core study,100,153,-0.059605153926231419
+R3-OUTER-01,Michigan State University-led multi-core study,100,154,-0.1706205527362096
+R3-OUTER-01,Michigan State University-led multi-core study,100,155,0.027787553951271908
+R3-OUTER-01,Michigan State University-led multi-core study,100,156,-0.043542425065534671
+R3-OUTER-01,Michigan State University-led multi-core study,100,157,-0.061640058064973885
+R3-OUTER-01,Michigan State University-led multi-core study,100,158,0.062085300474789835
+R3-OUTER-01,Michigan State University-led multi-core study,100,159,-0.10171038824696378
+R3-OUTER-01,Michigan State University-led multi-core study,100,160,-0.10707186233265553
+R3-OUTER-01,Michigan State University-led multi-core study,100,161,-0.032296778207469595
+R3-OUTER-01,Michigan State University-led multi-core study,100,162,-0.14395579049140786
+R3-OUTER-01,Michigan State University-led multi-core study,100,163,-0.068501763570149754
+R3-OUTER-01,Michigan State University-led multi-core study,100,164,-0.13972281093587541
+R3-OUTER-01,Michigan State University-led multi-core study,100,165,-0.0073671935817627389
+R3-OUTER-01,Michigan State University-led multi-core study,100,166,0.092014761457498151
+R3-OUTER-01,Michigan State University-led multi-core study,100,167,-0.12055936171456007
+R3-OUTER-01,Michigan State University-led multi-core study,100,168,-0.028618616878042218
+R3-OUTER-01,Michigan State University-led multi-core study,100,169,-0.077535130016606446
+R3-OUTER-01,Michigan State University-led multi-core study,100,170,0.009477291750060797
+R3-OUTER-01,Michigan State University-led multi-core study,100,171,-0.021899393692917473
+R3-OUTER-01,Michigan State University-led multi-core study,100,172,-0.15838448212683154
+R3-OUTER-01,Michigan State University-led multi-core study,100,173,-0.057990640972319429
+R3-OUTER-01,Michigan State University-led multi-core study,100,174,-0.096245021560854904
+R3-OUTER-01,Michigan State University-led multi-core study,100,175,-0.07493589574800312
+R3-OUTER-01,Michigan State University-led multi-core study,100,176,-0.052626529836473229
+R3-OUTER-01,Michigan State University-led multi-core study,100,177,0.0031586913059214084
+R3-OUTER-01,Michigan State University-led multi-core study,100,178,-0.057900084169103208
+R3-OUTER-01,Michigan State University-led multi-core study,100,179,-0.12453759360054341
+R3-OUTER-01,Michigan State University-led multi-core study,100,180,0.035915810789648214
+R3-OUTER-01,Michigan State University-led multi-core study,100,181,-0.021243349496944022
+R3-OUTER-01,Michigan State University-led multi-core study,100,182,-0.070572584854394937
+R3-OUTER-01,Michigan State University-led multi-core study,100,183,0.071782323607033446
+R3-OUTER-01,Michigan State University-led multi-core study,100,184,-0.083677216541480623
+R3-OUTER-01,Michigan State University-led multi-core study,100,185,-0.18584481518821427
+R3-OUTER-01,Michigan State University-led multi-core study,100,186,-0.097557468391371263
+R3-OUTER-01,Michigan State University-led multi-core study,100,187,0.0041486742696864986
+R3-OUTER-01,Michigan State University-led multi-core study,100,188,-0.0076181710499055293
+R3-OUTER-01,Michigan State University-led multi-core study,100,189,0.013947625272387921
+R3-OUTER-01,Michigan State University-led multi-core study,100,190,-0.15803794138622279
+R3-OUTER-01,Michigan State University-led multi-core study,100,191,-0.13268757902885453
+R3-OUTER-01,Michigan State University-led multi-core study,100,192,-0.0014292008779453651
+R3-OUTER-01,Michigan State University-led multi-core study,100,193,-0.14006566352646177
+R3-OUTER-01,Michigan State University-led multi-core study,100,194,0.077659353286642793
+R3-OUTER-01,Michigan State University-led multi-core study,100,195,0.051323818826294866
+R3-OUTER-01,Michigan State University-led multi-core study,100,196,0.10599768897316847
+R3-OUTER-01,Michigan State University-led multi-core study,100,197,-0.078238645037255763
+R3-OUTER-01,Michigan State University-led multi-core study,100,198,0.023005130888695775
+R3-OUTER-01,Michigan State University-led multi-core study,100,199,-0.091003002281821288
+R3-OUTER-01,Michigan State University-led multi-core study,100,200,-0.021088610273371299
+R3-OUTER-01,Michigan State University-led multi-core study,100,201,0.05853397705544662
+R3-OUTER-01,Michigan State University-led multi-core study,100,202,-0.025676576743277627
+R3-OUTER-01,Michigan State University-led multi-core study,100,203,-0.1085164304907912
+R3-OUTER-01,Michigan State University-led multi-core study,100,204,0.0066338802354885167
+R3-OUTER-01,Michigan State University-led multi-core study,100,205,-0.095463711006603502
+R3-OUTER-01,Michigan State University-led multi-core study,100,206,0.13183309484353786
+R3-OUTER-01,Michigan State University-led multi-core study,100,207,-0.19569799053642431
+R3-OUTER-01,Michigan State University-led multi-core study,100,208,-0.16935635127763896
+R3-OUTER-01,Michigan State University-led multi-core study,100,209,0.054517307017557602
+R3-OUTER-01,Michigan State University-led multi-core study,100,210,-0.08800256780547161
+R3-OUTER-01,Michigan State University-led multi-core study,100,211,0.023173810307717702
+R3-OUTER-01,Michigan State University-led multi-core study,100,212,-0.05443643747756087
+R3-OUTER-01,Michigan State University-led multi-core study,100,213,0.030638857133372381
+R3-OUTER-01,Michigan State University-led multi-core study,100,214,0.030050498242901829
+R3-OUTER-01,Michigan State University-led multi-core study,100,215,0.021499079211154806
+R3-OUTER-01,Michigan State University-led multi-core study,100,216,-0.087594404200531467
+R3-OUTER-01,Michigan State University-led multi-core study,100,217,-0.1066603178485145
+R3-OUTER-01,Michigan State University-led multi-core study,100,218,-0.043528995045893554
+R3-OUTER-01,Michigan State University-led multi-core study,100,219,-0.084521504329765157
+R3-OUTER-01,Michigan State University-led multi-core study,100,220,-0.067289384272203559
+R3-OUTER-01,Michigan State University-led multi-core study,100,221,-0.058432348548197469
+R3-OUTER-01,Michigan State University-led multi-core study,100,222,0.017162249453146268
+R3-OUTER-01,Michigan State University-led multi-core study,100,223,-0.18565773664000929
+R3-OUTER-01,Michigan State University-led multi-core study,100,224,-0.16242702824951327
+R3-OUTER-01,Michigan State University-led multi-core study,100,225,0.037754185228151355
+R3-OUTER-01,Michigan State University-led multi-core study,100,226,-0.11044519193652914
+R3-OUTER-01,Michigan State University-led multi-core study,100,227,-0.0093198197676819857
+R3-OUTER-01,Michigan State University-led multi-core study,100,228,0.099809411979390736
+R3-OUTER-01,Michigan State University-led multi-core study,100,229,0.0073759170900437555
+R3-OUTER-01,Michigan State University-led multi-core study,100,230,0.036558074229850378
+R3-OUTER-01,Michigan State University-led multi-core study,100,231,-0.01867816715276498
+R3-OUTER-01,Michigan State University-led multi-core study,100,232,0.09909849065033588
+R3-OUTER-01,Michigan State University-led multi-core study,100,233,-0.033723205743624279
+R3-OUTER-01,Michigan State University-led multi-core study,100,234,-0.027492484937861255
+R3-OUTER-01,Michigan State University-led multi-core study,100,235,-0.078220234645994202
+R3-OUTER-01,Michigan State University-led multi-core study,100,236,-0.1119380156214746
+R3-OUTER-01,Michigan State University-led multi-core study,100,237,-0.04894359092879233
+R3-OUTER-01,Michigan State University-led multi-core study,100,238,-0.1182692666637106
+R3-OUTER-01,Michigan State University-led multi-core study,100,239,0.055789838895934883
+R3-OUTER-01,Michigan State University-led multi-core study,100,240,-0.073673600714003834
+R3-OUTER-01,Michigan State University-led multi-core study,100,241,0.13747045744308786
+R3-OUTER-01,Michigan State University-led multi-core study,100,242,0.072529745953199998
+R3-OUTER-01,Michigan State University-led multi-core study,100,243,-0.038840215822105804
+R3-OUTER-01,Michigan State University-led multi-core study,100,244,0.053612075366893226
+R3-OUTER-01,Michigan State University-led multi-core study,100,245,0.059106774938571603
+R3-OUTER-01,Michigan State University-led multi-core study,100,246,-0.066298917845120153
+R3-OUTER-01,Michigan State University-led multi-core study,100,247,-0.11858202919223301
+R3-OUTER-01,Michigan State University-led multi-core study,100,248,0.021714973253787004
+R3-OUTER-01,Michigan State University-led multi-core study,100,249,-0.10671454119658288
+R3-OUTER-01,Michigan State University-led multi-core study,100,250,-0.057040946129945563
+R3-OUTER-01,Michigan State University-led multi-core study,100,251,-0.1316169397934035
+R3-OUTER-01,Michigan State University-led multi-core study,100,252,-0.17047649696157144
+R3-OUTER-01,Michigan State University-led multi-core study,100,253,-0.22903283451260853
+R3-OUTER-01,Michigan State University-led multi-core study,100,254,0.084041088069635783
+R3-OUTER-01,Michigan State University-led multi-core study,100,255,-0.058512546818640092
+R3-OUTER-01,Michigan State University-led multi-core study,100,256,0.023377832808839448
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,1,0.040069111096098738
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,2,-0.13071371420299657
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,3,-0.24588544072858712
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,4,0.1168194186784403
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,5,-0.098689062902817801
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,6,-0.14223665253956636
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,7,0.046784607723089865
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,8,-0.045050579045620862
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,9,-0.090137483248871372
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,10,0.033315727014879823
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,11,-0.12972363745080848
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,12,-0.11242512582110635
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,13,-0.11865602927813265
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,14,-0.067778180805602051
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,15,-0.068672896128710997
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,16,0.029718043780187591
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,17,-0.14415436787138672
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,18,-0.15802224539295648
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,19,-0.019223539983440348
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,20,-0.18057506784523084
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,21,-0.13037584432529808
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,22,0.10680745776886505
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,23,-0.066289444216177065
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,24,-0.12118538494235424
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,25,-0.051673778471119328
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,26,-0.023447069313852854
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,27,-0.26956095631225707
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,28,-0.092318495487274721
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,29,-0.13006969086107553
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,30,-0.26536458647348049
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,31,0.135273335557659
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,32,-0.28111939080432846
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,33,-0.11747827630722189
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,34,0.016168289411154734
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,35,0.019128589654719488
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,36,-0.2762315506089818
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,37,-0.17721434438700392
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,38,0.12126238065320114
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,39,-0.14396183489896255
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,40,-0.14968143174228382
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,41,0.076952231543480715
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,42,-0.085761060385278476
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,43,-0.23122649626901826
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,44,-0.0011541356988877653
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,45,-0.0078106891084519774
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,46,-0.14564321118536816
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,47,-0.067665622036652912
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,48,0.072319394328106162
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,49,-0.097639156333229421
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,50,-0.17385393408581307
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,51,-0.098849522003872897
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,52,-0.08716809572189356
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,53,-0.066898845196244824
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,54,0.0059831904774213622
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,55,-0.13203045496800317
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,56,-0.14037458490573324
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,57,-0.12535355616083887
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,58,0.14918645873977152
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,59,-0.09870911533269168
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,60,-0.10585904410635202
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,61,0.1580822456842591
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,62,-0.09640136967569729
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,63,0.093094045653193111
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,64,-0.15827707486559939
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,65,0.04628764523943469
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,66,-0.10992767958032336
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,67,-0.1301071234604628
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,68,-0.013430477507987398
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,69,-0.010818191037101648
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,70,0.097591611022231586
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,71,0.037782677331313894
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,72,0.061102835808167666
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,73,-0.095703550178121571
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,74,0.015431253372213976
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,75,-0.035504062137761465
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,76,-0.148319025514668
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,77,-0.23111953447970857
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,78,0.0095646426369670988
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,79,-0.31972880713112894
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,80,0.0073147948331087377
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,81,-0.19415965567454099
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,82,-0.20205463704079643
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,83,-0.16570810661055141
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,84,0.04890348469648164
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,85,-0.12224377822142274
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,86,0.14863573144715042
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,87,-0.17741864583876665
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,88,0.20786451864483002
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,89,-0.16664040697487933
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,90,-0.12962415401124566
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,91,-0.10349852934424247
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,92,-0.16152299465558756
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,93,-0.095767718070823141
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,94,-0.1610046377422073
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,95,-0.27237300331045955
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,96,-0.1149351366446007
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,97,0.012709268031526912
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,98,-0.075754658287125451
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,99,-0.033576392017063542
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,100,0.25288826101973971
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,101,-0.015634391558809062
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,102,-0.22121964184264348
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,103,-0.20681549789895876
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,104,-0.2176856446206471
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,105,-0.21375072429224617
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,106,-0.24475011849272216
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,107,0.019200292278711992
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,108,-0.19186651051650283
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,109,-0.039862366358059426
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,110,0.0071804537522218931
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,111,0.026991897632441825
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,112,-0.066194023697779894
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,113,-0.15236463933994884
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,114,0.012187757162061453
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,115,-0.18480410114065068
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,116,0.064545737597859698
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,117,0.14071610393564157
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,118,-0.12561263706756087
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,119,-0.077383654063006319
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,120,-0.079278469874983604
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,121,-0.014417152137710332
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,122,-0.31122990103519915
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,123,-0.1206489618422087
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,124,-0.09940016228407722
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,125,0.055344271958382839
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,126,-0.17178263483039302
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,127,-0.040719727204822656
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,128,-0.05462835147684323
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,129,0.086478726409943474
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,130,0.05032191129323
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,131,-0.11640235134439915
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,132,0.0028830547896346978
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,133,0.032804297899737281
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,134,0.10637014976677608
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,135,-0.1273622757556063
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,136,-0.0053884959459682934
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,137,-0.069692289546059133
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,138,-0.068289238839581004
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,139,-0.1793899464248262
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,140,0.010142278764512668
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,141,0.014969161638820415
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,142,0.11753700664116169
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,143,-0.082617984383722504
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,144,-0.12294745738158014
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,145,-0.19620665969057208
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,146,0.076943342407126927
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,147,-0.25261314673787155
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,148,-0.1437209229659909
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,149,-0.070280767037153233
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,150,-0.12705903665260068
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,151,-0.089234756401090853
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,152,-0.16845509027176678
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,153,-0.0021772955186234576
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,154,0.051700506443594411
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,155,-0.11155508315649725
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,156,-0.34532902577979174
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,157,-0.10131377997425026
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,158,-0.23189371175764906
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,159,-0.15514039672631094
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,160,0.026358547237222793
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,161,-0.091324326642315212
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,162,-0.11458329621418854
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,163,-0.040864200323134633
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,164,-0.12809018766816976
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,165,-0.15156999687806971
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,166,-0.024902239565629206
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,167,-0.13644329408858297
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,168,0.040708197007574519
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,169,-0.031162410994761254
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,170,-0.13568988815071326
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,171,-0.20626533783297574
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,172,-0.19572844184113544
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,173,-0.069965200771985384
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,174,-0.10044956366162938
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,175,0.19547985212609945
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,176,-0.120529540393446
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,177,0.093609894740977126
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,178,-0.16359891397839477
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,179,-0.093495400249773236
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,180,0.076936363099850719
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,181,0.11197157360110414
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,182,-0.04563460192684269
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,183,0.04094071116545233
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,184,-0.029958321406216553
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,185,0.071531727957472813
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,186,-0.13362587421236313
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,187,0.14108683368276295
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,188,0.11819084241144494
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,189,0.016762296197927063
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,190,-0.012701429404476633
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,191,0.036141248402231055
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,192,0.046753130797685602
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,193,0.014573074577913819
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,194,-0.051184330697845948
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,195,-0.040745870120361884
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,196,-0.24119146228213509
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,197,-0.060505250241825119
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,198,-0.25743120530296359
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,199,-0.18856983363597032
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,200,-0.13376996419803383
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,201,-0.011014022956262783
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,202,-0.20974174357269534
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,203,-0.15849357517190324
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,204,0.018749645359505178
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,205,0.042098984220759528
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,206,-0.11224613595158241
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,207,-0.034568632831513971
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,208,0.036756656340614632
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,209,-0.035203234966796171
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,210,-0.07868556187906306
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,211,-0.12522745861414497
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,212,-0.18316893999100628
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,213,0.015750907367473962
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,214,-0.022941322450725311
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,215,0.1942496479500613
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,216,0.10531628934567593
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,217,-0.14109164312906003
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,218,-0.18581416468939546
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,219,-0.31688274718116577
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,220,-0.082740622071336131
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,221,-0.047471297871639076
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,222,-0.22195740477136167
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,223,-0.20343201459210034
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,224,-0.070770099611823872
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,225,0.12643905934412739
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,226,-0.23524875302916895
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,227,-0.12550662354079936
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,228,-0.10464479147697078
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,229,-0.086115906349434834
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,230,0.061622745694449615
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,231,-0.10947491850909484
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,232,-0.094349148353771825
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,233,-0.16209802443837082
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,234,0.00080978904533710765
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,235,-0.16611528047875604
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,236,-0.17189798857852814
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,237,-0.15427245527592814
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,238,-0.091105231518951182
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,239,-0.048122300510909967
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,240,0.19936126994398584
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,241,0.064119702691148625
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,242,-0.26410507307423281
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,243,0.0078521507386795104
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,244,-0.31685578682416665
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,245,-0.037478041748568648
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,246,-0.16917754440086641
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,247,0.082238328885723716
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,248,-0.11122446679528901
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,249,-0.1221950693972487
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,250,-0.1189647945866088
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,251,-0.075994860654345658
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,252,-0.17204606312789558
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,253,-0.10825554653067651
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,254,-0.17362354583003103
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,255,0.053516505183031422
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",0.10000000000000001,256,-0.23974997345051297
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,1,0.10695326351140599
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,2,0.0044254300281965989
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,3,0.035772205115575925
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,4,-0.13892393137127679
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,5,0.017852878822616814
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,6,-0.068095798612737818
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,7,0.14128928338515079
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,8,0.005627419247623576
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,9,0.033811327568805824
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,10,-0.18601673232467922
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,11,0.00054259503102482777
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,12,0.24495892331915281
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,13,0.21639476410172004
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,14,-0.010162903492395431
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,15,0.020587958795900321
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,16,0.10690938382352962
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,17,0.035014649538092912
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,18,0.26340532929269145
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,19,0.091427699347938957
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,20,0.10924379323792952
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,21,-0.1914535812983979
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,22,-0.12067652922292893
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,23,0.067211377859167365
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,24,-0.20758509923121668
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,25,0.063854105816227497
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,26,-0.10086416952011608
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,27,-0.045820494711220142
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,28,-0.13447328015324533
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,29,-0.043508743771920842
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,30,-0.21076208640876376
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,31,-0.080565239513547521
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,32,-0.11357606206430396
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,33,0.0068811576843990285
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,34,0.069112382719739796
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,35,-0.0051472319778705835
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,36,0.052619323349335313
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,37,-0.18185315698124607
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,38,-0.039965289251115851
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,39,-0.095071878836298446
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,40,0.14960779667823801
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,41,-0.18837626964506116
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,42,0.21112143826702648
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,43,0.0029968811062055373
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,44,-0.040622757300705269
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,45,0.073167185635834492
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,46,-0.029546673988412625
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,47,0.023665849154620267
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,48,0.025736225533545633
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,49,-0.057041288055147757
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,50,0.20308527705787982
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,51,0.074057668112359087
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,52,0.025236542802293926
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,53,0.2387295995123811
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,54,-0.11414954527922205
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,55,0.16749767809580429
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,56,0.14435410018464676
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,57,-0.083728430182011301
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,58,0.092383369962792866
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,59,0.078704563508268877
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,60,-0.051833576182296823
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,61,5.3765185056509068e-05
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,62,-0.28651691602477014
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,63,0.0081354610067276307
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,64,0.18740030460978396
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,65,-0.076941979792920903
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,66,-0.21463289988127382
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,67,-0.15906863725696274
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,68,0.22388319016680397
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,69,0.25272201677893202
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,70,0.075085820280849355
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,71,0.12677179635955274
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,72,0.19394077584387681
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,73,-0.064233970620976091
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,74,-0.033692304282530394
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,75,-0.0048095185185031628
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,76,-0.23470760141785929
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,77,0.050857126589228627
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,78,0.024053275997622435
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,79,0.28195210091820333
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,80,0.094335660212667843
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,81,-0.16033405863256375
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,82,0.21105908837629295
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,83,0.023199048981485434
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,84,0.0057372065687310587
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,85,0.36425195540230282
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,86,0.082212620261888553
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,87,0.24021179096843703
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,88,0.15691434859747383
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,89,0.16402790572637094
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,90,0.043162534572032341
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,91,-0.082662352944915959
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,92,0.030746662787440371
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,93,0.33419236446789025
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,94,0.066867112936618525
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,95,0.23234905739776193
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,96,-0.014852854568815082
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,97,0.10123392598292505
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,98,0.093362745041134038
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,99,0.15674025760715998
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,100,-0.17103982837014867
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,101,0.23739457456275093
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,102,0.074378648348758347
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,103,0.088579340818982472
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,104,-0.038364964160343747
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,105,-0.12789580891542113
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,106,-0.077580817847868272
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,107,0.064442129219833277
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,108,0.067533903325313685
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,109,-0.15834066043447612
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,110,-0.011723176124474658
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,111,-0.024417308459574027
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,112,0.018432682882302449
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,113,0.19345323383332097
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,114,-0.069534117290832378
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,115,0.049633669127563805
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,116,0.20673104150799776
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,117,0.2230647210971729
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,118,0.012040130471633487
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,119,0.11605280795452833
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,120,-0.047955891663035502
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,121,-0.00081195992967917491
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,122,0.064336343603263638
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,123,-0.0052800224060904552
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,124,0.050406808290903
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,125,-0.097197954312747456
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,126,0.0803174490970745
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,127,-0.12454253253084344
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,128,0.094413185140531777
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,129,-0.12389175932517218
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,130,0.17049073974648074
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,131,0.38929458266808126
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,132,0.060074112811825467
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,133,-0.21515389365419663
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,134,-0.081399230843538936
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,135,0.0687582841243735
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,136,-0.095165210194778069
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,137,-0.071973947823784454
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,138,-0.11132663337607807
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,139,0.11290526478863468
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,140,-0.025503903825591531
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,141,0.097267727179694674
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,142,0.15418296370124901
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,143,0.070847616127686391
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,144,-0.12796468867585159
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,145,0.12361392632565683
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,146,0.15872950467379743
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,147,0.053408082375584559
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,148,-0.1651898329859719
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,149,0.17801349599687893
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,150,-0.061651050431462004
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,151,0.03819118497994535
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,152,-0.0048407988400740246
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,153,-0.17621073026193138
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,154,-0.047278508374609708
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,155,-0.0041172193147603134
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,156,-0.15355409233498329
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,157,-0.09242712008976256
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,158,-0.14077586374283285
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,159,-0.17224210175983096
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,160,0.054376103599803154
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,161,-0.1979327287641382
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,162,0.20728090404214827
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,163,-0.25266739130945515
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,164,-0.21547698227841733
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,165,0.031622111880092521
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,166,0.211423510384704
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,167,-0.026869647666196934
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,168,0.22245892280090918
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,169,-0.16151914965480135
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,170,-0.095578024929315025
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,171,0.096486782403597357
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,172,-0.18375862910188101
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,173,-0.044567461085777062
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,174,0.069149368039901724
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,175,-0.088755115237343835
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,176,0.089880577147888344
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,177,0.16775026485704284
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,178,-0.11311809967248385
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,179,0.14786943998870092
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,180,0.050688490113086286
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,181,0.25497937286716837
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,182,0.031017914956635445
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,183,-0.024982325301109914
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,184,0.026460237792287674
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,185,-0.041836299898051113
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,186,-0.26359595916461342
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,187,-0.10009767855876861
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,188,-0.07462567003718501
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,189,0.17597230709901174
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,190,0.023993116549951288
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,191,-0.11583331191259677
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,192,-0.076957052045065366
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,193,0.1486754729387689
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,194,0.31299463331084842
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,195,0.063711070575246276
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,196,0.13300142679380358
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,197,0.041907229312025368
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,198,-0.1061870826324952
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,199,-0.239383672202476
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,200,-0.14272231511451319
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,201,-0.035369868403432349
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,202,0.090240765969608255
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,203,-0.01082952026947563
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,204,0.13501360786840316
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,205,0.0067883661630306
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,206,0.10889283174398379
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,207,0.18582765545615873
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,208,0.048486448758350453
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,209,-0.10409312530481363
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,210,0.0082758100182435575
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,211,0.15383242716707718
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,212,-0.070403908890559252
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,213,0.080515780069289861
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,214,0.17538038563959349
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,215,-0.019410815039678807
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,216,0.13377223731577992
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,217,0.21112578719479425
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,218,-0.065233691080363837
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,219,-0.11608778076193974
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,220,0.054059519796837444
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,221,0.106738177722738
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,222,-0.12464331105023936
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,223,0.15859941083991536
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,224,0.031422004195976794
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,225,0.025897534044805826
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,226,-0.19654318544871399
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,227,0.21978798584130771
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,228,0.16409551578991591
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,229,-0.039114762494473793
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,230,-0.043274514927420328
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,231,-0.12942495669901749
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,232,-0.12483629374822675
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,233,0.11438945925630795
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,234,-0.20150611530934515
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,235,-0.16919282535922231
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,236,0.066018078721621493
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,237,0.029825983982264184
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,238,0.078147602763910723
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,239,-0.074014190927032819
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,240,-0.10640882957924561
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,241,-0.033096920091946098
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,242,0.23774224348218809
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,243,0.048474585297994921
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,244,0.061561821835027439
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,245,-0.060147420100307089
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,246,-0.19891201660480221
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,247,-0.03589558855823103
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,248,-0.037928274805662097
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,249,0.084735409507130974
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,250,-0.014375017533909375
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,251,-0.15015983497188148
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,252,-0.022623215531720035
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,253,0.073696433302252534
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,254,0.0068265572633640845
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,255,-0.039814513177829844
+R3-OUTER-03,University of Oklahoma Health Sciences Center,1,256,0.10964133792400448

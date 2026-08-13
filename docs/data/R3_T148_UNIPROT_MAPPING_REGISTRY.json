@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r3-uniprot-human-mapping-v1.0.1",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "uniprot_source": {
+    "api_locator": "https://rest.uniprot.org/uniprotkb/search",
+    "license": "CC-BY-4.0",
+    "organism_id": 9606,
+    "fields": ["accession", "id", "gene_names", "xref_refseq"],
+    "batch_size": 100
+  },
+  "source_maps": [
+    {
+      "source_id": "PXD017052_SEER_BROAD",
+      "relative_path": "data/raw/r2_t131_pxd017052/derived/R3_PXD017052_lfq_source_cell_map.csv",
+      "sha256": "270500108807f67f723997f9e1ebdf0833e559886fc71e1b154a575197e59156",
+      "identifier_column": "protein_source_identifier"
+    },
+    {
+      "source_id": "PMC9633814_MSU_MULTICORE",
+      "relative_path": "data/raw/r3_fulltext_pmc9633814/derived/R3_PMC9633814_semiquantitative_source_cell_map.csv",
+      "sha256": "38eca5ed7a5bbcaa49c674cb2fb46fbeaf2d71ca97c33d84f903c10df571b818",
+      "identifier_column": "protein_ids"
+    },
+    {
+      "source_id": "PMC7788026_OUHSC_GOLD",
+      "relative_path": "data/raw/r3_fulltext_candidates/PMC7788026_derived/R3_PMC7788026_source_cell_map.csv",
+      "sha256": "cf93551f67dda850923f084f507088ba4fc31520ced3b08ca58df0563fce2ce4",
+      "identifier_column": "protein_source_identifier"
+    }
+  ],
+  "minimum_shared_canonical_proteins": 100,
+  "scope": {
+    "mapping_policy": "UNIQUE_HUMAN_CANONICAL_ACCESSION_ONLY",
+    "admission_status": "CANDIDATE_SHARED_PROTEIN_UNIVERSE_PENDING_PROTOCOL_AMENDMENT",
+    "model_status": "NOT_FITTED",
+    "scientific_submission_ready": false
+  }
+}

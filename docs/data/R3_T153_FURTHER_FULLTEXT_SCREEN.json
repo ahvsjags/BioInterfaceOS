@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "screen_id": "bioif-r3-further-fulltext-screen-v1.0.0",
+  "screened_at": "2026-08-13T00:00:00+00:00",
+  "scope": "Additional public full-text supplementary datasets screened after R3 model execution; every screened source is retained whether admitted or rejected.",
+  "inclusion_contract": {
+    "required_context": "human plasma or human blood plasma nanoparticle protein-corona proteomics",
+    "required_provenance": "article and source supplementary assets must be public and byte-verifiable",
+    "required_analysis_unit": "an explicit experimental measurement column or a defensible author-defined aggregate; no inferred non-detections",
+    "external_ood_minimums": {
+      "shared_canonical_proteins_per_measurement_batch": 10,
+      "measurement_batch_count": 12
+    },
+    "prohibited": [
+      "cross-study concatenation of raw author abundance scales",
+      "treating a non-human proteome as a human-plasma validation source",
+      "using a source that fails this screen for model selection or outcome tuning"
+    ]
+  },
+  "screened_sources": [
+    {
+      "source_id": "PMC4596693_SPION_HUMAN_PLASMA",
+      "article": {
+        "pmcid": "PMC4596693",
+        "doi": "10.1371/journal.pone.0129008",
+        "title": "Proteomics Analysis Reveals Distinct Corona Composition on Magnetic Nanoparticles with Different Surface Coatings: Implications for Interactions with Primary Human Macrophages",
+        "publication_year": 2015,
+        "license": "CC-BY-4.0",
+        "article_locator": "https://europepmc.org/articles/PMC4596693",
+        "supplementary_locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4596693/supplementaryFiles"
+      },
+      "asset": {
+        "relative_path": "data/raw/r3_candidate_pmc4596693/PMC4596693_supplementary.zip",
+        "sha256": "c3dae4b74dfaab80f42f7ee5493e0d71a2976f6ef96bcca68ff06436d2af574c"
+      },
+      "quantitative_sheet": {
+        "relative_path": "data/raw/r3_candidate_pmc4596693/extracted/pone.0129008.s007.xlsx",
+        "sha256": "f6ef227c890a6bc677a8920ae5e0e8fe966401b8964409e174562542e970872d",
+        "protein_rows_after_header": 309,
+        "author_quantity": "peptide-spectrum-match counts in CSNP1-3 and Nmag1-3 columns",
+        "overlap_with_frozen_R3_sequence_feature_table": {
+          "direct_shared_uniprot_accessions": 18,
+          "CSNP_positive_shared_proteins_by_replicate": [6, 6, 5],
+          "Nmag_positive_shared_proteins_by_replicate": [13, 15, 12]
+        }
+      },
+      "decision": {
+        "status": "NOT_ADMITTED_INSUFFICIENT_R3_OVERLAP_AND_BATCH_SUPPORT",
+        "rationale": "Although the source is human-plasma, public and quantitatively structured, it has only six measurement columns. The CSNP columns fail the predeclared minimum of 10 shared positive proteins; the three Nmag columns meet the per-batch threshold but fall far below the 12-batch external-OOD minimum. It is retained as a documented candidate and is not used in fitting, tuning or result selection.",
+        "model_use": "PROHIBITED"
+      }
+    },
+    {
+      "source_id": "PMC7484794_SOFT_CORONA_BOVINE_SERUM",
+      "article": {
+        "pmcid": "PMC7484794",
+        "doi": "10.1038/s41467-020-18237-7",
+        "title": "Mapping and identification of soft corona proteins at nanoparticles and their impact on cellular association",
+        "publication_year": 2020,
+        "article_locator": "https://europepmc.org/articles/PMC7484794",
+        "supplementary_locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7484794/supplementaryFiles"
+      },
+      "asset": {
+        "relative_path": "data/raw/r3_candidate_pmc7484794/PMC7484794_supplementary.zip",
+        "sha256": "0488a5c369f6af6a3b04d32e65916f0b746eb52e1dd0c17a45189ea969665dc0",
+        "inspected_files": [
+          "extracted/41467_2020_18237_MOESM4_ESM.xlsx",
+          "extracted/41467_2020_18237_MOESM6_ESM.xlsx"
+        ]
+      },
+      "species_audit": {
+        "observed_accession_labels": ["APOA1_BOVIN", "HBA_BOVIN", "HBBF_BOVIN", "ALBU_BOVIN", "SERPINC1_BOVIN"],
+        "conclusion": "The inspected quantitative proteomics worksheets are bovine-serum derived, not human plasma."
+      },
+      "decision": {
+        "status": "REJECTED_NON_HUMAN_PROTEOME",
+        "rationale": "A bovine-source corona experiment cannot be silently re-labelled as a human-plasma external validation source. Cross-species transfer would require a separately preregistered biological question, target and mapping policy.",
+        "model_use": "PROHIBITED"
+      }
+    },
+    {
+      "source_id": "PMC3252235_PNNL_POLYSTYRENE_HUMAN_PLASMA",
+      "article": {
+        "pmcid": "PMC3252235",
+        "doi": "10.1002/pmic.201100037",
+        "title": "Quantitative proteomics analysis of adsorbed plasma proteins classifies nanoparticles with different surface properties and size",
+        "publication_year": 2011,
+        "article_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3252235/"
+      },
+      "published_scope": {
+        "laboratory_anchor": "Pacific Northwest National Laboratory",
+        "biofluid": "human blood plasma",
+        "reported_design": "six polystyrene nanoparticles by four incubation times (24 individually processed samples)",
+        "reported_quantified_proteins": 88,
+        "source_evidence": "The public manuscript reports 24 samples and 88 quantified proteins, but also states that these time-point samples are process replicates rather than independent biological replicates."
+      },
+      "access_audit": {
+        "official_supplementary_endpoint": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3252235/supplementaryFiles",
+        "official_response": "Article with id PMC3252235 is not open access one",
+        "source_license": "NOASSERTION"
+      },
+      "decision": {
+        "status": "REJECTED_NON_REDISTRIBUTABLE_SOURCE_ASSET",
+        "rationale": "A valuable study design cannot substitute for a redistributable source asset. The Europe PMC official supplementary endpoint rejects this article as non-open-access, so its spreadsheet cannot be committed, redistributed, or used to satisfy the R3 open-source evidence target without a documented licence grant from the rights holder.",
+        "model_use": "PROHIBITED"
+      }
+    }
+  ],
+  "screening_outcome": {
+    "newly_admitted_sources": 0,
+    "preserved_exclusions": 3,
+    "claim_boundary": "This screening log prevents failed or incompatible full-text data sources from being hidden. It does not reduce the requirements for independent lockbox evaluation or no-author-team scientific reproduction."
+  }
+}
