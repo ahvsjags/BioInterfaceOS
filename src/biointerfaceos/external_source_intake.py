@@ -69,7 +69,7 @@ def _checksum(value: Any, label: str) -> str:
 
 
 def _finite_number(value: Any, label: str) -> float:
-    if isinstance(value, bool) or not isinstance(value, (int, float)):
+    if isinstance(value, bool) or not isinstance(value, int | float):
         raise ExternalSourceIntakeError(f"{label} must be a finite numeric value")
     number = float(value)
     if not math.isfinite(number):
