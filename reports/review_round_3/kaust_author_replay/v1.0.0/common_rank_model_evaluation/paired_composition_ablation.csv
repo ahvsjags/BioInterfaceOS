@@ -1,0 +1,4 @@
+outer_fold_id,held_out_laboratory_anchor,paired_measurement_batch_count,full_minus_composition_mean_spearman,resamples,seed,lower_95,upper_95
+R3-OUTER-01,Michigan State University-led multi-core study,36,0.0083853217469533215,2000,20262514,0.0044612567280703716,0.012382928998483604
+R3-OUTER-02,"Seer, Inc. / Broad Institute of MIT and Harvard",9,-0.046239263102231573,2000,20263514,-0.075267402576918066,-0.016087637864896535
+R3-OUTER-03,University of Oklahoma Health Sciences Center,2,-0.017592273968733186,2000,20264514,-0.025330124645193138,-0.0098544232922732344
