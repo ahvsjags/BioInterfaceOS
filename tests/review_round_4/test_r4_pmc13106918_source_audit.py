@@ -23,6 +23,8 @@ class _TestWorkflow(R4PMC13106918SourceAuditWorkflow):
 
 
 def test_pmc13106918_source_audit_creates_and_verifies_cell_map(tmp_path: Path) -> None:
+    if not (SOURCE / "MaxQuant_txt.zip").is_file():
+        pytest.skip("analysis-only PMC13106918 assets are not part of a clean public checkout")
     workflow = _TestWorkflow(
         ROOT, SOURCE, output_root=tmp_path / "audit"
     )
@@ -49,6 +51,8 @@ def test_pmc13106918_source_audit_creates_and_verifies_cell_map(tmp_path: Path) 
 
 
 def test_pmc13106918_source_audit_rejects_registry_checksum_mismatch(tmp_path: Path) -> None:
+    if not (SOURCE / "MaxQuant_txt.zip").is_file():
+        pytest.skip("analysis-only PMC13106918 assets are not part of a clean public checkout")
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
     registry["source_assets"][1]["expected_bytes"] += 1
     registry_path = tmp_path / "registry.json"
