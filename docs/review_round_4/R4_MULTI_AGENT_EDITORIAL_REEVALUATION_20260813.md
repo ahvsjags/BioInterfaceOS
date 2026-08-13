@@ -37,7 +37,7 @@
 
 ## 本轮新增、可核查的交付
 
-- GitHub 不可变版本：`v0.1.2-r5`。
+- GitHub 版本化 handoff tag：`v0.1.2-r5`（固定 checkout，不使用移动的 `main`）。
 - R4 receipt 结构预检：`src/biointerfaceos/r4_external_receipt_preflight.py`。
 - CLI：`biointerfaceos data preflight-r4-external-receipts --strict`。
 - 提交模板：`docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`。
