@@ -67,17 +67,17 @@ def _string_list(value: Any, label: str, *, minimum: int) -> list[str]:
 class R2ExternalHandoffWorkflow:
     """Audit a no-results package for external source and evaluator intake."""
 
-    AUDIT_ID = "bioif-r2-external-evidence-handoff-v1.4.0"
+    AUDIT_ID = "bioif-r2-external-evidence-handoff-v1.5.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     HANDOFF_RELATIVE = "docs/data/R2_EXTERNAL_EVIDENCE_HANDOFF.json"
-    OUTPUT_RELATIVE = "reports/review_round_2/external_evidence_handoff/v1.4.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/external_evidence_handoff/v1.5.0"
     REFERENCES = {
         "analysis_plan": (
             "docs/data/R2_EMPIRICAL_ANALYSIS_PLAN.md",
             "T121 empirical analysis plan",
         ),
         "t129_current_target_evidence": (
-            "reports/review_round_2/t129_current_target_evidence/v1.2.0/"
+            "reports/review_round_2/t129_current_target_evidence/v1.3.0/"
             "current_target_evidence_receipt.json",
             "T129 current target-evidence receipt",
         ),
@@ -102,7 +102,7 @@ class R2ExternalHandoffWorkflow:
             "T136 external verification preflight template",
         ),
         "portfolio": (
-            "reports/review_round_2/manuscript_portfolio/v1.5.0/portfolio_receipt.json",
+            "reports/review_round_2/manuscript_portfolio/v1.6.0/portfolio_receipt.json",
             "R2 manuscript portfolio receipt",
         ),
         "protocol_figures": (
@@ -110,7 +110,7 @@ class R2ExternalHandoffWorkflow:
             "R2 protocol-figure receipt",
         ),
         "public_release": (
-            "reports/review_round_2/public_release_audit/v1.2.9/audit_receipt.json",
+            "reports/review_round_2/public_release_audit/v1.3.0/audit_receipt.json",
             "R2 public-release receipt",
         ),
     }

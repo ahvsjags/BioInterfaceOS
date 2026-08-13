@@ -68,7 +68,7 @@ def _string_list(value: Any, label: str, *, minimum: int = 1) -> list[str]:
 class ManuscriptPortfolioWorkflow:
     """Create a fail-closed receipt for R2's protocol-only portfolio state."""
 
-    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.5.0"
+    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.6.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PORTFOLIO_RELATIVE = "docs/manuscripts/R2_MANUSCRIPT_PORTFOLIO.json"
     COMPARATOR_MAP_RELATIVE = "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json"
@@ -90,11 +90,11 @@ class ManuscriptPortfolioWorkflow:
         "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
     )
     T129_CURRENT_TARGET_EVIDENCE_RELATIVE = (
-        "reports/review_round_2/t129_current_target_evidence/v1.2.0/"
+        "reports/review_round_2/t129_current_target_evidence/v1.3.0/"
         "current_target_evidence_receipt.json"
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
-    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.5.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.6.0"
     REQUIRED_PORTFOLIO_FIELDS = {
         "schema_version",
         "portfolio_id",
@@ -140,7 +140,7 @@ class ManuscriptPortfolioWorkflow:
             "generalisation or external OOD result belongs in this version.",
             "The completed three-source author-result profile contains 23 profiles but zero",
             "neither screen admits a target.",
-            "The current consolidated T129 receipt binds six candidate sources",
+            "The current consolidated T129 receipt binds eight candidate sources",
         },
         "R2_PAPER_C_PROTOCOL": {
             "This is a results-blind R2 Paper C protocol outline.",
@@ -149,7 +149,7 @@ class ManuscriptPortfolioWorkflow:
             "The current receipt has zero compatible targets",
             "The author team cannot access values",
             "the protocol; they do not supply a result.",
-            "all six candidates remain non-admitted.",
+            "all eight candidates remain non-admitted.",
             "model use remains",
             "`PROHIBITED`",
         },
@@ -378,9 +378,9 @@ class ManuscriptPortfolioWorkflow:
             or t129_discovery.get("model_fitted") is not False
             or t129_current_target_evidence.get("status")
             != "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
-            or t129_current_target_evidence.get("candidate_source_count") != 6
+            or t129_current_target_evidence.get("candidate_source_count") != 8
             or t129_current_target_evidence.get("candidate_laboratory_count") != 5
-            or t129_current_target_evidence.get("verified_source_asset_count") != 24
+            or t129_current_target_evidence.get("verified_source_asset_count") != 31
             or t129_current_target_evidence.get("admissible_target_count") != 0
             or t129_current_target_evidence.get("target_status") != "NOT_FROZEN"
             or t129_current_target_evidence.get("model_use") != "PROHIBITED"
@@ -427,9 +427,9 @@ class ManuscriptPortfolioWorkflow:
                 "t123_profile_compatible_cross_study_target_count": 0,
                 "t129_admission_admissible_target_count": 0,
                 "t129_discovery_admissible_target_count": 0,
-                "t129_current_target_evidence_candidate_source_count": 6,
+                "t129_current_target_evidence_candidate_source_count": 8,
                 "t129_current_target_evidence_candidate_laboratory_count": 5,
-                "t129_current_target_evidence_verified_source_asset_count": 24,
+                "t129_current_target_evidence_verified_source_asset_count": 31,
                 "t124_external_evaluator_receipt_verified": False,
             },
             len(figure_rows),
@@ -481,9 +481,9 @@ class ManuscriptPortfolioWorkflow:
             "t123_profile_compatible_cross_study_target_count": 0,
             "t129_admission_admissible_target_count": 0,
             "t129_discovery_admissible_target_count": 0,
-            "t129_current_target_evidence_candidate_source_count": 6,
+            "t129_current_target_evidence_candidate_source_count": 8,
             "t129_current_target_evidence_candidate_laboratory_count": 5,
-            "t129_current_target_evidence_verified_source_asset_count": 24,
+            "t129_current_target_evidence_verified_source_asset_count": 31,
             "t124_external_evaluator_receipt_verified": False,
             "historical_fixture_manuscripts_reused": False,
             "model_fitted": False,
@@ -531,9 +531,9 @@ class ManuscriptPortfolioWorkflow:
             "t123_profile_compatible_cross_study_target_count": 0,
             "t129_admission_admissible_target_count": 0,
             "t129_discovery_admissible_target_count": 0,
-            "t129_current_target_evidence_candidate_source_count": 6,
+            "t129_current_target_evidence_candidate_source_count": 8,
             "t129_current_target_evidence_candidate_laboratory_count": 5,
-            "t129_current_target_evidence_verified_source_asset_count": 24,
+            "t129_current_target_evidence_verified_source_asset_count": 31,
         }
         if any(receipt.get(key) != value for key, value in expected.items()) or any(
             receipt.get(field) is not False

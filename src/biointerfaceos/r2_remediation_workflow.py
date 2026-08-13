@@ -61,10 +61,10 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.11.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.12.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.11.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.12.0"
     RECEIPTS = {
         "semantics": (
             "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
@@ -87,7 +87,7 @@ class R2RemediationWorkflow:
             "T129 PXD030327 unit-map correction receipt",
         ),
         "t129_current_target_evidence": (
-            "reports/review_round_2/t129_current_target_evidence/v1.2.0/current_target_evidence_receipt.json",
+            "reports/review_round_2/t129_current_target_evidence/v1.3.0/current_target_evidence_receipt.json",
             "T129 current consolidated target-evidence receipt",
         ),
         "pxd017052_source_data": (
@@ -108,7 +108,7 @@ class R2RemediationWorkflow:
             "R2 related-work receipt",
         ),
         "public_release": (
-            "reports/review_round_2/public_release_audit/v1.2.9/audit_receipt.json",
+            "reports/review_round_2/public_release_audit/v1.3.0/audit_receipt.json",
             "R2 public-release receipt",
         ),
         "figures": (
@@ -116,15 +116,15 @@ class R2RemediationWorkflow:
             "R2 protocol-figure receipt",
         ),
         "portfolio": (
-            "reports/review_round_2/manuscript_portfolio/v1.5.0/portfolio_receipt.json",
+            "reports/review_round_2/manuscript_portfolio/v1.6.0/portfolio_receipt.json",
             "R2 manuscript-portfolio receipt",
         ),
         "acceptance": (
-            "reports/review_round_2/r2_acceptance/v1.5.0/acceptance_readiness_receipt.json",
+            "reports/review_round_2/r2_acceptance/v1.6.0/acceptance_readiness_receipt.json",
             "R2 acceptance-readiness receipt",
         ),
         "external_handoff": (
-            "reports/review_round_2/external_evidence_handoff/v1.4.0/"
+            "reports/review_round_2/external_evidence_handoff/v1.5.0/"
             "external_evidence_handoff_receipt.json",
             "T133/T135/T136 external-evidence handoff receipt",
         ),
@@ -214,9 +214,9 @@ class R2RemediationWorkflow:
         self._require(
             t129_current_target_evidence.get("status")
             == "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
-            and t129_current_target_evidence.get("candidate_source_count") == 6
+            and t129_current_target_evidence.get("candidate_source_count") == 8
             and t129_current_target_evidence.get("candidate_laboratory_count") == 5
-            and t129_current_target_evidence.get("verified_source_asset_count") == 24
+            and t129_current_target_evidence.get("verified_source_asset_count") == 31
             and t129_current_target_evidence.get("admissible_target_count") == 0
             and t129_current_target_evidence.get("target_status") == "NOT_FROZEN"
             and t129_current_target_evidence.get("model_use") == "PROHIBITED"

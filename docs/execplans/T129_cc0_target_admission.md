@@ -83,6 +83,12 @@ evidence.
   `docs/data/R2_T129_CCBY_COHORT_AMENDMENT_DECISION.md`. It defines an isolated
   development-candidate alternative without weakening the CC0 cohort, and
   requires an identified scope-owner approval before any implementation.
+- [x] Completed a broader official PRIDE rescreen (T138): eight query terms
+  returned 83 unique projects, 25 CC0/human/pre-cutoff project records and
+  seven previously unreviewed directory leads. Only seven small result assets
+  from PXD019524 and PXD046988 were read and checksum-recorded; both remain
+  non-admitted because their GO/FLG or GO/GNP/media/time labels are not numeric
+  material/size covariates, a frozen unit map or a shared endpoint.
 
 ## Discoveries
 
@@ -125,6 +131,11 @@ evidence.
   to a SPION and replicate number. The public CC0-only T129 rule remains
   unchanged; the complete CC-BY single-laboratory route still needs an explicit
   amendment and a shared second-laboratory endpoint.
+- PXD019524's six small TMT protein-result CSVs expose GO/FLG source-path
+  labels, while PXD046988's small DIA table exposes GO/GNP, media, time and
+  replicate labels. The bounded assets contain no source-matched numeric
+  material/size field; their project records do not disclose independent
+  laboratory units. Both are retained as non-admitted discovery evidence.
 
 ## Decisions
 
@@ -140,6 +151,9 @@ evidence.
 - The current five-candidate, four-laboratory synthesis remains
   `BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET`; source mapping alone
   does not waive the shared-endpoint, cross-laboratory and covariate conditions.
+- The current eight-source synthesis remains
+  `BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET`; the broader screen
+  does not change the CC0 cohort, T121 amendment or model prohibition.
 - Do not infer the absence of a mapping asset from a partial listing as a
   universal absence claim. Reassess a lead only when an official, reusable
   source asset provides the required unit-to-covariate mapping.
@@ -165,6 +179,11 @@ evidence.
   PXD030327 and PXD017052 receipts. It asserts six candidate sources, five
   laboratories, sixteen verified source assets, zero admitted targets and false model/OOD/
   independent-validation fields.
+- 2026-08-13: `python -m biointerfaceos model audit-cc0-target-rescreen
+  --strict` records the 83-project query scope and seven checksum-recorded
+  small assets in `reports/review_round_2/cc0_target_rescreen/v1.0.0/`. The
+  follow-on current-evidence receipt binds the two additional non-admitted
+  sources without authorising a target or model.
 
 ## Acceptance evidence
 

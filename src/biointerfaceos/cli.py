@@ -584,6 +584,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="record an additional CC0 screening tranche without freezing a target",
     )
     model_cc0_target_discovery_parser.add_argument("--strict", action="store_true")
+    model_cc0_target_rescreen_parser = model_subparsers.add_parser(
+        "audit-cc0-target-rescreen",
+        help="record a bounded CC0 PRIDE rescreen without freezing a target",
+    )
+    model_cc0_target_rescreen_parser.add_argument("--strict", action="store_true")
     model_t129_current_target_evidence_parser = model_subparsers.add_parser(
         "audit-t129-current-target-evidence",
         help="consolidate all current T129 receipts without promoting a target",
@@ -2487,6 +2492,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"candidates={cc0_target_discovery_summary.candidate_source_count} "
                 f"laboratories={cc0_target_discovery_summary.candidate_laboratory_count} "
                 f"screened_assets={cc0_target_discovery_summary.screened_asset_count} "
+                "target_frozen=false model_fitted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.model_command == "audit-cc0-target-rescreen":
+            from biointerfaceos.cc0_target_rescreen import (
+                CC0TargetRescreenError,
+                CC0TargetRescreenWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("CC0_TARGET_RESCREEN_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            workflow = CC0TargetRescreenWorkflow(root)
+            try:
+                summary = workflow.run(strict=args.strict)
+                workflow.verify()
+            except (CC0TargetRescreenError, OSError) as exc:
+                print(f"CC0_TARGET_RESCREEN_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "CC0_TARGET_RESCREEN_VALID "
+                f"candidates={summary.candidate_source_count} "
+                f"disclosed_laboratories={summary.disclosed_laboratory_count} "
+                f"screened_assets={summary.screened_asset_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0

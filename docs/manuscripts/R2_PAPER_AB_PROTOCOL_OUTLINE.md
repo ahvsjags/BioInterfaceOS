@@ -64,9 +64,11 @@ compatible cross-study targets. The first T129 CC0 screen retains two
 laboratories and nine source-labelled conditions, while its expansion retains
 two further candidates from one laboratory and seven hashed result assets;
 neither screen admits a target. The current consolidated T129 receipt binds
-six candidate sources from five laboratories and twenty-four verified source
+eight candidate sources from five disclosed laboratories and thirty-one verified source
 assets: PXD030327 contributes a source-mapped single-laboratory exposure
-design, not a numeric material/size covariate or shared endpoint. The relevant
+design, not a numeric material/size covariate or shared endpoint. A bounded
+CC0 rescreen adds PXD019524 and PXD046988 but neither supplies numeric material
+or size fields, disclosed laboratory provenance, or a shared endpoint. The relevant
 receipts explicitly keep the target `NOT_FROZEN`, model use `PROHIBITED`, and
 all model/OOD/independent validation fields false. These are data-coverage
 findings, not model results.

@@ -49,9 +49,9 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
 class T129CurrentTargetEvidenceWorkflow:
     """Verify all current T129 source tranches without allowing target promotion."""
 
-    AUDIT_ID = "bioif-r2-t129-current-target-evidence-v1.2.0"
+    AUDIT_ID = "bioif-r2-t129-current-target-evidence-v1.3.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
-    OUTPUT_RELATIVE = "reports/review_round_2/t129_current_target_evidence/v1.2.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/t129_current_target_evidence/v1.3.0"
     RECEIPTS = {
         "initial_admission": (
             "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json",
@@ -73,6 +73,10 @@ class T129CurrentTargetEvidenceWorkflow:
             "reports/review_round_2/pxd017052_complete_attachments/v1.0.0/"
             "complete_attachment_receipt.json",
             "T132 PXD017052 complete-attachment receipt",
+        ),
+        "cc0_rescreen": (
+            "reports/review_round_2/cc0_target_rescreen/v1.0.0/target_rescreen_receipt.json",
+            "T138 bounded CC0 rescreen receipt",
         ),
     }
     REQUIRED_FALSE = (
@@ -121,6 +125,7 @@ class T129CurrentTargetEvidenceWorkflow:
         pxd030327 = sources["pxd030327_unit_map"][1]
         pxd017052 = sources["pxd017052_source_data"][1]
         pxd017052_complete = sources["pxd017052_complete_attachments"][1]
+        rescreen = sources["cc0_rescreen"][1]
         self._require(
             initial.get("audit_id") == "bioif-r2-cc0-target-admission-v1.0.0"
             and initial.get("status") == "BLOCKED_NO_CC0_COMMON_TARGET"
@@ -184,6 +189,17 @@ class T129CurrentTargetEvidenceWorkflow:
             "PXD017052 complete CC-BY source-map correction",
         )
         self._require(
+            rescreen.get("audit_id") == "bioif-r2-cc0-target-rescreen-v1.0.0"
+            and rescreen.get("status") == "BLOCKED_CC0_RESCREEN_NO_NEW_ADMISSIBLE_TARGET"
+            and rescreen.get("candidate_source_count") == 2
+            and rescreen.get("disclosed_laboratory_count") == 0
+            and rescreen.get("screened_asset_count") == 7
+            and rescreen.get("admissible_target_count") == 0
+            and rescreen.get("target_status") == "NOT_FROZEN"
+            and rescreen.get("model_use") == "PROHIBITED",
+            "bounded CC0 rescreen tranche",
+        )
+        self._require(
             all(
                 source[1].get(field) is False
                 for source in sources.values()
@@ -210,14 +226,15 @@ class T129CurrentTargetEvidenceWorkflow:
             "source_receipts": {
                 key: {"path": value[0], "sha256": value[2]} for key, value in sources.items()
             },
-            "candidate_source_count": 6,
+            "candidate_source_count": 8,
             "candidate_laboratory_count": 5,
-            "verified_source_asset_count": 24,
+            "verified_source_asset_count": 31,
             "source_condition_count": 18,
             "source_mapped_single_lab_unit_count": 636,
             "source_mapped_unique_matrix_run_count": 819,
             "unmapped_matrix_column_count": 183,
             "complete_ccby_source_unit_route_count": 1,
+            "rescreened_nonadmitted_source_count": 2,
             "admissible_target_count": 0,
             "target_status": "NOT_FROZEN",
             "model_use": "PROHIBITED",
@@ -234,6 +251,9 @@ class T129CurrentTargetEvidenceWorkflow:
                 "The candidate outputs remain author-specific and heterogeneous, so they cannot "
                 "be concatenated before a shared preprocessing and analysis-unit contract is "
                 "frozen across independent laboratories.",
+                "The bounded PXD019524/PXD046988 rescreen adds seven checksum-recorded small "
+                "assets, but their categorical source labels do not establish numeric material "
+                "or size covariates, an independent laboratory, or a shared endpoint.",
             ],
             "next_required_evidence": [
                 "Acquire at least two independent reusable sources with identically defined "
@@ -270,7 +290,7 @@ class T129CurrentTargetEvidenceWorkflow:
         self.output_root.chmod(
             stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
         )
-        return T129CurrentTargetEvidenceSummary(6, 5, 24, receipt_path)
+        return T129CurrentTargetEvidenceSummary(8, 5, 31, receipt_path)
 
     def verify(self) -> T129CurrentTargetEvidenceSummary:
         """Verify all source hashes and the current no-target receipt."""
@@ -279,9 +299,9 @@ class T129CurrentTargetEvidenceWorkflow:
         report = self._json(report_path, "T129 current target evidence report")
         receipt = self._json(receipt_path, "T129 current target evidence receipt")
         required_counts = {
-            "candidate_source_count": 6,
+            "candidate_source_count": 8,
             "candidate_laboratory_count": 5,
-            "verified_source_asset_count": 24,
+            "verified_source_asset_count": 31,
             "admissible_target_count": 0,
         }
         self._require(
@@ -315,7 +335,8 @@ class T129CurrentTargetEvidenceWorkflow:
         )
         self._require(
             report.get("source_condition_count") == 18
-            and report.get("complete_ccby_source_unit_route_count") == 1,
+            and report.get("complete_ccby_source_unit_route_count") == 1
+            and report.get("rescreened_nonadmitted_source_count") == 2,
             "current T129 source accounting",
         )
-        return T129CurrentTargetEvidenceSummary(6, 5, 24, receipt_path)
+        return T129CurrentTargetEvidenceSummary(8, 5, 31, receipt_path)

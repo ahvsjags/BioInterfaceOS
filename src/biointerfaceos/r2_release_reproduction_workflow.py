@@ -44,9 +44,9 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
 class R2ReleaseReproductionWorkflow:
     """Create a default-deny, self-reconstructing R2 software replay record."""
 
-    REPRO_ID = "bioif-r2-software-replay-v1.5.0"
+    REPRO_ID = "bioif-r2-software-replay-v1.6.0"
     REPRODUCED_AT = "2026-08-13T00:00:00+00:00"
-    OUTPUT_RELATIVE = "reports/review_round_2/reproducibility/r2_software_replay/v1.5.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/reproducibility/r2_software_replay/v1.6.0"
     REQUIRED_PUBLIC_PATHS = {
         "LICENSE",
         "NOTICE",

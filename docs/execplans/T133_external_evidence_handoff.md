@@ -58,7 +58,7 @@ python -m biointerfaceos state validate
 
 - `docs/data/R2_EXTERNAL_EVIDENCE_HANDOFF.json`.
 - A checksum-bound report and receipt in
-  `reports/review_round_2/external_evidence_handoff/v1.4.0/` that also binds
+  `reports/review_round_2/external_evidence_handoff/v1.5.0/` that also binds
   the two non-submittable T135/T136 templates.
 - Strict tests that reject removed source fields, weakened cohort routing and
   fabricated external-result flags.
