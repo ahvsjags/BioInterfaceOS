@@ -12,7 +12,7 @@
 - GitHub release：[BioInterfaceOS v0.1.1-r4](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.1-r4)
 - 当前公开 release commit：`d8668476aff69e79ee532ff4edd717c470f5e287`
 - KAUST 服务器任务路径：`/ibex/user/xup0a/BioInterfaceOS-r3-real-data`
-- KAUST 当前文档提交：`bf396f8`
+- KAUST 服务器路径：`/ibex/user/xup0a/BioInterfaceOS-r3-real-data`；当前状态以服务器分支 `r3-real-data-execution-20260813` 的 HEAD 为准
 
 公开仓库只包含已提交的代码、协议、审计报告、receipt 和已纳入版本控制的公开资产。工作区中未跟踪的临时下载、缓存和候选原始文件没有被推送。
 
