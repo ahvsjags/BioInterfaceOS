@@ -25,6 +25,27 @@ uv run biointerfaceos data evaluate-r3-silver-external-ood --output-data-root da
 
 This public replay is useful for installation and software verification. It is not an independent scientific reproduction because the input data are public and the project team controls the release.
 
+## New author-run biological-cohort evidence (T180/T181)
+
+The current development branch `r3-real-data-execution-20260813` also contains a separately frozen paper-attached cohort route. T180 audits the PMC7376165 Supplementary Data 5 matrix at cell level; T181 executes a source-local rank OOD analysis on 141 biological units, 666 qualified NP-corona batches and 17,026 external observations. The result is exploratory and same-laboratory: it is not an independent evaluator receipt, a protected lockbox, a no-author reproduction or clinical validation.
+
+For a reviewer or reproducer who wants to inspect this exact route, use the branch commit `68ceda5548fdd6a78820ab3d354a10671d78d821` and supply the paper-attached workbook locally under `data/raw/r4_candidate_pxd017052_nsclc/`. The source registry, protocol, source-cell map and output receipts are:
+
+- `docs/data/R4_T180_PXD017052_NSCLC_SOURCE_REGISTRY.json`;
+- `docs/data/R4_T181_PXD017052_NSCLC_BIOLOGICAL_OOD_PROTOCOL.json`;
+- `reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/`;
+- `reports/review_round_4/pxd017052_nsclc_biological_ood/v1.0.0/`.
+
+The exact verification commands are:
+
+```bash
+uv run biointerfaceos data verify-r4-pxd017052-nsclc-source \
+  --assets-root data/raw/r4_candidate_pxd017052_nsclc --strict
+uv run biointerfaceos data verify-r4-pxd017052-nsclc-biological-ood --strict
+```
+
+These commands verify the author-generated artifacts; they do not turn an author-run result into independent evidence.
+
 ## Independent reproduction
 
 An independent team should:
