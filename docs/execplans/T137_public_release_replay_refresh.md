@@ -10,8 +10,8 @@ describing the earlier receipts as current.
 ## Scope and invariants
 
 - Keep historical `v1.2.7` public-audit and `v1.3.0` replay outputs immutable.
-- Rebuild a default-deny public inventory at `v1.2.8` and a clean public-source
-  software replay at `v1.4.0`.
+- Rebuild a default-deny public inventory at `v1.2.9` and a clean public-source
+  software replay at `v1.5.0` from the final T137-complete source tree.
 - Require the source manifest to contain both T135/T136 modules and both
   contributor-facing templates.
 - Refresh the external-handoff and remediation receipts so their hash-bound
@@ -33,10 +33,10 @@ python -m biointerfaceos state validate
 
 ## Completion evidence
 
-- `reports/review_round_2/public_release_audit/v1.2.8/`.
-- `reports/review_round_2/reproducibility/r2_software_replay/v1.4.0/`.
-- `reports/review_round_2/external_evidence_handoff/v1.3.0/`.
-- `reports/review_round_2/remediation_status/v1.10.0/`.
+- `reports/review_round_2/public_release_audit/v1.2.9/`.
+- `reports/review_round_2/reproducibility/r2_software_replay/v1.5.0/`.
+- `reports/review_round_2/external_evidence_handoff/v1.4.0/`.
+- `reports/review_round_2/remediation_status/v1.11.0/`.
 
 The refresh demonstrates reproducibility of the current public software scope
 only.  The T129, T124 and T128 empirical and independent-evidence gates remain

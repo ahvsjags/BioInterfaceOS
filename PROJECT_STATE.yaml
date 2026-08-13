@@ -139,6 +139,7 @@ completed_tasks:
   - T134
   - T135
   - T136
+  - T137
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -194,6 +195,7 @@ notes:
   - '2026-08-13: T134 corrected a technical publication discrepancy found by visual/file-metadata review: v1.1.0 protocol PNG exports had 600-dpi pixel dimensions but no embedded pHYs resolution metadata. The v1.2.0 suite was rebuilt from SVG with 23,622 pixels-per-metre pHYs metadata and bound to refreshed public-release, software-replay, portfolio, acceptance, remediation and external-handoff receipts; it remains protocol-only and scientific submission readiness is false.'
   - '2026-08-13: T135 turns the T133 field contract into an external-source preflight CLI. It checks contributor-held bytes against SHA-256, maps every declared analysis unit back to a source asset, requires CC0/human-biofluid declarations, finite numeric covariates, a shared endpoint/preprocessing declaration and two laboratories. A structurally complete submission still requires source audit and cannot admit a target, amend T121, run a model or clear any independent-evidence gate.'
   - '2026-08-13: T136 adds one fail-closed preflight for future independent-evaluator, external-reproduction and editorial-review files. It verifies three contributor-held document hashes, frozen-bundle fields, protected-data prohibitions, non-author declarations and all nine R2 finding IDs, but cannot authenticate identities or signatures and therefore never accepts a receipt, target or scientific claim.'
+  - '2026-08-13: T137 finalized the versioned public-release and clean software-replay chain after T135/T136 added executable public modules. The final-source manifests explicitly include both preflight modules and non-submittable templates, and refreshed handoff/remediation receipts bind that state. This is a software/publication-integrity correction only: no external source, independent identity, scientific result or submission acceptance exists.'
   - '2026-08-12: T124 now has a strict external-evaluator readiness protocol that binds the T123 compatibility receipt, requires an independent evaluator and aggregate-only protected-data handoff, and fails closed with a blocked receipt while zero compatible targets and zero frozen real-model outputs exist. It does not create an evaluator receipt or scientific result.'
   - '2026-08-12: T126/T127 now have a strict two-route R2 portfolio: one merged A+B provenance/source-locator protocol and one results-blind C protocol. It excludes all three historical fixture manuscripts, binds three protocol-only figures and 15 legacy withdrawals, and remains blocked on T123/T124 rather than implying a result manuscript.'
   - '2026-08-12: T128 now has a strict external-reproduction and editorial-re-review protocol plus `project accept-r2 --strict`. The current receipt records six missing prerequisites and keeps external reproduction, editorial re-review and scientific submission readiness false.'
