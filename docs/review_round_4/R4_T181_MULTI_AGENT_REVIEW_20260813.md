@@ -50,4 +50,8 @@ All flags remain:
 independent_validation=false
 external_scientific_reproduction=false
 scientific_submission_ready=false
+
+## T182 release update
+
+T180/T181 are now represented in the immutable `v0.1.3-r9` release and the R9 DOI handoff manifest. This raises release provenance but does not change the scientific scores or the editorial decision: the cohort is still author-run and same-laboratory, and the protected lockbox, no-author reproduction, adoption, and archival DOI receipts are still absent.
 ```

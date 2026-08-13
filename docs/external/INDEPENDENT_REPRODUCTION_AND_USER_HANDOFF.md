@@ -5,7 +5,7 @@ BioInterfaceOS is accepting independent reproduction and external-use reports fo
 ## Public checkout
 
 ```bash
-git clone --branch v0.1.2-r8 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.3-r9 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
 uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
@@ -27,9 +27,9 @@ This public replay is useful for installation and software verification. It is n
 
 ## New author-run biological-cohort evidence (T180/T181)
 
-The current development branch `r3-real-data-execution-20260813` also contains a separately frozen paper-attached cohort route. T180 audits the PMC7376165 Supplementary Data 5 matrix at cell level; T181 executes a source-local rank OOD analysis on 141 biological units, 666 qualified NP-corona batches and 17,026 external observations. The result is exploratory and same-laboratory: it is not an independent evaluator receipt, a protected lockbox, a no-author reproduction or clinical validation.
+The immutable R9 release contains a separately frozen paper-attached cohort route. T180 audits the PMC7376165 Supplementary Data 5 matrix at cell level; T181 executes a source-local rank OOD analysis on 141 biological units, 666 qualified NP-corona batches and 17,026 external observations. The result is exploratory and same-laboratory: it is not an independent evaluator receipt, a protected lockbox, a no-author reproduction or clinical validation.
 
-For a reviewer or reproducer who wants to inspect this exact route, use the branch commit `68ceda5548fdd6a78820ab3d354a10671d78d821` and supply the paper-attached workbook locally under `data/raw/r4_candidate_pxd017052_nsclc/`. The source registry, protocol, source-cell map and output receipts are:
+For a reviewer or reproducer who wants to inspect this exact route, use the immutable R9 tag (the exact commit is recorded in the release notes) and supply the paper-attached workbook locally under `data/raw/r4_candidate_pxd017052_nsclc/`. The source registry, protocol, source-cell map and output receipts are:
 
 - `docs/data/R4_T180_PXD017052_NSCLC_SOURCE_REGISTRY.json`;
 - `docs/data/R4_T181_PXD017052_NSCLC_BIOLOGICAL_OOD_PROTOCOL.json`;

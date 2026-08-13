@@ -10,6 +10,7 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 - nested selection, laboratory-held-out evaluation, cluster-aware uncertainty, paired composition ablation and within-batch negative controls;
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
+- immutable release tag `v0.1.3-r9`, which includes the T180 paper-attached 141-subject source audit, the T181 biological-cohort OOD protocol/receipts, and the external evaluator handoff contract.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -28,6 +29,8 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 
 See:
 
+- `docs/review_round_4/R4_R9_RELEASE_DOI_STATUS_20260813.md`
+- `docs/release/R9_RELEASE_MANIFEST.json`
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
 - `docs/review_round_4/R4_STRONG_Q1_REMEDIATION_GOAL.md`
 - `docs/review_round_3/R3_EXTERNAL_LOCKBOX_AND_REPRODUCTION_HANDOFF.md`
