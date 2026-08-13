@@ -20,7 +20,7 @@ uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
 ```
 
-The audited KAUST run passed 23 tests. The test result establishes software and data-pipeline reproducibility under the reported environment; it does not establish non-author scientific replication.
+The audited KAUST run passed 25 tests. The test result establishes software and data-pipeline reproducibility under the reported environment; it does not establish non-author scientific replication.
 
 ## Evidence boundary
 
@@ -36,6 +36,7 @@ See:
 - `docs/data/R4_T167_EXTERNAL_USER_ADOPTION_INTAKE.json`
 - `docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`
 - `docs/data/R4_T174_OOD_EFFECTIVE_N_MISSINGNESS_PROTOCOL.json`
+- `docs/data/R4_T175_OOD_CLUSTER_SENSITIVITY_PROTOCOL.json`
 - `docs/data/R4_T162_PXD060795_DALIAN_SOURCE_REGISTRY.json`
 
 The public handoff is tracked in [GitHub Issue #1](https://github.com/ahvsjags/BioInterfaceOS/issues/1).
@@ -65,6 +66,20 @@ uv run biointerfaceos data verify-r4-ood-effective-n --strict
 
 It reports 8,064 source rows, 7,075 rank-eligible rows, 142 measurement
 batches, 134 primary-eligible batches, 5 biological units and 1 laboratory.
+
+The same-lineage OOD result also has a cluster-sensitive paired audit:
+
+```bash
+uv run biointerfaceos data audit-r4-ood-cluster-sensitivity --strict
+uv run biointerfaceos data verify-r4-ood-cluster-sensitivity --strict
+```
+
+Across the five biological units, the unit-weighted full-model mean Spearman
+is 0.2229 versus 0.2346 for composition-only; the paired full-minus-
+composition delta is -0.0118 (cluster bootstrap 95% interval -0.0295 to
+0.0111). The batch-weighted delta is -0.0047. This is an author-run,
+same-lineage sensitivity audit from one laboratory and does not create
+independent validation.
 
 ## License and data policy
 

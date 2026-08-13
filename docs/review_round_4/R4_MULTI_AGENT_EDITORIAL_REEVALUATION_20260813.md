@@ -42,7 +42,7 @@
 - CLI：`biointerfaceos data preflight-r4-external-receipts --strict`。
 - 提交模板：`docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`。
 - 外部 handoff：`docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF.md`。
-- 契约测试：6 项新增测试；KAUST review_round_3 + review_round_4 总计 23 项通过。
+- 契约测试：本轮新增 cluster-sensitive 审计及 2 项测试；KAUST review_round_3 + review_round_4 总计 25 项通过。
 
 预检唯一的通过状态是 `STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW`。它只验证结构、字节哈希、声明的保护措施和 aggregate-only 字段；它不会认证身份，不会证明独立性，不会把作者 OOD 变成外部复现，也不会把 GitHub Issue 或下载量变成采用证据。
 
@@ -72,3 +72,22 @@ Protocol: `docs/data/R4_T174_OOD_EFFECTIVE_N_MISSINGNESS_PROTOCOL.json`.
 Report: `reports/review_round_4/small_molecule_corona_effective_n/v1.0.0/r4_external_effective_n_missingness_report.json`.
 This strengthens effective-n transparency but does not create independent
 cross-laboratory evidence or raise `scientific_submission_ready`.
+
+## Cluster-sensitive paired OOD audit
+
+To prevent the 106 pooled measurement batches from dominating the same-lineage
+OOD summary, the frozen R4 result is now summarized at the five biological
+units and with a paired full-minus-composition ablation. The unit-weighted
+mean Spearman is 0.2229 for `SEQUENCE_RIDGE_FULL` and 0.2346 for
+`SEQUENCE_RIDGE_COMPOSITION_ONLY`. The unit-weighted paired delta is -0.0118
+with a 2000-resample biological-unit bootstrap 95% interval of -0.0295 to
+0.0111; the batch-weighted delta is -0.0047. Donor-labelled units have
+deltas of -0.0261, -0.0328, -0.0280 and +0.0302, while the pooled unit is
+-0.0022. Thus the added sensitivity analysis does not support a stable
+sequence-specific gain, and it remains exploratory.
+
+Protocol: `docs/data/R4_T175_OOD_CLUSTER_SENSITIVITY_PROTOCOL.json`.
+Report: `reports/review_round_4/small_molecule_corona_cluster_sensitivity/v1.0.0/r4_external_cluster_sensitivity_report.json`.
+This is still one-laboratory, author-run, same-lineage evidence; all
+independent-validation, external-reproduction and submission-readiness flags
+remain false.

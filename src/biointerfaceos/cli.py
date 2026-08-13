@@ -609,6 +609,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen R4 effective-n and missingness audit receipt",
     )
     data_r4_effective_n_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_cluster_parser = data_subparsers.add_parser(
+        "audit-r4-ood-cluster-sensitivity",
+        help="audit R4 OOD biological-unit cluster sensitivity and paired ablation",
+    )
+    data_r4_cluster_parser.add_argument("--strict", action="store_true")
+    data_r4_cluster_verify_parser = data_subparsers.add_parser(
+        "verify-r4-ood-cluster-sensitivity",
+        help="verify the frozen R4 OOD cluster sensitivity receipt",
+    )
+    data_r4_cluster_verify_parser.add_argument("--strict", action="store_true")
     data_r3_silver_ood_parser = data_subparsers.add_parser(
         "evaluate-r3-silver-external-ood",
         help="run the frozen author-run external-laboratory OOD evaluation on the silver source",
@@ -3457,6 +3467,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "evaluate-r4-small-molecule-corona-ood",
             "audit-r4-ood-effective-n",
             "verify-r4-ood-effective-n",
+            "audit-r4-ood-cluster-sensitivity",
+            "verify-r4-ood-cluster-sensitivity",
             "evaluate-r3-silver-external-ood",
             "preflight-external-source-intake",
             "preflight-external-verification",
@@ -3867,6 +3879,52 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"primary_rank_eligible_batches={effective_n_summary.primary_rank_eligible_batch_count} "
                 f"biological_units={effective_n_summary.biological_unit_count} "
                 f"laboratories={effective_n_summary.laboratory_count} "
+                "independent_validation=false external_scientific_reproduction=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-ood-cluster-sensitivity":
+            from biointerfaceos.r4_ood_cluster_sensitivity import (
+                R4OODClusterSensitivityError,
+                R4OODClusterSensitivityWorkflow,
+            )
+
+            try:
+                cluster_summary = R4OODClusterSensitivityWorkflow(root).run(strict=args.strict)
+            except (R4OODClusterSensitivityError, OSError) as exc:
+                print(f"R4_OOD_CLUSTER_SENSITIVITY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_OOD_CLUSTER_SENSITIVITY_VALID "
+                f"batches={cluster_summary.batch_count} "
+                f"biological_units={cluster_summary.biological_unit_count} "
+                f"laboratories={cluster_summary.laboratory_count} "
+                "independent_validation=false external_scientific_reproduction=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-ood-cluster-sensitivity":
+            from biointerfaceos.r4_ood_cluster_sensitivity import (
+                R4OODClusterSensitivityError,
+                R4OODClusterSensitivityWorkflow,
+            )
+
+            if not args.strict:
+                print(
+                    "R4_OOD_CLUSTER_SENSITIVITY_VERIFY_INVALID: requires --strict",
+                    file=sys.stderr,
+                )
+                return 1
+            try:
+                cluster_summary = R4OODClusterSensitivityWorkflow(root).verify()
+            except (R4OODClusterSensitivityError, OSError) as exc:
+                print(f"R4_OOD_CLUSTER_SENSITIVITY_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_OOD_CLUSTER_SENSITIVITY_VERIFY_VALID "
+                f"batches={cluster_summary.batch_count} "
+                f"biological_units={cluster_summary.biological_unit_count} "
+                f"laboratories={cluster_summary.laboratory_count} "
                 "independent_validation=false external_scientific_reproduction=false "
                 "scientific_submission_ready=false"
             )
