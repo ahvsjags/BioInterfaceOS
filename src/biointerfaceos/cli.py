@@ -464,6 +464,35 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--documents-root", type=Path, required=True, help="root containing external receipt files"
     )
     data_external_verification_parser.add_argument("--strict", action="store_true")
+    data_external_signature_parser = data_subparsers.add_parser(
+        "verify-external-verification-signatures",
+        help="verify detached external-receipt signatures without accepting their claims",
+    )
+    data_external_signature_parser.add_argument(
+        "--bundle", type=Path, required=True, help="preflighted external verification bundle JSON"
+    )
+    data_external_signature_parser.add_argument(
+        "--documents-root", type=Path, required=True, help="root containing external receipt files"
+    )
+    data_external_signature_parser.add_argument(
+        "--signature-manifest", type=Path, required=True, help="detached-signature manifest JSON"
+    )
+    data_external_signature_parser.add_argument(
+        "--signatures-root", type=Path, required=True, help="root containing detached signatures"
+    )
+    data_external_signature_parser.add_argument(
+        "--trusted-signer-registry",
+        type=Path,
+        required=True,
+        help="scope-owner-approved trusted signer registry JSON",
+    )
+    data_external_signature_parser.add_argument(
+        "--trusted-keys-root", type=Path, required=True, help="root containing approved public keys"
+    )
+    data_external_signature_parser.add_argument(
+        "--receipt-out", type=Path, required=True, help="new controlled signature receipt JSON"
+    )
+    data_external_signature_parser.add_argument("--strict", action="store_true")
     stats_parser = subparsers.add_parser(
         "stats", help="freeze and validate empirical analysis contracts"
     )
@@ -3121,6 +3150,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-provenance",
             "preflight-external-source-intake",
             "preflight-external-verification",
+            "verify-external-verification-signatures",
         }:
             parser.parse_args(["data", "--help"])
             return 0
@@ -3170,6 +3200,34 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"status={external_verification_summary.status} "
                 f"documents={external_verification_summary.document_count} "
                 f"r2_findings={external_verification_summary.finding_count} "
+                "external_receipts_accepted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-external-verification-signatures":
+            from biointerfaceos.external_verification_signature import (
+                ExternalVerificationSignatureError,
+                ExternalVerificationSignatureWorkflow,
+            )
+
+            try:
+                external_signature_summary = ExternalVerificationSignatureWorkflow(
+                    bundle_path=args.bundle,
+                    documents_root=args.documents_root,
+                    signature_manifest_path=args.signature_manifest,
+                    signatures_root=args.signatures_root,
+                    trusted_signer_registry_path=args.trusted_signer_registry,
+                    trusted_keys_root=args.trusted_keys_root,
+                    receipt_path=args.receipt_out,
+                ).run(strict=args.strict)
+            except (ExternalVerificationSignatureError, OSError) as exc:
+                print(f"EXTERNAL_VERIFICATION_SIGNATURE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "EXTERNAL_VERIFICATION_SIGNATURE_VALID "
+                f"status={external_signature_summary.status} "
+                f"documents={external_signature_summary.verified_document_count} "
+                f"signers={external_signature_summary.verified_signer_count} "
+                "identity_authenticated=false independence_authenticated=false "
                 "external_receipts_accepted=false scientific_submission_ready=false"
             )
             return 0

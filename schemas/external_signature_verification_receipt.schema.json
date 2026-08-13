@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-external-signature-verification-receipt-v1.0.0",
+  "title": "BioInterfaceOS R2 non-accepting external signature-verification receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "verification_id", "verified_at", "status", "bundle_sha256", "trusted_signer_registry_sha256", "verified_documents", "identity_authenticated", "independence_authenticated", "scope_audited", "scientific_claim_accepted", "scientific_submission_ready"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "verification_id": {"type": "string", "minLength": 1},
+    "verified_at": {"type": "string", "minLength": 1},
+    "status": {"const": "CRYPTOGRAPHIC_SIGNATURES_VERIFIED_REQUIRES_IDENTITY_SCOPE_AND_SCIENTIFIC_AUDIT"},
+    "bundle_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "trusted_signer_registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "verified_documents": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/document"}},
+    "identity_authenticated": {"const": false},
+    "independence_authenticated": {"const": false},
+    "scope_audited": {"const": false},
+    "scientific_claim_accepted": {"const": false},
+    "scientific_submission_ready": {"const": false}
+  },
+  "$defs": {
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_type", "document_sha256", "detached_signature_sha256", "registered_primary_key_fingerprint"],
+      "properties": {
+        "document_type": {"enum": ["independent_evaluator_receipt", "external_reproduction_receipt", "editorial_rereview_report"]},
+        "document_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "detached_signature_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "registered_primary_key_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}

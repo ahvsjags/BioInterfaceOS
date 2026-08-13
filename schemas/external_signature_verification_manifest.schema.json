@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-external-signature-verification-manifest-v1.0.0",
+  "title": "BioInterfaceOS R2 external detached-signature manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "verification_id", "verified_at", "evidence_class", "allowed_claim_level", "bundle_sha256", "signatures"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "verification_id": {"type": "string", "minLength": 1},
+    "verified_at": {"type": "string", "minLength": 1},
+    "evidence_class": {"const": "DEVELOPMENT_OBSERVATION"},
+    "allowed_claim_level": {"const": "EXPLORATORY"},
+    "bundle_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "signatures": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/signature"}
+    }
+  },
+  "$defs": {
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_type", "signature_relative_path"],
+      "properties": {
+        "document_type": {"enum": ["independent_evaluator_receipt", "external_reproduction_receipt", "editorial_rereview_report"]},
+        "signature_relative_path": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

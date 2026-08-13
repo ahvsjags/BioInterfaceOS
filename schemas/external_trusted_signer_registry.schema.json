@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-external-trusted-signer-registry-v1.0.0",
+  "title": "BioInterfaceOS R2 approved external signer registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "registry_id", "approved_at", "approval_scope", "signers"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "registry_id": {"type": "string", "minLength": 1},
+    "approved_at": {"type": "string", "minLength": 1},
+    "approval_scope": {"type": "string", "minLength": 1},
+    "signers": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/signer"}
+    }
+  },
+  "$defs": {
+    "signer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_type", "signer_key_fingerprint", "public_key_relative_path", "public_key_sha256"],
+      "properties": {
+        "document_type": {"enum": ["independent_evaluator_receipt", "external_reproduction_receipt", "editorial_rereview_report"]},
+        "signer_key_fingerprint": {"type": "string", "pattern": "^[0-9a-fA-F]{40}$"},
+        "public_key_relative_path": {"type": "string", "minLength": 1},
+        "public_key_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

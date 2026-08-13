@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "verification_id": "replace-with-external-signature-verification-id",
+  "verified_at": "replace-with-rfc3339-timestamp",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "bundle_sha256": "replace-with-sha256-of-the-preflighted-verification-bundle",
+  "signatures": [
+    {"document_type": "independent_evaluator_receipt", "signature_relative_path": "replace-with-detached-evaluator-signature"},
+    {"document_type": "external_reproduction_receipt", "signature_relative_path": "replace-with-detached-reproduction-signature"},
+    {"document_type": "editorial_rereview_report", "signature_relative_path": "replace-with-detached-editorial-signature"}
+  ]
+}
