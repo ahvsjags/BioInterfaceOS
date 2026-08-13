@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "screen_id": "bioif-r4-pmc3252235-source-screen-v1.0.0",
+  "screened_at": "2026-08-14T00:00:00+08:00",
+  "evidence_class": "SOURCE_SCREENING_ONLY",
+  "allowed_claim_level": "NONE",
+  "scope": "Byte-verified full-text supplementary-source screen for the PNNL human-plasma nanoparticle-corona study. The source is retained as an analysis-only candidate because the public article and downloadable supplement do not establish a redistributable data licence and the source has insufficient overlap with the frozen R3 target universe.",
+  "article": {
+    "pmcid": "PMC3252235",
+    "pmid": "21956884",
+    "doi": "10.1002/pmic.201100037",
+    "title": "Quantitative proteomics analysis of adsorbed plasma proteins classifies nanoparticles with different surface properties and size",
+    "publication_year": 2011,
+    "laboratory_anchor": "Pacific Northwest National Laboratory",
+    "biofluid": "human blood plasma",
+    "full_text_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3252235/",
+    "supplementary_locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3252235/bin/NIHMS344183-supplement-Supp_Tables.xls"
+  },
+  "source_asset": {
+    "relative_path": "data/raw/r4_candidate_pmc3252235_NIHMS344183/NIHMS344183-supplement-Supp_Tables_pow.xls",
+    "source_locator": "https://pmc.ncbi.nlm.nih.gov/articles/instance/3252235/bin/NIHMS344183-supplement-Supp_Tables.xls",
+    "bytes": 6702592,
+    "sha256": "d9e4563eba493c7bb57f0ae9783af4c8ded9889bb64d1706899d6d65caf87284",
+    "acquisition_method": "official PMC supplementary endpoint with the endpoint's proof-of-work cookie",
+    "asset_license_status": "NOASSERTION",
+    "redistribution_status": "NOT_ESTABLISHED"
+  },
+  "table_contract": {
+    "worksheet": "S. Table 6",
+    "header_rows": [1, 2, 3],
+    "first_data_row": 4,
+    "protein_rows_after_header": 89,
+    "quantified_protein_count_reported_by_article": 88,
+    "measurement_columns": 24,
+    "measurement_column_range_zero_based": [5, 28],
+    "author_quantity_type": "LOG2_RELATIVE_ABUNDANCE_OVER_18O_UNIVERSAL_REFERENCE",
+    "design": "six polystyrene nanoparticle size/surface conditions crossed with four exposure times",
+    "source_defined_unit": "individually processed condition/time sample; article cautions that time-point samples are process replicates rather than independent biological replicates"
+  },
+  "compatibility_probe": {
+    "frozen_r3_sequence_feature_table_accessions": 99,
+    "direct_exact_uniprot_overlap": 2,
+    "direct_overlap_accessions": ["P04004", "P06396"],
+    "positive_shared_accessions_per_measurement_column": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    "rank_qualified_columns_at_frozen_minimum_10": 0,
+    "raw_numeric_cells_in_quantified_sheet": 1854,
+    "missingness_policy": "No imputation; blank source cells remain non-rank-eligible. The source's raw relative-abundance scale is not pooled with another study."
+  },
+  "decision": {
+    "status": "REJECTED_FROM_FROZEN_R3_OOD_AND_PUBLIC_RELEASE_ANALYSIS_ONLY_CANDIDATE",
+    "model_use": "PROHIBITED_UNDER_CURRENT_FROZEN_TARGET",
+    "reasons": [
+      "The source has only 2 direct accessions in the frozen 99-protein R3 target universe; no measurement column reaches the predeclared ten-positive-target threshold.",
+      "The downloadable supplement has no verified redistributable data licence; the article's public full-text availability is not a licence grant for the spreadsheet.",
+      "The paper reports process/condition replicates and does not provide donor-level independent biological units suitable for replacing the 141-subject cohort.",
+      "Changing the target universe or minimum coverage after inspecting this source would be a post hoc protocol change and is prohibited."
+    ],
+    "eligible_future_role": "A separately preregistered, non-public, analysis-only technical transfer experiment could use the source after a rights review and a new endpoint/feature-generalization protocol; it cannot be labelled independent biological validation.",
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This record proves that a real full-text human-plasma dataset was located, downloaded and structurally screened. It does not create an independent validation, protected lockbox, no-author reproduction, public data release, DOI or submission-ready result."
+}
