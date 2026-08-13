@@ -58,6 +58,22 @@ This record preserves a narrowly inspected non-admission decision. It does not
 claim that all project files have been exhaustively interpreted and does not
 authorize reuse of the named source labels as covariates.
 
+## Exact-match API additions: license and covariate gates
+
+Two additional official PRIDE API leads were screened after the initial
+keyword pass.  Neither changes the consolidated T129 candidate count or its
+frozen decision boundary.
+
+| PRIDE accession | Bounded official evidence | Non-admission finding | Current decision |
+| --- | --- | --- | --- |
+| PXD004441 | The [official project record](https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD004441) describes `Interaction of iron oxide nanoparticles with human plasma`, reports *Homo sapiens* and protein-corona/iron-oxide context, but reports its license as `EBI terms of use`. | The T129 admission policy is CC0-only.  A topical record under EBI terms of use cannot enter the cohort; no file-level interpretation was undertaken. | `NOT_ELIGIBLE_NON_CC0_LICENSE` |
+| PXD024284 | The [official project record](https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD024284) reports CC0 and *Homo sapiens*.  Its official `Experimental_Design.pdf` (145,768 bytes; SHA-256 `663fa3c1195b7a5e44e406dad1379edc3629718976d889666d75a432b8276ca9`) states that standard and treated Nitinol disks were incubated with platelet-poor plasma from three donors.  The official protein table `ProteinMeasurement_PG_hi3_inclSingleHits.xlsx` (770,278 bytes; SHA-256 `66994afa72e4cf0f4d0617f0ad8ceb4fb470e6550d12388a8f4a626b1f28d2a1`) has six abundance columns labelled `S1`--`S3` and `T1`--`T3`; the source labels resolve only to untreated (`NaCl`) versus treated (`Hanks`) disk groups. | The released assets provide a binary treatment contrast but no numeric surface-treatment, size, composition or dose covariate attached to the quantitative units.  The condition labels must not be transformed into a material descriptor. | `NOT_ADMITTED_NO_NUMERIC_MATERIAL_COVARIATE` |
+
+The PXD024284 PDF was visually inspected as a rendered page before its text
+and table headers were used.  These checks are limited to the named official
+assets and do not claim that undocumented treatment details are absent from
+all external sources.
+
 ## PXD017052 public source-data recovery route
 
 The high-priority PXD017052 listing screen above remains correct for the CC0
