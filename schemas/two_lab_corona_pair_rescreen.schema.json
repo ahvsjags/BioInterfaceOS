@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-two-lab-corona-pair-rescreen-v1.0.0",
+  "title": "BioInterfaceOS bounded two-laboratory corona pair rescreen",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "audit_id", "evaluated_at", "evidence_class", "allowed_claim_level", "source_policy", "pair_scope", "candidates"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "audit_id": {"const": "bioif-r2-two-lab-corona-pair-rescreen-v1.0.0"},
+    "evaluated_at": {"type": "string", "minLength": 1},
+    "evidence_class": {"const": "DEVELOPMENT_OBSERVATION"},
+    "allowed_claim_level": {"const": "EXPLORATORY"},
+    "source_policy": {"type": "object", "additionalProperties": {"const": true}},
+    "pair_scope": {"type": "object", "additionalProperties": true},
+    "candidates": {"type": "array", "minItems": 2, "maxItems": 2}
+  }
+}
