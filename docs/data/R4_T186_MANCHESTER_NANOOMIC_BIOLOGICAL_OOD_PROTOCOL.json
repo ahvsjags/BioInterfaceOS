@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-manchester-nanoomic-biological-ood-protocol-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+00:00",
+  "evidence_class": "EXTERNAL_PUBLIC_ANALYSIS_ONLY",
+  "allowed_claim_level": "EXPLORATORY",
+  "references": {
+    "r3_analysis_protocol": {"relative_path": "docs/data/R3_T151_ANALYSIS_PROTOCOL.json"},
+    "r3_common_target_ledger": {"relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv"},
+    "r3_sequence_feature_table": {"relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv"},
+    "r4_source_registry": {"relative_path": "docs/data/R4_T185_MANCHESTER_NANOOMIC_SOURCE_REGISTRY.json"},
+    "r4_source_audit_receipt": {"relative_path": "reports/review_round_4/manchester_nanoomic_source/v1.0.0/r4_manchester_nanoomic_source_receipt.json"},
+    "r4_source_cell_map": {"relative_path": "data/raw/r4_candidate_pmc13212878/derived/R4_PMC13212878_MANCHESTER_source_cell_map.csv"}
+  },
+  "target": {
+    "target_id": "R3_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "rank_direction": "DESCENDING_MIDRANK_PERCENTILE",
+    "external_quantity": "standardized author abundance from the source matrix",
+    "cross_study_raw_scale": "PROHIBITED",
+    "mapping_policy": "unique gene-to-frozen-UniProt target map only; no gene or protein identity is a predictive feature"
+  },
+  "external_evaluation": {
+    "source_id": "PMC13212878_MANCHESTER_NANOOMIC",
+    "laboratory_anchor": "University of Manchester NanoOmics Lab / Manchester BRC",
+    "expected_biological_unit_count": 61,
+    "expected_measurement_batch_count": 289,
+    "expected_rank_qualified_measurement_batch_count": 289,
+    "expected_external_observation_count": 4169,
+    "expected_shared_canonical_protein_count": 25,
+    "minimum_proteins_per_measurement_batch": 10,
+    "access_condition": "public author matrix; analysis-only because repository license is not asserted"
+  },
+  "development_selection": {
+    "population": "frozen R3 development observations only",
+    "nested_selection": "leave-one-measurement-batch-out within development",
+    "external_access_before_selection": "PROHIBITED"
+  },
+  "feature_policy": {
+    "feature_set": "R3_UNIPROT_SEQUENCE_COMPOSITION_PHYSICOCHEMICAL_V1",
+    "identity_or_provenance_feature": "PROHIBITED",
+    "source_abundance_feature": "PROHIBITED"
+  },
+  "models": [
+    {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
+    {"model_id": "SEQUENCE_RIDGE_FULL", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+    {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}}
+  ],
+  "metrics": {
+    "primary": "patient-equal mean of measurement-batch Spearman correlation",
+    "secondary": ["patient-equal mean MAE", "patient-equal mean RMSE", "batch-weighted mean Spearman"],
+    "minimum_proteins_per_metric_batch": 10
+  },
+  "uncertainty": {
+    "cluster_key": "deidentified patient ID",
+    "resamples": 2000,
+    "random_seed": 20260820,
+    "interpretation": "patient-cluster intervals; longitudinal columns are not treated as independent samples"
+  },
+  "negative_control": {
+    "type": "within-development-measurement-batch-target-permutation",
+    "resamples": 256,
+    "random_seed": 202616,
+    "external_targets_never_used_in_fitting": true
+  },
+  "claim_boundary": "Author-run exploratory external OOD only; not a protected lockbox, independent evaluator receipt, no-author reproduction, clinical validation or submission-readiness evidence.",
+  "scientific_submission_ready": false
+}

@@ -616,6 +616,35 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the byte-verified PMC3252235 supplementary XLS",
     )
     data_r4_pmc3252235_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_manchester_source_parser = data_subparsers.add_parser(
+        "audit-r4-manchester-nanoomic-source",
+        help="audit the independent Manchester longitudinal nano-omics source for analysis-only OOD",
+    )
+    data_r4_manchester_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified author-repository matrices",
+    )
+    data_r4_manchester_source_parser.add_argument("--strict", action="store_true")
+    data_r4_manchester_verify_parser = data_subparsers.add_parser(
+        "verify-r4-manchester-nanoomic-source",
+        help="verify the Manchester analysis-only source audit receipt",
+    )
+    data_r4_manchester_verify_parser.add_argument(
+        "--assets-root", type=Path, required=True, help="fixed author-repository matrix root"
+    )
+    data_r4_manchester_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_manchester_ood_parser = data_subparsers.add_parser(
+        "evaluate-r4-manchester-nanoomic-ood",
+        help="execute frozen exploratory OOD on the Manchester longitudinal matrix",
+    )
+    data_r4_manchester_ood_parser.add_argument("--strict", action="store_true")
+    data_r4_manchester_ood_verify_parser = data_subparsers.add_parser(
+        "verify-r4-manchester-nanoomic-ood",
+        help="verify the Manchester OOD receipt",
+    )
+    data_r4_manchester_ood_verify_parser.add_argument("--strict", action="store_true")
     data_r4_pxd017052_nsclc_source_parser = data_subparsers.add_parser(
         "audit-r4-pxd017052-nsclc-source",
         help="audit the paper-attached 141-subject PXD017052 NSCLC corona matrix",
@@ -3562,6 +3591,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-pmc13106918-source",
             "audit-r4-pmc3252235-source",
             "verify-r4-pmc3252235-source",
+            "audit-r4-manchester-nanoomic-source",
+            "verify-r4-manchester-nanoomic-source",
+            "evaluate-r4-manchester-nanoomic-ood",
+            "verify-r4-manchester-nanoomic-ood",
             "audit-r4-pxd017052-nsclc-source",
             "verify-r4-pxd017052-nsclc-source",
             "evaluate-r4-pxd017052-nsclc-biological-ood",
@@ -3969,6 +4002,106 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"measurement_columns={pnnl_summary.measurement_columns} "
                 f"rank_qualified_columns={pnnl_summary.rank_qualified_columns} "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-manchester-nanoomic-source":
+            from biointerfaceos.r4_manchester_nanoomic_ood import (
+                R4ManchesterNanoOmicError,
+                R4ManchesterNanoOmicWorkflow,
+            )
+
+            try:
+                manchester_summary = R4ManchesterNanoOmicWorkflow(
+                    root, args.assets_root
+                ).audit(strict=args.strict)
+            except (R4ManchesterNanoOmicError, OSError) as exc:
+                print(f"R4_MANCHESTER_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_MANCHESTER_SOURCE_AUDIT_VALID "
+                f"source_cells={manchester_summary.source_cell_count} "
+                f"positive_source_cells={manchester_summary.positive_source_cell_count} "
+                f"biological_units={manchester_summary.biological_unit_count} "
+                f"measurement_batches={manchester_summary.measurement_batch_count} "
+                f"rank_qualified_batches={manchester_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={manchester_summary.shared_canonical_protein_count} "
+                "analysis_only=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-manchester-nanoomic-source":
+            from biointerfaceos.r4_manchester_nanoomic_ood import (
+                R4ManchesterNanoOmicError,
+                R4ManchesterNanoOmicWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_MANCHESTER_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                manchester_summary = R4ManchesterNanoOmicWorkflow(
+                    root, args.assets_root
+                ).verify_audit()
+            except (R4ManchesterNanoOmicError, OSError) as exc:
+                print(f"R4_MANCHESTER_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_MANCHESTER_SOURCE_VERIFY_VALID "
+                f"source_cells={manchester_summary.source_cell_count} "
+                f"positive_source_cells={manchester_summary.positive_source_cell_count} "
+                f"biological_units={manchester_summary.biological_unit_count} "
+                f"measurement_batches={manchester_summary.measurement_batch_count} "
+                f"rank_qualified_batches={manchester_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={manchester_summary.shared_canonical_protein_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-manchester-nanoomic-ood":
+            from biointerfaceos.r4_manchester_nanoomic_ood import (
+                R4ManchesterNanoOmicError,
+                R4ManchesterNanoOmicWorkflow,
+            )
+
+            try:
+                manchester_ood = R4ManchesterNanoOmicWorkflow(
+                    root,
+                    root / "data/raw/r4_candidate_pmc13212878/author_repo",
+                ).evaluate(strict=args.strict)
+            except (R4ManchesterNanoOmicError, OSError) as exc:
+                print(f"R4_MANCHESTER_OOD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_MANCHESTER_OOD_VALID "
+                f"external_observations={manchester_ood.external_observation_count} "
+                f"shared_canonical_proteins={manchester_ood.shared_canonical_protein_count} "
+                f"measurement_batches={manchester_ood.external_measurement_batch_count} "
+                f"biological_units={manchester_ood.biological_unit_count} "
+                f"models={manchester_ood.model_count} analysis_only=true "
+                "independent_validation=false external_scientific_reproduction=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-manchester-nanoomic-ood":
+            from biointerfaceos.r4_manchester_nanoomic_ood import (
+                R4ManchesterNanoOmicError,
+                R4ManchesterNanoOmicWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_MANCHESTER_OOD_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                manchester_ood = R4ManchesterNanoOmicWorkflow(
+                    root, root / "data/raw/r4_candidate_pmc13212878/author_repo"
+                ).verify_ood()
+            except (OSError, R4ManchesterNanoOmicError) as exc:
+                print(f"R4_MANCHESTER_OOD_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_MANCHESTER_OOD_VERIFY_VALID "
+                f"external_observations={manchester_ood.external_observation_count} "
+                f"measurement_batches={manchester_ood.external_measurement_batch_count} "
+                f"biological_units={manchester_ood.biological_unit_count} "
+                "analysis_only=true scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "audit-r4-pxd017052-nsclc-source":
