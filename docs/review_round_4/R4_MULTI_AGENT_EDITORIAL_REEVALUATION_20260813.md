@@ -2,7 +2,7 @@
 
 ## 结论
 
-本轮完成了一个真实的工程改进：公开版本升级为 `v0.1.1-r4`，新增三类外部 receipt 的结构预检、哈希校验、非作者声明校验和不晋级输出；KAUST 锁定环境完成 `21 passed`。这提高了交付与审计完整性，但没有产生任何第三方事实。因此 `scientific_submission_ready` 仍为 `false`，稿件仍是方法/软件与可审计 benchmark 的 Major Revision，而不是强 Q1 生物学发现论文。
+本轮完成了一个真实的工程改进：公开版本升级为 `v0.1.1-r4`，新增三类外部 receipt 的结构预检、哈希校验、非作者声明校验和不晋级输出；KAUST 锁定环境完成 `23 passed`。这提高了交付与审计完整性，但没有产生任何第三方事实。因此 `scientific_submission_ready` 仍为 `false`，稿件仍是方法/软件与可审计 benchmark 的 Major Revision，而不是强 Q1 生物学发现论文。
 
 ## 三类评审角色
 
@@ -42,7 +42,7 @@
 - CLI：`biointerfaceos data preflight-r4-external-receipts --strict`。
 - 提交模板：`docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`。
 - 外部 handoff：`docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF.md`。
-- 契约测试：4 项新增测试；KAUST review_round_3 + review_round_4 总计 21 项通过。
+- 契约测试：6 项新增测试；KAUST review_round_3 + review_round_4 总计 23 项通过。
 
 预检唯一的通过状态是 `STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW`。它只验证结构、字节哈希、声明的保护措施和 aggregate-only 字段；它不会认证身份，不会证明独立性，不会把作者 OOD 变成外部复现，也不会把 GitHub Issue 或下载量变成采用证据。
 
