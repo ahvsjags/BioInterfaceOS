@@ -53,7 +53,6 @@ class R4PXD064962SourceAuditWorkflow:
 
     AUDIT_ID = "bioif-r4-pxd064962-ucd-source-audit-v1.0.0"
     REGISTRY_RELATIVE = "docs/data/R4_T188_PXD064962_UCD_SOURCE_REGISTRY.json"
-    PROTOCOL_RELATIVE = "docs/data/R4_T188_PXD064962_LOW_COVERAGE_SENSITIVITY_PROTOCOL.json"
     OUTPUT_RELATIVE = "reports/review_round_4/pxd064962_ucd_source_audit/v1.0.0"
     DERIVED_RELATIVE = "derived/R4_PXD064962_UCD_source_cell_map.csv"
     STATUS = "ADMITTED_R4_LOW_COVERAGE_CC0_SENSITIVITY_CANDIDATE"
@@ -115,7 +114,7 @@ class R4PXD064962SourceAuditWorkflow:
             raise R4PXD064962SourceAuditError(f"{label} is missing or outside its root")
         return path
 
-    def _registry(self) -> tuple[dict[str, Any], Path, Path, Path, Path, Path]:
+    def _registry(self) -> tuple[dict[str, Any], Path, Path, Path, Path]:
         registry = self._json(self.registry_path, "R4 T188 source registry")
         expected = {
             "schema_version",
@@ -179,16 +178,12 @@ class R4PXD064962SourceAuditWorkflow:
             reference.get("sha256"), "T188 R3 reference checksum"
         ):
             raise R4PXD064962SourceAuditError("T188 R3 reference checksum differs")
-        protocol_path = self.root / self.PROTOCOL_RELATIVE
-        if not protocol_path.is_file():
-            raise R4PXD064962SourceAuditError("T188 sensitivity protocol is missing")
         return (
             registry,
             by_id["protein_groups"],
             by_id["summary"],
             by_id["pride_project_metadata"],
             reference_path,
-            protocol_path,
         )
 
     @staticmethod
@@ -401,7 +396,6 @@ class R4PXD064962SourceAuditWorkflow:
             summary_asset,
             pride_metadata_asset,
             feature_path,
-            protocol_path,
         ) = self._registry()
         rows, accounting = self._cells(asset, feature_path, registry)
         derived = self.assets_root / self.DERIVED_RELATIVE
@@ -416,8 +410,11 @@ class R4PXD064962SourceAuditWorkflow:
         report = {
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
-            "protocol_sha256": _sha256(protocol_path),
             "status": self.STATUS,
+            "registry": {
+                "relative_path": self.registry_path.relative_to(self.root).as_posix(),
+                "sha256": _sha256(self.registry_path),
+            },
             "evidence_class": registry["evidence_class"],
             "allowed_claim_level": registry["allowed_claim_level"],
             "model_fitted": False,
@@ -450,8 +447,8 @@ class R4PXD064962SourceAuditWorkflow:
         receipt = {
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
-            "protocol_sha256": _sha256(protocol_path),
             "status": self.STATUS,
+            "registry": report["registry"],
             "report": {"relative_path": report_path.name, "sha256": _sha256(report_path)},
             "source_cell_map": report["source_cell_map"],
             "primary_ood_minimum_met": False,
@@ -500,7 +497,6 @@ class R4PXD064962SourceAuditWorkflow:
             summary_asset,
             pride_metadata_asset,
             feature_path,
-            protocol_path,
         ) = self._registry()
         rows, accounting = self._cells(asset, feature_path, registry)
         report_path = self.output_root / "pxd064962_ucd_source_audit_report.json"
@@ -515,7 +511,9 @@ class R4PXD064962SourceAuditWorkflow:
         if (
             report.get("audit_id") != self.AUDIT_ID
             or report.get("status") != self.STATUS
-            or report.get("protocol_sha256") != _sha256(protocol_path)
+            or report.get("registry", {}).get("relative_path")
+            != self.registry_path.relative_to(self.root).as_posix()
+            or report.get("registry", {}).get("sha256") != _sha256(self.registry_path)
             or report.get("source_cell_map", {}).get("sha256") != _sha256(derived)
             or report.get("source_asset", {}).get("sha256") != _sha256(asset)
             or report.get("source_asset", {}).get("summary_sha256") != _sha256(summary_asset)
@@ -523,7 +521,7 @@ class R4PXD064962SourceAuditWorkflow:
             != _sha256(pride_metadata_asset)
             or receipt.get("audit_id") != self.AUDIT_ID
             or receipt.get("status") != self.STATUS
-            or receipt.get("protocol_sha256") != _sha256(protocol_path)
+            or receipt.get("registry") != report.get("registry")
             or receipt.get("report", {}).get("sha256") != _sha256(report_path)
             or receipt.get("model_fitted") is not False
             or receipt.get("independent_validation") is not False

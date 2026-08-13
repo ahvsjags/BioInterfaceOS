@@ -735,6 +735,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="execute the frozen small-n PXD060795 sensitivity analysis",
     )
     data_r4_dalian_sensitivity_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd064962_sensitivity_parser = data_subparsers.add_parser(
+        "evaluate-r4-pxd064962-low-coverage-sensitivity",
+        help="execute the frozen PXD064962 low-coverage sensitivity analysis",
+    )
+    data_r4_pxd064962_sensitivity_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd064962_sensitivity_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pxd064962-low-coverage-sensitivity",
+        help="verify the frozen PXD064962 low-coverage sensitivity receipt",
+    )
+    data_r4_pxd064962_sensitivity_verify_parser.add_argument("--strict", action="store_true")
     data_r4_small_molecule_ood_parser = data_subparsers.add_parser(
         "evaluate-r4-small-molecule-corona-ood",
         help="run the frozen author-run public OOD evaluation on the separate PMC11544298 candidate",
@@ -3635,6 +3645,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-three-lab-common-target",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
+            "evaluate-r4-pxd064962-low-coverage-sensitivity",
+            "verify-r4-pxd064962-low-coverage-sensitivity",
             "evaluate-r4-small-molecule-corona-ood",
             "audit-r4-ood-effective-n",
             "verify-r4-ood-effective-n",
@@ -4458,6 +4470,56 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"external_measurement_batches={sensitivity['external_measurement_batch_count']} "
                 "small_n_sensitivity_only=true model_fitted=true independent_validation=false "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-pxd064962-low-coverage-sensitivity":
+            from biointerfaceos.r4_pxd064962_low_coverage_sensitivity import (
+                R4PXD064962SensitivityError,
+                R4PXD064962LowCoverageSensitivityWorkflow,
+            )
+
+            try:
+                sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(root).run(
+                    strict=args.strict
+                )
+            except (R4PXD064962SensitivityError, OSError) as exc:
+                print(f"R4_PXD064962_SENSITIVITY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD064962_SENSITIVITY_VALID "
+                f"development_observations={sensitivity.development_observation_count} "
+                f"external_observations={sensitivity.external_observation_count} "
+                f"all_eligible_batches={sensitivity.all_eligible_batch_count} "
+                f"low_coverage_batches={sensitivity.low_coverage_batch_count} "
+                f"high_coverage_batches={sensitivity.high_coverage_batch_count} "
+                f"biological_units={sensitivity.biological_unit_count} "
+                f"positive_targets={sensitivity.shared_positive_target_count} "
+                f"models={sensitivity.model_count} primary_ood_minimum_met=false "
+                "independent_validation=false external_scientific_reproduction=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pxd064962-low-coverage-sensitivity":
+            from biointerfaceos.r4_pxd064962_low_coverage_sensitivity import (
+                R4PXD064962SensitivityError,
+                R4PXD064962LowCoverageSensitivityWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PXD064962_SENSITIVITY_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(root).verify()
+            except (R4PXD064962SensitivityError, OSError) as exc:
+                print(f"R4_PXD064962_SENSITIVITY_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD064962_SENSITIVITY_VERIFY_VALID "
+                f"external_observations={sensitivity.external_observation_count} "
+                f"all_eligible_batches={sensitivity.all_eligible_batch_count} "
+                f"low_coverage_batches={sensitivity.low_coverage_batch_count} "
+                f"high_coverage_batches={sensitivity.high_coverage_batch_count} "
+                "primary_ood_minimum_met=false scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-small-molecule-corona-ood":

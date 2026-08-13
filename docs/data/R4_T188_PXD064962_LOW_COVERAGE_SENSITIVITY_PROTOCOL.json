@@ -16,6 +16,40 @@
     "status": "NOT_ESTIMATED",
     "reason": "the source is below the primary R4 minimum in 25 of 30 batches and is not admitted to the primary OOD endpoint"
   },
+  "references": {
+    "r3_analysis_protocol_receipt": {
+      "relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/analysis_protocol_receipt.json",
+      "sha256": "238fb3cdf5932d60810e587b4a58c86c30ed9456d7a2f7b4223e94ddef4baf1f"
+    },
+    "r3_common_target_ledger": {
+      "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+      "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+    },
+    "r3_sequence_feature_table": {
+      "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+      "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+    },
+    "source_registry": {
+      "relative_path": "docs/data/R4_T188_PXD064962_UCD_SOURCE_REGISTRY.json",
+      "sha256": "928a69a848b9128aeb0315db691e2a2788bac1a5a4a6aa0e5f51b748f9c36afd"
+    },
+    "source_audit_receipt": {
+      "relative_path": "reports/review_round_4/pxd064962_ucd_source_audit/v1.0.0/pxd064962_ucd_source_audit_receipt.json",
+      "sha256": "1e9413b6ef7b0c9121506ea329444beb985be1eaad02fe826e2b097d0960cc8b"
+    },
+    "source_cell_map": {
+      "relative_path": "data/raw/r4_candidate_pxd064962_ucd/derived/R4_PXD064962_UCD_source_cell_map.csv",
+      "sha256": "2e8b6d9ffdc93cfb2839e16d17ad770a72e69a7d558f9e91d7bf89120cbbc594"
+    },
+    "source_protein_groups": {
+      "relative_path": "data/raw/r4_candidate_pxd064962_ucd/proteinGroups.txt",
+      "sha256": "677f78041155abbfff052ec3a55112ef37c01e8fb44a703409544e825d9e7b99"
+    },
+    "pride_project_metadata": {
+      "relative_path": "data/raw/r4_candidate_pxd064962_ucd/pride_project_metadata.json",
+      "sha256": "9127afab7831aba3aa89ad04b8d2e9c8121be0c6264683add1033b22fe2187b3"
+    }
+  },
   "secondary_endpoint": {
     "name": "coverage_stratified_source_local_rank_sensitivity",
     "status": "OPTIONAL_EXPLORATORY",
@@ -24,7 +58,7 @@
     "target_coverage_rule": "report all 30 batches; mark 5-9 and >=10 target batches separately; never promote the >=5 rule to the primary endpoint",
     "feature_scale": "source-local within-batch rank percentile only; the rank denominator is all strictly positive source protein-group rows in that source column, not only frozen targets",
     "rank_definition": "inherit R3 descending midrank percentile semantics; zeros and blanks are excluded; the >=5 rule changes eligibility only and never changes the rank denominator",
-    "protein_group_ambiguity": "retain every target-accession/source-coordinate pair in the audit map, but exclude source coordinates mapping to multiple frozen accessions from any quantitative target rank or model sensitivity endpoint unless a later protocol explicitly freezes a unique-group rule",
+    "protein_group_ambiguity": "retain every target-accession/source-coordinate pair in the audit map; for quantitative target ranks and model sensitivity endpoints require exactly one frozen R3 target accession. Protein groups with extra non-target identifiers are retained because the frozen target mapping remains unique; groups mapping to multiple frozen targets remain audit-only",
     "physical_cell_accounting": "report raw source-table cells, unique source coordinates and expanded target-accession/source-coordinate pairs as separate quantities",
     "missingness": "source blank and explicit zero remain missing/non-rank-eligible; no imputation",
     "technical_replicates": "preserve source columns; any aggregation must be declared in the analysis receipt before execution",
@@ -33,6 +67,27 @@
     "uncertainty": "patient-level bootstrap only; no IID technical-replicate bootstrap",
     "multiplicity": "no confirmatory p-value; descriptive confidence intervals only",
     "negative_control": "if executed, permute labels within biological-unit strata and rerun every selection step"
+  },
+  "execution_contract": {
+    "source_rank_denominator": "all strictly positive finite protein-group rows in each original LFQ technical-replicate column",
+    "target_mapping_for_quantitative_endpoint": "exactly one frozen R3 target accession per protein-group row; groups mapping to multiple frozen targets are excluded from target observations but remain in audit accounting",
+    "technical_replicate_aggregation": "compute source-local rank separately in each technical replicate, then arithmetic-mean the available positive target ranks within the same patient/timepoint batch; do not impute a missing replicate",
+    "coverage_strata": {
+      "exploratory_minimum": 5,
+      "primary_frozen_minimum": 10,
+      "expected_all_eligible_batches": 30,
+      "expected_batches_5_to_9": 25,
+      "expected_batches_at_least_10": 5
+    },
+    "models": [
+      {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
+      {"model_id": "SEQUENCE_RIDGE_FULL", "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+      {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}
+    ],
+    "alpha_selection": "nested leave-one-development-measurement-batch-out selection on frozen R3 development only",
+    "metrics": ["subject_equal_mean_spearman", "subject_equal_mean_mae", "subject_equal_mean_rmse", "paired_full_minus_composition_subject_equal_spearman"],
+    "uncertainty": {"cluster": "labelled patient/timepoint biological unit", "resamples": 2000, "random_seed": 1880, "interval": "percentile 95% cluster bootstrap"},
+    "negative_control": {"type": "within-development-batch target permutation", "resamples": 256, "random_seed": 1881, "reselect_alpha_per_resample": true, "tail": "one-sided upper tail"}
   },
   "prohibited_claims": [
     "independent validation",
@@ -48,5 +103,6 @@
     "protocol hash",
     "analysis receipt with eligible batch count and effective biological-unit count",
     "explicit statement that scientific_submission_ready remains false"
-  ]
+  ],
+  "claim_boundary": "This is an author-run exploratory low-coverage sensitivity execution. It may quantify transport under a licensed source with explicit coverage strata, but it is not primary OOD, independent validation, a protected lockbox evaluation, no-author reproduction, external adoption or scientific submission readiness."
 }
