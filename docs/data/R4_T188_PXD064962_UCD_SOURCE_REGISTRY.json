@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-pxd064962-ucd-source-audit-v1.0.0",
+  "evaluated_at": "2026-08-14T00:00:00+00:00",
+  "evidence_class": "EXPLORATORY_SENSITIVITY",
+  "allowed_claim_level": "EXPLORATORY",
+  "dataset": {
+    "accession": "PXD064962",
+    "title": "Extracellular vesicles in Early preterm neonates and thrombin generation",
+    "license": "CC0",
+    "project_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD064962",
+    "api_locator": "https://www.ebi.ac.uk/pride/ws/archive/v2/projects/PXD064962",
+    "public_file_locator": "https://ftp.pride.ebi.ac.uk/pride/data/archive/2025/06/PXD064962/proteinGroups.txt",
+    "source_laboratory": "University College Dublin / Conway Institute",
+    "study_design": "human plasma extracellular-vesicle proteomics; 20 preterm and 10 term neonatal units in the deposited proteomics subset"
+  },
+  "source_scope": {
+    "source_id": "PXD064962_UCD_EVENT",
+    "laboratory_anchor": "University College Dublin / Conway Institute",
+    "source_lineage": "NEW_TO_CURRENT_R3_ANCHORS",
+    "biological_material": "human plasma extracellular-vesicle proteomics",
+    "analysis_role": "R4_LOW_COVERAGE_INDEPENDENT_SOURCE_FOR_SECONDARY_SENSITIVITY_ONLY",
+    "unit_definition": "sample-native patient/timepoint label; two source technical replicate columns are not counted as independent units",
+    "source_data_boundary": "MaxQuant proteinGroups.txt LFQ intensity columns; no imputation and no cross-study abundance-scale use"
+  },
+  "source_assets": [
+    {
+      "asset_id": "protein_groups",
+      "relative_path": "proteinGroups.txt",
+      "sha256": "677f78041155abbfff052ec3a55112ef37c01e8fb44a703409544e825d9e7b99",
+      "expected_bytes": 4211997
+    },
+    {
+      "asset_id": "summary",
+      "relative_path": "summary.txt",
+      "sha256": "2055597a06760c8604c64d2618ec69bbe463f5e94133abb232c50b4049bab902",
+      "expected_bytes": 20139
+    }
+  ],
+  "r3_reference_asset": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "table_contract": {
+    "protein_group_table": "proteinGroups.txt",
+    "protein_group_identifier_column": "Protein IDs",
+    "lfq_column_prefix": "LFQ intensity ",
+    "expected_protein_group_rows": 405,
+    "expected_lfq_columns": 60,
+    "expected_source_cell_count": 24300,
+    "expected_positive_source_cell_count": 11776,
+    "expected_target_source_cell_count": 1260,
+    "expected_target_positive_source_cell_count": 454,
+    "expected_target_positive_batch_observations": 259,
+    "expected_measurement_batches": 30,
+    "expected_shared_target_count": 21,
+    "expected_batch_target_counts": [6, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 13]
+  },
+  "quantification_contract": {
+    "source_value_states": ["SOURCE_BLANK", "EXPLICIT_ZERO", "POSITIVE"],
+    "rank_eligibility": "strictly positive finite LFQ value; technical replicates remain separate in the audit map",
+    "batch_level_target_observation": "unique canonical target with at least one positive technical replicate in a patient/timepoint batch",
+    "technical_replicate_policy": "replicate columns are preserved and may be aggregated only by a separately frozen sensitivity protocol",
+    "cross_study_scale_use": "PROHIBITED",
+    "imputation": "PROHIBITED"
+  },
+  "admission_minimums": {
+    "minimum_positive_shared_proteins_per_measurement_batch": 10,
+    "frozen_primary_external_measurement_batch_minimum": 12,
+    "observed_measurement_batches": 30,
+    "observed_rank_qualified_measurement_batches": 5,
+    "observed_biological_units": 30,
+    "technical_replicates_per_batch": 2,
+    "primary_ood_minimum_met": false,
+    "secondary_low_coverage_sensitivity_candidate": true
+  },
+  "claim_boundary": "This receipt verifies a CC0 PXD064962 MaxQuant table, its row/column hashes, 30 patient/timepoint batches, 21 frozen-target accessions and 1,260 traceable target cells. Only five batches meet the frozen >=10-target coverage rule, so this source is not admitted to the primary OOD endpoint and cannot establish independent validation, lockbox evaluation, no-author reproduction, adoption or scientific submission readiness."
+}

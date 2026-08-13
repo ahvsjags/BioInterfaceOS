@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-pxd064962-low-coverage-sensitivity-v1.0.0",
+  "status": "FROZEN_SECONDARY_SENSITIVITY_ONLY",
+  "source_registry": "docs/data/R4_T188_PXD064962_UCD_SOURCE_REGISTRY.json",
+  "source_accession": "PXD064962",
+  "estimand": "descriptive change in the frozen R3 model-versus-composition contribution under a low-coverage licensed external source",
+  "primary_endpoint": {
+    "name": "subject_equal_mean_spearman",
+    "status": "NOT_ESTIMATED",
+    "reason": "the source is below the primary R4 minimum in 25 of 30 batches and is not admitted to the primary OOD endpoint"
+  },
+  "secondary_endpoint": {
+    "name": "coverage_stratified_source_local_rank_sensitivity",
+    "status": "OPTIONAL_EXPLORATORY",
+    "eligible_batches": "batches with at least 5 positive frozen targets",
+    "unit_of_inference": "patient-timepoint biological unit; two technical replicate columns are not independent units",
+    "target_coverage_rule": "report all 30 batches; mark >=10-target batches separately; never promote the >=5 rule to the primary endpoint",
+    "feature_scale": "source-local within-batch rank percentile only",
+    "missingness": "source blank and explicit zero remain missing/non-rank-eligible; no imputation",
+    "technical_replicates": "preserve source columns; any aggregation must be declared in the analysis receipt before execution",
+    "uncertainty": "patient-level bootstrap only; no IID technical-replicate bootstrap",
+    "multiplicity": "no confirmatory p-value; descriptive confidence intervals only",
+    "negative_control": "if executed, permute labels within biological-unit strata and rerun every selection step"
+  },
+  "prohibited_claims": [
+    "independent validation",
+    "primary OOD success",
+    "biological cohort independence beyond the deposited unit labels",
+    "lockbox evaluation",
+    "no-author reproduction",
+    "scientific submission readiness"
+  ],
+  "required_receipts": [
+    "source registry hash",
+    "source-cell map hash",
+    "protocol hash",
+    "analysis receipt with eligible batch count and effective biological-unit count",
+    "explicit statement that scientific_submission_ready remains false"
+  ]
+}

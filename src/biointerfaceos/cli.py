@@ -616,6 +616,28 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the byte-verified PMC3252235 supplementary XLS",
     )
     data_r4_pmc3252235_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd064962_source_parser = data_subparsers.add_parser(
+        "audit-r4-pxd064962-source",
+        help="audit the CC0 PXD064962 low-coverage source for secondary sensitivity work",
+    )
+    data_r4_pxd064962_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PXD064962 proteinGroups and summary files",
+    )
+    data_r4_pxd064962_source_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd064962_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pxd064962-source",
+        help="verify the frozen PXD064962 source audit receipt",
+    )
+    data_r4_pxd064962_verify_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PXD064962 proteinGroups and summary files",
+    )
+    data_r4_pxd064962_verify_parser.add_argument("--strict", action="store_true")
     data_r4_manchester_source_parser = data_subparsers.add_parser(
         "audit-r4-manchester-nanoomic-source",
         help="audit the independent Manchester longitudinal nano-omics source for analysis-only OOD",
@@ -752,10 +774,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--output-data-root", type=Path, required=True, help="registry-fixed data/raw directory"
     )
     data_r3_silver_ood_parser.add_argument(
-        "--feature-root", type=Path, required=True, help="registry-fixed R3 sequence-feature directory"
+        "--feature-root",
+        type=Path,
+        required=True,
+        help="registry-fixed R3 sequence-feature directory",
     )
     data_r3_silver_ood_parser.add_argument(
-        "--silver-assets-root", type=Path, required=True, help="registry-fixed silver-source asset directory"
+        "--silver-assets-root",
+        type=Path,
+        required=True,
+        help="registry-fixed silver-source asset directory",
     )
     data_r3_silver_ood_parser.add_argument("--strict", action="store_true")
     data_external_intake_parser = data_subparsers.add_parser(
@@ -3591,6 +3619,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-pmc13106918-source",
             "audit-r4-pmc3252235-source",
             "verify-r4-pmc3252235-source",
+            "audit-r4-pxd064962-source",
+            "verify-r4-pxd064962-source",
             "audit-r4-manchester-nanoomic-source",
             "verify-r4-manchester-nanoomic-source",
             "evaluate-r4-manchester-nanoomic-ood",
@@ -3677,9 +3707,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                fulltext_gold_summary = FulltextGoldSourceAuditWorkflow(
-                    root, args.assets_root
-                ).run(strict=args.strict)
+                fulltext_gold_summary = FulltextGoldSourceAuditWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
             except (FulltextGoldSourceAuditError, OSError) as exc:
                 print(f"FULLTEXT_GOLD_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3724,9 +3754,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                r3_uniprot_summary = R3UniProtMappingWorkflow(
-                    root, args.mapping_root
-                ).run(strict=args.strict)
+                r3_uniprot_summary = R3UniProtMappingWorkflow(root, args.mapping_root).run(
+                    strict=args.strict
+                )
             except (R3UniProtMappingError, OSError) as exc:
                 print(f"R3_UNIPROT_MAPPING_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3747,9 +3777,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                common_rank_summary = R3CommonRankTargetWorkflow(
-                    root, args.output_data_root
-                ).run(strict=args.strict)
+                common_rank_summary = R3CommonRankTargetWorkflow(root, args.output_data_root).run(
+                    strict=args.strict
+                )
             except (R3CommonRankTargetError, OSError) as exc:
                 print(f"R3_COMMON_RANK_TARGET_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3792,9 +3822,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                protocol_summary = R3AnalysisProtocolWorkflow(
-                    root, args.output_data_root
-                ).run(strict=args.strict)
+                protocol_summary = R3AnalysisProtocolWorkflow(root, args.output_data_root).run(
+                    strict=args.strict
+                )
             except (R3AnalysisProtocolError, OSError) as exc:
                 print(f"R3_ANALYSIS_PROTOCOL_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3912,9 +3942,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                pmc13106918_summary = R4PMC13106918SourceAuditWorkflow(
-                    root, args.assets_root
-                ).run(strict=args.strict)
+                pmc13106918_summary = R4PMC13106918SourceAuditWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
             except (R4PMC13106918SourceAuditError, OSError) as exc:
                 print(f"R4_PMC13106918_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3988,7 +4018,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print("R4_PMC3252235_SOURCE_SCREEN_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                print(
+                    "R4_PMC3252235_SOURCE_SCREEN_VERIFY_INVALID: requires --strict", file=sys.stderr
+                )
                 return 1
             try:
                 pnnl_summary = R4PMC3252235SourceScreenWorkflow(root, args.assets_root).verify()
@@ -4004,6 +4036,58 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 "scientific_submission_ready=false"
             )
             return 0
+        if args.data_command == "audit-r4-pxd064962-source":
+            from biointerfaceos.r4_pxd064962_source_audit import (
+                R4PXD064962SourceAuditError,
+                R4PXD064962SourceAuditWorkflow,
+            )
+
+            try:
+                pxd064962_summary = R4PXD064962SourceAuditWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
+            except (R4PXD064962SourceAuditError, OSError) as exc:
+                print(f"R4_PXD064962_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD064962_SOURCE_AUDIT_VALID "
+                f"source_cells={pxd064962_summary.source_cell_count} "
+                f"positive_source_cells={pxd064962_summary.positive_source_cell_count} "
+                f"target_source_cells={pxd064962_summary.target_source_cell_count} "
+                f"target_positive_source_cells={pxd064962_summary.target_positive_source_cell_count} "
+                f"target_positive_batch_observations={pxd064962_summary.target_positive_batch_observation_count} "
+                f"biological_units={pxd064962_summary.biological_unit_count} "
+                f"measurement_batches={pxd064962_summary.measurement_batch_count} "
+                f"rank_qualified_measurement_batches={pxd064962_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={pxd064962_summary.shared_canonical_protein_count} "
+                "primary_ood_minimum_met=false secondary_low_coverage_sensitivity_candidate=true "
+                "model_fitted=false independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pxd064962-source":
+            from biointerfaceos.r4_pxd064962_source_audit import (
+                R4PXD064962SourceAuditError,
+                R4PXD064962SourceAuditWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PXD064962_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                pxd064962_summary = R4PXD064962SourceAuditWorkflow(root, args.assets_root).verify()
+            except (R4PXD064962SourceAuditError, OSError) as exc:
+                print(f"R4_PXD064962_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD064962_SOURCE_VERIFY_VALID "
+                f"source_cells={pxd064962_summary.source_cell_count} "
+                f"target_positive_batch_observations={pxd064962_summary.target_positive_batch_observation_count} "
+                f"biological_units={pxd064962_summary.biological_unit_count} "
+                f"measurement_batches={pxd064962_summary.measurement_batch_count} "
+                f"rank_qualified_measurement_batches={pxd064962_summary.rank_qualified_measurement_batch_count} "
+                "primary_ood_minimum_met=false scientific_submission_ready=false"
+            )
+            return 0
         if args.data_command == "audit-r4-manchester-nanoomic-source":
             from biointerfaceos.r4_manchester_nanoomic_ood import (
                 R4ManchesterNanoOmicError,
@@ -4011,9 +4095,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                manchester_summary = R4ManchesterNanoOmicWorkflow(
-                    root, args.assets_root
-                ).audit(strict=args.strict)
+                manchester_summary = R4ManchesterNanoOmicWorkflow(root, args.assets_root).audit(
+                    strict=args.strict
+                )
             except (R4ManchesterNanoOmicError, OSError) as exc:
                 print(f"R4_MANCHESTER_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4111,9 +4195,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(
-                    root, args.assets_root
-                ).run(strict=args.strict)
+                nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
             except (R4PXD017052NSCLCSourceAuditError, OSError) as exc:
                 print(f"R4_PXD017052_NSCLC_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4138,12 +4222,12 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print("R4_PXD017052_NSCLC_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                print(
+                    "R4_PXD017052_NSCLC_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr
+                )
                 return 1
             try:
-                nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(
-                    root, args.assets_root
-                ).verify()
+                nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(root, args.assets_root).verify()
             except (R4PXD017052NSCLCSourceAuditError, OSError) as exc:
                 print(f"R4_PXD017052_NSCLC_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4191,7 +4275,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print("R4_PXD017052_NSCLC_BIOLOGICAL_OOD_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                print(
+                    "R4_PXD017052_NSCLC_BIOLOGICAL_OOD_VERIFY_INVALID: requires --strict",
+                    file=sys.stderr,
+                )
                 return 1
             try:
                 nsclc_ood = R4PXD017052NSCLCBOODWorkflow(
@@ -4246,7 +4333,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print("R4_PMC13106918_TECHNICAL_OOD_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                print(
+                    "R4_PMC13106918_TECHNICAL_OOD_VERIFY_INVALID: requires --strict",
+                    file=sys.stderr,
+                )
                 return 1
             try:
                 technical_ood = R4PMC13106918TechnicalOODWorkflow(
@@ -4274,7 +4364,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                three_lab_summary = R4ThreeLabCommonTargetAuditWorkflow(root).run(strict=args.strict)
+                three_lab_summary = R4ThreeLabCommonTargetAuditWorkflow(root).run(
+                    strict=args.strict
+                )
             except (R4ThreeLabCommonTargetAuditError, OSError) as exc:
                 print(f"R4_THREE_LAB_COMMON_TARGET_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4298,7 +4390,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print("R4_THREE_LAB_COMMON_TARGET_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                print(
+                    "R4_THREE_LAB_COMMON_TARGET_VERIFY_INVALID: requires --strict", file=sys.stderr
+                )
                 return 1
             try:
                 three_lab_summary = R4ThreeLabCommonTargetAuditWorkflow(root).verify()
