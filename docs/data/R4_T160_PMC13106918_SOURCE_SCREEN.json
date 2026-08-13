@@ -17,9 +17,12 @@
     "name": "Zenodo",
     "record_doi": "10.5281/zenodo.16813857",
     "record_locator": "https://zenodo.org/records/16813857",
-    "record_license_field": null,
-    "rights_decision": "HOLD_UNTIL_EXPLICIT_DATA_LICENSE_IS_VERIFIED",
-    "rights_rationale": "The article is CC-BY, but the Zenodo data record exposes no explicit license value. The raw/MaxQuant archive therefore cannot be committed or redistributed as an admitted source until the dataset-level grant is documented. Article-level open access is not silently propagated to an associated data archive."
+    "record_license_field": "cc-by-4.0",
+    "access_right": "open",
+    "license_verified_at": "2026-08-13",
+    "license_verification_method": "Zenodo public record API metadata",
+    "rights_decision": "LICENSE_RESOLVED_TECHNICAL_CANDIDATE",
+    "rights_rationale": "The Zenodo record explicitly declares CC-BY-4.0 and open access. This resolves the dataset-level redistribution blocker for the downloaded MaxQuant package; it does not resolve the biological-unit limitation or promote the source to independent validation."
   },
   "source_scope": {
     "laboratory_anchor": "Royal College of Surgeons in Ireland and Dublin City University",
@@ -45,40 +48,41 @@
     "row_count_after_header": 751,
     "lfq_measurement_columns": 20,
     "direct_shared_frozen_r3_accessions": 57,
-    "direct_mapping_policy": "Only exact non-empty UniProt accessions from Majority protein IDs that occur in the frozen R3 sequence-feature table were counted; no protein-group collapse or inferred missingness was added."
+    "strict_unique_noncontaminant_accessions": 53,
+    "direct_mapping_policy": "Only exact non-empty UniProt accessions from Majority protein IDs that occur in the frozen R3 sequence-feature table were counted; reverse hits, potential contaminants and multi-target groups are excluded; no protein-group collapse or inferred missingness was added."
   },
   "batch_audit": {
     "minimum_positive_shared_proteins_per_candidate_measurement_batch": 10,
     "positive_shared_proteins_by_column": {
-      "LFQ intensity iST_1": 35,
-      "LFQ intensity iST_2": 34,
-      "LFQ intensity iST_3": 32,
-      "LFQ intensity iST_4": 33,
-      "LFQ intensity Pmax_1": 32,
-      "LFQ intensity Pmax_2": 18,
-      "LFQ intensity Pmax_3": 30,
-      "LFQ intensity Pmax_4": 10,
-      "LFQ intensity RapiG_1": 22,
-      "LFQ intensity RapiG_2": 32,
-      "LFQ intensity RapiG_3": 29,
-      "LFQ intensity RapiG_4": 28,
-      "LFQ intensity STD_1": 8,
-      "LFQ intensity STD_2": 9,
-      "LFQ intensity STD_3": 23,
-      "LFQ intensity STD_4": 11,
-      "LFQ intensity Strap_1": 24,
-      "LFQ intensity Strap_2": 28,
-      "LFQ intensity Strap_3": 25,
-      "LFQ intensity Strap_4": 26
+      "LFQ intensity iST_1": 33,
+      "LFQ intensity iST_2": 32,
+      "LFQ intensity iST_3": 30,
+      "LFQ intensity iST_4": 31,
+      "LFQ intensity Pmax_1": 30,
+      "LFQ intensity Pmax_2": 17,
+      "LFQ intensity Pmax_3": 29,
+      "LFQ intensity Pmax_4": 9,
+      "LFQ intensity RapiG_1": 19,
+      "LFQ intensity RapiG_2": 29,
+      "LFQ intensity RapiG_3": 26,
+      "LFQ intensity RapiG_4": 26,
+      "LFQ intensity STD_1": 7,
+      "LFQ intensity STD_2": 8,
+      "LFQ intensity STD_3": 21,
+      "LFQ intensity STD_4": 9,
+      "LFQ intensity Strap_1": 22,
+      "LFQ intensity Strap_2": 26,
+      "LFQ intensity Strap_3": 23,
+      "LFQ intensity Strap_4": 24
     },
-    "rank_qualified_batch_count": 18,
-    "union_shared_accession_count": 57,
-    "interpretation": "The file is quantitatively compatible enough to justify a rights-resolved technical robustness protocol, but its four-replicate-per-protocol columns are technical replicates of one pooled material and cannot be counted as independent biological OOD batches."
+    "rank_qualified_batch_count": 16,
+    "union_shared_accession_count": 53,
+    "interpretation": "Under the strict noncontaminant, non-reverse, single-target policy the file is quantitatively compatible enough to justify a separately frozen technical robustness protocol. Its four-replicate-per-protocol columns are technical replicates of one pooled material and cannot be counted as independent biological OOD batches."
   },
   "decision": {
-    "status": "HOLD_NOT_ADMITTED_DATASET_LICENSE_AND_BIOLOGICAL_UNIT_UNRESOLVED",
-    "model_use": "PROHIBITED",
-    "next_action": "Obtain an explicit dataset-level license or redistribution grant, then preregister whether the analysis unit is protocol-level technical robustness or donor-level external validation. Do not promote this source to independent OOD without donor-level evidence."
+    "status": "LICENSE_RESOLVED_TECHNICAL_CANDIDATE_NOT_BIOLOGICAL_VALIDATION",
+    "model_use": "PROHIBITED_UNTIL_SEPARATE_R4_PROTOCOL_FREEZES",
+    "next_action": "Use the T176 registry and source audit to freeze a separate technical robustness/OOD protocol. Do not promote this source to independent biological OOD, lockbox evaluation or no-author reproduction without donor-level or team-held-out evidence."
   },
   "claim_boundary": "This screen increases the evidence auditability of the project but does not increase the independent-validation, lockbox, external-reproduction or submission-readiness scores."
 }

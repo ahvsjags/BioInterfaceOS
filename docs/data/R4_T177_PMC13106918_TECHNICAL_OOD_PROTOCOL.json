@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-pmc13106918-technical-ood-protocol-v1.0.0",
+  "frozen_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "references": {
+    "r3_analysis_protocol_receipt": {"relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/analysis_protocol_receipt.json", "sha256": "238fb3cdf5932d60810e587b4a58c86c30ed9456d7a2f7b4223e94ddef4baf1f"},
+    "r3_common_target_ledger": {"relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv", "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"},
+    "r3_sequence_feature_table": {"relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv", "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"},
+    "r4_source_audit_receipt": {"relative_path": "reports/review_round_4/pmc13106918_source_audit/v1.0.0/pmc13106918_source_audit_receipt.json", "sha256": "6aba2ff82811a481cd3b29d9109806017d6f8886d55b756ad984c2c8ff3ce4fc"},
+    "r4_source_cell_map": {"relative_path": "data/raw/r4_candidate_pmc13106918/derived/R4_PMC13106918_technical_source_cell_map.csv", "sha256": "fa1894ac5664d79be88981a6153067c195d97a4853b360b3032f3ef2a140a529"}
+  },
+  "target": {
+    "target_id": "R4_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "development_target": "the frozen R3 source-local descending midrank percentile",
+    "external_target": "descending midrank percentile among strictly positive finite LFQ values within each eligible PMC13106918 technical measurement batch",
+    "cross_study_raw_scale": "PROHIBITED"
+  },
+  "development_selection": {
+    "population": "all 2,724 frozen R3 eligible observations from the three original laboratory anchors",
+    "method": "NESTED_SELECTION_WITHIN_FROZEN_R3_DEVELOPMENT_POPULATION",
+    "tuning_metric": "mean development measurement-batch Spearman correlation",
+    "tie_breaker": "smaller regularization then lexical model identifier",
+    "final_refit": "fit the selected configuration on all frozen R3 development observations"
+  },
+  "external_evaluation": {
+    "source_id": "PMC13106918_RCSI_DCU_SILICA_CORONA",
+    "laboratory_anchor": "Royal College of Surgeons in Ireland and Dublin City University",
+    "analysis_population": "source-cell rows with analysis_candidate_eligible=true, rank_target_eligible=true and canonical accession present in the frozen R3 feature table",
+    "minimum_proteins_per_measurement_batch": 10,
+    "expected_measurement_batch_count": 16,
+    "expected_shared_canonical_protein_count_at_least": 36,
+    "biological_unit_count": 1,
+    "access_condition": "public CC-BY-4.0 Zenodo package; author-run technical OOD candidate; one pooled material with technical replicates; not a protected lockbox and not an independent evaluator"
+  },
+  "feature_policy": {
+    "allowed_feature_set": "R3_UNIPROT_SEQUENCE_COMPOSITION_PHYSICOCHEMICAL_V1",
+    "feature_standardization": "fit only on all frozen R3 development observations",
+    "prohibited_features": ["protein identity", "source identity", "laboratory identity", "worksheet", "condition", "replicate", "source coordinate", "author quantification value", "author rank"]
+  },
+  "models": [
+    {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
+    {"model_id": "SEQUENCE_RIDGE_FULL", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+    {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}}
+  ],
+  "metrics": {
+    "primary": "equal-weight mean external measurement-batch Spearman correlation",
+    "secondary": ["equal-weight mean external measurement-batch mean absolute error", "equal-weight mean external measurement-batch root mean square error"],
+    "constant_rank_metric_policy": "undefined; report MAE and RMSE only"
+  },
+  "uncertainty": {"method": "external measurement-batch cluster bootstrap percentile interval", "resamples": 2000, "random_seed": 20260821},
+  "negative_control": {"method": "permute R3 development targets independently within each development measurement batch while holding the observed nested-selected alpha fixed", "resamples": 256, "random_seed": 20260822, "tail": "one-sided upper tail"},
+  "claim_boundary": "This is an author-run technical OOD analysis on a license-resolved public source from one pooled material. It evaluates frozen sequence descriptors against source-local within-batch ranks without combining raw scales. It does not establish donor-level biological validation, an independent evaluator, external scientific reproduction, adoption or scientific submission readiness."
+}

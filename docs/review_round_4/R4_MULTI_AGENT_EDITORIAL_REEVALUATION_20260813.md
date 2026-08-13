@@ -91,3 +91,11 @@ Report: `reports/review_round_4/small_molecule_corona_cluster_sensitivity/v1.0.0
 This is still one-laboratory, author-run, same-lineage evidence; all
 independent-validation, external-reproduction and submission-readiness flags
 remain false.
+
+## T176/T177 新一轮五角色复评
+
+按 EIC、统计方法、领域、跨学科开放科学和 Devil's Advocate 五个独立角色重新审阅后，编辑决定仍为 **Major Revision**。T176/T177 的新增事实是：一个 Zenodo 数据包的 CC-BY-4.0 dataset-level license 已解析；53 个唯一 source target、36 个正值可排序 target、16 个合格 technical batches 已形成 source-cell map；并且真实执行了 3 模型、nested selection、paired ablation、batch-cluster bootstrap 和 256 次 negative control。
+
+但 T177 的 full sequence ridge 外部批次均值 Spearman 为 `0.0240`（95% bootstrap interval `[-0.0254, 0.0854]`），composition-only 为 `-0.0296`，within-batch permutation negative-control 上尾 `p=0.3268`。该来源只有一个 pooled biological unit，不能用 16 个 technical batches 或 pooled eight-donor description 替代独立 biological n。
+
+更新后的保守评分为：数据兼容性与样本基础 `64`、统计设计 `84`、统计执行与有效样本 `62`、模型/消融/OOD `57`、protected lockbox `4`、外部科学复现 `0`、外部采用 `25`；严格强 Q1 综合 `30/100`，`scientific_submission_ready=false`。完整五角色报告见 `docs/review_round_4/R4_T177_MULTI_AGENT_REVIEW_20260813.md`。该评分没有把作者运行、GitHub handoff、Issue 或下载行为当作第三方证据。
