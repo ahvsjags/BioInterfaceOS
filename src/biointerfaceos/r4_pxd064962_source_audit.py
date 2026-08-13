@@ -360,7 +360,9 @@ class R4PXD064962SourceAuditWorkflow:
             raise R4PXD064962SourceAuditError("T188 source-cell map already exists")
         derived.parent.mkdir(parents=True, exist_ok=True)
         with derived.open("w", newline="", encoding="utf-8") as stream:
-            writer = csv.DictWriter(stream, fieldnames=self.SOURCE_CELL_FIELDS)
+            writer = csv.DictWriter(
+                stream, fieldnames=self.SOURCE_CELL_FIELDS, lineterminator="\n"
+            )
             writer.writeheader()
             writer.writerows(rows)
         self.output_root.mkdir(parents=True, exist_ok=False)
