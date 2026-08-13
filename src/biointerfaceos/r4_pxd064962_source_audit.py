@@ -36,6 +36,10 @@ class R4PXD064962SourceAuditSummary:
     target_source_cell_count: int
     target_positive_source_cell_count: int
     target_positive_batch_observation_count: int
+    unique_target_source_coordinate_count: int
+    ambiguous_target_source_coordinate_count: int
+    ambiguous_target_accession_pair_excess: int
+    positive_shared_canonical_protein_count: int
     biological_unit_count: int
     measurement_batch_count: int
     rank_qualified_measurement_batch_count: int
@@ -111,7 +115,7 @@ class R4PXD064962SourceAuditWorkflow:
             raise R4PXD064962SourceAuditError(f"{label} is missing or outside its root")
         return path
 
-    def _registry(self) -> tuple[dict[str, Any], Path, Path, Path, Path]:
+    def _registry(self) -> tuple[dict[str, Any], Path, Path, Path, Path, Path]:
         registry = self._json(self.registry_path, "R4 T188 source registry")
         expected = {
             "schema_version",
@@ -145,7 +149,7 @@ class R4PXD064962SourceAuditWorkflow:
         if scope.get("source_id") != "PXD064962_UCD_EVENT":
             raise R4PXD064962SourceAuditError("T188 source scope is invalid")
         assets = registry["source_assets"]
-        if not isinstance(assets, list) or len(assets) != 2:
+        if not isinstance(assets, list) or len(assets) != 3:
             raise R4PXD064962SourceAuditError("T188 source assets are invalid")
         by_id: dict[str, Path] = {}
         for item_value in assets:
@@ -163,7 +167,7 @@ class R4PXD064962SourceAuditWorkflow:
             if _sha256(asset) != _checksum(item.get("sha256"), f"{asset_id} checksum"):
                 raise R4PXD064962SourceAuditError(f"{asset_id} checksum differs")
             by_id[asset_id] = asset
-        if set(by_id) != {"protein_groups", "summary"}:
+        if set(by_id) != {"protein_groups", "summary", "pride_project_metadata"}:
             raise R4PXD064962SourceAuditError("T188 source asset IDs are incomplete")
         reference = _mapping(registry["r3_reference_asset"], "T188 R3 reference asset")
         reference_path = self._under(
@@ -178,7 +182,14 @@ class R4PXD064962SourceAuditWorkflow:
         protocol_path = self.root / self.PROTOCOL_RELATIVE
         if not protocol_path.is_file():
             raise R4PXD064962SourceAuditError("T188 sensitivity protocol is missing")
-        return registry, by_id["protein_groups"], by_id["summary"], reference_path, protocol_path
+        return (
+            registry,
+            by_id["protein_groups"],
+            by_id["summary"],
+            by_id["pride_project_metadata"],
+            reference_path,
+            protocol_path,
+        )
 
     @staticmethod
     def _features(path: Path) -> set[str]:
@@ -329,12 +340,43 @@ class R4PXD064962SourceAuditWorkflow:
             != contract["expected_shared_target_count"]
         ):
             raise R4PXD064962SourceAuditError("shared target count differs")
+        source_coordinates = {row["source_coordinate"] for row in rows_out}
+        target_accessions_by_coordinate: dict[str, set[str]] = defaultdict(set)
+        for row in rows_out:
+            target_accessions_by_coordinate[row["source_coordinate"]].add(
+                row["canonical_accession"]
+            )
+        ambiguous_coordinates = {
+            coordinate
+            for coordinate, accessions in target_accessions_by_coordinate.items()
+            if len(accessions) > 1
+        }
+        ambiguous_pair_excess = sum(
+            len(accessions) - 1
+            for accessions in target_accessions_by_coordinate.values()
+            if len(accessions) > 1
+        )
+        positive_shared_targets = {
+            row["canonical_accession"] for row in rows_out if row["rank_target_eligible"] == "true"
+        }
+        if (
+            len(source_coordinates) != contract["expected_unique_target_source_coordinates"]
+            or len(ambiguous_coordinates)
+            != contract["expected_ambiguous_target_source_coordinates"]
+            or ambiguous_pair_excess != contract["expected_ambiguous_target_accession_pair_excess"]
+            or len(positive_shared_targets) != contract["expected_positive_shared_target_count"]
+        ):
+            raise R4PXD064962SourceAuditError("target mapping ambiguity accounting differs")
         summary = {
             "source_cell_count": source_cell_count,
             "positive_source_cell_count": positive_source_cell_count,
             "target_source_cell_count": target_source_cell_count,
             "target_positive_source_cell_count": target_positive_source_cell_count,
             "target_positive_batch_observation_count": positive_batch_observations,
+            "unique_target_source_coordinate_count": len(source_coordinates),
+            "ambiguous_target_source_coordinate_count": len(ambiguous_coordinates),
+            "ambiguous_target_accession_pair_excess": ambiguous_pair_excess,
+            "positive_shared_canonical_protein_count": len(positive_shared_targets),
             "biological_unit_count": len({info["biological_unit_id"] for _, _, info in samples}),
             "measurement_batch_count": len(unique_batch_info),
             "rank_qualified_measurement_batch_count": sum(
@@ -353,16 +395,21 @@ class R4PXD064962SourceAuditWorkflow:
             raise R4PXD064962SourceAuditError("R4 T188 source audit requires --strict")
         if self.output_root.exists():
             raise R4PXD064962SourceAuditError("R4 T188 source audit already executed")
-        registry, asset, summary_asset, feature_path, protocol_path = self._registry()
+        (
+            registry,
+            asset,
+            summary_asset,
+            pride_metadata_asset,
+            feature_path,
+            protocol_path,
+        ) = self._registry()
         rows, accounting = self._cells(asset, feature_path, registry)
         derived = self.assets_root / self.DERIVED_RELATIVE
         if derived.exists():
             raise R4PXD064962SourceAuditError("T188 source-cell map already exists")
         derived.parent.mkdir(parents=True, exist_ok=True)
         with derived.open("w", newline="", encoding="utf-8") as stream:
-            writer = csv.DictWriter(
-                stream, fieldnames=self.SOURCE_CELL_FIELDS, lineterminator="\n"
-            )
+            writer = csv.DictWriter(stream, fieldnames=self.SOURCE_CELL_FIELDS, lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
         self.output_root.mkdir(parents=True, exist_ok=False)
@@ -382,6 +429,8 @@ class R4PXD064962SourceAuditWorkflow:
                 "sha256": _sha256(asset),
                 "summary_relative_path": "summary.txt",
                 "summary_sha256": _sha256(summary_asset),
+                "pride_metadata_relative_path": "pride_project_metadata.json",
+                "pride_metadata_sha256": _sha256(pride_metadata_asset),
             },
             "r3_reference_asset": {
                 "relative_path": registry["r3_reference_asset"]["relative_path"],
@@ -422,6 +471,18 @@ class R4PXD064962SourceAuditWorkflow:
             target_positive_batch_observation_count=accounting[
                 "target_positive_batch_observation_count"
             ],
+            unique_target_source_coordinate_count=accounting[
+                "unique_target_source_coordinate_count"
+            ],
+            ambiguous_target_source_coordinate_count=accounting[
+                "ambiguous_target_source_coordinate_count"
+            ],
+            ambiguous_target_accession_pair_excess=accounting[
+                "ambiguous_target_accession_pair_excess"
+            ],
+            positive_shared_canonical_protein_count=accounting[
+                "positive_shared_canonical_protein_count"
+            ],
             biological_unit_count=accounting["biological_unit_count"],
             measurement_batch_count=accounting["measurement_batch_count"],
             rank_qualified_measurement_batch_count=accounting[
@@ -433,7 +494,14 @@ class R4PXD064962SourceAuditWorkflow:
         )
 
     def verify(self) -> R4PXD064962SourceAuditSummary:
-        registry, asset, summary_asset, feature_path, protocol_path = self._registry()
+        (
+            registry,
+            asset,
+            summary_asset,
+            pride_metadata_asset,
+            feature_path,
+            protocol_path,
+        ) = self._registry()
         rows, accounting = self._cells(asset, feature_path, registry)
         report_path = self.output_root / "pxd064962_ucd_source_audit_report.json"
         receipt_path = self.output_root / "pxd064962_ucd_source_audit_receipt.json"
@@ -451,6 +519,8 @@ class R4PXD064962SourceAuditWorkflow:
             or report.get("source_cell_map", {}).get("sha256") != _sha256(derived)
             or report.get("source_asset", {}).get("sha256") != _sha256(asset)
             or report.get("source_asset", {}).get("summary_sha256") != _sha256(summary_asset)
+            or report.get("source_asset", {}).get("pride_metadata_sha256")
+            != _sha256(pride_metadata_asset)
             or receipt.get("audit_id") != self.AUDIT_ID
             or receipt.get("status") != self.STATUS
             or receipt.get("protocol_sha256") != _sha256(protocol_path)
@@ -468,6 +538,18 @@ class R4PXD064962SourceAuditWorkflow:
             target_positive_source_cell_count=accounting["target_positive_source_cell_count"],
             target_positive_batch_observation_count=accounting[
                 "target_positive_batch_observation_count"
+            ],
+            unique_target_source_coordinate_count=accounting[
+                "unique_target_source_coordinate_count"
+            ],
+            ambiguous_target_source_coordinate_count=accounting[
+                "ambiguous_target_source_coordinate_count"
+            ],
+            ambiguous_target_accession_pair_excess=accounting[
+                "ambiguous_target_accession_pair_excess"
+            ],
+            positive_shared_canonical_protein_count=accounting[
+                "positive_shared_canonical_protein_count"
             ],
             biological_unit_count=accounting["biological_unit_count"],
             measurement_batch_count=accounting["measurement_batch_count"],

@@ -4,6 +4,12 @@
   "status": "FROZEN_SECONDARY_SENSITIVITY_ONLY",
   "source_registry": "docs/data/R4_T188_PXD064962_UCD_SOURCE_REGISTRY.json",
   "source_accession": "PXD064962",
+  "license_provenance": {
+    "authority": "official PRIDE Archive project metadata",
+    "license_value": "Creative Commons Public Domain (CC0)",
+    "metadata_asset": "data/raw/r4_candidate_pxd064962_ucd/pride_project_metadata.json",
+    "metadata_hash_is_required": true
+  },
   "estimand": "descriptive change in the frozen R3 model-versus-composition contribution under a low-coverage licensed external source",
   "primary_endpoint": {
     "name": "subject_equal_mean_spearman",
@@ -14,11 +20,16 @@
     "name": "coverage_stratified_source_local_rank_sensitivity",
     "status": "OPTIONAL_EXPLORATORY",
     "eligible_batches": "batches with at least 5 positive frozen targets",
-    "unit_of_inference": "patient-timepoint biological unit; two technical replicate columns are not independent units",
-    "target_coverage_rule": "report all 30 batches; mark >=10-target batches separately; never promote the >=5 rule to the primary endpoint",
-    "feature_scale": "source-local within-batch rank percentile only",
+    "unit_of_inference": "patient/timepoint biological unit as labelled in the source; two technical replicate columns are not independent units",
+    "target_coverage_rule": "report all 30 batches; mark 5-9 and >=10 target batches separately; never promote the >=5 rule to the primary endpoint",
+    "feature_scale": "source-local within-batch rank percentile only; the rank denominator is all strictly positive source protein-group rows in that source column, not only frozen targets",
+    "rank_definition": "inherit R3 descending midrank percentile semantics; zeros and blanks are excluded; the >=5 rule changes eligibility only and never changes the rank denominator",
+    "protein_group_ambiguity": "retain every target-accession/source-coordinate pair in the audit map, but exclude source coordinates mapping to multiple frozen accessions from any quantitative target rank or model sensitivity endpoint unless a later protocol explicitly freezes a unique-group rule",
+    "physical_cell_accounting": "report raw source-table cells, unique source coordinates and expanded target-accession/source-coordinate pairs as separate quantities",
     "missingness": "source blank and explicit zero remain missing/non-rank-eligible; no imputation",
     "technical_replicates": "preserve source columns; any aggregation must be declared in the analysis receipt before execution",
+    "technical_replicate_qc": "report positive/zero/blank discordance and concordance before any batch-level aggregation",
+    "selection_order": "freeze model, feature table and nested alpha selection before reading the PXD064962 values; source identity, coordinates and abundance values cannot enter feature selection",
     "uncertainty": "patient-level bootstrap only; no IID technical-replicate bootstrap",
     "multiplicity": "no confirmatory p-value; descriptive confidence intervals only",
     "negative_control": "if executed, permute labels within biological-unit strata and rerun every selection step"

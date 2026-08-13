@@ -35,6 +35,12 @@
       "relative_path": "summary.txt",
       "sha256": "2055597a06760c8604c64d2618ec69bbe463f5e94133abb232c50b4049bab902",
       "expected_bytes": 20139
+    },
+    {
+      "asset_id": "pride_project_metadata",
+      "relative_path": "pride_project_metadata.json",
+      "sha256": "9127afab7831aba3aa89ad04b8d2e9c8121be0c6264683add1033b22fe2187b3",
+      "expected_bytes": 8281
     }
   ],
   "r3_reference_asset": {
@@ -50,6 +56,10 @@
     "expected_source_cell_count": 24300,
     "expected_positive_source_cell_count": 11776,
     "expected_target_source_cell_count": 1260,
+    "expected_unique_target_source_coordinates": 1140,
+    "expected_ambiguous_target_source_coordinates": 60,
+    "expected_ambiguous_target_accession_pair_excess": 120,
+    "expected_positive_shared_target_count": 15,
     "expected_target_positive_source_cell_count": 454,
     "expected_target_positive_batch_observations": 259,
     "expected_measurement_batches": 30,
@@ -74,5 +84,5 @@
     "primary_ood_minimum_met": false,
     "secondary_low_coverage_sensitivity_candidate": true
   },
-  "claim_boundary": "This receipt verifies a CC0 PXD064962 MaxQuant table, its row/column hashes, 30 patient/timepoint batches, 21 frozen-target accessions and 1,260 traceable target cells. Only five batches meet the frozen >=10-target coverage rule, so this source is not admitted to the primary OOD endpoint and cannot establish independent validation, lockbox evaluation, no-author reproduction, adoption or scientific submission readiness."
+  "claim_boundary": "This receipt verifies a CC0 PXD064962 MaxQuant table and official PRIDE metadata snapshot, their hashes, 30 labelled patient/timepoint batches, 21 candidate frozen-target accessions, 1,260 expanded target-accession/source-coordinate pairs and 1,140 unique target source coordinates. Sixty source coordinates map to multiple frozen accessions and are not eligible for a future quantitative target-rank endpoint unless a later protocol freezes an ambiguity rule. Only five batches meet the frozen >=10-target coverage rule, so this source is not admitted to the primary OOD endpoint and cannot establish independent validation, lockbox evaluation, no-author reproduction, adoption or scientific submission readiness."
 }

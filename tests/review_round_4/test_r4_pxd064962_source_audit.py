@@ -14,6 +14,7 @@ def test_pxd064962_audit_runs_and_verifies(tmp_path: Path) -> None:
     test_assets.mkdir()
     copy2(ASSETS / "proteinGroups.txt", test_assets / "proteinGroups.txt")
     copy2(ASSETS / "summary.txt", test_assets / "summary.txt")
+    copy2(ASSETS / "pride_project_metadata.json", test_assets / "pride_project_metadata.json")
     workflow = R4PXD064962SourceAuditWorkflow(ROOT, test_assets, output_root=tmp_path / "audit")
     summary = workflow.run(strict=True)
     assert summary.source_cell_count == 24300
@@ -21,6 +22,10 @@ def test_pxd064962_audit_runs_and_verifies(tmp_path: Path) -> None:
     assert summary.target_source_cell_count == 1260
     assert summary.target_positive_source_cell_count == 454
     assert summary.target_positive_batch_observation_count == 259
+    assert summary.unique_target_source_coordinate_count == 1140
+    assert summary.ambiguous_target_source_coordinate_count == 60
+    assert summary.ambiguous_target_accession_pair_excess == 120
+    assert summary.positive_shared_canonical_protein_count == 15
     assert summary.biological_unit_count == 30
     assert summary.measurement_batch_count == 30
     assert summary.rank_qualified_measurement_batch_count == 5
