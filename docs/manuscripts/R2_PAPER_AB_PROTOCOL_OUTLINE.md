@@ -73,6 +73,13 @@ receipts explicitly keep the target `NOT_FROZEN`, model use `PROHIBITED`, and
 all model/OOD/independent validation fields false. These are data-coverage
 findings, not model results.
 
+A separate T140 primary-source rescreen identifies a UCD PNAS 2008 and PNNL
+Proteomics 2011 pair with article-level human-plasma polystyrene 50/100 nm
+designs. It remains a candidate lead, not an admitted cohort: first-party
+supplementary bytes, reuse terms, source-unit-to-size maps and a shared
+preprocessing/endpoint contract are not yet verified. T140 therefore does not
+change the T129 cohort, T121 amendment, model gate or external-evaluation gates.
+
 ## Figures, data, code and availability
 
 Use only R2 Figures 1--3 with their source cards and QA receipt. Provide the

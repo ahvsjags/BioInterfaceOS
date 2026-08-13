@@ -68,7 +68,7 @@ def _string_list(value: Any, label: str, *, minimum: int = 1) -> list[str]:
 class ManuscriptPortfolioWorkflow:
     """Create a fail-closed receipt for R2's protocol-only portfolio state."""
 
-    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.6.0"
+    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.7.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PORTFOLIO_RELATIVE = "docs/manuscripts/R2_MANUSCRIPT_PORTFOLIO.json"
     COMPARATOR_MAP_RELATIVE = "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json"
@@ -94,7 +94,13 @@ class ManuscriptPortfolioWorkflow:
         "current_target_evidence_receipt.json"
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
-    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.6.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.7.0"
+    T140_PAIR_REPORT_RELATIVE = (
+        "reports/review_round_2/two_lab_corona_pair_rescreen/v1.0.0/pair_rescreen_report.json"
+    )
+    T140_PAIR_RECEIPT_RELATIVE = (
+        "reports/review_round_2/two_lab_corona_pair_rescreen/v1.0.0/pair_rescreen_receipt.json"
+    )
     REQUIRED_PORTFOLIO_FIELDS = {
         "schema_version",
         "portfolio_id",
@@ -141,6 +147,7 @@ class ManuscriptPortfolioWorkflow:
             "The completed three-source author-result profile contains 23 profiles but zero",
             "neither screen admits a target.",
             "The current consolidated T129 receipt binds eight candidate sources",
+            "A separate T140 primary-source rescreen identifies a UCD PNAS 2008 and PNNL",
         },
         "R2_PAPER_C_PROTOCOL": {
             "This is a results-blind R2 Paper C protocol outline.",
@@ -152,6 +159,7 @@ class ManuscriptPortfolioWorkflow:
             "all eight candidates remain non-admitted.",
             "model use remains",
             "`PROHIBITED`",
+            "T140 separately records an article-level UCD/PNNL two-laboratory candidate pair",
         },
     }
 
@@ -178,7 +186,7 @@ class ManuscriptPortfolioWorkflow:
         if set(portfolio) != self.REQUIRED_PORTFOLIO_FIELDS or portfolio.get("schema_version") != 1:
             raise ManuscriptPortfolioError("R2 manuscript portfolio schema is invalid")
         if (
-            portfolio.get("portfolio_id") != "bioif-r2-manuscript-portfolio-v1.4.0"
+            portfolio.get("portfolio_id") != "bioif-r2-manuscript-portfolio-v1.5.0"
             or portfolio.get("declared_at") != self.AUDITED_AT
             or portfolio.get("status") != "PROTOCOL_PORTFOLIO_PENDING_REAL_EVIDENCE"
             or portfolio.get("required_legacy_withdrawal_count") != 15
@@ -352,6 +360,14 @@ class ManuscriptPortfolioWorkflow:
             ),
             "T129 current target-evidence receipt",
         )
+        t140_pair_report = self._json(
+            self._path(self.T140_PAIR_REPORT_RELATIVE, "T140 pair-rescreen report"),
+            "T140 pair-rescreen report",
+        )
+        t140_pair_receipt = self._json(
+            self._path(self.T140_PAIR_RECEIPT_RELATIVE, "T140 pair-rescreen receipt"),
+            "T140 pair-rescreen receipt",
+        )
         t124 = self._json(
             self._path(self.T124_RELATIVE, "T124 readiness receipt"),
             "T124 readiness receipt",
@@ -385,6 +401,24 @@ class ManuscriptPortfolioWorkflow:
             or t129_current_target_evidence.get("target_status") != "NOT_FROZEN"
             or t129_current_target_evidence.get("model_use") != "PROHIBITED"
             or t129_current_target_evidence.get("model_fitted") is not False
+            or t140_pair_report.get("status")
+            != "BLOCKED_PAIR_ASSET_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_AUDIT_REQUIRED"
+            or t140_pair_report.get("candidate_source_count") != 2
+            or t140_pair_report.get("independent_laboratory_count") != 2
+            or t140_pair_report.get("candidate_size_count") != 2
+            or t140_pair_report.get("admissible_target_count") != 0
+            or t140_pair_report.get("target_status") != "NOT_FROZEN"
+            or t140_pair_report.get("model_use") != "PROHIBITED"
+            or t140_pair_report.get("model_fitted") is not False
+            or t140_pair_receipt.get("audit_id") != t140_pair_report.get("audit_id")
+            or t140_pair_receipt.get("status") != t140_pair_report.get("status")
+            or t140_pair_receipt.get("candidate_source_count") != 2
+            or t140_pair_receipt.get("independent_laboratory_count") != 2
+            or t140_pair_receipt.get("candidate_size_count") != 2
+            or t140_pair_receipt.get("admissible_target_count") != 0
+            or t140_pair_receipt.get("target_status") != "NOT_FROZEN"
+            or t140_pair_receipt.get("model_use") != "PROHIBITED"
+            or t140_pair_receipt.get("scientific_submission_ready") is not False
             or t124.get("status") != "BLOCKED_T123_COMPATIBLE_TARGET_REQUIRED"
             or t124.get("external_evaluator_receipt_verified") is not False
         ):
@@ -430,6 +464,16 @@ class ManuscriptPortfolioWorkflow:
                 "t129_current_target_evidence_candidate_source_count": 8,
                 "t129_current_target_evidence_candidate_laboratory_count": 5,
                 "t129_current_target_evidence_verified_source_asset_count": 31,
+                "t140_pair_rescreen_report_sha256": _sha256(
+                    self._path(self.T140_PAIR_REPORT_RELATIVE, "T140 pair-rescreen report")
+                ),
+                "t140_pair_rescreen_receipt_sha256": _sha256(
+                    self._path(self.T140_PAIR_RECEIPT_RELATIVE, "T140 pair-rescreen receipt")
+                ),
+                "t140_pair_rescreen_candidate_source_count": 2,
+                "t140_pair_rescreen_independent_laboratory_count": 2,
+                "t140_pair_rescreen_candidate_size_count": 2,
+                "t140_pair_rescreen_admissible_target_count": 0,
                 "t124_external_evaluator_receipt_verified": False,
             },
             len(figure_rows),
@@ -484,6 +528,10 @@ class ManuscriptPortfolioWorkflow:
             "t129_current_target_evidence_candidate_source_count": 8,
             "t129_current_target_evidence_candidate_laboratory_count": 5,
             "t129_current_target_evidence_verified_source_asset_count": 31,
+            "t140_pair_rescreen_candidate_source_count": 2,
+            "t140_pair_rescreen_independent_laboratory_count": 2,
+            "t140_pair_rescreen_candidate_size_count": 2,
+            "t140_pair_rescreen_admissible_target_count": 0,
             "t124_external_evaluator_receipt_verified": False,
             "historical_fixture_manuscripts_reused": False,
             "model_fitted": False,
@@ -534,6 +582,10 @@ class ManuscriptPortfolioWorkflow:
             "t129_current_target_evidence_candidate_source_count": 8,
             "t129_current_target_evidence_candidate_laboratory_count": 5,
             "t129_current_target_evidence_verified_source_asset_count": 31,
+            "t140_pair_rescreen_candidate_source_count": 2,
+            "t140_pair_rescreen_independent_laboratory_count": 2,
+            "t140_pair_rescreen_candidate_size_count": 2,
+            "t140_pair_rescreen_admissible_target_count": 0,
         }
         if any(receipt.get(key) != value for key, value in expected.items()) or any(
             receipt.get(field) is not False

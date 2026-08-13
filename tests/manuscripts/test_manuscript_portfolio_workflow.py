@@ -25,6 +25,10 @@ def test_portfolio_keeps_r2_manuscripts_protocol_only(tmp_path: Path) -> None:
     assert summary.protocol_figure_count == 3
     assert summary.legacy_withdrawal_count == 15
     assert summary.status == "BLOCKED_R2_MANUSCRIPTS_PENDING_T123_T124"
+    receipt = json.loads(summary.receipt_path.read_text(encoding="utf-8"))
+    assert receipt["t140_pair_rescreen_candidate_source_count"] == 2
+    assert receipt["t140_pair_rescreen_independent_laboratory_count"] == 2
+    assert receipt["t140_pair_rescreen_admissible_target_count"] == 0
     assert workflow.verify() == summary
 
 

@@ -25,13 +25,19 @@ threshold ledger and prediction archive are unavailable by design.
 The current three-source author-result profile has zero compatible cross-study
 targets. T129 then screened two CC0 candidate workbooks from two laboratories
 and a separate two-source expansion from one laboratory. A current consolidated
-receipt also records the source-mapped PXD030327 exposure design, giving five
+receipt also records the source-mapped PXD030327 exposure design, giving eight
 candidate sources from five disclosed laboratories and thirty-one verified source assets;
 all eight candidates remain non-admitted. The source labels, author result
 tables and file paths are not reinterpreted as numeric covariates, biological
 replicates or a common endpoint. Consequently the target remains `NOT_FROZEN`,
 model use remains `PROHIBITED`, and no candidate, threshold ledger, prediction
 archive or evaluator handoff exists.
+
+T140 separately records an article-level UCD/PNNL two-laboratory candidate pair
+with a nominal shared 50/100 nm polystyrene design. The pair is not part of the
+T129 cohort: first-party supplementary bytes, reuse terms, unit-level maps and
+shared preprocessing/endpoint evidence remain outstanding, so it cannot create
+a candidate, target, model result or evaluator handoff.
 
 ## Frozen analysis and evaluator handoff
 
