@@ -5,6 +5,6 @@ type: software
 authors:
   - name: "BioInterfaceOS Contributors"
 version: 0.1.0
-date-released: 2026-08-12
+date-released: 2026-08-13
 license: Apache-2.0
 abstract: "Provenance-grounded software and protocol infrastructure for biomedical material biointerface research."
