@@ -12,7 +12,7 @@
 | R2-06 | 公开包许可证、README、source-data、specs、receipts、container 不完整 | Major | T117,T118,T128 | asset-license registry、resolved paths、SBOM、rebuild receipt | partial release with explicit limits | OPEN | PASS_PUBLIC_RELEASE_AUDIT |
 | R2-07 | 图件发生 clipping，且绘制错误字段 | Major | T119,T126,T127 | explicit field maps、bounds/semantic/visual tests、human signoff | withdraw affected panels | OPEN | FALLBACK_PROTOCOL_FIGURE_QA_VERIFIED |
 | R2-08 | A/B 贡献重叠；C 体裁与证据等级错配 | Major | T125,T126,T127,T141 | merged A+B manuscript；C protocol/results decision tied to T124；T140 非纳入候选对进入两条稿件路线 | single software/protocol portfolio | OPEN | FALLBACK_MERGED_PROTOCOL_PORTFOLIO_VERIFIED |
-| R2-09 | 项目仍标记 IN_PROGRESS，final audit/test count口径不统一 | Major | T118,T128 | release-level JUnit receipt、consistent audit wording、external re-review | IN_PROGRESS with public blocker ledger | OPEN | OPEN_EXTERNAL_ACCEPTANCE_REQUIRED |
+| R2-09 | 项目仍标记 IN_PROGRESS，final audit/test count口径不统一 | Major | T118,T128,T143 | release-level JUnit receipt、consistent audit wording、external re-review；T143 ordered external-gate path and hash-bound operator references | IN_PROGRESS with public blocker ledger | OPEN | OPEN_EXTERNAL_ACCEPTANCE_REQUIRED |
 
 ## Evidence-class policy
 

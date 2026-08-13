@@ -64,10 +64,10 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.18.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.19.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.18.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.19.0"
     RECEIPTS = {
         "semantics": (
             "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
@@ -130,6 +130,14 @@ class R2RemediationWorkflow:
             "reports/review_round_2/external_evidence_handoff/v1.10.0/"
             "external_evidence_handoff_receipt.json",
             "T133/T135/T136 external-evidence handoff receipt",
+        ),
+        "t143_external_gate_path_report": (
+            "reports/review_round_2/external_gate_path/v1.1.0/external_gate_path_report.json",
+            "T143 external gate-path report",
+        ),
+        "t143_external_gate_path_receipt": (
+            "reports/review_round_2/external_gate_path/v1.1.0/external_gate_path_receipt.json",
+            "T143 external gate-path receipt",
         ),
         "t142_asset_audit_report": (
             "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_report.json",
@@ -215,6 +223,8 @@ class R2RemediationWorkflow:
         acceptance = sources["acceptance"].payload
         t142_asset_report = sources["t142_asset_audit_report"].payload
         t142_asset_receipt = sources["t142_asset_audit_receipt"].payload
+        t143_gate_report = sources["t143_external_gate_path_report"].payload
+        t143_gate_receipt = sources["t143_external_gate_path_receipt"].payload
 
         self._require(
             profile.get("status") == "REAL_RESULT_PROFILE_COMPLETE_NOT_A_MODEL_TARGET"
@@ -360,6 +370,26 @@ class R2RemediationWorkflow:
             and acceptance.get("scientific_submission_ready") is False,
             "R2-09",
         )
+        self._require(
+            t143_gate_report.get("status") == "PASS_R2_EXTERNAL_GATE_PATH_AUDIT"
+            and t143_gate_report.get("gate_status")
+            == "READY_FOR_EXTERNAL_HANDOFF_WITH_EXTERNAL_GATES_OPEN"
+            and t143_gate_report.get("stage_count") == 6
+            and t143_gate_report.get("reference_count") == 13
+            and t143_gate_report.get("command_count") == 6
+            and t143_gate_report.get("external_source_received") is False
+            and t143_gate_report.get("independent_evaluator_receipt_verified") is False
+            and t143_gate_report.get("external_reproduction_verified") is False
+            and t143_gate_report.get("editorial_rereview_verified") is False
+            and t143_gate_report.get("scientific_submission_ready") is False
+            and t143_gate_receipt.get("audit_id") == t143_gate_report.get("audit_id")
+            and t143_gate_receipt.get("status") == t143_gate_report.get("status")
+            and t143_gate_receipt.get("stage_count") == 6
+            and t143_gate_receipt.get("reference_count") == 13
+            and t143_gate_receipt.get("command_count") == 6
+            and t143_gate_receipt.get("scientific_submission_ready") is False,
+            "R2-09 T143 external gate path",
+        )
         return [
             {
                 "finding_id": "R2-01",
@@ -462,7 +492,12 @@ class R2RemediationWorkflow:
                     "External reproduction and editorial re-review remain absent; the acceptance "
                     "audit lists nine blockers and submission readiness is false."
                 ),
-                "evidence_source_keys": ["acceptance", "external_handoff"],
+                "evidence_source_keys": [
+                    "acceptance",
+                    "external_handoff",
+                    "t143_external_gate_path_report",
+                    "t143_external_gate_path_receipt",
+                ],
             },
         ]
 
