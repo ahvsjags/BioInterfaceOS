@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-external-source-intake-v1.0.0",
+  "title": "BioInterfaceOS R2 external source-intake preflight package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "submission_state",
+    "intake_id",
+    "submitted_at",
+    "evidence_class",
+    "allowed_claim_level",
+    "target_admission_requested",
+    "source_records"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "submission_state": {"enum": ["TEMPLATE_NOT_FOR_VALIDATION", "SUBMITTED_FOR_PREFLIGHT"]},
+    "intake_id": {"type": "string", "minLength": 1},
+    "submitted_at": {"type": "string", "minLength": 1},
+    "evidence_class": {"const": "DEVELOPMENT_OBSERVATION"},
+    "allowed_claim_level": {"const": "EXPLORATORY"},
+    "target_admission_requested": {"const": false},
+    "source_records": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source"}
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_accession_or_doi",
+        "official_repository_or_publisher_locator",
+        "source_license",
+        "laboratory_affiliation",
+        "human_biofluid",
+        "assay_and_acquisition_context",
+        "author_scale_segregated",
+        "source_assets",
+        "analysis_units"
+      ],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "source_accession_or_doi": {"type": "string", "minLength": 1},
+        "official_repository_or_publisher_locator": {"type": "string", "format": "uri"},
+        "source_license": {"const": "CC0-1.0"},
+        "laboratory_affiliation": {"type": "string", "minLength": 1},
+        "human_biofluid": {"type": "string", "minLength": 1},
+        "assay_and_acquisition_context": {"type": "string", "minLength": 1},
+        "author_scale_segregated": {"const": true},
+        "source_assets": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/asset"}},
+        "analysis_units": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/unit"}}
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "relative_path", "sha256"],
+      "properties": {
+        "asset_id": {"type": "string", "minLength": 1},
+        "relative_path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "analysis_unit_id",
+        "source_file_or_result_id",
+        "material_identity",
+        "numeric_material_or_size_covariate",
+        "biological_role",
+        "replicate_role",
+        "shared_endpoint_value",
+        "endpoint_unit_or_scale",
+        "shared_preprocessing_version",
+        "source_asset_checksum"
+      ],
+      "properties": {
+        "analysis_unit_id": {"type": "string", "minLength": 1},
+        "source_file_or_result_id": {"type": "string", "minLength": 1},
+        "material_identity": {"type": "string", "minLength": 1},
+        "numeric_material_or_size_covariate": {"$ref": "#/$defs/covariate"},
+        "biological_role": {"type": "string", "minLength": 1},
+        "replicate_role": {"type": "string", "minLength": 1},
+        "shared_endpoint_value": {"type": "number"},
+        "endpoint_unit_or_scale": {"type": "string", "minLength": 1},
+        "shared_preprocessing_version": {"type": "string", "minLength": 1},
+        "source_asset_checksum": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "covariate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value", "unit"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "value": {"type": "number"},
+        "unit": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

@@ -440,6 +440,17 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_provenance_parser.add_argument(
         "--strict", action="store_true", help="require row-level real-source provenance"
     )
+    data_external_intake_parser = data_subparsers.add_parser(
+        "preflight-external-source-intake",
+        help="verify an externally supplied source package without admitting a target",
+    )
+    data_external_intake_parser.add_argument(
+        "--manifest", type=Path, required=True, help="external contributor manifest JSON"
+    )
+    data_external_intake_parser.add_argument(
+        "--assets-root", type=Path, required=True, help="root containing contributor source assets"
+    )
+    data_external_intake_parser.add_argument("--strict", action="store_true")
     stats_parser = subparsers.add_parser(
         "stats", help="freeze and validate empirical analysis contracts"
     )
@@ -3064,6 +3075,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "build-gold-auto",
             "validate",
             "audit-provenance",
+            "preflight-external-source-intake",
         }:
             parser.parse_args(["data", "--help"])
             return 0
@@ -3071,6 +3083,30 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         if root is None:
             print("DATA_FETCH_INVALID: repository root not found", file=sys.stderr)
             return 1
+        if args.data_command == "preflight-external-source-intake":
+            from biointerfaceos.external_source_intake import (
+                ExternalSourceIntakeError,
+                ExternalSourceIntakeWorkflow,
+            )
+
+            try:
+                external_intake_summary = ExternalSourceIntakeWorkflow(
+                    args.manifest, args.assets_root
+                ).run(strict=args.strict)
+            except (ExternalSourceIntakeError, OSError) as exc:
+                print(f"EXTERNAL_SOURCE_INTAKE_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "EXTERNAL_SOURCE_INTAKE_VALID "
+                f"status={external_intake_summary.status} "
+                f"sources={external_intake_summary.source_count} "
+                f"laboratories={external_intake_summary.laboratory_count} "
+                f"assets={external_intake_summary.source_asset_count} "
+                f"analysis_units={external_intake_summary.analysis_unit_count} "
+                "target_admitted=false t121_amendment=false model_fitted=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
         if args.data_command == "audit-provenance":
             from biointerfaceos.empirical_provenance_workflow import (
                 EmpiricalProvenanceError,
