@@ -712,12 +712,16 @@ class R4ManchesterNanoOmicWorkflow:
         paired_batches = sorted(
             {batch for model, batch in metric_by_model_batch if model == "SEQUENCE_RIDGE_FULL"}
         )
-        paired = [
-            float(metric_by_model_batch[("SEQUENCE_RIDGE_FULL", batch)]["spearman"])
-            - float(metric_by_model_batch[("SEQUENCE_RIDGE_COMPOSITION_ONLY", batch)]["spearman"])
-            for batch in paired_batches
-        ]
-        paired_ci = helper._bootstrap(paired, resamples=2000, seed=202615)
+        paired_by_unit: dict[str, list[float]] = defaultdict(list)
+        paired = []
+        for batch in paired_batches:
+            difference = float(
+                metric_by_model_batch[("SEQUENCE_RIDGE_FULL", batch)]["spearman"]
+            ) - float(metric_by_model_batch[("SEQUENCE_RIDGE_COMPOSITION_ONLY", batch)]["spearman"])
+            paired.append(difference)
+            paired_by_unit[batch_to_unit[batch]].append(difference)
+        paired_unit_means = [float(np.mean(values)) for _, values in sorted(paired_by_unit.items())]
+        paired_ci = helper._bootstrap(paired_unit_means, resamples=2000, seed=202615)
         by_development_batch: dict[str, list[int]] = defaultdict(list)
         for position, observation in enumerate(development):
             by_development_batch[observation.measurement_batch_id].append(position)
@@ -729,19 +733,42 @@ class R4ManchesterNanoOmicWorkflow:
             permuted = observed.copy()
             for indices in by_development_batch.values():
                 permuted[indices] = rng.permutation(permuted[indices])
-            null_model = helper._fit_ridge(development, full_indices, full_alpha, targets=permuted)
-            score = next(
-                row["subject_equal_mean_spearman"]
-                for row in self._cluster_metric_rows(
-                    helper._batch_metrics(
-                        external, helper._predict_ridge(null_model, external), minimum_proteins=10
-                    ),
-                    batch_to_unit,
+            permuted_development = [
+                _Observation(
+                    row.target_observation_id,
+                    row.source_id,
+                    row.canonical_accession,
+                    row.laboratory_anchor,
+                    row.measurement_batch_id,
+                    float(target),
+                    row.feature_values,
                 )
+                for row, target in zip(development, permuted, strict=True)
+            ]
+            permuted_alpha, _ = helper._select_alpha(
+                permuted_development, full_indices, minimum_proteins=10
             )
+            null_model = helper._fit_ridge(
+                permuted_development, full_indices, permuted_alpha, targets=permuted
+            )
+            null_metrics, _ = self._cluster_metrics(
+                helper._batch_metrics(
+                    external, helper._predict_ridge(null_model, external), minimum_proteins=10
+                ),
+                batch_to_unit,
+            )
+            score = null_metrics["subject_equal_mean_spearman"]
+            if score is None:
+                raise R4ManchesterNanoOmicError(
+                    "Manchester negative control has undefined Spearman"
+                )
             null_scores.append(float(score))
             null_rows.append(
-                {"resample": resample, "null_subject_equal_mean_spearman": float(score)}
+                {
+                    "resample": resample,
+                    "selected_alpha": permuted_alpha,
+                    "null_subject_equal_mean_spearman": float(score),
+                }
             )
         output = self.output_root
         output.mkdir(parents=True, exist_ok=False)
@@ -799,7 +826,9 @@ class R4ManchesterNanoOmicWorkflow:
             ],
         )
         self._write_csv(
-            paths["negative_control"], ["resample", "null_subject_equal_mean_spearman"], null_rows
+            paths["negative_control"],
+            ["resample", "selected_alpha", "null_subject_equal_mean_spearman"],
+            null_rows,
         )
         negative = {
             "observed_subject_equal_mean_spearman": full_primary,
@@ -811,6 +840,8 @@ class R4ManchesterNanoOmicWorkflow:
             ),
             "resamples": 256,
             "random_seed": 202616,
+            "statistic": "subject_equal_mean_spearman_across_61_patient_clusters",
+            "selection_reexecuted_per_resample": True,
         }
         self._write_json(
             paths["parameters"],
@@ -851,7 +882,11 @@ class R4ManchesterNanoOmicWorkflow:
             "model_results": model_rows,
             "paired_composition_ablation": {
                 "paired_measurement_batch_count": len(paired),
-                "full_minus_composition_mean_spearman": float(np.mean(paired)),
+                "paired_patient_cluster_count": len(paired_unit_means),
+                "full_minus_composition_batch_weighted_mean_spearman": float(np.mean(paired)),
+                "full_minus_composition_patient_equal_mean_spearman": float(
+                    np.mean(paired_unit_means)
+                ),
                 **paired_ci,
             },
             "negative_control_summary": negative,

@@ -60,6 +60,8 @@
     "type": "within-development-measurement-batch-target-permutation",
     "resamples": 256,
     "random_seed": 202616,
+    "statistic": "subject-equal mean of external measurement-batch Spearman across patient clusters",
+    "selection_reexecuted_per_resample": true,
     "external_targets_never_used_in_fitting": true
   },
   "claim_boundary": "Author-run exploratory external OOD only; not a protected lockbox, independent evaluator receipt, no-author reproduction, clinical validation or submission-readiness evidence.",

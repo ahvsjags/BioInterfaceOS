@@ -22,14 +22,19 @@ def test_manchester_protocol_freezes_analysis_only_accounting() -> None:
     assert protocol["scientific_submission_ready"] is False
     assert "independent evaluator receipt" in protocol["claim_boundary"]
     assert "no-author reproduction" in protocol["claim_boundary"]
+    assert protocol["negative_control"]["selection_reexecuted_per_resample"] is True
 
 
 def test_manchester_receipts_verify_when_analysis_artifacts_are_present() -> None:
-    audit_report = ROOT / R4ManchesterNanoOmicWorkflow.AUDIT_OUTPUT_RELATIVE / (
-        "r4_manchester_nanoomic_source_report.json"
+    audit_report = (
+        ROOT
+        / R4ManchesterNanoOmicWorkflow.AUDIT_OUTPUT_RELATIVE
+        / ("r4_manchester_nanoomic_source_report.json")
     )
-    ood_report = ROOT / R4ManchesterNanoOmicWorkflow.OOD_OUTPUT_RELATIVE / (
-        "r4_manchester_nanoomic_ood_report.json"
+    ood_report = (
+        ROOT
+        / R4ManchesterNanoOmicWorkflow.OOD_OUTPUT_RELATIVE
+        / ("r4_manchester_nanoomic_ood_report.json")
     )
     if not audit_report.is_file() or not ood_report.is_file():
         pytest.skip("analysis-only source receipts are not part of a clean checkout")
