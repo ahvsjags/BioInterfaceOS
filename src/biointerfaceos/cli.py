@@ -739,6 +739,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T193 three-source execution receipt",
     )
     data_r4_t193_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t194_parser = data_subparsers.add_parser(
+        "evaluate-r4-t194-fulltext-core-facility",
+        help="execute the frozen full-text PMC9633814 core-facility portability analysis",
+    )
+    data_r4_t194_parser.add_argument("--strict", action="store_true")
+    data_r4_t194_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t194-fulltext-core-facility",
+        help="verify the frozen T194 full-text core-facility execution receipt",
+    )
+    data_r4_t194_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3679,6 +3689,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t192-three-lab-common-target",
             "evaluate-r4-t193-three-lab-prefrozen-target",
             "verify-r4-t193-three-lab-prefrozen-target",
+            "evaluate-r4-t194-fulltext-core-facility",
+            "verify-r4-t194-fulltext-core-facility",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-pxd064962-low-coverage-sensitivity",
@@ -4545,6 +4557,49 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"target_universe={t193_summary.target_universe_count} "
                 f"laboratories={t193_summary.laboratory_anchor_count} "
                 f"measurement_batches={t193_summary.measurement_batch_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t194-fulltext-core-facility":
+            from biointerfaceos.r4_t194_fulltext_core_facility_execution import (
+                R4T194FulltextCoreFacilityExecutionWorkflow,
+                R4T194FulltextExecutionError,
+            )
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
+
+            try:
+                t194_summary = R4T194FulltextCoreFacilityExecutionWorkflow(root).run(strict=args.strict)
+            except (R4T194FulltextExecutionError, OSError, R3ModelEvaluationError) as exc:
+                print(f"R4_T194_FULLTEXT_CORE_FACILITY_EXECUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T194_FULLTEXT_CORE_FACILITY_EXECUTION_VALID "
+                f"observations={t194_summary.observation_count} "
+                f"target_universe={t194_summary.target_universe_count} "
+                f"core_facilities={t194_summary.core_facility_count} "
+                f"measurement_batches={t194_summary.measurement_batch_count} "
+                f"models={t194_summary.model_count} "
+                "study_held_out=true nested_selection=true cluster_aware=true "
+                "independent_biological_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t194-fulltext-core-facility":
+            from biointerfaceos.r4_t194_fulltext_core_facility_execution import (
+                R4T194FulltextCoreFacilityExecutionWorkflow,
+                R4T194FulltextExecutionError,
+            )
+
+            try:
+                t194_summary = R4T194FulltextCoreFacilityExecutionWorkflow(root).verify(strict=args.strict)
+            except (R4T194FulltextExecutionError, OSError) as exc:
+                print(f"R4_T194_FULLTEXT_CORE_FACILITY_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T194_FULLTEXT_CORE_FACILITY_VERIFY_VALID "
+                f"observations={t194_summary.observation_count} "
+                f"target_universe={t194_summary.target_universe_count} "
+                f"core_facilities={t194_summary.core_facility_count} "
+                f"measurement_batches={t194_summary.measurement_batch_count} "
                 "scientific_submission_ready=false"
             )
             return 0

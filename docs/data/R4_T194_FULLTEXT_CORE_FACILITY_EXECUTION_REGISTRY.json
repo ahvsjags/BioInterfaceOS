@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t194-fulltext-core-facility-execution-v1.0.0",
+  "protocol_id": "bioif-r4-t194-fulltext-core-facility-execution-v1.0.0",
+  "status": "T194_FULLTEXT_CORE_FACILITY_EXECUTION_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T194_FULLTEXT_CORE_FACILITY_EXECUTION_PROTOCOL.json",
+    "sha256": "39d9f6d3526ffe4cfc573fd2a2e29d62db48aa71bb612601656d229ac66d78aa"
+  },
+  "source_cell_map": {
+    "relative_path": "data/raw/r3_fulltext_pmc9633814/derived/R3_PMC9633814_semiquantitative_source_cell_map.csv",
+    "sha256": "38eca5ed7a5bbcaa49c674cb2fb46fbeaf2d71ca97c33d84f903c10df571b818"
+  },
+  "r3_common_target_ledger": {
+    "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+    "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+  },
+  "r3_sequence_feature_table": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "expected_accounting": {
+    "raw_map_rows": 9909,
+    "eligible_observation_count": 707,
+    "target_universe_count": 99,
+    "core_facility_count": 12,
+    "positive_core_count": 12
+  },
+  "output_contract": {
+    "relative_path": "reports/review_round_4/t194_fulltext_core_facility_execution/v1.0.0"
+  },
+  "claim_boundary": "The registry freezes a technical cross-core execution on a common pooled aliquot; it does not establish independent biological or external scientific validation.",
+  "scientific_submission_ready": false
+}

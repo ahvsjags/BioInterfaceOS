@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t194-fulltext-core-facility-execution-v1.0.0",
+  "status": "FROZEN_BEFORE_T194_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "scientific_question": "Can the frozen sequence model preserve within-batch target ordering when the same common human-plasma nanoparticle-corona aliquot is processed by previously unseen proteomics core facilities?",
+  "data_semantics": {
+    "source_article": "10.1038/s41467-022-34438-8",
+    "source_pmcid": "PMC9633814",
+    "source_license": "CC-BY-4.0",
+    "biological_unit_semantics": "one pooled/common human plasma aliquot distributed to core facilities; technical rather than independent biological replication",
+    "laboratory_semantics": "core_facility_processing_domain",
+    "independent_biological_validation": false
+  },
+  "frozen_target_universe": {
+    "source": "R3_common_rank_target_ledger",
+    "expected_target_count": 99,
+    "selection_after_outer_split": false,
+    "selection_after_source_admission": false
+  },
+  "source_processing": {
+    "raw_map_rows_expected": 9909,
+    "source_map_relative_path": "data/raw/r3_fulltext_pmc9633814/derived/R3_PMC9633814_semiquantitative_source_cell_map.csv",
+    "author_quantity_type": "mean_available_of_replicate_1_2_3",
+    "minimum_numeric_replicates": 1,
+    "rank_scope": "all positive numeric protein rows within each core facility, before frozen-target filtering",
+    "missingness": "retain a target row when at least one author replicate is numeric; average only available numeric replicates; exclude rows with no numeric replicate",
+    "multi_accession_policy": "retain only a single unambiguous frozen-target accession per source row; fail closed if a row maps to multiple frozen targets"
+  },
+  "outer_split": {
+    "unit": "core_facility_code",
+    "expected_core_count": 12,
+    "training_rule": "all core facilities except one held-out core",
+    "testing_rule": "all eligible frozen-target observations from the held-out core",
+    "cross_core_scale_use": "PROHIBITED"
+  },
+  "nested_selection": {
+    "selection_unit": "core_facility_code",
+    "minimum_proteins_per_selection_batch": 10,
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]
+  },
+  "uncertainty": {
+    "cluster": "held_out_core_facility",
+    "resamples": 2000,
+    "random_seed": 194017
+  },
+  "negative_control": {
+    "permutation_unit": "development_core_facility",
+    "resamples": 500,
+    "random_seed": 194023
+  },
+  "claim_boundary": "This is a pre-registered exploratory technical cross-core portability analysis of a common pooled aliquot. It is not independent biological validation, cross-study validation, or evidence of generalization across donors or disease cohorts.",
+  "scientific_submission_ready": false
+}
