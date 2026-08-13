@@ -44,9 +44,9 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
 class R2ReleaseReproductionWorkflow:
     """Create a default-deny, self-reconstructing R2 software replay record."""
 
-    REPRO_ID = "bioif-r2-software-replay-v1.1.0"
-    REPRODUCED_AT = "2026-08-12T00:00:00+00:00"
-    OUTPUT_RELATIVE = "reports/review_round_2/reproducibility/r2_software_replay/v1.1.0"
+    REPRO_ID = "bioif-r2-software-replay-v1.2.0"
+    REPRODUCED_AT = "2026-08-13T00:00:00+00:00"
+    OUTPUT_RELATIVE = "reports/review_round_2/reproducibility/r2_software_replay/v1.2.0"
     REQUIRED_PUBLIC_PATHS = {
         "LICENSE",
         "NOTICE",
@@ -274,7 +274,7 @@ class R2ReleaseReproductionWorkflow:
                 raise R2ReleaseReproductionError("clean public-source replay failed") from exc
             nested_receipt_path = (
                 source_root
-                / "reports/review_round_2/submission_figures/v1.1.0/generation_receipt.json"
+                / "reports/review_round_2/submission_figures/v1.2.0/generation_receipt.json"
             )
             try:
                 nested_receipt = _mapping(

@@ -68,11 +68,11 @@ def _string_list(value: Any, label: str, *, minimum: int) -> list[str]:
 class R2AcceptanceWorkflow:
     """Emit a blocked receipt until external reproduction and editorial review exist."""
 
-    AUDIT_ID = "bioif-r2-acceptance-readiness-v1.4.0"
+    AUDIT_ID = "bioif-r2-acceptance-readiness-v1.5.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PROTOCOL_DECLARED_AT = "2026-08-12T00:00:00+00:00"
     PROTOCOL_RELATIVE = "docs/data/R2_EXTERNAL_REPRODUCTION_AND_EDITORIAL_PROTOCOL.json"
-    PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.4.0/portfolio_receipt.json"
+    PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.5.0/portfolio_receipt.json"
     T123_COMPATIBILITY_RELATIVE = (
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
     )
@@ -95,7 +95,7 @@ class R2AcceptanceWorkflow:
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
     TASKS_RELATIVE = "TASKS.tsv"
-    OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.4.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.5.0"
     REQUIRED_PROTOCOL_FIELDS = {
         "schema_version",
         "protocol_id",

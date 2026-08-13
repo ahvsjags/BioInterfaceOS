@@ -68,14 +68,14 @@ def _string_list(value: Any, label: str, *, minimum: int = 1) -> list[str]:
 class ManuscriptPortfolioWorkflow:
     """Create a fail-closed receipt for R2's protocol-only portfolio state."""
 
-    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.4.0"
+    AUDIT_ID = "bioif-r2-manuscript-portfolio-audit-v1.5.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PORTFOLIO_RELATIVE = "docs/manuscripts/R2_MANUSCRIPT_PORTFOLIO.json"
     COMPARATOR_MAP_RELATIVE = "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json"
     FIGURE_MANIFEST_RELATIVE = (
-        "reports/review_round_2/submission_figures/v1.1.0/figure_manifest.json"
+        "reports/review_round_2/submission_figures/v1.2.0/figure_manifest.json"
     )
-    WITHDRAWAL_RELATIVE = "reports/review_round_2/submission_figures/v1.1.0/withdrawal_ledger.json"
+    WITHDRAWAL_RELATIVE = "reports/review_round_2/submission_figures/v1.2.0/withdrawal_ledger.json"
     RELATED_WORK_RELATIVE = "reports/review_round_2/related_work/v1.1.0/related_work_receipt.json"
     T123_COMPATIBILITY_RELATIVE = (
         "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
@@ -94,7 +94,7 @@ class ManuscriptPortfolioWorkflow:
         "current_target_evidence_receipt.json"
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
-    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.4.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.5.0"
     REQUIRED_PORTFOLIO_FIELDS = {
         "schema_version",
         "portfolio_id",

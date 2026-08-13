@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "suite_id": "bioif-submission-figure-qa-r2-v1.1.0",
+  "suite_id": "bioif-submission-figure-qa-r2-v1.2.0",
   "evidence_class": "SOFTWARE_REPLAY",
   "allowed_claim_level": "SOFTWARE_REPLAY",
   "figures": [

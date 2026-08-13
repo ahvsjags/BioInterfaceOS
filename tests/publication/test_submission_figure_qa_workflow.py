@@ -42,6 +42,10 @@ def test_r2_suite_is_field_mapped_protocol_only_and_withdraws_legacy_figures(
         assert qa["geometry"]["label_clipping"] == 0
         assert qa["raster"]["png_width"] >= 3000
         assert qa["raster"]["png_height"] >= 1500
+        assert qa["raster"]["embedded_pixels_per_meter_x"] == 23622
+        assert qa["raster"]["embedded_pixels_per_meter_y"] == 23622
+        assert qa["raster"]["embedded_resolution_unit"] == "meter"
+    assert receipt["embedded_png_resolution_verified"] is True
 
 
 def test_r2_suite_rejects_tampered_source_checksum() -> None:

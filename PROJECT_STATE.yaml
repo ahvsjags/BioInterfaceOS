@@ -2,7 +2,7 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 134
+task_count: 135
 ready_tasks:
   - T123
 current_task: T129
@@ -188,6 +188,7 @@ notes:
   - '2026-08-13: T132 verified all eight publisher attachments omitted from T131 v1.0. Supplementary Data 6 explicitly maps every one of the nine T131 result/raw units to SP-003-001, SP-007-002 or SP-011-001 and a replicate number. This completes a public CC-BY single-laboratory route, but does not alter the frozen CC0 cohort, establish a second independent laboratory or authorize model use.'
   - '2026-08-13: T129 current evidence v1.2 now binds both the scoped T131 receipt and the complete T132 correction. The consolidated screen covers six candidate sources from five laboratories and twenty-four verified assets, yet still has zero admitted cross-laboratory numeric-material targets and nine acceptance blockers.'
   - '2026-08-13: T133 published a strict external-evidence handoff package that freezes required source and analysis-unit fields, CC0/CC-BY routing, T121 freeze items and external evaluator/reproduction safeguards. Its receipt confirms readiness for external source intake only: no source has been received, no protected data were accessed, and no evaluator, reproducer, editor or scientific submission result exists.'
+  - '2026-08-13: T134 opened after visual/file-metadata review found a technical publication discrepancy: v1.1.0 protocol PNG exports had 600-dpi pixel dimensions but no embedded pHYs resolution metadata. The corrected v1.2.0 suite must be regenerated from SVG and bound to refreshed public-release, replay, manuscript and acceptance receipts; it remains protocol-only.'
   - '2026-08-12: T124 now has a strict external-evaluator readiness protocol that binds the T123 compatibility receipt, requires an independent evaluator and aggregate-only protected-data handoff, and fails closed with a blocked receipt while zero compatible targets and zero frozen real-model outputs exist. It does not create an evaluator receipt or scientific result.'
   - '2026-08-12: T126/T127 now have a strict two-route R2 portfolio: one merged A+B provenance/source-locator protocol and one results-blind C protocol. It excludes all three historical fixture manuscripts, binds three protocol-only figures and 15 legacy withdrawals, and remains blocked on T123/T124 rather than implying a result manuscript.'
   - '2026-08-12: T128 now has a strict external-reproduction and editorial-re-review protocol plus `project accept-r2 --strict`. The current receipt records six missing prerequisites and keeps external reproduction, editorial re-review and scientific submission readiness false.'
@@ -196,5 +197,5 @@ review_round_2:
   source: docs/review_round_2/REMEDIATION_MATRIX.md
   acceptance_gates: docs/review_round_2/ACCEPTANCE_GATES.yaml
   first_task: T115
-  last_task: T133
+  last_task: T134
   publication_rule: 'No fixture-derived output may be presented as empirical validation, scientific replication, or law discovery.'

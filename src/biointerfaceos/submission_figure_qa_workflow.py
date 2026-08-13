@@ -10,6 +10,7 @@ import stat
 import struct
 import subprocess
 import textwrap
+import zlib
 from dataclasses import dataclass
 from itertools import combinations
 from pathlib import Path
@@ -73,8 +74,8 @@ class RenderedFigure:
 class SubmissionFigureQAWorkflow:
     """Create non-empirical, field-mapped protocol figures for the remediation record."""
 
-    SUITE_ID = "bioif-submission-figure-qa-r2-v1.1.0"
-    RENDERED_AT = "2026-08-12T00:00:00+00:00"
+    SUITE_ID = "bioif-submission-figure-qa-r2-v1.2.0"
+    RENDERED_AT = "2026-08-13T00:00:00+00:00"
     SPECS_RELATIVE = "docs/figures/R2_FIGURE_SPECS.json"
     DATA_RELATIVE = "docs/figures/R2_PROTOCOL_FIGURE_DATA.json"
     WITHDRAWAL_LEDGER_RELATIVE = "docs/figures/R2_LEGACY_WITHDRAWAL_LEDGER_SOURCE.json"
@@ -95,6 +96,8 @@ class SubmissionFigureQAWorkflow:
     MARGIN = 24
     FONT_SIZE = 16
     TITLE_SIZE = 25
+    RASTER_DPI = 600
+    PIXELS_PER_METER = round(RASTER_DPI / 0.0254)
     SVG_NAMESPACE = "{http://www.w3.org/2000/svg}"
 
     def __init__(
@@ -108,7 +111,7 @@ class SubmissionFigureQAWorkflow:
         self.root = root.resolve(strict=True)
         self.specs_path = specs_path or self.root / self.SPECS_RELATIVE
         self.output_root = output_root or (
-            self.root / "reports/review_round_2/submission_figures/v1.1.0"
+            self.root / "reports/review_round_2/submission_figures/v1.2.0"
         )
         self.converter = converter
 
@@ -473,13 +476,75 @@ class SubmissionFigureQAWorkflow:
             )
         except (OSError, subprocess.CalledProcessError) as exc:
             raise SubmissionFigureQAError("SVG/PDF/PNG conversion failed") from exc
+        self._embed_png_resolution(png)
 
     @staticmethod
-    def _png_dimensions(path: Path) -> tuple[int, int]:
+    def _png_chunk(chunk_type: bytes, payload: bytes) -> bytes:
+        return (
+            struct.pack(">I", len(payload))
+            + chunk_type
+            + payload
+            + struct.pack(">I", zlib.crc32(chunk_type + payload) & 0xFFFFFFFF)
+        )
+
+    @classmethod
+    def _embed_png_resolution(cls, path: Path) -> None:
+        """Attach a standards-compliant 600-dpi pHYs chunk to a PNG raster export."""
+        raw = path.read_bytes()
+        if raw[:8] != b"\x89PNG\r\n\x1a\n":
+            raise SubmissionFigureQAError("PNG output is invalid")
+        offset = 8
+        chunks: list[tuple[bytes, bytes]] = []
+        while offset < len(raw):
+            if offset + 12 > len(raw):
+                raise SubmissionFigureQAError("PNG output has a truncated chunk")
+            size = struct.unpack(">I", raw[offset : offset + 4])[0]
+            chunk_end = offset + 12 + size
+            if chunk_end > len(raw):
+                raise SubmissionFigureQAError("PNG output has an invalid chunk length")
+            chunk_type = raw[offset + 4 : offset + 8]
+            payload = raw[offset + 8 : offset + 8 + size]
+            expected_crc = struct.unpack(">I", raw[offset + 8 + size : chunk_end])[0]
+            if zlib.crc32(chunk_type + payload) & 0xFFFFFFFF != expected_crc:
+                raise SubmissionFigureQAError("PNG output has an invalid chunk checksum")
+            chunks.append((chunk_type, payload))
+            offset = chunk_end
+        if not chunks or chunks[0][0] != b"IHDR" or chunks[-1][0] != b"IEND":
+            raise SubmissionFigureQAError("PNG output has an invalid chunk order")
+        resolution = struct.pack(">IIB", cls.PIXELS_PER_METER, cls.PIXELS_PER_METER, 1)
+        rebuilt = bytearray(raw[:8])
+        for chunk_type, payload in chunks:
+            if chunk_type != b"pHYs":
+                rebuilt.extend(cls._png_chunk(chunk_type, payload))
+            if chunk_type == b"IHDR":
+                rebuilt.extend(cls._png_chunk(b"pHYs", resolution))
+        path.write_bytes(bytes(rebuilt))
+
+    @classmethod
+    def _png_metadata(cls, path: Path) -> tuple[int, int, int, int, int]:
         raw = path.read_bytes()
         if raw[:8] != b"\x89PNG\r\n\x1a\n" or raw[12:16] != b"IHDR":
             raise SubmissionFigureQAError("PNG output is invalid")
-        return struct.unpack(">II", raw[16:24])
+        width, height = struct.unpack(">II", raw[16:24])
+        offset = 8
+        physical: tuple[int, int, int] | None = None
+        while offset < len(raw):
+            if offset + 12 > len(raw):
+                raise SubmissionFigureQAError("PNG output has a truncated chunk")
+            size = struct.unpack(">I", raw[offset : offset + 4])[0]
+            chunk_end = offset + 12 + size
+            if chunk_end > len(raw):
+                raise SubmissionFigureQAError("PNG output has an invalid chunk length")
+            chunk_type = raw[offset + 4 : offset + 8]
+            payload = raw[offset + 8 : offset + 8 + size]
+            if chunk_type == b"pHYs":
+                if physical is not None or len(payload) != 9:
+                    raise SubmissionFigureQAError("PNG physical-resolution metadata is invalid")
+                physical = struct.unpack(">IIB", payload)
+            offset = chunk_end
+        if physical != (cls.PIXELS_PER_METER, cls.PIXELS_PER_METER, 1):
+            raise SubmissionFigureQAError("PNG does not embed the required 600-dpi resolution")
+        return width, height, *physical
 
     def _svg_geometry_audit(self, path: Path) -> dict[str, int]:
         try:
@@ -521,7 +586,9 @@ class SubmissionFigureQAWorkflow:
     ) -> dict[str, Any]:
         figure_id = _string(figure["figure_id"], "R2 figure ID")
         svg_metrics = self._svg_geometry_audit(svg)
-        png_width, png_height = self._png_dimensions(png)
+        png_width, png_height, pixels_per_meter_x, pixels_per_meter_y, unit_specifier = (
+            self._png_metadata(png)
+        )
         if png_width < 3000 or png_height < 1500:
             raise SubmissionFigureQAError(f"{figure_id} PNG is below submission raster dimensions")
         semantic_text = " ".join(
@@ -550,7 +617,10 @@ class SubmissionFigureQAWorkflow:
             "raster": {
                 "png_width": png_width,
                 "png_height": png_height,
-                "dpi": 600,
+                "dpi": self.RASTER_DPI,
+                "embedded_pixels_per_meter_x": pixels_per_meter_x,
+                "embedded_pixels_per_meter_y": pixels_per_meter_y,
+                "embedded_resolution_unit": "meter" if unit_specifier == 1 else "unknown",
                 "minimum_submission_dimensions_passed": True,
             },
             "visual_review": {
@@ -706,7 +776,8 @@ class SubmissionFigureQAWorkflow:
             "rendered_at": self.RENDERED_AT,
             "figure_count": len(rendered),
             "withdrawn_historical_figure_count": 15,
-            "raster_dpi": 600,
+            "raster_dpi": self.RASTER_DPI,
+            "embedded_png_resolution_verified": True,
             "field_mapped": True,
             "geometry_qa": "PASS",
             "semantic_qa": "PASS",
@@ -746,6 +817,7 @@ class SubmissionFigureQAWorkflow:
             or receipt.get("figure_count") != 3
             or receipt.get("withdrawn_historical_figure_count") != 15
             or receipt.get("field_mapped") is not True
+            or receipt.get("embedded_png_resolution_verified") is not True
             or receipt.get("scientific_submission_ready") is not False
         ):
             raise SubmissionFigureQAError("R2 figure receipt boundary is invalid")
