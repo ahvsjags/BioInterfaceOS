@@ -1,0 +1,6 @@
+biological_unit_id,unit_class,laboratory_count,source_asset_count,condition_count,measurement_batch_count,primary_rank_eligible_batch_count,raw_row_count,analysis_candidate_row_count,rank_target_eligible_row_count,source_na_row_count,rank_retention_rate
+DONOR_1,DONOR_LABELLED,1,1,7,7,7,525,525,462,63,0.88
+DONOR_2,DONOR_LABELLED,1,1,7,7,7,525,525,414,111,0.7885714285714286
+DONOR_3,DONOR_LABELLED,1,1,7,7,7,525,525,492,33,0.9371428571428572
+DONOR_4,DONOR_LABELLED,1,1,7,7,7,525,525,318,207,0.6057142857142858
+POOLED_HUMAN_PLASMA,POOLED,1,2,34,114,106,5964,5919,5389,542,0.9104578476093935

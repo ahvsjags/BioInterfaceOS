@@ -57,3 +57,18 @@
 3. 至少两名非作者独立使用 receipt。
 
 在这些 receipt 到达之前，不能通过改权重、补模板、作者重跑、合成数据或删除负结果把模块分数人为推到 90 分以上。
+
+## Effective-n and missingness audit
+
+The frozen R4 same-lineage candidate is now audited without changing the
+primary endpoint. The aggregate artifact reports 8,064 source rows, 8,019
+analysis-candidate rows, 7,075 rank-eligible rows, 142 measurement batches,
+and 134 batches meeting the primary ten-protein threshold. It contains five
+biological units but only one laboratory anchor: 106 primary batches are from
+the pooled unit and 28 from four donor-labelled units. The source contains 956
+`SOURCE_NA` rows; no missing values are imputed.
+
+Protocol: `docs/data/R4_T174_OOD_EFFECTIVE_N_MISSINGNESS_PROTOCOL.json`.
+Report: `reports/review_round_4/small_molecule_corona_effective_n/v1.0.0/r4_external_effective_n_missingness_report.json`.
+This strengthens effective-n transparency but does not create independent
+cross-laboratory evidence or raise `scientific_submission_ready`.

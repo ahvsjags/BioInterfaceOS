@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-ood-effective-n-missingness-v1.0.0",
+  "frozen_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "source_map": {
+    "relative_path": "data/raw/r4_candidate_pmc11544298/derived/R4_PMC11544298_small_molecule_corona_source_cell_map.csv",
+    "sha256": "18c917eb27b6f2797d0d34a2dc9a249c139f82a9c0f5bee22f6dad9435222bef"
+  },
+  "upstream_ood_protocol": {
+    "relative_path": "docs/data/R4_T159_SMALL_MOLECULE_CORONA_OOD_PROTOCOL.json",
+    "sha256": "e75650a87a063f95a270f41ccfd713d23dd57691e5dba04e920a6e7390a69642"
+  },
+  "eligibility": {
+    "analysis_candidate_flag": "true",
+    "rank_target_flag": "true",
+    "source_na_policy": "report_as_missing_without_imputation",
+    "primary_minimum_rank_eligible_proteins_per_batch": 10
+  },
+  "effective_n_groups": [
+    "laboratory_anchor",
+    "source_asset_id",
+    "biological_unit_id",
+    "condition_label",
+    "measurement_batch_id"
+  ],
+  "pooled_unit_rule": "biological_unit_id values containing POOLED are pooled units; all other values are donor-labelled units",
+  "threshold_sensitivity": {
+    "minimum_rank_eligible_proteins_per_batch": [1, 10, 20, 40, 50, 60, 70, 80]
+  },
+  "missingness_outputs": [
+    "source_value_state_counts",
+    "source_na_counts_by_biological_unit",
+    "analysis_candidate_to_rank_target_retention",
+    "eligible_batch_counts_by_threshold"
+  ],
+  "claim_boundary": "This audit reports effective sampling units and missingness selection for the author-run same-lineage R4 OOD candidate. It does not convert technical or pooled repeats into independent biological replicates, does not impute source missingness, and does not establish independent validation, external scientific reproduction or scientific submission readiness."
+}
