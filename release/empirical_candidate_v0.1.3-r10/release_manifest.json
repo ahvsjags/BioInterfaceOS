@@ -56,10 +56,11 @@
   },
   "files": [
     {"relative_path": ".gitattributes", "sha256": "8b205d8e7cd71d60345887ca25b1858644c66378023029730e992e14ad6f0cf7"},
+    {"relative_path": "README.md", "sha256": "fb72a1e2dcade84181a127cc62fdae2f1098106a4d9a878ca326c050acf201f1"},
     {"relative_path": "pyproject.toml", "sha256": "002cfafd28ffd0179652798a9c96e83463ed86dcc43cc4962e6f77b070abec9a"},
     {"relative_path": "uv.lock", "sha256": "c23de02a87f2f7c060170ebd9bf7d22932ed34f767ab405833b2276451e3c4e9"},
     {"relative_path": "CITATION.cff", "sha256": "437c676a9cfb97799a069bda7576f79b03f90e5f56289b10992db0365b788ebf"},
-    {"relative_path": "docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json", "sha256": "259f0407c57949576b3ed7e8a1f2242946a5fa8d60623cbb7e77da8894c15076"},
+    {"relative_path": "docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json", "sha256": "3e1a91360dc2f5ba0021fdd1846ee2de0ed4671dfc23f7064b9f92098ee43a9d"},
     {"relative_path": "docs/data/R4_T167_EXTERNAL_USER_ADOPTION_INTAKE.json", "sha256": "bba173a063dd107365358c0439d8c7853645f97f4e7d44494583660cf4bd01b7"},
     {"relative_path": "docs/data/R4_T188_PXD064962_LOW_COVERAGE_SENSITIVITY_PROTOCOL.json", "sha256": "643a897ec5be68531c1d051f3d36449e6236092bc29cac31f8d7b571e8dc2b85"},
     {"relative_path": "docs/data/R4_T188_PXD064962_UCD_SOURCE_REGISTRY.json", "sha256": "928a69a848b9128aeb0315db691e2a2788bac1a5a4a6aa0e5f51b748f9c36afd"},

@@ -4,13 +4,15 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. The current release includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.12` (commit `b8050f17ed57d8f34c63999f29989cb9d57cc646`) and includes:
 
 - a frozen 99-target rank benchmark spanning three laboratory anchors, 47 measurement batches and 2,724 rank-eligible development observations;
+- a strict nine-accession common-target sensitivity route spanning three laboratory anchors, 809 row-traceable observations and 85 measurement batches;
+- a CC-BY-4.0 paper-attached biological-cohort route with 141 subject units, 705 subject-by-particle batches, 666 rank-qualified batches and 17,026 external target observations;
 - nested selection, laboratory-held-out evaluation, cluster-aware uncertainty, paired composition ablation and within-batch negative controls;
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
-- immutable release tag `v0.1.3-r9.1`, which includes the T180 paper-attached 141-subject source audit, the T181 biological-cohort OOD protocol/receipts, and the external evaluator handoff contract.
+- an immutable release tag `v0.1.3-r10.12`, with the T180/T181 source audit and OOD receipts, T192–T195 common-target analyses, the external evaluator handoff contract and byte-exact source-cell maps.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -21,7 +23,7 @@ uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
 ```
 
-The audited KAUST run passed 32 tests. The test result establishes software and data-pipeline reproducibility under the reported environment; it does not establish non-author scientific replication.
+The audited KAUST run passed 40 tests with 5 analysis-only skips across the review-round suites. The result establishes software and data-pipeline reproducibility under the reported environment; it does not establish non-author scientific replication.
 
 ## Evidence boundary
 
@@ -29,8 +31,10 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 
 See:
 
-- `docs/review_round_4/R4_R9_RELEASE_DOI_STATUS_20260813.md`
-- `docs/release/R9_RELEASE_MANIFEST.json`
+- `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
+- `release/empirical_candidate_v0.1.3-r10/release_manifest.json`
+- `docs/review_round_4/R4_T196_PAPER_ATTACHED_BIOLOGICAL_COHORT_PUBLIC_STATUS_20260814.md`
+- `docs/execplans/T196_publish_paper_attached_biological_cohort.md`
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
 - `docs/review_round_4/R4_STRONG_Q1_REMEDIATION_GOAL.md`
 - `docs/review_round_3/R3_EXTERNAL_LOCKBOX_AND_REPRODUCTION_HANDOFF.md`
@@ -42,7 +46,7 @@ See:
 - `docs/data/R4_T175_OOD_CLUSTER_SENSITIVITY_PROTOCOL.json`
 - `docs/data/R4_T162_PXD060795_DALIAN_SOURCE_REGISTRY.json`
 
-The public handoff is tracked in [GitHub Issue #1](https://github.com/ahvsjags/BioInterfaceOS/issues/1).
+The public handoff is tracked in [GitHub Issue #2](https://github.com/ahvsjags/BioInterfaceOS/issues/2). This is a request for genuinely non-author participation, not evidence that external work has already occurred.
 Issue creation, page views and author-controlled reruns are not evidence of
 independent reproduction or adoption.
 
