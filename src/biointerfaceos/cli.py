@@ -637,6 +637,22 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--documents-root", type=Path, required=True, help="root containing external receipt files"
     )
     data_external_verification_parser.add_argument("--strict", action="store_true")
+    data_r4_receipt_parser = data_subparsers.add_parser(
+        "preflight-r4-external-receipts",
+        help=(
+            "verify R4 evaluator, reproduction and adoption receipts without accepting their claims"
+        ),
+    )
+    data_r4_receipt_parser.add_argument(
+        "--bundle", type=Path, required=True, help="R4 external receipt bundle JSON"
+    )
+    data_r4_receipt_parser.add_argument(
+        "--documents-root", type=Path, required=True, help="root containing R4 receipt files"
+    )
+    data_r4_receipt_parser.add_argument(
+        "--receipt-out", type=Path, required=True, help="structural preflight receipt JSON"
+    )
+    data_r4_receipt_parser.add_argument("--strict", action="store_true")
     data_external_signature_parser = data_subparsers.add_parser(
         "verify-external-verification-signatures",
         help="verify detached external-receipt signatures without accepting their claims",
@@ -3432,6 +3448,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "evaluate-r3-silver-external-ood",
             "preflight-external-source-intake",
             "preflight-external-verification",
+            "preflight-r4-external-receipts",
             "verify-external-verification-signatures",
         }:
             parser.parse_args(["data", "--help"])
@@ -3838,6 +3855,31 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"documents={external_verification_summary.document_count} "
                 f"r2_findings={external_verification_summary.finding_count} "
                 "external_receipts_accepted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "preflight-r4-external-receipts":
+            from biointerfaceos.r4_external_receipt_preflight import (
+                R4ExternalReceiptPreflightError,
+                R4ExternalReceiptPreflightWorkflow,
+            )
+
+            try:
+                r4_receipt_summary = R4ExternalReceiptPreflightWorkflow(
+                    bundle_path=args.bundle,
+                    documents_root=args.documents_root,
+                    receipt_out=args.receipt_out,
+                ).run(strict=args.strict)
+            except (R4ExternalReceiptPreflightError, OSError) as exc:
+                print(f"R4_EXTERNAL_RECEIPT_PREFLIGHT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_EXTERNAL_RECEIPT_PREFLIGHT_VALID "
+                f"status={r4_receipt_summary.status} "
+                f"documents={r4_receipt_summary.document_count} "
+                f"non_author_declared={r4_receipt_summary.non_author_declared_count} "
+                "identity_authenticated=false independence_authenticated=false "
+                "protected_lockbox_accepted=false external_scientific_reproduction_accepted=false "
+                "external_user_adoption_accepted=false scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "verify-external-verification-signatures":

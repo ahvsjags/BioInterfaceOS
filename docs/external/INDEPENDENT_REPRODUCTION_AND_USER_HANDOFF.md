@@ -5,7 +5,7 @@ BioInterfaceOS is accepting independent reproduction and external-use reports fo
 ## Public checkout
 
 ```bash
-git clone --branch v0.1.0-r4 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.1-r4 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
 uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
@@ -37,6 +37,26 @@ An independent team should:
 6. archive the signed report at an immutable DOI or timestamped public location.
 
 The required fields are defined in `docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json`. An external user who only installs the public package should use `docs/data/R4_T167_EXTERNAL_USER_ADOPTION_INTAKE.json` and report both successful and failed tasks.
+
+## Receipt bundle preflight
+
+The three receipt documents are submitted together with
+`docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`. After replacing
+the placeholders with a real non-author submission, run:
+
+```bash
+uv run biointerfaceos data preflight-r4-external-receipts \
+  --bundle external_bundle.json \
+  --documents-root external_receipts \
+  --receipt-out r4_preflight_receipt.json \
+  --strict
+```
+
+`STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW` is the only successful
+preflight status. It confirms checksums, schema, declared safeguards and
+aggregate-only fields; it does not authenticate identity, independence,
+lockbox custody, external reproduction or user adoption. Those claims remain
+false until a separate editorial audit verifies real receipts.
 
 ## What will not be counted
 
