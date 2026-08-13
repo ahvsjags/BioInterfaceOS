@@ -719,6 +719,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen three-laboratory common-target receipt",
     )
     data_r4_three_lab_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t192_parser = data_subparsers.add_parser(
+        "audit-r4-t192-three-lab-common-target",
+        help="audit the frozen redistributable Edinburgh-Dalian-UCD common target",
+    )
+    data_r4_t192_parser.add_argument("--strict", action="store_true")
+    data_r4_t192_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t192-three-lab-common-target",
+        help="verify the frozen T192 three-laboratory common-target receipt",
+    )
+    data_r4_t192_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3655,6 +3665,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-pmc13106918-technical-ood",
             "audit-r4-three-lab-common-target",
             "verify-r4-three-lab-common-target",
+            "audit-r4-t192-three-lab-common-target",
+            "verify-r4-t192-three-lab-common-target",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-pxd064962-low-coverage-sensitivity",
@@ -4435,6 +4447,49 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"common_targets={three_lab_summary.common_target_count} "
                 f"common_rank_observations={three_lab_summary.common_rank_observation_count} "
                 f"measurement_batches={three_lab_summary.measurement_batch_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-t192-three-lab-common-target":
+            from biointerfaceos.r4_t192_three_lab_common_target import (
+                R4T192ThreeLabCommonTargetError,
+                R4T192ThreeLabCommonTargetWorkflow,
+            )
+
+            try:
+                t192_summary = R4T192ThreeLabCommonTargetWorkflow(root).run(strict=args.strict)
+            except (R4T192ThreeLabCommonTargetError, OSError) as exc:
+                print(f"R4_T192_THREE_LAB_COMMON_TARGET_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T192_THREE_LAB_COMMON_TARGET_AUDIT_VALID "
+                f"sources={t192_summary.source_count} "
+                f"laboratories={t192_summary.laboratory_anchor_count} "
+                f"common_targets={t192_summary.common_target_count} "
+                f"common_rows={t192_summary.common_row_count} "
+                f"source_cells={t192_summary.source_cell_count} "
+                f"rank_eligible_cells={t192_summary.rank_eligible_cell_count} "
+                "development_only=true independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t192-three-lab-common-target":
+            from biointerfaceos.r4_t192_three_lab_common_target import (
+                R4T192ThreeLabCommonTargetError,
+                R4T192ThreeLabCommonTargetWorkflow,
+            )
+
+            try:
+                t192_summary = R4T192ThreeLabCommonTargetWorkflow(root).verify(strict=args.strict)
+            except (R4T192ThreeLabCommonTargetError, OSError) as exc:
+                print(f"R4_T192_THREE_LAB_COMMON_TARGET_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T192_THREE_LAB_COMMON_TARGET_VERIFY_VALID "
+                f"sources={t192_summary.source_count} "
+                f"laboratories={t192_summary.laboratory_anchor_count} "
+                f"common_targets={t192_summary.common_target_count} "
+                f"common_rows={t192_summary.common_row_count} "
                 "scientific_submission_ready=false"
             )
             return 0

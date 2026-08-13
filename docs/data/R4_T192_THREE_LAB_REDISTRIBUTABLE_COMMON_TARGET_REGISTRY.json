@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t192-three-lab-redistributable-common-target-v1.0.0",
+  "protocol_id": "bioif-r4-t192-three-lab-redistributable-common-target-v1.0.0",
+  "status": "THREE_INDEPENDENT_LABORATORY_COMMON_TARGET_VERIFIED_RESTRICTED_DEVELOPMENT",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_PROTOCOL.json",
+    "sha256": "d1fa58c85324c6c9062cf5e6185a74c7814f8b567e66453d41a10c9d9c03a968"
+  },
+  "target_freeze": {
+    "target_id": "R4_T192_SOURCE_LOCAL_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "selection_basis": "Exact intersection of strictly positive finite rank-eligible canonical accessions across all three source maps; no model, outcome, or performance criterion used.",
+    "common_target_count": 9,
+    "common_targets": ["P04004", "P04264", "P05556", "P06396", "P07996", "P26038", "P60174", "Q04695", "Q9HDC9"]
+  },
+  "sources": [
+    {
+      "source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "laboratory_anchor": "University of Edinburgh-led controlled human exposure study",
+      "license": "CC-BY-4.0",
+      "source_lineage": "NEW_TO_CURRENT_R3_ANCHOR",
+      "biological_unit_semantics": "14 healthy volunteers with repeated visits; source map exposes measurement batches but does not encode donor IDs in the current map.",
+      "source_locator": "https://datashare.ed.ac.uk/items/789e976f-0993-4738-bc72-33c47debab9e",
+      "source_registry": {"relative_path": "docs/data/R4_T156_EDINBURGH_CLINICAL_SOURCE_REGISTRY.json", "sha256": "c795fa857154e3dd8492c57e7fecdfd3b81b5599214d1ae5b0cb6657d8d36583"},
+      "source_audit_report": {"relative_path": "reports/review_round_4/edinburgh_clinical_source_audit/v1.0.0/edinburgh_clinical_source_audit_report.json", "sha256": "9fb31e8bf9a3f6a06e2f0dc4b52f32ae47d728b434f17d373df5499f0425ad59"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_4/edinburgh_clinical_source_audit/v1.0.0/edinburgh_clinical_source_audit_receipt.json", "sha256": "d693d93e5ea5cc3088e64f17021b954747c42ecc0dc3447b51e1528ad8c26077"},
+      "source_cell_map": {"relative_path": "data/raw/r4_candidate_edinburgh_ds7545/derived/R4_EDINBURGH_DS7545_source_cell_map.csv", "sha256": "e1a09f43f46040e1511b0b686ef9ed5eac39bd138fb39414c27c250956d84f56"},
+      "raw_assets": [
+        {"relative_path": "data/raw/r4_candidate_edinburgh_ds7545/blood_proteomics_data.xlsx", "sha256": "0d1dbc59537536c6adc23c1bff7b593de440672812fa8d0018f78a41f5683414"},
+        {"relative_path": "data/raw/r4_candidate_edinburgh_ds7545/README.txt", "sha256": "2f15f78934b99f37516f35230aa71fb273519fcb842d974797c7d8a88636d729"}
+      ],
+      "expected_accounting": {"raw_map_rows": 983, "rank_eligible_rows": 932, "rank_eligible_target_count": 23, "rank_eligible_batch_count": 49, "common_rows": 404, "common_target_batch_pairs": 404}
+    },
+    {
+      "source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "laboratory_anchor": "Dalian University of Technology, China",
+      "license": "CC0",
+      "source_lineage": "NEW_TO_CURRENT_R3_ANCHOR",
+      "biological_unit_semantics": "One pooled or unspecified human-plasma material; donor-level independence is not reported and is not inferred.",
+      "source_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD060795",
+      "source_registry": {"relative_path": "docs/data/R4_T162_PXD060795_DALIAN_SOURCE_REGISTRY.json", "sha256": "cd65a5ee35634ec7114bbe9f657b027e57fbec9e42bb5bf4211d5bc047d5628a"},
+      "source_audit_report": {"relative_path": "reports/review_round_4/dalian_plasma_corona_source_audit/v1.0.0/dalian_plasma_corona_source_audit_report.json", "sha256": "8fea77dad2458559f2172d198c8fff284a0a50bd11dee62e48e5659eeacd7d9b"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_4/dalian_plasma_corona_source_audit/v1.0.0/dalian_plasma_corona_source_audit_receipt.json", "sha256": "cc3716527dcda6e3ae786afe1f323698b160b29e199c6d7b9f4cbff192134d78"},
+      "source_cell_map": {"relative_path": "data/raw/r4_candidate_pxd060795/derived/R4_PXD060795_dalian_plasma_corona_source_cell_map.csv", "sha256": "47111b1c37e9a7a8b858ab5673de026ebfb8541a49f411c41ea685f36e35103f"},
+      "raw_assets": [
+        {"relative_path": "data/raw/r4_candidate_pxd060795/Search_result.xlsx", "sha256": "57d02ac61d83303a676f8f7cca646d4b305559b4a71c8ca26af5ce454e925dfe"}
+      ],
+      "expected_accounting": {"raw_map_rows": 243, "rank_eligible_rows": 109, "rank_eligible_target_count": 22, "rank_eligible_batch_count": 6, "common_rows": 52, "common_target_batch_pairs": 52}
+    },
+    {
+      "source_id": "PXD064962_UCD_EVENT",
+      "laboratory_anchor": "University College Dublin / Conway Institute",
+      "license": "CC0",
+      "source_lineage": "NEW_TO_CURRENT_R3_ANCHOR",
+      "biological_unit_semantics": "30 labelled neonatal patient/timepoint units with two technical replicate columns; technical replicates are not independent units.",
+      "source_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD064962",
+      "source_registry": {"relative_path": "docs/data/R4_T188_PXD064962_UCD_SOURCE_REGISTRY.json", "sha256": "928a69a848b9128aeb0315db691e2a2788bac1a5a4a6aa0e5f51b748f9c36afd"},
+      "source_audit_report": {"relative_path": "reports/review_round_4/pxd064962_ucd_source_audit/v1.0.0/pxd064962_ucd_source_audit_report.json", "sha256": "d476451cd471eea2aab793358b294849c30027b33ec7cf605b80496d4b61cc73"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_4/pxd064962_ucd_source_audit/v1.0.0/pxd064962_ucd_source_audit_receipt.json", "sha256": "1e9413b6ef7b0c9121506ea329444beb985be1eaad02fe826e2b097d0960cc8b"},
+      "source_cell_map": {"relative_path": "data/raw/r4_candidate_pxd064962_ucd/derived/R4_PXD064962_UCD_source_cell_map.csv", "sha256": "2e8b6d9ffdc93cfb2839e16d17ad770a72e69a7d558f9e91d7bf89120cbbc594"},
+      "raw_assets": [
+        {"relative_path": "data/raw/r4_candidate_pxd064962_ucd/proteinGroups.txt", "sha256": "677f78041155abbfff052ec3a55112ef37c01e8fb44a703409544e825d9e7b99"},
+        {"relative_path": "data/raw/r4_candidate_pxd064962_ucd/summary.txt", "sha256": "2055597a06760c8604c64d2618ec69bbe463f5e94133abb232c50b4049bab902"},
+        {"relative_path": "data/raw/r4_candidate_pxd064962_ucd/pride_project_metadata.json", "sha256": "9127afab7831aba3aa89ad04b8d2e9c8121be0c6264683add1033b22fe2187b3"}
+      ],
+      "expected_accounting": {"raw_map_rows": 1260, "rank_eligible_rows": 454, "rank_eligible_target_count": 15, "rank_eligible_batch_count": 30, "common_rows": 353, "common_target_batch_pairs": 188}
+    }
+  ],
+  "output_contract": {
+    "ledger_relative_path": "reports/review_round_4/three_lab_redistributable_common_target/v1.0.0/r4_t192_three_lab_common_target_ledger.csv",
+    "report_relative_path": "reports/review_round_4/three_lab_redistributable_common_target/v1.0.0/r4_t192_three_lab_common_target_report.json",
+    "receipt_relative_path": "reports/review_round_4/three_lab_redistributable_common_target/v1.0.0/r4_t192_three_lab_common_target_receipt.json"
+  },
+  "claim_boundary": "The three source packages are independently anchored and redistributable, and their exact common target set is frozen for development. Dalian is pooled/unspecified and Edinburgh donor IDs are not encoded in this map; the asset therefore cannot be presented as three independent biological cohorts or as independent validation.",
+  "scientific_submission_ready": false
+}
