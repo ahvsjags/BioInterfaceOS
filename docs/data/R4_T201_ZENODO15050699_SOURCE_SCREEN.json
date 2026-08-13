@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "screen_id": "bioif-r4-zenodo-15050699-source-screen-v1.0.0",
+  "screened_at": "2026-08-14",
+  "status": "SCREENED_NOT_ADMITTED",
+  "evidence_class": "PUBLIC_PAPER_DATA_SCREENING_ONLY",
+  "article": {
+    "title": "Multiple Exposures of Plasma to Nanoparticles: A Novel Tool to Personalize Biomolecular Coronas and Fractionate Fluids",
+    "doi": "10.1021/acs.analchem.4c05573",
+    "pmcid": "PMC12268827",
+    "article_license": "CC-BY-4.0",
+    "article_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12268827/"
+  },
+  "repository": {
+    "record_doi": "10.5281/zenodo.16419006",
+    "record_locator": "https://zenodo.org/records/16419006",
+    "record_access_right": "open",
+    "record_license": "CC-BY-4.0",
+    "downloaded_asset": "Supplementary tables.zip",
+    "downloaded_asset_sha256": "c531b215e52f0129250f8a1566ab39d2d8dd54905625212f9ca281346c65d297",
+    "downloaded_asset_bytes": 462568,
+    "raw_proteomics_record": "https://zenodo.org/records/16419006",
+    "raw_proteomics_bytes": 19964656490,
+    "raw_proteomics_not_downloaded": true
+  },
+  "source_scope": {
+    "laboratory_anchor": "Royal College of Surgeons in Ireland / Ludger Ltd",
+    "source_lineage": "NEW_TO_CURRENT_R3_ANCHORS_BUT_SAME_RCSI_LINEAGE_AS_PMC13106918",
+    "biofluid": "pooled healthy human plasma",
+    "biological_unit_semantics": "one pooled plasma material; six exposure cycles with three technical replicates per cycle",
+    "measurement_columns": 18,
+    "conditions": ["NP0", "NP1", "NP2", "NP4", "NP6", "NP8"],
+    "technical_replicates_per_condition": 3
+  },
+  "asset_audit": {
+    "protein_workbook": {
+      "relative_path": "data/raw/r4_candidate_zenodo15050699/extracted/TableS1_ProteinMS.xlsx",
+      "sha256": "cbe66df0f6cef6cdd507ae61e649e98fa5c753fd0a524d8efe3e073b2b018bec",
+      "rawdata_rows": 185,
+      "lfq_columns": 18,
+      "processed_conditions": 6,
+      "rawdata_measurement_columns": [
+        "LFQ intensity NP0_1", "LFQ intensity NP0_2", "LFQ intensity NP0_3",
+        "LFQ intensity NP1_1", "LFQ intensity NP1_2", "LFQ intensity NP1_3",
+        "LFQ intensity NP2_1", "LFQ intensity NP2_2", "LFQ intensity NP2_3",
+        "LFQ intensity NP4_1", "LFQ intensity NP4_2", "LFQ intensity NP4_3",
+        "LFQ intensity NP6_1", "LFQ intensity NP6_2", "LFQ intensity NP6_3",
+        "LFQ intensity NP8_1", "LFQ intensity NP8_2", "LFQ intensity NP8_3"
+      ]
+    },
+    "other_extracted_assets": [
+      {"relative_path": "data/raw/r4_candidate_zenodo15050699/extracted/TableS2_GlycanAssignments.xlsx", "sha256": "884c8190e578b2cc0db8d1d731cd612fe92034be58cc59b6c9fd70b7752417c3"},
+      {"relative_path": "data/raw/r4_candidate_zenodo15050699/extracted/TableS3_GlycanMS.xlsx", "sha256": "ef498396a89547dbc55efd189f012442cd7e054c21f8bc8689d1e2b05236eecb"}
+    ],
+    "mapping_policy": "Exact non-empty Majority protein IDs intersected with the frozen R3 rank-target ledger; no inferred ranks, protein-group collapse, imputation or target expansion.",
+    "frozen_r3_target_count": 100,
+    "union_shared_frozen_target_count": 3,
+    "union_shared_frozen_targets": ["P04004", "P04264", "P06396"],
+    "positive_shared_frozen_target_counts_by_measurement": {
+      "NP0_1": 1, "NP0_2": 1, "NP0_3": 1,
+      "NP1_1": 3, "NP1_2": 1, "NP1_3": 1,
+      "NP2_1": 3, "NP2_2": 1, "NP2_3": 1,
+      "NP4_1": 3, "NP4_2": 1, "NP4_3": 1,
+      "NP6_1": 3, "NP6_2": 3, "NP6_3": 3,
+      "NP8_1": 2, "NP8_2": 2, "NP8_3": 3
+    },
+    "qualifying_measurement_count_at_minimum_10": 0
+  },
+  "decision": {
+    "status": "NOT_ADMITTED_INSUFFICIENT_FROZEN_TARGET_OVERLAP_AND_POOLED_TECHNICAL_UNIT",
+    "model_use": "PROHIBITED",
+    "reason": "The paper provides useful CC-BY supplementary data and a reproducible 18-column LFQ table, but at most three frozen R3 targets are positive in any measurement column, below the predeclared minimum of ten. The six exposure conditions are technical repeats of one pooled plasma material and cannot supply independent biological validation.",
+    "future_route": "A separate source-specific target protocol could study the full 185-protein matrix, but changing the target universe after seeing these data is not allowed under the current R3 model protocol."
+  },
+  "release_boundary": {
+    "raw_asset_tracked_in_current_tag": false,
+    "analysis_only_local_asset": true,
+    "public_release_asset": false,
+    "independent_validation": false,
+    "external_scientific_reproduction": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This record documents a public paper-data screen and a reproducible exclusion. It does not create an independent evaluator receipt, no-author reproduction, external adoption, independent biological validation, or submission readiness."
+}
