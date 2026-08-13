@@ -2,7 +2,7 @@
 
 ## 结论
 
-本轮完成了一个真实的工程改进：公开版本升级为 `v0.1.2-r8`，新增 cluster-sensitive OOD 审计、PMC13106918 technical source、三类外部 receipt 的结构预检、三实验室共同 target admission、哈希校验、非作者声明校验和不晋级输出；KAUST 锁定环境完成 `28 passed`。这提高了交付与审计完整性，但没有产生任何第三方事实。因此 `scientific_submission_ready` 仍为 `false`，稿件仍是方法/软件与可审计 benchmark 的 Major Revision，而不是强 Q1 生物学发现论文。
+本轮完成了一个真实的工程改进：公开版本升级为 `v0.1.2-r8`，新增 cluster-sensitive OOD 审计、PMC13106918 technical source、三类外部 receipt 的结构预检、三实验室共同 target admission、哈希校验、非作者声明校验和不晋级输出；KAUST 锁定环境完成 `30 passed`。这提高了交付与审计完整性，但没有产生任何第三方事实。因此 `scientific_submission_ready` 仍为 `false`，稿件仍是方法/软件与可审计 benchmark 的 Major Revision，而不是强 Q1 生物学发现论文。
 
 ## 三类评审角色
 
