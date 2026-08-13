@@ -1,7 +1,7 @@
 # BioInterfaceOS T191 多智能体编辑终审
 
 日期：2026-08-14
-候选版本：`v0.1.3-r10.3`（公开 Git tag；DOI pending）
+候选版本：`v0.1.3-r10.4`（公开 Git tag；DOI pending）
 结论：**Major Revision；当前不通过 `scientific_submission_ready`，不建议以“强 Q1 实证计算生物学论文”投稿。**
 
 ## 1. 终审范围

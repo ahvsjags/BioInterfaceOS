@@ -2,7 +2,7 @@
 set -euo pipefail
 
 output_root="${1:-external_reproduction_run}"
-analysis_output_root="reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0"
+analysis_output_root="$output_root/t190_low_coverage_sensitivity/v1.0.0"
 mkdir -p "$output_root"
 
 git rev-parse HEAD | tee "$output_root/checkout_commit.txt"
@@ -19,10 +19,10 @@ uv sync --locked --all-groups 2>&1 | tee "$output_root/environment_install.log"
 {
   printf '%s\n' 'uv run python -m biointerfaceos data verify-r4-pxd064962-source --assets-root data/raw/r4_candidate_pxd064962_ucd --strict'
   uv run python -m biointerfaceos data verify-r4-pxd064962-source --assets-root data/raw/r4_candidate_pxd064962_ucd --strict
-  printf '%s\n' 'uv run python -m biointerfaceos data evaluate-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0'
-  uv run python -m biointerfaceos data evaluate-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0
-  printf '%s\n' 'uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0'
-  uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0
+  printf '%s\n' "uv run python -m biointerfaceos data evaluate-r4-pxd064962-low-coverage-sensitivity --strict --output-root $analysis_output_root"
+  uv run python -m biointerfaceos data evaluate-r4-pxd064962-low-coverage-sensitivity --strict --output-root "$analysis_output_root"
+  printf '%s\n' "uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict --output-root $analysis_output_root"
+  uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict --output-root "$analysis_output_root"
 } 2>&1 | tee "$output_root/receipt_verification.log"
 
 uv lock --check 2>&1 | tee "$output_root/lock_check.log"
