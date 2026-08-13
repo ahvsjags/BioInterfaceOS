@@ -2,7 +2,7 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 146
+task_count: 147
 ready_tasks:
   - T123
 current_task: T129
@@ -148,6 +148,7 @@ completed_tasks:
   - T143
   - T194
   - T195
+  - T196
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
@@ -155,7 +156,7 @@ blocked_tasks:
   - T126
   - T127
   - T128
-last_successful_commit: c9f34d4
+last_successful_commit: 510a233ce9ed3a3910e1e1530462572a48e267f8
 data_release: bioif-gold-auto-3f7c4fba17b1a50e
 benchmark_release: null
 model_release: null
@@ -176,6 +177,7 @@ storage:
 notes:
   - '2026-08-14: T194 adds a frozen full-text execution route from the CC-BY-4.0 PMC9633814 supplementary quantitative table. The receipt closes 9,909 source-map rows into 707 frozen-target observations across 12 core-facility folds and executes nested selection, model ablation, core-cluster bootstrap and within-core negative controls. It is explicitly one common pooled human-plasma aliquot and technical-domain evidence, not independent biological validation; external evaluator, no-author reproduction, adoption, DOI and scientific submission readiness remain false.'
   - '2026-08-14: T195 executes the exact nine-accession intersection frozen by T192 across the three audited laboratory source maps. It closes 809 row-traceable observations across 85 measurement batches with leave-one-laboratory-anchor-out, nested selection, paired ablation, cluster bootstrap and within-batch permutation controls. It remains exploratory source-availability-conditioned evidence; pooled/unspecified, donor-unresolved and technical-replicate boundaries remain explicit and all external gates stay false.'
+  - '2026-08-14: T196 publishes the explicitly CC-BY-4.0 PXD017052 paper-attached biological cohort and its row-level source-cell map. The clean-checkout asset contains 141 subject units, 705 batches, 666 rank-qualified batches and 17,026 external target observations; it improves effective biological-unit accounting and reproducibility but remains author-run Seer/Broad-lineage OOD, not an independent laboratory, lockbox, no-author reproduction, adoption or DOI receipt.'
   - 'T001 completed after the explicit repository-local non-human Git identity BioInterfaceOS-Codex <biointerfaceos-codex@localhost> resolved the recorded blocker.'
   - '2026-08-12: Round 2 created from the five-reviewer editorial report. T115–T128 are mandatory before any empirical submission-ready claim.'
   - '2026-08-12: T117 completed a default-deny public asset audit. Historical fixture bundles, data, registries, reports, and manuscript artifacts remain excluded or controlled until their independent gates pass.'

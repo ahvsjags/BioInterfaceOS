@@ -1,6 +1,6 @@
 # R4 T191 external execution packet
 
-This packet is the operational handoff for the remaining strong-Q1 gates. It is intentionally a handoff, not a completed external receipt. The current public candidate is the immutable tag v0.1.3-r10.10; resolve its exact commit with git rev-parse v0.1.3-r10.10^{}.
+This packet is the operational handoff for the remaining strong-Q1 gates. It is intentionally a handoff, not a completed external receipt. The current public candidate is the immutable tag v0.1.3-r10.11; resolve its exact commit with git rev-parse v0.1.3-r10.11^{}.
 
 ## What an external team may claim
 
@@ -11,13 +11,15 @@ Author-run commands, Codex agents, fixture data, downloads, stars and page views
 ## Reproduction route
 
 ~~~text
-git clone --branch v0.1.3-r10.10 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.3-r10.11 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
 uv sync --locked --all-groups
 uv run pytest -q tests/review_round_3 tests/review_round_4
 uv run python -m biointerfaceos data verify-r4-pxd064962-source --assets-root data/raw/r4_candidate_pxd064962_ucd --strict
 uv run python -m biointerfaceos data evaluate-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0
 uv run python -m biointerfaceos data verify-r4-pxd064962-low-coverage-sensitivity --strict --output-root reports/external_reproduction/t190_low_coverage_sensitivity/v1.0.0
+uv run python -m biointerfaceos data verify-r4-pxd017052-nsclc-source --assets-root data/raw/r4_candidate_pxd017052_nsclc --strict
+uv run python -m biointerfaceos data verify-r4-pxd017052-nsclc-biological-ood --strict
 bash scripts/r4_external_reproduction.sh external_reproduction_run
 ~~~
 
