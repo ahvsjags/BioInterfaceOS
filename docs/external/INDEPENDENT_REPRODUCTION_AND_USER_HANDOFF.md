@@ -1,5 +1,9 @@
 # Independent reproduction and external-user handoff
 
+## Current T190 handoff
+
+For the current empirical candidate, use commit b78224065262ed01dbe602a2c736fd18113c29c3 on branch r3-real-data-execution-20260813 and the operational packet at docs/external/R4_T191_EXTERNAL_EXECUTION_PACKET_20260814.md. The older v0.1.3-r9.1 route below is retained as a historical release handoff and must not be mixed with the T190 protocol or receipts.
+
 BioInterfaceOS is accepting independent reproduction and external-use reports for the public R9.1 release. This page is a handoff contract, not a completed receipt.
 
 ## Public checkout
