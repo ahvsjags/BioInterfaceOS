@@ -2,7 +2,7 @@
 
 Run `python -m biointerfaceos reproduce release --strict` from a clean checkout
 to create an immutable R2 replay record at
-`reports/review_round_2/reproducibility/r2_software_replay/v1.2.0/`.
+`reports/review_round_2/reproducibility/r2_software_replay/v1.3.0/`.
 
 The record contains a default-deny public-source manifest, SHA-256 file hashes,
 a CycloneDX-style SBOM derived from `pyproject.toml` and `uv.lock`, a deterministic

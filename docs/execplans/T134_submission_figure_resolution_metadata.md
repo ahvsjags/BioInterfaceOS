@@ -43,4 +43,7 @@ python -m pytest tests/publication/test_submission_figure_qa_workflow.py -q
 
 ## Completion note
 
-Pending KAUST rendering and full receipt verification.
+Completed 2026-08-13.  KAUST rebuilt the v1.2.0 suite from SVG, verified each
+PNG's `pHYs` block at 23,622 pixels per metre, and refreshed the dependent
+public-release, software-replay, portfolio, acceptance, remediation and
+external-handoff receipts.  The suite remains protocol-only.
