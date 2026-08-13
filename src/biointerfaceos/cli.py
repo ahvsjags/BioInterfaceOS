@@ -572,6 +572,38 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the byte-verified PMC11544298 package and extracted workbooks",
     )
     data_r4_small_molecule_source_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc13106918_source_parser = data_subparsers.add_parser(
+        "audit-r4-pmc13106918-source",
+        help="audit the license-resolved PMC13106918 technical corona source",
+    )
+    data_r4_pmc13106918_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PMC13106918 package and extracted MaxQuant files",
+    )
+    data_r4_pmc13106918_source_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc13106918_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pmc13106918-source",
+        help="verify the frozen PMC13106918 technical source audit receipt",
+    )
+    data_r4_pmc13106918_verify_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PMC13106918 package and extracted MaxQuant files",
+    )
+    data_r4_pmc13106918_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc13106918_ood_parser = data_subparsers.add_parser(
+        "evaluate-r4-pmc13106918-technical-ood",
+        help="run the frozen author-run technical OOD analysis for PMC13106918",
+    )
+    data_r4_pmc13106918_ood_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc13106918_ood_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pmc13106918-technical-ood",
+        help="verify the frozen PMC13106918 technical OOD receipt",
+    )
+    data_r4_pmc13106918_ood_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3462,6 +3494,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-r3-silver-plasma-source",
             "audit-r4-edinburgh-clinical-source",
             "audit-r4-small-molecule-corona-source",
+            "audit-r4-pmc13106918-source",
+            "verify-r4-pmc13106918-source",
+            "evaluate-r4-pmc13106918-technical-ood",
+            "verify-r4-pmc13106918-technical-ood",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-small-molecule-corona-ood",
@@ -3762,6 +3798,115 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"source_cells={small_molecule_summary.source_cell_count} "
                 f"positive_source_cells={small_molecule_summary.candidate_positive_source_cell_count} "
                 "model_fitted=false independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-pmc13106918-source":
+            from biointerfaceos.r4_pmc13106918_source_audit import (
+                R4PMC13106918SourceAuditError,
+                R4PMC13106918SourceAuditWorkflow,
+            )
+
+            try:
+                pmc13106918_summary = R4PMC13106918SourceAuditWorkflow(
+                    root, args.assets_root
+                ).run(strict=args.strict)
+            except (R4PMC13106918SourceAuditError, OSError) as exc:
+                print(f"R4_PMC13106918_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC13106918_SOURCE_AUDIT_VALID "
+                f"assets={pmc13106918_summary.source_asset_count} "
+                f"protein_rows={pmc13106918_summary.protein_row_count} "
+                f"measurement_batches={pmc13106918_summary.measurement_batch_count} "
+                f"rank_qualified_measurement_batches={pmc13106918_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={pmc13106918_summary.shared_canonical_protein_count} "
+                f"source_cells={pmc13106918_summary.source_cell_count} "
+                f"positive_source_cells={pmc13106918_summary.positive_source_cell_count} "
+                "biological_units=1 laboratories=1 model_fitted=false independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pmc13106918-source":
+            from biointerfaceos.r4_pmc13106918_source_audit import (
+                R4PMC13106918SourceAuditError,
+                R4PMC13106918SourceAuditWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PMC13106918_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                pmc13106918_summary = R4PMC13106918SourceAuditWorkflow(
+                    root, args.assets_root
+                ).verify()
+            except (R4PMC13106918SourceAuditError, OSError) as exc:
+                print(f"R4_PMC13106918_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC13106918_SOURCE_VERIFY_VALID "
+                f"assets={pmc13106918_summary.source_asset_count} "
+                f"protein_rows={pmc13106918_summary.protein_row_count} "
+                f"measurement_batches={pmc13106918_summary.measurement_batch_count} "
+                f"rank_qualified_measurement_batches={pmc13106918_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={pmc13106918_summary.shared_canonical_protein_count} "
+                f"source_cells={pmc13106918_summary.source_cell_count} "
+                f"positive_source_cells={pmc13106918_summary.positive_source_cell_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-pmc13106918-technical-ood":
+            from biointerfaceos.r4_pmc13106918_technical_ood import (
+                R4PMC13106918TechnicalOODError,
+                R4PMC13106918TechnicalOODWorkflow,
+            )
+
+            try:
+                technical_ood = R4PMC13106918TechnicalOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    root / "data/raw/r4_candidate_pmc13106918",
+                ).run(strict=args.strict)
+            except (R4PMC13106918TechnicalOODError, OSError) as exc:
+                print(f"R4_PMC13106918_TECHNICAL_OOD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC13106918_TECHNICAL_OOD_VALID "
+                f"development_observations={technical_ood.development_observation_count} "
+                f"external_observations={technical_ood.external_observation_count} "
+                f"external_shared_canonical_proteins={technical_ood.shared_canonical_protein_count} "
+                f"external_measurement_batches={technical_ood.external_measurement_batch_count} "
+                f"models={technical_ood.model_count} biological_units=1 "
+                "independent_validation=false external_scientific_reproduction=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pmc13106918-technical-ood":
+            from biointerfaceos.r4_pmc13106918_technical_ood import (
+                R4PMC13106918TechnicalOODError,
+                R4PMC13106918TechnicalOODWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PMC13106918_TECHNICAL_OOD_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                technical_ood = R4PMC13106918TechnicalOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    root / "data/raw/r4_candidate_pmc13106918",
+                ).verify()
+            except (R4PMC13106918TechnicalOODError, OSError) as exc:
+                print(f"R4_PMC13106918_TECHNICAL_OOD_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC13106918_TECHNICAL_OOD_VERIFY_VALID "
+                f"development_observations={technical_ood.development_observation_count} "
+                f"external_observations={technical_ood.external_observation_count} "
+                f"external_shared_canonical_proteins={technical_ood.shared_canonical_protein_count} "
+                f"external_measurement_batches={technical_ood.external_measurement_batch_count} "
+                "scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "audit-r4-dalian-plasma-corona-source":
