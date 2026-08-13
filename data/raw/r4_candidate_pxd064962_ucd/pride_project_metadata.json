@@ -1,0 +1,143 @@
+{
+  "accession" : "PXD064962",
+  "title" : "Extracellular vesicles in Early preterm neonates and thrombin generation",
+  "additionalAttributes" : [ ],
+  "projectDescription" : "The aim of the EVENT Study (Extracellular Vesicles in Early preterm Neonates and Thrombin generation) was to characterise the circulating EVs in preterm infants, using multiple EV charac- terisation techniques, during the perinatal adaptation period and compare them to healthy full-term controls.",
+  "sampleProcessingProtocol" : "Mass spectrometry was conducted to evaluate the qualitative proteomic differences between EVs in preterm and term neonates  [12]. Mass spectrometry sample preparation was performed using the PreOmics iST HT 192x kit (P.O.00067) according to the manufacturer’s instructions. In brief, 100ug of protein from each sample was lysed, reduced, and alkylated for 10 min at 95 °C and 1000 rpm, transferred to a cartridge and subsequently double-digested with LysC and trypsin at 37 °C and 500 rpm for 1 hour. The digest was stopped, samples were washed twice with provided wash buffers and eluted using the provided elution buffer. Samples were evaporated at 45 °C and peptides resuspended in LC-load buffer to a final peptide concentration of 500 ng/µL. Further purification of the peptides was performed using Evotips (Evosep, Denmark). Each Evotip was activated by adding 25 µl of methanol, centrifuged at 700 xg for 60 s with flow through collected in a 2 ml microcentrifuge tube). Next, 25 µl of buffer A (99.9 % water/0.1 % formic acid) was added and centrifuged as above. 10 µl sample was added to each Evotip and centrifuged as above. Finally, 120 µl of buffer A was added to wash and keep each tip wet. The tips were then stored at 4℃ prior to placing them on the Evosep One LC System. Samples were analysed using a Bruker timsTOF Pro mass spectrometer (Bruker, Billerica, USA) connected to a Evosep One LC system and separated with an increasing acetonitrile gradient over 40 minutes at a flow rate of 250 nl/min at 45 °C. The mass spectrometer was operated in positive ion mode with a capillary voltage of 1500 V, dry gas flow of 3 l/min and a dry temperature of 180 °C. All data was acquired with the instrument operating in trapped ion mobility spectrometry (TIMS) mode. Trapped ions were selected for MS/MS using parallel accumulation serial fragmentation (PASEF). A scan range of (100-1700 m/z) was performed at a rate of 10 PASEF MS/MS frames to 1 MS scan with a cycle time of 1.16 s. Tandem mass spectra were searched against a human FASTA (Uniprot, June 2021) using the freely available MaxQuant proteomics software (version 1.6.17.0) as before [12]. MaxQuant analysis included an initial search with a precursor mass tolerance of 20 ppm the results of which were used for mass recalibration. In the main Andromeda search precursor, mass and fragment mass had an initial mass tolerance of 6 ppm and 20 ppm, respectively. The search included fixed modification of carbamidomethyl cysteine. Minimal peptide length was set to seven amino acids, and a maximum of two miscleavages was allowed. The false discovery rate (FDR) was set to 0.01 for peptide and protein identifications. MaxQuant assigns label-free quantitative (LFQ) values to each identified protein.",
+  "dataProcessingProtocol" : "Statistical analysis on EV proteomic contents was performed as follows and as described previously [12]. Initial statistical analysis including significance testing was performed using Perseus software (Max Planck institute of biochemistry, Bayern, Germany) [14]. Only proteins identified in at least 50% of the replicate runs in at least one timepoint or population were included. Differences in protein expression were determined using an unpaired t test with an FDR of 5% and a minimal fold change of 0.1 within Perseus software. Dataset was then analysed using R statistical software (Version 4.2.2, The R foundation for statistical computing, Vienna, Austria).  Proteomic data set was imputed using quantile regression imputation for left censored data (QRILC) and principal component analysis was performed. A volcano plot was generated using “EnhancedVolcano”. ‘Pheatmap’ package was used to generate heatmap, clustering was performed using Euclidean distance for proteins and ward’s criterion (WardD2) for patients. Gene set enrichment analysis (GSEA) was performed using the package “clusterprofiler” comparing against the Gene Ontogeny (GO) database.",
+  "projectTags" : [ ],
+  "keywords" : [ "Human", "Plasma", "Extracellular vesicles" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "license" : "Creative Commons Public Domain (CC0)",
+  "submissionDate" : "2025-06-13",
+  "publicationDate" : "2026-01-11",
+  "submitters" : [ {
+    "title" : "Dr",
+    "firstName" : "Daniel",
+    "lastName" : "O Reilly",
+    "identifier" : "3629988",
+    "affiliation" : "UCD Conway Institute of biomolecular and biomedical science",
+    "email" : "danieloreilly@rcsi.ie",
+    "country" : "Ireland",
+    "orcid" : "0000-0002-8575-2353",
+    "name" : "Daniel O Reilly",
+    "id" : "3629988"
+  } ],
+  "labPIs" : [ {
+    "title" : "Dr",
+    "firstName" : "Patricia",
+    "lastName" : "Maguire",
+    "identifier" : "3167140",
+    "affiliation" : "Professor of Biomolecular and Biomedical Science,  Conway Institute,  University College Dublin, Ireland",
+    "email" : "patricia.maguire@ucd.ie",
+    "country" : "",
+    "orcid" : "",
+    "name" : "Patricia Maguire",
+    "id" : "3167140"
+  } ],
+  "instruments" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MS",
+    "accession" : "MS:1003229",
+    "name" : "timsTOF"
+  } ],
+  "softwares" : [ ],
+  "experimentTypes" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "PRIDE",
+    "accession" : "PRIDE:0000428",
+    "name" : "Bottom-up proteomics"
+  }, {
+    "@type" : "CvParam",
+    "cvLabel" : "PRIDE",
+    "accession" : "PRIDE:0000627",
+    "name" : "Data-dependent acquisition"
+  } ],
+  "quantificationMethods" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "PRIDE",
+    "accession" : "EFO:0030054",
+    "name" : "label-free quantification"
+  } ],
+  "countries" : [ "Ireland" ],
+  "sampleAttributes" : [ {
+    "@type" : "Tuple",
+    "key" : {
+      "cvLabel" : "EFO",
+      "accession" : "EFO:0000635",
+      "name" : "organism part"
+    },
+    "value" : [ {
+      "cvLabel" : "CL",
+      "accession" : "CL:0000233",
+      "name" : "platelet"
+    }, {
+      "cvLabel" : "BTO",
+      "accession" : "BTO:0000131",
+      "name" : "blood plasma"
+    } ]
+  }, {
+    "@type" : "Tuple",
+    "key" : {
+      "cvLabel" : "EFO",
+      "accession" : "OBI:0100026",
+      "name" : "organism"
+    },
+    "value" : [ {
+      "cvLabel" : "NEWT",
+      "accession" : "NEWT:9606",
+      "name" : "Homo sapiens (Human)"
+    } ]
+  }, {
+    "@type" : "Tuple",
+    "key" : {
+      "cvLabel" : "EFO",
+      "accession" : "EFO:0000408",
+      "name" : "disease"
+    },
+    "value" : [ {
+      "cvLabel" : "DOID",
+      "accession" : "SYMP:0000322",
+      "name" : "low birth weight"
+    } ]
+  } ],
+  "organisms" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "NEWT",
+    "accession" : "NEWT:9606",
+    "name" : "Homo sapiens (human)"
+  } ],
+  "organismParts" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "CL",
+    "accession" : "CL:0000233",
+    "name" : "Platelet"
+  }, {
+    "@type" : "CvParam",
+    "cvLabel" : "BTO",
+    "accession" : "BTO:0000131",
+    "name" : "Blood plasma"
+  } ],
+  "diseases" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "DOID",
+    "accession" : "SYMP:0000322",
+    "name" : "Low birth weight"
+  } ],
+  "references" : [ {
+    "referenceLine" : "Murphy CA, O'Reilly D, Weiss L, Madden S, Macleod H, Chevillier AL, Neary E, O'Loughlin J, El-Khuffash A, Kevane B, NíAinle F, Zivny J, McCallion N, Maguire PB. Unique Patterns of Circulating Extracellular Vesicles in Preterm Infants During Adaptation to Extra-Uterine Life. J Extracell Vesicles. 2025 14(4):e70064",
+    "pubmedID" : 40194994,
+    "doi" : "10.1002/jev2.70064"
+  } ],
+  "identifiedPTMStrings" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "PRIDE",
+    "accession" : "PRIDE:0000398",
+    "name" : "No PTMs are included in the dataset"
+  } ],
+  "totalFileDownloads" : 19,
+  "botCount" : 0,
+  "hubCount" : 12,
+  "organicCount" : 7
+}
