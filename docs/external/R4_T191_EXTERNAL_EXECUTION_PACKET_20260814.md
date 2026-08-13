@@ -1,6 +1,6 @@
 # R4 T191 external execution packet
 
-This packet is the operational handoff for the remaining strong-Q1 gates. It is intentionally a handoff, not a completed external receipt. The current public candidate is the immutable tag v0.1.3-r10.5; resolve its exact commit with git rev-parse v0.1.3-r10.5^{}.
+This packet is the operational handoff for the remaining strong-Q1 gates. It is intentionally a handoff, not a completed external receipt. The current public candidate is the immutable tag v0.1.3-r10.6; resolve its exact commit with git rev-parse v0.1.3-r10.6^{}.
 
 ## What an external team may claim
 
@@ -11,7 +11,7 @@ Author-run commands, Codex agents, fixture data, downloads, stars and page views
 ## Reproduction route
 
 ~~~text
-git clone --branch v0.1.3-r10.5 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.3-r10.6 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
 uv sync --locked --all-groups
 uv run pytest -q tests/review_round_3 tests/review_round_4

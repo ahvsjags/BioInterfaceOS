@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t193-three-lab-prefrozen-target-execution-v1.0.0",
+  "protocol_id": "bioif-r4-t193-three-lab-prefrozen-target-execution-v1.0.0",
+  "status": "T193_PREFROZEN_TARGET_EXECUTION_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {"relative_path": "docs/data/R4_T193_THREE_LAB_PREFROZEN_TARGET_EXECUTION_PROTOCOL.json", "sha256": "5fb426233a656ab83c7a4ea693a914eb9f212519f79b0b489d84103a4700447f"},
+  "t192_source_registry": {"relative_path": "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json", "sha256": "07b30eead07712f36f0d95565d3373b04e0b21253ad2159e56acfee1acf8136a"},
+  "r3_common_target_ledger": {"relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv", "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"},
+  "r3_sequence_feature_table": {"relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv", "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"},
+  "target_universe": {"frozen_source": "R3_common_rank_target_ledger", "expected_target_count": 99},
+  "sources": [
+    {"source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS", "laboratory_anchor": "University of Edinburgh-led controlled human exposure study", "expected_observation_count": 932, "expected_target_count": 23, "expected_batch_count": 49},
+    {"source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA", "laboratory_anchor": "Dalian University of Technology, China", "expected_observation_count": 109, "expected_target_count": 22, "expected_batch_count": 6},
+    {"source_id": "PXD064962_UCD_EVENT", "laboratory_anchor": "University College Dublin / Conway Institute", "expected_observation_count": 454, "expected_target_count": 15, "expected_batch_count": 30}
+  ],
+  "expected_accounting": {"source_count": 3, "laboratory_anchor_count": 3, "target_universe_count": 99, "observation_count": 1495, "outer_fold_count": 3, "model_count": 3},
+  "output_contract": {"relative_path": "reports/review_round_4/t193_three_lab_prefrozen_target_execution/v1.0.0"},
+  "claim_boundary": "The registry freezes an exploratory execution of a pre-T192 target universe; it is not an independent validation or submission-ready evidence package.",
+  "scientific_submission_ready": false
+}

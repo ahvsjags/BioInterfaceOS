@@ -729,6 +729,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T192 three-laboratory common-target receipt",
     )
     data_r4_t192_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t193_parser = data_subparsers.add_parser(
+        "evaluate-r4-t193-three-lab-prefrozen-target",
+        help="execute the frozen T193 study-held-out analysis on the pre-T192 R3 target universe",
+    )
+    data_r4_t193_parser.add_argument("--strict", action="store_true")
+    data_r4_t193_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t193-three-lab-prefrozen-target",
+        help="verify the frozen T193 three-source execution receipt",
+    )
+    data_r4_t193_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3667,6 +3677,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-three-lab-common-target",
             "audit-r4-t192-three-lab-common-target",
             "verify-r4-t192-three-lab-common-target",
+            "evaluate-r4-t193-three-lab-prefrozen-target",
+            "verify-r4-t193-three-lab-prefrozen-target",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-pxd064962-low-coverage-sensitivity",
@@ -4490,6 +4502,49 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"laboratories={t192_summary.laboratory_anchor_count} "
                 f"common_targets={t192_summary.common_target_count} "
                 f"common_rows={t192_summary.common_row_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t193-three-lab-prefrozen-target":
+            from biointerfaceos.r4_t193_three_lab_prefrozen_execution import (
+                R4T193ThreeLabExecutionError,
+                R4T193ThreeLabPrefrozenExecutionWorkflow,
+            )
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
+
+            try:
+                t193_summary = R4T193ThreeLabPrefrozenExecutionWorkflow(root).run(strict=args.strict)
+            except (R4T193ThreeLabExecutionError, OSError, R3ModelEvaluationError) as exc:
+                print(f"R4_T193_THREE_LAB_PREFROZEN_TARGET_EXECUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T193_THREE_LAB_PREFROZEN_TARGET_EXECUTION_VALID "
+                f"observations={t193_summary.observation_count} "
+                f"target_universe={t193_summary.target_universe_count} "
+                f"laboratories={t193_summary.laboratory_anchor_count} "
+                f"measurement_batches={t193_summary.measurement_batch_count} "
+                f"models={t193_summary.model_count} "
+                "study_held_out=true nested_selection=true cluster_aware=true "
+                "independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t193-three-lab-prefrozen-target":
+            from biointerfaceos.r4_t193_three_lab_prefrozen_execution import (
+                R4T193ThreeLabExecutionError,
+                R4T193ThreeLabPrefrozenExecutionWorkflow,
+            )
+
+            try:
+                t193_summary = R4T193ThreeLabPrefrozenExecutionWorkflow(root).verify(strict=args.strict)
+            except (R4T193ThreeLabExecutionError, OSError) as exc:
+                print(f"R4_T193_THREE_LAB_PREFROZEN_TARGET_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T193_THREE_LAB_PREFROZEN_TARGET_VERIFY_VALID "
+                f"observations={t193_summary.observation_count} "
+                f"target_universe={t193_summary.target_universe_count} "
+                f"laboratories={t193_summary.laboratory_anchor_count} "
+                f"measurement_batches={t193_summary.measurement_batch_count} "
                 "scientific_submission_ready=false"
             )
             return 0

@@ -11,9 +11,10 @@ import csv
 import json
 import math
 from collections import defaultdict
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Any, Mapping
+from typing import Any
 
 from biointerfaceos.r3_uniprot_mapping import _canonical, _checksum, _mapping, _sha256, _string
 
@@ -119,6 +120,20 @@ class R4T192ThreeLabCommonTargetWorkflow:
             raise R4T192ThreeLabCommonTargetError(f"{label} checksum differs")
         return path
 
+    @staticmethod
+    def _declared_licenses(value: Any) -> set[str]:
+        """Collect nested license declarations from a source registry."""
+        licenses: set[str] = set()
+        if isinstance(value, Mapping):
+            for key, item in value.items():
+                if key == "license" and isinstance(item, str):
+                    licenses.add(item)
+                licenses.update(R4T192ThreeLabCommonTargetWorkflow._declared_licenses(item))
+        elif isinstance(value, list):
+            for item in value:
+                licenses.update(R4T192ThreeLabCommonTargetWorkflow._declared_licenses(item))
+        return licenses
+
     def _documents(self) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]]]:
         registry = self._json(self.registry_path, "T192 registry")
         required = {
@@ -156,10 +171,28 @@ class R4T192ThreeLabCommonTargetWorkflow:
             raise R4T192ThreeLabCommonTargetError("T192 protocol identity or boundary is invalid")
         sources = registry.get("sources")
         if not isinstance(sources, list) or len(sources) != 3:
-            raise R4T192ThreeLabCommonTargetError("T192 registry must contain exactly three sources")
+            raise R4T192ThreeLabCommonTargetError(
+                "T192 registry must contain exactly three sources"
+            )
+        source_ids = [
+            str(_mapping(source, "T192 source").get("source_id", "")) for source in sources
+        ]
+        anchors = [
+            str(_mapping(source, "T192 source").get("laboratory_anchor", "")) for source in sources
+        ]
+        if (
+            len(set(source_ids)) != 3
+            or len(set(anchors)) != 3
+            or any(not item for item in source_ids + anchors)
+        ):
+            raise R4T192ThreeLabCommonTargetError(
+                "T192 source IDs and laboratory anchors must be unique"
+            )
         return registry, protocol, [_mapping(source, "T192 source") for source in sources]
 
-    def _validate_source_metadata(self, source: Mapping[str, Any]) -> tuple[Path, list[dict[str, str]]]:
+    def _validate_source_metadata(
+        self, source: Mapping[str, Any]
+    ) -> tuple[Path, list[dict[str, str]]]:
         required = {
             "source_id",
             "laboratory_anchor",
@@ -177,22 +210,51 @@ class R4T192ThreeLabCommonTargetWorkflow:
         if set(source) != required:
             raise R4T192ThreeLabCommonTargetError("T192 source fields are invalid")
         if source["license"] not in {"CC0", "CC0-1.0", "CC-BY-4.0"}:
-            raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} license is not redistributable")
-        registry_path = self._reference(source["source_registry"], f"{source['source_id']} source registry")
-        report_path = self._reference(source["source_audit_report"], f"{source['source_id']} audit report")
-        receipt_path = self._reference(source["source_audit_receipt"], f"{source['source_id']} audit receipt")
-        map_path = self._reference(source["source_cell_map"], f"{source['source_id']} source-cell map")
+            raise R4T192ThreeLabCommonTargetError(
+                f"{source['source_id']} license is not redistributable"
+            )
+        registry_path = self._reference(
+            source["source_registry"], f"{source['source_id']} source registry"
+        )
+        report_path = self._reference(
+            source["source_audit_report"], f"{source['source_id']} audit report"
+        )
+        receipt_path = self._reference(
+            source["source_audit_receipt"], f"{source['source_id']} audit receipt"
+        )
+        map_path = self._reference(
+            source["source_cell_map"], f"{source['source_id']} source-cell map"
+        )
         for index, asset in enumerate(source["raw_assets"]):
             self._reference(asset, f"{source['source_id']} raw asset {index}")
         source_registry = self._json(registry_path, f"{source['source_id']} source registry")
         report = self._json(report_path, f"{source['source_id']} audit report")
         receipt = self._json(receipt_path, f"{source['source_id']} audit receipt")
-        if report.get("scientific_submission_ready") is not False or receipt.get("scientific_submission_ready") is not False:
-            raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} source boundary is invalid")
-        if receipt.get("report", {}).get("sha256") not in {None, _sha256(report_path)} and receipt.get("report_sha256") != _sha256(report_path):
-            raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} receipt does not close audit report")
-        if source["source_id"] not in str(source_registry) and source["source_id"] not in str(report):
-            raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} source identity is not present in audit artifacts")
+        if (
+            report.get("scientific_submission_ready") is not False
+            or receipt.get("scientific_submission_ready") is not False
+        ):
+            raise R4T192ThreeLabCommonTargetError(
+                f"{source['source_id']} source boundary is invalid"
+            )
+        if receipt.get("report", {}).get("sha256") not in {
+            None,
+            _sha256(report_path),
+        } and receipt.get("report_sha256") != _sha256(report_path):
+            raise R4T192ThreeLabCommonTargetError(
+                f"{source['source_id']} receipt does not close audit report"
+            )
+        if source["source_id"] not in str(source_registry) and source["source_id"] not in str(
+            report
+        ):
+            raise R4T192ThreeLabCommonTargetError(
+                f"{source['source_id']} source identity is not present in audit artifacts"
+            )
+        declared_licenses = self._declared_licenses(source_registry)
+        if source["license"] not in declared_licenses:
+            raise R4T192ThreeLabCommonTargetError(
+                f"{source['source_id']} license is not closed by source registry"
+            )
         with map_path.open(newline="", encoding="utf-8") as stream:
             reader = csv.DictReader(stream)
             rows = list(reader)
@@ -209,29 +271,53 @@ class R4T192ThreeLabCommonTargetWorkflow:
             "rank_target_eligible",
         }
         if reader.fieldnames is None or not required_map.issubset(reader.fieldnames):
-            raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} source map schema is invalid")
+            raise R4T192ThreeLabCommonTargetError(
+                f"{source['source_id']} source map schema is invalid"
+            )
         if not rows:
             raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} source map is empty")
+        reported_map = _mapping(
+            report.get("source_cell_map"), f"{source['source_id']} report source map"
+        )
+        if reported_map.get("sha256") != _sha256(map_path):
+            raise R4T192ThreeLabCommonTargetError(
+                f"{source['source_id']} audit report does not close source map"
+            )
         eligible: list[dict[str, str]] = []
         for row in rows:
-            if row.get("source_id") != source["source_id"] or row.get("laboratory_anchor") != source["laboratory_anchor"]:
-                raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} source identity differs in map")
+            if (
+                row.get("source_id") != source["source_id"]
+                or row.get("laboratory_anchor") != source["laboratory_anchor"]
+            ):
+                raise R4T192ThreeLabCommonTargetError(
+                    f"{source['source_id']} source identity differs in map"
+                )
             for field in required_map - {"author_numeric_value", "rank_target_eligible"}:
                 if not str(row.get(field, "")).strip():
-                    raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} map has blank {field}")
+                    raise R4T192ThreeLabCommonTargetError(
+                        f"{source['source_id']} map has blank {field}"
+                    )
             candidate = row.get("analysis_candidate_eligible", "true").strip().lower() == "true"
             rank_eligible = row.get("rank_target_eligible", "").strip().lower() == "true"
             if rank_eligible and candidate:
                 try:
                     value = float(row["author_numeric_value"])
                 except (TypeError, ValueError) as exc:
-                    raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} eligible value is not numeric") from exc
+                    raise R4T192ThreeLabCommonTargetError(
+                        f"{source['source_id']} eligible value is not numeric"
+                    ) from exc
                 if not math.isfinite(value) or value <= 0:
-                    raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} eligible value is not strictly positive")
+                    raise R4T192ThreeLabCommonTargetError(
+                        f"{source['source_id']} eligible value is not strictly positive"
+                    )
                 if not row.get("canonical_accession", "").strip():
-                    raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} eligible accession is blank")
+                    raise R4T192ThreeLabCommonTargetError(
+                        f"{source['source_id']} eligible accession is blank"
+                    )
                 eligible.append(row)
-        expected = _mapping(source["expected_accounting"], f"{source['source_id']} expected accounting")
+        expected = _mapping(
+            source["expected_accounting"], f"{source['source_id']} expected accounting"
+        )
         targets = {row["canonical_accession"] for row in eligible}
         batches = {row["measurement_batch_id"] for row in eligible}
         if (
@@ -240,14 +326,18 @@ class R4T192ThreeLabCommonTargetWorkflow:
             or len(targets) != expected["rank_eligible_target_count"]
             or len(batches) != expected["rank_eligible_batch_count"]
         ):
-            raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} source accounting differs")
+            raise R4T192ThreeLabCommonTargetError(
+                f"{source['source_id']} source accounting differs"
+            )
         return map_path, eligible
 
     @staticmethod
     def _rank_rows(rows: list[dict[str, str]]) -> dict[int, tuple[float, int]]:
         by_batch: dict[str, list[tuple[int, float]]] = defaultdict(list)
         for index, row in enumerate(rows):
-            by_batch[row["measurement_batch_id"]].append((index, float(row["author_numeric_value"])))
+            by_batch[row["measurement_batch_id"]].append(
+                (index, float(row["author_numeric_value"]))
+            )
         ranks: dict[int, tuple[float, int]] = {}
         for batch_rows in by_batch.values():
             ordered = sorted(batch_rows, key=lambda item: (-item[1], item[0]))
@@ -272,12 +362,20 @@ class R4T192ThreeLabCommonTargetWorkflow:
             map_path, rows = self._validate_source_metadata(source)
             map_paths[source["source_id"]] = map_path
             all_eligible[source["source_id"]] = rows
-        target_sets = {source_id: {row["canonical_accession"] for row in rows} for source_id, rows in all_eligible.items()}
+        target_sets = {
+            source_id: {row["canonical_accession"] for row in rows}
+            for source_id, rows in all_eligible.items()
+        }
         common_targets = set.intersection(*target_sets.values())
         freeze = _mapping(registry["target_freeze"], "T192 target freeze")
         expected_targets = set(freeze["common_targets"])
-        if common_targets != expected_targets or len(common_targets) != freeze["common_target_count"]:
-            raise R4T192ThreeLabCommonTargetError("T192 target intersection differs from frozen target set")
+        if (
+            common_targets != expected_targets
+            or len(common_targets) != freeze["common_target_count"]
+        ):
+            raise R4T192ThreeLabCommonTargetError(
+                "T192 target intersection differs from frozen target set"
+            )
         source_by_id = {source["source_id"]: source for source in sources}
         ledger_rows: list[dict[str, str]] = []
         source_accounting: dict[str, dict[str, Any]] = {}
@@ -286,9 +384,14 @@ class R4T192ThreeLabCommonTargetWorkflow:
             rows = all_eligible[source_id]
             ranks = self._rank_rows(rows)
             common = [row for row in rows if row["canonical_accession"] in common_targets]
-            common_pairs = {(row["canonical_accession"], row["measurement_batch_id"]) for row in common}
+            common_pairs = {
+                (row["canonical_accession"], row["measurement_batch_id"]) for row in common
+            }
             expected = _mapping(source["expected_accounting"], f"{source_id} expected accounting")
-            if len(common) != expected["common_rows"] or len(common_pairs) != expected["common_target_batch_pairs"]:
+            if (
+                len(common) != expected["common_rows"]
+                or len(common_pairs) != expected["common_target_batch_pairs"]
+            ):
                 raise R4T192ThreeLabCommonTargetError(f"{source_id} common accounting differs")
             source_accounting[source_id] = {
                 "laboratory_anchor": source["laboratory_anchor"],
@@ -302,7 +405,14 @@ class R4T192ThreeLabCommonTargetWorkflow:
                 "source_cell_map": source["source_cell_map"],
                 "biological_unit_semantics": source["biological_unit_semantics"],
             }
-            for row_index, row in sorted(enumerate(common), key=lambda item: (item[1]["measurement_batch_id"], item[1]["canonical_accession"], item[1]["source_coordinate"])):
+            for _row_index, row in sorted(
+                enumerate(common),
+                key=lambda item: (
+                    item[1]["measurement_batch_id"],
+                    item[1]["canonical_accession"],
+                    item[1]["source_coordinate"],
+                ),
+            ):
                 percentile, positive_count = ranks[rows.index(row)]
                 ledger_rows.append(
                     {
@@ -347,17 +457,33 @@ class R4T192ThreeLabCommonTargetWorkflow:
             "common_targets": sorted(common_targets),
             "common_row_count": len(ledger_rows),
             "source_cell_count": sum(
-                _mapping(source["expected_accounting"], f"{source['source_id']} expected accounting")["raw_map_rows"]
+                _mapping(
+                    source["expected_accounting"], f"{source['source_id']} expected accounting"
+                )["raw_map_rows"]
                 for source in sources
             ),
             "rank_eligible_cell_count": sum(len(rows) for rows in all_eligible.values()),
-            "source_batch_counts": {source_id: len({row["measurement_batch_id"] for row in rows}) for source_id, rows in all_eligible.items()},
+            "source_batch_counts": {
+                source_id: len({row["measurement_batch_id"] for row in rows})
+                for source_id, rows in all_eligible.items()
+            },
             "source_accounting": source_accounting,
             "input_references": {
-                "protocol": {"relative_path": self.PROTOCOL_RELATIVE, "sha256": _sha256(self.root / self.PROTOCOL_RELATIVE)},
-                "registry": {"relative_path": self.REGISTRY_RELATIVE, "sha256": _sha256(self.registry_path)},
+                "protocol": {
+                    "relative_path": self.PROTOCOL_RELATIVE,
+                    "sha256": _sha256(self.root / self.PROTOCOL_RELATIVE),
+                },
+                "registry": {
+                    "relative_path": self.REGISTRY_RELATIVE,
+                    "sha256": _sha256(self.registry_path),
+                },
                 "source_cell_maps": {
-                    source_id: {"relative_path": str(map_paths[source_id].relative_to(self.root).as_posix()), "sha256": _sha256(map_paths[source_id])}
+                    source_id: {
+                        "relative_path": str(
+                            map_paths[source_id].relative_to(self.root).as_posix()
+                        ),
+                        "sha256": _sha256(map_paths[source_id]),
+                    }
                     for source_id in sorted(map_paths)
                 },
             },
@@ -382,7 +508,11 @@ class R4T192ThreeLabCommonTargetWorkflow:
             ledger_relative_path = ledger_path.relative_to(self.root).as_posix()
         except ValueError:
             ledger_relative_path = ledger_path.relative_to(self.output_root).as_posix()
-        report["ledger"] = {"relative_path": ledger_relative_path, "sha256": _sha256(ledger_path), "row_count": len(ledger_rows)}
+        report["ledger"] = {
+            "relative_path": ledger_relative_path,
+            "sha256": _sha256(ledger_path),
+            "row_count": len(ledger_rows),
+        }
         report_path = self.output_root / "r4_t192_three_lab_common_target_report.json"
         self._write_json(report_path, report)
         receipt = {
@@ -404,9 +534,14 @@ class R4T192ThreeLabCommonTargetWorkflow:
         receipt_path = self.output_root / "r4_t192_three_lab_common_target_receipt.json"
         self._write_json(receipt_path, receipt)
         return R4T192ThreeLabCommonTargetSummary(
-            report["source_count"], report["laboratory_anchor_count"], report["common_target_count"],
-            report["common_row_count"], report["source_cell_count"], report["rank_eligible_cell_count"],
-            report["source_batch_counts"], receipt_path,
+            report["source_count"],
+            report["laboratory_anchor_count"],
+            report["common_target_count"],
+            report["common_row_count"],
+            report["source_cell_count"],
+            report["rank_eligible_cell_count"],
+            report["source_batch_counts"],
+            receipt_path,
         )
 
     def verify(self, *, strict: bool = True) -> R4T192ThreeLabCommonTargetSummary:
@@ -430,12 +565,23 @@ class R4T192ThreeLabCommonTargetWorkflow:
             raise R4T192ThreeLabCommonTargetError("T192 report, receipt or ledger identity differs")
         recomputed, ledger_rows, _ = self._execute()
         report_comparable = (
-            "source_count", "laboratory_anchor_count", "common_target_count", "common_row_count",
-            "source_cell_count", "rank_eligible_cell_count", "source_batch_counts", "common_targets",
+            "source_count",
+            "laboratory_anchor_count",
+            "common_target_count",
+            "common_row_count",
+            "source_cell_count",
+            "rank_eligible_cell_count",
+            "source_batch_counts",
+            "common_targets",
         )
         receipt_comparable = (
-            "source_count", "laboratory_anchor_count", "common_target_count", "common_row_count",
-            "source_cell_count", "rank_eligible_cell_count", "source_batch_counts",
+            "source_count",
+            "laboratory_anchor_count",
+            "common_target_count",
+            "common_row_count",
+            "source_cell_count",
+            "rank_eligible_cell_count",
+            "source_batch_counts",
         )
         if any(report.get(key) != recomputed.get(key) for key in report_comparable) or any(
             receipt.get(key) != recomputed.get(key) for key in receipt_comparable
@@ -447,7 +593,12 @@ class R4T192ThreeLabCommonTargetWorkflow:
         if current_rows != expected_rows:
             raise R4T192ThreeLabCommonTargetError("T192 ledger differs from current inputs")
         return R4T192ThreeLabCommonTargetSummary(
-            recomputed["source_count"], recomputed["laboratory_anchor_count"], recomputed["common_target_count"],
-            recomputed["common_row_count"], recomputed["source_cell_count"], recomputed["rank_eligible_cell_count"],
-            recomputed["source_batch_counts"], receipt_path,
+            recomputed["source_count"],
+            recomputed["laboratory_anchor_count"],
+            recomputed["common_target_count"],
+            recomputed["common_row_count"],
+            recomputed["source_cell_count"],
+            recomputed["rank_eligible_cell_count"],
+            recomputed["source_batch_counts"],
+            receipt_path,
         )

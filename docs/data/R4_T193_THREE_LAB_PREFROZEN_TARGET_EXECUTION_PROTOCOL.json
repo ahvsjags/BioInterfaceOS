@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t193-three-lab-prefrozen-target-execution-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "status": "FROZEN_BEFORE_T193_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Execute a leakage-controlled, study-held-out, nested and cluster-aware sequence-rank analysis on three public source anchors using a target universe frozen before the T192 sources entered the project.",
+  "estimand": {
+    "primary": "For each held-out laboratory anchor, the macro-average measurement-batch Spearman correlation between source-local descending positive-quantification rank and predictions from a sequence ridge model trained only on the other laboratory anchors.",
+    "secondary": [
+      "macro-average held-out batch MAE and RMSE",
+      "paired full-sequence minus amino-acid-composition-only Spearman difference",
+      "within-development-batch rank-permutation null for the full model",
+      "held-out source and held-out batch effective sample accounting"
+    ],
+    "unit_of_analysis": "measurement batch; source-specific biological-unit semantics are retained and not promoted to donor independence"
+  },
+  "prefrozen_target_universe": {
+    "target_definition": "All canonical accessions marked common_rank_target_member=true in the R3 common-target ledger, which was frozen before the T192 source packages were admitted.",
+    "expected_target_count": 99,
+    "selection_is_performance_free": true,
+    "new_source_target_selection": false,
+    "availability_rule": "A pre-frozen accession contributes an observation only when the source map marks it rank_target_eligible=true with a finite strictly positive author value; missing, blank and zero states remain missing and are never imputed.",
+    "cross_source_abundance_scale_use": "PROHIBITED",
+    "rank_direction": "DESCENDING_MIDRANK_PERCENTILE_WITHIN_SOURCE_DEFINED_MEASUREMENT_BATCH"
+  },
+  "outer_split": {
+    "type": "leave_one_laboratory_anchor_out",
+    "fold_count": 3,
+    "held_out_unit": "entire source/laboratory anchor",
+    "target_universe_and_feature_table_are_frozen_before_outer_split": true,
+    "held_out_source_used_for_target_membership": false,
+    "held_out_source_used_for_alpha_selection": false,
+    "held_out_source_used_for_model_selection": false
+  },
+  "nested_selection": {
+    "type": "leave_one_measurement_batch_out_within_outer_development_anchors",
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "selection_metric": "measurement-batch Spearman",
+    "tie_break": "smallest alpha",
+    "minimum_proteins_per_selection_batch": 10
+  },
+  "models": {
+    "constant": "development-target mean; Spearman is undefined by contract",
+    "full": "unpenalized-intercept ridge on sequence length, estimated molecular mass, hydrophobicity, aromaticity, acidic/basic/cysteine/proline fractions, mean Kyte-Doolittle and amino-acid fractions",
+    "composition_only": "unpenalized-intercept ridge on amino-acid fractions only",
+    "standardization": "development-partition mean and standard deviation; zero standard deviation replaced by 1.0",
+    "solver": "numpy.linalg.solve"
+  },
+  "ambiguity_policy": {
+    "source_map_coordinate": "retain every row-level canonical mapping from the audited source map and expose source_identifier unchanged",
+    "multi_accession_groups": "retain as traceable sensitivity observations with an ambiguity flag; do not describe them as unambiguous protein measurements",
+    "technical_replicates": "retain source coordinates, but do not treat technical replicates as independent biological units",
+    "pooled_source": "Dalian pooled/unspecified plasma is descriptive at source/batch level and supplies no donor-level uncertainty"
+  },
+  "uncertainty": {
+    "cluster": "held-out measurement batch; no donor independence is inferred where donor IDs are unavailable",
+    "resamples": 2000,
+    "random_seed": 1930,
+    "interval": "percentile 95% cluster bootstrap",
+    "low_cluster_count_policy": "report the interval and cluster count; do not convert a three-anchor analysis into a biological n claim"
+  },
+  "negative_control": {
+    "type": "within-development-measurement-batch target permutation",
+    "resamples": 256,
+    "random_seed": 1931,
+    "alpha_policy": "hold the observed nested-selected full-model alpha fixed within each outer fold",
+    "tail": "one-sided upper tail"
+  },
+  "required_outputs": [
+    "source_local_prefrozen_target_ledger.csv",
+    "outer_fold_predictions.csv",
+    "measurement_batch_metrics.csv",
+    "outer_fold_metrics.csv",
+    "nested_inner_selection.csv",
+    "paired_composition_ablation.csv",
+    "within_batch_rank_permutation.csv",
+    "outer_fold_model_parameters.json",
+    "t193_three_lab_execution_report.json",
+    "t193_three_lab_execution_receipt.json"
+  ],
+  "claim_boundary": "This execution is an exploratory, leakage-controlled cross-source portability analysis on public paper-linked data. It does not establish independent biological validation, evaluator lockbox performance, no-author scientific reproduction, causal material claims, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

@@ -1,0 +1,4 @@
+outer_fold_id,held_out_laboratory_anchor,paired_measurement_batch_count,full_minus_composition_mean_spearman,resamples,seed,lower_95,upper_95
+T193_OUTER_01,"Dalian University of Technology, China",6,-0.08853120993213874,2000,3631,-0.12275971792225664,-0.05819020590692419
+T193_OUTER_02,University College Dublin / Conway Institute,30,-0.036544085520973456,2000,4631,-0.05478084456400468,-0.017832644511478417
+T193_OUTER_03,University of Edinburgh-led controlled human exposure study,49,0.20672178645894446,2000,5631,0.17383878363375424,0.23813314799604046
