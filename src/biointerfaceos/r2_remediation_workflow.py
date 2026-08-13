@@ -64,10 +64,10 @@ class _Source:
 class R2RemediationWorkflow:
     """Freeze current R2 finding states against the receipts that support them."""
 
-    AUDIT_ID = "bioif-r2-remediation-status-v1.17.0"
+    AUDIT_ID = "bioif-r2-remediation-status-v1.18.0"
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     LEDGER_RELATIVE = "docs/review_round_2/R2_CURRENT_EVIDENCE_STATUS.md"
-    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.17.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/remediation_status/v1.18.0"
     RECEIPTS = {
         "semantics": (
             "reports/review_round_2/evidence_semantics/v1.2.0/audit_receipt.json",
@@ -111,7 +111,7 @@ class R2RemediationWorkflow:
             "R2 related-work receipt",
         ),
         "public_release": (
-            "reports/review_round_2/public_release_audit/v1.6.0/audit_receipt.json",
+            "reports/review_round_2/public_release_audit/v1.7.0/audit_receipt.json",
             "R2 public-release receipt",
         ),
         "figures": (
@@ -127,7 +127,7 @@ class R2RemediationWorkflow:
             "R2 acceptance-readiness receipt",
         ),
         "external_handoff": (
-            "reports/review_round_2/external_evidence_handoff/v1.9.0/"
+            "reports/review_round_2/external_evidence_handoff/v1.10.0/"
             "external_evidence_handoff_receipt.json",
             "T133/T135/T136 external-evidence handoff receipt",
         ),

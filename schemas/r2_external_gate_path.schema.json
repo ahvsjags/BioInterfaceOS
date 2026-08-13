@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bioif-r2-external-gate-path-v1.0.0",
+  "title": "BioInterfaceOS R2 external gate-path audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "audit_id", "audited_at", "status", "gate_status",
+    "ordered_stages", "command_inventory", "reference_receipts", "stage_count",
+    "reference_count", "command_count", "external_source_received",
+    "independent_evaluator_receipt_verified", "external_reproduction_verified",
+    "editorial_rereview_verified", "scientific_submission_ready"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "audit_id": {"type": "string", "minLength": 1},
+    "audited_at": {"type": "string", "minLength": 1},
+    "status": {"const": "PASS_R2_EXTERNAL_GATE_PATH_AUDIT"},
+    "gate_status": {"const": "READY_FOR_EXTERNAL_HANDOFF_WITH_EXTERNAL_GATES_OPEN"},
+    "ordered_stages": {"type": "array", "minItems": 6, "items": {"type": "string"}},
+    "command_inventory": {"type": "object", "minProperties": 6},
+    "reference_receipts": {"type": "object", "minProperties": 13},
+    "stage_count": {"const": 6},
+    "reference_count": {"type": "integer", "minimum": 10},
+    "command_count": {"const": 6},
+    "external_source_received": {"const": false},
+    "independent_evaluator_receipt_verified": {"const": false},
+    "external_reproduction_verified": {"const": false},
+    "editorial_rereview_verified": {"const": false},
+    "scientific_submission_ready": {"const": false}
+  }
+}

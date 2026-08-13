@@ -44,9 +44,9 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
 class R2ReleaseReproductionWorkflow:
     """Create a default-deny, self-reconstructing R2 software replay record."""
 
-    REPRO_ID = "bioif-r2-software-replay-v1.9.0"
+    REPRO_ID = "bioif-r2-software-replay-v2.0.0"
     REPRODUCED_AT = "2026-08-13T00:00:00+00:00"
-    OUTPUT_RELATIVE = "reports/review_round_2/reproducibility/r2_software_replay/v1.9.0"
+    OUTPUT_RELATIVE = "reports/review_round_2/reproducibility/r2_software_replay/v2.0.0"
     REQUIRED_PUBLIC_PATHS = {
         "LICENSE",
         "NOTICE",
@@ -60,8 +60,11 @@ class R2ReleaseReproductionWorkflow:
         "src/biointerfaceos/r2_release_reproduction_workflow.py",
         "src/biointerfaceos/external_source_intake.py",
         "src/biointerfaceos/external_verification_intake.py",
+        "src/biointerfaceos/r2_external_gate_path_workflow.py",
         "docs/data/R2_EXTERNAL_SOURCE_INTAKE_TEMPLATE.json",
         "docs/data/R2_EXTERNAL_VERIFICATION_BUNDLE_TEMPLATE.json",
+        "schemas/r2_external_gate_path.schema.json",
+        "docs/review_round_2/R2_EXTERNAL_GATE_PATH.md",
     }
     FORBIDDEN_PUBLIC_PREFIXES = ("data/", "registry/", "reports/", "release/")
     RELEASE_BOUNDARY_DOCUMENTS = frozenset({"release/README.md", "release/public/README.md"})

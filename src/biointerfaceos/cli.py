@@ -175,6 +175,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit the R2 external source and independent-evaluation handoff package",
     )
     external_handoff_r2_parser.add_argument("--strict", action="store_true")
+    external_gate_path_r2_parser = project_subparsers.add_parser(
+        "audit-r2-external-gate-path",
+        help="audit the ordered R2 external source, evaluator and editorial gate path",
+    )
+    external_gate_path_r2_parser.add_argument("--strict", action="store_true")
 
     schema_parser = subparsers.add_parser("schema", help="validate versioned schemas")
     schema_subparsers = schema_parser.add_subparsers(dest="schema_command")
@@ -1041,6 +1046,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "accept-r2",
             "audit-r2-remediation",
             "audit-r2-external-handoff",
+            "audit-r2-external-gate-path",
         }:
             parser.parse_args(["project", "--help"])
             return 0
@@ -1112,6 +1118,32 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"status={handoff_summary.status} "
                 f"source_fields={handoff_summary.source_intake_field_count} "
                 f"analysis_unit_fields={handoff_summary.analysis_unit_field_count} "
+                "external_source_received=false independent_evaluator_receipt_verified=false "
+                "external_reproduction_verified=false editorial_rereview_verified=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.project_command == "audit-r2-external-gate-path":
+            from biointerfaceos.r2_external_gate_path_workflow import (
+                R2ExternalGatePathError,
+                R2ExternalGatePathWorkflow,
+            )
+
+            root = find_repository_root()
+            if root is None:
+                print("R2_EXTERNAL_GATE_PATH_INVALID: repository root not found", file=sys.stderr)
+                return 1
+            try:
+                gate_path_summary = R2ExternalGatePathWorkflow(root).run(strict=args.strict)
+            except (R2ExternalGatePathError, OSError) as exc:
+                print(f"R2_EXTERNAL_GATE_PATH_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R2_EXTERNAL_GATE_PATH_VALID "
+                f"status={gate_path_summary.status} "
+                f"stages={gate_path_summary.stage_count} "
+                f"references={gate_path_summary.reference_count} "
+                f"commands={gate_path_summary.command_count} "
                 "external_source_received=false independent_evaluator_receipt_verified=false "
                 "external_reproduction_verified=false editorial_rereview_verified=false "
                 "scientific_submission_ready=false"
