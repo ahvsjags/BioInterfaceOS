@@ -30,4 +30,4 @@ data/raw/r4_candidate_edinburgh_ds7545/README.txt binary
 # the exact CSV bytes emitted by the audit workflow across platforms.
 data/raw/r4_candidate_edinburgh_ds7545/derived/*.csv binary
 data/raw/r4_candidate_pmc11544298/derived/*.csv binary
-data/raw/r4_candidate_pxd060795/derived/*.csv binary
+data/raw/r4_candidate_pxd060795/derived/*.csv -text -eol
