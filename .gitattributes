@@ -31,3 +31,4 @@ data/raw/r4_candidate_edinburgh_ds7545/README.txt binary
 data/raw/r4_candidate_edinburgh_ds7545/derived/*.csv binary
 data/raw/r4_candidate_pmc11544298/derived/*.csv binary
 data/raw/r4_candidate_pxd060795/derived/*.csv -text -eol
+data/raw/r4_candidate_pxd017052_nsclc/derived/*.csv binary
