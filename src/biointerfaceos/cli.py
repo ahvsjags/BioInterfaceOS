@@ -2366,6 +2366,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "profile-proteomics-results",
             "audit-cc0-target-admission",
             "audit-cc0-target-discovery",
+            "audit-cc0-target-rescreen",
             "audit-cc0-pxd030327-unit-map",
             "audit-t129-current-target-evidence",
             "audit-license-bound-source-maps",

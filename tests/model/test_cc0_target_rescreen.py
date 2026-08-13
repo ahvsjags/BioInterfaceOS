@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 
 import pytest
 
+from biointerfaceos import cli
 from biointerfaceos.cc0_target_rescreen import (
     CC0TargetRescreenError,
     CC0TargetRescreenWorkflow,
@@ -60,3 +62,15 @@ def test_rescreen_rejects_tampered_receipt(tmp_path: Path) -> None:
 
     with pytest.raises(CC0TargetRescreenError, match="receipt is invalid"):
         workflow.verify()
+
+
+def test_rescreen_cli_routes_to_workflow(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    registry_destination = tmp_path / "docs/data/R2_T129_CC0_RESCREEN_REGISTRY.json"
+    registry_destination.parent.mkdir(parents=True)
+    shutil.copyfile(ROOT / "docs/data/R2_T129_CC0_RESCREEN_REGISTRY.json", registry_destination)
+    monkeypatch.setattr(cli, "find_repository_root", lambda: tmp_path)
+
+    assert cli.main(["model", "audit-cc0-target-rescreen", "--strict"]) == 0
+    assert "CC0_TARGET_RESCREEN_VALID candidates=2" in capsys.readouterr().out
