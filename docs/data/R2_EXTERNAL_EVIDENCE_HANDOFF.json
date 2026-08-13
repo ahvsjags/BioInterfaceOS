@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "package_id": "bioif-r2-external-evidence-handoff-v1.0.0",
+  "declared_at": "2026-08-13T00:00:00+00:00",
+  "status": "READY_FOR_EXTERNAL_SOURCE_INTAKE",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "current_state": {
+    "admitted_cross_lab_target_count": 0,
+    "model_use": "PROHIBITED",
+    "independent_evaluator_receipt_verified": false,
+    "external_reproduction_verified": false,
+    "editorial_rereview_verified": false,
+    "scientific_submission_ready": false
+  },
+  "cohort_routing": {
+    "active_route": "CC0_ONLY",
+    "ccby_route_requires_explicit_owner_amendment": true,
+    "ccby_route_may_not_merge_with_cc0": true,
+    "ccby_route_may_not_authorize_model_fitting": true
+  },
+  "source_intake": {
+    "mandatory_identity_fields": [
+      "source_accession_or_doi",
+      "official_repository_or_publisher_locator",
+      "source_license",
+      "laboratory_affiliation",
+      "human_biofluid",
+      "assay_and_acquisition_context"
+    ],
+    "mandatory_analysis_unit_fields": [
+      "analysis_unit_id",
+      "source_file_or_result_id",
+      "material_identity",
+      "numeric_material_or_size_covariate",
+      "covariate_unit",
+      "biological_role",
+      "replicate_role",
+      "shared_endpoint_value",
+      "endpoint_unit_or_scale",
+      "shared_preprocessing_version",
+      "source_asset_checksum"
+    ],
+    "cross_study_acceptance_rules": {
+      "minimum_independent_laboratories": 2,
+      "shared_endpoint_required": true,
+      "source_matched_numeric_covariate_required": true,
+      "author_quantification_scales_must_not_be_concatenated": true,
+      "unresolved_source_labels_must_not_be_inferred": true
+    }
+  },
+  "target_freeze": {
+    "t121_amendment_required_before_model": true,
+    "frozen_items": [
+      "analysis_unit_manifest",
+      "endpoint_definition_and_preprocessing",
+      "allowed_covariates_and_units",
+      "study_held_out_split",
+      "paired_configurations_and_seeds",
+      "negative_controls",
+      "analysis_code_hash"
+    ]
+  },
+  "independent_evaluation_handoff": {
+    "activation_requires_frozen_real_model_bundle": true,
+    "protected_values_must_remain_outside_repository": true,
+    "aggregate_only_signed_receipt_required": true,
+    "author_team_may_not_access_protected_values": true,
+    "author_team_may_not_tune_after_freeze": true
+  },
+  "external_reproduction_and_editorial_handoff": {
+    "activation_requires_t123_t124_t126_t127": true,
+    "independent_checkout_and_environment_required": true,
+    "source_reacquisition_or_attestation_required": true,
+    "deviation_ledger_required": true,
+    "editorial_finding_matrix_and_signature_required": true
+  },
+  "handoff_order": [
+    "source_intake_and_license_gate",
+    "cross_laboratory_target_admission",
+    "t121_amendment_and_real_model_freeze",
+    "independent_protected_data_evaluation",
+    "external_scientific_reproduction",
+    "editorial_rereview_and_r2_acceptance"
+  ],
+  "prohibited_actions": [
+    "fixture_substitution",
+    "source_label_or_path_feature_inference",
+    "cross_study_author_scale_concatenation",
+    "model_fitting_before_t121_amendment",
+    "author_team_self_certification_as_external_evaluator",
+    "author_team_self_certification_as_external_reproducer_or_editor",
+    "raw_protected_value_export",
+    "submission_ready_claim_before_external_receipts"
+  ]
+}
