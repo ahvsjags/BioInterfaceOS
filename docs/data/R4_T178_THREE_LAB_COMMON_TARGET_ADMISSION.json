@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-three-lab-common-target-admission-v1.0.0",
+  "evaluated_at": "2026-08-13T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "status": "THREE_INDEPENDENT_LABORATORY_COMMON_TARGET_VERIFIED_DEVELOPMENT_ONLY",
+  "target_definition": {
+    "target_id": "R3_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "rank_direction": "DESCENDING_MIDRANK_PERCENTILE",
+    "rank_eligible_source_state": "STRICTLY_POSITIVE_FINITE_AUTHOR_VALUE",
+    "raw_scale_cross_study_use": "PROHIBITED",
+    "missingness_policy": "source blank, NA and explicit zero retained and excluded from rank; no imputation or non-detection inference"
+  },
+  "common_rank_ledger": {
+    "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+    "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8",
+    "expected_selected_source_row_count": 3431,
+    "expected_common_rank_observation_count": 2724,
+    "expected_measurement_batch_count": 47,
+    "expected_common_target_count": 99,
+    "expected_source_count": 3,
+    "expected_laboratory_anchor_count": 3
+  },
+  "sources": [
+    {
+      "source_id": "PXD017052_SEER_BROAD",
+      "laboratory_anchor": "Seer, Inc. / Broad Institute of MIT and Harvard",
+      "article": {"doi": "10.1038/s41467-020-17033-7", "pmcid": "PMC7376165", "license": "CC-BY-4.0", "locator": "https://europepmc.org/articles/PMC7376165"},
+      "source_registry": {"relative_path": "docs/data/R3_T147_PXD017052_SOURCE_CELL_REGISTRY.json", "sha256": "c6bb14a55e3f0667538ddee12c81138ed0fbdaa0a84f724610d428d57cede700"},
+      "source_audit_report": {"relative_path": "reports/review_round_3/pxd017052_source_cell_audit/v1.0.0/pxd017052_source_cell_audit_report.json", "sha256": "1a95b1e12cffa7c22566487a53abdb95aa2f356a304af10267a3211c58c88ee6"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_3/pxd017052_source_cell_audit/v1.0.0/pxd017052_source_cell_audit_receipt.json", "sha256": "a5f0ac27de6efa0589ea8c79d208de88d012c48388cee8abe06cce978addd700"},
+      "source_cell_map": {"relative_path": "data/raw/r2_t131_pxd017052/derived/R3_PXD017052_lfq_source_cell_map.csv", "sha256": "270500108807f67f723997f9e1ebdf0833e559886fc71e1b154a575197e59156"},
+      "expected_common_rank_observations": 523,
+      "expected_common_target_count": 99,
+      "expected_measurement_batch_count": 9,
+      "source_unit_boundary": "nine mapped particle/result units; source-native LFQ; not concatenated across studies"
+    },
+    {
+      "source_id": "PMC9633814_MSU_MULTICORE",
+      "laboratory_anchor": "Michigan State University-led multi-core study",
+      "article": {"doi": "10.1038/s41467-022-34438-8", "pmcid": "PMC9633814", "license": "CC-BY-4.0", "locator": "https://europepmc.org/articles/PMC9633814"},
+      "source_registry": {"relative_path": "docs/data/R3_T144_FULLTEXT_MULTICORE_SOURCE_REGISTRY.json", "sha256": "23fbee05902d1f15554c3290b434f4840c87c3ab7ccc84b304b21e3ebde26bb1"},
+      "source_audit_report": {"relative_path": "reports/review_round_3/fulltext_multicore_audit/v1.0.0/fulltext_multicore_audit_report.json", "sha256": "eebecca73099f5e3270d6875d760cda05331671fa4ff954a004f9a66055846db"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_3/fulltext_multicore_audit/v1.0.0/fulltext_multicore_audit_receipt.json", "sha256": "ce61132c50c8db6e94d690c77d15c9a69e8ba40604d9b1b0e3b669ff6b9e304b"},
+      "source_cell_map": {"relative_path": "data/raw/r3_fulltext_pmc9633814/derived/R3_PMC9633814_semiquantitative_source_cell_map.csv", "sha256": "38eca5ed7a5bbcaa49c674cb2fb46fbeaf2d71ca97c33d84f903c10df571b818"},
+      "expected_common_rank_observations": 2033,
+      "expected_common_target_count": 99,
+      "expected_measurement_batch_count": 36,
+      "source_unit_boundary": "twelve proteomics core facilities measuring identical pooled aliquots; technical cross-core benchmark, not twelve biological cohorts"
+    },
+    {
+      "source_id": "PMC7788026_OUHSC_GOLD",
+      "laboratory_anchor": "University of Oklahoma Health Sciences Center",
+      "article": {"doi": "10.1186/s12645-020-00071-6", "pmcid": "PMC7788026", "license": "CC-BY-4.0", "locator": "https://europepmc.org/articles/PMC7788026"},
+      "source_registry": {"relative_path": "docs/data/R3_T146_FULLTEXT_GOLD_SOURCE_REGISTRY.json", "sha256": "04ff1dbf35169874823400e9004cf2b98e02ece425709a1caee7c1846bd84331"},
+      "source_audit_report": {"relative_path": "reports/review_round_3/fulltext_gold_source_audit/v1.0.0/fulltext_gold_source_audit_report.json", "sha256": "9562bae1d234fbcc59a62632658194926403ca4fc7563986278bdf4f650dbe84"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_3/fulltext_gold_source_audit/v1.0.0/fulltext_gold_source_audit_receipt.json", "sha256": "511336b455ca97c896a17cd8fe6a3f3f2bbe706c9cb2afa843a7cde7ef66c575"},
+      "source_cell_map": {"relative_path": "data/raw/r3_fulltext_candidates/PMC7788026_derived/R3_PMC7788026_source_cell_map.csv", "sha256": "cf93551f67dda850923f084f507088ba4fc31520ced3b08ca58df0563fce2ce4"},
+      "expected_common_rank_observations": 168,
+      "expected_common_target_count": 99,
+      "expected_measurement_batch_count": 2,
+      "source_unit_boundary": "source-native rank-only tables; no missing-row-as-negative inference and no cross-study abundance-scale use"
+    }
+  ],
+  "claim_boundary": "This receipt verifies three CC-BY source packages, three laboratory anchors, three row-traceable source-cell maps and a 99-accession common rank target in the frozen development ledger. The cohort is development evidence: it does not establish independent lockbox evaluation, no-author reproduction, biological cohort independence, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}
