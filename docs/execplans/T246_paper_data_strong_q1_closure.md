@@ -60,6 +60,10 @@ evidence supports a stronger biological interpretation.
 - [x] 2026-08-14 — Audited the existing paper-data fallback and T194/T195
   boundaries.
 - [x] 2026-08-14 — Wrote the conservative T246 goal and role-separated panel.
+- [x] 2026-08-14 - Downloaded and byte-verified the CC-BY PMC11328176 six-core supplementary dataset through the current PMC AWS article-package route.
+- [x] 2026-08-14 - Generated the 2,217-row source-cell map and completed six-fold nested ridge, paired composition ablation, 256-per-fold permutation control and 2,000-resample core-cluster bootstrap (203 target observations).
+- [x] 2026-08-14 - Screened PMC9047655's eight-donor candidate and retained it as biological context only because its public SI lacks a donor-by-protein frozen-target matrix.
+- [x] 2026-08-14 - Ran the updated role-separated T247 editorial review; internal statistics/execution/model modules are at or above 90, while biological sample semantics and external hard gates remain below 90.
 - [ ] Bind the current post-CI state to a new immutable public release.
 - [ ] Receive and verify non-author lockbox and no-author reproduction receipts.
 - [ ] Receive and verify two distinct external adoption receipts.
@@ -77,6 +81,12 @@ evidence supports a stronger biological interpretation.
   but the biological-unit semantics are heterogeneous and must remain explicit.
 - The strongest remaining blockers are external and cannot be closed by more
   author-side reruns.
+- The PMC11328176 multicore route adds a second real, licensed technical
+  sensitivity source and an executed model result, but its six core facilities
+  share one prepared material and therefore do not increase biological
+  effective n.
+- The PMC9047655 eight-donor report is useful for biological context but cannot
+  be admitted to the protein target ledger without row-level protein values.
 
 ## Decisions
 
@@ -122,6 +132,11 @@ scientific_submission_ready=false
 - `docs/review_round_4/R4_T246_PAPER_DATA_STRONG_Q1_CLOSURE_GOAL_20260814.md`
 - `docs/review_round_4/R4_T246_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md`
 - `docs/review_round_4/R4_T246_MULTI_AGENT_EDITORIAL_REVIEW_20260814.json`
+- `docs/data/R4_T246_PMC11328176_MULTICORE_SCREEN_20260814.md`
+- `docs/data/R4_T246_PMC11328176_MULTICORE_SCREEN_20260814.json`
+- `reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/`
+- `docs/review_round_4/R4_T247_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md`
+- `docs/review_round_4/R4_T247_MULTI_AGENT_EDITORIAL_REVIEW_20260814.json`
 - new immutable release manifest and archive sidecar
 - external evaluator/reproduction/adoption receipts, if and only if supplied
   by real non-author parties
@@ -132,4 +147,3 @@ scientific_submission_ready=false
 T246 is not complete. The internal paper-data and engineering evidence is
 organized and scored, while the external hard gates remain open. Completion
 requires the receipts listed above and a post-receipt editorial review.
-

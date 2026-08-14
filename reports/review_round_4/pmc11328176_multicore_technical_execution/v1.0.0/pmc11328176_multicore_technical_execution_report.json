@@ -1,0 +1,319 @@
+{
+  "allowed_claim_level": "EXPLORATORY",
+  "artifacts": {
+    "core_batch_metrics.csv": {
+      "relative_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/core_batch_metrics.csv",
+      "sha256": "eabfbc39722f7d587a0053b80264cd6b4801f75c19b815a904eebb1d582dc238"
+    },
+    "nested_inner_selection.csv": {
+      "relative_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/nested_inner_selection.csv",
+      "sha256": "43369a3fecc9da524213badad772046e18ce6b13f8fa6b59d8b19e2ec69de669"
+    },
+    "outer_fold_metrics.csv": {
+      "relative_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/outer_fold_metrics.csv",
+      "sha256": "4d826b83511a8e7c4bcb0ed5304cefd4fc733752a38c05a3fbb6f022a54b76b2"
+    },
+    "outer_fold_model_parameters.json": {
+      "relative_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/outer_fold_model_parameters.json",
+      "sha256": "c2730779d8db8f80bf3eb60f86c6793b84b99730e015fa5918da5338c2456712"
+    },
+    "outer_fold_predictions.csv": {
+      "relative_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/outer_fold_predictions.csv",
+      "sha256": "126a1c3b833d860f21163cc40dbc121ae403a48bcd5c11e2b45d980f44946622"
+    },
+    "paired_ablation.csv": {
+      "relative_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/paired_ablation.csv",
+      "sha256": "f959be667113f2bf2f2bad1857f0c7bbbdab77de9e56018cf7f4245c655871c2"
+    },
+    "within_core_rank_permutation.csv": {
+      "relative_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/within_core_rank_permutation.csv",
+      "sha256": "1a5a52c21bbb3cb18d938d76190dcfaf26a34d8955df426a193e84a829394aa8"
+    }
+  },
+  "audit_id": "bioif-r4-t246-pmc11328176-multicore-technical-execution-v1.0.0",
+  "claim_boundary": "Technical cross-core portability sensitivity only; no independent biological validation, lockbox evaluation, no-author reproduction, external adoption, or submission readiness.",
+  "core_cluster_bootstrap": {
+    "CONSTANT_TRAINING_MEAN": {
+      "status": "UNDEFINED_CONSTANT_PREDICTION"
+    },
+    "SEQUENCE_RIDGE_COMPOSITION_ONLY": {
+      "lower_95": 0.3218026633025127,
+      "resamples": 2000,
+      "seed": 246017,
+      "upper_95": 0.5305716684748942
+    },
+    "SEQUENCE_RIDGE_FULL": {
+      "lower_95": 0.39117698015695496,
+      "resamples": 2000,
+      "seed": 246017,
+      "upper_95": 0.6129697661955725
+    }
+  },
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "external_scientific_reproduction": false,
+  "external_user_adoption": false,
+  "frozen_cohort": {
+    "measurement_batch_count": 6,
+    "minimum_proteins_per_batch": 10,
+    "model_count": 3,
+    "observation_count": 203,
+    "outer_fold_count": 6,
+    "target_universe_count": 99
+  },
+  "independent_validation": false,
+  "input_references": {
+    "feature_table": {
+      "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+      "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+    },
+    "source_map": {
+      "relative_path": "data/raw/r4_candidate_pmc11328176/derived/R4_PMC11328176_MULTICORE_source_cell_map.csv",
+      "sha256": "b7d97261ae4939814103a895b3cfdf06d11c9567de4040c20eac77e9a72c80c1"
+    },
+    "target_ledger": {
+      "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+      "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+    }
+  },
+  "model_results": [
+    {
+      "held_out_core": "PMC11328176_CORE_1",
+      "held_out_observation_count": 31,
+      "mean_mae": 0.23625253013156938,
+      "mean_rmse": 0.2700162182189078,
+      "mean_spearman": null,
+      "model_id": "CONSTANT_TRAINING_MEAN",
+      "outer_fold_id": "T246_OUTER_01",
+      "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_1",
+      "held_out_observation_count": 31,
+      "mean_mae": 0.1655802799937332,
+      "mean_rmse": 0.20340621648763327,
+      "mean_spearman": 0.7036290322580645,
+      "model_id": "SEQUENCE_RIDGE_FULL",
+      "outer_fold_id": "T246_OUTER_01",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_1",
+      "held_out_observation_count": 31,
+      "mean_mae": 0.1786625351069456,
+      "mean_rmse": 0.21304377864554816,
+      "mean_spearman": 0.6048387096774194,
+      "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+      "outer_fold_id": "T246_OUTER_01",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_11",
+      "held_out_observation_count": 44,
+      "mean_mae": 0.23795781665389015,
+      "mean_rmse": 0.2759800210476808,
+      "mean_spearman": null,
+      "model_id": "CONSTANT_TRAINING_MEAN",
+      "outer_fold_id": "T246_OUTER_02",
+      "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_11",
+      "held_out_observation_count": 44,
+      "mean_mae": 0.21964058449578608,
+      "mean_rmse": 0.2560258776441498,
+      "mean_spearman": 0.4503171247357294,
+      "model_id": "SEQUENCE_RIDGE_FULL",
+      "outer_fold_id": "T246_OUTER_02",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_11",
+      "held_out_observation_count": 44,
+      "mean_mae": 0.22558710284117878,
+      "mean_rmse": 0.26572582648638216,
+      "mean_spearman": 0.33925299506694856,
+      "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+      "outer_fold_id": "T246_OUTER_02",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_13",
+      "held_out_observation_count": 32,
+      "mean_mae": 0.2852889209800457,
+      "mean_rmse": 0.31134898813371203,
+      "mean_spearman": null,
+      "model_id": "CONSTANT_TRAINING_MEAN",
+      "outer_fold_id": "T246_OUTER_03",
+      "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_13",
+      "held_out_observation_count": 32,
+      "mean_mae": 0.21903326263341805,
+      "mean_rmse": 0.2680766297688067,
+      "mean_spearman": 0.5494868035190615,
+      "model_id": "SEQUENCE_RIDGE_FULL",
+      "outer_fold_id": "T246_OUTER_03",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_13",
+      "held_out_observation_count": 32,
+      "mean_mae": 0.2285642680414751,
+      "mean_rmse": 0.27900744928119897,
+      "mean_spearman": 0.45894428152492667,
+      "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+      "outer_fold_id": "T246_OUTER_03",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_2",
+      "held_out_observation_count": 27,
+      "mean_mae": 0.2387972371666075,
+      "mean_rmse": 0.2722887693161005,
+      "mean_spearman": null,
+      "model_id": "CONSTANT_TRAINING_MEAN",
+      "outer_fold_id": "T246_OUTER_04",
+      "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_2",
+      "held_out_observation_count": 27,
+      "mean_mae": 0.20114753127239973,
+      "mean_rmse": 0.2256283717761159,
+      "mean_spearman": 0.6221001221001221,
+      "model_id": "SEQUENCE_RIDGE_FULL",
+      "outer_fold_id": "T246_OUTER_04",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_2",
+      "held_out_observation_count": 27,
+      "mean_mae": 0.20685732878367297,
+      "mean_rmse": 0.23399633469963585,
+      "mean_spearman": 0.5671550671550671,
+      "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+      "outer_fold_id": "T246_OUTER_04",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_3",
+      "held_out_observation_count": 11,
+      "mean_mae": 0.2506312357565302,
+      "mean_rmse": 0.271251418189232,
+      "mean_spearman": null,
+      "model_id": "CONSTANT_TRAINING_MEAN",
+      "outer_fold_id": "T246_OUTER_05",
+      "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_3",
+      "held_out_observation_count": 11,
+      "mean_mae": 0.2627547592061947,
+      "mean_rmse": 0.3076360859705271,
+      "mean_spearman": 0.4727272727272727,
+      "model_id": "SEQUENCE_RIDGE_FULL",
+      "outer_fold_id": "T246_OUTER_05",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_3",
+      "held_out_observation_count": 11,
+      "mean_mae": 0.23515793518345277,
+      "mean_rmse": 0.28573924783626026,
+      "mean_spearman": 0.41818181818181815,
+      "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+      "outer_fold_id": "T246_OUTER_05",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_9",
+      "held_out_observation_count": 58,
+      "mean_mae": 0.22982125388316713,
+      "mean_rmse": 0.2702684668953011,
+      "mean_spearman": null,
+      "model_id": "CONSTANT_TRAINING_MEAN",
+      "outer_fold_id": "T246_OUTER_06",
+      "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_9",
+      "held_out_observation_count": 58,
+      "mean_mae": 0.24643834801222025,
+      "mean_rmse": 0.2895517564416557,
+      "mean_spearman": 0.25983573779568736,
+      "model_id": "SEQUENCE_RIDGE_FULL",
+      "outer_fold_id": "T246_OUTER_06",
+      "primary_metric_status": "DEFINED"
+    },
+    {
+      "held_out_core": "PMC11328176_CORE_9",
+      "held_out_observation_count": 58,
+      "mean_mae": 0.24617503667534454,
+      "mean_rmse": 0.2962450212188064,
+      "mean_spearman": 0.2079731766587714,
+      "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+      "outer_fold_id": "T246_OUTER_06",
+      "primary_metric_status": "DEFINED"
+    }
+  ],
+  "paired_composition_ablation": [
+    {
+      "full_minus_composition_mean_spearman": 0.09879032258064513,
+      "held_out_core": "PMC11328176_CORE_1",
+      "outer_fold_id": "T246_OUTER_01"
+    },
+    {
+      "full_minus_composition_mean_spearman": 0.11106412966878082,
+      "held_out_core": "PMC11328176_CORE_11",
+      "outer_fold_id": "T246_OUTER_02"
+    },
+    {
+      "full_minus_composition_mean_spearman": 0.09054252199413487,
+      "held_out_core": "PMC11328176_CORE_13",
+      "outer_fold_id": "T246_OUTER_03"
+    },
+    {
+      "full_minus_composition_mean_spearman": 0.05494505494505497,
+      "held_out_core": "PMC11328176_CORE_2",
+      "outer_fold_id": "T246_OUTER_04"
+    },
+    {
+      "full_minus_composition_mean_spearman": 0.054545454545454564,
+      "held_out_core": "PMC11328176_CORE_3",
+      "outer_fold_id": "T246_OUTER_05"
+    },
+    {
+      "full_minus_composition_mean_spearman": 0.05186256113691595,
+      "held_out_core": "PMC11328176_CORE_9",
+      "outer_fold_id": "T246_OUTER_06"
+    }
+  ],
+  "schema_version": 1,
+  "scientific_submission_ready": false,
+  "source_semantics": {
+    "biological_unit_count": 1,
+    "biological_unit_semantics": "one common prepared corona/plasma material",
+    "raw_target_rows_by_core": {
+      "1": 93,
+      "11": 132,
+      "13": 96,
+      "2": 81,
+      "3": 33,
+      "9": 174
+    },
+    "source_article": "10.1021/acs.nanolett.4c02076",
+    "source_pmcid": "PMC11328176",
+    "target_count_by_core": {
+      "1": 31,
+      "11": 44,
+      "13": 32,
+      "2": 27,
+      "3": 11,
+      "9": 58
+    },
+    "technical_core_count": 6,
+    "technical_replicates_per_core": 3
+  },
+  "status": "T246_PMC11328176_MULTICORE_TECHNICAL_EXECUTION_COMPLETED_EXPLORATORY"
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t246-pmc11328176-multicore-screen-v1.0.0",
+  "status": "ADMITTED_TECHNICAL_SENSITIVITY_ONLY",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "source": {
+    "article_title": "Standardizing Protein Corona Characterization in Nanomedicine: A Multicenter Study to Enhance Reproducibility and Data Homogeneity",
+    "doi": "10.1021/acs.nanolett.4c02076",
+    "pmcid": "PMC11328176",
+    "license": "CC-BY-4.0",
+    "article_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11328176/",
+    "oa_service_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC11328176",
+    "asset_url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC11328176.1/nl4c02076_si_002.xlsx",
+    "asset_relative_path": "data/raw/r4_candidate_pmc11328176/nl4c02076_si_002.xlsx",
+    "asset_sha256": "ADB660A47A26A50D67203B660EAF863E43548B33E3083E43ACFAFA0936BDAEA9"
+  },
+  "table": {
+    "worksheet": "Supp Data 1",
+    "header_row": 4,
+    "data_row_start": 5,
+    "raw_data_row_count": 6651,
+    "column_count": 16,
+    "unique_source_accession_count": 1001,
+    "core_facility_codes": ["1", "2", "3", "9", "11", "13"],
+    "core_facility_count": 6,
+    "technical_replicate_labels": ["Rep1", "Rep2", "Rep3"],
+    "technical_replicate_count": 3,
+    "normalized_source_map_relative_path": "data/raw/r4_candidate_pmc11328176/derived/R4_PMC11328176_MULTICORE_source_cell_map.csv",
+    "normalized_source_map_sha256": "B7D97261AE4939814103A895B3CFDF06D11C9567DE4040C20EAC77E9A72C80C1",
+    "normalized_core_accession_row_count": 2217,
+    "raw_frozen_target_row_count": 609,
+    "normalized_frozen_target_core_accession_row_count": 203
+  },
+  "target_intersection": {
+    "frozen_r3_target_count": 99,
+    "present_frozen_r3_target_count": 70,
+    "t195_nine_target_count": 9,
+    "t195_nine_target_present_count": 8,
+    "missing_t195_target": "P60174"
+  },
+  "technical_execution": {
+    "script_relative_path": "scripts/run_r4_t246_pmc11328176.py",
+    "output_relative_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0",
+    "report_sha256": "5739B9A2AB616FF8E10BB3F2D48D3ADCE743FBBA59AA11973577753054BC94B9",
+    "receipt_sha256": "2120D225C14B74CE25285E7BBE0DF3342EA31C59A4F35C145757B11948C987F8",
+    "outer_fold_count": 6,
+    "observation_count": 203,
+    "minimum_target_count_per_fold": 11,
+    "nested_alpha_selection": true,
+    "paired_ablation": true,
+    "negative_control_resamples_per_fold": 256,
+    "core_cluster_bootstrap_resamples": 2000,
+    "full_sequence_mean_spearman": 0.509683,
+    "full_sequence_core_bootstrap_lower_95": 0.39117698015695496,
+    "full_sequence_core_bootstrap_upper_95": 0.6129697661955725,
+    "composition_only_mean_spearman": 0.432724,
+    "paired_full_minus_composition_mean_spearman": 0.076958,
+    "interpretation": "technical cross-core portability sensitivity; core cluster is not biological donor cluster"
+  },
+  "semantics": {
+    "biological_unit": "one common prepared protein-corona/plasma material distributed to core facilities",
+    "replication_unit": "technical core-facility processing with three technical replicates",
+    "primary_use": "study-held-out technical cross-core portability sensitivity",
+    "cross_source_raw_scale_pooling": false,
+    "independent_biological_validation": false,
+    "independent_lockbox_evaluation": false,
+    "no_author_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This is an openly redistributable, row-traceable technical cross-core source. It must not be counted as six independent biological cohorts or used to claim external validation, lockbox evaluation, no-author reproduction, adoption, or submission readiness."
+}

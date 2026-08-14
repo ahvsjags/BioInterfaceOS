@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t246-pmc9047655-biological-candidate-screen-v1.0.0",
+  "status": "NOT_ADMITTED_AS_PROTEIN_TARGET_MATRIX",
+  "evidence_class": "PAPER_CONTEXT_ONLY",
+  "article": {
+    "title": "Nanoparticle Biomolecular Corona-Based Enrichment of Plasma Glycoproteins for N-Glycan Profiling and Application in Biomarker Discovery",
+    "doi": "10.1021/acsnano.1c09564",
+    "pmcid": "PMC9047655",
+    "license": "CC-BY-4.0",
+    "full_text_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9047655/",
+    "oa_service_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC9047655",
+    "reported_healthy_donor_plasma_samples": 8,
+    "reported_ms_samples": 8
+  },
+  "assets": {
+    "supplementary_pdf_relative_path": "data/raw/r4_candidate_pmc9047655/nn1c09564_si_001.pdf",
+    "supplementary_pdf_sha256": "4D54DE813D48275C4E5B00CCD4671FE6C5C63DA45845E841D821F9A495E16CE7",
+    "supplementary_workbook_relative_path": "data/raw/r4_candidate_pmc9047655/nn1c09564_si_002.xlsx",
+    "supplementary_workbook_sha256": "3B305A361A02B242368D13FDA8C06281DC469BECB7D9C608B116066BA01B97A2",
+    "workbook_sheets": ["Title", "Table S1", "Table S2", "Table S3", "Table S4", "Table S5"]
+  },
+  "compatibility": {
+    "donor_by_protein_quantitative_matrix_present": false,
+    "frozen_uniprot_target_scale_present": false,
+    "row_traceable_protein_corona_abundance_present": false,
+    "admission_role": "supporting biological context only",
+    "protein_model_admitted": false,
+    "independent_validation": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "The paper supports an eight-donor biological context statement, but the public supplementary tables do not support protein-level effective n or a frozen-target model endpoint."
+}

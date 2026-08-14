@@ -1,0 +1,50 @@
+{
+  "T246_OUTER_01": {
+    "composition_only_alpha": 1.0,
+    "development_observation_count": 172,
+    "full_alpha": 10.0,
+    "held_out_core": "PMC11328176_CORE_1",
+    "held_out_observation_count": 31,
+    "negative_control_upper_tail_p": 0.0038910505836575876
+  },
+  "T246_OUTER_02": {
+    "composition_only_alpha": 0.01,
+    "development_observation_count": 159,
+    "full_alpha": 1.0,
+    "held_out_core": "PMC11328176_CORE_11",
+    "held_out_observation_count": 44,
+    "negative_control_upper_tail_p": 0.007782101167315175
+  },
+  "T246_OUTER_03": {
+    "composition_only_alpha": 10.0,
+    "development_observation_count": 171,
+    "full_alpha": 0.1,
+    "held_out_core": "PMC11328176_CORE_13",
+    "held_out_observation_count": 32,
+    "negative_control_upper_tail_p": 0.0038910505836575876
+  },
+  "T246_OUTER_04": {
+    "composition_only_alpha": 0.01,
+    "development_observation_count": 176,
+    "full_alpha": 0.1,
+    "held_out_core": "PMC11328176_CORE_2",
+    "held_out_observation_count": 27,
+    "negative_control_upper_tail_p": 0.0038910505836575876
+  },
+  "T246_OUTER_05": {
+    "composition_only_alpha": 0.1,
+    "development_observation_count": 192,
+    "full_alpha": 0.01,
+    "held_out_core": "PMC11328176_CORE_3",
+    "held_out_observation_count": 11,
+    "negative_control_upper_tail_p": 0.11284046692607004
+  },
+  "T246_OUTER_06": {
+    "composition_only_alpha": 0.01,
+    "development_observation_count": 145,
+    "full_alpha": 1.0,
+    "held_out_core": "PMC11328176_CORE_9",
+    "held_out_observation_count": 58,
+    "negative_control_upper_tail_p": 0.0038910505836575876
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "audit_id": "bioif-r4-t246-pmc11328176-multicore-technical-execution-v1.0.0",
+  "cluster_bootstrap_resamples": 2000,
+  "external_scientific_reproduction": false,
+  "independent_validation": false,
+  "measurement_batch_count": 6,
+  "model_count": 3,
+  "negative_control_executed": true,
+  "nested_selection_executed": true,
+  "observation_count": 203,
+  "paired_ablation_executed": true,
+  "report_sha256": "5739b9a2ab616ff8e10bb3f2d48d3adce743fbba59aa11973577753054bc94b9",
+  "schema_version": 1,
+  "scientific_submission_ready": false,
+  "status": "T246_PMC11328176_MULTICORE_TECHNICAL_EXECUTION_COMPLETED_EXPLORATORY",
+  "target_universe_count": 99,
+  "technical_core_count": 6
+}

@@ -22,6 +22,7 @@ reproduction.
 | Evidence route | What is frozen and executed | Permitted interpretation | Key boundary |
 |---|---|---|---|
 | `PMC9633814`, CC-BY-4.0 | 9,909 source-map rows, 707 eligible target observations, 99 pre-frozen targets, 12 core-facility-held-out folds, full/composition ablation, cluster bootstrap and permutation control | technical cross-core portability on a common pooled aliquot | one biological aliquot; not 12 biological cohorts |
+| `PMC11328176`, CC-BY-4.0 | byte-verified SI1: 6,651 rows, 1,001 accessions, 6 blinded core anchors, 3 technical replicates, 70 frozen-target overlaps; six-fold nested ridge execution gives full Spearman `0.509683` (core-bootstrap 95% CI `[0.391177, 0.612970]`) and paired full-minus-composition `0.076958` | independent technical sensitivity route on a second multicore paper dataset | one common prepared corona/plasma material; not six biological cohorts; `P60174` absent |
 | `T192/T195` three-source route | 3 public source registries, 9 exact common accessions, 809 row-traceable observations, 85 batches, 3 leave-one-source-anchor-out folds | source-conditional common-target sensitivity | pooled/unspecified plasma, donor IDs or technical-replicate limits remain |
 | `T180/T181/T198` paper cohort | 141 biological units, 705 batches, 17,026 external target observations, threshold and missingness sensitivity | author-run biological-cohort OOD | not an independent laboratory, lockbox or no-author run |
 | `T203` and corrected `T209` | paper-derived OOD with paired ablation, negative controls and cluster uncertainty; T209 has 60 paper-anchored units, 288 batches and 4,150 target cells | author-run external/paper-data sensitivity | source-specific and analysis-only; does not close external gates |
@@ -34,6 +35,14 @@ explicit. The related uniform-processing paper also reports processed
 supplementary datasets while stating that raw files are available on request
 because core names are blinded; it is therefore useful as corroboration or
 sensitivity evidence, not as an unqualified primary independent-cohort claim.
+
+T246 now includes the second multicore route in
+`docs/data/R4_T246_PMC11328176_MULTICORE_SCREEN_20260814.md` and its JSON
+receipt. The new asset strengthens byte-level provenance, license closure and
+technical portability coverage. It does not increase the biological effective
+`n` or close the three external hard gates, so the conservative strict score
+remains unchanged until a genuinely independent biological unit or a verified
+non-author receipt is available.
 
 ## Current conservative panel score
 
@@ -109,4 +118,3 @@ completed by the author-side agent:
 - Do not use agent-generated, author-run, CI, GitHub or DOI-preparation files
   as substitutes for third-party receipts.
 - Preserve the negative and source-specific OOD results in the manuscript.
-

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "review_id": "bioif-r4-t247-multi-agent-editorial-review-v1.0.0",
+  "review_date": "2026-08-14",
+  "decision": "MAJOR_REVISION",
+  "scientific_submission_ready": false,
+  "roles": [
+    {"role": "EIC", "score": 58, "decision": "Major Revision"},
+    {"role": "statistical_methodologist", "score": 92, "decision": "Strong after revision"},
+    {"role": "proteomics_nanobio_interface", "score": 84, "decision": "Major Revision"},
+    {"role": "reproducibility_software_resource", "score": 76, "decision": "Major Revision"},
+    {"role": "devil_advocate", "score": 44, "decision": "Reject at present"},
+    {"role": "synthesis_editor", "score": 60, "decision": "Major Revision"}
+  ],
+  "module_scores": {
+    "data_compatibility_and_sample_base": {"score": 88, "target": 90},
+    "statistical_analysis_design": {"score": 94, "target": 90},
+    "statistical_execution_and_effective_n": {"score": 92, "target": 90},
+    "model_ablation_negative_control_and_ood": {"score": 90, "target": 90},
+    "independent_lockbox_evaluation": {"score": 12, "target": 90},
+    "external_scientific_reproduction": {"score": 8, "target": 90},
+    "external_user_adoption": {"score": 46, "target": 90},
+    "doi_immutable_archive": {"score": 25, "target": 90}
+  },
+  "new_evidence": {
+    "pmc11328176_report": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/pmc11328176_multicore_technical_execution_report.json",
+    "pmc11328176_observations": 203,
+    "pmc11328176_outer_folds": 6,
+    "pmc11328176_full_sequence_mean_spearman": 0.509683,
+    "pmc11328176_full_sequence_core_bootstrap_95": [0.39117698015695496, 0.6129697661955725],
+    "pmc11328176_paired_full_minus_composition": 0.076958,
+    "pmc9047655_decision": "context_only_not_admitted_as_protein_target_matrix"
+  },
+  "hard_gates": {
+    "non_author_lockbox_receipt": false,
+    "no_author_reproduction_receipt": false,
+    "two_external_adoption_receipts": false,
+    "doi_readback_receipt": false,
+    "final_scientific_submission_gate": false
+  },
+  "claim_boundary": "The paper-data routes strengthen exploratory technical and biological-context evidence but do not create independent validation, no-author reproduction, external adoption, DOI archival, or submission readiness."
+}

@@ -1,0 +1,516 @@
+
+<!DOCTYPE article
+  PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD with MathML3 v1.4 20241031//EN" "JATS-archivearticle1-4-mathml3.dtd">
+<article xml:lang="EN" article-type="rapid-communication" dtd-version="1.4"><processing-meta base-tagset="archiving" mathml-version="3.0" table-model="xhtml" tagset-family="jats"><restricted-by>pmc</restricted-by></processing-meta><front><journal-meta><journal-id journal-id-type="nlm-ta">Nano Lett</journal-id><journal-id journal-id-type="iso-abbrev">Nano Lett</journal-id><journal-id journal-id-type="pmc-domain-id">822</journal-id><journal-id journal-id-type="pmc-domain">acssd</journal-id><journal-id journal-id-type="nlm-id">101088070</journal-id><journal-id journal-id-type="publisher-id">nl</journal-id><journal-title-group><journal-title>Nano Letters</journal-title></journal-title-group><issn pub-type="ppub">1530-6984</issn><issn pub-type="epub">1530-6992</issn><custom-meta-group><custom-meta><meta-name>pmc-is-collection-domain</meta-name><meta-value>yes</meta-value></custom-meta><custom-meta><meta-name>pmc-collection-title</meta-name><meta-value>ACS AuthorChoice</meta-value></custom-meta></custom-meta-group></journal-meta><article-meta><article-id pub-id-type="pmcid">PMC11328176</article-id><article-id pub-id-type="pmcid-ver">PMC11328176.1</article-id><article-id pub-id-type="pmcaid">11328176</article-id><article-id pub-id-type="pmcaiid">11328176</article-id><article-id pub-id-type="pmid">39096192</article-id><article-id pub-id-type="doi">10.1021/acs.nanolett.4c02076</article-id><article-version article-version-type="pmc-version">1</article-version><article-categories><subj-group><subject>Letter</subject></subj-group></article-categories><title-group><article-title>Standardizing Protein Corona Characterization in Nanomedicine:
+A Multicenter Study to Enhance Reproducibility and Data Homogeneity</article-title></title-group><contrib-group><contrib contrib-type="author" id="ath1"><name name-style="western"><surname>Ashkarran</surname><given-names initials="AA">Ali Akbar</given-names></name><xref rid="aff1" ref-type="aff">†</xref><xref rid="notes2" ref-type="notes">#</xref></contrib><contrib contrib-type="author" id="ath2"><contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0002-3072-4929</contrib-id><name name-style="western"><surname>Gharibi</surname><given-names initials="H">Hassan</given-names></name><xref rid="aff2" ref-type="aff">‡</xref><xref rid="notes2" ref-type="notes">#</xref></contrib><contrib contrib-type="author" id="ath3"><name name-style="western"><surname>Modaresi</surname><given-names initials="SM">Seyed Majed</given-names></name><xref rid="aff3" ref-type="aff">§</xref></contrib><contrib contrib-type="author" corresp="yes" id="ath4"><contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0002-2639-6328</contrib-id><name name-style="western"><surname>Saei</surname><given-names initials="AA">Amir Ata</given-names></name><xref rid="cor1" ref-type="other">*</xref><xref rid="aff4" ref-type="aff">∥</xref></contrib><contrib contrib-type="author" corresp="yes" id="ath5"><contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0002-2575-9684</contrib-id><name name-style="western"><surname>Mahmoudi</surname><given-names initials="M">Morteza</given-names></name><xref rid="cor2" ref-type="other">*</xref><xref rid="aff1" ref-type="aff">†</xref></contrib><aff id="aff1"><label>†</label>Department
+of Radiology and Precision Health Program, <institution>Michigan State University</institution>, East
+Lansing, Michigan 48824, <country>United States</country></aff><aff id="aff2"><label>‡</label>Division
+of Physiological Chemistry I, Department of Medical Biochemistry and
+Biophysics, <institution>Karolinska Institutet</institution>, Stockholm 171 77, <country>Sweden</country></aff><aff id="aff3"><label>§</label>Biozentrum, <institution>University of Basel</institution>, 4056 Basel, <country>Switzerland</country></aff><aff id="aff4"><label>∥</label>Department
+of Microbiology, Tumor and Cell Biology, <institution>Karolinska Institutet</institution>, Stockholm 171 65, <country>Sweden</country></aff></contrib-group><author-notes><corresp id="cor1"><label>*</label>Email for A.A.S.: <email>amir.saei@ki.se</email>.</corresp><corresp id="cor2"><label>*</label>Email for M.M.: <email>mahmou22@msu.edu</email>.</corresp></author-notes><pub-date pub-type="epub"><day>03</day><month>08</month><year>2024</year></pub-date><pub-date pub-type="collection"><day>14</day><month>08</month><year>2024</year></pub-date><volume>24</volume><issue>32</issue><issue-id pub-id-type="pmc-issue-id">468941</issue-id><fpage>9874</fpage><lpage>9881</lpage><history><date date-type="received"><day>01</day><month>05</month><year>2024</year></date><date date-type="accepted"><day>19</day><month>07</month><year>2024</year></date><date date-type="rev-recd"><day>16</day><month>07</month><year>2024</year></date></history><pub-history><event event-type="pmc-release"><date><day>16</day><month>08</month><year>2024</year></date></event><event event-type="pmc-live"><date><day>17</day><month>08</month><year>2024</year></date></event><event event-type="pmc-last-change"><date iso-8601-date="2024-08-28 22:25:13.707"><day>28</day><month>08</month><year>2024</year></date></event></pub-history><permissions><copyright-statement>© 2024 The Authors. Published by American Chemical Society</copyright-statement><copyright-year>2024</copyright-year><copyright-holder>The Authors</copyright-holder><license><ali:license_ref xmlns:ali="http://www.niso.org/schemas/ali/1.0/" specific-use="textmining" content-type="ccbylicense">https://creativecommons.org/licenses/by/4.0/</ali:license_ref><license-p>Permits the broadest form of re-use including for commercial purposes, provided that author attribution and integrity are maintained (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" xlink:href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</ext-link>).</license-p></license></permissions><self-uri xmlns:xlink="http://www.w3.org/1999/xlink" content-type="pmc-pdf" xlink:href="nl4c02076.pdf"/><abstract><p content-type="toc-graphic"><graphic xmlns:xlink="http://www.w3.org/1999/xlink" id="ab-tgr1" position="float" orientation="portrait" xlink:href="nl4c02076_0005.jpg"/></p><p>We recently revealed
+significant variability in protein corona
+characterization across various proteomics facilities, indicating
+that data sets are not comparable between independent studies. This
+heterogeneity mainly arises from differences in sample preparation
+protocols, mass spectrometry workflows, and raw data processing. To
+address this issue, we developed standardized protocols and unified
+sample preparation workflows, distributing uniform protein corona
+digests to several top-performing proteomics centers from our previous
+study. We also examined the influence of using similar mass spectrometry
+instruments on data homogeneity and standardized database search parameters
+and data processing workflows. Our findings reveal a remarkable stepwise
+improvement in protein corona data uniformity, increasing overlaps
+in protein identification from 11% to 40% across facilities using
+similar instruments and through a uniform database search. We identify
+the key parameters behind data heterogeneity and provide recommendations
+for designing experiments. Our findings should significantly advance
+the robustness of protein corona analysis for diagnostic and therapeutics
+applications.</p></abstract><kwd-group><kwd>proteomics</kwd><kwd>mass spectrometry</kwd><kwd>protein corona</kwd><kwd>consistency</kwd><kwd>robustness</kwd><kwd>nanomedicine</kwd></kwd-group><funding-group><award-group><funding-source><institution-wrap><institution>National Institute of Diabetes and Digestive and Kidney Diseases</institution><institution-id institution-id-type="doi">10.13039/100000062</institution-id></institution-wrap></funding-source><award-id>DK131417</award-id></award-group></funding-group><custom-meta-group><custom-meta><meta-name>pmc-status-qastatus</meta-name><meta-value>0</meta-value></custom-meta><custom-meta><meta-name>pmc-status-live</meta-name><meta-value>yes</meta-value></custom-meta><custom-meta><meta-name>pmc-status-embargo</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-status-released</meta-name><meta-value>yes</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-open-access</meta-name><meta-value>yes</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-olf</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-manuscript</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-legally-suppressed</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-has-pdf</meta-name><meta-value>yes</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-has-supplement</meta-name><meta-value>yes</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-pdf-only</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-suppress-copyright</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-is-real-version</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-is-scanned-article</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-preprint</meta-name><meta-value>no</meta-value></custom-meta><custom-meta><meta-name>pmc-prop-in-epmc</meta-name><meta-value>yes</meta-value></custom-meta><custom-meta><meta-name>pmc-license-ref</meta-name><meta-value>CC BY</meta-value></custom-meta><custom-meta><meta-name>document-id-old-9</meta-name><meta-value>nl4c02076</meta-value></custom-meta><custom-meta><meta-name>document-id-new-14</meta-name><meta-value>nl4c02076</meta-value></custom-meta><custom-meta><meta-name>ccc-price</meta-name><meta-value/></custom-meta></custom-meta-group></article-meta></front><body><p id="sec0">The protein/biomolecular corona
+is a dynamic biological layer that develops on the surface of nanoparticles
+when they are exposed to biological fluids including plasma.<sup><xref ref-type="bibr" rid="ref1">1</xref>−<xref ref-type="bibr" rid="ref4">4</xref></sup> This biological layer transforms nanoparticles by endowing them
+with a new identity that influences how they are recognized and interact
+within biological systems, thus defining their safety, biodistribution,
+diagnostic and therapeutic efficacy.<sup><xref ref-type="bibr" rid="ref3">3</xref>,<xref ref-type="bibr" rid="ref5">5</xref>,<xref ref-type="bibr" rid="ref6">6</xref></sup> Despite significant advances in nanomedicine, a limited
+understanding of nanoparticles’ biological identity remains
+a major barrier to their successful clinical translation.<sup><xref ref-type="bibr" rid="ref7">7</xref></sup> A profound comprehension of the protein corona
+composition is crucial for predicting their <italic toggle="yes">in vivo</italic> biological fate, which is essential for their clinical application
+and the advancement of future nanomedicine technologies.<sup><xref ref-type="bibr" rid="ref7">7</xref></sup></p><p>Over the past decade, extensive research
+has aimed to enhance the
+reproducibility of nanobio interfaces.<sup><xref ref-type="bibr" rid="ref8">8</xref>,<xref ref-type="bibr" rid="ref9">9</xref></sup> Yet, the critical
+role of liquid chromatography mass spectrometry (LC-MS) in ensuring
+the robustness and reproducibility of protein corona data—a
+pivotal method for identifying and quantifying protein corona composition<sup><xref ref-type="bibr" rid="ref10">10</xref>−<xref ref-type="bibr" rid="ref12">12</xref></sup>—has received insufficient attention.<sup><xref ref-type="bibr" rid="ref10">10</xref>−<xref ref-type="bibr" rid="ref13">13</xref></sup> Our recent studies show significant
+discrepancies in identical protein
+corona outcomes and interpretations across various proteomics facilities,
+attributed to differences in sample preparation protocols, LC-MS workflows,
+instrumentation, and data processing.<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> Consequently, there is an urgent need to develop a standardized
+protocol for protein corona analysis to reduce data heterogeneity
+and facilitate comparability across studies.<sup><xref ref-type="bibr" rid="ref13">13</xref>,<xref ref-type="bibr" rid="ref14">14</xref></sup></p><p>Our previous research indicates that major disparities in
+the characterization
+of the protein corona composition are primarily due to variations
+in sample preparation protocols, LC-MS workflows, and data processing.<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> We also revealed that harmonizing database search
+and data processing can significantly reduce the observed heterogeneity
+among core facilities.<sup><xref ref-type="bibr" rid="ref15">15</xref></sup> Different proteomics
+core facilities employ a range of sample preparation methods, instrumentation,
+quantification approaches, search parameters, and data processing
+techniques. These differences can significantly bias the outcomes
+of the protein corona analyses of identical samples. Furthermore,
+the multistep nature of sample preparation—which includes protein
+denaturation, reduction, alkylation, digestion, and desalting/cleaning—introduces
+additional variability due to the diverse chemicals and reagents used
+across different laboratories.<sup><xref ref-type="bibr" rid="ref16">16</xref>−<xref ref-type="bibr" rid="ref18">18</xref></sup> Additionally, the use of various
+LC and MS systems contributes to another layer of variation and heterogeneity
+that affects the final characterization of the protein corona.<sup><xref ref-type="bibr" rid="ref19">19</xref>−<xref ref-type="bibr" rid="ref21">21</xref></sup></p><p>The primary goal of this follow-up study is to minimize the
+main
+sources of variations and improve the protein corona data homogeneity,
+focusing on harmonizing sample preparation protocols, LC-MS instrumentation
+and workflows, database searches, and processing strategies. Ultimately,
+similar to other nanomedicine techniques and methods,<sup><xref ref-type="bibr" rid="ref6">6</xref></sup> we aim to establish a standardized protocol that will streamline
+the analysis of the protein corona across different core facilities,
+facilitating the comparability of protein corona data sets from various
+studies. More specifically, here, we prepared identical ready-to-inject
+batches of digested protein corona samples and sent them to various
+proteomics centers for analysis. We used an identical on-bead digestion
+protocol for all protein corona samples and submitted the final 4
+(out of 6) identical batches of dried peptides to 4 proteomics core
+facilities in the United States that had provided relatively higher
+quality data in on our previous study (called good centers) based
+on protein and peptide counts, coefficients of variation (CV) of technical
+replicates, and the median sequence coverage.<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> In addition, to probe the role of LC-MS instrument in heterogeneity
+of protein corona data, we also sent another 4 identical batches of
+dried peptides to 4 proteomics core facilities that had similar instrumentation
+and were expected to perform similarly (i.e., identical LC and similar
+MS types; called similar centers). Two of these centers were shared
+with the above (good) centers, so in total we sent identical samples
+to 6 core facilities. Finally, we also performed a uniform database
+search on the raw data retrieved from the 4 centers with similar instruments,
+where the sample preparation protocol, instrumentation, and data processing
+would all be streamlined. In summary, we conducted the study in 3
+steps: 1) unifying the sample preparation protocol; 2) unifying sample
+preparation protocol and the instrumentation used, and 3) unifying
+sample preparation protocol, instrumentation, and data processing.
+We show that implementation of each step reduces data heterogeneity
+of the protein corona composition across core facilities, which can
+be used for analysis of protein corona in the future, enabling rapid
+developments in nanomedicine-based diagnostics and therapeutics.</p><sec id="sec1"><title>Results</title><p>The overall workflow of this study is illustrated in <xref rid="fig1" ref-type="fig">Figure <xref rid="fig1" ref-type="fig">1</xref></xref>. We employed commercially
+available plain polystyrene nanoparticles with an average diameter
+of 78.8 nm.<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> Consistent with our previously
+published protocols, all protein corona-coated nanoparticles were
+prepared under identical conditions (refer to reference (<xref ref-type="bibr" rid="ref13">13</xref>) for details). <xref rid="notes1" ref-type="notes">Supplementary Figure 1</xref> illustrates the dynamic
+light scattering (DLS), zeta potential, and transmission electron
+microscopy (TEM) analyses of both bare and protein corona-coated nanoparticles.
+Notably, our prior research indicated minimal batch-to-batch variation
+in the physicochemical properties of the protein corona-coated nanoparticles.
+Bare nanoparticles were monodispersed with a narrow size distribution,
+measuring an average size of 78.8 ± 0.0 nm and a surface charge
+of −30.8 ± 0.8 mV. After exposure to human plasma, the
+average size increased to 111.3 ± 9.6 nm, and the surface charge
+changed to −10.2 ± 0.4 mV, confirming the formation of
+the protein corona. Detailed TEM analysis further elucidated the changes
+in size and morphology before and after protein corona formation,
+showing a distinct dark layer indicating the presence of the protein
+layer on the nanoparticles (<xref rid="notes1" ref-type="notes">Supplementary Figure
+1e</xref>).<sup><xref ref-type="bibr" rid="ref22">22</xref>−<xref ref-type="bibr" rid="ref24">24</xref></sup> The protein concentration in each batch, approximately
+1.6 μg, was quantified using a bicinchoninic acid assay (BCA)
+to ensure proper sample preparation for LC-MS analysis. These fully
+characterized samples were subsequently digested using a standardized
+protocol as described in the experimental section and dispatched to
+various proteomics facilities for analysis.</p><fig id="fig1" position="float" orientation="portrait"><label>Figure 1</label><caption><p>Schematic showing overall
+workflow of the study. After formation
+of 6 similar batches of protein corona–coated polystyrene nanoparticles,
+each individual batch was fully digested to peptides using our in-house
+developed protocol, mixed, aliquoted, and dried. The resulting identical
+aliquots were shipped to 6 different proteomics core facilities across
+the USA (one state includes two proteomics center) to investigate
+the homogeneity/heterogeneity of the protein corona composition on
+the surface of the nanoparticles. Out of these 6 core facilities,
+2 were designated as both good and similar. The cryo-TEM image of
+the corona-coated nanoparticle is reproduced here with permission
+from reference (<xref ref-type="bibr" rid="ref13">13</xref>).</p></caption><graphic xmlns:xlink="http://www.w3.org/1999/xlink" id="gr1" position="float" orientation="portrait" xlink:href="nl4c02076_0001.jpg"/></fig><sec id="sec1.1"><title>The Impact of Unifying Sample Preparation
+Protocol and Instrumentation</title><p>We submitted 4 identical batches
+of dried peptides to 4 core facilities
+that had better performance in terms of protein counts, peptide counts,
+coefficients of variation (CV) of technical replicates, as well as
+the median sequence coverage based on our previous findings<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> (see <xref rid="notes1" ref-type="notes">Supporting Information</xref> for details regarding each core facility and the associated protocols).
+Furthermore, 4 identical batches were submitted to the 4 proteomics
+core facilities in the USA with similar instrumentation (with regards
+to LC and MS types).<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> These centers used
+the same LC system (Dionex Ultimate 3000) and MS systems that should
+largely produce similar results (two used Fusion Lumos, one Fusion
+system, and one HF-X system). All centers were asked to analyze the
+samples over a 120 min gradient using label-free quantification (LFQ).
+Since good performance in our original study was also taken into account,<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> we could not identify 4 core facilities with
+exact same MS instruments and had to select these centers for analysis.
+The LC type and MS instruments, as well as good/similar designations,
+are summarized in <xref rid="tbl1" ref-type="other">Table <xref rid="tbl1" ref-type="other">1</xref></xref>.</p><table-wrap id="tbl1" position="float" orientation="portrait"><label>Table 1</label><caption><title>Specific LC and MS Systems Employed
+by Each of the Six Core Facilities Involved in Our Study</title></caption><table frame="hsides" rules="groups" border="0"><colgroup span="1"><col span="1"/><col span="1"/><col span="1"/><col span="1"/></colgroup><thead><tr><th style="border:none;" align="center" colspan="1" rowspan="1">Center blinded number</th><th style="border:none;" align="center" colspan="1" rowspan="1">LC system</th><th style="border:none;" align="center" colspan="1" rowspan="1">MS system</th><th style="border:none;" align="center" colspan="1" rowspan="1">Type</th></tr></thead><tbody><tr><td style="border:none;" colspan="1" rowspan="1">1</td><td style="border:none;" colspan="1" rowspan="1">Dionex Ultimate 3000</td><td style="border:none;" colspan="1" rowspan="1">Fusion Lumos</td><td style="border:none;" colspan="1" rowspan="1">Similar</td></tr><tr><td style="border:none;" colspan="1" rowspan="1">2</td><td style="border:none;" colspan="1" rowspan="1">Dionex Ultimate
+3000</td><td style="border:none;" colspan="1" rowspan="1">Eclipse</td><td style="border:none;" colspan="1" rowspan="1">Good</td></tr><tr><td style="border:none;" colspan="1" rowspan="1">3</td><td style="border:none;" colspan="1" rowspan="1">Dionex Ultimate 3000</td><td style="border:none;" colspan="1" rowspan="1">Fusion</td><td style="border:none;" colspan="1" rowspan="1">Good and similar</td></tr><tr><td style="border:none;" colspan="1" rowspan="1">9</td><td style="border:none;" colspan="1" rowspan="1">Dionex
+Ultimate 3000</td><td style="border:none;" colspan="1" rowspan="1">Fusion Lumos</td><td style="border:none;" colspan="1" rowspan="1">Good and similar</td></tr><tr><td style="border:none;" colspan="1" rowspan="1">11</td><td style="border:none;" colspan="1" rowspan="1">Dionex Ultimate 3000</td><td style="border:none;" colspan="1" rowspan="1">Eclipse</td><td style="border:none;" colspan="1" rowspan="1">Good</td></tr><tr><td style="border:none;" colspan="1" rowspan="1">13</td><td style="border:none;" colspan="1" rowspan="1">Dionex Ultimate 3000</td><td style="border:none;" colspan="1" rowspan="1">HF-X</td><td style="border:none;" colspan="1" rowspan="1">Similar</td></tr></tbody></table></table-wrap><p>We consolidated the
+data from 6 core facilities as detailed in <xref rid="notes1" ref-type="notes">Supplementary
+Data 1</xref>. As depicted in <xref rid="fig2" ref-type="fig">Figure <xref rid="fig2" ref-type="fig">2</xref></xref>a-b, even when selecting
+core facilities that outperformed others based on previously mentioned
+criteria, the overlap of quantified proteins in identical samples
+across different centers was only about 11%. In contrast, for core
+facilities using similar instrumentation, the overlap was 18%. When
+considering proteins quantified consistently across all three replicates,
+the overlap percentages were 8% and 14% for good and similar centers,
+respectively. These findings highlight the impact of instrumentation
+on the variability of the protein corona analysis outcomes. Moreover,
+protein intensities between different core facilities did not exhibit
+a consistent pattern, regardless of whether the centers were categorized
+as “good” and/or “similar” (<xref rid="fig2" ref-type="fig">Figure <xref rid="fig2" ref-type="fig">2</xref></xref>c). A principal component analysis
+of the proteomics data collected from the centers is shown in <xref rid="fig2" ref-type="fig">Figure <xref rid="fig2" ref-type="fig">2</xref></xref>d.</p><fig id="fig2" position="float" orientation="portrait"><label>Figure 2</label><caption><p>Data overlaps among core
+facilities reporting better results (good)
+or having similar instrumentation (similar). a, The overlap in the
+quantified proteins among good or similar centers with regards to
+protein count and percentage. b, The overlap in the quantified proteins
+among good or similar centers with regards to protein count and percentage,
+limited to proteins quantified in all replicates. c, Distribution
+of protein-level intensities for the 6 cores (center line, median;
+box limits contain 50%; upper and lower quartiles, 75 and 25%; maximum,
+greatest value excluding outliers; minimum, least value excluding
+outliers; outliers, more than 1.5 times upper and lower quartiles).
+d, PCA analysis for the proteomics data collected from the centers.
+All analyses were based on data from three technical replicates.</p></caption><graphic xmlns:xlink="http://www.w3.org/1999/xlink" id="gr2" position="float" orientation="portrait" xlink:href="nl4c02076_0002.jpg"/></fig><p>The hierarchical clustering of the normalized protein
+intensities
+in <xref rid="fig3" ref-type="fig">Figure <xref rid="fig3" ref-type="fig">3</xref></xref>a-b shows
+data completeness captured by each core facility for good and similar
+centers, respectively. The upset plots shown in <xref rid="fig3" ref-type="fig">Figure <xref rid="fig3" ref-type="fig">3</xref></xref>c-d demonstrate the uniqueness of the data
+obtained from the different core facilities for good and similar centers,
+respectively. These plots were made with all the proteins quantified
+across all the cores and demonstrate that the difference (uniqueness)
+of the data from each core still outweighs their similarities, despite
+streamlining sample preparation and the instrumentation used. Note
+that similarities are higher for centers using similar instruments.</p><fig id="fig3" position="float" orientation="portrait"><label>Figure 3</label><caption><p>Uniqueness
+of the data obtained from the different core facilities.
+a-b, Hierarchical clustering of quantified proteins across the 4 good
+core facilities and 4 core facilities with similar instrumentation,
+respectively. c-d, Upset plot showing the variabilities in the number
+of detected proteins across the 4 good core facilities and 4 core
+facilities with similar instrumentation, respectively. All analyses
+were based on three technical replicates.</p></caption><graphic xmlns:xlink="http://www.w3.org/1999/xlink" id="gr3" position="float" orientation="portrait" xlink:href="nl4c02076_0003.jpg"/></fig></sec><sec id="sec1.2"><title>The Impact of Unifying Sample Preparation Protocol, Instrumentation,
+Database Search and Data Processing</title><p>As a final step, we subjected
+the raw data from the 4 centers with similar instrumentation to a
+unified database search. We have already shown that on top of the
+sample preparation protocol and the instruments used during sample
+analysis, the database search adds a new layer of variability. These
+variabilities can be introduced by using different search settings
+such as false-discovery rates (FDR), inclusion of different fixed
+and variable post-translational modifications, the number of missed
+cleavages, and the sequence database used in the search.</p><p>We
+included carbamidomethylation as a variable modification, since some
+centers had not specified if the reduction and alkylation of proteins
+had been performed. Carbamidomethylated peptides were used in the
+quantification of proteins, as well. As for other variable modifications,
+we included only the default methionine oxidation and acetylation
+of protein N-termini. Similar to previous studies by us<sup><xref ref-type="bibr" rid="ref15">15</xref></sup> and others,<sup><xref ref-type="bibr" rid="ref25">25</xref></sup> we
+included a 1% FDR at both the protein and peptide levels. We only
+searched for specific tryptic peptides and allowed up to two missed
+cleavages, which is a routine procedure. We only applied the parameters
+that are well-accepted in the community;<sup><xref ref-type="bibr" rid="ref26">26</xref></sup> however, it should be noted that this uniform search does not undermine
+the validity of the previous database searches performed by the core
+facilities individually.</p><p>In the uniform search, we quantified
+370 proteins (<xref rid="notes1" ref-type="notes">Supplementary Data 2</xref>), which
+is significantly lower than the
+combined number of proteins (<italic toggle="yes">n</italic> = 1824) individually
+reported by the centers. A centralized FDR control and the application
+of the identical database search and software is expected to reduce
+the number of quantified proteins in the aggregated search, as we
+have also reported.<sup><xref ref-type="bibr" rid="ref15">15</xref></sup></p><p>As shown in <xref rid="fig4" ref-type="fig">Figure <xref rid="fig4" ref-type="fig">4</xref></xref>a, the application
+of the uniform search substantially improved the
+number and percentage of the shared proteins in the data retrieved
+from the 4 core facilities using similar instrumentation. However,
+due to the reduction of the number of quantified proteins in the uniform
+database search, the percentage of shared proteins is a more accurate
+way of comparing performance between the individual searches and the
+uniform search than the number of quantified proteins. For proteins
+with no missing values across centers using similar instruments, the
+percentage of shared proteins increased from 18% in the individual
+searches to 40% in the uniform search. These results are consistent
+with our previous study, where using a uniform database search, we
+found an overlap of 35.3% among the top 5 facilities (among 15 centers).<sup><xref ref-type="bibr" rid="ref15">15</xref></sup> This is a remarkable increase, given that the
+MS instruments were not exactly the same and were chosen based on
+their expected similar performance. The hierarchical clustering in <xref rid="fig4" ref-type="fig">Figure <xref rid="fig4" ref-type="fig">4</xref></xref>b also shows that
+the data completeness across different centers was dramatically improved
+(compared with <xref rid="fig3" ref-type="fig">Figure <xref rid="fig3" ref-type="fig">3</xref></xref>b). Overall, these results show that the database search has a higher
+impact on the data homogeneity than the other parameters that were
+investigated in this study.</p><fig id="fig4" position="float" orientation="portrait"><label>Figure 4</label><caption><p>A uniform database search dramatically improves
+data homogeneity
+across different core facilities. a, The number and percentage of
+shared proteins with or without missing values in the uniform database
+search of LC-MS/MS data of the 4 centers using similar instruments,
+respectively. b, Proteins detected in the uniform database search
+of LC-MS/MS data of the 4 centers using similar instruments. All analyses
+were based on three technical replicates.</p></caption><graphic xmlns:xlink="http://www.w3.org/1999/xlink" id="gr4" position="float" orientation="portrait" xlink:href="nl4c02076_0004.jpg"/></fig></sec></sec><sec id="sec2"><title>Discussion</title><p>The protein corona spontaneously forms and evolves
+around nanoparticles
+when exposed to biological tissues and fluids. Recognizing its critical
+role in influencing the efficacy and safety of nanotechnologies and
+nanomedicines, extensive research has been dedicated to characterizing
+the protein corona composition in terms of protein identity and abundance.<sup><xref ref-type="bibr" rid="ref14">14</xref></sup> Despite numerous studies documented in the literature,
+efforts to reconcile data from independent studies and consolidate
+protein corona data sets for predicting nanoparticle’ pharmacokinetics
+and biological fates are still limited.<sup><xref ref-type="bibr" rid="ref27">27</xref></sup> While significant progress has been made in standardizing essential
+characterization methods for nanomedicines to ensure reproducibility
+and robustness across different research centers,<sup><xref ref-type="bibr" rid="ref28">28</xref></sup> a standardized protocol for analyzing the protein corona
+composition remains lacking. This gap highlights a critical need in
+the field of nanomedicine, as the protein corona plays a pivotal role
+in determining the biological identity and behavior of nanoparticles.<sup><xref ref-type="bibr" rid="ref6">6</xref></sup></p><p>MS-based proteomics is the preferred method
+for characterizing
+the protein corona. While LC-MS typically offers robust and reproducible
+data on cell and tissue samples within the consistent experimental
+framework,<sup><xref ref-type="bibr" rid="ref29">29</xref></sup> its application to protein
+corona and plasma-related samples often encounters challenges that
+restrict proteome coverage across different studies. A significant
+challenge is the broad dynamic range of protein concentrations in
+plasma. For example, albumin alone constitutes approximately 55% of
+the total protein mass in plasma. This dominance by a few high-abundance
+proteins can mask the presence of lower-abundance proteins, which
+are crucial for comprehensive proteomic analysis and accurate characterization
+of the protein corona.<sup><xref ref-type="bibr" rid="ref30">30</xref></sup> In fact, seven
+most abundant plasma proteins comprise 85% of total protein in plasma,<sup><xref ref-type="bibr" rid="ref30">30</xref></sup> and upon digestion of plasma proteome, peptides
+from such abundant proteins crowd the mass spectra, making it challenging
+to quantify the other present proteins with lower abundance. This
+issue has been partially mitigated in the past by several depletion
+strategies that exploit immunodepletion spin columns, immunodepletion-LC,
+magnetic beads, and even nanoparticles themselves.<sup><xref ref-type="bibr" rid="ref10">10</xref>,<xref ref-type="bibr" rid="ref31">31</xref>,<xref ref-type="bibr" rid="ref32">32</xref></sup> Such strategies are used to deplete albumin
+and other abundant proteins before sample analysis. We have recently
+also introduced a novel methodology where spiking a fine-tuned concentration
+of phosphatidylcholine and a single nanoparticle were shown to deplete
+the 4 most abundant proteins in plasma, reducing their cumulative
+representation (MS intensities) from 90% to under 17% in the whole
+plasma<sup><xref ref-type="bibr" rid="ref33">33</xref></sup> and enhancing the plasma proteome
+coverage by 446% (from 322 to 1436 plasma proteins). Despite these
+challenges, thousands of proteins have been reliably quantified in
+plasma in landmark studies, leading to the discovery of distinct disease-based
+biomarkers.<sup><xref ref-type="bibr" rid="ref34">34</xref>−<xref ref-type="bibr" rid="ref36">36</xref></sup></p><p>Altogether, variations in proteome coverage
+introduce bias in data
+interpretation by neglecting low-abundance proteins that could otherwise
+be genuine targets or disease biomarkers. The need for comprehensive
+coverage of the proteome is felt even more in the analysis of nanoparticle
+protein corona, since the presence and absence of a biomarker are
+even more important.</p><p>Previously we showed that there are significant
+variations in the
+proteome coverage of identical protein corona samples across 17 core
+facilities. However, there was a good agreement in LC-MS data among
+the shared proteins across different core facilities, showing that
+one of the main challenges is achieving a high proteome coverage.<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> We showed that these variations arise from using
+different sample preparation protocols, various LC-MS workflows and
+instruments, as well as database search parameters and data processing.<sup><xref ref-type="bibr" rid="ref13">13</xref></sup> In a follow-up study, we showed that implementing
+a uniform database search and data processing pipeline, can drastically
+contribute to data homogeneity (i.e., from 1.8% to 16.2% among top
+11 facilities).<sup><xref ref-type="bibr" rid="ref15">15</xref></sup></p><p>In this study,
+we demonstrated that standardizing the sample preparation
+protocol, instrumentation, database search, and data processing significantly
+increases the percentage of shared proteins identified across different
+facilities in a stepwise manner. Our findings confirm that establishing
+standard protocols for LC-MS analysis of the protein corona can greatly
+enhance the consistency of proteomics data from various centers. Without
+such standardized protocols, it is challenging, if not impossible,
+to expect different core facilities to adopt identical settings for
+each step of the process. This difficulty arises from the diversity
+of available analytical tools, such as various types of analytical
+columns and database search engines. Hypothetically, homogeneity can
+be further improved by unifying all the instrumental settings, for
+example, including the duration of the gradient, fragmentation techniques,
+number of scans, resolution, and so on. Standardizing these elements
+is crucial for improving reproducibility and reliability in nanoparticle
+protein corona research, but will remain a formidable challenge.</p><p>In summary, the results of this study demonstrated the significant
+impact of unified protocols on reducing heterogeneity in identical
+protein corona characterization across different proteomics facilities.
+By implementing standardized sample preparation, using consistent
+instrumentation and harmonizing data processing parameters, we achieved
+a significant improvement in the homogeneity of the final protein
+corona outcomes. This highlights the critical role of standardized
+practices in enhancing data reproducibility and emphasizes the potential
+barriers in their implementation due to the diverse capabilities and
+resources of different laboratories. Despite these challenges, our
+approach illustrates the possibility of significant improvements in
+data quality and consistency, paving the way for achieving more reliable
+protein corona analysis. Within a given experiment, any of the core
+facilities can be used for monitoring the dynamic structure of the
+protein corona. The problem arises when results from multiple experiments
+are analyzed simultaneously, where the missing values become a problem.
+We recommend using a core facility that provides the highest proteome
+and sequence coverage (fewer missing values) and a decent CV. We further
+recommend designing the comparative experiments in one batch, or at
+least using the same protocols, workflows, and instruments when designing
+multibatch experiments.</p><p>Moving forward, the establishment of
+universal standards for the
+analysis of the protein corona will be crucial for the advancement
+of nanomedicine, ensuring that findings from different studies are
+comparable and that the biological implications of nanoparticle–protein
+interactions are understood with greater clarity. The adoption of
+such standards promises to bridge the gap between nanoparticle research
+and clinical applications, ultimately enhancing the development of
+nanomedicine-based diagnostics and therapeutics. It is noteworthy
+that this standardized protocol can be applied to both soft and hard
+coronas, regardless of the collection methods used. The critical factor
+is ensuring that the methods employed prevent any protein contamination
+in the protein corona shell, as contamination can lead to significant
+errors in data interpretation.<sup><xref ref-type="bibr" rid="ref37">37</xref></sup></p></sec></body><back><notes id="notes1" notes-type="si"><title>Supporting Information Available</title><p>The Supporting Information is
+available free of charge at <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" xlink:href="https://pubs.acs.org/doi/10.1021/acs.nanolett.4c02076?goto=supporting-info">https://pubs.acs.org/doi/10.1021/acs.nanolett.4c02076</ext-link>.<list id="silist" list-type="simple"><list-item><p>Materials and methods;
+characterization of nanoparticles;
+data availability; and data analysis (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" xlink:href="https://pubs.acs.org/doi/suppl/10.1021/acs.nanolett.4c02076/suppl_file/nl4c02076_si_001.pdf">PDF</ext-link>)</p></list-item><list-item><p>Supplementary Data 1. The consolidated
+data on identifcal
+protein corona composition from the 6 proteomics core facilities (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" xlink:href="https://pubs.acs.org/doi/suppl/10.1021/acs.nanolett.4c02076/suppl_file/nl4c02076_si_002.xlsx">XLSX</ext-link>)</p></list-item><list-item><p>Supplementary
+Data 2. Proteins quantified in the uniform
+search for the 4 core facilities using similar instruments (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" xlink:href="https://pubs.acs.org/doi/suppl/10.1021/acs.nanolett.4c02076/suppl_file/nl4c02076_si_003.xlsx">XLSX</ext-link>)</p></list-item></list></p></notes><sec sec-type="supplementary-material"><title>Supplementary Material</title><supplementary-material content-type="local-data" id="sifile1" position="float" orientation="portrait"><media xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="nl4c02076_si_001.pdf" position="float" orientation="portrait"><caption><p>nl4c02076_si_001.pdf</p></caption></media></supplementary-material><supplementary-material content-type="local-data" id="sifile2" position="float" orientation="portrait"><media xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="nl4c02076_si_002.xlsx" position="float" orientation="portrait"><caption><p>nl4c02076_si_002.xlsx</p></caption></media></supplementary-material><supplementary-material content-type="local-data" id="sifile3" position="float" orientation="portrait"><media xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="nl4c02076_si_003.xlsx" position="float" orientation="portrait"><caption><p>nl4c02076_si_003.xlsx</p></caption></media></supplementary-material></sec><notes notes-type="" id="notes2"><title>Author Contributions</title><p><sup>#</sup> A.A.A.
+and H.G. contributed equally. Conceptualization, A.A.A., A.A.S.
+and M.M.; project organization, resources and funding acquisition,
+M.M. and A.A.S.; methodology and experiment design, M.M., A.A.S. and
+A.A.A.; experiments and characterizations, A.A.A.; data analysis and
+visualization, H.G., A.A.S., S.M.M. and A.A.A.; writing—original
+draft, A.A.A., A.A.S., H.G. and M.M.; writing, review and editing,
+all coauthors.</p></notes><notes notes-type="COI-statement" id="notes3"><p>The authors
+declare the following competing financial interest(s): Morteza Mahmoudi
+discloses that (i) he is a co-founder and director of the Academic
+Parity Movement (www.paritymovement.org), a non-profit organization
+dedicated to addressing academic discrimination, violence and incivility;
+(ii) he is a co-founder of Targets Tip; and (iii) he receives royalties/honoraria
+for his published books, plenary lectures, and licensed patents.</p></notes><ack><title>Acknowledgments</title><p>M.M. acknowledge financial support
+from the U.S.
+National Institute of Diabetes and Digestive and Kidney Diseases (grant
+DK131417). We acknowledge all 6 core facilities for their efforts
+and contributions to the current study.</p></ack><ref-list><title>References</title><ref id="ref1"><mixed-citation publication-type="journal" id="cit1"><name name-style="western"><surname>Monopoli</surname><given-names>M. P.</given-names></name>; et al. <article-title>Physical-Chemical aspects of protein corona: Relevance to in vitro
+and in vivo biological impacts of nanoparticles</article-title>. <source>J. Am. Chem. Soc.</source>
+<year>2011</year>, <volume>133</volume>, <fpage>2525</fpage>–<lpage>2534</lpage>. <pub-id pub-id-type="doi">10.1021/ja107583h</pub-id>.<pub-id pub-id-type="pmid">21288025</pub-id>
+</mixed-citation></ref><ref id="ref2"><mixed-citation publication-type="journal" id="cit2"><name name-style="western"><surname>Shang</surname><given-names>X.</given-names></name>; et al. <article-title>Unusual zymogen activation patterns in the protein corona of Ca-zeolites</article-title>. <source>Nature Catalysis</source>
+<year>2021</year>, <volume>4</volume>, <fpage>607</fpage>–<lpage>614</lpage>. <pub-id pub-id-type="doi">10.1038/s41929-021-00654-6</pub-id>.</mixed-citation></ref><ref id="ref3"><mixed-citation publication-type="journal" id="cit3"><name name-style="western"><surname>Dawson</surname><given-names>K. A.</given-names></name>; <name name-style="western"><surname>Yan</surname><given-names>Y.</given-names></name>
+<article-title>Current understanding of biological
+identity at the nanoscale and
+future prospects</article-title>. <source>Nat. Nanotechnol.</source>
+<year>2021</year>, <volume>16</volume>, <fpage>229</fpage>–<lpage>242</lpage>. <pub-id pub-id-type="doi">10.1038/s41565-021-00860-0</pub-id>.<pub-id pub-id-type="pmid">33597736</pub-id>
+</mixed-citation></ref><ref id="ref4"><mixed-citation publication-type="journal" id="cit4"><name name-style="western"><surname>Mahmoudi</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Landry</surname><given-names>M. P.</given-names></name>; <name name-style="western"><surname>Moore</surname><given-names>A.</given-names></name>; <name name-style="western"><surname>Coreas</surname><given-names>R.</given-names></name>
+<article-title>The protein corona
+from nanomedicine to environmental science</article-title>. <source>Nature Reviews Materials</source>
+<year>2023</year>, <volume>8</volume>, <fpage>422</fpage>–<lpage>438</lpage>. <pub-id pub-id-type="doi">10.1038/s41578-023-00552-2</pub-id>.<pub-id pub-id-type="pmcid">PMC10037407</pub-id><pub-id pub-id-type="pmid">37361608</pub-id></mixed-citation></ref><ref id="ref5"><mixed-citation publication-type="journal" id="cit5"><name name-style="western"><surname>Monopoli</surname><given-names>M. P.</given-names></name>; <name name-style="western"><surname>Åberg</surname><given-names>C.</given-names></name>; <name name-style="western"><surname>Salvati</surname><given-names>A.</given-names></name>; <name name-style="western"><surname>Dawson</surname><given-names>K. A.</given-names></name>
+<article-title>Biomolecular
+coronas
+provide the biological identity of nanosized materials</article-title>. <source>Nat. Nanotechnol.</source>
+<year>2012</year>, <volume>7</volume>, <fpage>779</fpage>–<lpage>786</lpage>. <pub-id pub-id-type="doi">10.1038/nnano.2012.207</pub-id>.<pub-id pub-id-type="pmid">23212421</pub-id>
+</mixed-citation></ref><ref id="ref6"><mixed-citation publication-type="journal" id="cit6"><name name-style="western"><surname>Faria</surname><given-names>M.</given-names></name>; et al. <article-title>Minimum information reporting in bio-nano experimental literature</article-title>. <source>Nat. Nanotechnol.</source>
+<year>2018</year>, <volume>13</volume>, <fpage>777</fpage>–<lpage>785</lpage>. <pub-id pub-id-type="doi">10.1038/s41565-018-0246-4</pub-id>.<pub-id pub-id-type="pmid">30190620</pub-id>
+<pub-id pub-id-type="pmcid">PMC6150419</pub-id></mixed-citation></ref><ref id="ref7"><mixed-citation publication-type="journal" id="cit7"><name name-style="western"><surname>Wheeler</surname><given-names>K. E.</given-names></name>; et al. <article-title>Environmental dimensions of the protein corona</article-title>. <source>Nat. Nanotechnol.</source>
+<year>2021</year>, <volume>16</volume>, <fpage>617</fpage>–<lpage>629</lpage>. <pub-id pub-id-type="doi">10.1038/s41565-021-00924-1</pub-id>.<pub-id pub-id-type="pmid">34117462</pub-id>
+</mixed-citation></ref><ref id="ref8"><mixed-citation publication-type="journal" id="cit8"><name name-style="western"><surname>Leong</surname><given-names>H. S.</given-names></name>; et al. <article-title>On the issue of transparency and reproducibility
+in nanomedicine</article-title>. <source>Nature Nanotechnol.</source>
+<year>2019</year>, <volume>14</volume>, <fpage>629</fpage>–<lpage>635</lpage>. <pub-id pub-id-type="doi">10.1038/s41565-019-0496-9</pub-id>.<pub-id pub-id-type="pmid">31270452</pub-id>
+<pub-id pub-id-type="pmcid">PMC6939883</pub-id></mixed-citation></ref><ref id="ref9"><mixed-citation publication-type="book" id="cit9"><person-group person-group-type="allauthors"><name name-style="western"><surname>Richardson</surname><given-names>J. J.</given-names></name>; <name name-style="western"><surname>Caruso</surname><given-names>F.</given-names></name></person-group><article-title>Nanomedicine
+toward 2040.)</article-title>. <publisher-name>ACS Publications</publisher-name> (<year>2020</year>).<pub-id pub-id-type="doi" assigning-authority="pmc">10.1021/acs.nanolett.0c00620</pub-id><pub-id pub-id-type="pmid">32118443</pub-id></mixed-citation></ref><ref id="ref10"><mixed-citation publication-type="journal" id="cit10"><name name-style="western"><surname>Ignjatovic</surname><given-names>V.</given-names></name>; et al. <article-title>Mass spectrometry-based
+plasma proteomics: considerations from sample
+collection to achieving translational data</article-title>. <source>J. Proteome Res.</source>
+<year>2019</year>, <volume>18</volume>, <fpage>4085</fpage>–<lpage>4097</lpage>. <pub-id pub-id-type="doi">10.1021/acs.jproteome.9b00503</pub-id>.<pub-id pub-id-type="pmid">31573204</pub-id>
+<pub-id pub-id-type="pmcid">PMC6898750</pub-id></mixed-citation></ref><ref id="ref11"><mixed-citation publication-type="journal" id="cit11"><name name-style="western"><surname>Lan</surname><given-names>J.</given-names></name>; et al. <article-title>Systematic evaluation of the use of human plasma and
+serum for mass-spectrometry-based
+shotgun proteomics</article-title>. <source>J. Proteome Res.</source>
+<year>2018</year>, <volume>17</volume>, <fpage>1426</fpage>–<lpage>1435</lpage>. <pub-id pub-id-type="doi">10.1021/acs.jproteome.7b00788</pub-id>.<pub-id pub-id-type="pmid">29451788</pub-id>
+</mixed-citation></ref><ref id="ref12"><mixed-citation publication-type="journal" id="cit12"><name name-style="western"><surname>Zimmerman</surname><given-names>L. J.</given-names></name>; <name name-style="western"><surname>Li</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Yarbrough</surname><given-names>W. G.</given-names></name>; <name name-style="western"><surname>Slebos</surname><given-names>R. J.</given-names></name>; <name name-style="western"><surname>Liebler</surname><given-names>D. C.</given-names></name>
+<article-title>Global stability
+of plasma proteomes for mass spectrometry-based analyses</article-title>. <source>Molecular &amp; Cellular Proteomics</source>
+<year>2012</year>, <volume>11</volume>, <fpage>M111.014340</fpage><pub-id pub-id-type="doi">10.1074/mcp.M111.014340</pub-id>.<pub-id pub-id-type="pmcid">PMC3433892</pub-id><pub-id pub-id-type="pmid">22301387</pub-id></mixed-citation></ref><ref id="ref13"><mixed-citation publication-type="journal" id="cit13"><name name-style="western"><surname>Ashkarran</surname><given-names>A. A.</given-names></name>; <name name-style="western"><surname>Gharibi</surname><given-names>H.</given-names></name>; <name name-style="western"><surname>Voke</surname><given-names>E.</given-names></name>; <name name-style="western"><surname>Landry</surname><given-names>M. P.</given-names></name>; <name name-style="western"><surname>Saei</surname><given-names>A. A.</given-names></name>; <name name-style="western"><surname>Mahmoudi</surname><given-names>M.</given-names></name>
+<article-title>Measurements of heterogeneity in proteomics analysis
+of the nanoparticle protein corona across core facilities</article-title>. <source>Nat. Commun.</source>
+<year>2022</year>, <volume>13</volume>, <fpage>6610</fpage><pub-id pub-id-type="doi">10.1038/s41467-022-34438-8</pub-id>.<pub-id pub-id-type="pmid">36329043</pub-id>
+<pub-id pub-id-type="pmcid">PMC9633814</pub-id></mixed-citation></ref><ref id="ref14"><mixed-citation publication-type="journal" id="cit14"><person-group person-group-type="allauthors"><name name-style="western"><surname>Saei</surname><given-names>A. A.</given-names></name>; <name name-style="western"><surname>Mahmoudi</surname><given-names>M.</given-names></name></person-group><article-title>Multi-omics exploration
+of biomolecular corona in nanomedicine therapeutics and diagnostics</article-title>. <source>Nanomedicine</source>, in press , <year>2024</year>, pp <fpage>1</fpage>–<lpage>4</lpage>.<pub-id pub-id-type="doi">10.2217/nnm-2024-0104</pub-id>.<pub-id pub-id-type="pmcid">PMC11285268</pub-id><pub-id pub-id-type="pmid">38593028</pub-id></mixed-citation></ref><ref id="ref15"><mixed-citation publication-type="journal" id="cit15"><name name-style="western"><surname>Gharibi</surname><given-names>H.</given-names></name>; <name name-style="western"><surname>Ashkarran</surname><given-names>A. A.</given-names></name>; <name name-style="western"><surname>Jafari</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Voke</surname><given-names>E.</given-names></name>; <name name-style="western"><surname>Landry</surname><given-names>M. P.</given-names></name>; <name name-style="western"><surname>Saei</surname><given-names>A. A.</given-names></name>; <name name-style="western"><surname>Mahmoudi</surname><given-names>M.</given-names></name>
+<article-title>A uniform data processing pipeline
+enables harmonized nanoparticle protein corona analysis across proteomics
+core facilities</article-title>. <source>Nat. Commun.</source>
+<year>2024</year>, <volume>15</volume>, <fpage>342</fpage><pub-id pub-id-type="doi">10.1038/s41467-023-44678-x</pub-id>.<pub-id pub-id-type="pmid">38184668</pub-id>
+<pub-id pub-id-type="pmcid">PMC10771434</pub-id></mixed-citation></ref><ref id="ref16"><mixed-citation publication-type="journal" id="cit16"><name name-style="western"><surname>Aresta</surname><given-names>A.</given-names></name>; et al. <article-title>Impact of sample preparation
+in peptide/protein profiling in human
+serum by MALDI-TOF mass spectrometry</article-title>. <source>J. Pharm.
+Biomed. Anal.</source>
+<year>2008</year>, <volume>46</volume>, <fpage>157</fpage>–<lpage>164</lpage>. <pub-id pub-id-type="doi">10.1016/j.jpba.2007.10.015</pub-id>.<pub-id pub-id-type="pmid">18035512</pub-id>
+</mixed-citation></ref><ref id="ref17"><mixed-citation publication-type="journal" id="cit17"><name name-style="western"><surname>Ferreiro-Vera</surname><given-names>C.</given-names></name>; <name name-style="western"><surname>Priego-Capote</surname><given-names>F.</given-names></name>; <name name-style="western"><surname>Luque de Castro</surname><given-names>M. D.</given-names></name>
+<article-title>Comparison of sample preparation
+approaches for phospholipids profiling in human serum by liquid chromatography-tandem
+mass spectrometry</article-title>. <source>Journal of Chromatography
+A</source>
+<year>2012</year>, <volume>1240</volume>, <fpage>21</fpage>–<lpage>28</lpage>. <pub-id pub-id-type="doi">10.1016/j.chroma.2012.03.074</pub-id>.<pub-id pub-id-type="pmid">22503623</pub-id>
+</mixed-citation></ref><ref id="ref18"><mixed-citation publication-type="journal" id="cit18"><name name-style="western"><surname>Klont</surname><given-names>F.</given-names></name>; et al. <article-title>Assessment of Sample
+Preparation Bias in Mass Spectrometry-Based
+Proteomics</article-title>. <source>Anal. Chem.</source>
+<year>2018</year>, <volume>90</volume>, <fpage>5405</fpage>–<lpage>5413</lpage>. <pub-id pub-id-type="doi">10.1021/acs.analchem.8b00600</pub-id>.<pub-id pub-id-type="pmid">29608294</pub-id>
+<pub-id pub-id-type="pmcid">PMC5906755</pub-id></mixed-citation></ref><ref id="ref19"><mixed-citation publication-type="journal" id="cit19"><name name-style="western"><surname>Vita</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Skansen</surname><given-names>P.</given-names></name>; <name name-style="western"><surname>Hassan</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Abdel-Rehim</surname><given-names>M.</given-names></name>
+<article-title>Development
+and validation of a liquid chromatography and tandem mass spectrometry
+method for determination of roscovitine in plasma and urine samples
+utilizing on-line sample preparation</article-title>. <source>Journal
+of Chromatography B: Analytical Technologies in the Biomedical and
+Life Sciences</source>
+<year>2005</year>, <volume>817</volume>, <fpage>303</fpage>–<lpage>307</lpage>. <pub-id pub-id-type="doi">10.1016/j.jchromb.2004.12.022</pub-id>.<pub-id pub-id-type="pmid">15686999</pub-id>
+</mixed-citation></ref><ref id="ref20"><mixed-citation publication-type="journal" id="cit20"><name name-style="western"><surname>Vuckovic</surname><given-names>D.</given-names></name>
+<article-title>Current trends
+and challenges in sample preparation for global metabolomics using
+liquid chromatography-mass spectrometry</article-title>. <source>Anal.
+Bioanal. Chem.</source>
+<year>2012</year>, <volume>403</volume>, <fpage>1523</fpage>–<lpage>1548</lpage>. <pub-id pub-id-type="doi">10.1007/s00216-012-6039-y</pub-id>.<pub-id pub-id-type="pmid">22576654</pub-id>
+</mixed-citation></ref><ref id="ref21"><mixed-citation publication-type="journal" id="cit21"><name name-style="western"><surname>Wang</surname><given-names>H.</given-names></name>; <name name-style="western"><surname>Hanash</surname><given-names>S.</given-names></name>
+<article-title>Intact-protein based sample preparation
+strategies
+for proteome analysis in combination with mass spectrometry</article-title>. <source>Mass Spectrom. Rev.</source>
+<year>2005</year>, <volume>24</volume>, <fpage>413</fpage>–<lpage>426</lpage>. <pub-id pub-id-type="doi">10.1002/mas.20018</pub-id>.<pub-id pub-id-type="pmid">15389852</pub-id>
+</mixed-citation></ref><ref id="ref22"><mixed-citation publication-type="journal" id="cit22"><name name-style="western"><surname>Ashkarran</surname><given-names>A. A.</given-names></name>; <name name-style="western"><surname>Dararatana</surname><given-names>N.</given-names></name>; <name name-style="western"><surname>Crespy</surname><given-names>D.</given-names></name>; <name name-style="western"><surname>Caracciolo</surname><given-names>G.</given-names></name>; <name name-style="western"><surname>Mahmoudi</surname><given-names>M.</given-names></name>
+<article-title>Mapping the heterogeneity of protein corona by: Ex
+vivo magnetic levitation</article-title>. <source>Nanoscale</source>
+<year>2020</year>, <volume>12</volume>, <fpage>2374</fpage>–<lpage>2383</lpage>. <pub-id pub-id-type="doi">10.1039/C9NR10367H</pub-id>.<pub-id pub-id-type="pmid">31960871</pub-id>
+</mixed-citation></ref><ref id="ref23"><mixed-citation publication-type="journal" id="cit23"><name name-style="western"><surname>Lundqvist</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Stigler</surname><given-names>J.</given-names></name>; <name name-style="western"><surname>Elia</surname><given-names>G.</given-names></name>; <name name-style="western"><surname>Lynch</surname><given-names>I.</given-names></name>; <name name-style="western"><surname>Cedervall</surname><given-names>T.</given-names></name>; <name name-style="western"><surname>Dawson</surname><given-names>K. A.</given-names></name>
+<article-title>Nanoparticle size
+and surface properties determine
+the protein corona with possible implications for biological impacts</article-title>. <source>Proc. Natl. Acad. Sci. U.S.A.</source>
+<year>2008</year>, <volume>105</volume>, <fpage>14265</fpage>–<lpage>14270</lpage>. <pub-id pub-id-type="doi">10.1073/pnas.0805135105</pub-id>.<pub-id pub-id-type="pmid">18809927</pub-id>
+<pub-id pub-id-type="pmcid">PMC2567179</pub-id></mixed-citation></ref><ref id="ref24"><mixed-citation publication-type="journal" id="cit24"><name name-style="western"><surname>Tenzer</surname><given-names>S.</given-names></name>; et al. <article-title>Rapid formation of plasma
+protein corona critically affects nanoparticle
+pathophysiology</article-title>. <source>Nat. Nanotechnol.</source>
+<year>2013</year>, <volume>8</volume>, <fpage>772</fpage>–<lpage>781</lpage>. <pub-id pub-id-type="doi">10.1038/nnano.2013.181</pub-id>.<pub-id pub-id-type="pmid">24056901</pub-id>
+</mixed-citation></ref><ref id="ref25"><mixed-citation publication-type="journal" id="cit25"><name name-style="western"><surname>Liu</surname><given-names>Y.</given-names></name>; et al. <article-title>Multi-omic measurements
+of heterogeneity in HeLa cells across laboratories</article-title>. <source>Nat. Biotechnol.</source>
+<year>2019</year>, <volume>37</volume>, <fpage>314</fpage>–<lpage>322</lpage>. <pub-id pub-id-type="doi">10.1038/s41587-019-0037-y</pub-id>.<pub-id pub-id-type="pmid">30778230</pub-id>
+</mixed-citation></ref><ref id="ref26"><mixed-citation publication-type="journal" id="cit26"><name name-style="western"><surname>Deutsch</surname><given-names>E. W.</given-names></name>; et al. <article-title>Human proteome project mass spectrometry data
+interpretation guidelines
+2.1</article-title>. <source>J. Proteome Res.</source>
+<year>2016</year>, <volume>15</volume>, <fpage>3961</fpage>–<lpage>3970</lpage>. <pub-id pub-id-type="doi">10.1021/acs.jproteome.6b00392</pub-id>.<pub-id pub-id-type="pmid">27490519</pub-id>
+<pub-id pub-id-type="pmcid">PMC5096969</pub-id></mixed-citation></ref><ref id="ref27"><mixed-citation publication-type="journal" id="cit27"><name name-style="western"><surname>Galmarini</surname><given-names>S.</given-names></name>; et al. <article-title>Beyond Unpredictability:
+The Importance of Reproducibility in Understanding
+the Protein Corona of Nanoparticles</article-title>. <source>Bioconjugate
+Chem.</source>
+<year>2018</year>, <volume>29</volume>, <fpage>3385</fpage>–<lpage>3393</lpage>. <pub-id pub-id-type="doi">10.1021/acs.bioconjchem.8b00554</pub-id>.<pub-id pub-id-type="pmid">30141619</pub-id></mixed-citation></ref><ref id="ref28"><mixed-citation publication-type="journal" id="cit28"><name name-style="western"><surname>Sharifi</surname><given-names>S.</given-names></name>; <name name-style="western"><surname>Reuel</surname><given-names>N.</given-names></name>; <name name-style="western"><surname>Kallmyer</surname><given-names>N.</given-names></name>; <name name-style="western"><surname>Sun</surname><given-names>E.</given-names></name>; <name name-style="western"><surname>Landry</surname><given-names>M. P.</given-names></name>; <name name-style="western"><surname>Mahmoudi</surname><given-names>M.</given-names></name>
+<article-title>The Issue of Reliability and Repeatability of Analytical
+Measurement in Industrial and Academic Nanomedicine</article-title>. <source>ACS Nano</source>
+<year>2023</year>, <volume>17</volume>, <fpage>4</fpage>–<lpage>11</lpage>. <pub-id pub-id-type="doi">10.1021/acsnano.2c09249</pub-id>.<pub-id pub-id-type="pmid">36573831</pub-id>
+<pub-id pub-id-type="pmcid">PMC10546893</pub-id></mixed-citation></ref><ref id="ref29"><mixed-citation publication-type="undeclared" id="cit29"><person-group person-group-type="allauthors"><name name-style="western"><surname>Saei</surname><given-names>A. A.</given-names></name>, <name name-style="western"><surname>Lundin</surname><given-names>A</given-names></name>, <name name-style="western"><surname>Lyu</surname><given-names>H</given-names></name>, <name name-style="western"><surname>Gharibi</surname><given-names>H</given-names></name>, <name name-style="western"><surname>Luo</surname><given-names>H</given-names></name>, <name name-style="western"><surname>Teppo</surname><given-names>J</given-names></name>, <name name-style="western"><surname>Zhang</surname><given-names>X</given-names></name>, <name name-style="western"><surname>Gaetani</surname><given-names>M</given-names></name>, <name name-style="western"><surname>Végvári</surname><given-names>Á</given-names></name>, <name name-style="western"><surname>Holmdahl</surname><given-names>R</given-names></name>, <name name-style="western"><surname>Gygi</surname><given-names>S. P.</given-names></name>, <name name-style="western"><surname>Zubarev</surname><given-names>R. A.</given-names></name></person-group><article-title>Multifaceted proteome analysis at
+solubility, redox, and expression dimensions for target identification</article-title>. <source>bioRxiv</source>, Sept. 1, <year>2023</year>.<pub-id pub-id-type="doi">10.1101/2023.08.31.555796</pub-id> (accessed 2024-06-06).<pub-id pub-id-type="pmcid">PMC11481203</pub-id><pub-id pub-id-type="pmid">39120068</pub-id></mixed-citation></ref><ref id="ref30"><mixed-citation publication-type="journal" id="cit30"><name name-style="western"><surname>Pernemalm</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Sandberg</surname><given-names>A.</given-names></name>; <name name-style="western"><surname>Zhu</surname><given-names>Y.</given-names></name>; <name name-style="western"><surname>Boekel</surname><given-names>J.</given-names></name>; <name name-style="western"><surname>Tamburro</surname><given-names>D.</given-names></name>; <name name-style="western"><surname>Schwenk</surname><given-names>J. M</given-names></name>; <name name-style="western"><surname>Bjork</surname><given-names>A.</given-names></name>; <name name-style="western"><surname>Wahren-Herlenius</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Amark</surname><given-names>H.</given-names></name>; <name name-style="western"><surname>Ostenson</surname><given-names>C.-G.</given-names></name>; <name name-style="western"><surname>Westgren</surname><given-names>M.</given-names></name>; <name name-style="western"><surname>Lehtio</surname><given-names>J.</given-names></name>
+<article-title>In-depth human
+plasma proteome analysis captures tissue proteins and transfer of
+protein variants across the placenta</article-title>. <source>Elife</source>
+<year>2019</year>, <volume>8</volume>, <fpage>e41608</fpage><pub-id pub-id-type="doi">10.7554/eLife.41608</pub-id>.<pub-id pub-id-type="pmid">30958262</pub-id>
+<pub-id pub-id-type="pmcid">PMC6519984</pub-id></mixed-citation></ref><ref id="ref31"><mixed-citation publication-type="journal" id="cit31"><name name-style="western"><surname>Lee</surname><given-names>P. Y.</given-names></name>; <name name-style="western"><surname>Osman</surname><given-names>J.</given-names></name>; <name name-style="western"><surname>Low</surname><given-names>T. Y.</given-names></name>; <name name-style="western"><surname>Jamal</surname><given-names>R.</given-names></name>
+<article-title>Plasma/serum proteomics:
+depletion strategies for reducing high-abundance proteins for biomarker
+discovery</article-title>. <source>Bioanalysis</source>
+<year>2019</year>, <volume>11</volume>, <fpage>1799</fpage>–<lpage>1812</lpage>. <pub-id pub-id-type="doi">10.4155/bio-2019-0145</pub-id>.<pub-id pub-id-type="pmid">31617391</pub-id>
+</mixed-citation></ref><ref id="ref32"><mixed-citation publication-type="journal" id="cit32"><name name-style="western"><surname>Gianazza</surname><given-names>E.</given-names></name>; <name name-style="western"><surname>Miller</surname><given-names>I.</given-names></name>; <name name-style="western"><surname>Palazzolo</surname><given-names>L.</given-names></name>; <name name-style="western"><surname>Parravicini</surname><given-names>C.</given-names></name>; <name name-style="western"><surname>Eberini</surname><given-names>I.</given-names></name>
+<article-title>With or without you—Proteomics
+with or without
+major plasma/serum proteins</article-title>. <source>Journal of proteomics</source>
+<year>2016</year>, <volume>140</volume>, <fpage>62</fpage>–<lpage>80</lpage>. <pub-id pub-id-type="doi">10.1016/j.jprot.2016.04.002</pub-id>.<pub-id pub-id-type="pmid">27072114</pub-id>
+</mixed-citation></ref><ref id="ref33"><mixed-citation publication-type="undeclared" id="cit33"><person-group person-group-type="allauthors"><name name-style="western"><surname>Ashkarran</surname><given-names>A. A.</given-names></name></person-group>, <etal/><article-title>Deep Plasma Proteome Profiling by
+Modulating Single Nanoparticle
+Protein Corona with Small Molecules</article-title>. <source>bioRxiv</source>, Mar. 8, <year>2024</year>.<pub-id pub-id-type="doi">10.1101/2024.03.06.582595</pub-id>.</mixed-citation></ref><ref id="ref34"><mixed-citation publication-type="journal" id="cit34"><name name-style="western"><surname>Schwenk</surname><given-names>J. M.</given-names></name>; et al. <article-title>The human plasma proteome draft of 2017: building
+on the human plasma
+PeptideAtlas from mass spectrometry and complementary assays</article-title>. <source>J. Proteome Res.</source>
+<year>2017</year>, <volume>16</volume>, <fpage>4299</fpage>–<lpage>4310</lpage>. <pub-id pub-id-type="doi">10.1021/acs.jproteome.7b00467</pub-id>.<pub-id pub-id-type="pmid">28938075</pub-id>
+<pub-id pub-id-type="pmcid">PMC5864247</pub-id></mixed-citation></ref><ref id="ref35"><mixed-citation publication-type="journal" id="cit35"><name name-style="western"><surname>Keshishian</surname><given-names>H.</given-names></name>; et al. <article-title>Multiplexed, quantitative workflow for sensitive
+biomarker discovery
+in plasma yields novel candidates for early myocardial injury</article-title>. <source>Molecular &amp; Cellular Proteomics</source>
+<year>2015</year>, <volume>14</volume>, <fpage>2375</fpage>–<lpage>2393</lpage>. <pub-id pub-id-type="doi">10.1074/mcp.M114.046813</pub-id>.<pub-id pub-id-type="pmid">25724909</pub-id>
+<pub-id pub-id-type="pmcid">PMC4563722</pub-id></mixed-citation></ref><ref id="ref36"><mixed-citation publication-type="journal" id="cit36"><name name-style="western"><surname>Geyer</surname><given-names>P. E.</given-names></name>; <name name-style="western"><surname>Kulak</surname><given-names>N. A.</given-names></name>; <name name-style="western"><surname>Pichler</surname><given-names>G.</given-names></name>; <name name-style="western"><surname>Holdt</surname><given-names>L. M.</given-names></name>; <name name-style="western"><surname>Teupser</surname><given-names>D.</given-names></name>; <name name-style="western"><surname>Mann</surname><given-names>M.</given-names></name>
+<article-title>Plasma proteome profiling
+to assess human health and disease</article-title>. <source>Cell systems</source>
+<year>2016</year>, <volume>2</volume>, <fpage>185</fpage>–<lpage>195</lpage>. <pub-id pub-id-type="doi">10.1016/j.cels.2016.02.015</pub-id>.<pub-id pub-id-type="pmid">27135364</pub-id>
+</mixed-citation></ref><ref id="ref37"><mixed-citation publication-type="journal" id="cit37"><name name-style="western"><surname>Mahmoudi</surname><given-names>M.</given-names></name>
+<article-title>The need for
+improved methodology in protein corona analysis</article-title>. <source>Nat. Commun.</source>
+<year>2022</year>, <volume>13</volume>, <fpage>49</fpage><pub-id pub-id-type="doi">10.1038/s41467-021-27643-4</pub-id>.<pub-id pub-id-type="pmid">35013179</pub-id>
+<pub-id pub-id-type="pmcid">PMC8748711</pub-id></mixed-citation></ref></ref-list></back></article>
