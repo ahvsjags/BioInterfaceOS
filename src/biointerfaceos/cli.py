@@ -734,6 +734,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T265 biological common-target execution receipt",
     )
     data_r4_t265_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t273_parser = data_subparsers.add_parser(
+        "evaluate-r4-t273-biological-unit-primary",
+        help="execute the biological-unit-primary T273 reanalysis with grouped nested selection",
+    )
+    data_r4_t273_parser.add_argument("--strict", action="store_true")
+    data_r4_t273_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t273-biological-unit-primary",
+        help="verify the T273 biological-unit-primary execution receipt",
+    )
+    data_r4_t273_verify_parser.add_argument("--strict", action="store_true")
     data_r4_t193_parser = data_subparsers.add_parser(
         "evaluate-r4-t193-three-lab-prefrozen-target",
         help="execute the frozen T193 study-held-out analysis on the pre-T192 R3 target universe",
@@ -3675,6 +3685,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t250-four-lab-common-target",
             "evaluate-r4-t265-biological-common-target",
             "verify-r4-t265-biological-common-target",
+            "evaluate-r4-t273-biological-unit-primary",
+            "verify-r4-t273-biological-unit-primary",
             "preflight-r4-t260-external-receipts",
             "evaluate-r4-t193-three-lab-prefrozen-target",
             "verify-r4-t193-three-lab-prefrozen-target",
@@ -4880,6 +4892,52 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"laboratories={t265_summary.laboratory_anchor_count} "
                 f"measurement_batches={t265_summary.measurement_batch_count} "
                 "biological_units=246 model_fitted=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t273-biological-unit-primary":
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
+            from biointerfaceos.r4_t273_biological_unit_primary import (
+                R4T273BiologicalUnitPrimaryError,
+                R4T273BiologicalUnitPrimaryWorkflow,
+            )
+
+            try:
+                t273_summary = R4T273BiologicalUnitPrimaryWorkflow(root).run(strict=args.strict)
+            except (R4T273BiologicalUnitPrimaryError, OSError, R3ModelEvaluationError) as exc:
+                print(f"R4_T273_BIOLOGICAL_UNIT_PRIMARY_EXECUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T273_BIOLOGICAL_UNIT_PRIMARY_EXECUTION_VALID "
+                f"observations={t273_summary.observation_count} "
+                f"targets={t273_summary.target_universe_count} "
+                f"laboratories={t273_summary.laboratory_anchor_count} "
+                f"measurement_batches={t273_summary.measurement_batch_count} "
+                f"models={t273_summary.model_count} biological_unit_primary=true "
+                "grouped_nested_selection=true selection_aware_null=true "
+                "analysis_only=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t273-biological-unit-primary":
+            from biointerfaceos.r4_t273_biological_unit_primary import (
+                R4T273BiologicalUnitPrimaryError,
+                R4T273BiologicalUnitPrimaryWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_T273_BIOLOGICAL_UNIT_PRIMARY_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                t273_summary = R4T273BiologicalUnitPrimaryWorkflow(root).verify(strict=True)
+            except (R4T273BiologicalUnitPrimaryError, OSError) as exc:
+                print(f"R4_T273_BIOLOGICAL_UNIT_PRIMARY_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T273_BIOLOGICAL_UNIT_PRIMARY_VERIFY_VALID "
+                f"observations={t273_summary.observation_count} "
+                f"targets={t273_summary.target_universe_count} "
+                f"laboratories={t273_summary.laboratory_anchor_count} "
+                f"measurement_batches={t273_summary.measurement_batch_count} "
+                "biological_unit_primary=true model_fitted=true scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-t193-three-lab-prefrozen-target":

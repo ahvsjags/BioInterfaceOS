@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t273-biological-unit-primary-execution-v2.0.0",
+  "status": "FROZEN_BEFORE_T273_EXECUTION",
+  "frozen_at": "2026-08-15T00:00:00+08:00",
+  "evidence_class": "EXTERNAL_PUBLIC_ANALYSIS_ONLY",
+  "allowed_claim_level": "EXPLORATORY",
+  "target": {
+    "target_id": "WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "value_rule": "strictly positive finite author-reported value; blanks, explicit zero and NA are excluded without imputation",
+    "rank_rule": "descending midrank percentile computed independently within each source measurement batch using all eligible source rows",
+    "cross_study_raw_scale": "PROHIBITED",
+    "identity_feature_policy": "protein identity, source identity, laboratory identity, sample labels, author abundance and author rank are prohibited predictive features"
+  },
+  "target_freeze": {
+    "selection_rule": "the five-target panel is frozen before T273 model execution and is not recomputed within any outer fold; results are conditional on this fixed panel",
+    "common_targets": ["P11021", "P11166", "P26038", "P55072", "P61981"],
+    "common_target_count": 5,
+    "selection_after_outer_split": false,
+    "held_out_target_membership_contribution": "not used during T273 model fitting or alpha selection; panel provenance remains conditional on the pre-audited three-map intersection"
+  },
+  "outer_evaluation": {
+    "split": "LEAVE_ONE_LABORATORY_ANCHOR_OUT",
+    "held_out_laboratory_is_never_used_for_fitting_or_alpha_selection": true,
+    "outer_fold_count": 3
+  },
+  "nested_selection": {
+    "method": "deterministic five-fold grouped cross-validation by source-local biological_unit_id within non-held-out laboratories",
+    "biological_unit_group_folds": 5,
+    "unit_may_appear_in_only_one_inner_validation_fold": true,
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "minimum_proteins_per_selection_batch": 3,
+    "selection_metric": "equal mean across biological units of within-unit mean measurement-batch Spearman correlation",
+    "selection_metric_mae_rmse_secondary": true
+  },
+  "models": [
+    {"model_id": "CONSTANT_TRAINING_MEAN"},
+    {"model_id": "SEQUENCE_RIDGE_FULL"},
+    {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY"}
+  ],
+  "primary_estimand": {
+    "cluster": "biological_unit_id",
+    "within_unit_rule": "mean of qualified measurement-batch metrics within each biological unit",
+    "population_rule": "equal mean over biological units within each held-out laboratory fold",
+    "batch_level_artifact_role": "secondary descriptive metric only"
+  },
+  "uncertainty": {
+    "primary_cluster": "biological_unit_id",
+    "method": "bootstrap biological units after within-unit mean across qualified batches",
+    "resamples": 2000,
+    "random_seed": 20260816
+  },
+  "negative_control": {
+    "method": "within-development-measurement-batch target permutation; re-run biological-unit-grouped alpha selection for every permutation; evaluate the held-out fold at the primary biological-unit estimand",
+    "resamples": 256,
+    "random_seed": 20260817,
+    "tail": "one-sided upper tail",
+    "alpha_selection_recomputed_permutation": true
+  },
+  "coverage_missingness": {
+    "flow": ["raw_map_rows", "rank_eligible_rows", "common_rows", "qualified_measurement_batches", "qualified_biological_units", "model_metric_eligible_rows"],
+    "missingness_model": "descriptive exclusion accounting only; no MCAR/MAR/MNAR assumption",
+    "sensitivity_required": true
+  },
+  "protocol_parameters": {
+    "minimum_common_targets_per_metric_batch": 3,
+    "minimum_source_cohort_count": 3,
+    "minimum_biological_unit_count_per_source": 30
+  },
+  "claim_boundary": "T273 is an author-run analysis-only reanalysis of public paper-attached source maps. It makes biological-unit grouping primary for nested selection, uncertainty, negative control and paired ablation, while remaining conditional on the pre-audited five-target panel. It is not an independent evaluator receipt, no-author reproduction, protected lockbox, clinical validation, community adoption, DOI read-back or scientific submission readiness evidence.",
+  "scientific_submission_ready": false
+}

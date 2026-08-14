@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t273-biological-unit-primary-execution-v2.0.0",
+  "protocol_id": "bioif-r4-t273-biological-unit-primary-execution-v2.0.0",
+  "status": "T273_BIOLOGICAL_UNIT_PRIMARY_REGISTERED",
+  "evidence_class": "EXTERNAL_PUBLIC_ANALYSIS_ONLY",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {"relative_path": "docs/data/R4_T273_BIOLOGICAL_UNIT_PRIMARY_PROTOCOL.json", "sha256": "6c4695b07a767b8fd1ddbbd74ca06c8d85f929a24a89c72ee9e30c863db4d54d"},
+  "r3_common_target_ledger": {"relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv", "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"},
+  "r3_sequence_feature_table": {"relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv", "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"},
+  "target_freeze": {"common_targets": ["P11021", "P11166", "P26038", "P55072", "P61981"], "common_target_count": 5, "selection_rule": "fixed five-target panel from T273 protocol"},
+  "protocol_parameters": {"minimum_common_targets_per_metric_batch": 3, "minimum_source_cohort_count": 3, "minimum_biological_unit_count_per_source": 30},
+  "sources": [
+    {
+      "source_id": "PXD017052_SEER_BROAD_NSCLC_COHORT",
+      "laboratory_anchor": "Seer, Inc. / Broad Institute of MIT and Harvard",
+      "source_registry": {"relative_path": "docs/data/R4_T180_PXD017052_NSCLC_SOURCE_REGISTRY.json", "sha256": "ac9f7290d78ef0021581a1e3e0494f61b3ff790627f0057820405faa0ef04e17"},
+      "source_audit_report": {"relative_path": "reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/pxd017052_nsclc_source_audit_report.json", "sha256": "f6f51f46766f76a26abb66aea16ab63683053adac7280e7a9bda2b7ffa757aaf"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/pxd017052_nsclc_source_audit_receipt.json", "sha256": "dd1ef23771ab9fad2493651726977928a10786ecd35da9daa478572b6582d56d"},
+      "source_cell_map": {"relative_path": "data/raw/r4_candidate_pxd017052_nsclc/derived/R4_PXD017052_NSCLC_source_cell_map.csv", "sha256": "2b5074a825108675aa28fd63f644a3f9aadb7996d6772943b84451a460239e2d"},
+      "license": "CC-BY-4.0",
+      "access_condition": "paper-attached CC-BY-4.0 source; analysis-only route",
+      "biological_unit_semantics": "141 individual human plasma subjects; repeated nanoparticle conditions remain clustered within subject",
+      "expected_accounting": {"raw_map_rows": 23970, "rank_eligible_rows": 17330, "rank_eligible_target_count": 34, "rank_eligible_batch_count": 705, "common_rows": 2820, "common_target_batch_pairs": 2820}
+    },
+    {
+      "source_id": "PMC10257194_NAY_LUAD_PLASMA_CORONA",
+      "laboratory_anchor": "Tianjin University / Tianjin Medical University",
+      "source_registry": {"relative_path": "docs/data/R4_T203_PMC10257194_NAY_LUAD_PAPER_SOURCE_REGISTRY.json", "sha256": "7a95170afccf1185e1a4048aade53f42e8fb41b3a34665449d03d41ee89a0416"},
+      "source_audit_report": {"relative_path": "reports/review_round_4/pmc10257194_paper_source_audit/v1.0.0/r4_pmc10257194_paper_source_audit_report.json", "sha256": "ef7f1d70c751d3262c8b2b229714b67fbcfa9b2b835f7e328de52330051cb425"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_4/pmc10257194_paper_source_audit/v1.0.0/r4_pmc10257194_paper_source_audit_receipt.json", "sha256": "e195fea29f80cb78fbcc19674b966bdbcd00a513d65355278baba76318b74a31"},
+      "source_cell_map": {"relative_path": "data/raw/r4_candidate_pmc10257194/derived/R4_PMC10257194_NAY_LUAD_source_cell_map.csv", "sha256": "3f245327fcb57f8fc5390a2898afccd8cda47ce77c1d91f57ff4b8c61b3148c6"},
+      "license": "CC-BY-NC-ND-4.0",
+      "access_condition": "paper supplementary workbook; analysis-only and not redistributable",
+      "biological_unit_semantics": "45 paper-attached NaY protein-corona subject columns; one measurement batch per subject",
+      "expected_accounting": {"raw_map_rows": 4362, "rank_eligible_rows": 4362, "rank_eligible_target_count": 97, "rank_eligible_batch_count": 45, "common_rows": 225, "common_target_batch_pairs": 225}
+    },
+    {
+      "source_id": "PMC13212878_MANCHESTER_NANOOMIC",
+      "laboratory_anchor": "University of Manchester NanoOmics Lab / Manchester BRC",
+      "source_registry": {"relative_path": "docs/data/R4_T185_MANCHESTER_NANOOMIC_SOURCE_REGISTRY.json", "sha256": "e4ca046f3a355145d80a8545b51a3964816c079f7a007d9764b1ce4daf1f7cbf"},
+      "source_audit_report": {"relative_path": "reports/review_round_4/manchester_nanoomic_source/v1.1.0/r4_manchester_nanoomic_source_report.json", "sha256": "bd8b8ba5640b0b6f2dee579ad0e3390f47101d13ef3cb250a0b6a98959a3dce5"},
+      "source_audit_receipt": {"relative_path": "reports/review_round_4/manchester_nanoomic_source/v1.1.0/r4_manchester_nanoomic_source_receipt.json", "sha256": "d466a5b1da0a9906f329cfce16f3f7b24b4e01ea4b915bf57b50232ecf1ff181"},
+      "source_cell_map": {"relative_path": "data/raw/r4_candidate_pmc13212878/derived/R4_PMC13212878_MANCHESTER_source_cell_map_v1.1.0.csv", "sha256": "7a831bb84f22b861a2fa232af97c15990d3ddc41c1714174ad36c7306647eb58"},
+      "license": "CC-BY-4.0-ARTICLE",
+      "access_condition": "public author matrix with no asserted repository license; analysis-only and not redistributable",
+      "biological_unit_semantics": "60 paper-anchored deidentified patient IDs clustered across repeated timepoints; patient-timepoint columns are not independent units",
+      "expected_accounting": {"raw_map_rows": 193360, "rank_eligible_rows": 4150, "rank_eligible_target_count": 25, "rank_eligible_batch_count": 288, "common_rows": 1040, "common_target_batch_pairs": 1040}
+    }
+  ],
+  "expected_accounting": {"observation_count": 3853, "target_universe_count": 5, "laboratory_anchor_count": 3, "biological_unit_count": 246, "source_map_common_rows": 4085, "model_metric_eligible_rows": 3853, "minimum_common_target_count_per_metric_batch": 3},
+  "claim_boundary": "T273 is an author-run analysis-only biological-unit-primary reanalysis. It does not close protected lockbox, no-author reproduction, external adoption, DOI read-back or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

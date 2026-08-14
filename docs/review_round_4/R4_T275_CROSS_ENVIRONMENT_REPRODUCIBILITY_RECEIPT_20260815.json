@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bioif-r4-t275-cross-environment-reproducibility-v1.0.0",
+  "scope": "author-side T250 technical-replicate endpoint sensitivity",
+  "status": "AUTHOR_SIDE_CROSS_ENVIRONMENT_BYTE_IDENTITY",
+  "local_environment": {
+    "checkout": "D:/Downloads/BioInterfaceOS/kaust_t118_worktree",
+    "runner": ".venv/Scripts/python.exe",
+    "execution": "scripts/run_r4_t275_t250_replicate_sensitivity.py",
+    "verification": "scripts/verify_r4_t275_t250_replicate_sensitivity.py"
+  },
+  "kaust_environment": {
+    "host": "login510-27",
+    "checkout": "/ibex/user/xup0a/BioInterfaceOS-r4-paper-data-fallback-20260814",
+    "runner": ".venv/bin/python",
+    "execution": "scripts/run_r4_t275_t250_replicate_sensitivity.py",
+    "verification": "scripts/verify_r4_t275_t250_replicate_sensitivity.py"
+  },
+  "input_scope": {
+    "source_route": "T250 four-laboratory common-target execution",
+    "duplicate_group_count": 112,
+    "duplicate_extra_row_count": 112,
+    "duplicate_source_scope": [
+      "PXD064962_UCD_EVENT"
+    ]
+  },
+  "artifacts": [
+    {
+      "relative_path": "reports/review_round_4/t275_t250_replicate_sensitivity/v1.0.0/duplicate_technical_replicate_groups.csv",
+      "bytes": 21186,
+      "sha256": "b6148e8f7b3730ca40987bbf56cda0b03789e74d487933883e041c3cbe812836",
+      "local_sha256": "b6148e8f7b3730ca40987bbf56cda0b03789e74d487933883e041c3cbe812836",
+      "kaust_sha256": "b6148e8f7b3730ca40987bbf56cda0b03789e74d487933883e041c3cbe812836"
+    },
+    {
+      "relative_path": "reports/review_round_4/t275_t250_replicate_sensitivity/v1.0.0/replicate_sensitivity.csv",
+      "bytes": 2971,
+      "sha256": "98820552e17acec6b9043a6740fcbd274744882287e34353df98dedf66c1ee67",
+      "local_sha256": "98820552e17acec6b9043a6740fcbd274744882287e34353df98dedf66c1ee67",
+      "kaust_sha256": "98820552e17acec6b9043a6740fcbd274744882287e34353df98dedf66c1ee67"
+    },
+    {
+      "relative_path": "reports/review_round_4/t275_t250_replicate_sensitivity/v1.0.0/t275_replicate_sensitivity_report.json",
+      "bytes": 1125,
+      "sha256": "d3fe8dbe59e7a6bf45a3a6ff0adced3f344ab15a1c272ce8401e9df0a970c2a1",
+      "local_sha256": "d3fe8dbe59e7a6bf45a3a6ff0adced3f344ab15a1c272ce8401e9df0a970c2a1",
+      "kaust_sha256": "d3fe8dbe59e7a6bf45a3a6ff0adced3f344ab15a1c272ce8401e9df0a970c2a1"
+    }
+  ],
+  "refit_status": "NOT_REFIT",
+  "scientific_submission_ready": false,
+  "evidence_boundary": "This receipt proves author-side cross-environment byte identity only; it is not a non-author lockbox result, no-author reproduction, external adoption record, or DOI read-back."
+}

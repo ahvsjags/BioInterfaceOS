@@ -56,6 +56,8 @@ class R4T265BiologicalCommonTargetWorkflow(R4T193ThreeLabPrefrozenExecutionWorkf
     OUTPUT_RELATIVE = "reports/review_round_4/t265_biological_common_target/v1.0.0"
     REPORT_NAME = "t265_biological_common_target_report.json"
     RECEIPT_NAME = "t265_biological_common_target_receipt.json"
+    REGISTRY_STATUS = "T265_BIOLOGICAL_COMMON_TARGET_REGISTERED"
+    PROTOCOL_STATUS = "FROZEN_BEFORE_T265_EXECUTION"
     OBSERVATION_PREFIX = "T265"
     FOLD_PREFIX = "T265"
     TARGET_SOURCE = "T265_strict_three_source_positive_intersection"
@@ -93,7 +95,7 @@ class R4T265BiologicalCommonTargetWorkflow(R4T193ThreeLabPrefrozenExecutionWorkf
         if (
             registry.get("audit_id") != self.AUDIT_ID
             or registry.get("protocol_id") != self.AUDIT_ID
-            or registry.get("status") != "T265_BIOLOGICAL_COMMON_TARGET_REGISTERED"
+            or registry.get("status") != self.REGISTRY_STATUS
             or registry.get("evidence_class") != "EXTERNAL_PUBLIC_ANALYSIS_ONLY"
             or registry.get("allowed_claim_level") != "EXPLORATORY"
             or registry.get("scientific_submission_ready") is not False
@@ -103,7 +105,7 @@ class R4T265BiologicalCommonTargetWorkflow(R4T193ThreeLabPrefrozenExecutionWorkf
         protocol = self._json(protocol_path, "T265 protocol")
         if (
             protocol.get("protocol_id") != self.AUDIT_ID
-            or protocol.get("status") != "FROZEN_BEFORE_T265_EXECUTION"
+            or protocol.get("status") != self.PROTOCOL_STATUS
             or protocol.get("scientific_submission_ready") is not False
         ):
             raise R4T265BiologicalCommonTargetError("T265 protocol identity or boundary is invalid")
@@ -344,7 +346,7 @@ class R4T265BiologicalCommonTargetWorkflow(R4T193ThreeLabPrefrozenExecutionWorkf
     @staticmethod
     def _round_numbers(value: Any) -> Any:
         """Quantize numeric artifacts so BLAS implementations serialize identically."""
-        if isinstance(value, (float, np.floating)):
+        if isinstance(value, float | np.floating):
             # Seven decimal places preserve publication-scale estimates while
             # collapsing small BLAS/CPU-specific coefficient drift.
             return float(f"{float(value):.7f}")
