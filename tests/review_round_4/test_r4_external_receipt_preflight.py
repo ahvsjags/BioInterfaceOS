@@ -290,6 +290,55 @@ def test_r4_preflight_rejects_release_manifest_hash_drift(tmp_path: Path) -> Non
         )
 
 
+def test_r4_fixed_release_anchors_match_all_public_handoff_records() -> None:
+    expected = R4ExternalReceiptPreflightWorkflow.FIXED_RELEASE
+    handoff_records = [
+        json.loads(
+            (ROOT / "docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json").read_text(
+                encoding="utf-8"
+            )
+        )["fixed_release"],
+        json.loads(
+            (ROOT / "docs/data/R4_T234_FIXED_RELEASE_EXTERNAL_HANDOFF_20260814.json").read_text(
+                encoding="utf-8"
+            )
+        )["fixed_release"],
+        json.loads(
+            (
+                ROOT / "docs/data/R4_T240_EXTERNAL_RECEIPT_FIXED_RELEASE_BINDING_20260814.json"
+            ).read_text(encoding="utf-8")
+        )["fixed_release"],
+        json.loads(
+            (
+                ROOT / "docs/data/R4_T241_CANONICAL_RELEASE_MANIFEST_HASH_AUDIT_20260814.json"
+            ).read_text(encoding="utf-8")
+        )["fixed_release"],
+    ]
+    for record in handoff_records:
+        assert record["tag"] == expected["tag"]
+        assert record.get("commit", record.get("tag_target")) == expected["commit"]
+        assert record["source_commit"] == expected["source_commit"]
+        assert record["manifest_path"] == expected["manifest_path"]
+        assert record["manifest_sha256"] == expected["manifest_sha256"]
+
+    t235 = json.loads(
+        (ROOT / "docs/data/R4_T235_PAPER_DATA_EXTERNAL_EVIDENCE_GOAL_20260814.json").read_text(
+            encoding="utf-8"
+        )
+    )["fixed_release"]
+    assert t235["tag"] == expected["tag"]
+    assert t235["manifest"] == expected["manifest_path"]
+    assert t235["manifest_sha256"] == expected["manifest_sha256"]
+
+    doi_release = json.loads(
+        (ROOT / "docs/release/R10_28_DOI_DEPOSIT_METADATA.json").read_text(encoding="utf-8")
+    )["release"]
+    assert doi_release["tag"] == expected["tag"]
+    assert doi_release["release_commit"] == expected["commit"]
+    assert doi_release["manifest_path"] == expected["manifest_path"]
+    assert doi_release["manifest_sha256"] == expected["manifest_sha256"]
+
+
 def test_r4_preflight_cli_preserves_non_promoting_status(tmp_path: Path) -> None:
     bundle_path, documents_root = _write_submitted_bundle(tmp_path)
     receipt_path = tmp_path / "preflight.json"
