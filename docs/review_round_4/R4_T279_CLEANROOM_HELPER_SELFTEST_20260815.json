@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bioif-r4-t279-cleanroom-helper-selftest-v1.0.0",
+  "status": "AUTHOR_SIDE_HELPER_SELFTEST_ONLY",
+  "host": "login510-22",
+  "run_root": "/ibex/user/xup0a/r10_55_author_cleanroom_validation_20260815/external_run",
+  "fixed_tag": "v0.1.3-r10.55",
+  "checkout_commit": "ec5c4815c0e27b8a4de7c07202a56c0a89b9a2c6",
+  "helper_script_sha256": "de719fcc02c61d7adc5b791306f1bca41b3e665f67b9c6f57e2ddc0e7c6b4f1b",
+  "result": "R4_T250_FOUR_LAB_COMMON_TARGET_VERIFY_VALID observations=783 targets=7 laboratories=4 measurement_batches=115 models=3 scientific_submission_ready=false; review-round test 1 passed",
+  "artifact_sha256": {
+    "output_hashes.txt": "73f50ac75bd77313f9cedfc71d8e93ac177e8e7302480dfa5eac42e9ccfd441a",
+    "reproduction_run.log": "067a48dcf31f1fdde64edf59a60145e1358d8ec86ded60c0d4e81b1e0ccd64af",
+    "environment_input_hashes.txt": "cf17b56e3a2d87b80f27ae06888221128a840d8fdfd681cc775a04464c7b55d8"
+  },
+  "independent_validation": false,
+  "external_scientific_reproduction": false,
+  "external_user_adoption": false,
+  "scientific_submission_ready": false,
+  "claim_boundary": "This selftest proves that the fixed-tag clean-room helper can clone, install and execute the public T250 route on KAUST. It is author-controlled and therefore does not satisfy the non-author lockbox, no-author reproduction or adoption gates."
+}
