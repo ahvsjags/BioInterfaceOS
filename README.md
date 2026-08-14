@@ -71,6 +71,7 @@ See:
 - `docs/release/R10_55_DOI_DEPOSIT_METADATA.json`
 - `docs/release/R10_55_ARCHIVE_BUILD_RECEIPT_20260815.json`
 - `docs/release/R10_56_DOI_DEPOSIT_METADATA.json`
+- `docs/release/R10_56_ARCHIVE_BUILD_RECEIPT_20260815.json`
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
 - `release/empirical_candidate_v0.1.3-r10.28/release_manifest.json`
