@@ -1,0 +1,47 @@
+{
+  "task_id": "R4-T234",
+  "date": "2026-08-14",
+  "status": "HANDOFF_READY_NO_EXTERNAL_RECEIPTS",
+  "repository": "https://github.com/ahvsjags/BioInterfaceOS.git",
+  "fixed_release": {
+    "tag": "v0.1.3-r10.28",
+    "tag_target": "5f72487023f80dd37d6b550b97638fb0246eb3fa",
+    "source_commit": "b676433",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.28/release_manifest.json",
+    "manifest_sha256": "4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4"
+  },
+  "protocol": {
+    "path": "docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json",
+    "sha256": "3e51d49bb11fad58412e60980c158860e45647670f9a4a3a9de532bc92cc13a1"
+  },
+  "routes": {
+    "no_author_reproduction": {
+      "route": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+      "script": "scripts/r4_external_reproduction.sh",
+      "requires": ["independent_accession_reacquisition", "clean_fixed_tag", "environment_digest", "output_hashes", "signed_receipt", "immutable_archive_locator"]
+    },
+    "lockbox": {
+      "minimum_count": 1,
+      "row_level_input_visible_to_authors": false,
+      "aggregate_receipt_only": true
+    },
+    "adoption": {
+      "minimum_count": 2,
+      "distinct_non_author_users_or_institutions": true,
+      "distinct_real_tasks": true,
+      "clean_environment": true
+    },
+    "doi": {
+      "requires_immutable_archive_readback": true,
+      "metadata_preparation_is_evidence": false
+    }
+  },
+  "current_claim_boundary": {
+    "external_scientific_reproduction": false,
+    "protected_lockbox_evaluator_receipt": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "historical_issue_boundary": "GitHub Issue #2 is a stale coordination request bound to an older route; it is not updated and is not evidence of external work."
+}

@@ -59,6 +59,7 @@ See:
 - `docs/review_round_4/R4_T231_FULLTEXT_PRIDE_CANDIDATE_RESCREEN_20260814.md`
 - `docs/review_round_4/R4_T232_POST_T231_STRONG_Q1_GATE_AUDIT_20260814.md`
 - `docs/review_round_4/R4_T233_PXD026615_MZID_REPROCESSING_20260814.md`
+- `docs/external/R4_T234_FIXED_RELEASE_EXTERNAL_HANDOFF_20260814.md`
 - `docs/review_round_4/R4_T205_DOI_DEPOSIT_PREFLIGHT_20260814.md`
 - `docs/execplans/T196_publish_paper_attached_biological_cohort.md`
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
