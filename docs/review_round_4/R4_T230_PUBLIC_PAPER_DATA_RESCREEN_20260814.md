@@ -54,6 +54,8 @@
 
 PXD026615 由 University of Salamanca/CSIC 公开，包含 human/rabbit/bovine plasma 相关 protein-corona 实验和全文数据描述。它值得继续做原始文件级重处理，但当前尚未完成：统一 target accession、样本/批次层级、实验室—研究—donor/patient—sample—batch—observation 链接、共同量纲和最低覆盖率核验。因此当前状态为 `CANDIDATE_PENDING_REPROCESSING`，不计入模型、有效 n 或独立验证评分。
 
+本轮进一步读取 PRIDE 文件清单：共 100 个公开文件，包括 20 个 `.raw`、20 个 `.msf`、20 个 `.mzid.gz`、18 个 `.mgf` 以及 22 个 protocol/checksum 文件；清单中没有可直接复用的 protein-level tabular quantification matrix 或明确的样本设计表。也就是说，若要把它推进到 admission，必须先固定数据库/搜索参数并从原始或 peak/result 文件重建定量，再逐文件建立样本与 batch map；不能把“有 PRIDE accession”直接当作可执行 cohort。
+
 ## D. 对强 Q1 改进目标的更新
 
 本轮把“通过全文论文数据寻找真实数据”落实为可复核的 admission 结果，而不是以来源数量代替证据质量。当前目标应保持以下硬门槛：
@@ -83,4 +85,3 @@ external_user_adoption=false
 doi_archived=false
 scientific_submission_ready=false
 ```
-

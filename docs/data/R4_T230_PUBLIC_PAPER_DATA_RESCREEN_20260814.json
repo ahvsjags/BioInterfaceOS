@@ -42,8 +42,18 @@
       "accession": "PXD026615",
       "laboratory": "University of Salamanca/CSIC",
       "landing_url": "https://www.ebi.ac.uk/pride/archive/projects/PXD026615",
+      "public_file_inventory": {
+        "total_files": 100,
+        "raw_files": 20,
+        "search_engine_outputs_msf": 20,
+        "result_files_mzid_gz": 20,
+        "peak_lists_mgf": 18,
+        "protocol_and_checksum_files": 22,
+        "tabular_protein_quantification_matrix_present": false,
+        "sample_design_table_present": false
+      },
       "admission": "CANDIDATE_PENDING_REPROCESSING",
-      "reason": "Human/rabbit/bovine plasma context is promising, but the row-level quantitative and sample/batch mapping contract is not yet complete."
+      "reason": "Human/rabbit/bovine plasma context is promising, but the public file inventory lacks a reusable tabular quantification matrix and sample design table; row-level quantitative and sample/batch mapping must be reconstructed before admission."
     }
   ],
   "claim_boundary": {
