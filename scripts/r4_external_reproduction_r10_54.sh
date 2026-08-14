@@ -7,7 +7,7 @@ set -euo pipefail
 # external receipt by itself.
 
 repository_url="https://github.com/ahvsjags/BioInterfaceOS.git"
-expected_tag="v0.1.3-r10.55"
+expected_tag="v0.1.3-r10.56"
 script_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 script_sha256="$(sha256sum "$script_path" | awk '{print $1}')"
 run_root="${1:?Usage: $0 /absolute/path/to/fresh-run-directory}"

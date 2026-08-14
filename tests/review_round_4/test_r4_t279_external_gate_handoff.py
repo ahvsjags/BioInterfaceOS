@@ -13,8 +13,8 @@ def test_t279_binds_r1055_and_keeps_external_gates_closed() -> None:
         )
     )
     fixed = protocol["fixed_release"]
-    assert fixed["tag"] == "v0.1.3-r10.55"
-    assert fixed["manifest"].endswith("r10.55/release_manifest.json")
+    assert fixed["tag"] == "v0.1.3-r10.56"
+    assert fixed["manifest"].endswith("r10.56/release_manifest.json")
     assert fixed["clean_room_helper"] == "scripts/r4_external_reproduction_r10_54.sh"
     assert protocol["public_redistributable_common_target_route"]["fit_observation_count_after_t277"] == 671
     assert protocol["public_redistributable_common_target_route"]["collapsed_technical_replicate_group_count"] == 112
@@ -24,5 +24,22 @@ def test_t279_binds_r1055_and_keeps_external_gates_closed() -> None:
 def test_t279_clean_room_helper_is_fixed_to_r1055() -> None:
     helper = ROOT / "scripts/r4_external_reproduction_r10_54.sh"
     text = helper.read_text(encoding="utf-8")
-    assert 'expected_tag="v0.1.3-r10.55"' in text
+    assert 'expected_tag="v0.1.3-r10.56"' in text
     assert "verify-r4-t250-four-lab-common-target --strict" in text
+
+
+def test_t279_lockbox_and_adoption_intakes_bind_the_same_tag() -> None:
+    lockbox = json.loads(
+        (ROOT / "docs/data/R4_T279_LOCKBOX_WORK_PACKAGE_20260815.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    adoption = json.loads(
+        (ROOT / "docs/data/R4_T279_EXTERNAL_USER_ADOPTION_INTAKE_20260815.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert lockbox["fixed_release"]["tag"] == "v0.1.3-r10.56"
+    assert adoption["fixed_release"]["tag"] == "v0.1.3-r10.56"
+    assert lockbox["current_gate_state"]["independent_validation"] is False
+    assert adoption["current_count"] == 0
