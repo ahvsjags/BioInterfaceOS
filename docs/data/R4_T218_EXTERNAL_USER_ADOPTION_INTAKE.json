@@ -5,8 +5,8 @@
   "status": "OPEN_NO_EXTERNAL_USER_RECEIPT",
   "fixed_release": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS",
-    "tag": "v0.1.3-r10.22",
-    "commit": "resolve with git rev-parse v0.1.3-r10.22^{}"
+    "tag": "v0.1.3-r10.23",
+    "commit": "resolve with git rev-parse v0.1.3-r10.23^{}"
   },
   "required_user_evidence": {
     "non_author_user": true,

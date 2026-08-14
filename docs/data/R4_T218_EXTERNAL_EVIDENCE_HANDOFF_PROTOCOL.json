@@ -6,8 +6,8 @@
   "purpose": "Define the auditable evidence needed to convert the paper-data candidate into externally evaluated software and a submission-ready empirical claim set without treating author-run paper-data analyses as independent validation.",
   "public_release": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS",
-    "tag": "v0.1.3-r10.22",
-    "commit": "resolve with git rev-parse v0.1.3-r10.22^{}",
+    "tag": "v0.1.3-r10.23",
+    "commit": "resolve with git rev-parse v0.1.3-r10.23^{}",
     "doi_status": "PENDING_NOT_ARCHIVED"
   },
   "paper_data_evidence_boundary": {
@@ -68,7 +68,26 @@
       "the declared redistributable three-lab common-target route",
       "a declared public paper supplementary workbook or accession route",
       "a declared paper-attached OOD route with its license and unit limits"
-    ]
+    ],
+    "recommended_public_accession_route": {
+      "route_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+      "article_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592156/",
+      "supplementary_locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6592156/supplementaryFiles",
+      "license": "CC-BY-3.0",
+      "source_role": "public author-run OOD route available for no-author reproduction",
+      "expected_source_audit": {
+        "measurement_batches": 30,
+        "external_observations": 953,
+        "shared_canonical_proteins": 50,
+        "biological_unit_claim": "technical condition batches; human donor independence not inferred"
+      },
+      "reproduction_commands": [
+        "uv sync --locked --all-groups",
+        "uv run biointerfaceos data audit-r3-silver-plasma-source --assets-root data/raw/r3_candidate_pmc6592156 --strict",
+        "uv run biointerfaceos data evaluate-r3-silver-external-ood --output-data-root data/raw --feature-root data/raw/r3_uniprot_sequence_features --silver-assets-root data/raw/r3_candidate_pmc6592156 --strict"
+      ],
+      "author_result_is_not_a_target": "The expected counts and author-run result are comparison metadata only; the reproducing team must reacquire and hash the supplementary bytes independently and must report deviations rather than tune to the expected result."
+    }
   },
   "external_user_adoption": {
     "required": true,

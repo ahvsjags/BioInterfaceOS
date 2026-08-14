@@ -1,13 +1,13 @@
-# Independent reproduction and external-user handoff for v0.1.3-r10.22
+# Independent reproduction and external-user handoff for v0.1.3-r10.23
 
 This page is the current handoff contract for the BioInterfaceOS R4 paper-data candidate. It is not a completed evaluator, scientific-reproduction or adoption receipt.
 
 ## Fixed public checkout
 
-Use the immutable tag `v0.1.3-r10.22`, whose exact target commit is recorded in the release manifest and GitHub release. Do not use a moving branch for an external claim.
+Use the immutable tag `v0.1.3-r10.23`, whose exact target commit is recorded in the release manifest and GitHub release. Do not use a moving branch for an external claim.
 
 ```bash
-git clone --branch v0.1.3-r10.22 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.3-r10.23 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
 uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
@@ -38,6 +38,15 @@ Use `docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json` and `docs/data/R
 The reproducing team must reacquire the public accession independently from the fixed tag, record the dependency lockfile and environment hashes, run the declared accession-to-result route without author assistance, preserve failed and negative results, and submit a signed aggregate receipt with an immutable archive locator.
 
 Use `docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json` and `docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`.
+
+The recommended concrete route is the CC-BY-3.0 PMC6592156 silver-nanoparticle human-plasma source. Reacquire its supplementary files from the Europe PMC supplementary endpoint, place them under `data/raw/r3_candidate_pmc6592156`, verify the source bytes, and run:
+
+```bash
+uv run biointerfaceos data audit-r3-silver-plasma-source --assets-root data/raw/r3_candidate_pmc6592156 --strict
+uv run biointerfaceos data evaluate-r3-silver-external-ood --output-data-root data/raw --feature-root data/raw/r3_uniprot_sequence_features --silver-assets-root data/raw/r3_candidate_pmc6592156 --strict
+```
+
+The historical author-run comparison had 30 measurement batches, 953 external observations and 50 shared canonical proteins. Those values are not acceptance targets: the no-author team must report its own hashes, outputs, failures and deviations.
 
 ## External adoption
 

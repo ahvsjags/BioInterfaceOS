@@ -24,4 +24,6 @@ The protocol and templates are:
 - `docs/data/R4_T218_EXTERNAL_USER_ADOPTION_INTAKE.json`;
 - `docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`.
 
+The no-author reproduction path now has one concrete public route: the CC-BY-3.0 PMC6592156 silver-nanoparticle human-plasma supplementary dataset. Its prescribed audit/evaluation commands and comparison-only expected counts are bound in the T218 protocol. This improves the feasibility of obtaining a real external receipt; it does not count as a receipt until a non-author team independently reacquires the files and submits an auditable signed result.
+
 Until these receipts are independently verified, `scientific_submission_ready=false` and a strong-Q1 submission claim is not supported. This is a successful evidence-boundary closure, not a claim that the external gates have already passed.
