@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T254",
+  "declared_at": "2026-08-14T00:00:00+00:00",
+  "status": "PAPER_DERIVED_EVIDENCE_COMPLETE_EXTERNAL_GATES_UNVERIFIED",
+  "objective": "Use public full-text articles, official supplementary tables and public accessions to complete the internal empirical evidence layer when new wet-lab acquisition is unavailable.",
+  "primary_positioning": "author-run, paper-derived, source-conditional benchmark for protein-corona rank portability",
+  "primary_estimand": {
+    "route": "T238",
+    "definition": "laboratory/source-anchor held-out, source-local positive-quantification rank portability with fold-local target membership",
+    "claim_level": "EXPLORATORY",
+    "not_claimed": [
+      "independent biological validation",
+      "donor-level generalization",
+      "universal sequence-feature superiority",
+      "raw-MS reanalysis",
+      "confirmatory clinical utility"
+    ]
+  },
+  "target_availability_matrix": [
+    {
+      "outer_fold_id": "T238_OUTER_01",
+      "held_out_source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "development_only_targets": ["P04004", "P05556", "P06396", "P06576", "P07996", "P11021", "P26038", "P60174", "Q9HDC9"],
+      "held_out_available_targets": ["P04004", "P05556", "P06396", "P07996", "P26038", "P60174", "Q9HDC9"],
+      "held_out_batch_count": 49,
+      "held_out_observation_count": 306
+    },
+    {
+      "outer_fold_id": "T238_OUTER_02",
+      "held_out_source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+      "development_only_targets": ["P04004", "P04264", "P05556", "P06396", "P07996", "P26038", "P60174", "Q04695", "Q9HDC9"],
+      "held_out_available_targets": ["P04004", "P05556", "P06396", "P07996", "P26038", "P60174", "Q9HDC9"],
+      "held_out_batch_count": 30,
+      "held_out_observation_count": 193
+    },
+    {
+      "outer_fold_id": "T238_OUTER_03",
+      "held_out_source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "development_only_targets": ["P04004", "P05556", "P06396", "P07996", "P09493", "P26038", "P30041", "P60174", "Q9H4B7", "Q9HDC9"],
+      "held_out_available_targets": ["P04004", "P05556", "P06396", "P07996", "P26038", "P60174", "Q9HDC9"],
+      "held_out_batch_count": 6,
+      "held_out_observation_count": 40
+    },
+    {
+      "outer_fold_id": "T238_OUTER_04",
+      "held_out_source_id": "PXD064962_UCD_EVENT",
+      "development_only_targets": ["O00187", "P04004", "P05556", "P06396", "P07996", "P10599", "P26038", "P60174", "P68366", "Q9HDC9"],
+      "held_out_available_targets": ["P04004", "P05556", "P06396", "P07996", "P26038", "P60174", "Q9HDC9"],
+      "held_out_batch_count": 30,
+      "held_out_observation_count": 244
+    }
+  ],
+  "release_binding": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "tag": "v0.1.3-r10.40",
+    "commit": "05d8073273c18a68896c0fc93b5fd52634378358",
+    "source_commit": "45877fca01c27b3f9a993f43ccaf713d9612b5e8",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.40/release_manifest.json",
+    "manifest_sha256": "22176fda019805e03bcced40e65fb58e7cc8c8ed8e03b4f816f91ff8c96590dc"
+  },
+  "evidence_classes": {
+    "DEVELOPMENT_OBSERVATION": "paper-derived or public-accession author-run analysis used for exploratory development or sensitivity",
+    "EXTERNAL_PUBLIC_ANALYSIS_ONLY": "public paper/data analysis retained locally with publication and redistribution limits",
+    "SOURCE_SCREENING_ONLY": "full-text or supplementary evidence used to record compatibility or exclusion, without model fitting"
+  },
+  "source_strata": [
+    {
+      "source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "article_or_accession": "DS7545",
+      "locator": "https://datashare.ed.ac.uk/handle/10283/4598",
+      "license": "CC-BY-4.0",
+      "role": "T238_PRIMARY_SOURCE",
+      "source_anchor": "University of Edinburgh-led controlled human exposure study",
+      "reported_unit_semantics": "14 healthy volunteers with repeated visits; donor identifiers are not encoded in the current source map",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "source-map and receipt bound to release",
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+      "article_or_accession": "PMC6592156 / PXD007648",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592156/",
+      "license": "CC-BY-3.0",
+      "role": "T238_PRIMARY_SOURCE",
+      "source_anchor": "University of Southern Denmark / Russian Academy of Sciences study",
+      "reported_unit_semantics": "30 pH/temperature condition batches with technical replicates; no donor-resolved biological unit is exposed in the public supplementary map",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "source-map and receipt bound to release",
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "article_or_accession": "PXD060795",
+      "locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD060795",
+      "license": "CC0",
+      "role": "T238_PRIMARY_SOURCE",
+      "source_anchor": "Dalian University of Technology, China",
+      "reported_unit_semantics": "pooled or unspecified human-plasma material with six measurement batches",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "source-map and receipt bound to release",
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "source_id": "PXD064962_UCD_EVENT",
+      "article_or_accession": "PXD064962",
+      "locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD064962",
+      "license": "CC0",
+      "role": "T238_PRIMARY_SOURCE",
+      "source_anchor": "University College Dublin / Conway Institute",
+      "reported_unit_semantics": "30 labelled patient/timepoint units with technical replicate columns; technical columns are not independent donors",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "source-map and receipt bound to release",
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "source_id": "PMC11328176_MULTICORE",
+      "article_or_accession": "PMC11328176",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11328176/",
+      "license": "CC-BY-4.0",
+      "role": "T246_TECHNICAL_SENSITIVITY",
+      "source_anchor": "six blinded proteomics core-facility anchors",
+      "reported_unit_semantics": "one common prepared protein-corona/plasma material, three technical replicates per core",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "byte-verified source and technical receipt released",
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "source_id": "PMC13106918_RCSI_DCU_SILICA_CORONA",
+      "article_or_accession": "PMC13106918 / Zenodo 10.5281/zenodo.16813857",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13106918/",
+      "license": "CC-BY-4.0",
+      "role": "T177_TECHNICAL_OOD",
+      "source_anchor": "Royal College of Surgeons in Ireland and Dublin City University",
+      "reported_unit_semantics": "one pooled human-plasma material with protocol/technical replicates",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "byte-verified technical source and receipt released",
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "source_id": "PMC10257194_NAY_LUAD_PLASMA_CORONA",
+      "article_or_accession": "PMC10257194",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10257194/",
+      "license": "CC-BY-NC-ND-4.0",
+      "role": "T203_ANALYSIS_ONLY_PAPER_OOD",
+      "source_anchor": "Tianjin University / Tianjin Medical University",
+      "reported_unit_semantics": "45 paper-attached subject columns; analysis-only local acquisition",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "not included in public release; hashed local summary only",
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "source_id": "PMC13212878_MANCHESTER_NANOOMIC",
+      "article_or_accession": "PMC13212878 / PXD071492",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13212878/",
+      "license": "CC-BY-4.0 article; author repository license unresolved",
+      "role": "T209_ANALYSIS_ONLY_PAPER_OOD",
+      "source_anchor": "University of Manchester NanoOmics Lab / Manchester BRC",
+      "reported_unit_semantics": "60 paper-anchored patient clusters across 288 source-local measurement batches",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "not included in public release; hashes and summary receipt only",
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "source_id": "PMC3252235_PNNL_POLYSTYRENE_HUMAN_PLASMA",
+      "article_or_accession": "PMC3252235",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3252235/",
+      "license": "NOASSERTION",
+      "role": "T184_SOURCE_SCREEN_ONLY",
+      "source_anchor": "Pacific Northwest National Laboratory",
+      "reported_unit_semantics": "24 condition columns and 88 quantified proteins in the paper supplement",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "not admitted; no verified redistributable license and only two frozen-target overlaps",
+      "claim_level": "NONE"
+    },
+    {
+      "source_id": "PMC9047655_SILICA_CORONA",
+      "article_or_accession": "PMC9047655",
+      "locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9047655/",
+      "license": "CC-BY article; supporting package lacks the required donor-by-protein target matrix",
+      "role": "T246_SOURCE_SCREEN_ONLY",
+      "source_anchor": "Royal College of Surgeons in Ireland and collaborators",
+      "reported_unit_semantics": "eight donor context is reported in the article, but public support files do not expose the frozen donor-by-protein abundance matrix",
+      "resolvable_donor_level_independence": false,
+      "redistribution_status": "screen-only; no model ledger admission",
+      "claim_level": "NONE"
+    }
+  ],
+  "execution_strata": [
+    {
+      "route": "T238",
+      "role": "PRIMARY",
+      "protocol_path": "docs/data/R4_T238_FOUR_SOURCE_AVAILABILITY_EXECUTION_PROTOCOL.json",
+      "protocol_sha256": "a89a2cf4236caee0826fddde5ac89747f939dd656636d600595adf9af6bed7ea",
+      "report_path": "reports/review_round_4/t238_four_source_availability_execution/v1.0.0/t238_four_source_availability_execution_report.json",
+      "report_sha256": "1aec27a907152b1da9937aa8be8cc717b68abfbb82f3cf41ab4ee42ba1ae9a41",
+      "receipt_path": "reports/review_round_4/t238_four_source_availability_execution/v1.0.0/t238_four_source_availability_execution_receipt.json",
+      "receipt_sha256": "ec2f3698062fe34de80378429e26cc8f425062bab2ce9ad38be3b403ca9140fb",
+      "source_anchor_count": 4,
+      "development_target_counts_by_fold": [9, 9, 10, 10],
+      "held_out_available_target_count_per_fold": 7,
+      "measurement_batch_count": 115,
+      "fold_ledger_row_count": 3844,
+      "development_observation_count": 3061,
+      "held_out_test_observation_count": 783,
+      "model_count": 3,
+      "selection_reexecuted_in_finite_null": true,
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "route": "T246",
+      "role": "TECHNICAL_SENSITIVITY",
+      "screen_path": "docs/data/R4_T246_PMC11328176_MULTICORE_SCREEN_20260814.json",
+      "screen_sha256": "ee41c176b1d4a8bb52ecc6afefa9640de83e331bfbdaf8b6de714c3f423457a8",
+      "report_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/pmc11328176_multicore_technical_execution_report.json",
+      "report_sha256": "5739b9a2ab616ff8e10bb3f2d48d3adce743fbba59aa11973577753054bc94b9",
+      "receipt_path": "reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/pmc11328176_multicore_technical_execution_receipt.json",
+      "receipt_sha256": "2120d225c14b74ce25285e7bbe0df3342ea31c59a4f35c145757b11948c987f8",
+      "technical_core_count": 6,
+      "observation_count": 203,
+      "target_count": 70,
+      "full_sequence_mean_spearman": 0.509683,
+      "paired_full_minus_composition_mean_spearman": 0.076958,
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "route": "T177",
+      "role": "TECHNICAL_OOD",
+      "protocol_path": "docs/data/R4_T177_PMC13106918_TECHNICAL_OOD_PROTOCOL.json",
+      "protocol_sha256": "afdab96a18be90fbe2377922ed584c94696f80ebacead8070b4c18de11a1ec44",
+      "report_path": "reports/review_round_4/pmc13106918_technical_ood/v1.0.0/r4_pmc13106918_technical_ood_report.json",
+      "report_sha256": "51d315af48ce8d3ac0e677365e20c5a1361e2dcd9d75d294867e994d65ee8e2e",
+      "receipt_path": "reports/review_round_4/pmc13106918_technical_ood/v1.0.0/r4_pmc13106918_technical_ood_receipt.json",
+      "receipt_sha256": "0ea28a8a0d1d434baa3309bf31ebe1eddd191fe4ddb467a71671435e5d7f67fe",
+      "biological_unit_count": 1,
+      "measurement_batch_count": 16,
+      "external_observation_count": 418,
+      "shared_target_count": 36,
+      "full_sequence_mean_spearman": 0.02404185869943712,
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "route": "T203",
+      "role": "ANALYSIS_ONLY_PAPER_OOD",
+      "report_path": "reports/review_round_4/pmc10257194_paper_ood/v1.0.0/r4_external_ood_report.json",
+      "report_sha256": "eca1b2997b342456115f2ebd0de7e3fa77574f559a279ea09007a224162a6e96",
+      "receipt_path": "reports/review_round_4/pmc10257194_paper_ood/v1.0.0/r4_external_ood_receipt.json",
+      "public_release_eligible": false,
+      "claim_level": "EXPLORATORY"
+    },
+    {
+      "route": "T209",
+      "role": "ANALYSIS_ONLY_PAPER_OOD",
+      "report_path": "reports/review_round_4/manchester_nanoomic_ood/v1.1.0/r4_manchester_nanoomic_ood_report.json",
+      "report_sha256": "ab3561578fd7efe4e573adadfedbc536a8338b7aec0573c34c887beafdc95d95",
+      "receipt_path": "reports/review_round_4/manchester_nanoomic_ood/v1.1.0/r4_manchester_nanoomic_ood_receipt.json",
+      "receipt_sha256": "09a8bc3bf37c61cdbb251a90caaa72c876aded154a7e75fb53ff6db1d7c873ad",
+      "public_release_eligible": false,
+      "biological_unit_count": 60,
+      "measurement_batch_count": 288,
+      "external_observation_count": 4150,
+      "subject_equal_mean_spearman": 0.29180316616791074,
+      "paired_full_minus_composition_patient_equal_mean_spearman": -0.05961759254677212,
+      "claim_level": "EXPLORATORY"
+    }
+  ],
+  "heterogeneity_audit": {
+    "route": "T214",
+    "report_path": "reports/review_round_4/t214_source_heterogeneity/v1.2.0/t214_source_heterogeneity_report.json",
+    "report_sha256": "91ff94a87c9943de75dcb80db0960cb3be04bd06a1067179c91d473aec602084",
+    "receipt_path": "reports/review_round_4/t214_source_heterogeneity/v1.2.0/t214_source_heterogeneity_receipt.json",
+    "receipt_sha256": "ff4a03b60eb6f158f70173bc52796b47cfc2f59a66af5819aca5bbda47e11581",
+    "pooling_prohibited": true,
+    "interpretation": "source-conditional heterogeneity; not a pooled confirmatory p-value or proof of universal sequence-feature superiority"
+  },
+  "editorial_score_snapshot": {
+    "source": "R4-T239 post-T238 five-role panel",
+    "decision": "MAJOR_REVISION",
+    "data_compatibility_and_sample_foundation": 82,
+    "statistical_analysis_design": 88,
+    "statistical_execution_and_effective_n": 77,
+    "models_ablation_negative_controls_and_ood": 75,
+    "independent_protected_lockbox": 12,
+    "no_author_scientific_reproduction": 8,
+    "external_user_adoption": 46,
+    "doi_immutable_archive_readback": 25,
+    "internal_scientific_core_mean": 80.5,
+    "external_evidence_mean": 22.8,
+    "overall_descriptive_mean": 51.6,
+    "scientific_submission_ready": false,
+    "score_policy": "Additional paper-derived rows do not raise a module score unless unit semantics, license, execution and claim boundary are all closed. External scores require real third-party or authenticated archival evidence."
+  },
+  "external_gate_state": {
+    "protected_non_author_lockbox": false,
+    "no_author_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_immutable_archive_readback": false,
+    "scientific_submission_ready": false,
+    "promotion_rule": "No internal paper-derived route, CI run, public issue, agent review or author-run replay can promote an external predicate."
+  },
+  "claim_boundary": "This package documents a real, traceable paper-derived empirical fallback and its negative/exclusion evidence. It does not create new wet-lab data, donor-level effective n, independent validation, a protected evaluator receipt, a no-author reproduction, external adoption, or an authenticated DOI read-back.",
+  "editorial_status": {
+    "decision": "MAJOR_REVISION",
+    "internal_scientific_core_is_separable_from_external_hard_gates": true,
+    "next_required_action": "Obtain real non-author and archive-service receipts, then run a fresh final editorial gate."
+  }
+}

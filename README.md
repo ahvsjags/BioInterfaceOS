@@ -8,6 +8,7 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 
 - a four-source, four-source/laboratory-anchor common-target route with seven exact canonical accessions, 783 row-traceable observations, 115 measurement batches and four laboratory-held-out folds; this is exploratory, conditioned on the pre-frozen all-source target-availability intersection, and not four independent biological cohorts;
 - a public full-text/supplementary-data route using paper-derived observations, with source-local ranks, nested batch selection, cluster uncertainty, paired composition ablation and permutation controls; paper-derived data are not a substitute for non-author validation;
+- a T254 stratified full-text evidence package that binds article/accession locators, license and redistribution status, biological-unit semantics, execution receipts, negative/exclusion results and the external-gate boundary;
 - a T238 four-source fold-local target-membership sensitivity with 3,844 fold-ledger rows (3,061 development and 783 non-repeated held-out test observations), 9/9/10/10 development target counts, 115 batch clusters and explicit finite-null accounting;
 
 The following bullets preserve the earlier R4 benchmark and sensitivity assets for provenance and comparison:
@@ -54,6 +55,8 @@ See:
 - `docs/review_round_4/R4_T197_SOURCE_AVAILABILITY_STATUS_20260814.md`
 - `docs/review_round_4/R4_T238_FOUR_SOURCE_AVAILABILITY_STATUS_20260814.md`
 - `docs/review_round_4/R4_T239_POST_T238_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md`
+- `docs/data/R4_T254_FULLTEXT_PAPER_DERIVED_EVIDENCE_PACKAGE_20260814.json`
+- `docs/review_round_4/R4_T254_FULLTEXT_PAPER_DERIVED_EVIDENCE_STATUS_20260814.md`
 - `docs/review_round_4/R4_T198_PAPER_COHORT_MISSINGNESS_STATUS_20260814.md`
 - `docs/review_round_4/R4_T199_STRONG_Q1_REMEDIATION_GOAL_20260814.md`
 - `docs/review_round_4/R4_T200_STATISTICAL_CLOSURE_STATUS_20260814.md`
