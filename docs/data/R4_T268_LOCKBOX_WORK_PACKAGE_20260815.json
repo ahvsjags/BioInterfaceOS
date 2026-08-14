@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T268-LOCKBOX",
+  "status": "PREPARED_NO_LOCKBOX_RECEIPT",
+  "fixed_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "tag": "v0.1.3-r10.50",
+    "source_commit": "07db8ceef9b785bc3fba0f79f346f9f633645a63"
+  },
+  "minimum_evaluator_count": 1,
+  "non_author_required": true,
+  "evaluator_controls_row_level_input": true,
+  "author_row_level_access": false,
+  "aggregate_only_return": true,
+  "required_outputs": [
+    "primary source-local rank estimand and cluster-aware interval",
+    "row, batch, source/laboratory and resolvable biological-unit counts",
+    "full-versus-composition paired ablation",
+    "within-batch permutation null",
+    "model/OOD summaries and uncertainty intervals",
+    "complete failures/deviations/negative-runs ledger",
+    "environment, command, stdout/stderr and output hashes",
+    "identity/COI/signed attestation/immutable archive locator"
+  ],
+  "prohibited_substitutes": [
+    "author-run execution",
+    "Codex or internal agent execution",
+    "fixture-only execution",
+    "public issue comment",
+    "success-only result selection",
+    "row-level input or intermediate output disclosure"
+  ],
+  "current_gate_state": {
+    "independent_validation": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This work package makes a protected evaluation executable; it is not a lockbox receipt and cannot close the independent-validation gate by itself."
+}
