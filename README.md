@@ -4,7 +4,7 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.18` (resolve the commit with `git rev-parse v0.1.3-r10.18^{}`) and includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.19` (resolve the commit with `git rev-parse v0.1.3-r10.19^{}`) and includes:
 
 - a frozen 99-target rank benchmark spanning three laboratory anchors, 47 measurement batches and 2,724 rank-eligible development observations;
 - a strict nine-accession common-target sensitivity route spanning three laboratory anchors, 809 row-traceable observations and 85 measurement batches;
@@ -18,7 +18,8 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 - an analysis-only paper-full-text OOD route from PMC10257194 with 45 biological units, 97 shared targets, 4,362 row-traceable source cells, paired ablation, cluster bootstrap and permutation control; the CC-BY-NC-ND workbook and numeric derivatives are not redistributed;
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
-- an immutable release tag `v0.1.3-r10.18`, with the T180/T181 source audit and OOD receipts, T192-T213 analyses, the T209 Manchester cohort reconciliation, the T211/T212 editorial and release-boundary reports, the external evaluator handoff contract and byte-exact source-cell maps; the release also carries a byte-matched tarball and SHA-256 sidecar.
+- a descriptive source-conditional heterogeneity audit with five effect units (not five independent studies), explicit non-inference of biological n from measurement batches, rounded presentation fields, degenerate-interval semantics and a KAUST fresh author-run replay receipt (T214-T216);
+- an immutable release tag `v0.1.3-r10.19`, with the T180/T181 source audit and OOD receipts, T192-T216 analyses, the T209 Manchester cohort reconciliation, the T211/T215 editorial and release-boundary reports, the external evaluator handoff contract and byte-exact source-cell maps; the release also carries a byte-matched tarball and SHA-256 sidecar.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -38,7 +39,7 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 See:
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
-- `release/empirical_candidate_v0.1.3-r10.18/release_manifest.json`
+- `release/empirical_candidate_v0.1.3-r10.19/release_manifest.json`
 - `docs/review_round_4/R4_T196_PAPER_ATTACHED_BIOLOGICAL_COHORT_PUBLIC_STATUS_20260814.md`
 - `docs/review_round_4/R4_T197_SOURCE_AVAILABILITY_STATUS_20260814.md`
 - `docs/review_round_4/R4_T198_PAPER_COHORT_MISSINGNESS_STATUS_20260814.md`
@@ -48,6 +49,8 @@ See:
 - `docs/review_round_4/R4_T208_MULTI_SOURCE_CLAIM_REPAIR_20260814.md`
 - `docs/review_round_4/R4_T209_MANCHESTER_COHORT_RECONCILIATION_20260814.md`
 - `docs/review_round_4/R4_T211_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md`
+- `docs/review_round_4/R4_T215_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md`
+- `docs/review_round_4/R4_T216_KAUST_FRESH_REPLAY_RECEIPT_20260814.json`
 - `docs/review_round_4/R4_T205_DOI_DEPOSIT_PREFLIGHT_20260814.md`
 - `docs/execplans/T196_publish_paper_attached_biological_cohort.md`
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
