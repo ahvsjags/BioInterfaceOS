@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "review_id": "bioif-r4-t246-multi-agent-editorial-review-v1.0.0",
+  "reviewed_at": "2026-08-14T00:00:00+00:00",
+  "status": "MAJOR_REVISION",
+  "scientific_submission_ready": false,
+  "evidence_boundary": "Paper-attached and public-accession data support author-run exploratory technical/source-conditional portability; they do not satisfy independent lockbox, no-author reproduction, adoption or DOI gates.",
+  "scores": {
+    "data_compatibility_sample_base": 88,
+    "statistical_analysis_design": 94,
+    "statistical_execution_effective_n": 91,
+    "model_ablation_negative_ood": 89,
+    "independent_lockbox_evaluation": 12,
+    "external_scientific_reproduction": 8,
+    "external_user_adoption": 46,
+    "doi_immutable_archive": 25,
+    "strict_strong_q1_maturity": 58
+  },
+  "agents": [
+    {"id": "A", "role": "data provenance and compatibility", "score": 88, "conditional_score_if_technical_scope": 92},
+    {"id": "B", "role": "statistical design", "score": 94},
+    {"id": "C", "role": "statistical execution and effective n", "score": 91},
+    {"id": "D", "role": "model, ablation, negative control and OOD", "score": 89},
+    {"id": "E", "role": "software reproducibility and independent evaluation", "internal_score": 91, "independent_scientific_score": 12},
+    {"id": "F", "role": "external adoption and editor", "adoption_score": 46, "strict_publication_score": 58}
+  ],
+  "evidence_refs": [
+    "docs/review_round_4/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_STATUS_20260814.md",
+    "docs/review_round_4/R4_T195_THREE_LAB_COMMON_TARGET_EXECUTION_STATUS_20260814.md",
+    "docs/data/R4_T194_FULLTEXT_CORE_FACILITY_EXECUTION_REGISTRY.json",
+    "docs/review_round_4/R4_T203_PMC10257194_PAPER_OOD_STATUS_20260814.md",
+    "docs/review_round_4/R4_T209_MANCHESTER_COHORT_RECONCILIATION_20260814.md",
+    "docs/review_round_4/R4_T245_CI_ENGINEERING_REPAIR_20260814.md"
+  ],
+  "hard_gates": {
+    "independent_validation": false,
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "exit_requirements": [
+    "new immutable release bound to current post-CI receipts and T246 claim boundary",
+    "one verified non-author protected lockbox receipt",
+    "one verified no-author accession-to-result reproduction receipt",
+    "two distinct non-author adoption receipts",
+    "authenticated DOI/archive read-back receipt",
+    "final panel rerun after independent verification"
+  ]
+}
