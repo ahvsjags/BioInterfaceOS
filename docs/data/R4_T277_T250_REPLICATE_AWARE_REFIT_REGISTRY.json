@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t277-t250-replicate-aware-refit-v1.0.0",
+  "protocol_id": "bioif-r4-t277-t250-replicate-aware-refit-v1.0.0",
+  "status": "T277_REPLICATE_AWARE_REFIT_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T277_T250_REPLICATE_AWARE_REFIT_PROTOCOL.json",
+    "sha256": "2693293a56ec9aeb33ae64ca1bd77964efa4d9b3886d94538ab9e72e7bb71fde"
+  },
+  "t249_source_registry": {
+    "relative_path": "docs/data/R4_T249_FOUR_LAB_COMMON_TARGET_REGISTRY.json",
+    "sha256": "1efd0793a6dcc0c5a480bfd6b41dc70b2b5a9dc557635507aff22ec220304a1b"
+  },
+  "r3_common_rank_target_ledger": {
+    "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+    "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+  },
+  "r3_sequence_feature_table": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "target_universe": {
+    "common_targets": ["P04004", "P05556", "P06396", "P07996", "P26038", "P60174", "Q9HDC9"],
+    "count": 7,
+    "selection_after_outer_split": false
+  },
+  "sources": [
+    {"source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS", "expected_observation_count": 306, "expected_collapsed_observation_count": 306, "expected_target_count": 7, "expected_batch_count": 49},
+    {"source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA", "expected_observation_count": 40, "expected_collapsed_observation_count": 40, "expected_target_count": 7, "expected_batch_count": 6},
+    {"source_id": "PXD064962_UCD_EVENT", "expected_observation_count": 244, "expected_collapsed_observation_count": 132, "expected_target_count": 7, "expected_batch_count": 30},
+    {"source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA", "expected_observation_count": 193, "expected_collapsed_observation_count": 193, "expected_target_count": 7, "expected_batch_count": 30}
+  ],
+  "expected_accounting": {
+    "source_count": 4,
+    "laboratory_anchor_count": 4,
+    "target_universe_count": 7,
+    "raw_observation_count": 783,
+    "observation_count": 671,
+    "collapsed_group_count": 112,
+    "outer_fold_count": 4,
+    "model_count": 3
+  },
+  "output_contract": {
+    "relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0"
+  },
+  "technical_replicate_policy": "R4_T277_T250_REPLICATE_AWARE_REFIT_PROTOCOL",
+  "claim_boundary": "T277 is an exploratory replicate-aware refit of T250 after pre-model technical-replicate collapse. It does not establish independent validation, no-author reproduction, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

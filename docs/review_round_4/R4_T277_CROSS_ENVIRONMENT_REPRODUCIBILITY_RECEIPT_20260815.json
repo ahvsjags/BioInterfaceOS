@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bioif-r4-t277-cross-environment-reproducibility-v1.0.0",
+  "scope": "author-side T250 replicate-aware refit after pre-model technical-replicate collapse",
+  "status": "AUTHOR_SIDE_CROSS_ENVIRONMENT_BYTE_IDENTITY",
+  "local_environment": {
+    "checkout": "D:/Downloads/BioInterfaceOS/kaust_t118_worktree",
+    "runner": ".venv/Scripts/python.exe",
+    "execution": "scripts/run_r4_t277_t250_replicate_aware_refit.py",
+    "verification": "scripts/verify_r4_t277_t250_replicate_aware_refit.py"
+  },
+  "kaust_environment": {
+    "host": "login510-22",
+    "checkout": "/ibex/user/xup0a/BioInterfaceOS-r4-paper-data-fallback-20260814",
+    "runner": ".venv/bin/python",
+    "execution": "scripts/run_r4_t277_t250_replicate_aware_refit.py",
+    "verification": "scripts/verify_r4_t277_t250_replicate_aware_refit.py"
+  },
+  "input_scope": {
+    "raw_observation_count": 783,
+    "collapsed_observation_count": 671,
+    "collapsed_group_count": 112,
+    "laboratory_anchor_count": 4,
+    "measurement_batch_count": 115,
+    "target_universe_count": 7
+  },
+  "artifacts": [
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/outer_fold_predictions.csv", "bytes": 491021, "sha256": "c07d25ffb0341fde9b020e66137c13054bea1a0f5b22e8d0f01b39a5febfe544", "local_sha256": "c07d25ffb0341fde9b020e66137c13054bea1a0f5b22e8d0f01b39a5febfe544", "kaust_sha256": "c07d25ffb0341fde9b020e66137c13054bea1a0f5b22e8d0f01b39a5febfe544"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/measurement_batch_metrics.csv", "bytes": 68173, "sha256": "90cf43a96ffb32f395c694827fd91f3e3630fa1f0962b7699c69da0742781fd5", "local_sha256": "90cf43a96ffb32f395c694827fd91f3e3630fa1f0962b7699c69da0742781fd5", "kaust_sha256": "90cf43a96ffb32f395c694827fd91f3e3630fa1f0962b7699c69da0742781fd5"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/outer_fold_model_parameters.json", "bytes": 37769, "sha256": "75190948f868da0365e6940b2f693e64a3f0a848974655351e72b66ea605eb19", "local_sha256": "75190948f868da0365e6940b2f693e64a3f0a848974655351e72b66ea605eb19", "kaust_sha256": "75190948f868da0365e6940b2f693e64a3f0a848974655351e72b66ea605eb19"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/nested_inner_selection.csv", "bytes": 527593, "sha256": "9fb828edc82fd9ca30751d494c0f6824a70067b373475f96ba81333143cdf7fa", "local_sha256": "9fb828edc82fd9ca30751d494c0f6824a70067b373475f96ba81333143cdf7fa", "kaust_sha256": "9fb828edc82fd9ca30751d494c0f6824a70067b373475f96ba81333143cdf7fa"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/paired_composition_ablation.csv", "bytes": 510, "sha256": "a868a5376649dfae4c5896b8cfc90d7c332642a40ca9b6e3daf67f9819956658", "local_sha256": "a868a5376649dfae4c5896b8cfc90d7c332642a40ca9b6e3daf67f9819956658", "kaust_sha256": "a868a5376649dfae4c5896b8cfc90d7c332642a40ca9b6e3daf67f9819956658"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/source_local_prefrozen_target_ledger.csv", "bytes": 265186, "sha256": "d39a54fb718e8c3aaa8b4004d8a4833451a00e43097b636897651ca6058e8f52", "local_sha256": "d39a54fb718e8c3aaa8b4004d8a4833451a00e43097b636897651ca6058e8f52", "kaust_sha256": "d39a54fb718e8c3aaa8b4004d8a4833451a00e43097b636897651ca6058e8f52"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/outer_fold_metrics.csv", "bytes": 3528, "sha256": "e316ca3347a73b31690b432500ce168f6750d64e81ae9dd8b66d1cd3248bfb1a", "local_sha256": "e316ca3347a73b31690b432500ce168f6750d64e81ae9dd8b66d1cd3248bfb1a", "kaust_sha256": "e316ca3347a73b31690b432500ce168f6750d64e81ae9dd8b66d1cd3248bfb1a"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/technical_replicate_collapse_trace.csv", "bytes": 39219, "sha256": "b832d895c8fb440239a34f58c0f4e3e7a9eff5bd7e6332d00bdb3b401eb29d2f", "local_sha256": "b832d895c8fb440239a34f58c0f4e3e7a9eff5bd7e6332d00bdb3b401eb29d2f", "kaust_sha256": "b832d895c8fb440239a34f58c0f4e3e7a9eff5bd7e6332d00bdb3b401eb29d2f"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/within_batch_rank_permutation.csv", "bytes": 98268, "sha256": "27c6fcb36185b1c106f45d3f1ca85a4c69e4c349edff2dc47bab5241e77bf1cf", "local_sha256": "27c6fcb36185b1c106f45d3f1ca85a4c69e4c349edff2dc47bab5241e77bf1cf", "kaust_sha256": "27c6fcb36185b1c106f45d3f1ca85a4c69e4c349edff2dc47bab5241e77bf1cf"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/t277_replicate_aware_refit_report.json", "bytes": 16763, "sha256": "4fb6353f4cd23d51dc1795789ab6dc8039e0938a2948f22737bc25ec90a9f019", "local_sha256": "4fb6353f4cd23d51dc1795789ab6dc8039e0938a2948f22737bc25ec90a9f019", "kaust_sha256": "4fb6353f4cd23d51dc1795789ab6dc8039e0938a2948f22737bc25ec90a9f019"},
+    {"relative_path": "reports/review_round_4/t277_t250_replicate_aware_refit/v1.0.0/t277_replicate_aware_refit_receipt.json", "bytes": 751, "sha256": "dca9f5ef44c38eea0387c853c8c4bc1161d7ca95ff08f529e1761e8645339beb", "local_sha256": "dca9f5ef44c38eea0387c853c8c4bc1161d7ca95ff08f529e1761e8645339beb", "kaust_sha256": "dca9f5ef44c38eea0387c853c8c4bc1161d7ca95ff08f529e1761e8645339beb"}
+  ],
+  "scientific_submission_ready": false,
+  "evidence_boundary": "This receipt proves author-side cross-environment byte identity only; it is not a non-author lockbox result, no-author reproduction, external adoption record, or DOI read-back."
+}
