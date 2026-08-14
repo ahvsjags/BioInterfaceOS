@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T243",
+  "declared_at": "2026-08-14T00:00:00+00:00",
+  "status": "TASK_LEDGER_AND_PROJECT_STATE_VALIDATED_EXTERNAL_GATES_UNCHANGED",
+  "finding": {
+    "missing_failure_policy_rows": 28,
+    "dangling_historical_dependencies": ["T156", "T162", "T166", "T167", "T179"],
+    "state_summary_out_of_sync": true
+  },
+  "remediation": {
+    "failure_policy_fields_repaired": 28,
+    "dangling_dependencies_removed": true,
+    "external_gate_blocked_tasks_explicit": ["T219", "T220"],
+    "project_state_regenerated": true,
+    "current_task": "T218",
+    "ready_tasks": ["T123"],
+    "task_count": 188
+  },
+  "verification": {
+    "task_graph_valid": true,
+    "state_validation_task_count": 188,
+    "state_and_acceptance_tests_passed": 13
+  },
+  "scientific_effect": "Bookkeeping and failure-policy integrity only; no scientific or external evidence was created.",
+  "external_gates": {
+    "independent_validation": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  }
+}
