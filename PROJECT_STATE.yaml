@@ -182,6 +182,9 @@ completed_tasks:
   - T222
   - T223
   - T224
+  - T226
+  - T227
+  - T228
 failed_tasks: []
 waived_tasks: []
 blocked_tasks:
