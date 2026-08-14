@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "registry_id": "bioif-r4-manchester-paper-cohort-anchor-v1.0.0",
+  "article": {
+    "pmcid": "PMC13212878",
+    "doi": "10.1038/s43856-026-01552-3",
+    "full_text_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13212878/",
+    "supplementary_archive": {
+      "relative_path": "data/raw/r4_candidate_pmc13212878/supplementary.zip",
+      "sha256": "85c8fd52abb30d47fb9b584054b1d7d90c15a4c3af75235b0da0200ca5fb094d"
+    }
+  },
+  "paper_reported_cohort_counts": {
+    "prostate": 26,
+    "bladder": 23,
+    "head_and_neck": 11,
+    "total": 60
+  },
+  "supplementary_patient_id_rule": {
+    "source": "Supplementary Data 1-3 in 43856_2026_1552_MOESM3_ESM.xlsx",
+    "unit_id_prefixes": {"prostate": "P", "bladder": "B", "head_and_neck": "HA"},
+    "unanchored_matrix_units": ["HA5"],
+    "reason": "HA5 occurs in the public head-and-neck matrix but is absent from Supplementary Data 3 clinical patient IDs; it is excluded from the paper-anchored biological-unit analysis pending source reconciliation."
+  },
+  "accepted_biological_unit_counts": {
+    "prostate": 26,
+    "bladder": 23,
+    "head_and_neck": 11,
+    "total": 60
+  },
+  "claim_boundary": "This registry reconciles paper-anchored patient IDs for an author-run analysis-only OOD. Excluding HA5 does not create independent validation, external scientific reproduction, lockbox evaluation, adoption or scientific submission readiness."
+}

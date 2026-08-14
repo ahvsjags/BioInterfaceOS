@@ -12,8 +12,8 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 - a T197 outer-fold target-availability sensitivity with development-only target membership, 2,792 fold-specific observations, 85 measurement batches and selection-aware permutation nulls;
 - a T198 paper-cohort threshold/missingness sensitivity over eight coverage thresholds, including 6,640 retained `AUTHOR_NA` rows and biological-unit retention accounting;
 - a T200 statistical closure with fold-level measurement-batch intervals, frozen estimands, Holm bookkeeping and stratified paper-cohort missingness tables;
-- a locally executed analysis-only Manchester paper/author-matrix OOD route with 61 patient clusters, 289 longitudinal batches and 4,169 external observations; its unlicensed raw matrix remains locator-only and is not redistributed;
-- the Manchester OOD negative result is retained: full ridge is below composition-only by `-0.0586` patient-equal Spearman (95% CI `[-0.0778, -0.0402]`), so no universal full-feature superiority claim is made;
+- a locally executed analysis-only Manchester paper-anchored OOD route with 60 patient clusters, 288 longitudinal batches and 4,150 external observations; the unlicensed raw matrix remains analysis-only and is not redistributed;
+- the corrected Manchester OOD negative result is retained: full ridge is below composition-only by `-0.0596` patient-equal Spearman (95% CI `[-0.0786, -0.0409]`), so no universal full-feature superiority claim is made; the unanchored matrix unit `HA5` is excluded against Supplementary Data 3;
 - nested selection, laboratory-held-out evaluation, cluster-aware uncertainty, paired composition ablation and within-batch negative controls;
 - an analysis-only paper-full-text OOD route from PMC10257194 with 45 biological units, 97 shared targets, 4,362 row-traceable source cells, paired ablation, cluster bootstrap and permutation control; the CC-BY-NC-ND workbook and numeric derivatives are not redistributed;
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;

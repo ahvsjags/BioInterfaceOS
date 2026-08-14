@@ -10,7 +10,7 @@
 
 | 来源 | 证据角色 | 独立层级 | 外部观测 | 主要结果 | 允许的解释 |
 |---|---|---:|---:|---|---|
-| PMC13212878 / Manchester | analysis-only OOD | 61 patient clusters / 289 measurement batches | 4,169 | full ridge patient-equal mean Spearman `0.2942`；composition-only `0.3527`；paired full-minus-composition `-0.0586`，95% CI `[-0.0778, -0.0402]`；selection-reexecuted negative-control `p=0.0311` | 新实验室公开矩阵上的探索性 OOD；是对“sequence full 特征普遍增益”的负向证据，不是失败后可删除的结果 |
+| PMC13212878 / Manchester | analysis-only OOD | 60 paper-anchored patient clusters / 288 measurement batches | 4,150 | full ridge patient-equal mean Spearman `0.2918`；composition-only `0.3514`；paired full-minus-composition `-0.0596`，95% CI `[-0.0786, -0.0409]`；selection-reexecuted negative-control `p=0.0311` | 新实验室公开矩阵上的探索性 OOD；排除未出现在 Supplementary Data 3 临床患者表中的 `HA5`；是对“sequence full 特征普遍增益”的负向证据，不是失败后可删除的结果 |
 | PMC10257194 / NaY plasma | analysis-only OOD | 45 biological units / 45 measurement batches | 4,362 | full ridge mean batch Spearman `0.1773`；composition-only `0.1532`；paired增量 `0.0241`，95% CI `[0.0202, 0.0284]` | 单论文来源的作者运行 OOD；支持有限的队列特异性增量，不是独立验证 |
 | T192/T195 three-source intersection | development/portability sensitivity | 3 laboratory anchors；pooled、donor-unresolved、technical-replicate caveats | 809 | 9 frozen common accessions，85 measurement batches，leave-one-laboratory-anchor-out 执行 | 可追溯的开发/可迁移性证据；不能称为三独立生物学实验室验证 |
 
@@ -37,3 +37,5 @@
 ## 固定版本的公开交付增强
 
 为降低外部复现的下载歧义，GitHub release `v0.1.3-r10.16` 已上传与 DOI deposit package 同一份压缩包及 SHA-256 sidecar。压缩包 `92,534,896` bytes，SHA-256 为 `bbd5827d6a66dc047f68f5d2ed2ce43722555fde5db60b50e349f72fc22f40d9`。这只是公开 release asset，不是 DOI archive receipt，也不构成外部复现、采用或独立评估。
+
+Manchester 的 v1.1 anchor reconciliation 与 OOD receipt 位于 `docs/data/R4_T210_MANCHESTER_PAPER_COHORT_ANCHOR_REGISTRY.json`、`reports/review_round_4/manchester_nanoomic_ood/v1.1.0/`；它们尚未进入不可变 r10.16 tag，待本轮最终复审后绑定新的 release。

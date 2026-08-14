@@ -2,11 +2,11 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 173
+task_count: 174
 ready_tasks:
   - T123
-current_task: T208
-active_execplan: docs/review_round_4/R4_T208_MULTI_SOURCE_CLAIM_REPAIR_20260814.md
+current_task: T209
+active_execplan: docs/review_round_4/R4_T209_MANCHESTER_COHORT_RECONCILIATION_20260814.md
 completed_tasks:
   - T000
   - T001
@@ -159,6 +159,7 @@ completed_tasks:
   - T206
   - T207
   - T208
+  - T209
   - T196
 failed_tasks: []
 waived_tasks: []
@@ -186,6 +187,7 @@ storage:
   budget_bytes: 1500000000000
   last_measured_bytes: 0
 notes:
+  - '2026-08-14: T209 reconciles PMC13212878 paper-reported 60 patients (26 prostate, 23 bladder, 11 head-and-neck) against the public matrix. HA5 is present in the matrix but absent from Supplementary Data 3 and is excluded from the v1.1 paper-anchored analysis. Re-execution yields 60 units, 288 batches, 4,150 target cells and full-minus-composition -0.0596 (95% CI -0.0786 to -0.0409); the analysis remains author-run and all independent/external/DOI gates remain false.'
   - '2026-08-14: T208 consolidates the Manchester and PMC10257194 paper-data OOD results under one claim boundary. Manchester has 61 patient clusters and 289 batches but full ridge is below composition-only by -0.0586 (95% CI -0.0778 to -0.0402); PMC10257194 has a +0.0241 paired increment. The direction is source-dependent, so the strong universal sequence-feature claim is withdrawn. Both are author-run analysis-only OOD; independent evaluator, no-author reproduction, adoption, DOI and scientific submission readiness remain false.'
   - '2026-08-14: T194 adds a frozen full-text execution route from the CC-BY-4.0 PMC9633814 supplementary quantitative table. The receipt closes 9,909 source-map rows into 707 frozen-target observations across 12 core-facility folds and executes nested selection, model ablation, core-cluster bootstrap and within-core negative controls. It is explicitly one common pooled human-plasma aliquot and technical-domain evidence, not independent biological validation; external evaluator, no-author reproduction, adoption, DOI and scientific submission readiness remain false.'
   - '2026-08-14: T195 executes the exact nine-accession intersection frozen by T192 across the three audited laboratory source maps. It closes 809 row-traceable observations across 85 measurement batches with leave-one-laboratory-anchor-out, nested selection, paired ablation, cluster bootstrap and within-batch permutation controls. It remains exploratory source-availability-conditioned evidence; pooled/unspecified, donor-unresolved and technical-replicate boundaries remain explicit and all external gates stay false.'

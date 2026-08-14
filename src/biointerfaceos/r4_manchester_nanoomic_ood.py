@@ -51,15 +51,16 @@ class R4ManchesterNanoOmicSummary:
 class R4ManchesterNanoOmicWorkflow:
     """Freeze and score the external longitudinal nano-omics matrices."""
 
-    AUDIT_ID = "bioif-r4-manchester-nanoomic-source-audit-v1.0.0"
-    OOD_AUDIT_ID = "bioif-r4-manchester-nanoomic-ood-v1.0.0"
+    AUDIT_ID = "bioif-r4-manchester-nanoomic-source-audit-v1.1.0"
+    OOD_AUDIT_ID = "bioif-r4-manchester-nanoomic-ood-v1.1.0"
     REGISTRY_RELATIVE = "docs/data/R4_T185_MANCHESTER_NANOOMIC_SOURCE_REGISTRY.json"
     PROTOCOL_RELATIVE = "docs/data/R4_T186_MANCHESTER_NANOOMIC_BIOLOGICAL_OOD_PROTOCOL.json"
+    ANCHOR_REGISTRY_RELATIVE = "docs/data/R4_T210_MANCHESTER_PAPER_COHORT_ANCHOR_REGISTRY.json"
     SOURCE_MAP_RELATIVE = (
-        "data/raw/r4_candidate_pmc13212878/derived/R4_PMC13212878_MANCHESTER_source_cell_map.csv"
+        "data/raw/r4_candidate_pmc13212878/derived/R4_PMC13212878_MANCHESTER_source_cell_map_v1.1.0.csv"
     )
-    AUDIT_OUTPUT_RELATIVE = "reports/review_round_4/manchester_nanoomic_source/v1.0.0"
-    OOD_OUTPUT_RELATIVE = "reports/review_round_4/manchester_nanoomic_ood/v1.0.0"
+    AUDIT_OUTPUT_RELATIVE = "reports/review_round_4/manchester_nanoomic_source/v1.1.0"
+    OOD_OUTPUT_RELATIVE = "reports/review_round_4/manchester_nanoomic_ood/v1.1.0"
     SOURCE_ID = "PMC13212878_MANCHESTER_NANOOMIC"
     LABORATORY = "University of Manchester NanoOmics Lab / Manchester BRC"
     MATRIX_FILES = {
@@ -163,6 +164,26 @@ class R4ManchesterNanoOmicWorkflow:
             paths[cohort] = path
         return paths
 
+    def _unanchored_units(self) -> set[str]:
+        registry = self._json(
+            self.root / self.ANCHOR_REGISTRY_RELATIVE,
+            "Manchester paper cohort anchor registry",
+        )
+        asset = _mapping(registry.get("article", {}).get("supplementary_archive"), "supplementary archive")
+        archive = self._root_file(
+            _string(asset.get("relative_path"), "supplementary archive path"),
+            "supplementary archive",
+        )
+        if _sha256(archive) != _checksum(asset.get("sha256"), "supplementary archive checksum"):
+            raise R4ManchesterNanoOmicError("Manchester supplementary archive hash differs")
+        counts = _mapping(registry.get("accepted_biological_unit_counts"), "accepted cohort counts")
+        if int(counts.get("total", -1)) != 60:
+            raise R4ManchesterNanoOmicError("Manchester paper cohort total is not frozen at 60")
+        excluded = registry.get("supplementary_patient_id_rule", {}).get("unanchored_matrix_units")
+        if not isinstance(excluded, list) or set(excluded) != {"HA5"}:
+            raise R4ManchesterNanoOmicError("Manchester unanchored-unit reconciliation is invalid")
+        return {str(value) for value in excluded}
+
     def _target_gene_map(self) -> tuple[dict[str, str], set[str]]:
         ledger_path = self.root / "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv"
         mapping_dir = (
@@ -203,6 +224,7 @@ class R4ManchesterNanoOmicWorkflow:
 
     def _build_source_map(self) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         files = self._source_files()
+        unanchored_units = self._unanchored_units()
         gene_map, targets = self._target_gene_map()
         rows: list[dict[str, Any]] = []
         batch_target_positive: dict[str, int] = defaultdict(int)
@@ -222,11 +244,13 @@ class R4ManchesterNanoOmicWorkflow:
                         gene = (source_row.get("gene") or "").strip()
                         canonical_accession = gene_map.get(gene, "")
                         for column in columns:
-                            source_cells += 1
                             match = re.fullmatch(r"(?:P|B|HA)(\d+)([A-G])", column)
                             if match is None:
                                 continue
                             unit = f"{cohort}{match.group(1)}"
+                            if unit in unanchored_units:
+                                continue
+                            source_cells += 1
                             timepoint = f"t{ord(match.group(2)) - ord('A')}"
                             batch = f"{self.SOURCE_ID}:{cohort}:{unit}:{timepoint}"
                             units.add(unit)
@@ -276,13 +300,13 @@ class R4ManchesterNanoOmicWorkflow:
         qualified = {batch for batch, count in batch_target_positive.items() if count >= 10}
         shared = {row["canonical_accession"] for row in rows if row["canonical_accession"]}
         expected = {
-            "source_cell_count": 193971,
-            "positive_source_cell_count": 177636,
-            "biological_unit_count": 61,
-            "measurement_batch_count": 289,
-            "rank_qualified_measurement_batch_count": 289,
+            "source_cell_count": 193360,
+            "positive_source_cell_count": 177067,
+            "biological_unit_count": 60,
+            "measurement_batch_count": 288,
+            "rank_qualified_measurement_batch_count": 288,
             "shared_canonical_protein_count": 25,
-            "external_candidate_positive_target_cell_count": 4169,
+            "external_candidate_positive_target_cell_count": 4150,
         }
         actual = {
             "source_cell_count": source_cells,
@@ -840,7 +864,7 @@ class R4ManchesterNanoOmicWorkflow:
             ),
             "resamples": 256,
             "random_seed": 202616,
-            "statistic": "subject_equal_mean_spearman_across_61_patient_clusters",
+            "statistic": "subject_equal_mean_spearman_across_60_paper_anchored_patient_clusters",
             "selection_reexecuted_per_resample": True,
         }
         self._write_json(
@@ -923,8 +947,8 @@ class R4ManchesterNanoOmicWorkflow:
             },
         )
         return R4ManchesterNanoOmicSummary(
-            193971,
-            177636,
+            193360,
+            177067,
             report["biological_unit_count"],
             report["external_measurement_batch_count"],
             report["external_measurement_batch_count"],
@@ -961,8 +985,8 @@ class R4ManchesterNanoOmicWorkflow:
         ):
             raise R4ManchesterNanoOmicError("Manchester OOD receipt boundary is invalid")
         return R4ManchesterNanoOmicSummary(
-            193971,
-            177636,
+            193360,
+            177067,
             int(receipt["biological_unit_count"]),
             int(receipt["external_measurement_batch_count"]),
             int(receipt["external_measurement_batch_count"]),

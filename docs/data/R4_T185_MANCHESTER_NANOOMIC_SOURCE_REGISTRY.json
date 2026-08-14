@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "audit_id": "bioif-r4-manchester-nanoomic-source-audit-v1.0.0",
+  "audit_id": "bioif-r4-manchester-nanoomic-source-audit-v1.1.0",
   "evaluated_at": "2026-08-14T00:00:00+00:00",
   "evidence_class": "EXTERNAL_PUBLIC_ANALYSIS_ONLY",
   "allowed_claim_level": "EXPLORATORY",
@@ -26,7 +26,8 @@
   "source_assets": [
     {"relative_path": "data/raw/r4_candidate_pmc13212878/author_repo/data_all_samples_all_time_points_norm_P_data.txt", "sha256": "F5502F2AE42574C44C3D6397EC1433653D8CF4175B1E45B1BC7A2B0D32A721E6"},
     {"relative_path": "data/raw/r4_candidate_pmc13212878/author_repo/data_all_samples_all_time_points_norm_B_data.txt", "sha256": "D2EE6CD9B6DA815803D19172B07B665DCCE91E819243D24C913F15C745D06ED0"},
-    {"relative_path": "data/raw/r4_candidate_pmc13212878/author_repo/data_all_samples_all_time_points_norm_HA_data.txt", "sha256": "03AEC60D7A5FF148540609FE75624EE0A7EBC769346311C36037B41DF2C2F40B"}
+    {"relative_path": "data/raw/r4_candidate_pmc13212878/author_repo/data_all_samples_all_time_points_norm_HA_data.txt", "sha256": "03AEC60D7A5FF148540609FE75624EE0A7EBC769346311C36037B41DF2C2F40B"},
+    {"relative_path": "data/raw/r4_candidate_pmc13212878/supplementary.zip", "sha256": "85C8FD52ABB30D47FB9B584054B1D7D90C15A4C3AF75235B0DA0200CA5FB094D"}
   ],
   "source_access_condition": {
     "status": "PUBLIC_ANALYSIS_ONLY_NO_REPOSITORY_LICENSE_ASSERTION",
@@ -35,13 +36,13 @@
     "reason": "the article is CC-BY-4.0 but the author GitHub repository has no explicit repository license"
   },
   "accounting_contract": {
-    "source_cell_count": 193971,
-    "positive_source_cell_count": 177636,
-    "biological_unit_count": 61,
-    "measurement_batch_count": 289,
-    "rank_qualified_measurement_batch_count": 289,
+    "source_cell_count": 193360,
+    "positive_source_cell_count": 177067,
+    "biological_unit_count": 60,
+    "measurement_batch_count": 288,
+    "rank_qualified_measurement_batch_count": 288,
     "shared_canonical_protein_count": 25,
-    "external_candidate_positive_target_cell_count": 4169,
+    "external_candidate_positive_target_cell_count": 4150,
     "minimum_positive_frozen_targets_per_measurement_batch": 10
   },
   "prohibited_interpretations": [
@@ -49,6 +50,7 @@
     "the source is not a protected lockbox or independent evaluator receipt",
     "the source does not establish no-author scientific reproduction",
     "standardized author abundance is not concatenated with the frozen R3 raw LFQ scale",
+    "HA5 is excluded because it is present in the public matrix but absent from the paper's Supplementary Data 3 clinical patient IDs",
     "the source is not copied into the public release without a repository license review"
   ],
   "claim_boundary": "This registry supports only a locally reproducible, author-run exploratory external OOD using a public independent-team matrix. It does not establish biological validation, clinical utility, evaluator independence, no-author reproduction, adoption or scientific submission readiness."
