@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bioif-r4-t217-kaust-fresh-replay-20260814",
+  "task_id": "T217",
+  "evidence_class": "AUTHOR_RUN_ENGINEERING_REPLAY_OF_PAPER_DERIVED_ANALYSIS",
+  "source_commit": "c4d635248819aa214830a0436b6cdff78e8979f8",
+  "source_branch": "r3-real-data-execution-20260814",
+  "checkout": "/ibex/user/xup0a/BioInterfaceOS-r3-real-data-execution-20260814-clean",
+  "pre_execution_output_absent": true,
+  "commands": [
+    ".venv/bin/python -m biointerfaceos data evaluate-r4-t217-statistical-amendment --strict",
+    ".venv/bin/python -m biointerfaceos data verify-r4-t217-statistical-amendment --strict",
+    ".venv/bin/pytest -q tests/review_round_4/test_r4_t217_statistical_amendment.py",
+    ".venv/bin/python -m compileall -q src/biointerfaceos tests/review_round_4/test_r4_t217_statistical_amendment.py"
+  ],
+  "command_results": {
+    "evaluate": "R4_T217_STATISTICAL_AMENDMENT_VALID availability_rows=16 missingness_rows=149 multiplicity_rows=8 primary_estimand_frozen=true availability_denominators_audited=true missingness_policy_frozen=true project_multiplicity_ledger_frozen=true scientific_submission_ready=false",
+    "verify": "R4_T217_STATISTICAL_AMENDMENT_VERIFY_VALID availability_rows=16 missingness_rows=149 multiplicity_rows=8 primary_estimand_frozen=true availability_denominators_audited=true missingness_policy_frozen=true project_multiplicity_ledger_frozen=true scientific_submission_ready=false",
+    "pytest": "4 passed",
+    "compileall": "passed"
+  },
+  "output_artifacts": {
+    "primary_estimand_contract.json": {
+      "relative_path": "reports/review_round_4/t217_statistical_amendment/v1.0.0/primary_estimand_contract.json",
+      "sha256": "1edafddc6334e31316438692e6dfe5173aa7c8df8f6f6f74b5d5ee569bffb83f"
+    },
+    "availability_flow.csv": {
+      "relative_path": "reports/review_round_4/t217_statistical_amendment/v1.0.0/availability_flow.csv",
+      "sha256": "9b8f0b698dc874f0798425802e199c2efbcc1e65f28eac0643514352760f73ea"
+    },
+    "missingness_flow.csv": {
+      "relative_path": "reports/review_round_4/t217_statistical_amendment/v1.0.0/missingness_flow.csv",
+      "sha256": "3f4d59d27d19f2accf818965f1e331ee5c57168b979fd5976f5bcb82bd66db84"
+    },
+    "multiplicity_ledger.csv": {
+      "relative_path": "reports/review_round_4/t217_statistical_amendment/v1.0.0/multiplicity_ledger.csv",
+      "sha256": "e1a6bd17ff4324d2e78935fd8d95b6f03957980ad6e842f95a1399194b059bf9"
+    },
+    "execution_evidence.csv": {
+      "relative_path": "reports/review_round_4/t217_statistical_amendment/v1.0.0/execution_evidence.csv",
+      "sha256": "cdb0dd1a5d7f717e01aaeaff5d00db5429d1329bad5ae196084bc72a8e715109"
+    },
+    "t217_statistical_amendment_report.json": {
+      "relative_path": "reports/review_round_4/t217_statistical_amendment/v1.0.0/t217_statistical_amendment_report.json",
+      "sha256": "b86ccf7b158c823edfac87fd91c5ec3426d5872e4e05df1286ac406795cfaf05"
+    },
+    "t217_statistical_amendment_receipt.json": {
+      "relative_path": "reports/review_round_4/t217_statistical_amendment/v1.0.0/t217_statistical_amendment_receipt.json",
+      "sha256": "f042d5935ba07d6ac4a04dae6d5aa987d4ffb33023249a5bfe57bdfeb3986a10"
+    }
+  },
+  "counts": {
+    "availability_rows": 16,
+    "missingness_rows": 149,
+    "multiplicity_rows": 8
+  },
+  "independent_validation": false,
+  "protected_lockbox_evaluator_receipt": false,
+  "external_scientific_reproduction": false,
+  "external_user_adoption": false,
+  "doi_archived": false,
+  "scientific_submission_ready": false,
+  "claim_boundary": "This receipt proves a fresh author-controlled KAUST engineering replay of a paper-data statistical amendment. It is not an independent evaluator receipt, no-author scientific reproduction, biological validation, external adoption evidence or DOI archive receipt."
+}
