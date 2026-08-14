@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T237",
+  "declared_at": "2026-08-14T00:00:00+00:00",
+  "status": "CI_FAILED_RUFF_AND_MYPY_AUDIT_COMPLETE_NO_SOURCE_FIX_APPLIED",
+  "branch": "r3-real-data-execution-20260813",
+  "head": "ef53af8daf4488b921e47899c33390cc0209b0ff",
+  "github_run": {
+    "id": 31775218094,
+    "url": "https://github.com/ahvsjags/BioInterfaceOS/actions/runs/31775218094",
+    "workflow": "CI",
+    "failed_step": "make check / ruff check src tests"
+  },
+  "ruff": {
+    "version": "0.12.12",
+    "total_errors": 923,
+    "by_rule": {
+      "E501": 865,
+      "F401": 23,
+      "I001": 23,
+      "UP035": 5,
+      "SIM105": 3,
+      "UP038": 2,
+      "B007": 2
+    },
+    "safe_auto_fix_preview": 56,
+    "unsafe_fix_preview": 7,
+    "files_needing_format": 62,
+    "already_formatted_files": 312
+  },
+  "mypy": {
+    "version": "1.17.1",
+    "error_lines": 168,
+    "run_after_ruff": true
+  },
+  "scientific_tests": {
+    "command": ".venv/Scripts/python.exe -m pytest tests/review_round_4 -q",
+    "passed": 53,
+    "status": "PASS"
+  },
+  "source_changes_applied": false,
+  "quality_rules_weakened": false,
+  "external_scientific_evidence_created": false,
+  "scientific_submission_ready": false,
+  "claim_boundary": "This is an engineering quality-gate audit. A green CI run cannot substitute for non-author lockbox, no-author reproduction, external adoption or DOI evidence."
+}
