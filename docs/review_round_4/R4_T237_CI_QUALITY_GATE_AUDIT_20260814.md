@@ -53,6 +53,17 @@ uv run --frozen ruff check src tests
 
 本地用 `mypy==1.17.1` 预检得到 168 条 `error:` 行，说明不能只修 Ruff 后就宣称 CI 已恢复。
 
+## 隔离 worktree 预演
+
+在当前 HEAD 的临时 detached worktree 中运行安全 `ruff check --fix` 和 `ruff format`，没有修改当前分支。预演结果为：
+
+- Ruff 自动修复 56 条后，剩余 868 条 lint 错误；7 条 unsafe fixes 仍未启用；
+- `ruff format --check src tests` 全部通过，`374 files already formatted`；
+- 预演 diff 涉及 64 个文件，约 4,199 行新增和 1,225 行删除；
+- 预演 worktree 的 mypy 输出仍有约 174 条 `error:` 行。
+
+因此，格式化本身不会关闭 CI；下一步需要人工审阅长命令、hash、路径、receipt 字符串和统计字段的重排，并逐模块处理类型错误。预演 worktree 已删除，当前分支没有因预演产生源代码变更。
+
 ## 建议的修复顺序
 
 1. 先在隔离分支运行安全的 `ruff check --fix`，审阅 56 条实际 diff；

@@ -33,6 +33,19 @@
     "error_lines": 168,
     "run_after_ruff": true
   },
+  "isolated_preview": {
+    "worktree": "temporary_detached_worktree_deleted_after_preview",
+    "safe_ruff_fixes_applied_in_preview": 56,
+    "ruff_remaining_errors_after_safe_fixes": 868,
+    "unsafe_fixes_enabled": false,
+    "format_check": "PASS",
+    "formatted_file_count": 374,
+    "preview_diff_files": 64,
+    "preview_diff_insertions": 4199,
+    "preview_diff_deletions": 1225,
+    "mypy_error_lines_after_preview": 174,
+    "current_branch_source_modified": false
+  },
   "scientific_tests": {
     "command": ".venv/Scripts/python.exe -m pytest tests/review_round_4 -q",
     "passed": 53,
