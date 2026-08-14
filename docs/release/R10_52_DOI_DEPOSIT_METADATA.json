@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_AUTHENTICATED_ARCHIVE_UPLOAD",
+  "doi_archived": false,
+  "scientific_submission_ready": false,
+  "release": {
+    "tag": "v0.1.3-r10.52",
+    "source_commit": "READ_FROM_DEREFERENCED_IMMUTABLE_TAG",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.52/release_manifest.json",
+    "manifest_sha256": null,
+    "manifest_bytes": null,
+    "archive_filename": "BioInterfaceOS-v0.1.3-r10.52.tar.gz",
+    "archive_server_path": null,
+    "archive_bytes": null,
+    "archive_sha256": null,
+    "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.52.tar.gz.sha256",
+    "doi": null,
+    "immutable_record_url": null
+  },
+  "deposit_metadata": {
+    "title": "BioInterfaceOS v0.1.3-r10.52: redistributable four-lab common-target and external evidence handoff",
+    "upload_type": "software",
+    "publication_date": "2026-08-15",
+    "version": "v0.1.3-r10.52",
+    "description": "Immutable public software version containing the redistributable four-laboratory row-traceable common-target route, T250 study-held-out execution and the current external lockbox, no-author reproduction, adoption and DOI handoff contracts.",
+    "creators": [{"name": "BioInterfaceOS Contributors"}],
+    "keywords": ["computational biology", "proteomics", "reproducible research", "provenance", "nested evaluation", "external validation"],
+    "license": "Apache-2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS/tree/v0.1.3-r10.52", "relation": "isIdenticalTo", "resource_type": "software"},
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS", "relation": "isSupplementTo", "resource_type": "software"}
+    ]
+  },
+  "claim_boundary": "This metadata is not a DOI or archive receipt. doi_archived remains false until authenticated upload and exact manifest/archive read-back."
+}

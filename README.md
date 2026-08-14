@@ -4,7 +4,7 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current scientific candidate is `v0.1.3-r10.32`; the current public external-handoff overlay is `v0.1.3-r10.40`. The overlay does not add scientific results or external receipts. The current paper-data execution includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current external-handoff candidate is `v0.1.3-r10.52`. The release contains the public T250 route, the analysis-only T265 supplement, and the external evidence contracts; it does not claim scientific results from non-author evaluators or external users. The current paper-data execution includes:
 
 - a four-source, four-source/laboratory-anchor common-target route with seven exact canonical accessions, 783 row-traceable observations, 115 measurement batches and four laboratory-held-out folds; this is exploratory, conditioned on the pre-frozen all-source target-availability intersection, and not four independent biological cohorts;
 - a public full-text/supplementary-data route using paper-derived observations, with source-local ranks, nested batch selection, cluster uncertainty, paired composition ablation and permutation controls; paper-derived data are not a substitute for non-author validation;
@@ -26,7 +26,7 @@ The following bullets preserve the earlier R4 benchmark and sensitivity assets f
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
 - a descriptive source-conditional heterogeneity audit with five effect units (not five independent studies), explicit non-inference of biological n from measurement batches, rounded presentation fields, degenerate-interval semantics and a KAUST fresh author-run replay receipt (T214-T216);
-- historical immutable release tags including `v0.1.3-r10.28`, plus the current scientific candidate `v0.1.3-r10.32` and public handoff overlays; the current handoff contract is `docs/review_round_4/R4_T252_CURRENT_EXTERNAL_HANDOFF_20260814.md`.
+- historical immutable release tags remain available for provenance; the current fixed handoff release is `v0.1.3-r10.52` and the current handoff contract is `docs/data/R4_T268_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -45,9 +45,9 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 
 See:
 
-- `release/empirical_candidate_v0.1.3-r10.40/README.md`
-- `docs/release/R10_38_DOI_DEPOSIT_METADATA.json`
-- `docs/data/R4_T252_CURRENT_EXTERNAL_HANDOFF_20260814.json`
+- `release/empirical_candidate_v0.1.3-r10.52/README.md`
+- `docs/release/R10_52_DOI_DEPOSIT_METADATA.json`
+- `docs/data/R4_T268_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
 - `release/empirical_candidate_v0.1.3-r10.28/release_manifest.json`
