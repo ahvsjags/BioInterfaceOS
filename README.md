@@ -53,7 +53,7 @@ See:
 - `docs/review_round_4/R4_T216_KAUST_FRESH_REPLAY_RECEIPT_20260814.json`
 - `docs/review_round_4/R4_T217_STATISTICAL_AMENDMENT_EXECUTION_20260814.md`
 - `docs/review_round_4/R4_T217_KAUST_FRESH_REPLAY_RECEIPT_20260814.json`
-- `docs/review_round_4/R4_T226_R10_26_RELEASE_DOI_STATUS_20260814.md`
+- `docs/review_round_4/R4_T227_R10_27_RELEASE_DOI_STATUS_20260814.md`
 - `docs/review_round_4/R4_T205_DOI_DEPOSIT_PREFLIGHT_20260814.md`
 - `docs/execplans/T196_publish_paper_attached_biological_cohort.md`
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`

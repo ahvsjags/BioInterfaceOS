@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_AUTHENTICATED_ARCHIVE_UPLOAD",
+  "doi_archived": false,
+  "release": {
+    "tag": "v0.1.3-r10.27",
+    "release_commit": "7ac136af2b53fa3f8915ba8c45d00253784a297f",
+    "source_commit": "f7eb8976f3e2282ed7bf02bfe930c8e886b016a1",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.27/release_manifest.json",
+    "manifest_sha256": "419e1226c0dce92c53a10c32e2ee1aaa97f052f6110f9d2557046cdf90dcf3dc",
+    "archive_filename": "BioInterfaceOS-v0.1.3-r10.27.tar.gz",
+    "archive_bytes": 94126379,
+    "archive_sha256": "dfd86dad04140c1ea6af8b8b918ba25a6662260a72bba843584a276027c35d59",
+    "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.27.tar.gz.sha256"
+  },
+  "deposit_metadata": {
+    "title": "BioInterfaceOS v0.1.3-r10.27: provenance-grounded biointerface proteomics analysis framework",
+    "upload_type": "software",
+    "publication_date": "2026-08-14",
+    "version": "v0.1.3-r10.27",
+    "description": "Immutable paper-data candidate release for auditable biointerface proteomics analysis. This release includes the frozen full-text/supplementary-data fallback ledger, source registries, source-cell maps, statistical execution receipts, fresh-output external replay commands and external evidence handoff contracts. Author-run and paper-derived results remain explicitly separated from non-author validation.",
+    "creators": [{"name": "BioInterfaceOS Contributors"}],
+    "keywords": ["biointerface proteomics", "protein corona", "provenance", "reproducible research", "computational biology"],
+    "license": "Apache-2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.27", "relation": "isIdenticalTo", "resource_type": "software"},
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS", "relation": "isSupplementTo", "resource_type": "software"}
+    ]
+  },
+  "upload_instructions": [
+    "Upload the exact archive_filename from the GitHub release or local release asset directory.",
+    "Verify archive_sha256 and archive_bytes after upload.",
+    "Record the archive service DOI, version DOI, immutable record URL, upload timestamp and returned file digest.",
+    "Only after independent read-back verification may doi_archived be changed to true."
+  ],
+  "claim_boundary": "This metadata is a deposit preparation artifact, not a DOI or archive receipt. scientific_submission_ready remains false."
+}
