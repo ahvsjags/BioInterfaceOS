@@ -2,7 +2,7 @@
   "allowed_claim_level": "EXPLORATORY",
   "artifacts": {
     "cluster_bootstrap_metrics": {
-      "relative_path": "reports/review_round_4/t255_cluster_uncertainty/v1.0.0/cluster_bootstrap_metrics.csv",
+      "relative_path": "reports/review_round_4/t255_cluster_uncertainty/v1.0.1/cluster_bootstrap_metrics.csv",
       "sha256": "e8a028d1812de0c10f94a76526454580e018d0b2661a046ba4af4ea5693ac14f"
     }
   },

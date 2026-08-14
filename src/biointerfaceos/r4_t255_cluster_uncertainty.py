@@ -69,7 +69,8 @@ class R4T255ClusterUncertaintyWorkflow:
     @staticmethod
     def _write_json(path: Path, value: Any) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        payload = json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+        path.write_bytes(payload.encode("utf-8"))
 
     @staticmethod
     def _write_csv(path: Path, fields: list[str], rows: list[dict[str, Any]]) -> None:
