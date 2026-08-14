@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "review_id": "bioif-r4-t281-post-t280-editorial-review-v1.0.0",
+  "review_type": "ROLE_PANEL_SIMULATION_EVIDENCE_BOUND",
+  "decision": "MAJOR_REVISION",
+  "primary_route": "T195",
+  "module_scores": {
+    "data_compatibility_and_sample_foundation": 90,
+    "statistical_analysis_design": 92,
+    "statistical_execution_and_effective_sample": 92,
+    "models_ablation_ood_uncertainty": 84,
+    "independent_lockbox_evaluation": 0,
+    "no_author_scientific_reproduction": 0,
+    "external_user_adoption": 0,
+    "doi_version_citability": 10
+  },
+  "arithmetic_mean": 46.0,
+  "hard_gate_state": {
+    "protected_lockbox_evaluator_receipt": false,
+    "no_author_scientific_reproduction_receipt": false,
+    "external_user_adoption_receipts": false,
+    "doi_archive_readback": false,
+    "scientific_submission_ready": false
+  },
+  "critical_issue": "No independent external execution has been submitted; paper-derived author runs cannot close this predicate.",
+  "required_closure_artifacts": [
+    "one genuine non-author protected lockbox receipt",
+    "one genuine no-author accession-to-result reproduction receipt",
+    "two distinct external-user installation/use receipts",
+    "authenticated DOI archive read-back",
+    "final multi-agent review after all receipts"
+  ],
+  "claim_boundary": "T280 improves the evidence hierarchy and fixes T195 as the primary redistributable paper-data route. It does not assert independent validation, external reproduction, adoption or scientific submission readiness."
+}
