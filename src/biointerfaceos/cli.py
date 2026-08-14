@@ -5063,7 +5063,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print("R4_T222_PAPER_DATA_FALLBACK_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                print(
+                    "R4_T222_PAPER_DATA_FALLBACK_VERIFY_INVALID: requires --strict",
+                    file=sys.stderr,
+                )
                 return 1
             try:
                 t222_summary = R4PaperDataFallbackWorkflow(root).verify(strict=True)

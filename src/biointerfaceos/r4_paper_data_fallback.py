@@ -137,7 +137,10 @@ class R4PaperDataFallbackWorkflow:
         }
         if set(ledger) != required or ledger["schema_version"] != 1:
             raise R4PaperDataFallbackError("T222 ledger fields are invalid")
-        if ledger["task_id"] != self.AUDIT_ID or ledger["status"] != "FROZEN_PUBLIC_PAPER_DATA_FALLBACK":
+        if (
+            ledger["task_id"] != self.AUDIT_ID
+            or ledger["status"] != "FROZEN_PUBLIC_PAPER_DATA_FALLBACK"
+        ):
             raise R4PaperDataFallbackError("T222 ledger identity is invalid")
         if ledger["scientific_submission_ready"] is not False:
             raise R4PaperDataFallbackError("T222 ledger cannot claim submission readiness")
@@ -175,7 +178,9 @@ class R4PaperDataFallbackWorkflow:
                 raise R4PaperDataFallbackError(f"T222 route {route_id} is duplicated")
             route_ids.add(route_id)
             self._string(route["source_kind"], f"T222 route {route_id} source_kind")
-            evidence_class = self._string(route["evidence_class"], f"T222 route {route_id} evidence_class")
+            evidence_class = self._string(
+                route["evidence_class"], f"T222 route {route_id} evidence_class"
+            )
             if evidence_class not in self.EVIDENCE_CLASSES:
                 raise R4PaperDataFallbackError(f"T222 route {route_id} evidence class is invalid")
             article = self._mapping(route["article"], f"T222 route {route_id} article")
@@ -206,7 +211,9 @@ class R4PaperDataFallbackWorkflow:
                 )
                 report_count += 1
                 report_hashes.append(report_hash)
-            expected = self._mapping(route["expected_accounting"], f"T222 route {route_id} accounting")
+            expected = self._mapping(
+                route["expected_accounting"], f"T222 route {route_id} accounting"
+            )
             if not expected or any(not isinstance(key, str) for key in expected):
                 raise R4PaperDataFallbackError(f"T222 route {route_id} accounting is invalid")
             license_boundary = self._mapping(
@@ -217,20 +224,29 @@ class R4PaperDataFallbackWorkflow:
                 raise R4PaperDataFallbackError(
                     f"T222 route {route_id} must use a release-eligible public asset"
                 )
-            gates = self._mapping(route["external_gate_effect"], f"T222 route {route_id} external gates")
-            if set(gates) != self.REQUIRED_GATE_FIELDS or any(value is not False for value in gates.values()):
+            gates = self._mapping(
+                route["external_gate_effect"], f"T222 route {route_id} external gates"
+            )
+            if set(gates) != self.REQUIRED_GATE_FIELDS or any(
+                value is not False for value in gates.values()
+            ):
                 raise R4PaperDataFallbackError(
                     f"T222 route {route_id} must keep all external gates closed"
                 )
             external_gate_count += len(gates)
-            claim_boundary = self._string(route["claim_boundary"], f"T222 route {route_id} claim boundary")
+            claim_boundary = self._string(
+                route["claim_boundary"], f"T222 route {route_id} claim boundary"
+            )
             route_rows.append(
                 {
                     "route_id": route_id,
                     "source_kind": route["source_kind"],
                     "evidence_class": evidence_class,
                     "article": article,
-                    "source_registry": {"relative_path": source_registry.relative_to(self.root).as_posix(), "sha256": registry_hash},
+                    "source_registry": {
+                        "relative_path": source_registry.relative_to(self.root).as_posix(),
+                        "sha256": registry_hash,
+                    },
                     "source_map_sha256": map_hashes,
                     "output_report_sha256": report_hashes,
                     "expected_accounting": expected,
@@ -313,10 +329,14 @@ class R4PaperDataFallbackWorkflow:
 
     def verify(self, *, strict: bool = False) -> R4PaperDataFallbackSummary:
         if not strict:
-            raise R4PaperDataFallbackError("T222 paper-data fallback verification requires --strict")
+            raise R4PaperDataFallbackError(
+                "T222 paper-data fallback verification requires --strict"
+            )
         _, report = self._audit()
         receipt = self._json(self.receipt_path, "T222 receipt")
-        if not self.report_path.is_file() or self._sha256(self.report_path) != receipt.get("report", {}).get("sha256"):
+        if not self.report_path.is_file() or self._sha256(self.report_path) != receipt.get(
+            "report", {}
+        ).get("sha256"):
             raise R4PaperDataFallbackError("T222 report checksum differs")
         if self._json(self.report_path, "T222 report") != report:
             raise R4PaperDataFallbackError("T222 report differs from the frozen ledger audit")
