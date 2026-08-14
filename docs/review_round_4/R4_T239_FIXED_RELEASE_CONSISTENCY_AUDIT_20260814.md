@@ -26,7 +26,7 @@ R4-T234 现在要求第三方在运行 r10.28 脚本前手动执行：
 ```bash
 test -z "$(git status --porcelain)"
 test "$(git rev-parse 'v0.1.3-r10.28^{}')" = "5f72487023f80dd37d6b550b97638fb0246eb3fa"
-test "$(sha256sum release/empirical_candidate_v0.1.3-r10.28/release_manifest.json | awk '{print $1}')" = "4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4"
+test "$(sha256sum release/empirical_candidate_v0.1.3-r10.28/release_manifest.json | awk '{print $1}')" = "1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491"
 ```
 
 脚本加固 commit 仍保留在移动分支，供下一次 immutable release 采用；当前不把它回填成 r10.28 的证据。

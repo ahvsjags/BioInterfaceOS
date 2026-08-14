@@ -75,7 +75,7 @@ class R4ExternalReceiptPreflightWorkflow:
         "commit": "5f72487023f80dd37d6b550b97638fb0246eb3fa",
         "source_commit": "b676433",
         "manifest_path": "release/empirical_candidate_v0.1.3-r10.28/release_manifest.json",
-        "manifest_sha256": "4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4",
+        "manifest_sha256": "1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491",
     }
     STATUS = "STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW"
     DOCUMENT_TYPES = (
@@ -194,17 +194,32 @@ class R4ExternalReceiptPreflightWorkflow:
         manifest_path = self.repository_root / Path(
             *PurePosixPath(fixed_release["manifest_path"]).parts
         )
-        manifest_matches = manifest_path.is_file() and _sha256(manifest_path) == fixed_release[
-            "manifest_sha256"
-        ]
+        try:
+            canonical_manifest_bytes = subprocess.check_output(
+                ["git", "show", f"{fixed_release['tag']}:{fixed_release['manifest_path']}"],
+                cwd=self.repository_root,
+                stderr=subprocess.STDOUT,
+            )
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise R4ExternalReceiptPreflightError(
+                "repository cannot read the fixed release manifest blob"
+            ) from exc
+        manifest_matches = manifest_path.is_file() and hashlib.sha256(
+            canonical_manifest_bytes
+        ).hexdigest() == fixed_release["manifest_sha256"]
         if not manifest_matches:
             raise R4ExternalReceiptPreflightError(
                 "repository release manifest does not match the fixed release"
             )
         try:
-            manifest = self._json(manifest_path, "fixed release manifest")
-        except R4ExternalReceiptPreflightError:
-            raise
+            manifest = _mapping(
+                json.loads(canonical_manifest_bytes.decode("utf-8")),
+                "fixed release manifest",
+            )
+        except (UnicodeError, json.JSONDecodeError) as exc:
+            raise R4ExternalReceiptPreflightError(
+                "cannot parse fixed release manifest blob"
+            ) from exc
         if manifest.get("source_commit") != fixed_release["source_commit"]:
             raise R4ExternalReceiptPreflightError(
                 "fixed release manifest source_commit differs"

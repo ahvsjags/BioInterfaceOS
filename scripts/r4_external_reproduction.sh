@@ -6,7 +6,7 @@ set -euo pipefail
 
 expected_tag="v0.1.3-r10.28"
 expected_tag_commit="5f72487023f80dd37d6b550b97638fb0246eb3fa"
-expected_manifest_sha256="4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4"
+expected_manifest_sha256="1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491"
 output_root="${1:-reports/review_round_3/external_reproduction/v1.0.0}"
 assets_root="data/raw/r3_candidate_pmc6592156"
 feature_root="data/raw/r3_uniprot_sequence_features"

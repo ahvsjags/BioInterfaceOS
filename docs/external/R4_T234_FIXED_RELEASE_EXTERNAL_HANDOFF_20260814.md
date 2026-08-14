@@ -12,7 +12,7 @@ tag=v0.1.3-r10.28
 tag_target=5f72487023f80dd37d6b550b97638fb0246eb3fa
 source_commit=b676433
 release_manifest=release/empirical_candidate_v0.1.3-r10.28/release_manifest.json
-release_manifest_sha256=4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4
+release_manifest_sha256=1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491
 external_protocol=docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json
 external_protocol_sha256=3e51d49bb11fad58412e60980c158860e45647670f9a4a3a9de532bc92cc13a1
 ```
@@ -41,7 +41,7 @@ bash scripts/r4_external_reproduction.sh reports/external_reproduction/<particip
 ```bash
 test -z "$(git status --porcelain)"
 test "$(git rev-parse 'v0.1.3-r10.28^{}')" = "5f72487023f80dd37d6b550b97638fb0246eb3fa"
-test "$(sha256sum release/empirical_candidate_v0.1.3-r10.28/release_manifest.json | awk '{print $1}')" = "4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4"
+test "$(sha256sum release/empirical_candidate_v0.1.3-r10.28/release_manifest.json | awk '{print $1}')" = "1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491"
 ```
 
 移动分支后续提交 `6c4ac72` 已将这些 guards 加入脚本，但它不属于不可变 r10.28 tag；在新的 immutable release 建立前，不得把该后续脚本称为 r10.28 内置代码。通过上述检查仍只表示复现输入固定，不能替代无作者团队的真实 receipt。

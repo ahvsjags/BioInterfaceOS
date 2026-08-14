@@ -19,7 +19,7 @@ tag:             v0.1.3-r10.28
 tag target:      5f72487023f80dd37d6b550b97638fb0246eb3fa
 source_commit:   b676433
 manifest path:   release/empirical_candidate_v0.1.3-r10.28/release_manifest.json
-manifest SHA256: 4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4
+manifest SHA256: 1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491
 ```
 
 The preflight now rejects incomplete or unexpected fixed-release fields and rejects drift in the release commit, source commit, or manifest digest. The receipt template contains these same anchors to reduce transcription errors, but remains explicitly `TEMPLATE_NOT_EVIDENCE`.
@@ -39,7 +39,6 @@ This task creates no evaluator receipt, no no-author reproduction receipt, no ex
 
 - Release tag: `v0.1.3-r10.28`
 - Release tag target: `5f72487023f80dd37d6b550b97638fb0246eb3fa`
-- Release manifest SHA-256: `4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4`
+- Release manifest SHA-256: `1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491`
 - Release manifest source commit: `b676433`
 - Protocol: `docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json`
-

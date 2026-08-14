@@ -6,7 +6,7 @@
   "fixed_release": {
     "tag": "v0.1.3-r10.28",
     "tag_target": "5f72487023f80dd37d6b550b97638fb0246eb3fa",
-    "manifest_sha256": "4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4"
+    "manifest_sha256": "1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491"
   },
   "post_tag_hardening_commit": "6c4ac72efc04f87bd5b739771d614ac7bae8c54c",
   "post_tag_hardening_in_fixed_release": false,

@@ -8,7 +8,7 @@
 - release commit：`5f72487023f80dd37d6b550b97638fb0246eb3fa`
 - source/provenance commit：`b676433d85837e78c5502c0e75012ae2275c4992`
 - manifest：`release/empirical_candidate_v0.1.3-r10.28/release_manifest.json`
-- manifest SHA-256：`4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4`
+- manifest SHA-256：`1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491`
 - public tarball：`BioInterfaceOS-v0.1.3-r10.28.tar.gz`，94,265,141 bytes
 - tarball SHA-256：`f83388c9f7ec67e55aa941871867e20b3f69ed81e5f7a9cbee04accf7885e5a0`
 - GitHub release：[v0.1.3-r10.28](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.28)
