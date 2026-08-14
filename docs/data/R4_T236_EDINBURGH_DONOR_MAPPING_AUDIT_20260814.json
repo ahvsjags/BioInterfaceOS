@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T236",
+  "declared_at": "2026-08-14T00:00:00+00:00",
+  "status": "PAPER_UNIT_COUNT_VERIFIED_SAMPLE_CROSSWALK_NOT_PUBLIC",
+  "source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+  "article": {
+    "doi": "10.1038/s41565-023-01572-3",
+    "full_text_locator": "https://www.nature.com/articles/s41565-023-01572-3",
+    "data_locator": "https://datashare.ed.ac.uk/items/789e976f-0993-4738-bc72-33c47debab9e",
+    "license": "CC-BY-4.0"
+  },
+  "paper_level_unit_evidence": {
+    "reported_participant_count": 14,
+    "completed_all_three_visits": 13,
+    "design": "randomized double-blind crossover: air, s-GO, us-GO",
+    "participant_code_assignment_reported": true
+  },
+  "public_proteomics_map": {
+    "workbook": "data/raw/r4_candidate_edinburgh_ds7545/blood_proteomics_data.xlsx",
+    "workbook_sha256": "0d1dbc59537536c6adc23c1bff7b593de440672812fa8d0018f78a41f5683414",
+    "source_cell_map": "data/raw/r4_candidate_edinburgh_ds7545/derived/R4_EDINBURGH_DS7545_source_cell_map.csv",
+    "source_cell_map_sha256": "e1a09f43f46040e1511b0b686ef9ed5eac39bd138fb39414c27c250956d84f56",
+    "measurement_batch_count": 49,
+    "rank_eligible_target_count": 23,
+    "sample_token_pattern": "20210324_6pm_KostarelosK_OkweloguE_EO<integer>",
+    "participant_crosswalk_present": false,
+    "donor_cluster_key_present": false
+  },
+  "decision": {
+    "participant_level_effective_n": "UNRESOLVED_FROM_PUBLIC_PROTEOMICS_MAP",
+    "allowed_cluster_level": "SOURCE_MEASUREMENT_BATCH",
+    "independent_laboratory_anchor": true,
+    "donor_level_independent_validation": false,
+    "do_not_parse_eo_token_as_donor_id": true
+  },
+  "claim_boundary": "The article establishes the study-level participant design, but the public proteomics package does not expose a participant-code-to-column crosswalk. Retain batch-level clustering and do not infer donor-level effective n.",
+  "scientific_submission_ready": false
+}
