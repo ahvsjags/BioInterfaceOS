@@ -404,12 +404,20 @@ class R3SilverPlasmaSourceAuditWorkflow:
         mapped_rows, summary = self._source_rows(registry, assets["supplementary_data_2_lfq_xlsx"])
         source_map_path = self.assets_root / self.DERIVED_RELATIVE
         if source_map_path.exists():
-            raise R3SilverPlasmaSourceAuditError("silver-plasma source cell map already exists")
-        source_map_path.parent.mkdir(parents=True, exist_ok=True)
-        with source_map_path.open("w", encoding="utf-8", newline="") as stream:
-            writer = csv.DictWriter(stream, fieldnames=self.SOURCE_CELL_FIELDS, lineterminator="\n")
-            writer.writeheader()
-            writer.writerows(mapped_rows)
+            with source_map_path.open("r", encoding="utf-8", newline="") as stream:
+                existing_rows = list(csv.DictReader(stream))
+            if existing_rows != mapped_rows:
+                raise R3SilverPlasmaSourceAuditError(
+                    "silver-plasma existing source cell map differs from reacquired source"
+                )
+        else:
+            source_map_path.parent.mkdir(parents=True, exist_ok=True)
+            with source_map_path.open("w", encoding="utf-8", newline="") as stream:
+                writer = csv.DictWriter(
+                    stream, fieldnames=self.SOURCE_CELL_FIELDS, lineterminator="\n"
+                )
+                writer.writeheader()
+                writer.writerows(mapped_rows)
         report = {
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
