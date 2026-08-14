@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t217-statistical-amendment-v1.0.0",
+  "frozen_at": "2026-08-14T12:00:00+08:00",
+  "status": "FROZEN_PRE_EXECUTION",
+  "evidence_class": "PAPER_DATA_REANALYSIS_AUDIT",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Freeze a single primary study-held-out estimand for the T195 common-target portability route, assign T197/T198/T203/T209 to explicit secondary roles, and audit target availability, missingness denominators and project-wide multiplicity without refitting any model or pooling non-exchangeable routes.",
+  "primary_estimand": {
+    "estimand_id": "T217_PRIMARY_T195_STUDY_HELD_OUT_PORTABILITY",
+    "analysis_population": "The exact nine-accession intersection frozen before T195 from the three audited paper-linked source maps.",
+    "target_universe": {
+      "count": 9,
+      "selection_rule": "finite strictly positive source value in the pre-frozen common-target registry",
+      "selection_timing": "frozen before model fitting and before outer-fold evaluation",
+      "cross_source_abundance_scale_use": "prohibited"
+    },
+    "outer_split": "leave-one-laboratory-or-source-anchor-out; held-out anchor is excluded from target membership, alpha selection and model selection",
+    "independent_unit_for_interval": "held-out measurement batch",
+    "biological_independence_status": "not_resolved_for_all_routes; laboratory anchors are not independent biological cohorts",
+    "prediction_row": "one source-local rank-percentile observation for one frozen canonical accession",
+    "outcome": "arithmetic mean of within-batch Spearman correlations over held-out measurement batches within each outer fold",
+    "contrast": "SEQUENCE_RIDGE_FULL minus SEQUENCE_RIDGE_COMPOSITION_ONLY",
+    "aggregation": "report each outer-fold effect and interval separately; no pooled effect across non-exchangeable laboratory/source anchors",
+    "nested_selection": "leave-one-measurement-batch-out within outer development anchors; alpha grid [0.01, 0.1, 1.0, 10.0, 100.0]; smallest-alpha tie break",
+    "uncertainty": "percentile bootstrap over held-out measurement batches, 2,000 resamples per fold and paired contrast",
+    "negative_control": "within-development-measurement-batch target permutation; observed nested-selected alpha held fixed for T195",
+    "claim_status": "EXPLORATORY_PORTABILITY_SENSITIVITY_NOT_INDEPENDENT_BIOLOGICAL_VALIDATION"
+  },
+  "route_roles": [
+    {
+      "route": "T195_common_target_laboratory_holdout",
+      "role": "PRIMARY_ESTIMAND_EXECUTION",
+      "lineage": "three laboratory/source anchors",
+      "pooling": "primary route only; effects remain fold-specific",
+      "study_held_out": true,
+      "nested_selection": true,
+      "cluster_aware": true,
+      "claim_status": "EXPLORATORY"
+    },
+    {
+      "route": "T197_source_availability_sensitivity",
+      "role": "SECONDARY_SOURCE_AVAILABILITY_SENSITIVITY",
+      "lineage": "same three-source lineage as T195",
+      "pooling": "never counted as additional independent studies",
+      "study_held_out": true,
+      "nested_selection": true,
+      "cluster_aware": true,
+      "claim_status": "DESCRIPTIVE_ONLY"
+    },
+    {
+      "route": "T198_paper_cohort_missingness",
+      "role": "SECONDARY_MISSINGNESS_AND_QUALIFICATION_SENSITIVITY",
+      "lineage": "single paper-attached cohort",
+      "pooling": "not pooled with T195/T197/T203/T209",
+      "study_held_out": false,
+      "nested_selection": true,
+      "cluster_aware": true,
+      "claim_status": "DESCRIPTIVE_ONLY"
+    },
+    {
+      "route": "T203_paper_cohort_ood",
+      "role": "SECONDARY_AUTHOR_RUN_PAPER_DATA_OOD",
+      "lineage": "single paper/laboratory processed cohort",
+      "pooling": "not pooled; source-dependent direction retained",
+      "study_held_out": false,
+      "nested_selection": true,
+      "cluster_aware": true,
+      "claim_status": "ANALYSIS_ONLY_EXPLORATORY"
+    },
+    {
+      "route": "T209_manchester_paper_cohort_ood",
+      "role": "SECONDARY_AUTHOR_RUN_PAPER_DATA_OOD",
+      "lineage": "single paper/laboratory patient-anchored cohort",
+      "pooling": "not pooled; negative direction retained",
+      "study_held_out": false,
+      "nested_selection": true,
+      "cluster_aware": true,
+      "claim_status": "ANALYSIS_ONLY_EXPLORATORY"
+    }
+  ],
+  "availability_policy": {
+    "denominator": "all candidate source-mapped rows, batches, biological units and target sets exposed by the relevant frozen receipt before qualification",
+    "target_states": ["POSITIVE_FINITE", "AUTHOR_NA", "AUTHOR_EXPLICIT_ZERO", "NOT_MAPPED", "NOT_SHARED"],
+    "required_outputs": ["candidate_count", "retained_count", "retention_fraction", "exclusion_reason", "biological_unit_count_when_explicit"],
+    "selection_bias_status": "potentially informative source availability remains; threshold sensitivity does not identify MNAR",
+    "correction_status": "no imputation, IPW or MNAR correction is claimed unless a future amendment supplies the required covariates"
+  },
+  "missingness_policy": {
+    "source_na": "retain as AUTHOR_NA and exclude from rank/model scoring; no imputation",
+    "source_zero": "retain as AUTHOR_EXPLICIT_ZERO and exclude from rank/model scoring; no imputation",
+    "qualification_thresholds": [5, 7, 10, 12, 15, 20, 25, 30],
+    "primary_threshold": 10,
+    "strata": ["biological_unit_id", "clinical_group", "particle"],
+    "interpretation": "descriptive denominator and retention audit; no MAR, MCAR or MNAR assumption"
+  },
+  "multiplicity_policy": {
+    "primary_family": {
+      "family_id": "T217_PRIMARY_EFFECT_AND_INTERVAL",
+      "endpoint_count": 1,
+      "endpoint": "T195 full-minus-composition fold-specific effect vector",
+      "p_value": "not estimated; report effect sizes and cluster intervals only",
+      "reason": "current evidence is exploratory and biological/study-level independence is unresolved"
+    },
+    "quality_control_family": {
+      "family_id": "T197_WITHIN_BATCH_NEGATIVE_CONTROL",
+      "endpoint_count": 3,
+      "adjustment": "Holm step-down across the three outer-fold QC p-values",
+      "claim_status": "QC calibration only; not evidence of a scientific effect"
+    },
+    "secondary_family": {
+      "family_id": "T217_SECONDARY_DESCRIPTIVE_ROUTES",
+      "routes": ["T197", "T198", "T203", "T209"],
+      "p_values": "prohibited",
+      "reporting": "effect sizes, intervals, denominators and direction only"
+    }
+  },
+  "effective_n_policy": {
+    "rule": "reported biological-unit count is not effective n and measurement-batch count is not biological n",
+    "T195_T197": "donor-level effective n unresolved; report measurement-batch count and source/laboratory anchor count",
+    "T198": "141 biological units at primary threshold 10; not cross-study replication n",
+    "T203": "45 reported measurement batches; biological n not inferred from this receipt",
+    "T209": "60 paper-anchored patient clusters; not cross-study replication n"
+  },
+  "input_artifacts": {
+    "t195_protocol": {"relative_path": "docs/data/R4_T195_THREE_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json", "sha256": "f2e1e8573e5f34748a9360ec2ec9e18be8c1a343c4ba9b890f55d2b12a9d5ab3"},
+    "t195_report": {"relative_path": "reports/review_round_4/t195_three_lab_common_target_execution/v1.0.0/t195_three_lab_execution_report.json", "sha256": "9b1de682dce2bfc0b04e394fb67c35d54e581a4b973a4f50d285f966277f1328"},
+    "t195_paired_ablation": {"relative_path": "reports/review_round_4/t195_three_lab_common_target_execution/v1.0.0/paired_composition_ablation.csv", "sha256": "6bfddcb3e9c09448984bc71fb9168657871a6eda5352c3606f995539bd9b3f05"},
+    "t197_report": {"relative_path": "reports/review_round_4/t197_source_availability_execution/v1.0.0/t197_source_availability_execution_report.json", "sha256": "b6e412418a5ea299abb2da62c62b5d37c929ad37c144f7adee4a6a8f70c5d299"},
+    "t197_paired_ablation": {"relative_path": "reports/review_round_4/t197_source_availability_execution/v1.0.0/paired_composition_ablation.csv", "sha256": "d05f59b9f375b550ac81726626bbe24342fde06212675159deda8b1fcf88f3f4"},
+    "t197_target_ledger": {"relative_path": "reports/review_round_4/t197_source_availability_execution/v1.0.0/source_availability_target_ledger.csv", "sha256": "b23da989951da588ec9a86088b0d4523a1605e0cbf93b1d324ad6127cbc6833e"},
+    "t198_report": {"relative_path": "reports/review_round_4/t198_paper_cohort_missingness/v1.0.0/t198_paper_cohort_missingness_report.json", "sha256": "6e3db91f7d24bb0d3c7f5b303f76ec01fac9c36790522c42f436d9ef99964508"},
+    "t198_threshold_summary": {"relative_path": "reports/review_round_4/t198_paper_cohort_missingness/v1.0.0/threshold_summary.csv", "sha256": "285160e1b93dcfe56efb1578913b1b474bd4c2902ab0e3509acdb06a9936c6c9"},
+    "t198_source_map": {"relative_path": "data/raw/r4_candidate_pxd017052_nsclc/derived/R4_PXD017052_NSCLC_source_cell_map.csv", "sha256": "2b5074a825108675aa28fd63f644a3f9aadb7996d6772943b84451a460239e2d"},
+    "t200_protocol": {"relative_path": "docs/data/R4_T200_STATISTICAL_CLOSURE_PROTOCOL.json", "sha256": "76745a1889a52c05058933e00a371885bd32b45fe0c9bbfdeb5d87c4a898747c"},
+    "t200_receipt": {"relative_path": "reports/review_round_4/t200_statistical_closure/v1.0.0/t200_statistical_closure_receipt.json", "sha256": "1c9519d49bd85ba806faff8c1cbc7802930d0f2d593418816d1e20f9f29ec077"},
+    "t203_ood_report": {"relative_path": "reports/review_round_4/pmc10257194_paper_ood/v1.0.0/r4_external_ood_report.json", "sha256": "eca1b2997b342456115f2ebd0de7e3fa77574f559a279ea09007a224162a6e96"},
+    "t209_ood_report": {"relative_path": "reports/review_round_4/manchester_nanoomic_ood/v1.1.0/r4_manchester_nanoomic_ood_report.json", "sha256": "ab3561578fd7efe4e573adadfedbc536a8338b7aec0573c34c887beafdc95d95"}
+  },
+  "claim_boundary": "T217 establishes a pre-registered role hierarchy and audits denominators, selection and multiplicity for paper-derived exploratory analyses. It does not create independent biological validation, a pooled confirmatory effect, effective cross-study n, a protected lockbox, a no-author reproduction, external adoption, DOI archival evidence or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

@@ -809,6 +809,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the T200 statistical-closure receipt",
     )
     data_r4_t200_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t217_parser = data_subparsers.add_parser(
+        "evaluate-r4-t217-statistical-amendment",
+        help="freeze and audit the project-wide statistical role hierarchy for paper-derived routes",
+    )
+    data_r4_t217_parser.add_argument("--strict", action="store_true")
+    data_r4_t217_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t217-statistical-amendment",
+        help="verify the T217 statistical-amendment receipt",
+    )
+    data_r4_t217_verify_parser.add_argument("--strict", action="store_true")
     data_r4_t214_parser = data_subparsers.add_parser(
         "evaluate-r4-t214-source-heterogeneity",
         help="audit source- and study-level heterogeneity without refitting frozen models",
@@ -3773,6 +3783,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t198-paper-cohort-missingness",
             "evaluate-r4-t200-statistical-closure",
             "verify-r4-t200-statistical-closure",
+            "evaluate-r4-t217-statistical-amendment",
+            "verify-r4-t217-statistical-amendment",
             "evaluate-r4-t214-source-heterogeneity",
             "verify-r4-t214-source-heterogeneity",
             "audit-r4-dalian-plasma-corona-source",
@@ -4966,6 +4978,48 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"t198_threshold_strata={t200_summary.t198_threshold_stratum_count} "
                 "estimand_frozen=true multiplicity_policy_frozen=true "
                 "missingness_stratified=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t217-statistical-amendment":
+            from biointerfaceos.r4_t217_statistical_amendment import (
+                R4T217StatisticalAmendmentError,
+                R4T217StatisticalAmendmentWorkflow,
+            )
+
+            try:
+                t217_summary = R4T217StatisticalAmendmentWorkflow(root).run(strict=args.strict)
+            except (R4T217StatisticalAmendmentError, OSError) as exc:
+                print(f"R4_T217_STATISTICAL_AMENDMENT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T217_STATISTICAL_AMENDMENT_VALID "
+                f"availability_rows={t217_summary.availability_row_count} "
+                f"missingness_rows={t217_summary.missingness_row_count} "
+                f"multiplicity_rows={t217_summary.multiplicity_row_count} "
+                "primary_estimand_frozen=true availability_denominators_audited=true "
+                "missingness_policy_frozen=true project_multiplicity_ledger_frozen=true "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t217-statistical-amendment":
+            from biointerfaceos.r4_t217_statistical_amendment import (
+                R4T217StatisticalAmendmentError,
+                R4T217StatisticalAmendmentWorkflow,
+            )
+
+            try:
+                t217_summary = R4T217StatisticalAmendmentWorkflow(root).verify(strict=args.strict)
+            except (R4T217StatisticalAmendmentError, OSError) as exc:
+                print(f"R4_T217_STATISTICAL_AMENDMENT_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T217_STATISTICAL_AMENDMENT_VERIFY_VALID "
+                f"availability_rows={t217_summary.availability_row_count} "
+                f"missingness_rows={t217_summary.missingness_row_count} "
+                f"multiplicity_rows={t217_summary.multiplicity_row_count} "
+                "primary_estimand_frozen=true availability_denominators_audited=true "
+                "missingness_policy_frozen=true project_multiplicity_ledger_frozen=true "
+                "scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-t214-source-heterogeneity":
