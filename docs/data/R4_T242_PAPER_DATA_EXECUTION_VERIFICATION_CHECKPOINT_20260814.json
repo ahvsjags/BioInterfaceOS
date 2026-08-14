@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T242",
+  "declared_at": "2026-08-14T00:00:00+00:00",
+  "status": "AUTHOR_SIDE_PAPER_DATA_ROUTES_VERIFIED_EXTERNAL_GATES_OPEN",
+  "verification_commands": [
+    "data verify-r4-t222-paper-data-fallback --strict",
+    "data verify-r4-t195-three-lab-common-target --strict",
+    "data verify-r4-pmc10257194-paper-source --strict",
+    "data verify-r4-pmc10257194-paper-ood --strict",
+    "data verify-r4-t198-paper-cohort-missingness --strict"
+  ],
+  "routes": [
+    {
+      "route_id": "R4_T222_PAPER_DATA_FALLBACK",
+      "status": "VERIFY_VALID",
+      "routes": 4,
+      "references": 16,
+      "source_registries": 4,
+      "source_maps": 8,
+      "reports": 4
+    },
+    {
+      "route_id": "R4_T195_THREE_LAB_EXECUTION",
+      "status": "VERIFY_VALID",
+      "observations": 809,
+      "frozen_targets": 9,
+      "laboratories": 3,
+      "measurement_batches": 85
+    },
+    {
+      "route_id": "R4_PMC10257194_PAPER_SOURCE",
+      "status": "VERIFY_VALID",
+      "source_cells": 4362,
+      "shared_canonical_proteins": 97,
+      "measurement_batches": 45,
+      "biological_units": 45
+    },
+    {
+      "route_id": "R4_PMC10257194_PAPER_OOD",
+      "status": "VERIFY_VALID",
+      "development_observations": 2724,
+      "external_observations": 4362,
+      "external_measurement_batches": 45,
+      "models": 3
+    },
+    {
+      "route_id": "R4_T198_PAPER_COHORT_MISSINGNESS",
+      "status": "VERIFY_VALID",
+      "thresholds": 8,
+      "primary_threshold": 10,
+      "qualified_measurement_batches": 666,
+      "biological_units": 141,
+      "observations": 17026
+    }
+  ],
+  "scientific_effect": "Strengthens verified author-side paper-data evidence only; no external gate is promoted.",
+  "external_gates": {
+    "independent_validation": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  }
+}
