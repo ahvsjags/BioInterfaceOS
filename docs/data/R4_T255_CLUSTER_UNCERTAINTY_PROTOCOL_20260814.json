@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t255-cluster-uncertainty-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "status": "FROZEN_BEFORE_T255_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "inputs": {
+    "t238_report": {
+      "relative_path": "reports/review_round_4/t238_four_source_availability_execution/v1.0.0/t238_four_source_availability_execution_report.json",
+      "sha256": "1aec27a907152b1da9937aa8be8cc717b68abfbb82f3cf41ab4ee42ba1ae9a41"
+    },
+    "t238_batch_metrics": {
+      "relative_path": "reports/review_round_4/t238_four_source_availability_execution/v1.0.0/outer_fold_batch_metrics.csv",
+      "sha256": "df1890b5d74e4b0f89ce693b6ac49fc8e952e154967cac35095eb532bf5ee9a6"
+    },
+    "t238_protocol": {
+      "relative_path": "docs/data/R4_T238_FOUR_SOURCE_AVAILABILITY_EXECUTION_PROTOCOL.json",
+      "sha256": "a89a2cf4236caee0826fddde5ac89747f939dd656636d600595adf9af6bed7ea"
+    }
+  },
+  "cluster_definition": {
+    "cluster_key": ["outer_fold_id", "held_out_source_id", "measurement_batch_id"],
+    "independence_claim": "measurement-batch clusters only; donor independence is unresolved",
+    "minimum_cluster_count": 6
+  },
+  "estimands": {
+    "metrics": ["spearman", "mae", "rmse"],
+    "aggregation": "equal-weight arithmetic mean of finite batch-level metrics within each outer fold and model",
+    "constant_model_spearman": "UNDEFINED_CONSTANT_PREDICTION"
+  },
+  "bootstrap": {
+    "method": "with-replacement measurement-batch bootstrap",
+    "resamples": 2000,
+    "interval": "percentile 95%",
+    "seed_formula": "25500 + 100*one_based_outer_fold_index + one_based_model_index"
+  },
+  "paired_ablation": {
+    "source": "T238 paired_composition_ablation.csv",
+    "reuse_frozen_interval": true,
+    "required_resamples": 2000
+  },
+  "claim_boundary": "T255 adds uncertainty intervals to an exploratory paper-derived development analysis. It does not create donor-level effective n, independent biological validation, a protected evaluator receipt, a no-author reproduction, external adoption, DOI readback or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

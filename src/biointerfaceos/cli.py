@@ -732,6 +732,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the T238 four-source availability receipt",
     )
     data_r4_t238_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t255_parser = data_subparsers.add_parser(
+        "evaluate-r4-t255-cluster-uncertainty",
+        help="execute the frozen T255 measurement-batch uncertainty extension",
+    )
+    data_r4_t255_parser.add_argument("--strict", action="store_true")
+    data_r4_t255_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t255-cluster-uncertainty",
+        help="verify the frozen T255 cluster-uncertainty receipt",
+    )
+    data_r4_t255_verify_parser.add_argument("--strict", action="store_true")
     data_r4_t198_parser = data_subparsers.add_parser(
         "evaluate-r4-t198-paper-cohort-missingness",
         help="execute the paper-cohort threshold and missingness sensitivity",
@@ -3601,6 +3611,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t197-source-availability",
             "evaluate-r4-t238-four-source-availability",
             "verify-r4-t238-four-source-availability",
+            "evaluate-r4-t255-cluster-uncertainty",
+            "verify-r4-t255-cluster-uncertainty",
             "evaluate-r4-t198-paper-cohort-missingness",
             "verify-r4-t198-paper-cohort-missingness",
             "evaluate-r4-t200-statistical-closure",
@@ -4811,6 +4823,45 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"measurement_batches={t238_summary.measurement_batch_count} "
                 f"models={t238_summary.model_count} "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t255-cluster-uncertainty":
+            from biointerfaceos.r4_t255_cluster_uncertainty import (
+                R4T255ClusterUncertaintyError,
+                R4T255ClusterUncertaintyWorkflow,
+            )
+
+            try:
+                t255_summary = R4T255ClusterUncertaintyWorkflow(root).run(strict=args.strict)
+            except (R4T255ClusterUncertaintyError, OSError, ValueError) as exc:
+                print(f"R4_T255_CLUSTER_UNCERTAINTY_EXECUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T255_CLUSTER_UNCERTAINTY_EXECUTION_VALID "
+                f"outer_folds={t255_summary.outer_fold_count} "
+                f"models={t255_summary.model_count} "
+                f"metric_rows={t255_summary.metric_row_count} "
+                "measurement_batch_cluster_bootstrap=true donor_level_effective_n_claimed=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t255-cluster-uncertainty":
+            from biointerfaceos.r4_t255_cluster_uncertainty import (
+                R4T255ClusterUncertaintyError,
+                R4T255ClusterUncertaintyWorkflow,
+            )
+
+            try:
+                t255_summary = R4T255ClusterUncertaintyWorkflow(root).verify(strict=args.strict)
+            except (R4T255ClusterUncertaintyError, OSError, ValueError) as exc:
+                print(f"R4_T255_CLUSTER_UNCERTAINTY_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T255_CLUSTER_UNCERTAINTY_VERIFY_VALID "
+                f"outer_folds={t255_summary.outer_fold_count} "
+                f"models={t255_summary.model_count} "
+                f"metric_rows={t255_summary.metric_row_count} "
+                "donor_level_effective_n_claimed=false scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-t198-paper-cohort-missingness":

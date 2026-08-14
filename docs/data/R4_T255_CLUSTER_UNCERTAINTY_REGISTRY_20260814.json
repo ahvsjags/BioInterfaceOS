@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t255-cluster-uncertainty-v1.0.0",
+  "protocol_id": "bioif-r4-t255-cluster-uncertainty-v1.0.0",
+  "status": "T255_CLUSTER_UNCERTAINTY_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T255_CLUSTER_UNCERTAINTY_PROTOCOL_20260814.json",
+    "sha256": "072cfb0c80d3199173125c754fb4671d961e2d2c97d2b1be19d52e2debf35d28"
+  },
+  "expected_accounting": {
+    "outer_fold_count": 4,
+    "model_count": 3,
+    "metric_count": 3,
+    "bootstrap_resamples": 2000
+  },
+  "output_contract": {
+    "relative_path": "reports/review_round_4/t255_cluster_uncertainty/v1.0.0"
+  },
+  "claim_boundary": "T255 is a cluster-aware uncertainty extension of the exploratory T238 paper-derived development route and does not close any external evidence gate.",
+  "scientific_submission_ready": false
+}

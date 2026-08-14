@@ -1,0 +1,19 @@
+{
+  "audit_id": "bioif-r4-t255-cluster-uncertainty-v1.0.0",
+  "bootstrap_resamples": 2000,
+  "cluster_key": [
+    "outer_fold_id",
+    "held_out_source_id",
+    "measurement_batch_id"
+  ],
+  "defined_metric_count": 32,
+  "donor_level_effective_n_claimed": false,
+  "metric_count": 3,
+  "metric_row_count": 36,
+  "model_count": 3,
+  "outer_fold_count": 4,
+  "report_sha256": "ac4ee85406c326676eee0ca8e4d528a246c96172ca936c1c262e15db0895e5ee",
+  "schema_version": 1,
+  "scientific_submission_ready": false,
+  "status": "T255_CLUSTER_UNCERTAINTY_COMPLETED_EXPLORATORY"
+}
