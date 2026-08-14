@@ -32,6 +32,8 @@ mypy: Success: no issues found in 375 source files
 
 5 个跳过项均为本机未安装 GnuPG 导致的签名测试跳过，不是测试失败；签名测试仍保留在 CI/具备 GnuPG 的验收环境中。
 
+KAUST Ibex Linux 专用工作树同样通过：`make check` 为 `573 passed, 13 skipped`，Python 3.11.15；执行包校验为 `188 tasks; errors=0; warnings=1`。GitHub Actions run `31783510954` 在 commit `b616358` 上通过，offline quality checks 成功。
+
 ## 证据边界
 
 本修复只完成工程可执行性与可复现性门禁，不改变真实科学证据等级。当前仍不能把以下条件标记为完成：

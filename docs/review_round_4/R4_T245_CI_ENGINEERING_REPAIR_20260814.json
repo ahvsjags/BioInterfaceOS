@@ -12,6 +12,21 @@
     "mypy_source_files": 375,
     "mypy": "passed"
   },
+  "kaust_linux": {
+    "commit": "b616358",
+    "python": "3.11.15",
+    "make_check_passed": true,
+    "pytest_passed": 573,
+    "pytest_skipped": 13,
+    "execution_pack_tasks": 188,
+    "execution_pack_errors": 0,
+    "execution_pack_warnings": 1
+  },
+  "github_actions": {
+    "run_id": "31783510954",
+    "commit": "b616358",
+    "conclusion": "success"
+  },
   "scientific_gate_status": {
     "independent_validation": false,
     "external_scientific_reproduction": false,
