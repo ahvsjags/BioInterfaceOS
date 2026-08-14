@@ -27,10 +27,10 @@ def _write_json(path: Path, value: dict[str, object]) -> str:
     return _sha256(path)
 
 
-def _person(identity: str) -> dict[str, object]:
+def _person(identity: str, institution: str = "independent institution") -> dict[str, object]:
     return {
         "identity": identity,
-        "institution": "independent institution",
+        "institution": institution,
         "contact": "independent@example.org",
         "conflict_disclosure": "no author-team membership declared for contract test",
         "author_team_membership": False,
@@ -47,7 +47,7 @@ def _attestation() -> dict[str, str]:
 
 def _frozen_bundle() -> dict[str, str]:
     return {
-        "checkout_commit": "a" * 40,
+        "checkout_commit": "0b4e8e1eb0efe4b0dd690c3b77611309a34e7f6e",
         "protocol_sha256": "b" * 64,
         "environment_digest": "c" * 64,
         "dependency_lockfile_sha256": "d" * 64,
@@ -128,15 +128,19 @@ def _reproduction_receipt() -> dict[str, object]:
     }
 
 
-def _adoption_receipt() -> dict[str, object]:
+def _adoption_receipt(
+    receipt_id: str,
+    identity: str,
+    institution: str,
+) -> dict[str, object]:
     return {
         "schema_version": 1,
-        "receipt_id": "contract-adoption",
+        "receipt_id": receipt_id,
         "protocol_id": PROTOCOL_ID,
-        "user": _person("independent user"),
+        "user": _person(identity, institution),
         "task_description": "installed and ran the public software contract",
         "input_provenance": "public tagged checkout and source instructions",
-        "checkout_commit": "e" * 40,
+        "checkout_commit": "0b4e8e1eb0efe4b0dd690c3b77611309a34e7f6e",
         "environment_digest": "f" * 64,
         "dependency_lockfile_sha256": "0" * 64,
         "commands": ["contract adoption command"],
@@ -155,7 +159,12 @@ def _write_submitted_bundle(tmp_path: Path) -> tuple[Path, Path]:
     values = {
         "independent_evaluator_receipt": _evaluator_receipt(),
         "external_reproduction_receipt": _reproduction_receipt(),
-        "external_user_adoption_receipt": _adoption_receipt(),
+        "external_user_adoption_receipt_01": _adoption_receipt(
+            "contract-adoption-01", "independent user 01", "independent institution 01"
+        ),
+        "external_user_adoption_receipt_02": _adoption_receipt(
+            "contract-adoption-02", "independent user 02", "independent institution 02"
+        ),
     }
     checksums: dict[str, str] = {}
     for document_type, value in values.items():
@@ -170,6 +179,7 @@ def _write_submitted_bundle(tmp_path: Path) -> tuple[Path, Path]:
         "allowed_claim_level": "EXPLORATORY",
         "identity_and_scope_audit_pending": True,
         "scientific_submission_ready": False,
+        "fixed_release": R4ExternalReceiptPreflightWorkflow.FIXED_RELEASE,
         "documents": [
             {
                 "document_type": document_type,
@@ -194,9 +204,10 @@ def test_r4_preflight_validates_three_receipts_without_promoting_evidence(tmp_pa
     ).run(strict=True)
 
     assert summary.status == "STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW"
-    assert summary.document_count == 3
-    assert summary.non_author_declared_count == 3
+    assert summary.document_count == 4
+    assert summary.non_author_declared_count == 4
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    assert receipt["fixed_release"] == R4ExternalReceiptPreflightWorkflow.FIXED_RELEASE
     assert receipt["identity_authenticated"] is False
     assert receipt["independence_authenticated"] is False
     assert receipt["protected_lockbox_accepted"] is False
@@ -223,17 +234,29 @@ def test_r4_preflight_rejects_document_tampering(tmp_path: Path) -> None:
 
 def test_r4_preflight_rejects_author_membership(tmp_path: Path) -> None:
     bundle_path, documents_root = _write_submitted_bundle(tmp_path)
-    path = documents_root / "external_user_adoption_receipt.json"
+    path = documents_root / "external_user_adoption_receipt_01.json"
     value = json.loads(path.read_text(encoding="utf-8"))
     value["user"]["author_team_membership"] = True
     _write_json(path, value)
     bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
     for document in bundle["documents"]:
-        if document["document_type"] == "external_user_adoption_receipt":
+        if document["document_type"] == "external_user_adoption_receipt_01":
             document["sha256"] = _sha256(path)
     _write_json(bundle_path, bundle)
 
     with pytest.raises(R4ExternalReceiptPreflightError, match="author-team membership"):
+        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
+            strict=True
+        )
+
+
+def test_r4_preflight_rejects_release_drift(tmp_path: Path) -> None:
+    bundle_path, documents_root = _write_submitted_bundle(tmp_path)
+    bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+    bundle["fixed_release"]["tag"] = "v0.1.3-r10.24"
+    _write_json(bundle_path, bundle)
+
+    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.25 release"):
         R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
             strict=True
         )

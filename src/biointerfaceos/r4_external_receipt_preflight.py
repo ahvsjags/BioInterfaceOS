@@ -68,11 +68,19 @@ class R4ExternalReceiptPreflightWorkflow:
     """Validate a submitted R4 receipt bundle without accepting it."""
 
     PROTOCOL_ID = "bioif-r4-external-evaluator-and-reproduction-v1.0.0"
+    FIXED_RELEASE = {
+        "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+        "tag": "v0.1.3-r10.25",
+        "commit": "0b4e8e1eb0efe4b0dd690c3b77611309a34e7f6e",
+        "manifest_path": "release/empirical_candidate_v0.1.3-r10.25/release_manifest.json",
+        "manifest_sha256": "37b0befc4dfe5a2b57f83bebf4b7e08cd9f7d87399499b3c8dc52d7a510cdd50",
+    }
     STATUS = "STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW"
     DOCUMENT_TYPES = (
         "independent_evaluator_receipt",
         "external_reproduction_receipt",
-        "external_user_adoption_receipt",
+        "external_user_adoption_receipt_01",
+        "external_user_adoption_receipt_02",
     )
     BUNDLE_FIELDS = {
         "schema_version",
@@ -83,6 +91,7 @@ class R4ExternalReceiptPreflightWorkflow:
         "allowed_claim_level",
         "identity_and_scope_audit_pending",
         "scientific_submission_ready",
+        "fixed_release",
         "documents",
     }
     DOCUMENT_FIELDS = {"document_type", "relative_path", "sha256", "role_not_author_declared"}
@@ -130,6 +139,22 @@ class R4ExternalReceiptPreflightWorkflow:
         if parsed.tzinfo is None:
             raise R4ExternalReceiptPreflightError(f"{label} must include a timezone")
         return text
+
+    @classmethod
+    def _fixed_release(cls, value: Any) -> dict[str, str]:
+        fixed = cls._exact(value, set(cls.FIXED_RELEASE), "fixed release")
+        if fixed != cls.FIXED_RELEASE:
+            raise R4ExternalReceiptPreflightError(
+                "bundle is not bound to the current immutable r10.25 release"
+            )
+        return {key: str(item) for key, item in fixed.items()}
+
+    @classmethod
+    def _assert_fixed_checkout(cls, value: Any, label: str) -> None:
+        if value != cls.FIXED_RELEASE["commit"]:
+            raise R4ExternalReceiptPreflightError(
+                f"{label} checkout_commit is not the fixed r10.25 source commit"
+            )
 
     def _document_path(self, relative_path: str, label: str) -> Path:
         if "\\" in relative_path:
@@ -183,7 +208,7 @@ class R4ExternalReceiptPreflightWorkflow:
                 _string(row[field], f"deviation_ledger {index} {field}")
 
     @classmethod
-    def _frozen_bundle(cls, value: Any, label: str) -> None:
+    def _frozen_bundle(cls, value: Any, label: str) -> dict[str, Any]:
         fields = {
             "checkout_commit",
             "protocol_sha256",
@@ -199,6 +224,7 @@ class R4ExternalReceiptPreflightWorkflow:
             frozen["input_manifest_sha256_or_protected_data_attestation"],
             f"{label} input manifest or protected-data attestation",
         )
+        return frozen
 
     @classmethod
     def _aggregate_results(cls, value: Any, label: str) -> None:
@@ -254,7 +280,8 @@ class R4ExternalReceiptPreflightWorkflow:
             "aggregate_receipt_only": True,
         }:
             raise R4ExternalReceiptPreflightError("evaluator safeguards are insufficient")
-        cls._frozen_bundle(receipt["frozen_bundle"], "evaluator frozen bundle")
+        frozen = cls._frozen_bundle(receipt["frozen_bundle"], "evaluator frozen bundle")
+        cls._assert_fixed_checkout(frozen["checkout_commit"], "evaluator")
         _string_list(receipt["commands_and_scope"], "evaluator commands_and_scope")
         cls._aggregate_results(receipt["aggregate_results"], "evaluator aggregate_results")
         cls._failure_records(
@@ -306,7 +333,8 @@ class R4ExternalReceiptPreflightWorkflow:
         }:
             raise R4ExternalReceiptPreflightError("source data attestation method is invalid")
         _string(attestation["statement"], "source data attestation statement")
-        cls._frozen_bundle(receipt["frozen_bundle"], "reproduction frozen bundle")
+        frozen = cls._frozen_bundle(receipt["frozen_bundle"], "reproduction frozen bundle")
+        cls._assert_fixed_checkout(frozen["checkout_commit"], "reproduction")
         _string_list(receipt["commands_and_scope"], "reproduction commands_and_scope")
         cls._aggregate_results(receipt["aggregate_results"], "reproduction aggregate_results")
         cls._failure_records(
@@ -349,6 +377,7 @@ class R4ExternalReceiptPreflightWorkflow:
         for field in {"task_description", "input_provenance", "limitations_feedback"}:
             _string(receipt[field], f"adoption {field}")
         _digest(receipt["checkout_commit"], "adoption checkout_commit", length=40)
+        cls._assert_fixed_checkout(receipt["checkout_commit"], "adoption")
         _digest(receipt["environment_digest"], "adoption environment_digest")
         _digest(receipt["dependency_lockfile_sha256"], "adoption dependency_lockfile_sha256")
         _string_list(receipt["commands"], "adoption commands")
@@ -381,6 +410,7 @@ class R4ExternalReceiptPreflightWorkflow:
             or bundle["scientific_submission_ready"] is not False
         ):
             raise R4ExternalReceiptPreflightError("bundle evidence boundary is invalid")
+        self._fixed_release(bundle["fixed_release"])
         documents = bundle["documents"]
         if not isinstance(documents, list) or len(documents) != len(self.DOCUMENT_TYPES):
             raise R4ExternalReceiptPreflightError("bundle document count is invalid")
@@ -405,6 +435,20 @@ class R4ExternalReceiptPreflightWorkflow:
             raise R4ExternalReceiptPreflightError("bundle documents are incomplete")
         return bundle, parsed, paths
 
+    @classmethod
+    def _adoption_pair(cls, documents: Mapping[str, dict[str, Any]]) -> None:
+        first = documents["external_user_adoption_receipt_01"]
+        second = documents["external_user_adoption_receipt_02"]
+        first_user = first["user"]
+        second_user = second["user"]
+        if first["receipt_id"] == second["receipt_id"] or (
+            first_user["identity"] == second_user["identity"]
+            and first_user["institution"] == second_user["institution"]
+        ):
+            raise R4ExternalReceiptPreflightError(
+                "adoption receipts must declare distinct users or institutions"
+            )
+
     def run(self, *, strict: bool = False) -> R4ExternalReceiptPreflightSummary:
         if not strict:
             raise R4ExternalReceiptPreflightError("R4 external receipt preflight requires --strict")
@@ -413,7 +457,9 @@ class R4ExternalReceiptPreflightWorkflow:
         bundle, documents, paths = self._bundle()
         self._evaluator(documents["independent_evaluator_receipt"])
         self._reproduction(documents["external_reproduction_receipt"])
-        self._adoption(documents["external_user_adoption_receipt"])
+        self._adoption(documents["external_user_adoption_receipt_01"])
+        self._adoption(documents["external_user_adoption_receipt_02"])
+        self._adoption_pair(documents)
         self.receipt_out.parent.mkdir(parents=True, exist_ok=True)
         receipt = {
             "schema_version": 1,
@@ -421,6 +467,7 @@ class R4ExternalReceiptPreflightWorkflow:
             "status": self.STATUS,
             "bundle_id": bundle["bundle_id"],
             "bundle_sha256": _sha256(self.bundle_path),
+            "fixed_release": self.FIXED_RELEASE,
             "document_sha256": {name: _sha256(path) for name, path in paths.items()},
             "document_count": len(paths),
             "non_author_declared_count": len(paths),
@@ -452,12 +499,15 @@ class R4ExternalReceiptPreflightWorkflow:
         bundle, documents, paths = self._bundle()
         self._evaluator(documents["independent_evaluator_receipt"])
         self._reproduction(documents["external_reproduction_receipt"])
-        self._adoption(documents["external_user_adoption_receipt"])
+        self._adoption(documents["external_user_adoption_receipt_01"])
+        self._adoption(documents["external_user_adoption_receipt_02"])
+        self._adoption_pair(documents)
         receipt = self._json(self.receipt_out, "R4 external receipt preflight receipt")
         if (
             receipt.get("status") != self.STATUS
             or receipt.get("bundle_id") != bundle["bundle_id"]
             or receipt.get("bundle_sha256") != _sha256(self.bundle_path)
+            or receipt.get("fixed_release") != self.FIXED_RELEASE
             or receipt.get("document_sha256")
             != {name: _sha256(path) for name, path in paths.items()}
             or receipt.get("scientific_submission_ready") is not False

@@ -7,15 +7,22 @@
   "allowed_claim_level": "EXPLORATORY_UNTIL_VERIFIED",
   "identity_and_scope_audit_pending": true,
   "scientific_submission_ready": false,
+  "fixed_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "tag": "v0.1.3-r10.25",
+    "commit": "0b4e8e1eb0efe4b0dd690c3b77611309a34e7f6e",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.25/release_manifest.json",
+    "manifest_sha256": "37b0befc4dfe5a2b57f83bebf4b7e08cd9f7d87399499b3c8dc52d7a510cdd50"
+  },
   "documents": [
     {
-      "document_type": "independent_lockbox_evaluator_receipt",
+      "document_type": "independent_evaluator_receipt",
       "relative_path": "independent_lockbox_evaluator_receipt.json",
       "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "role_not_author_declared": true
     },
     {
-      "document_type": "no_author_scientific_reproduction_receipt",
+      "document_type": "external_reproduction_receipt",
       "relative_path": "no_author_scientific_reproduction_receipt.json",
       "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
       "role_not_author_declared": true
