@@ -48,6 +48,7 @@ See:
 - `release/empirical_candidate_v0.1.3-r10.52/README.md`
 - `docs/release/R10_52_DOI_DEPOSIT_METADATA.json`
 - `docs/data/R4_T268_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`
+- `docs/data/R4_T279_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`
 - `scripts/r4_external_reproduction_r10_54.sh`
 - `docs/review_round_4/R4_T272_STRONG_Q1_EXTERNAL_EVIDENCE_CLOSURE_GOAL_20260815.md`
 - `docs/review_round_4/R4_T273_BIOLOGICAL_UNIT_PRIMARY_STATUS_20260815.md`
