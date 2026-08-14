@@ -819,6 +819,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the T217 statistical-amendment receipt",
     )
     data_r4_t217_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t222_parser = data_subparsers.add_parser(
+        "audit-r4-t222-paper-data-fallback",
+        help="audit frozen full-text, supplementary-table and public-accession data routes",
+    )
+    data_r4_t222_parser.add_argument("--strict", action="store_true")
+    data_r4_t222_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t222-paper-data-fallback",
+        help="verify the T222 published-paper data fallback receipt",
+    )
+    data_r4_t222_verify_parser.add_argument("--strict", action="store_true")
     data_r4_t214_parser = data_subparsers.add_parser(
         "evaluate-r4-t214-source-heterogeneity",
         help="audit source- and study-level heterogeneity without refitting frozen models",
@@ -3785,6 +3795,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t200-statistical-closure",
             "evaluate-r4-t217-statistical-amendment",
             "verify-r4-t217-statistical-amendment",
+            "audit-r4-t222-paper-data-fallback",
+            "verify-r4-t222-paper-data-fallback",
             "evaluate-r4-t214-source-heterogeneity",
             "verify-r4-t214-source-heterogeneity",
             "audit-r4-dalian-plasma-corona-source",
@@ -5020,6 +5032,53 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 "primary_estimand_frozen=true availability_denominators_audited=true "
                 "missingness_policy_frozen=true project_multiplicity_ledger_frozen=true "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-t222-paper-data-fallback":
+            from biointerfaceos.r4_paper_data_fallback import (
+                R4PaperDataFallbackError,
+                R4PaperDataFallbackWorkflow,
+            )
+
+            try:
+                t222_summary = R4PaperDataFallbackWorkflow(root).run(strict=args.strict)
+            except (R4PaperDataFallbackError, OSError) as exc:
+                print(f"R4_T222_PAPER_DATA_FALLBACK_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T222_PAPER_DATA_FALLBACK_VALID "
+                f"routes={t222_summary.route_count} "
+                f"references={t222_summary.reference_count} "
+                f"source_registries={t222_summary.source_registry_count} "
+                f"source_maps={t222_summary.source_map_count} "
+                f"reports={t222_summary.report_count} "
+                "published_paper_data_audited=true independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t222-paper-data-fallback":
+            from biointerfaceos.r4_paper_data_fallback import (
+                R4PaperDataFallbackError,
+                R4PaperDataFallbackWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_T222_PAPER_DATA_FALLBACK_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                t222_summary = R4PaperDataFallbackWorkflow(root).verify(strict=True)
+            except (R4PaperDataFallbackError, OSError) as exc:
+                print(f"R4_T222_PAPER_DATA_FALLBACK_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T222_PAPER_DATA_FALLBACK_VERIFY_VALID "
+                f"routes={t222_summary.route_count} "
+                f"references={t222_summary.reference_count} "
+                f"source_registries={t222_summary.source_registry_count} "
+                f"source_maps={t222_summary.source_map_count} "
+                f"reports={t222_summary.report_count} "
+                "published_paper_data_audited=true independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-t214-source-heterogeneity":
