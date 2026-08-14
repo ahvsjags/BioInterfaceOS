@@ -49,6 +49,8 @@ See:
 - `docs/release/R10_52_DOI_DEPOSIT_METADATA.json`
 - `docs/data/R4_T268_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`
 - `docs/data/R4_T279_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`
+- `docs/data/R4_T279_LOCKBOX_WORK_PACKAGE_20260815.json`
+- `docs/data/R4_T279_EXTERNAL_USER_ADOPTION_INTAKE_20260815.json`
 - `scripts/r4_external_reproduction_r10_54.sh`
 - `docs/review_round_4/R4_T272_STRONG_Q1_EXTERNAL_EVIDENCE_CLOSURE_GOAL_20260815.md`
 - `docs/review_round_4/R4_T273_BIOLOGICAL_UNIT_PRIMARY_STATUS_20260815.md`
@@ -68,6 +70,7 @@ See:
 - `docs/release/R10_54_ARCHIVE_BUILD_RECEIPT_20260815.json`
 - `docs/release/R10_55_DOI_DEPOSIT_METADATA.json`
 - `docs/release/R10_55_ARCHIVE_BUILD_RECEIPT_20260815.json`
+- `docs/release/R10_56_DOI_DEPOSIT_METADATA.json`
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
 - `release/empirical_candidate_v0.1.3-r10.28/release_manifest.json`

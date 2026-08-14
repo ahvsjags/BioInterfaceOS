@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_AUTHENTICATED_ARCHIVE_UPLOAD",
+  "doi_archived": false,
+  "scientific_submission_ready": false,
+  "release": {
+    "tag": "v0.1.3-r10.56",
+    "source_commit": "1c312fbda54f24325011a79a3a8f0c433140f1d7",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.56/release_manifest.json",
+    "manifest_sha256": "553febabf2d6595dd52545c6b75035e901c20c8ef07b1cb69df4e332aeb4a56d",
+    "manifest_bytes": 606574,
+    "archive_filename": "BioInterfaceOS-v0.1.3-r10.56.tar.gz",
+    "archive_server_path": "/ibex/user/xup0a/BioInterfaceOS-v0.1.3-r10.56.tar.gz",
+    "archive_bytes": null,
+    "archive_sha256": null,
+    "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.56.tar.gz.sha256",
+    "doi": null,
+    "immutable_record_url": null
+  },
+  "deposit_metadata": {
+    "title": "BioInterfaceOS v0.1.3-r10.56: replicate-aware T250 refit and external evidence package",
+    "upload_type": "software",
+    "publication_date": "2026-08-15",
+    "version": "v0.1.3-r10.56",
+    "description": "Immutable public software candidate containing the T273 biological-unit-primary execution, T274 coverage sensitivity, T275 replicate sensitivity, T277 pre-model technical-replicate-aware refit, and fixed-tag protected lockbox, no-author reproduction and external adoption handoff packages.",
+    "creators": [{"name": "BioInterfaceOS Contributors"}],
+    "keywords": [
+      "computational biology",
+      "proteomics",
+      "reproducible research",
+      "provenance",
+      "nested evaluation",
+      "technical replicate",
+      "external validation"
+    ],
+    "license": "Apache-2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/ahvsjags/BioInterfaceOS/tree/v0.1.3-r10.56",
+        "relation": "isIdenticalTo",
+        "resource_type": "software"
+      },
+      {
+        "identifier": "https://github.com/ahvsjags/BioInterfaceOS",
+        "relation": "isSupplementTo",
+        "resource_type": "software"
+      }
+    ]
+  },
+  "claim_boundary": "This metadata is not a DOI or archive receipt. doi_archived remains false until authenticated upload and exact manifest/archive read-back. The candidate does not claim independent lockbox evaluation, no-author reproduction, external adoption or scientific submission readiness."
+}
