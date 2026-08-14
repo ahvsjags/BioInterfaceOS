@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "task_id": "T216",
+  "receipt_id": "bioif-r4-t216-kaust-fresh-replay-v1.0.0",
+  "status": "AUTHOR_RUN_FRESH_END_TO_END_REPLAY_COMPLETED",
+  "host": "KAUST Ibex glogin",
+  "checkout": "/ibex/user/xup0a/BioInterfaceOS-r3-real-data-execution-20260814-clean",
+  "source_commit": "ad9b28942395a1c7dc5dc455bf9a1da0734c0c88",
+  "pre_execution_output_directory_absent": true,
+  "output_relative": "reports/review_round_4/t214_source_heterogeneity/v1.2.0",
+  "environment": {
+    "uv": "uv 0.12.1 (x86_64-unknown-linux-gnu)",
+    "python": "Python 3.11.15",
+    "kernel": "Linux 5.14.0-427.20.1.el9_4.0.1.x86_64",
+    "uv_lock_sha256": "c23de02a87f2f7c060170ebd9bf7d22932ed34f767ab405833b2276451e3c4e9"
+  },
+  "commands": [
+    "uv run python -m biointerfaceos data evaluate-r4-t214-source-heterogeneity --strict",
+    "uv run python -m biointerfaceos data verify-r4-t214-source-heterogeneity --strict",
+    "uv run pytest -q tests/review_round_4/test_r4_t214_source_heterogeneity.py",
+    "uv run python -m compileall -q src"
+  ],
+  "command_results": {
+    "evaluate": "R4_T214_SOURCE_HETEROGENEITY_VALID effect_rows=8 effect_units=5 positive_effects=2 negative_effects=1 pooling_prohibited=true scientific_submission_ready=false",
+    "verify": "R4_T214_SOURCE_HETEROGENEITY_VERIFY_VALID effect_rows=8 effect_units=5 positive_effects=2 negative_effects=1 pooling_prohibited=true scientific_submission_ready=false",
+    "pytest": "4 passed",
+    "compileall": "passed"
+  },
+  "output_artifacts": {
+    "effect_unit_descriptive_audit.csv": "ad7d417b60e9319b51a4b35714d1037a90429bcb62ee3fd6fa401c67c142272b",
+    "heterogeneity_summary.json": "e823e2b629e51e2f3430a0a537f9beb45c6bd8a2a0de509c21e2288e79d6b625",
+    "missingness_threshold_sensitivity.csv": "60693c143f26fa11848cc815012ad7e1ff9f35e763ada184d14d5411403e74ee",
+    "t214_source_heterogeneity_receipt.json": "ff4a03b60eb6f158f70173bc52796b47cfc2f59a66af5819aca5bbda47e11581",
+    "t214_source_heterogeneity_report.json": "91ff94a87c9943de75dcb80db0960cb3be04bd06a1067179c91d473aec602084"
+  },
+  "scientific_boundary": {
+    "evidence_class": "AUTHOR_RUN_ENGINEERING_REPLAY_OF_PAPER_DERIVED_ANALYSIS",
+    "effect_units_are_inferential_units": false,
+    "biological_n_inferred_from_measurement_batches": false,
+    "independent_validation": false,
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "interpretation": "This receipt proves fresh regeneration of the v1.2 descriptive audit from an absent output directory, with rounded presentation fields separated from raw audit values and degenerate computational intervals explicitly labeled. It does not establish independent scientific reproduction, effective biological n, or submission readiness."
+}
