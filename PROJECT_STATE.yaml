@@ -2,11 +2,11 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 176
+task_count: 177
 ready_tasks:
   - T123
-current_task: T212
-active_execplan: docs/review_round_4/R4_T212_R10_17_RELEASE_STATUS_20260814.md
+current_task: T213
+active_execplan: docs/review_round_4/R4_T213_R10_18_POINTER_CONSISTENCY_20260814.md
 completed_tasks:
   - T000
   - T001
@@ -162,6 +162,7 @@ completed_tasks:
   - T209
   - T211
   - T212
+  - T213
   - T196
 failed_tasks: []
 waived_tasks: []
