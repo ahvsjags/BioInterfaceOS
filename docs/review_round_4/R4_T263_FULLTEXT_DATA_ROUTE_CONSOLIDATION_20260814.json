@@ -38,6 +38,30 @@
       "biological_material": "same pooled aliquot",
       "claim_level": "technical-center robustness only",
       "biological_cohort_count": 1
+    },
+    "paper_attached_technical_ood": {
+      "accession": "PXD068107",
+      "article": "PMC12808129",
+      "laboratory_anchor": "Westlake University",
+      "license": "CC0",
+      "source_asset": "BioStudies 2b_heatmap.xlsx",
+      "source_cell_count": 2058,
+      "positive_source_cell_count": 1976,
+      "measurement_batch_count": 21,
+      "shared_canonical_protein_count": 98,
+      "biological_unit_count": 1,
+      "development_observation_count": 2724,
+      "external_observation_count": 1976,
+      "sequence_ridge_full_mean_spearman": 0.17861446667608047,
+      "sequence_ridge_full_ci95": [0.14194138226828856, 0.21417738108202208],
+      "composition_only_mean_spearman": 0.19994159595004432,
+      "paired_full_minus_composition": -0.02132712927396384,
+      "paired_ci95": [-0.03863506341472515, -0.004486292748560039],
+      "permutation_upper_tail_p": 0.011673151750972763,
+      "claim_level": "EXPLORATORY_TECHNICAL_OOD_ONLY",
+      "receipt": "reports/review_round_4/pxd068107_technical_ood/v1.0.0/r4_pxd068107_technical_ood_report.json",
+      "independent_validation": false,
+      "external_scientific_reproduction": false
     }
   },
   "candidate_screen": [
@@ -78,13 +102,24 @@
       "official_urls": [
         "https://proteomecentral.proteomexchange.org/dataset/PXD077545"
       ]
+    },
+    {
+      "accession": "PXD068107",
+      "lineage": "Westlake University",
+      "decision": "ADMITTED_AUTHOR_RUN_TECHNICAL_OOD_ONLY",
+      "reason": "CC0 BioStudies source data contain 21 technical conditions and 98 frozen-R3 shared targets. The public source does not provide a protein-by-patient matrix for this execution, so one pooled technical biological unit is retained and the result is not donor-level validation.",
+      "official_urls": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC12808129/",
+        "https://www.ebi.ac.uk/pride/archive/projects/PXD068107",
+        "https://www.ebi.ac.uk/biostudies/api/v1/studies/S-SCDT-10_1038-S44321-025-00346-9"
+      ]
     }
   ],
   "strict_scores": {
-    "data_compatibility_sample_foundation": 82,
+    "data_compatibility_sample_foundation": 85,
     "statistical_design": 88,
-    "statistical_execution_effective_n": 82,
-    "models_ablations_negative_ood": 78,
+    "statistical_execution_effective_n": 86,
+    "models_ablations_negative_ood": 84,
     "protected_lockbox": 0,
     "no_author_reproduction": 0,
     "external_adoption": 0,

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-pxd068107-technical-source-audit-v1.0.0",
+  "evaluated_at": "2026-08-14T00:00:00+00:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "article": {
+    "pmcid": "PMC12808129",
+    "doi": "10.1038/s44321-025-00346-9",
+    "title": "Systematic evaluation of blood contamination in nanoparticle-based plasma proteomics",
+    "publication_year": 2026,
+    "license": "CC0",
+    "full_text_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12808129/",
+    "data_locator": "https://www.ebi.ac.uk/biostudies/api/v1/studies/S-SCDT-10_1038-S44321-025-00346-9"
+  },
+  "dataset": {
+    "accession": "PXD068107",
+    "pride_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD068107",
+    "biostudies_locator": "https://www.ebi.ac.uk/biostudies/api/v1/studies/S-SCDT-10_1038-S44321-025-00346-9",
+    "access_right": "open",
+    "license": "CC0",
+    "license_verification_method": "PRIDE and BioStudies public metadata"
+  },
+  "source_scope": {
+    "source_id": "PXD068107_WESTLAKE_OMNIPROT_TECHNICAL",
+    "laboratory_anchor": "Westlake University",
+    "source_lineage": "NEW_TO_CURRENT_R3_ANCHORS",
+    "biofluid": "human plasma; paper includes contamination-focused clinical source material",
+    "nanoparticle": "OmniProt silica nanoparticle workflow",
+    "analysis_role": "SEPARATE_R4_PAPER_DERIVED_TECHNICAL_OOD",
+    "biological_unit_count": 1,
+    "claim_level": "TECHNICAL_OOD_ONLY",
+    "prohibited_interpretations": [
+      "The 21 heatmap rows are nanoparticle/technical conditions, not 21 independent donors.",
+      "The paper's 193-patient study count is not used as a protein-by-patient sample matrix here.",
+      "This source is not a protected lockbox, independent evaluator or no-author reproduction.",
+      "The source is not added to the frozen R3 development population or used for target/model selection.",
+      "Raw intensity is never compared across studies; only within-condition positive ranks are used."
+    ]
+  },
+  "source_assets": [
+    {"asset_id": "heatmap_2b", "relative_path": "2b_heatmap.xlsx", "sha256": "2b10177ab394b9e250f170e4b7505e79d3d7307998e6feed36ee61ace842255c", "expected_bytes": 1213273, "source_url": "https://www.ebi.ac.uk/biostudies/files/S-SCDT-10_1038-S44321-025-00346-9/2b_heatmap.xlsx"},
+    {"asset_id": "abundance_rank_2i", "relative_path": "2i_prot_abundance_rank.xlsx", "sha256": "7f74ad576a974503316554fdcc1b9c00a950904c3f373d4a9465ec884c28fda2", "expected_bytes": 227497, "source_url": "https://www.ebi.ac.uk/biostudies/files/S-SCDT-10_1038-S44321-025-00346-9/2i_prot_abundance_rank.xlsx"},
+    {"asset_id": "platelets_7d", "relative_path": "7d_Platelets_30markers_200patients_contamination_index_distribution.xlsx", "sha256": "b44ca1cdce01b6794cf83eae00ec4b2a8214fd149322228dbe3c1cfb400449ae", "expected_bytes": 14936, "source_url": "https://www.ebi.ac.uk/biostudies/files/S-SCDT-10_1038-S44321-025-00346-9/7d_Platelets_30markers_200patients_contamination_index_distribution.xlsx"},
+    {"asset_id": "rbc_7e", "relative_path": "7e_RBC_30markers_200patients_contamination_index_distribution.xlsx", "sha256": "0baf66f07b70f88ed6a9ade4f3681fb11e05cbfe61774be11bf2ae12df5d10d5", "expected_bytes": 14911, "source_url": "https://www.ebi.ac.uk/biostudies/files/S-SCDT-10_1038-S44321-025-00346-9/7e_RBC_30markers_200patients_contamination_index_distribution.xlsx"},
+    {"asset_id": "coagulation_7f", "relative_path": "7f_Coagulation_200patients_contamination_index_distribution.xlsx", "sha256": "0f4b19e121be0c639158f89adf397160dbc2f41e6b1cbc24d833f78b9cd55189", "expected_bytes": 14914, "source_url": "https://www.ebi.ac.uk/biostudies/files/S-SCDT-10_1038-S44321-025-00346-9/7f_Coagulation_200patients_contamination_index_distribution.xlsx"},
+    {"asset_id": "ml_heatmap_7g", "relative_path": "7g_ml_stat_heatmap.xlsx", "sha256": "5450e9a27e20251af78a3e04138b90b5ffd589e00116af6341a625d23595340f", "expected_bytes": 10491, "source_url": "https://www.ebi.ac.uk/biostudies/files/S-SCDT-10_1038-S44321-025-00346-9/7g_ml_stat_heatmap.xlsx"}
+  ],
+  "r3_reference_asset": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "table_contract": {
+    "worksheet": "2b_heatmap",
+    "expected_row_count": 22,
+    "expected_column_count": 7820,
+    "expected_measurement_batch_count": 21,
+    "minimum_targets_per_batch": 10,
+    "primary_analysis_asset": "heatmap_2b"
+  },
+  "quantification_contract": {
+    "author_quantity_type": "SOURCE_DATA_INTENSITY",
+    "rank_eligibility": "strictly positive finite source intensity and exact accession in frozen R3 feature table",
+    "missing_policy": "retain NA/blank as source missing and exclude from rank; never impute",
+    "raw_scale_cross_study_use": "PROHIBITED"
+  },
+  "admission_minimums": {
+    "minimum_positive_proteins_per_measurement_batch": 10,
+    "expected_rank_qualified_measurement_batch_count": 21,
+    "expected_shared_canonical_protein_count": 98,
+    "biological_unit_count": 1,
+    "laboratory_anchor_count": 1
+  },
+  "claim_boundary": "This is an author-run technical OOD analysis on CC0 paper-attached source data from one Westlake technical lineage. It evaluates frozen sequence descriptors against source-local positive ranks. It does not establish donor-level biological validation, an independent evaluator, external scientific reproduction, adoption or scientific submission readiness."
+}

@@ -507,6 +507,28 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="directory containing the byte-verified PMC13106918 package and extracted MaxQuant files",
     )
     data_r4_pmc13106918_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd068107_source_parser = data_subparsers.add_parser(
+        "audit-r4-pxd068107-source",
+        help="audit the CC0 paper-attached PXD068107 technical source",
+    )
+    data_r4_pxd068107_source_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PXD068107 BioStudies source workbooks",
+    )
+    data_r4_pxd068107_source_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd068107_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pxd068107-source",
+        help="verify the frozen PXD068107 source audit receipt",
+    )
+    data_r4_pxd068107_verify_parser.add_argument(
+        "--assets-root",
+        type=Path,
+        required=True,
+        help="directory containing the byte-verified PXD068107 BioStudies source workbooks",
+    )
+    data_r4_pxd068107_verify_parser.add_argument("--strict", action="store_true")
     data_r4_pmc3252235_source_parser = data_subparsers.add_parser(
         "audit-r4-pmc3252235-source",
         help="audit and preserve the negative decision for the PNNL full-text human-plasma source",
@@ -622,6 +644,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen PMC13106918 technical OOD receipt",
     )
     data_r4_pmc13106918_ood_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd068107_ood_parser = data_subparsers.add_parser(
+        "evaluate-r4-pxd068107-technical-ood",
+        help="run the frozen author-run technical OOD analysis for PXD068107",
+    )
+    data_r4_pxd068107_ood_parser.add_argument("--strict", action="store_true")
+    data_r4_pxd068107_ood_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pxd068107-technical-ood",
+        help="verify the frozen PXD068107 technical OOD receipt",
+    )
+    data_r4_pxd068107_ood_verify_parser.add_argument("--strict", action="store_true")
     data_r4_pmc10257194_source_parser = data_subparsers.add_parser(
         "audit-r4-pmc10257194-paper-source",
         help="audit the analysis-only PMC10257194 paper-attached NaY-PPC cohort",
@@ -3599,6 +3631,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "audit-r4-small-molecule-corona-source",
             "audit-r4-pmc13106918-source",
             "verify-r4-pmc13106918-source",
+            "audit-r4-pxd068107-source",
+            "verify-r4-pxd068107-source",
             "audit-r4-pmc3252235-source",
             "verify-r4-pmc3252235-source",
             "audit-r4-pxd064962-source",
@@ -3613,6 +3647,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-pxd017052-nsclc-biological-ood",
             "evaluate-r4-pmc13106918-technical-ood",
             "verify-r4-pmc13106918-technical-ood",
+            "evaluate-r4-pxd068107-technical-ood",
+            "verify-r4-pxd068107-technical-ood",
             "audit-r4-pmc10257194-paper-source",
             "verify-r4-pmc10257194-paper-source",
             "evaluate-r4-pmc10257194-paper-ood",
@@ -3996,6 +4032,56 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 "scientific_submission_ready=false"
             )
             return 0
+        if args.data_command == "audit-r4-pxd068107-source":
+            from biointerfaceos.r4_pxd068107_source_audit import (
+                R4PXD068107SourceAuditError,
+                R4PXD068107SourceAuditWorkflow,
+            )
+
+            try:
+                pxd068107_summary = R4PXD068107SourceAuditWorkflow(root, args.assets_root).run(strict=args.strict)
+            except (R4PXD068107SourceAuditError, OSError) as exc:
+                print(f"R4_PXD068107_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD068107_SOURCE_AUDIT_VALID "
+                f"assets={pxd068107_summary.source_asset_count} "
+                f"protein_rows={pxd068107_summary.protein_row_count} "
+                f"measurement_batches={pxd068107_summary.measurement_batch_count} "
+                f"rank_qualified_measurement_batches={pxd068107_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={pxd068107_summary.shared_canonical_protein_count} "
+                f"source_cells={pxd068107_summary.source_cell_count} "
+                f"positive_source_cells={pxd068107_summary.positive_source_cell_count} "
+                "biological_units=1 laboratories=1 model_fitted=false independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pxd068107-source":
+            from biointerfaceos.r4_pxd068107_source_audit import (
+                R4PXD068107SourceAuditError,
+                R4PXD068107SourceAuditWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PXD068107_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                pxd068107_summary = R4PXD068107SourceAuditWorkflow(root, args.assets_root).verify()
+            except (R4PXD068107SourceAuditError, OSError) as exc:
+                print(f"R4_PXD068107_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD068107_SOURCE_VERIFY_VALID "
+                f"assets={pxd068107_summary.source_asset_count} "
+                f"protein_rows={pxd068107_summary.protein_row_count} "
+                f"measurement_batches={pxd068107_summary.measurement_batch_count} "
+                f"rank_qualified_measurement_batches={pxd068107_summary.rank_qualified_measurement_batch_count} "
+                f"shared_canonical_proteins={pxd068107_summary.shared_canonical_protein_count} "
+                f"source_cells={pxd068107_summary.source_cell_count} "
+                f"positive_source_cells={pxd068107_summary.positive_source_cell_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
         if args.data_command == "audit-r4-pmc3252235-source":
             from biointerfaceos.r4_pmc3252235_source_screen import (
                 R4PMC3252235SourceScreenError,
@@ -4353,6 +4439,61 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"external_shared_canonical_proteins={technical_ood.shared_canonical_protein_count} "
                 f"external_measurement_batches={technical_ood.external_measurement_batch_count} "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-pxd068107-technical-ood":
+            from biointerfaceos.r4_pxd068107_technical_ood import (
+                R4PXD068107TechnicalOODError,
+                R4PXD068107TechnicalOODWorkflow,
+            )
+
+            try:
+                technical_ood = R4PXD068107TechnicalOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    root / "data/raw/r4_candidate_pxd068107",
+                ).run(strict=args.strict)
+            except (R4PXD068107TechnicalOODError, OSError) as exc:
+                print(f"R4_PXD068107_TECHNICAL_OOD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD068107_TECHNICAL_OOD_VALID "
+                f"development_observations={technical_ood.development_observation_count} "
+                f"external_observations={technical_ood.external_observation_count} "
+                f"external_shared_canonical_proteins={technical_ood.shared_canonical_protein_count} "
+                f"external_measurement_batches={technical_ood.external_measurement_batch_count} "
+                f"models={technical_ood.model_count} biological_units=1 laboratories=1 "
+                "independent_validation=false external_scientific_reproduction=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pxd068107-technical-ood":
+            from biointerfaceos.r4_pxd068107_technical_ood import (
+                R4PXD068107TechnicalOODError,
+                R4PXD068107TechnicalOODWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_PXD068107_TECHNICAL_OOD_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                technical_ood = R4PXD068107TechnicalOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    root / "data/raw/r4_candidate_pxd068107",
+                ).verify()
+            except (R4PXD068107TechnicalOODError, OSError) as exc:
+                print(f"R4_PXD068107_TECHNICAL_OOD_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PXD068107_TECHNICAL_OOD_VERIFY_VALID "
+                f"development_observations={technical_ood.development_observation_count} "
+                f"external_observations={technical_ood.external_observation_count} "
+                f"external_shared_canonical_proteins={technical_ood.shared_canonical_protein_count} "
+                f"external_measurement_batches={technical_ood.external_measurement_batch_count} "
+                f"models={technical_ood.model_count} scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "audit-r4-pmc10257194-paper-source":

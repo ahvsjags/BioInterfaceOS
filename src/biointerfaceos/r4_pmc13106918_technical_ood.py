@@ -34,6 +34,10 @@ class R4PMC13106918TechnicalOODError(R4SmallMoleculeCoronaOODError):
 class R4PMC13106918TechnicalOODWorkflow(R4SmallMoleculeCoronaOODWorkflow):
     """Fit only on frozen R3 and score source-local PMC13106918 ranks."""
 
+    SOURCE_AUDIT_WORKFLOW = R4PMC13106918SourceAuditWorkflow
+    SOURCE_AUDIT_ERROR = R4PMC13106918SourceAuditError
+    FILE_PREFIX = "r4_pmc13106918"
+
     AUDIT_ID = "bioif-r4-pmc13106918-technical-ood-v1.0.0"
     PROTOCOL_RELATIVE = "docs/data/R4_T177_PMC13106918_TECHNICAL_OOD_PROTOCOL.json"
     OUTPUT_RELATIVE = "reports/review_round_4/pmc13106918_technical_ood/v1.0.0"
@@ -215,8 +219,8 @@ class R4PMC13106918TechnicalOODWorkflow(R4SmallMoleculeCoronaOODWorkflow):
         protocol, paths = self._protocol()
         try:
             R3AnalysisProtocolWorkflow(self.root, self.output_data_root).verify()
-            R4PMC13106918SourceAuditWorkflow(self.root, self.source_assets_root).verify()
-        except (R4PMC13106918SourceAuditError, R3AnalysisProtocolError, OSError) as exc:
+            self.SOURCE_AUDIT_WORKFLOW(self.root, self.source_assets_root).verify()
+        except (self.SOURCE_AUDIT_ERROR, R3AnalysisProtocolError, OSError) as exc:
             raise R4PMC13106918TechnicalOODError("a frozen R3/T176 input receipt does not verify") from exc
         helper = R3ModelEvaluationWorkflow(self.root, self.output_data_root, self.feature_root)
         try:
@@ -377,13 +381,13 @@ class R4PMC13106918TechnicalOODWorkflow(R4SmallMoleculeCoronaOODWorkflow):
         ]
         self.output_root.mkdir(parents=True, exist_ok=False)
         output_paths = {
-            "external_target_ledger": self.output_root / "r4_pmc13106918_rank_target_ledger.csv",
-            "predictions": self.output_root / "r4_pmc13106918_ood_predictions.csv",
-            "batch_metrics": self.output_root / "r4_pmc13106918_measurement_batch_metrics.csv",
-            "model_metrics": self.output_root / "r4_pmc13106918_ood_model_metrics.csv",
-            "selection": self.output_root / "r4_pmc13106918_nested_selection.csv",
-            "negative_control": self.output_root / "r4_pmc13106918_within_batch_permutation.csv",
-            "parameters": self.output_root / "r4_pmc13106918_model_parameters.json",
+            "external_target_ledger": self.output_root / f"{self.FILE_PREFIX}_rank_target_ledger.csv",
+            "predictions": self.output_root / f"{self.FILE_PREFIX}_ood_predictions.csv",
+            "batch_metrics": self.output_root / f"{self.FILE_PREFIX}_measurement_batch_metrics.csv",
+            "model_metrics": self.output_root / f"{self.FILE_PREFIX}_ood_model_metrics.csv",
+            "selection": self.output_root / f"{self.FILE_PREFIX}_nested_selection.csv",
+            "negative_control": self.output_root / f"{self.FILE_PREFIX}_within_batch_permutation.csv",
+            "parameters": self.output_root / f"{self.FILE_PREFIX}_model_parameters.json",
         }
         self._write_csv(output_paths["external_target_ledger"], self.TARGET_FIELDS, target_rows)
         self._write_csv(
@@ -488,7 +492,7 @@ class R4PMC13106918TechnicalOODWorkflow(R4SmallMoleculeCoronaOODWorkflow):
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
         }
-        report_path = self.output_root / "r4_pmc13106918_technical_ood_report.json"
+        report_path = self.output_root / f"{self.FILE_PREFIX}_technical_ood_report.json"
         self._write_json(report_path, report)
         receipt = {
             "schema_version": 1,
@@ -506,7 +510,7 @@ class R4PMC13106918TechnicalOODWorkflow(R4SmallMoleculeCoronaOODWorkflow):
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
         }
-        receipt_path = self.output_root / "r4_pmc13106918_technical_ood_receipt.json"
+        receipt_path = self.output_root / f"{self.FILE_PREFIX}_technical_ood_receipt.json"
         self._write_json(receipt_path, receipt)
         return R4SmallMoleculeCoronaOODSummary(
             len(development),
@@ -518,8 +522,8 @@ class R4PMC13106918TechnicalOODWorkflow(R4SmallMoleculeCoronaOODWorkflow):
         )
 
     def verify(self) -> R4SmallMoleculeCoronaOODSummary:
-        report_path = self.output_root / "r4_pmc13106918_technical_ood_report.json"
-        receipt_path = self.output_root / "r4_pmc13106918_technical_ood_receipt.json"
+        report_path = self.output_root / f"{self.FILE_PREFIX}_technical_ood_report.json"
+        receipt_path = self.output_root / f"{self.FILE_PREFIX}_technical_ood_receipt.json"
         report = self._json(report_path, "PMC13106918 technical OOD report")
         receipt = self._json(receipt_path, "PMC13106918 technical OOD receipt")
         artifacts = _mapping(report.get("artifacts"), "technical OOD artifacts")
