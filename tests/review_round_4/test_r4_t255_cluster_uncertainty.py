@@ -33,6 +33,10 @@ def test_t255_report_binds_the_materialized_metric_artifact() -> None:
     report_path = ROOT / R4T255ClusterUncertaintyWorkflow.OUTPUT_RELATIVE / R4T255ClusterUncertaintyWorkflow.REPORT_NAME
     report = json.loads(report_path.read_text())
     artifact = report["artifacts"]["cluster_bootstrap_metrics"]
-    metrics_path = ROOT / R4T255ClusterUncertaintyWorkflow.OUTPUT_RELATIVE / R4T255ClusterUncertaintyWorkflow.METRICS_NAME
+    metrics_path = (
+        ROOT
+        / R4T255ClusterUncertaintyWorkflow.OUTPUT_RELATIVE
+        / R4T255ClusterUncertaintyWorkflow.METRICS_NAME
+    )
     assert artifact["relative_path"] == metrics_path.relative_to(ROOT).as_posix()
     assert artifact["sha256"]
