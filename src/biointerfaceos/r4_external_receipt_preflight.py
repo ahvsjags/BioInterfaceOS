@@ -204,9 +204,11 @@ class R4ExternalReceiptPreflightWorkflow:
             raise R4ExternalReceiptPreflightError(
                 "repository cannot read the fixed release manifest blob"
             ) from exc
-        manifest_matches = manifest_path.is_file() and hashlib.sha256(
-            canonical_manifest_bytes
-        ).hexdigest() == fixed_release["manifest_sha256"]
+        manifest_matches = (
+            manifest_path.is_file()
+            and hashlib.sha256(canonical_manifest_bytes).hexdigest()
+            == fixed_release["manifest_sha256"]
+        )
         if not manifest_matches:
             raise R4ExternalReceiptPreflightError(
                 "repository release manifest does not match the fixed release"
@@ -221,9 +223,7 @@ class R4ExternalReceiptPreflightWorkflow:
                 "cannot parse fixed release manifest blob"
             ) from exc
         if manifest.get("source_commit") != fixed_release["source_commit"]:
-            raise R4ExternalReceiptPreflightError(
-                "fixed release manifest source_commit differs"
-            )
+            raise R4ExternalReceiptPreflightError("fixed release manifest source_commit differs")
 
     def _document_path(self, relative_path: str, label: str) -> Path:
         if "\\" in relative_path:

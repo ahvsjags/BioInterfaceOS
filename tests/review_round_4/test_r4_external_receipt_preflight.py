@@ -203,9 +203,9 @@ def test_r4_preflight_validates_three_receipts_without_promoting_evidence(tmp_pa
     bundle_path, documents_root = _write_submitted_bundle(tmp_path)
     receipt_path = tmp_path / "preflight.json"
 
-    summary = R4ExternalReceiptPreflightWorkflow(
-        bundle_path, documents_root, receipt_path
-    ).run(strict=True)
+    summary = R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, receipt_path).run(
+        strict=True
+    )
 
     assert summary.status == "STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW"
     assert summary.document_count == 4
