@@ -8,8 +8,8 @@
     "r3_analysis_protocol_receipt": {"relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/analysis_protocol_receipt.json", "sha256": "238fb3cdf5932d60810e587b4a58c86c30ed9456d7a2f7b4223e94ddef4baf1f"},
     "r3_common_target_ledger": {"relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv", "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"},
     "r3_sequence_feature_table": {"relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv", "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"},
-    "r4_source_audit_receipt": {"relative_path": "reports/review_round_4/pxd068107_source_audit/v1.0.0/pxd068107_source_audit_receipt.json", "sha256": "062d65bf4620f71862f80bec04ae79ebbf762516f8ad878cfca8ef43913cfe3b"},
-    "r4_source_cell_map": {"relative_path": "data/raw/r4_candidate_pxd068107/derived/R4_PXD068107_technical_source_cell_map.csv", "sha256": "7390007079b97f0ec3b961cec07202304399362d0bdff6b27e201119d8e1ad54"}
+    "r4_source_audit_receipt": {"relative_path": "reports/review_round_4/pxd068107_source_audit/v1.0.0/pxd068107_source_audit_receipt.json", "sha256": "f311288288a7da7dcd724ba07bb66bc46b257297c05103ba817bfa1399f6f95e"},
+    "r4_source_cell_map": {"relative_path": "data/raw/r4_candidate_pxd068107/derived/R4_PXD068107_technical_source_cell_map.csv", "sha256": "908294224cc409efe90224a76bb3afb66a10e7dd785dc4de3ea27009eebfbacf"}
   },
   "target": {
     "target_id": "R4_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
