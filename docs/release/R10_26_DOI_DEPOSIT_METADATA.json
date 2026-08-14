@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_AUTHENTICATED_ARCHIVE_UPLOAD",
+  "doi_archived": false,
+  "release": {
+    "tag": "v0.1.3-r10.26",
+    "release_commit": "72d331ce8db95073f2b9189a8253b5d67a8acf30",
+    "source_commit": "90941fad703d972cf5eb75ff7bd979aef8d4df55",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.26/release_manifest.json",
+    "manifest_sha256": "43e38b2de1db9dd2f0f69df07af9598e95dc658cb39603b628e7f0b3ad98d46a",
+    "archive_filename": "BioInterfaceOS-v0.1.3-r10.26.tar.gz",
+    "archive_bytes": 93983017,
+    "archive_sha256": "17e74074f01bdb3852d831ac89b6439591572bd09aa785735c522ee3d397bff1",
+    "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.26.tar.gz.sha256"
+  },
+  "deposit_metadata": {
+    "title": "BioInterfaceOS v0.1.3-r10.26: provenance-grounded biointerface proteomics analysis framework",
+    "upload_type": "software",
+    "publication_date": "2026-08-14",
+    "version": "v0.1.3-r10.26",
+    "description": "Immutable paper-data candidate release for auditable biointerface proteomics analysis. The release includes the frozen full-text/supplementary-data fallback ledger, source registries, source-cell maps, statistical execution receipts and external evidence handoff contracts. Author-run and paper-derived results remain explicitly separated from non-author validation.",
+    "creators": [
+      {
+        "name": "BioInterfaceOS Contributors"
+      }
+    ],
+    "keywords": [
+      "biointerface proteomics",
+      "protein corona",
+      "provenance",
+      "reproducible research",
+      "computational biology"
+    ],
+    "license": "Apache-2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.26",
+        "relation": "isIdenticalTo",
+        "resource_type": "software"
+      },
+      {
+        "identifier": "https://github.com/ahvsjags/BioInterfaceOS",
+        "relation": "isSupplementTo",
+        "resource_type": "software"
+      }
+    ]
+  },
+  "upload_instructions": [
+    "Upload the exact archive_filename from the GitHub release or the local release asset directory.",
+    "Verify archive_sha256 and archive_bytes after upload.",
+    "Record the archive service DOI, version DOI, immutable record URL, upload timestamp and returned file digest.",
+    "Only after independent read-back verification may doi_archived be changed to true."
+  ],
+  "claim_boundary": "This metadata is a deposit preparation artifact, not a DOI or archive receipt. scientific_submission_ready remains false."
+}
