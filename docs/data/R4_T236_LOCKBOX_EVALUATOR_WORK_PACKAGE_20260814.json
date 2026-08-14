@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T236",
+  "status": "PREPARED_NO_LOCKBOX_RECEIPT",
+  "scientific_candidate": "v0.1.3-r10.32",
+  "handoff_overlay": "v0.1.3-r10.37",
+  "minimum_evaluator_count": 1,
+  "non_author_required": true,
+  "evaluator_controls_row_level_input": true,
+  "author_row_level_access": false,
+  "aggregate_only_return": true,
+  "pre_access_freeze_required": true,
+  "required_outputs": [
+    "primary source-local rank estimand and cluster-aware interval",
+    "row, batch, source/laboratory and resolvable biological-unit counts",
+    "full-versus-composition paired ablation",
+    "within-batch permutation null",
+    "model/OOD summaries and uncertainty intervals",
+    "complete failures/deviations/negative-runs ledger",
+    "environment, command, stdout/stderr and output hashes",
+    "identity/COI/signed attestation/immutable archive locator"
+  ],
+  "prohibited_substitutes": [
+    "author-run execution",
+    "Codex or internal agent execution",
+    "fixture-only execution",
+    "public issue comment",
+    "success-only result selection",
+    "row-level input or intermediate output disclosure"
+  ],
+  "current_gate_state": {
+    "independent_validation": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This work package makes a protected evaluation executable; it is not a lockbox receipt and cannot close the independent-validation gate by itself."
+}

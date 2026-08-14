@@ -10,7 +10,7 @@ The current fixed candidate is `v0.1.3-r10.32`, target commit
 The KAUST archive is `BioInterfaceOS-v0.1.3-r10.32.tar.gz` with SHA-256
 `69848b75aa143f83df9d69668caad52a1e386bc4a0000d5bf2041561e8d8fd25`.
 The public handoff overlay is released at
-`https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.36`;
+`https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.37`;
 it does not change the scientific candidate.
 
 ## Reproducible paper-data route
