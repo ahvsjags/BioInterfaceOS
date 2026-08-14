@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "manifest_kind": "immutable_release_overlay",
+  "release_id": "bioif-empirical-candidate-v0.1.3-r10.29",
+  "status": "CANDIDATE_NOT_DOI_ARCHIVED",
+  "intended_git_tag": "v0.1.3-r10.29",
+  "source_commit": "e414acc9ec15f11b5e069407850327a490280e8b",
+  "base_release": {
+    "tag": "v0.1.3-r10.28",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.28/release_manifest.json",
+    "manifest_sha256": "1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491"
+  },
+  "doi_status": "PENDING_NOT_ARCHIVED",
+  "scientific_submission_ready": false,
+  "license_boundary": {
+    "software": "Apache-2.0",
+    "paper_data": "PMC11328176 is CC-BY-4.0; PMC9047655 is retained as an audited biological-context candidate and is not admitted to the frozen target ledger",
+    "claim_boundary": "The overlay adds author-run exploratory technical evidence. It does not claim independent validation, no-author reproduction, external adoption or DOI archival."
+  },
+  "files": [
+    {"relative_path":"data/raw/r4_candidate_pmc11328176/PMC11328176.1.json","bytes":1559,"sha256":"936dd425f44087c2557574d0e1ac354e7bc5b638aca64ccc566cfb45f7110128"},
+    {"relative_path":"data/raw/r4_candidate_pmc11328176/PMC11328176.1.pdf","bytes":4358834,"sha256":"30893eefbada0a54e3598e476ec4a4baf209b787d33a216dbd9f2049514f3527"},
+    {"relative_path":"data/raw/r4_candidate_pmc11328176/PMC11328176.1.xml","bytes":71624,"sha256":"d8c4f5e1188701259e7ca6ecc1879e6209fed0f22f41d0f3da1826b3912647ec"},
+    {"relative_path":"data/raw/r4_candidate_pmc11328176/derived/R4_PMC11328176_MULTICORE_source_cell_map.csv","bytes":690043,"sha256":"b7d97261ae4939814103a895b3cfdf06d11c9567de4040c20eac77e9a72c80c1"},
+    {"relative_path":"data/raw/r4_candidate_pmc11328176/nl4c02076_si_001.pdf","bytes":354373,"sha256":"a029e5954c969549b7b8d2d466bb8274f85cae55800507c52bf8775fc251d91a"},
+    {"relative_path":"data/raw/r4_candidate_pmc11328176/nl4c02076_si_002.xlsx","bytes":762506,"sha256":"adb660a47a26a50d67203b660eaf863e43548b33e3083e43acfafa0936bdaea9"},
+    {"relative_path":"data/raw/r4_candidate_pmc11328176/nl4c02076_si_003.xlsx","bytes":44040,"sha256":"1b77b7e782addfa9697a2a6444ed45804b51a65a1e9db108a43d608969299f65"},
+    {"relative_path":"data/raw/r4_candidate_pmc9047655/PMC9047655.1.json","bytes":1721,"sha256":"d1df21bc2c0793309a28ea8069b8a4f41c95b8a661198632fd0d0534a44926ed"},
+    {"relative_path":"data/raw/r4_candidate_pmc9047655/PMC9047655.1.pdf","bytes":3353895,"sha256":"a34ac0194beb33b2bb56cdd6c069e8f4fd51d8f5ace72493548f98d61a5a3a71"},
+    {"relative_path":"data/raw/r4_candidate_pmc9047655/PMC9047655.1.txt","bytes":71248,"sha256":"296e7b0e57a6edd5b52a3c0fa0b83da6780e70489eca1a147ae1567325f12070"},
+    {"relative_path":"data/raw/r4_candidate_pmc9047655/PMC9047655.1.xml","bytes":161671,"sha256":"66e4ece5ddc5dc161caf77ade247b677c8e7790b6ae0bb12f0c8f287160ca8e6"},
+    {"relative_path":"data/raw/r4_candidate_pmc9047655/nn1c09564_si_001.pdf","bytes":677333,"sha256":"4d54de813d48275c4e5b00ccd4671fe6c5c63da45845e841d821f9a495e16ce7"},
+    {"relative_path":"data/raw/r4_candidate_pmc9047655/nn1c09564_si_002.xlsx","bytes":39437,"sha256":"3b305a361a02b242368d13fda8c06281dc469becb7d9c608b116066ba01b97a2"},
+    {"relative_path":"docs/data/R4_T246_PMC11328176_MULTICORE_SCREEN_20260814.json","bytes":3810,"sha256":"ee41c176b1d4a8bb52ecc6afefa9640de83e331bfbdaf8b6de714c3f423457a8"},
+    {"relative_path":"docs/data/R4_T246_PMC11328176_MULTICORE_SCREEN_20260814.md","bytes":5646,"sha256":"9ae64a70e383e4ccd93abd00577c4981be532f52709c1ce5cdfea7f37c1229ec"},
+    {"relative_path":"docs/data/R4_T246_PMC9047655_BIOLOGICAL_CANDIDATE_SCREEN_20260814.json","bytes":1788,"sha256":"c73a258c98a3f8396a802b2538ad37b458e026f8a3d6285ffb674de43f0e5f39"},
+    {"relative_path":"docs/data/R4_T246_PMC9047655_BIOLOGICAL_CANDIDATE_SCREEN_20260814.md","bytes":1999,"sha256":"e177769754b216e28fac491579cba24190d779855ee837e6ce2357713506ebe2"},
+    {"relative_path":"docs/review_round_4/R4_T246_MULTI_AGENT_EDITORIAL_REVIEW_20260814.json","bytes":2584,"sha256":"df96d95db9e190dccd587876a34d11a10b574d40fbc7a01e03ea326db589da85"},
+    {"relative_path":"docs/review_round_4/R4_T246_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md","bytes":5233,"sha256":"baecee9bab0d9a888144b7307260387d3a3aa12d6ad2a7a66c09d4ee22b35939"},
+    {"relative_path":"docs/review_round_4/R4_T246_PAPER_DATA_STRONG_Q1_CLOSURE_GOAL_20260814.md","bytes":8315,"sha256":"de048ca023a911af08018907883b8a1211f24cc8ba8ae50e2fd2172e99856daf"},
+    {"relative_path":"docs/execplans/T246_paper_data_strong_q1_closure.md","bytes":7270,"sha256":"655e75b95cb9b80d5bdd28477afccf0953a092849ae8d3e0f0227e57fda2ee30"},
+    {"relative_path":"scripts/run_r4_t246_pmc11328176.py","bytes":16518,"sha256":"c6baf185e3adabbf7e5c5f33d18971c5616e5d231efec1c17649edd20418c926"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/core_batch_metrics.csv","bytes":2481,"sha256":"eabfbc39722f7d587a0053b80264cd6b4801f75c19b815a904eebb1d582dc238"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/nested_inner_selection.csv","bytes":37997,"sha256":"43369a3fecc9da524213badad772046e18ce6b13f8fa6b59d8b19e2ec69de669"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/outer_fold_metrics.csv","bytes":2438,"sha256":"4d826b83511a8e7c4bcb0ed5304cefd4fc733752a38c05a3fbb6f022a54b76b2"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/outer_fold_model_parameters.json","bytes":1654,"sha256":"c2730779d8db8f80bf3eb60f86c6793b84b99730e015fa5918da5338c2456712"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/outer_fold_predictions.csv","bytes":79176,"sha256":"126a1c3b833d860f21163cc40dbc121ae403a48bcd5c11e2b45d980f44946622"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/paired_ablation.csv","bytes":386,"sha256":"f959be667113f2bf2f2bad1857f0c7bbbdab77de9e56018cf7f4245c655871c2"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/pmc11328176_multicore_technical_execution_receipt.json","bytes":704,"sha256":"2120d225c14b74ce25285e7bbe0df3342ea31c59a4f35c145757b11948c987f8"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/pmc11328176_multicore_technical_execution_report.json","bytes":11968,"sha256":"5739b9a2ab616ff8e10bb3f2d48d3adce743fbba59aa11973577753054bc94b9"},
+    {"relative_path":"reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/within_core_rank_permutation.csv","bytes":87689,"sha256":"1a5a52c21bbb3cb18d938d76190dcfaf26a34d8955df426a193e84a829394aa8"}
+  ]
+}
