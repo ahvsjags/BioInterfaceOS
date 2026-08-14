@@ -1,0 +1,115 @@
+{
+  "task_id": "R4-T231",
+  "date": "2026-08-14",
+  "purpose": "Full-text and PRIDE candidate rescreen under the frozen target and admission contract",
+  "paper_fulltext_and_pride_rescreened": true,
+  "additional_real_public_assets_reconstructed": true,
+  "candidates": [
+    {
+      "accession": "PXD032162",
+      "laboratory": "Helmholtz Centre for Environmental Research / UFZ",
+      "publication_url": "https://www.research.unipd.it/retrieve/a1b58045-3b1c-4489-b195-5e92cdae832c/1-s2.0-S1748013224003220-main.pdf",
+      "pride_url": "https://www.ebi.ac.uk/pride/archive/projects/PXD032162",
+      "design": {
+        "tmt_mix_count": 8,
+        "raw_file_count": 16,
+        "timepoints": ["5 min", "1 h", "6 h", "24 h"],
+        "paper_reported_replicate_structure": "four replicates per timepoint"
+      },
+      "assets": [
+        {
+          "path": "data/raw/r4_candidate_screen_round5/PXD032162/ExperimentalDesign.xlsx",
+          "sha256": "74e7914b56a754a1771a9c3d82acf3dbe5f5d0cdab5ddb3918cec52b51bdbefd"
+        },
+        {
+          "path": "data/raw/r4_candidate_screen_round5/PXD032162/CorrectionFactorsTMT.xlsx",
+          "sha256": "e1008ea85ee6f15311371132cbd6e748f951fca103136182d355bdf716538c86"
+        },
+        {
+          "path": "data/raw/r4_candidate_pxd032162_ufz/Proteinkorona_Nanoplastik_static_QuanSpectra.txt",
+          "bytes": 242655101,
+          "sha1": "acff791876dd37d1d08395852c35b48b363be643"
+        },
+        {
+          "path": "data/raw/r4_candidate_pxd032162_ufz/Proteinkorona_Nanoplastik_static.mzid.gz",
+          "compressed_bytes": 12700721,
+          "decompressed_bytes": 236353579,
+          "decompressed_sha1": "414a437b9c75d3047a9eee1c187552b932d99042"
+        }
+      ],
+      "reconstruction": {
+        "quantspectra_rows": 723192,
+        "mzid_dbsequence_accessions": 300,
+        "rank1_passed_sii": 123905,
+        "scan_to_accession_mappings": 123792,
+        "positive_protein_accessions": 300,
+        "frozen_r3_target_overlap": 8,
+        "mix_channel_groups": 80,
+        "max_frozen_target_overlap_per_mix_channel": 8,
+        "groups_meeting_minimum_10_target_batch": 0
+      },
+      "admission": "SENSITIVITY_ONLY_NOT_ADMITTED",
+      "reason": "Real and reproducible public source, but no source cell reaches the 10-target minimum and it cannot be used to inflate primary effective n or independent-laboratory claims."
+    },
+    {
+      "accession": "PXD020584",
+      "laboratory": "Semmelweis University / RCNS, Hungary",
+      "publication_url": "https://isevjournals.onlinelibrary.wiley.com/doi/10.1002/jev2.12140",
+      "pride_url": "https://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=PXD020584",
+      "paper_sample_semantics": {
+        "healthy_subjects_enrolled": 20,
+        "ra_patients_enrolled": 17,
+        "differential_centrifugation_healthy_units": 12,
+        "differential_centrifugation_ra_units": 10,
+        "additional_dguc_or_sec_healthy_units_per_branch": 3,
+        "endpoint_domain": "extracellular-vesicle protein corona"
+      },
+      "local_asset_screen": {
+        "xlsx_assets": 54,
+        "total_bytes": 1249755,
+        "mapped_protein_union": 451,
+        "frozen_r3_target_union_overlap": 39,
+        "common_cross_study_continuous_quantitative_matrix": false,
+        "malformed_or_unreadable_files": "retained in workspace and not silently imputed"
+      },
+      "admission": "DOMAIN_OOD_ONLY_PENDING",
+      "reason": "The paper has real biological units, but the endpoint is EV rather than nanoparticle corona and the released XLSX result fields do not form a frozen, common-scale primary matrix."
+    },
+    {
+      "accession": "PXD028310",
+      "publication_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8467878/",
+      "local_asset": {
+        "path": "data/raw/r4_candidate_screen_round5/PXD028310/30ppm__Ta_to_T1_.xls",
+        "sha256": "bb07a9ac2e766f340e40203276ff2ac5e257641a8c736651a1dd8b8d59743c6f"
+      },
+      "screen": {
+        "unique_accessions": 144,
+        "frozen_r3_target_overlap": 4,
+        "pooled_serum_design": true,
+        "donor_level_map": false
+      },
+      "admission": "NOT_ADMITTED_POOLED_LOW_COVERAGE"
+    },
+    {
+      "accession": "PXD050779",
+      "admission": "NOT_ADMITTED_PROTEOFORM_ONLY",
+      "reason": "Top-down proteoform identification asset without the current protein-level common-target quantitative matrix."
+    },
+    {
+      "accession": "PXD053359",
+      "admission": "NOT_ADMITTED_PROTEOFORM_ONLY",
+      "reason": "Proteoform identification TSV without the current protein-level common-target quantitative matrix."
+    }
+  ],
+  "claim_boundary": {
+    "new_independent_laboratory_primary_admitted": false,
+    "paper_data_primary_common_target_closure": false,
+    "author_side_real_data_execution_supported": true,
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "next_action": "Keep PXD032162 as paper-data OOD/sensitivity evidence; pursue non-author lockbox, no-author reproduction, external adoption and DOI receipts, while reprocessing PXD026615 only if its full sample and quantitative mapping can be reconstructed."
+}
