@@ -27,6 +27,20 @@
     "user_consent_to_public_summary": true
   },
   "minimum_claim_count": 2,
+  "recommended_task_catalog": [
+    {
+      "task_id": "ADOPTION-A",
+      "description": "Paper-source audit and paper-attached silver-plasma OOD from independently reacquired PMC6592156 data",
+      "commands_document": "docs/external/EXTERNAL_USER_TASK_CATALOG_R10_35.md",
+      "distinctness_key": "source_audit_plus_paper_attached_ood"
+    },
+    {
+      "task_id": "ADOPTION-B",
+      "description": "Four-source row-traceable common-target registry audit and verification",
+      "commands_document": "docs/external/EXTERNAL_USER_TASK_CATALOG_R10_35.md",
+      "distinctness_key": "four_source_common_target_verification"
+    }
+  ],
   "distinct_task_requirement": "Each receipt must describe a materially distinct real analysis or integration task; repeated installation of the same fixture does not count twice.",
   "adoption_does_not_mean": [
     "repository page views",
