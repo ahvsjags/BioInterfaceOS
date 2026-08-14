@@ -1,7 +1,7 @@
 # R4-T238：终态多智能体编辑门禁审计
 
 日期：2026-08-14  
-固定对象：当前工作分支 `r3-real-data-execution-20260813`，HEAD `3d62ad9`，论文数据替代路线 R4-T192/T193/T195，固定 release `v0.1.3-r10.28`。
+审计快照：工作分支 `r3-real-data-execution-20260813`，HEAD `3d62ad9`，论文数据替代路线 R4-T192/T193/T195，固定 release `v0.1.3-r10.28`。之后的 `6c4ac72` 只加固了外部复现脚本的 clean-checkout、tag-target 和 manifest-hash 检查，不改变本审计的科学评分。
 
 ## 编辑结论
 
