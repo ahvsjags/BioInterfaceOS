@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "task_id": "T215",
+  "receipt_id": "bioif-r4-t215-kaust-fresh-replay-v1.0.0",
+  "status": "AUTHOR_RUN_FRESH_END_TO_END_REPLAY_COMPLETED",
+  "host": "KAUST Ibex glogin",
+  "checkout": "/ibex/user/xup0a/BioInterfaceOS-r3-real-data-execution-20260814-clean",
+  "source_commit": "b80e47352ca775b7aa0b67825bc5ae488160c773",
+  "pre_execution_output_directory_absent": true,
+  "output_relative": "reports/review_round_4/t214_source_heterogeneity/v1.1.0",
+  "environment": {
+    "uv": "uv 0.12.1 (x86_64-unknown-linux-gnu)",
+    "python": "Python 3.11.15",
+    "kernel": "Linux 5.14.0-427.20.1.el9_4.0.1.x86_64",
+    "uv_lock_sha256": "c23de02a87f2f7c060170ebd9bf7d22932ed34f767ab405833b2276451e3c4e9"
+  },
+  "commands": [
+    "uv run python -m biointerfaceos data evaluate-r4-t214-source-heterogeneity --strict",
+    "uv run python -m biointerfaceos data verify-r4-t214-source-heterogeneity --strict",
+    "uv run pytest -q tests/review_round_4/test_r4_t214_source_heterogeneity.py",
+    "uv run python -m compileall -q src"
+  ],
+  "command_results": {
+    "evaluate": "R4_T214_SOURCE_HETEROGENEITY_VALID effect_rows=8 effect_units=5 positive_effects=2 negative_effects=1 pooling_prohibited=true scientific_submission_ready=false",
+    "verify": "R4_T214_SOURCE_HETEROGENEITY_VERIFY_VALID effect_rows=8 effect_units=5 positive_effects=2 negative_effects=1 pooling_prohibited=true scientific_submission_ready=false",
+    "pytest": "3 passed",
+    "compileall": "passed"
+  },
+  "output_artifacts": {
+    "heterogeneity_summary.json": "e823e2b629e51e2f3430a0a537f9beb45c6bd8a2a0de509c21e2288e79d6b625",
+    "missingness_threshold_sensitivity.csv": "d7d77cd0082ad67693b62d74609dba41c60d55aab118d3bd442bde6f2b25210c",
+    "study_level_effects.csv": "cae0d733f2a038b6bdbad2d36cba9422c38a0140ca2e84caffa7edfff753f9e2",
+    "t214_source_heterogeneity_receipt.json": "72c4fa25ac9eeaaefc6f42a12e194aa1232519f6c4a6983675cf21590fc8a36a",
+    "t214_source_heterogeneity_report.json": "c436afeb720aebb86ac20482fc273ed1bea420795fb12f677095a39030c76411"
+  },
+  "scientific_boundary": {
+    "evidence_class": "AUTHOR_RUN_ENGINEERING_REPLAY_OF_PAPER_DERIVED_ANALYSIS",
+    "independent_validation": false,
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "interpretation": "This receipt proves a fresh evaluate-to-verify replay from an absent output directory on KAUST. It does not establish independent biological validation, a non-author reproduction, an external evaluator result, effective biological n, or submission readiness."
+}

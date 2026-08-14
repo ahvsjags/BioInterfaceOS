@@ -1,4 +1,4 @@
-# R4 T214：来源条件异质性审计执行报告（v1.1.0 语义修正版）
+# R4 T214：来源条件异质性审计执行报告（v1.2.0 语义与展示修正版）
 
 日期：2026-08-14  
 执行状态：`T214_SOURCE_HETEROGENEITY_COMPLETED_EXPLORATORY`  
@@ -11,7 +11,7 @@ python -m biointerfaceos data verify-r4-t214-source-heterogeneity --strict
 
 ## 目的和边界
 
-T214 将 T211 要求的 source-by-model interaction/heterogeneity 审计落实为可复现程序。它只读取已经完成的 T195、T197、T198、T203 和 T209 receipt，不重新拟合模型、不改变冻结 target、不新增实验，也不把不同数据 lineage 做 pooled inference。本版将“primary study count”更正为“primary effect-unit count”，并禁止从 measurement-batch count 推断 biological n。
+T214 将 T211 要求的 source-by-model interaction/heterogeneity 审计落实为可复现程序。它只读取已经完成的 T195、T197、T198、T203 和 T209 receipt，不重新拟合模型、不改变冻结 target、不新增实验，也不把不同数据 lineage 做 pooled inference。本版将“primary study count”更正为“primary effect-unit count”，禁止从 measurement-batch count 推断 biological n，并用有限位数 presentation fields 与 raw audit fields 分离伪精度风险。
 
 输入和输出均带 SHA-256。T203 的 CC-BY-NC-ND 论文数据及 Manchester 未明确许可的矩阵/派生结果仍为 analysis-only；T214 的数值输出不得被解释为 raw-data release 或独立验证。
 
@@ -50,11 +50,12 @@ T214 明确禁止：
 ## 验收和产物
 
 - `R4_T214_SOURCE_HETEROGENEITY_PROTOCOL.json`：主 estimand、输入 hash、路线分类和禁止 pooled inference 规则；
-- `reports/review_round_4/t214_source_heterogeneity/v1.1.0/study_level_effects.csv`：8 条保留的路线/来源 effect rows；其中 5 条是 primary effect units，不能称 5 项独立研究；
+- `reports/review_round_4/t214_source_heterogeneity/v1.2.0/effect_unit_descriptive_audit.csv`：8 条保留的路线/来源 effect rows；其中 5 条是 primary effect units，不能称 5 项独立研究；
 - `.../missingness_threshold_sensitivity.csv`：8 个 T198 threshold rows；
 - `.../heterogeneity_summary.json`：主研究级计数、范围和路线摘要；
 - `.../t214_source_heterogeneity_report.json` 与 `.../t214_source_heterogeneity_receipt.json`：程序报告和 hash receipt；
 - 新增 T214 CLI 和 2 个回归测试；本地测试 `4 passed`，compileall 通过；
+- `interval_semantics=DEGENERATE_COMPUTATIONAL_INTERVAL_NOT_BIOLOGICAL_ZERO` 只表示当前存储统计量和重采样方案退化，不能解释为 biological uncertainty 为零；
 - KAUST 上必须用同一 commit 从空输出目录重新执行 evaluate→verify→test，且仍保持 `scientific_submission_ready=false`。
 
 ## 结论

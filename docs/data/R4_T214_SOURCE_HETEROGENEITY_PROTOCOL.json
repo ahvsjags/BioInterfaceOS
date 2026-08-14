@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "protocol_id": "bioif-r4-t214-source-heterogeneity-v1.1.0",
+  "protocol_id": "bioif-r4-t214-source-heterogeneity-v1.2.0",
   "status": "FROZEN_DESCRIPTIVE_AUDIT",
-  "purpose": "Descriptive source-conditional heterogeneity audit of the frozen full-minus-composition rank-portability contrast without refitting models or pooling non-independent data routes.",
+  "purpose": "Descriptive source-conditional heterogeneity audit of the frozen full-minus-composition rank-portability contrast without refitting models or pooling non-independent data routes. Presentation fields are rounded and explicitly separated from raw audit values.",
   "primary_estimand": {
     "population": "paper-attached processed measurements admitted by T195, T203 and T209 registries",
     "independent_unit": "route-specific effect unit: source/laboratory anchor for T195/T197 and an explicitly exposed paper biological unit for T203/T209; effect units are not interchangeable studies",

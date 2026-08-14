@@ -35,10 +35,10 @@ class R4T214SourceHeterogeneitySummary:
 class R4T214SourceHeterogeneityWorkflow:
     """Create a descriptive study-level heterogeneity audit from frozen receipts."""
 
-    AUDIT_ID = "bioif-r4-t214-source-heterogeneity-v1.1.0"
+    AUDIT_ID = "bioif-r4-t214-source-heterogeneity-v1.2.0"
     STATUS = "T214_SOURCE_HETEROGENEITY_COMPLETED_EXPLORATORY"
     PROTOCOL_RELATIVE = "docs/data/R4_T214_SOURCE_HETEROGENEITY_PROTOCOL.json"
-    OUTPUT_RELATIVE = "reports/review_round_4/t214_source_heterogeneity/v1.1.0"
+    OUTPUT_RELATIVE = "reports/review_round_4/t214_source_heterogeneity/v1.2.0"
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
 
     INPUTS = (
@@ -121,6 +121,16 @@ class R4T214SourceHeterogeneityWorkflow:
             return None
         return float(value)
 
+    @staticmethod
+    def _display(value: float) -> str:
+        return f"{value:+.3f}"
+
+    @staticmethod
+    def _interval_semantics(lower: float, upper: float) -> str:
+        if lower == upper:
+            return "DEGENERATE_COMPUTATIONAL_INTERVAL_NOT_BIOLOGICAL_ZERO"
+        return "ROUTE_RECEIPT_INTERVAL"
+
     def _fold_rows(self, rows: Sequence[Mapping[str, str]], *, route: str, source_field: str) -> list[dict[str, Any]]:
         output: list[dict[str, Any]] = []
         for row in rows:
@@ -138,8 +148,12 @@ class R4T214SourceHeterogeneityWorkflow:
                     "reported_paper_unit_count": None,
                     "unit_count_semantics": "biological_unit_not_resolved_in_fold_receipt",
                     "effect_full_minus_composition_spearman": effect,
+                    "display_effect": R4T214SourceHeterogeneityWorkflow._display(effect),
                     "lower_95": float(row["lower_95"]),
                     "upper_95": float(row["upper_95"]),
+                    "display_lower_95": R4T214SourceHeterogeneityWorkflow._display(float(row["lower_95"])),
+                    "display_upper_95": R4T214SourceHeterogeneityWorkflow._display(float(row["upper_95"])),
+                    "interval_semantics": R4T214SourceHeterogeneityWorkflow._interval_semantics(float(row["lower_95"]), float(row["upper_95"])),
                     "effect_status": R4T214SourceHeterogeneityWorkflow._effect_status(effect),
                     "claim_status": "DESCRIPTIVE_EXPLORATORY_ONLY",
                 }
@@ -178,8 +192,12 @@ class R4T214SourceHeterogeneityWorkflow:
             "reported_paper_unit_count": reported_paper_unit_count,
             "unit_count_semantics": unit_count_semantics,
             "effect_full_minus_composition_spearman": effect,
+            "display_effect": self._display(effect),
             "lower_95": float(paired["lower_95"]),
             "upper_95": float(paired["upper_95"]),
+            "display_lower_95": self._display(float(paired["lower_95"])),
+            "display_upper_95": self._display(float(paired["upper_95"])),
+            "interval_semantics": self._interval_semantics(float(paired["lower_95"]), float(paired["upper_95"])),
             "effect_status": R4T214SourceHeterogeneityWorkflow._effect_status(effect),
             "claim_status": "DESCRIPTIVE_EXPLORATORY_ONLY",
         }
@@ -245,8 +263,12 @@ class R4T214SourceHeterogeneityWorkflow:
                 "threshold": int(row["threshold"]),
                 "qualified_batch_count": int(row["paired_measurement_batch_count"]),
                 "effect_full_minus_composition_spearman": float(row["full_minus_composition_batch_mean_spearman"]),
+                "display_effect": self._display(float(row["full_minus_composition_batch_mean_spearman"])),
                 "lower_95": float(row["lower_95"]),
                 "upper_95": float(row["upper_95"]),
+                "display_lower_95": self._display(float(row["lower_95"])),
+                "display_upper_95": self._display(float(row["upper_95"])),
+                "interval_semantics": self._interval_semantics(float(row["lower_95"]), float(row["upper_95"])),
                 "effect_status": self._effect_status(float(row["full_minus_composition_batch_mean_spearman"])),
                 "claim_status": "MISSINGNESS_SENSITIVITY_DESCRIPTIVE_ONLY",
             }
@@ -255,17 +277,18 @@ class R4T214SourceHeterogeneityWorkflow:
         fields = [
             "route", "source_id", "source_label", "evidence_class", "independence_unit", "independence_status",
             "measurement_batch_count", "biological_unit_count", "reported_paper_unit_count", "unit_count_semantics",
-            "effect_full_minus_composition_spearman",
-            "lower_95", "upper_95", "effect_status", "claim_status",
+            "effect_full_minus_composition_spearman", "display_effect",
+            "lower_95", "upper_95", "display_lower_95", "display_upper_95", "interval_semantics",
+            "effect_status", "claim_status",
         ]
         output = self.output_root
         output.mkdir(parents=True, exist_ok=False)
         paths = {
-            "study_level_effects": output / "study_level_effects.csv",
+            "effect_unit_descriptive_audit": output / "effect_unit_descriptive_audit.csv",
             "missingness_threshold_sensitivity": output / "missingness_threshold_sensitivity.csv",
             "heterogeneity_summary": output / "heterogeneity_summary.json",
         }
-        self._write_csv(paths["study_level_effects"], fields, effects)
+        self._write_csv(paths["effect_unit_descriptive_audit"], fields, effects)
         self._write_csv(paths["missingness_threshold_sensitivity"], list(threshold_rows[0]), threshold_rows)
         statuses = Counter(str(row["effect_status"]) for row in primary)
         summary = {
