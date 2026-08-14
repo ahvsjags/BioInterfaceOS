@@ -2,10 +2,10 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 178
+task_count: 179
 ready_tasks:
   - T123
-current_task: T214
+current_task: T215
 active_execplan: docs/review_round_4/R4_T214_SOURCE_HETEROGENEITY_EXECUTION_20260814.md
 completed_tasks:
   - T000

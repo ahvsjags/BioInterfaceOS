@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "protocol_id": "bioif-r4-t214-source-heterogeneity-v1.0.0",
+  "protocol_id": "bioif-r4-t214-source-heterogeneity-v1.1.0",
   "status": "FROZEN_DESCRIPTIVE_AUDIT",
-  "purpose": "Audit source- and study-level heterogeneity of the frozen full-minus-composition rank-portability contrast without refitting models or pooling non-independent data routes.",
+  "purpose": "Descriptive source-conditional heterogeneity audit of the frozen full-minus-composition rank-portability contrast without refitting models or pooling non-independent data routes.",
   "primary_estimand": {
     "population": "paper-attached processed measurements admitted by T195, T203 and T209 registries",
-    "independent_unit": "source/laboratory anchor for T195/T197 and paper biological unit for T203/T209 when exposed by the source report",
+    "independent_unit": "route-specific effect unit: source/laboratory anchor for T195/T197 and an explicitly exposed paper biological unit for T203/T209; effect units are not interchangeable studies",
     "outcome": "source-local within-batch rank Spearman",
     "contrast": "full sequence ridge minus composition-only ridge",
-    "summary": "study/source-level effect size and interval; descriptive route-specific summaries only",
+    "summary": "route-specific effect-unit size and interval; descriptive summaries only",
     "pooling": "prohibited across T195/T197 duplicate lineage, T203 and T209 because routes have different source access, unit structure and estimands"
   },
   "input_artifacts": {
@@ -38,7 +38,7 @@
     "t197": "retain as source-availability sensitivity and do not add it to the T195 primary effect count",
     "t203": "retain the paper-cohort paired effect as author-run analysis-only OOD; fixed-alpha permutation remains exploratory",
     "t209": "retain the HA5-reconciled patient-equal paired effect as author-run analysis-only OOD",
-    "t198": "report all eight coverage-threshold effects as missingness sensitivity; no confirmatory p-value",
+    "t198": "report all eight coverage-threshold effects as a secondary batch-level missingness sensitivity; this is not the T200 subject-equal primary estimand and has no confirmatory p-value",
     "meta_inference": "no pooled p-value, no random-effects claim and no universal superiority claim"
   },
   "claim_boundary": "T214 can establish descriptive source-dependent heterogeneity and failure-boundary evidence. It cannot establish independent validation, donor-level generalization, mechanism, clinical utility, no-author reproduction, external adoption or scientific submission readiness.",

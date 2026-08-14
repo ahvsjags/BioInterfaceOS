@@ -4982,7 +4982,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print(
                 "R4_T214_SOURCE_HETEROGENEITY_VALID "
                 f"effect_rows={t214_summary.effect_row_count} "
-                f"primary_studies={t214_summary.primary_study_count} "
+                f"effect_units={t214_summary.primary_effect_unit_count} "
                 f"positive_effects={t214_summary.positive_effect_count} "
                 f"negative_effects={t214_summary.negative_effect_count} "
                 "pooling_prohibited=true scientific_submission_ready=false"
@@ -5002,7 +5002,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print(
                 "R4_T214_SOURCE_HETEROGENEITY_VERIFY_VALID "
                 f"effect_rows={t214_summary.effect_row_count} "
-                f"primary_studies={t214_summary.primary_study_count} "
+                f"effect_units={t214_summary.primary_effect_unit_count} "
                 f"positive_effects={t214_summary.positive_effect_count} "
                 f"negative_effects={t214_summary.negative_effect_count} "
                 "pooling_prohibited=true scientific_submission_ready=false"

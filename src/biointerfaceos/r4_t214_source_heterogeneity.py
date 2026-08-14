@@ -26,7 +26,7 @@ class R4T214SourceHeterogeneityError(RuntimeError):
 @dataclass(frozen=True)
 class R4T214SourceHeterogeneitySummary:
     effect_row_count: int
-    primary_study_count: int
+    primary_effect_unit_count: int
     positive_effect_count: int
     negative_effect_count: int
     receipt_path: Path
@@ -35,10 +35,10 @@ class R4T214SourceHeterogeneitySummary:
 class R4T214SourceHeterogeneityWorkflow:
     """Create a descriptive study-level heterogeneity audit from frozen receipts."""
 
-    AUDIT_ID = "bioif-r4-t214-source-heterogeneity-v1.0.0"
+    AUDIT_ID = "bioif-r4-t214-source-heterogeneity-v1.1.0"
     STATUS = "T214_SOURCE_HETEROGENEITY_COMPLETED_EXPLORATORY"
     PROTOCOL_RELATIVE = "docs/data/R4_T214_SOURCE_HETEROGENEITY_PROTOCOL.json"
-    OUTPUT_RELATIVE = "reports/review_round_4/t214_source_heterogeneity/v1.0.0"
+    OUTPUT_RELATIVE = "reports/review_round_4/t214_source_heterogeneity/v1.1.0"
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
 
     INPUTS = (
@@ -135,6 +135,8 @@ class R4T214SourceHeterogeneityWorkflow:
                     "independence_status": "not_independent_biological_cohort",
                     "measurement_batch_count": int(row["paired_measurement_batch_count"]),
                     "biological_unit_count": None,
+                    "reported_paper_unit_count": None,
+                    "unit_count_semantics": "biological_unit_not_resolved_in_fold_receipt",
                     "effect_full_minus_composition_spearman": effect,
                     "lower_95": float(row["lower_95"]),
                     "upper_95": float(row["upper_95"]),
@@ -151,8 +153,19 @@ class R4T214SourceHeterogeneityWorkflow:
             if "full_minus_composition_patient_equal_mean_spearman" in paired
             else "full_minus_composition_mean_spearman"
         )
-        unit_key = "biological_unit_count" if "biological_unit_count" in report else "external_measurement_batch_count"
         effect = float(paired[effect_key])
+        if "biological_unit_count" in report:
+            biological_unit_count = int(report["biological_unit_count"])
+            reported_paper_unit_count = None
+            unit_count_semantics = "biological_unit_count_explicit_in_receipt"
+        elif "external_measurement_batch_count" in report:
+            biological_unit_count = None
+            reported_paper_unit_count = int(report["external_measurement_batch_count"])
+            unit_count_semantics = "paper_reported_measurement_batch_count_not_biological_n"
+        else:
+            biological_unit_count = None
+            reported_paper_unit_count = None
+            unit_count_semantics = "paper_unit_count_not_exposed_in_receipt"
         return {
             "route": route,
             "source_id": source_id,
@@ -161,7 +174,9 @@ class R4T214SourceHeterogeneityWorkflow:
             "independence_unit": "paper_cohort_unit",
             "independence_status": "author_run_analysis_only",
             "measurement_batch_count": int(paired["paired_measurement_batch_count"]),
-            "biological_unit_count": int(report[unit_key]),
+            "biological_unit_count": biological_unit_count,
+            "reported_paper_unit_count": reported_paper_unit_count,
+            "unit_count_semantics": unit_count_semantics,
             "effect_full_minus_composition_spearman": effect,
             "lower_95": float(paired["lower_95"]),
             "upper_95": float(paired["upper_95"]),
@@ -239,7 +254,8 @@ class R4T214SourceHeterogeneityWorkflow:
         ]
         fields = [
             "route", "source_id", "source_label", "evidence_class", "independence_unit", "independence_status",
-            "measurement_batch_count", "biological_unit_count", "effect_full_minus_composition_spearman",
+            "measurement_batch_count", "biological_unit_count", "reported_paper_unit_count", "unit_count_semantics",
+            "effect_full_minus_composition_spearman",
             "lower_95", "upper_95", "effect_status", "claim_status",
         ]
         output = self.output_root
@@ -254,7 +270,7 @@ class R4T214SourceHeterogeneityWorkflow:
         statuses = Counter(str(row["effect_status"]) for row in primary)
         summary = {
             "schema_version": 1,
-            "primary_study_effect_count": len(primary),
+            "primary_effect_unit_count": len(primary),
             "primary_effect_status_counts": dict(sorted(statuses.items())),
             "primary_effect_minimum": min(float(row["effect_full_minus_composition_spearman"]) for row in primary),
             "primary_effect_maximum": max(float(row["effect_full_minus_composition_spearman"]) for row in primary),
@@ -289,7 +305,7 @@ class R4T214SourceHeterogeneityWorkflow:
             "input_references": input_references,
             "artifacts": artifacts,
             "effect_row_count": len(effects),
-            "primary_study_count": len(primary),
+            "primary_effect_unit_count": len(primary),
             "positive_effect_count": statuses.get("POSITIVE", 0),
             "negative_effect_count": statuses.get("NEGATIVE", 0),
             "pooling_prohibited": True,
@@ -306,7 +322,7 @@ class R4T214SourceHeterogeneityWorkflow:
             "status": self.STATUS,
             "report_sha256": _sha256(report_path),
             "effect_row_count": len(effects),
-            "primary_study_count": len(primary),
+            "primary_effect_unit_count": len(primary),
             "positive_effect_count": statuses.get("POSITIVE", 0),
             "negative_effect_count": statuses.get("NEGATIVE", 0),
             "pooling_prohibited": True,
@@ -347,7 +363,7 @@ class R4T214SourceHeterogeneityWorkflow:
             raise R4T214SourceHeterogeneityError("T214 receipt is invalid")
         return R4T214SourceHeterogeneitySummary(
             int(receipt["effect_row_count"]),
-            int(receipt["primary_study_count"]),
+            int(receipt["primary_effect_unit_count"]),
             int(receipt["positive_effect_count"]),
             int(receipt["negative_effect_count"]),
             receipt_path,

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def test_t214_receipt_verifies_and_keeps_external_gates_closed() -> None:
     summary = R4T214SourceHeterogeneityWorkflow(ROOT).verify(strict=True)
     assert summary.effect_row_count == 8
-    assert summary.primary_study_count == 5
+    assert summary.primary_effect_unit_count == 5
     assert summary.positive_effect_count == 2
     assert summary.negative_effect_count == 1
     receipt = json.loads(summary.receipt_path.read_text(encoding="utf-8"))
@@ -31,3 +31,12 @@ def test_t214_preserves_route_and_missingness_boundaries() -> None:
     thresholds = list(csv.DictReader((output / "missingness_threshold_sensitivity.csv").open(encoding="utf-8", newline="")))
     assert {int(row["threshold"]) for row in thresholds} == {5, 7, 10, 12, 15, 20, 25, 30}
     assert all(row["claim_status"] == "MISSINGNESS_SENSITIVITY_DESCRIPTIVE_ONLY" for row in thresholds)
+
+
+def test_t214_does_not_infer_biological_n_from_measurement_batches() -> None:
+    output = ROOT / R4T214SourceHeterogeneityWorkflow.OUTPUT_RELATIVE
+    rows = list(csv.DictReader((output / "study_level_effects.csv").open(encoding="utf-8", newline="")))
+    t203 = next(row for row in rows if row["route"] == "T203_paper_cohort_ood")
+    assert t203["biological_unit_count"] == ""
+    assert t203["reported_paper_unit_count"] == "45"
+    assert t203["unit_count_semantics"] == "paper_reported_measurement_batch_count_not_biological_n"
