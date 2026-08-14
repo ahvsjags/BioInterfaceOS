@@ -4,7 +4,7 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.23` (resolve the commit with `git rev-parse v0.1.3-r10.23^{}`) and includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.24` (resolve the exact target from its release manifest) and includes:
 
 - a frozen 99-target rank benchmark spanning three laboratory anchors, 47 measurement batches and 2,724 rank-eligible development observations;
 - a strict nine-accession common-target sensitivity route spanning three laboratory anchors, 809 row-traceable observations and 85 measurement batches;
@@ -19,7 +19,7 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
 - a descriptive source-conditional heterogeneity audit with five effect units (not five independent studies), explicit non-inference of biological n from measurement batches, rounded presentation fields, degenerate-interval semantics and a KAUST fresh author-run replay receipt (T214-T216);
-- an immutable release tag `v0.1.3-r10.23`, with the T180/T181 source audit and OOD receipts, T192-T217 analyses, the T209 Manchester cohort reconciliation, the T211/T215 editorial and release-boundary reports, the T217 paper-data statistical amendment and KAUST fresh replay receipt, the versioned T218 external evidence handoff contract with a concrete PMC6592156 no-author route and byte-exact source-cell maps; the release also carries a byte-matched tarball and SHA-256 sidecar.
+- an immutable release tag `v0.1.3-r10.24`, with the T180/T181 source audit and OOD receipts, T192-T217 analyses, T221 locked-environment editorial review, the T217 paper-data statistical amendment and KAUST fresh replay receipt, the exact-commit T218 external evidence handoff contract with a concrete PMC6592156 no-author route and byte-exact source-cell maps; the release also carries a byte-matched tarball and SHA-256 sidecar.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -39,7 +39,7 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 See:
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
-- `release/empirical_candidate_v0.1.3-r10.23/release_manifest.json`
+- `release/empirical_candidate_v0.1.3-r10.24/release_manifest.json`
 - `docs/review_round_4/R4_T196_PAPER_ATTACHED_BIOLOGICAL_COHORT_PUBLIC_STATUS_20260814.md`
 - `docs/review_round_4/R4_T197_SOURCE_AVAILABILITY_STATUS_20260814.md`
 - `docs/review_round_4/R4_T198_PAPER_COHORT_MISSINGNESS_STATUS_20260814.md`
@@ -58,7 +58,7 @@ See:
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
 - `docs/review_round_4/R4_STRONG_Q1_REMEDIATION_GOAL.md`
 - `docs/review_round_3/R3_EXTERNAL_LOCKBOX_AND_REPRODUCTION_HANDOFF.md`
-- `docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_23.md`
+- `docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_24.md`
 - `docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json`
 - `docs/data/R4_T218_EXTERNAL_USER_ADOPTION_INTAKE.json`
 - `docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`
