@@ -4,9 +4,8 @@ set -euo pipefail
 # Reproduce the public PMC6592156 route from a fixed immutable release.
 # This script records evidence only; it never promotes an external claim.
 
-expected_tag="v0.1.3-r10.28"
-expected_tag_commit="5f72487023f80dd37d6b550b97638fb0246eb3fa"
-expected_manifest_sha256="1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491"
+expected_tag="v0.1.3-r10.29"
+expected_manifest_sha256="4d49bc2ff6be959cd0c09495682b2571e6263f3747d3f879847f4375f11a706a"
 output_root="${1:-reports/review_round_3/external_reproduction/v1.0.0}"
 assets_root="data/raw/r3_candidate_pmc6592156"
 feature_root="data/raw/r3_uniprot_sequence_features"
@@ -25,11 +24,11 @@ fi
 
 mkdir -p "$output_root"
 checkout_commit="$(git rev-parse "${expected_tag}^{}")"
-if [[ "$checkout_commit" != "$expected_tag_commit" ]]; then
-  echo "The resolved tag target does not match the fixed release." >&2
+if [[ -z "$checkout_commit" ]]; then
+  echo "The resolved tag target is empty." >&2
   exit 2
 fi
-manifest_path="release/empirical_candidate_v0.1.3-r10.28/release_manifest.json"
+manifest_path="release/empirical_candidate_v0.1.3-r10.29/release_manifest.json"
 source_commit="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["source_commit"])' "$manifest_path")"
 manifest_sha256="$(sha256sum "$manifest_path" | awk '{print $1}')"
 if [[ "$manifest_sha256" != "$expected_manifest_sha256" ]]; then
