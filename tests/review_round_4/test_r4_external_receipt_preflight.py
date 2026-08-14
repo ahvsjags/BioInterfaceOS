@@ -27,6 +27,15 @@ def _write_json(path: Path, value: dict[str, object]) -> str:
     return _sha256(path)
 
 
+def _fixed_release() -> dict[str, str]:
+    return {
+        **R4ExternalReceiptPreflightWorkflow.FIXED_RELEASE,
+        "commit": "a" * 40,
+        "source_commit": "b" * 40,
+        "manifest_sha256": "c" * 64,
+    }
+
+
 def _person(identity: str, institution: str = "independent institution") -> dict[str, object]:
     return {
         "identity": identity,
@@ -47,7 +56,7 @@ def _attestation() -> dict[str, str]:
 
 def _frozen_bundle() -> dict[str, str]:
     return {
-        "checkout_commit": "837be0631d4117ee3a1455de6743b411264a769a",
+        "checkout_commit": "a" * 40,
         "protocol_sha256": "b" * 64,
         "environment_digest": "c" * 64,
         "dependency_lockfile_sha256": "d" * 64,
@@ -140,7 +149,7 @@ def _adoption_receipt(
         "user": _person(identity, institution),
         "task_description": "installed and ran the public software contract",
         "input_provenance": "public tagged checkout and source instructions",
-        "checkout_commit": "837be0631d4117ee3a1455de6743b411264a769a",
+        "checkout_commit": "a" * 40,
         "environment_digest": "f" * 64,
         "dependency_lockfile_sha256": "0" * 64,
         "commands": ["contract adoption command"],
@@ -179,7 +188,7 @@ def _write_submitted_bundle(tmp_path: Path) -> tuple[Path, Path]:
         "allowed_claim_level": "EXPLORATORY",
         "identity_and_scope_audit_pending": True,
         "scientific_submission_ready": False,
-        "fixed_release": R4ExternalReceiptPreflightWorkflow.FIXED_RELEASE,
+        "fixed_release": _fixed_release(),
         "documents": [
             {
                 "document_type": document_type,
@@ -207,7 +216,7 @@ def test_r4_preflight_validates_three_receipts_without_promoting_evidence(tmp_pa
     assert summary.document_count == 4
     assert summary.non_author_declared_count == 4
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    assert receipt["fixed_release"] == R4ExternalReceiptPreflightWorkflow.FIXED_RELEASE
+    assert receipt["fixed_release"] == _fixed_release()
     assert receipt["identity_authenticated"] is False
     assert receipt["independence_authenticated"] is False
     assert receipt["protected_lockbox_accepted"] is False
@@ -253,10 +262,10 @@ def test_r4_preflight_rejects_author_membership(tmp_path: Path) -> None:
 def test_r4_preflight_rejects_release_drift(tmp_path: Path) -> None:
     bundle_path, documents_root = _write_submitted_bundle(tmp_path)
     bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
-    bundle["fixed_release"]["tag"] = "v0.1.3-r10.24"
+    bundle["fixed_release"]["tag"] = "v0.1.3-r10.25"
     _write_json(bundle_path, bundle)
 
-    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.25 release"):
+    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.26 release"):
         R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
             strict=True
         )

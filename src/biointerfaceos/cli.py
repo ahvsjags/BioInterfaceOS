@@ -5395,10 +5395,16 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
+                repository_root: Path | None = Path.cwd()
+                if not args.bundle.resolve(strict=False).is_relative_to(
+                    repository_root.resolve(strict=False)
+                ):
+                    repository_root = None
                 r4_receipt_summary = R4ExternalReceiptPreflightWorkflow(
                     bundle_path=args.bundle,
                     documents_root=args.documents_root,
                     receipt_out=args.receipt_out,
+                    repository_root=repository_root,
                 ).run(strict=args.strict)
             except (R4ExternalReceiptPreflightError, OSError) as exc:
                 print(f"R4_EXTERNAL_RECEIPT_PREFLIGHT_INVALID: {exc}", file=sys.stderr)

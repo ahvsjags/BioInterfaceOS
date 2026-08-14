@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please do not upload protected row-level data, credentials, or private human data. Use the fixed `v0.1.3-r10.24` release and follow `docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_24.md`.
+        Please do not upload protected row-level data, credentials, or private human data. Use the fixed `v0.1.3-r10.26` release and follow `docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_26.md`.
         This form is for a genuinely non-author reproduction or external real-task use; an issue submission is not counted until identity, conflict, provenance, environment and output hashes are independently audited.
   - type: dropdown
     id: role
@@ -38,7 +38,7 @@ body:
     id: commit
     attributes:
       label: Checkout commit or tag
-      placeholder: v0.1.3-r10.24 / exact target commit from the release manifest
+      placeholder: v0.1.3-r10.26 / exact target commit from the release manifest
     validations:
       required: true
   - type: textarea
