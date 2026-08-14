@@ -1,0 +1,101 @@
+{
+  "audit_id": "bioif-r4-t263-fulltext-data-route-consolidation-v1.0.0",
+  "evaluated_at": "2026-08-14T00:00:00+08:00",
+  "status": "IN_PROGRESS_EXTERNAL_GATES_OPEN",
+  "objective": "Use official full-text, supplementary and repository data to complete real author-side empirical execution while preserving biological-unit, endpoint, license and third-party evidence boundaries.",
+  "real_paper_data": {
+    "biological_cohort_ood": {
+      "accession": "PXD017052",
+      "article": "PMC7376165",
+      "biological_unit_count": 141,
+      "measurement_batch_count": 666,
+      "observation_count": 17026,
+      "shared_canonical_protein_count": 34,
+      "full_subject_equal_mean_spearman": 0.06845095132727338,
+      "full_subject_equal_ci95": [0.05253125684564063, 0.08293250366485762],
+      "composition_only_subject_equal_mean_spearman": 0.039172406866206384,
+      "paired_full_minus_composition": 0.029278544461067004,
+      "paired_ci95": [0.024130175856513638, 0.03451378958263348],
+      "permutation_upper_tail_p": 0.24124513618677043,
+      "claim_level": "EXPLORATORY",
+      "receipt": "reports/review_round_4/pxd017052_nsclc_biological_ood/v1.0.0/r4_pxd017052_nsclc_biological_ood_report.json",
+      "independent_validation": false,
+      "laboratory_anchor_count": 1
+    },
+    "common_target_route": {
+      "laboratory_anchor_count": 4,
+      "frozen_common_target_count": 7,
+      "source_row_count": 15971,
+      "rank_eligible_row_count": 10852,
+      "biological_unit_boundary": "Only UCD contributes encoded patient/timepoint units; Edinburgh donor crosswalk is unresolved; PMC6592156 and Dalian are pooled/unspecified.",
+      "primary_claim": "source-conditional rank portability",
+      "independent_biological_validation": false
+    },
+    "technical_center_ood": {
+      "core_facility_count": 12,
+      "target_count": 99,
+      "observation_count": 707,
+      "biological_material": "same pooled aliquot",
+      "claim_level": "technical-center robustness only",
+      "biological_cohort_count": 1
+    }
+  },
+  "candidate_screen": [
+    {
+      "accession": "PXD026615",
+      "lineage": "University of Salamanca/CSIC",
+      "decision": "NOT_ADMITTED_LOW_CORONA_COVERAGE_AND_ENDPOINT_MIXTURE",
+      "reason": "Public raw/search/result assets exist, but no closed sample-design-to-batch map and no compatible protein-level quantitative matrix for the current primary endpoint.",
+      "official_urls": [
+        "https://www.ebi.ac.uk/pride/archive/projects/PXD026615",
+        "https://link.springer.com/article/10.1186/s12951-022-01546-y"
+      ]
+    },
+    {
+      "accession": "PXD007648",
+      "lineage": "University of Southern Denmark",
+      "decision": "SAME_LINEAGE_POOLED_NOT_NEW_BIOLOGICAL_LAB",
+      "reason": "Protein-corona data are real, but the source is the same Southern Denmark lineage as PMC6592156/PXD007648 and uses pooled plasma.",
+      "official_urls": [
+        "https://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=PXD007648",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592156/"
+      ]
+    },
+    {
+      "accession": "PXD043058",
+      "lineage": "King's College London",
+      "decision": "DOMAIN_OOD_ONLY_ENDPOINT_MISMATCH",
+      "reason": "Human donor plasma is reported, but the measured object is extracellular vesicles rather than the current nanoparticle protein-corona endpoint.",
+      "official_urls": [
+        "https://kclpure.kcl.ac.uk/ws/files/223589479/PIIS2589004223013573.pdf"
+      ]
+    },
+    {
+      "accession": "PXD077545",
+      "lineage": "Michigan State University",
+      "decision": "SAME_LINEAGE_SENSITIVITY_ONLY",
+      "reason": "Real human-plasma samples but not a new independent laboratory relative to the existing Michigan State lineage.",
+      "official_urls": [
+        "https://proteomecentral.proteomexchange.org/dataset/PXD077545"
+      ]
+    }
+  ],
+  "strict_scores": {
+    "data_compatibility_sample_foundation": 82,
+    "statistical_design": 88,
+    "statistical_execution_effective_n": 82,
+    "models_ablations_negative_ood": 78,
+    "protected_lockbox": 0,
+    "no_author_reproduction": 0,
+    "external_adoption": 0,
+    "doi_immutable_archive_readback": 10
+  },
+  "external_gates": {
+    "new_independent_laboratory_primary_admitted": false,
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  }
+}
