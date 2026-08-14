@@ -2,7 +2,7 @@
 
 ## 审查对象
 
-本轮面向 `v0.1.3-r10.51`、T250 public redistributable route、T265 biological-unit analysis-only supplement，以及当前外部 handoff / DOI 状态。五个角色独立阅读 protocol、registry、canonical reports、receipts 和代码后给出意见：
+本轮面向当前固定 handoff release `v0.1.3-r10.52`、T250 public redistributable route、T265 biological-unit analysis-only supplement，以及当前外部 handoff / DOI 状态。五个角色独立阅读 protocol、registry、canonical reports、receipts 和代码后给出意见；r10.52 只修复 release 版本漂移，不改变统计结果或外部证据状态：
 
 | 角色 | 智能体 | 独立判断 |
 |---|---|---|
@@ -56,4 +56,3 @@
 ## 编辑结论
 
 当前决定：**Major Revision，暂缓投稿**。下一轮只有在上述外部证据全部取得、统计 estimand 统一并完成 DOI read-back 后，才重新运行五角色终审和 `scientific_submission_ready` 强门禁。
-
