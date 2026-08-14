@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t258-source-unit-endpoint-license-v1.0.0",
+  "protocol_id": "bioif-r4-t258-source-unit-endpoint-license-v1.0.0",
+  "status": "FROZEN_FOR_SOURCE_UNIT_ENDPOINT_LICENSE_AUDIT",
+  "evidence_class": "PAPER_DERIVED_PUBLIC_DATA_ACCOUNTING",
+  "allowed_claim_level": "METHODS_AND_DATA_ACCOUNTING",
+  "input_t249": {
+    "report": {
+      "relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_report.json",
+      "sha256": "6fdb35c2068c94ea74272ab213f4d649f4c40755f85e55a61039b54134c7014e"
+    },
+    "receipt": {
+      "relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_receipt.json",
+      "sha256": "5bec6f31db7447c51106d8d90d490784afff6b8d2732cbd876710c49f5bf6197"
+    },
+    "ledger": {
+      "relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_ledger.csv",
+      "sha256": "1eac118871e5a4ad315c377efc8c7dbfd38f0f2bfd94b70676439de2baff99aa"
+    }
+  },
+  "sources": [
+    {
+      "source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "laboratory_anchor": "University of Edinburgh-led controlled human exposure study",
+      "source_cell_map": {
+        "relative_path": "data/raw/r4_candidate_edinburgh_ds7545/derived/R4_EDINBURGH_DS7545_source_cell_map.csv",
+        "sha256": "e1a09f43f46040e1511b0b686ef9ed5eac39bd138fb39414c27c250956d84f56"
+      },
+      "source_locator": "https://datashare.ed.ac.uk/handle/10283/8569",
+      "license": "CC-BY-4.0",
+      "redistribution_class": "REDISTRIBUTABLE_CC_BY_DERIVATIVE_WITH_ATTRIBUTION",
+      "biological_unit_semantics": "DONOR_COUNT_REPORTED_DONOR_ID_NOT_ENCODED",
+      "biological_unit_field": null,
+      "biological_unit_placeholders": [],
+      "reported_biological_unit_count": 14,
+      "reported_biological_unit_type": "healthy_volunteers",
+      "biological_unit_crosswalk_status": "NOT_ENCODABLE_FROM_CURRENT_PUBLIC_MAP",
+      "technical_replicate_field": null,
+      "expected_encoded_biological_unit_count": 0,
+      "expected_technical_replicate_count": null,
+      "expected_row_count": 983,
+      "expected_rank_eligible_row_count": 932,
+      "expected_rank_eligible_target_count": 23,
+      "expected_rank_eligible_measurement_unit_count": 49
+    },
+    {
+      "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+      "laboratory_anchor": "University of Southern Denmark / Russian Academy of Sciences study",
+      "source_cell_map": {
+        "relative_path": "data/raw/r3_candidate_pmc6592156/derived/R4_T249_PMC6592156_source_cell_map.csv",
+        "sha256": "c966c7f19393fdab43cd8051100cc3c8d2ef95946b54982c0e8a441432851158"
+      },
+      "source_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592156/",
+      "license": "CC-BY-3.0",
+      "redistribution_class": "REDISTRIBUTABLE_CC_BY_DERIVATIVE_WITH_ATTRIBUTION",
+      "biological_unit_semantics": "POOLED_OR_UNRESOLVED_HUMAN_PLASMA_WITH_TECHNICAL_REPLICATES",
+      "biological_unit_field": "biological_unit_id",
+      "biological_unit_placeholders": ["UNRESOLVED_PUBLIC_MAP"],
+      "reported_biological_unit_count": null,
+      "reported_biological_unit_type": "donor_resolved_count_not_reported_in_current_map",
+      "biological_unit_crosswalk_status": "NOT_REPORTED",
+      "technical_replicate_field": "technical_replicate_id",
+      "expected_encoded_biological_unit_count": 0,
+      "expected_technical_replicate_count": 3,
+      "expected_row_count": 13485,
+      "expected_rank_eligible_row_count": 9357,
+      "expected_rank_eligible_target_count": 542,
+      "expected_rank_eligible_measurement_unit_count": 30
+    },
+    {
+      "source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "laboratory_anchor": "Dalian University of Technology, China",
+      "source_cell_map": {
+        "relative_path": "data/raw/r4_candidate_pxd060795/derived/R4_PXD060795_dalian_plasma_corona_source_cell_map.csv",
+        "sha256": "47111b1c37e9a7a8b858ab5673de026ebfb8541a49f411c41ea685f36e35103f"
+      },
+      "source_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD060795",
+      "license": "CC0",
+      "redistribution_class": "REDISTRIBUTABLE_CC0_DERIVATIVE",
+      "biological_unit_semantics": "POOLED_OR_UNSPECIFIED_HUMAN_PLASMA",
+      "biological_unit_field": "biological_unit_id",
+      "biological_unit_placeholders": ["POOLED_OR_UNSPECIFIED_HUMAN_PLASMA"],
+      "reported_biological_unit_count": null,
+      "reported_biological_unit_type": "donor_resolved_count_not_reported_in_current_map",
+      "biological_unit_crosswalk_status": "NOT_REPORTED",
+      "technical_replicate_field": null,
+      "expected_encoded_biological_unit_count": 0,
+      "expected_technical_replicate_count": null,
+      "expected_row_count": 243,
+      "expected_rank_eligible_row_count": 109,
+      "expected_rank_eligible_target_count": 22,
+      "expected_rank_eligible_measurement_unit_count": 6
+    },
+    {
+      "source_id": "PXD064962_UCD_EVENT",
+      "laboratory_anchor": "University College Dublin / Conway Institute",
+      "source_cell_map": {
+        "relative_path": "data/raw/r4_candidate_pxd064962_ucd/derived/R4_PXD064962_UCD_source_cell_map.csv",
+        "sha256": "2e8b6d9ffdc93cfb2839e16d17ad770a72e69a7d558f9e91d7bf89120cbbc594"
+      },
+      "source_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD064962",
+      "license": "CC0",
+      "redistribution_class": "REDISTRIBUTABLE_CC0_DERIVATIVE",
+      "biological_unit_semantics": "PATIENT_TIMEPOINT_UNITS_WITH_TECHNICAL_REPLICATES",
+      "biological_unit_field": "biological_unit_id",
+      "biological_unit_placeholders": [],
+      "reported_biological_unit_count": 30,
+      "reported_biological_unit_type": "labelled_neonatal_patient_timepoint_units",
+      "biological_unit_crosswalk_status": "TIMEPOINT_UNIT_NOT_DONOR_INDEPENDENCE",
+      "technical_replicate_field": "technical_replicate_id",
+      "expected_encoded_biological_unit_count": 30,
+      "expected_technical_replicate_count": 2,
+      "expected_row_count": 1260,
+      "expected_rank_eligible_row_count": 454,
+      "expected_rank_eligible_target_count": 15,
+      "expected_rank_eligible_measurement_unit_count": 30
+    }
+  ],
+  "endpoint_rules": {
+    "within_source_endpoint": "SOURCE_LOCAL_POSITIVE_ABUNDANCE_RANK",
+    "within_source_status": "COMPATIBLE_FOR_SOURCE_LOCAL_RANK_ANALYSIS",
+    "cross_source_rank_status": "CONDITIONALLY_COMPARABLE_AFTER_SOURCE_LOCAL_RANKING",
+    "cross_source_biological_effect_status": "NOT_COMPARABLE_WITHOUT_EXPLICIT_HIERARCHICAL_MATERIAL_ASSAY_CONDITION_MODEL",
+    "cross_source_calibration": false,
+    "technical_replicates_as_independent_units": false,
+    "claim_boundary": "The common target is portable as a source-local rank endpoint. It is not a calibrated absolute-abundance endpoint and does not establish a common biological effect across pooled plasma, patient/timepoint units, exposure phases or condition series."
+  },
+  "claim_boundary": "T258 audits the unit semantics, endpoint compatibility and reuse license of the paper-derived public-data route. It does not create donor-level independence where the source data do not encode it, does not turn technical replicates into biological n, and does not close independent lockbox evaluation, no-author reproduction, external adoption, DOI or scientific_submission_ready.",
+  "scientific_submission_ready": false
+}

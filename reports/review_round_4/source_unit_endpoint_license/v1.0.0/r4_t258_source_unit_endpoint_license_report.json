@@ -1,0 +1,141 @@
+{
+  "allowed_claim_level": "METHODS_AND_DATA_ACCOUNTING",
+  "audit_id": "bioif-r4-t258-source-unit-endpoint-license-v1.0.0",
+  "claim_boundary": "T258 audits the unit semantics, endpoint compatibility and reuse license of the paper-derived public-data route. It does not create donor-level independence where the source data do not encode it, does not turn technical replicates into biological n, and does not close independent lockbox evaluation, no-author reproduction, external adoption, DOI or scientific_submission_ready.",
+  "encoded_biological_unit_count": 30,
+  "endpoint_compatibility": {
+    "cross_source_biological_effect_status": "NOT_COMPARABLE_WITHOUT_EXPLICIT_HIERARCHICAL_MATERIAL_ASSAY_CONDITION_MODEL",
+    "cross_source_calibration": false,
+    "cross_source_rank_status": "CONDITIONALLY_COMPARABLE_AFTER_SOURCE_LOCAL_RANKING",
+    "pair_count": 6,
+    "technical_replicates_as_independent_units": false,
+    "within_source_endpoint": "SOURCE_LOCAL_POSITIVE_ABUNDANCE_RANK",
+    "within_source_status": "COMPATIBLE_FOR_SOURCE_LOCAL_RANK_ANALYSIS"
+  },
+  "evidence_class": "PAPER_DERIVED_PUBLIC_DATA_ACCOUNTING",
+  "external_scientific_reproduction": false,
+  "external_user_adoption": false,
+  "independent_validation": false,
+  "input_references": {
+    "protocol": {
+      "relative_path": "docs/data/R4_T258_SOURCE_UNIT_ENDPOINT_LICENSE_PROTOCOL.json",
+      "sha256": "200be8bb0312a155174d7430024644acadf445ae17edc83ebe16d7925ec449b6"
+    },
+    "t249_ledger": {
+      "relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_ledger.csv",
+      "sha256": "1eac118871e5a4ad315c377efc8c7dbfd38f0f2bfd94b70676439de2baff99aa"
+    },
+    "t249_receipt": {
+      "relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_receipt.json",
+      "sha256": "5bec6f31db7447c51106d8d90d490784afff6b8d2732cbd876710c49f5bf6197"
+    },
+    "t249_report": {
+      "relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_report.json",
+      "sha256": "6fdb35c2068c94ea74272ab213f4d649f4c40755f85e55a61039b54134c7014e"
+    }
+  },
+  "laboratory_anchor_count": 4,
+  "license_accounting": {
+    "all_sources_have_project_declared_reuse_class": true,
+    "cc0_source_count": 2,
+    "cc_by_source_count": 2,
+    "redistributable_source_count": 4
+  },
+  "output_contract": {
+    "endpoint_matrix_relative_path": "reports/review_round_4/source_unit_endpoint_license/v1.0.0/r4_t258_endpoint_compatibility_matrix.csv",
+    "endpoint_matrix_sha256": "45200f21c932d109780dadb4319072c19f7c64f1174b72fad783e38d922e5c8a",
+    "receipt_relative_path": "reports/review_round_4/source_unit_endpoint_license/v1.0.0/r4_t258_source_unit_endpoint_license_receipt.json",
+    "report_relative_path": "reports/review_round_4/source_unit_endpoint_license/v1.0.0/r4_t258_source_unit_endpoint_license_report.json",
+    "source_unit_ledger_relative_path": "reports/review_round_4/source_unit_endpoint_license/v1.0.0/r4_t258_source_unit_endpoint_ledger.csv",
+    "source_unit_ledger_sha256": "87df3245056759a0d244b61716f33a4c7694c2f7f2a01ea57f3646fca6a6d4ca"
+  },
+  "rank_eligible_cell_count": 10852,
+  "reported_biological_unit_counts_are_not_additive": true,
+  "schema_version": 1,
+  "scientific_submission_ready": false,
+  "source_cell_count": 15971,
+  "source_count": 4,
+  "source_unit_accounting": [
+    {
+      "biological_effect_endpoint_status": "NOT_COMPARABLE_WITHOUT_EXPLICIT_HIERARCHICAL_MATERIAL_ASSAY_CONDITION_MODEL",
+      "biological_unit_crosswalk_status": "NOT_ENCODABLE_FROM_CURRENT_PUBLIC_MAP",
+      "biological_unit_semantics": "DONOR_COUNT_REPORTED_DONOR_ID_NOT_ENCODED",
+      "encoded_biological_unit_count": "0",
+      "laboratory_anchor": "University of Edinburgh-led controlled human exposure study",
+      "license": "CC-BY-4.0",
+      "license_status": "VERIFIED_PUBLIC_SOURCE_DECLARATION",
+      "measurement_unit_count": "49",
+      "rank_eligible_row_count": "932",
+      "rank_eligible_target_count": "23",
+      "rank_endpoint_status": "COMPATIBLE_FOR_SOURCE_LOCAL_RANK_ANALYSIS",
+      "redistribution_class": "REDISTRIBUTABLE_CC_BY_DERIVATIVE_WITH_ATTRIBUTION",
+      "reported_biological_unit_count": "14",
+      "reported_biological_unit_type": "healthy_volunteers",
+      "source_cell_map_sha256": "e1a09f43f46040e1511b0b686ef9ed5eac39bd138fb39414c27c250956d84f56",
+      "source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "source_locator": "https://datashare.ed.ac.uk/handle/10283/8569",
+      "technical_replicate_count": "UNKNOWN"
+    },
+    {
+      "biological_effect_endpoint_status": "NOT_COMPARABLE_WITHOUT_EXPLICIT_HIERARCHICAL_MATERIAL_ASSAY_CONDITION_MODEL",
+      "biological_unit_crosswalk_status": "NOT_REPORTED",
+      "biological_unit_semantics": "POOLED_OR_UNRESOLVED_HUMAN_PLASMA_WITH_TECHNICAL_REPLICATES",
+      "encoded_biological_unit_count": "0",
+      "laboratory_anchor": "University of Southern Denmark / Russian Academy of Sciences study",
+      "license": "CC-BY-3.0",
+      "license_status": "VERIFIED_PUBLIC_SOURCE_DECLARATION",
+      "measurement_unit_count": "30",
+      "rank_eligible_row_count": "9357",
+      "rank_eligible_target_count": "542",
+      "rank_endpoint_status": "COMPATIBLE_FOR_SOURCE_LOCAL_RANK_ANALYSIS",
+      "redistribution_class": "REDISTRIBUTABLE_CC_BY_DERIVATIVE_WITH_ATTRIBUTION",
+      "reported_biological_unit_count": "UNKNOWN",
+      "reported_biological_unit_type": "donor_resolved_count_not_reported_in_current_map",
+      "source_cell_map_sha256": "c966c7f19393fdab43cd8051100cc3c8d2ef95946b54982c0e8a441432851158",
+      "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+      "source_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592156/",
+      "technical_replicate_count": "3"
+    },
+    {
+      "biological_effect_endpoint_status": "NOT_COMPARABLE_WITHOUT_EXPLICIT_HIERARCHICAL_MATERIAL_ASSAY_CONDITION_MODEL",
+      "biological_unit_crosswalk_status": "NOT_REPORTED",
+      "biological_unit_semantics": "POOLED_OR_UNSPECIFIED_HUMAN_PLASMA",
+      "encoded_biological_unit_count": "0",
+      "laboratory_anchor": "Dalian University of Technology, China",
+      "license": "CC0",
+      "license_status": "VERIFIED_PUBLIC_SOURCE_DECLARATION",
+      "measurement_unit_count": "6",
+      "rank_eligible_row_count": "109",
+      "rank_eligible_target_count": "22",
+      "rank_endpoint_status": "COMPATIBLE_FOR_SOURCE_LOCAL_RANK_ANALYSIS",
+      "redistribution_class": "REDISTRIBUTABLE_CC0_DERIVATIVE",
+      "reported_biological_unit_count": "UNKNOWN",
+      "reported_biological_unit_type": "donor_resolved_count_not_reported_in_current_map",
+      "source_cell_map_sha256": "47111b1c37e9a7a8b858ab5673de026ebfb8541a49f411c41ea685f36e35103f",
+      "source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "source_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD060795",
+      "technical_replicate_count": "UNKNOWN"
+    },
+    {
+      "biological_effect_endpoint_status": "NOT_COMPARABLE_WITHOUT_EXPLICIT_HIERARCHICAL_MATERIAL_ASSAY_CONDITION_MODEL",
+      "biological_unit_crosswalk_status": "TIMEPOINT_UNIT_NOT_DONOR_INDEPENDENCE",
+      "biological_unit_semantics": "PATIENT_TIMEPOINT_UNITS_WITH_TECHNICAL_REPLICATES",
+      "encoded_biological_unit_count": "30",
+      "laboratory_anchor": "University College Dublin / Conway Institute",
+      "license": "CC0",
+      "license_status": "VERIFIED_PUBLIC_SOURCE_DECLARATION",
+      "measurement_unit_count": "30",
+      "rank_eligible_row_count": "454",
+      "rank_eligible_target_count": "15",
+      "rank_endpoint_status": "COMPATIBLE_FOR_SOURCE_LOCAL_RANK_ANALYSIS",
+      "redistribution_class": "REDISTRIBUTABLE_CC0_DERIVATIVE",
+      "reported_biological_unit_count": "30",
+      "reported_biological_unit_type": "labelled_neonatal_patient_timepoint_units",
+      "source_cell_map_sha256": "2e8b6d9ffdc93cfb2839e16d17ad770a72e69a7d558f9e91d7bf89120cbbc594",
+      "source_id": "PXD064962_UCD_EVENT",
+      "source_locator": "https://www.ebi.ac.uk/pride/archive/projects/PXD064962",
+      "technical_replicate_count": "2"
+    }
+  ],
+  "status": "SOURCE_UNIT_ENDPOINT_LICENSE_AUDIT_VERIFIED_RESTRICTED_DEVELOPMENT"
+}

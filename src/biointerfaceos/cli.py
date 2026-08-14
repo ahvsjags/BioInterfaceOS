@@ -672,6 +672,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T249 four-source common-target receipt",
     )
     data_r4_t249_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t258_parser = data_subparsers.add_parser(
+        "audit-r4-t258-source-unit-endpoint-license",
+        help="audit source-unit semantics, endpoint compatibility and reuse licenses",
+    )
+    data_r4_t258_parser.add_argument("--strict", action="store_true")
+    data_r4_t258_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t258-source-unit-endpoint-license",
+        help="verify the frozen T258 source-unit and endpoint audit receipt",
+    )
+    data_r4_t258_verify_parser.add_argument("--strict", action="store_true")
     data_r4_t250_parser = data_subparsers.add_parser(
         "evaluate-r4-t250-four-lab-common-target",
         help="execute the frozen four-source paper-data common-target analysis",
@@ -3599,6 +3609,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t192-three-lab-common-target",
             "audit-r4-t249-four-lab-common-target",
             "verify-r4-t249-four-lab-common-target",
+            "audit-r4-t258-source-unit-endpoint-license",
+            "verify-r4-t258-source-unit-endpoint-license",
             "evaluate-r4-t250-four-lab-common-target",
             "verify-r4-t250-four-lab-common-target",
             "evaluate-r4-t193-three-lab-prefrozen-target",
@@ -4570,6 +4582,47 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"common_targets={t249_summary.common_target_count} "
                 f"common_rows={t249_summary.common_row_count} "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-t258-source-unit-endpoint-license":
+            from biointerfaceos.r4_t258_source_unit_endpoint_license import (
+                R4T258SourceUnitEndpointLicenseError,
+                R4T258SourceUnitEndpointLicenseWorkflow,
+            )
+
+            try:
+                t258_summary = R4T258SourceUnitEndpointLicenseWorkflow(root).run(strict=args.strict)
+            except (R4T258SourceUnitEndpointLicenseError, OSError) as exc:
+                print(f"R4_T258_SOURCE_UNIT_ENDPOINT_LICENSE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T258_SOURCE_UNIT_ENDPOINT_LICENSE_AUDIT_VALID "
+                f"sources={t258_summary.source_count} "
+                f"source_cells={t258_summary.source_cell_count} "
+                f"rank_eligible_cells={t258_summary.rank_eligible_cell_count} "
+                f"encoded_biological_units={t258_summary.encoded_biological_unit_count} "
+                "technical_replicates_not_independent=true "
+                "independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t258-source-unit-endpoint-license":
+            from biointerfaceos.r4_t258_source_unit_endpoint_license import (
+                R4T258SourceUnitEndpointLicenseError,
+                R4T258SourceUnitEndpointLicenseWorkflow,
+            )
+
+            try:
+                t258_summary = R4T258SourceUnitEndpointLicenseWorkflow(root).verify(strict=args.strict)
+            except (R4T258SourceUnitEndpointLicenseError, OSError) as exc:
+                print(f"R4_T258_SOURCE_UNIT_ENDPOINT_LICENSE_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T258_SOURCE_UNIT_ENDPOINT_LICENSE_VERIFY_VALID "
+                f"sources={t258_summary.source_count} "
+                f"source_cells={t258_summary.source_cell_count} "
+                f"rank_eligible_cells={t258_summary.rank_eligible_cell_count} "
+                f"encoded_biological_units={t258_summary.encoded_biological_unit_count} "
+                "independent_validation=false scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-t250-four-lab-common-target":
