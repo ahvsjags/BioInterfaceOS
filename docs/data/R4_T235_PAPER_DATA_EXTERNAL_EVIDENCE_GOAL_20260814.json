@@ -9,7 +9,7 @@
     "manifest": "release/empirical_candidate_v0.1.3-r10.32/release_manifest.json",
     "manifest_sha256": "d56a070a974675be2e3cff217c437d451eb765719ee95cc9c836abebf40c0c51",
     "external_protocol": "docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json",
-    "external_protocol_sha256": "e11b5fe8c7deec16dc4e3e66002a07649fa7aa3bcd32616cc91a795de4c8e70f"
+    "external_protocol_sha256": "57450d1bd44aa055da1442887f73650255b84cd47503cb8f83b607c2c6b6729f"
   },
   "paper_data_route": {
     "source_count": 3,

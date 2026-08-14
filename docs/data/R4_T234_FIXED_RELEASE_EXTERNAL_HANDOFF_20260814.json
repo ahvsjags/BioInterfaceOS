@@ -12,13 +12,15 @@
   },
   "protocol": {
     "path": "docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json",
-    "sha256": "e11b5fe8c7deec16dc4e3e66002a07649fa7aa3bcd32616cc91a795de4c8e70f"
+    "sha256": "57450d1bd44aa055da1442887f73650255b84cd47503cb8f83b607c2c6b6729f"
   },
   "routes": {
     "no_author_reproduction": {
       "route": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
-      "script": "scripts/r4_external_reproduction.sh",
-      "requires": ["independent_accession_reacquisition", "clean_fixed_tag", "environment_digest", "output_hashes", "signed_receipt", "immutable_archive_locator"]
+      "script": "scripts/r4_external_reproduction_r10_32.sh",
+      "helper_release": "v0.1.3-r10.35",
+      "helper_execution_rule": "Download the helper outside a clean v0.1.3-r10.32 checkout; invoke it from that checkout so the helper does not make git status dirty.",
+      "requires": ["independent_accession_reacquisition", "clean_fixed_tag", "helper_script_hash", "environment_digest", "output_hashes", "signed_receipt", "immutable_archive_locator"]
     },
     "lockbox": {
       "minimum_count": 1,
