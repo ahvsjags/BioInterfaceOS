@@ -1,0 +1,39 @@
+{
+  "audit_id": "bioif-r4-t257-paper-data-route-multi-agent-review-v1.0.0",
+  "evaluated_at": "2026-08-14T00:00:00+08:00",
+  "status": "MAJOR_REVISION_EXTERNAL_GATES_UNVERIFIED",
+  "panel": [
+    {"role": "Poincare", "focus": "methodology_and_statistics", "data_compatibility": 82, "effective_biological_n": 58, "statistical_execution": 86},
+    {"role": "Wegener", "focus": "source_lineage_and_cross_laboratory_compatibility", "claim": "four laboratory anchors are provenance evidence, not four independent biological cohorts"},
+    {"role": "Popper", "focus": "falsifiability_and_devil_advocate", "critical_risks": ["pseudo-independence", "selection_leakage", "endpoint_mismatch", "author-run-masquerading-as-external", "license_and_archive_boundary"]},
+    {"role": "Euler", "focus": "model_and_engineering_reproducibility", "finding": "T255 artifact path/hash verifier binding required repair; repair passed strict verification"},
+    {"role": "Kant", "focus": "editor_in_chief", "decision": "MAJOR_REVISION", "recommended_positioning": "computational_methods_benchmark_resource"}
+  ],
+  "conservative_scores": {
+    "data_compatibility_sample_foundation": 82,
+    "statistical_design": 88,
+    "statistical_execution_effective_n": 82,
+    "models_ablations_negative_ood": 78,
+    "protected_lockbox": 0,
+    "no_author_reproduction": 0,
+    "external_adoption": 0,
+    "doi_immutable_archive_readback": 10,
+    "decision": "MAJOR_REVISION"
+  },
+  "validation": {
+    "full_suite_passed": 584,
+    "full_suite_skipped": 13,
+    "t255_targeted_tests_passed": 3,
+    "t255_strict_verifier": "VALID",
+    "ruff": "PASS",
+    "ruff_format": "PASS",
+    "mypy": "PASS"
+  },
+  "external_gates": {
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false
+  },
+  "scientific_submission_ready": false
+}
