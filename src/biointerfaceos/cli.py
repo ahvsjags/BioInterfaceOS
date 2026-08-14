@@ -549,6 +549,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         required=True,
         help="directory containing the downloaded PMC6592156 supplementary package and extraction",
     )
+    data_r3_silver_source_parser.add_argument(
+        "--output-root",
+        type=Path,
+        help="optional fresh output directory for an external source-audit receipt",
+    )
     data_r3_silver_source_parser.add_argument("--strict", action="store_true")
     data_r4_edinburgh_source_parser = data_subparsers.add_parser(
         "audit-r4-edinburgh-clinical-source",
@@ -926,6 +931,11 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         type=Path,
         required=True,
         help="registry-fixed silver-source asset directory",
+    )
+    data_r3_silver_ood_parser.add_argument(
+        "--output-root",
+        type=Path,
+        help="optional fresh output directory for an external OOD receipt",
     )
     data_r3_silver_ood_parser.add_argument("--strict", action="store_true")
     data_external_intake_parser = data_subparsers.add_parser(
@@ -4038,7 +4048,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
 
             try:
                 silver_source_summary = R3SilverPlasmaSourceAuditWorkflow(
-                    root, args.assets_root
+                    root, args.assets_root, output_root=args.output_root
                 ).run(strict=args.strict)
             except (R3SilverPlasmaSourceAuditError, OSError) as exc:
                 print(f"R3_SILVER_PLASMA_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
@@ -5351,7 +5361,11 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
 
             try:
                 silver_ood_summary = R3SilverExternalOODWorkflow(
-                    root, args.output_data_root, args.feature_root, args.silver_assets_root
+                    root,
+                    args.output_data_root,
+                    args.feature_root,
+                    args.silver_assets_root,
+                    output_root=args.output_root,
                 ).run(strict=args.strict)
             except (R3SilverExternalOODerror, OSError) as exc:
                 print(f"R3_SILVER_EXTERNAL_OOD_INVALID: {exc}", file=sys.stderr)

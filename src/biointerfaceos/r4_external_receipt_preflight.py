@@ -71,8 +71,8 @@ class R4ExternalReceiptPreflightWorkflow:
     PROTOCOL_ID = "bioif-r4-external-evaluator-and-reproduction-v1.0.0"
     FIXED_RELEASE = {
         "repository": "https://github.com/ahvsjags/BioInterfaceOS",
-        "tag": "v0.1.3-r10.26",
-        "manifest_path": "release/empirical_candidate_v0.1.3-r10.26/release_manifest.json",
+        "tag": "v0.1.3-r10.27",
+        "manifest_path": "release/empirical_candidate_v0.1.3-r10.27/release_manifest.json",
     }
     STATUS = "STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW"
     DOCUMENT_TYPES = (
@@ -158,7 +158,7 @@ class R4ExternalReceiptPreflightWorkflow:
         for key, expected in cls.FIXED_RELEASE.items():
             if fixed[key] != expected:
                 raise R4ExternalReceiptPreflightError(
-                    "bundle is not bound to the current immutable r10.26 release"
+                    "bundle is not bound to the current immutable r10.27 release"
                 )
         for key in {"commit", "source_commit"}:
             _digest(fixed[key], f"fixed release {key}", length=40)
@@ -171,7 +171,7 @@ class R4ExternalReceiptPreflightWorkflow:
     ) -> None:
         if value != fixed_release["commit"]:
             raise R4ExternalReceiptPreflightError(
-                f"{label} checkout_commit is not the fixed r10.26 release commit"
+                f"{label} checkout_commit is not the fixed r10.27 release commit"
             )
 
     def _assert_repository_anchor(self, fixed_release: Mapping[str, str]) -> None:

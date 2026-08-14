@@ -1,12 +1,12 @@
-# GitHub Issue #2 replacement draft for v0.1.3-r10.26
+# GitHub Issue #2 replacement draft for v0.1.3-r10.27
 
 This file is a coordination draft. It is not an external receipt and does not establish independent validation, reproduction, adoption or DOI archival.
 
 ## Proposed issue body
 
-### Request: non-author evaluator, reproduction and adoption for BioInterfaceOS v0.1.3-r10.26
+### Request: non-author evaluator, reproduction and adoption for BioInterfaceOS v0.1.3-r10.27
 
-BioInterfaceOS is seeking genuinely non-author participants for three independent evidence roles. The fixed public candidate is [v0.1.3-r10.26](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.26). Please use the immutable tag, not a moving branch.
+BioInterfaceOS is seeking genuinely non-author participants for three independent evidence roles. The fixed public candidate is [v0.1.3-r10.27](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.27). Please use the immutable tag, not a moving branch.
 
 We need:
 
@@ -14,7 +14,7 @@ We need:
 2. One no-author team to reacquire the CC-BY-3.0 PMC6592156 supplementary data from Europe PMC and run the accession-to-result reproduction route.
 3. Two non-author users or institutions to install the fixed release in clean environments and run materially distinct real tasks.
 
-The operational instructions are in [`docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_26.md`](https://github.com/ahvsjags/BioInterfaceOS/blob/r3-real-data-execution-20260813/docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_26.md). The evaluator/reproduction contract is [`docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json`](https://github.com/ahvsjags/BioInterfaceOS/blob/r3-real-data-execution-20260813/docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json); the receipt bundle template is [`docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`](https://github.com/ahvsjags/BioInterfaceOS/blob/r3-real-data-execution-20260813/docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json).
+The operational instructions are in [`docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_27.md`](https://github.com/ahvsjags/BioInterfaceOS/blob/r3-real-data-execution-20260814/docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_27.md). The evaluator/reproduction contract is [`docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json`](https://github.com/ahvsjags/BioInterfaceOS/blob/r3-real-data-execution-20260814/docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json); the receipt bundle template is [`docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`](https://github.com/ahvsjags/BioInterfaceOS/blob/r3-real-data-execution-20260814/docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json).
 
 Do not post protected row-level data, credentials or private human data. A report is not accepted as evidence until identity, institution, conflict disclosure, fixed checkout, input provenance, environment/dependency digest, commands, output hashes, failures and limitations have been independently audited. Public downloads, stars, page views, author-run KAUST jobs, Codex runs and this issue itself do not count.
 
