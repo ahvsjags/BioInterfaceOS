@@ -2,7 +2,7 @@
   "schema_version": 1,
   "mode": "negative_controls_and_deliberate_leakage_attacks",
   "inputs": [
-    {"label": "T086 extraction/red-team receipt", "path": "reports/agents/extraction/extraction_agent_receipt.json", "sha256": "2a024779827fd8cde45822e347bd40f03d3d0411764fa30c0a667598f297a1c4"},
+    {"label": "T086 extraction/red-team receipt", "path": "reports/agents/extraction/extraction_agent_receipt.json", "sha256": "75fbf39ca6d6f41fc326722d7758267f755f6e088988fbf35aabb2ba87e6805e"},
     {"label": "T099 ablations receipt", "path": "reports/robustness/ablations/ablations_receipt.json", "sha256": "bde553a6a188e2b0a733495d8b89493f9573086e05dd639db7c47edb7a2cee54"},
     {"label": "T100 OOD receipt", "path": "reports/robustness/ood/ood_receipt.json", "sha256": "2172d6139361a6b10e5d80ba199c21c7854830eeaa2152dc82f10931387beb2e"},
     {"label": "T101 bias receipt", "path": "reports/robustness/bias/bias_receipt.json", "sha256": "9e989284b402ae6709d8b4ad5c042b8c5385d4b13fc2ba0208fa0fbc7ae38c97"}

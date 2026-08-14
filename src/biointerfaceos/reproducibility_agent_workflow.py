@@ -276,7 +276,7 @@ class ReproducibilityWorkflow:
         payloads["seal"] = _canonical(seal)
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root)),
+                "path": path.relative_to(self.root).as_posix(),
                 "sha256": _sha256(payloads[name]),
                 "bytes": len(payloads[name]),
             }
@@ -326,7 +326,7 @@ class ReproducibilityWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root)),
+                        "path": path.relative_to(self.root).as_posix(),
                         "sha256": _sha256(payloads[name]),
                         "bytes": len(payloads[name]),
                     }

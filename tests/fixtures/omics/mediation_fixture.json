@@ -15,7 +15,7 @@
     {
       "label": "T090 functional axes receipt",
       "path": "reports/omics/functional_axes/functional_axes_receipt.json",
-      "sha256": "03601cfd6806fbb3ebd4c9719463af182ea8e824a62f921ad87ac71475bdbd0a"
+      "sha256": "6ccd62a249ed8d1b255681b13c854864ae2757db0ada696aff4fb94662df304c"
     },
     {
       "label": "T062 modality link graph",

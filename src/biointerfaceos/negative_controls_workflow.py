@@ -111,7 +111,7 @@ class NegativeControlsWorkflow:
         expected: dict[str, tuple[Path, str]] = {
             "T086 extraction/red-team receipt": (
                 self.root / "reports/agents/extraction/extraction_agent_receipt.json",
-                "2a024779827fd8cde45822e347bd40f03d3d0411764fa30c0a667598f297a1c4",
+                "75fbf39ca6d6f41fc326722d7758267f755f6e088988fbf35aabb2ba87e6805e",
             ),
             "T099 ablations receipt": (
                 self.root / "reports/robustness/ablations/ablations_receipt.json",

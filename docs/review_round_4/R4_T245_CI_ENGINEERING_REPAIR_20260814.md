@@ -17,6 +17,7 @@
 6. 修复 clean-room 在没有 `uv` 的本地/服务器环境中的 Python 模块回退执行路径，并保持发布记录中的规范 benchmark command 不变。
 7. 补齐 R2 handoff 的七项冻结清单与 public asset registry 的经验候选资产登记。
 8. 更新 T090、T086、Paper A 与 agent benchmark 的夹具哈希，确保 receipt 绑定与新生成物一致。
+9. 将 agent/functional-axes receipt 中的相对路径规范化为 POSIX 形式，消除 Windows 反斜杠与 Linux 正斜杠造成的跨平台重算漂移。
 
 ## 验收结果
 

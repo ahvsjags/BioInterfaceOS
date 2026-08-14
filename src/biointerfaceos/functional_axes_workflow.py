@@ -276,7 +276,7 @@ class FunctionalAxesWorkflow:
         payloads = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root)),
+                "path": path.relative_to(self.root).as_posix(),
                 "sha256": _sha256(payloads[name]),
                 "bytes": len(payloads[name]),
             }
@@ -313,7 +313,7 @@ class FunctionalAxesWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root)),
+                        "path": path.relative_to(self.root).as_posix(),
                         "sha256": _sha256(payloads[name]),
                         "bytes": len(payloads[name]),
                     }
