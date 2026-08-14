@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t260-external-gate-handoff-v1.0.0",
+  "protocol_id": "bioif-r4-t260-external-gate-handoff-v1.0.0",
+  "status": "HANDOFF_OPEN_NO_EXTERNAL_RECEIPTS",
+  "public_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS.git",
+    "tag": "v0.1.3-r10.45",
+    "commit": "READ_FROM_DEREFERENCED_IMMUTABLE_TAG",
+    "reproduction_helper": "scripts/r4_external_reproduction_r10_45.sh",
+    "doi_status": "PENDING_NOT_ARCHIVED"
+  },
+  "fixed_protocols": {
+    "t238": {
+      "relative_path": "docs/data/R4_T238_FOUR_SOURCE_AVAILABILITY_EXECUTION_PROTOCOL.json",
+      "sha256": "a89a2cf4236caee0826fddde5ac89747f939dd656636d600595adf9af6bed7ea"
+    },
+    "t249": {
+      "relative_path": "docs/data/R4_T249_FOUR_LAB_COMMON_TARGET_PROTOCOL.json",
+      "sha256": "53d9aa48c78f3140b8870bb9469b9264f63bd125beb2a9be4c504bef2e341b63"
+    },
+    "t258": {
+      "relative_path": "docs/data/R4_T258_SOURCE_UNIT_ENDPOINT_LICENSE_PROTOCOL.json",
+      "sha256": "200be8bb0312a155174d7430024644acadf445ae17edc83ebe16d7925ec449b6"
+    }
+  },
+  "no_author_reproduction": {
+    "required_count": 1,
+    "fresh_clone_required": true,
+    "independent_public_source_reacquisition_required": true,
+    "recommended_source_locator": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6592156/supplementaryFiles",
+    "expected_source_sha256": "99e472edbb71902f9631e8798fd60b5f1898b1e676affd3fd9376b5302c40008",
+    "author_assistance_during_run": false,
+    "failure_and_negative_runs_required": true,
+    "immutable_archive_locator_required": true
+  },
+  "external_adoption": {
+    "required_count": 2,
+    "distinct_non_author_users_or_institutions": true,
+    "distinct_real_tasks": true,
+    "clean_environment_required": true,
+    "public_summary_consent_required": true
+  },
+  "protected_lockbox": {
+    "required_count": 1,
+    "protected_or_unseen_input_controlled_by_evaluator": true,
+    "author_access_to_row_level_input_or_intermediate_results": false,
+    "aggregate_only_receipt": true,
+    "identity_institution_role_and_coi_required": true,
+    "effective_n_ablation_null_ood_and_failure_ledger_required": true
+  },
+  "doi_archive": {
+    "required": true,
+    "immutable_release_locator_required": true,
+    "manifest_and_archive_hash_readback_required": true,
+    "prepared_metadata_is_not_evidence": true
+  },
+  "required_receipt_fields": [
+    "identity_and_institution",
+    "role_and_conflict_disclosure",
+    "fixed_release_tag_and_commit",
+    "protocol_hashes",
+    "input_or_protected_data_attestation",
+    "environment_digest",
+    "dependency_lockfile_sha256",
+    "commands_and_scope",
+    "stdout_stderr_hashes",
+    "raw_output_hashes",
+    "deviation_ledger",
+    "complete_result_summary",
+    "failure_and_negative_result_record",
+    "signed_attestation",
+    "immutable_archive_locator"
+  ],
+  "gate_predicate": {
+    "independent_validation": "verified_lockbox_receipt_count >= 1",
+    "external_scientific_reproduction": "verified_no_author_reproduction_count >= 1",
+    "external_user_adoption": "verified_distinct_adoption_receipt_count >= 2",
+    "doi_archived": "doi_archive_verified == true",
+    "scientific_submission_ready": "all_external_predicates_true AND final_multi_agent_editorial_review_passes"
+  },
+  "current_gate_state": {
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This is a third-party execution handoff and receipt contract. It does not assert that any external evaluator, reproducing team, user, archive or DOI service has completed the requested work."
+}
