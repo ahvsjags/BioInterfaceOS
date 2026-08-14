@@ -4,7 +4,7 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current scientific candidate is `v0.1.3-r10.32`; the current public external-handoff overlay is `v0.1.3-r10.37`. The overlay does not add scientific results or external receipts. The current paper-data execution includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current scientific candidate is `v0.1.3-r10.32`; the current public external-handoff overlay is `v0.1.3-r10.38`. The overlay does not add scientific results or external receipts. The current paper-data execution includes:
 
 - a four-source, four-source/laboratory-anchor common-target route with seven exact canonical accessions, 783 row-traceable observations, 115 measurement batches and four laboratory-held-out folds; this is exploratory, conditioned on the pre-frozen all-source target-availability intersection, and not four independent biological cohorts;
 - a public full-text/supplementary-data route using paper-derived observations, with source-local ranks, nested batch selection, cluster uncertainty, paired composition ablation and permutation controls; paper-derived data are not a substitute for non-author validation;
@@ -43,7 +43,7 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 
 See:
 
-- `release/empirical_candidate_v0.1.3-r10.37/README.md`
+- `release/empirical_candidate_v0.1.3-r10.38/README.md`
 - `docs/data/R4_T252_CURRENT_EXTERNAL_HANDOFF_20260814.json`
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
