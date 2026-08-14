@@ -1,7 +1,7 @@
 # T254: full-text paper-derived evidence package
 
 Date: 2026-08-14
-Status: `IN_PROGRESS`
+Status: `COMPLETED_INTERNAL_EXTERNAL_GATES_UNVERIFIED`
 Objective: make the no-new-wet-lab fallback auditable without promoting paper-derived, pooled, technical, or author-run material to independent biological validation.
 
 ## Frozen positioning
