@@ -345,7 +345,9 @@ class R4T265BiologicalCommonTargetWorkflow(R4T193ThreeLabPrefrozenExecutionWorkf
     def _round_numbers(value: Any) -> Any:
         """Quantize numeric artifacts so BLAS implementations serialize identically."""
         if isinstance(value, (float, np.floating)):
-            return float(f"{float(value):.12f}")
+            # Nine decimal places preserve publication-scale estimates while
+            # collapsing small BLAS/CPU-specific coefficient drift.
+            return float(f"{float(value):.9f}")
         if isinstance(value, dict):
             return {key: R4T265BiologicalCommonTargetWorkflow._round_numbers(item) for key, item in value.items()}
         if isinstance(value, list):
