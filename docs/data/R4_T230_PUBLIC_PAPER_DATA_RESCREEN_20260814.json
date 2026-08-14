@@ -1,0 +1,60 @@
+{
+  "task_id": "R4-T230",
+  "date": "2026-08-14",
+  "purpose": "Public full-text and repository data rescreen under the frozen target/admission contract",
+  "paper_data_rescreened": true,
+  "candidates": [
+    {
+      "accession": "PXD054751",
+      "laboratory": "Sapienza University of Rome, Department of Chemistry",
+      "license": "CC0-1.0",
+      "landing_url": "https://www.ebi.ac.uk/pride/archive/projects/PXD054751",
+      "publication_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11496629/",
+      "screen_asset": {
+        "path": "data/raw/r4_candidate_pxd054751_rome/Results.xlsx",
+        "bytes": 482408,
+        "sha256": "1b7ae06c0933e95e21c993e09ccb4edd7c1088757d34dfdfbbf5f80ad2242df6"
+      },
+      "observed_structure": {
+        "protein_rows": 198,
+        "source_conditions": 5,
+        "intensity_columns": 15,
+        "columns_per_condition": 3,
+        "frozen_r3_unique_target_overlap": 3,
+        "positive_shared_targets_by_condition": [3, 3, 3, 3, 2],
+        "conditions_meeting_minimum_10_target_batch": 0
+      },
+      "biological_unit_status": "DONOR_LEVEL_ROLE_UNRESOLVED",
+      "admission": "NOT_ADMITTED",
+      "reason": "Insufficient frozen-target overlap and no defensible donor-level biological replicate map; source intensities are not a common scale."
+    },
+    {
+      "accession": "PXD077545",
+      "laboratory": "Michigan State University lineage",
+      "license_or_article_access": "Public article and ProteomeXchange record",
+      "landing_url": "https://proteomecentral.proteomexchange.org/dataset/PXD077545",
+      "publication_url": "https://www.nature.com/articles/s41467-026-74306-3",
+      "reported_sample_design": "12 + 39 human-plasma samples; technical repeats per sample",
+      "admission": "SAME_LINEAGE_SENSITIVITY_ONLY",
+      "reason": "Useful biological-unit candidate, but not a new independent laboratory anchor; target/batch/source-cell mapping is not yet frozen for the primary endpoint."
+    },
+    {
+      "accession": "PXD026615",
+      "laboratory": "University of Salamanca/CSIC",
+      "landing_url": "https://www.ebi.ac.uk/pride/archive/projects/PXD026615",
+      "admission": "CANDIDATE_PENDING_REPROCESSING",
+      "reason": "Human/rabbit/bovine plasma context is promising, but the row-level quantitative and sample/batch mapping contract is not yet complete."
+    }
+  ],
+  "claim_boundary": {
+    "author_side_real_data_execution_supported": true,
+    "new_independent_laboratory_admitted": false,
+    "independent_validation": false,
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "next_action": "Reprocess PXD026615 or acquire a new source with explicit laboratory-study-donor/sample-batch-observation linkage; then obtain non-author lockbox, reproduction, adoption, and DOI receipts."
+}
