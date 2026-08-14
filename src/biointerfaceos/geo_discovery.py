@@ -29,9 +29,7 @@ class GeoDiscoverySummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -71,9 +69,7 @@ class GeoDiscoveryWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/geo_discovery_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/geo_discovery_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/geo_discovery"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -95,9 +91,7 @@ class GeoDiscoveryWorkflow:
         inputs = _mapping(data["inputs"], "inputs")
         matrix_relative = _string(inputs.get("search_matrix_path"), "search_matrix_path")
         matrix_path = (self.root / matrix_relative).resolve(strict=True)
-        if _sha256_path(matrix_path) != _string(
-            inputs.get("search_matrix_sha256"), "search_matrix_sha256"
-        ):
+        if _sha256_path(matrix_path) != _string(inputs.get("search_matrix_sha256"), "search_matrix_sha256"):
             raise GeoDiscoveryError("search matrix checksum differs from fixture")
         try:
             matrix = yaml.safe_load(matrix_path.read_text(encoding="utf-8"))
@@ -109,16 +103,12 @@ class GeoDiscoveryWorkflow:
         train_geo = {
             str(query.get("id"))
             for query in queries
-            if isinstance(query, dict)
-            and query.get("scope") == "train"
-            and query.get("source") == "geo"
+            if isinstance(query, dict) and query.get("scope") == "train" and query.get("source") == "geo"
         }
         for report_key in ("geo_adapter_report", "query_matrix_report", "coverage_report"):
             relative = _string(inputs.get(f"{report_key}_path"), f"{report_key}_path")
             path = (self.root / relative).resolve(strict=True)
-            if _sha256_path(path) != _string(
-                inputs.get(f"{report_key}_sha256"), f"{report_key}_sha256"
-            ):
+            if _sha256_path(path) != _string(inputs.get(f"{report_key}_sha256"), f"{report_key}_sha256"):
                 raise GeoDiscoveryError(f"{report_key} checksum differs from fixture")
         query_blocks = cast(list[Any], data["query_blocks"])
         for value in query_blocks:
@@ -180,19 +170,13 @@ class GeoDiscoveryWorkflow:
                 raise GeoDiscoveryError(f"candidate query block is missing: {query_id}")
             family_id = _optional_string(candidate.get("paper_family_id"), "paper_family_id")
             material = _optional_string(candidate.get("material"), "material")
-            biological_system = _optional_string(
-                candidate.get("biological_system"), "biological_system"
-            )
+            biological_system = _optional_string(candidate.get("biological_system"), "biological_system")
             dose = _optional_string(candidate.get("dose"), "dose")
             timepoint = _optional_string(candidate.get("time"), "time")
             restricted = bool(candidate.get("restricted", False))
             credential_required = bool(candidate.get("credential_required", False))
             files = self._validate_files(candidate.get("public_files"), "public_files")
-            public_files = [
-                file
-                for file in files
-                if file["access"] == "PUBLIC" and not file["credential_required"]
-            ]
+            public_files = [file for file in files if file["access"] == "PUBLIC" and not file["credential_required"]]
             reasons: list[str] = []
             if (
                 restricted
@@ -268,9 +252,7 @@ class GeoDiscoveryWorkflow:
                 )
             for reason in reasons:
                 if reason.endswith("_MISSING") or reason == "PUBLIC_FILE_UNVERIFIED":
-                    gaps.append(
-                        {"accession": accession, "field": reason, "candidate_id": candidate_id}
-                    )
+                    gaps.append({"accession": accession, "field": reason, "candidate_id": candidate_id})
         if not candidates:
             raise GeoDiscoveryError("no GEO/SRA candidates discovered")
         return (
@@ -296,9 +278,7 @@ class GeoDiscoveryWorkflow:
             "query_blocks": [
                 {
                     "query_id": _string(_mapping(block, "query block").get("query_id"), "query_id"),
-                    "response_sha256": _sha256(
-                        _canonical(_mapping(block, "query block").get("response"))
-                    ),
+                    "response_sha256": _sha256(_canonical(_mapping(block, "query block").get("response"))),
                     "candidate_count": sum(
                         _string(candidate.get("query_id"), "query_id")
                         == _string(_mapping(block, "query block").get("query_id"), "query_id")
@@ -344,9 +324,7 @@ class GeoDiscoveryWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -393,9 +371,7 @@ class GeoDiscoveryWorkflow:
             "coverage_gaps": len(gaps),
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

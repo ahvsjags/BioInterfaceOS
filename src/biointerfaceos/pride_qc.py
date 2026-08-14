@@ -30,9 +30,7 @@ class PrideQCSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -86,9 +84,7 @@ class PrideQCWorkflow:
         for key in ("inputs", "gates", "projects", "author_claims"):
             if key not in fixture:
                 raise PrideQCError(f"PRIDE QC fixture missing {key}")
-        if not isinstance(fixture["projects"], list) or not isinstance(
-            fixture["author_claims"], list
-        ):
+        if not isinstance(fixture["projects"], list) or not isinstance(fixture["author_claims"], list):
             raise PrideQCError("projects and author_claims must be lists")
         if len(fixture["projects"]) < 3:
             raise PrideQCError("at least three development projects must be attempted")
@@ -208,9 +204,7 @@ class PrideQCWorkflow:
             replicate_counts = card.get("replicate_counts")
             if not isinstance(replicate_counts, Mapping):
                 raise PrideQCError(f"replicate counts are invalid: {accession}")
-            replicate_values = [
-                value for value in replicate_counts.values() if isinstance(value, int)
-            ]
+            replicate_values = [value for value in replicate_counts.values() if isinstance(value, int)]
             replicate_pass = bool(replicate_values) and min(replicate_values) >= min_replicates
             project_metrics = _mapping(qc_project.get("processed_metrics"), "processed metrics")
             fdr = project_metrics.get("search_fdr")
@@ -218,8 +212,7 @@ class PrideQCWorkflow:
             fdr_pass = fdr is not None and _float(fdr, "project search_fdr") <= max_fdr
             intensity_pass = (
                 intensity_fraction is not None
-                and _float(intensity_fraction, "project intensity fraction")
-                >= min_intensity_fraction
+                and _float(intensity_fraction, "project intensity fraction") >= min_intensity_fraction
             )
             access_pass = raw_access == "PUBLIC" and not bool(card.get("locked_project"))
             processed_pass = replicate_pass and fdr_pass and intensity_pass
@@ -368,9 +361,7 @@ class PrideQCWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -409,9 +400,7 @@ class PrideQCWorkflow:
             **summary,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

@@ -50,9 +50,7 @@ class FunctionalAxesWorkflow:
         schema_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/functional_axes_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/functional_axes_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/functional_axes"
         self.schema_path = schema_path or self.root / "agents/discovery/functional_axes.v1.json"
 
@@ -69,10 +67,7 @@ class FunctionalAxesWorkflow:
             {"schema_version", "workflow", "alternatives", "outputs"},
             "functional axes schema",
         )
-        if (
-            schema.get("schema_version") != 1
-            or schema.get("workflow") != "protein_corona_functional_axes"
-        ):
+        if schema.get("schema_version") != 1 or schema.get("workflow") != "protein_corona_functional_axes":
             raise FunctionalAxesError("functional axes schema version or workflow is invalid")
         if schema.get("alternatives") != ["nmf", "sparse", "log_ratio"]:
             raise FunctionalAxesError("functional axes alternatives are invalid")
@@ -91,9 +86,7 @@ class FunctionalAxesWorkflow:
         _keys(fixture, {"schema_version", "mode", "inputs", "models"}, "functional axes fixture")
         if fixture.get("schema_version") != 1 or fixture.get("mode") != "functional_axes_fixture":
             raise FunctionalAxesError("functional axes fixture schema or mode is invalid")
-        if not isinstance(fixture.get("inputs"), list) or not isinstance(
-            fixture.get("models"), list
-        ):
+        if not isinstance(fixture.get("inputs"), list) or not isinstance(fixture.get("models"), list):
             raise FunctionalAxesError("functional axes inputs or models are invalid")
         return fixture
 
@@ -123,9 +116,7 @@ class FunctionalAxesWorkflow:
             path, checksum = expected[label]
             declared = (self.root / row["path"]).resolve(strict=True)
             if declared != path.resolve(strict=True) or row["sha256"] != checksum:
-                raise FunctionalAxesError(
-                    f"functional axes input path or checksum differs: {label}"
-                )
+                raise FunctionalAxesError(f"functional axes input path or checksum differs: {label}")
             if _sha256(path.read_bytes()) != checksum:
                 raise FunctionalAxesError(f"functional axes input checksum differs: {label}")
             rows.append({"label": label, "path": row["path"]})
@@ -170,11 +161,7 @@ class FunctionalAxesWorkflow:
         inputs = self._inputs(fixture_data)
         lockbox = self._lockbox(inputs)
         matrix = _mapping(
-            json.loads(
-                (self.root / "reports/omics/harmonization/module_matrix.json").read_text(
-                    encoding="utf-8"
-                )
-            ),
+            json.loads((self.root / "reports/omics/harmonization/module_matrix.json").read_text(encoding="utf-8")),
             "module matrix",
         )
         rows = matrix["rows"]

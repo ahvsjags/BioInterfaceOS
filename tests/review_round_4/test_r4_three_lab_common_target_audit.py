@@ -12,7 +12,6 @@ from biointerfaceos.r4_three_lab_common_target_audit import (
     R4ThreeLabCommonTargetAuditWorkflow,
 )
 
-
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "docs/data/R4_T178_THREE_LAB_COMMON_TARGET_ADMISSION.json"
 
@@ -37,9 +36,7 @@ def test_three_lab_common_target_audit_rejects_tampered_map_declaration(tmp_path
     registry["sources"][0]["source_cell_map"]["sha256"] = "0" * 64
     registry_path = tmp_path / "registry.json"
     registry_path.write_text(json.dumps(registry), encoding="utf-8")
-    workflow = R4ThreeLabCommonTargetAuditWorkflow(
-        ROOT, registry_path=registry_path, output_root=tmp_path / "audit"
-    )
+    workflow = R4ThreeLabCommonTargetAuditWorkflow(ROOT, registry_path=registry_path, output_root=tmp_path / "audit")
 
     with pytest.raises(R4ThreeLabCommonTargetAuditError, match="source-cell map checksum differs"):
         workflow.run(strict=True)

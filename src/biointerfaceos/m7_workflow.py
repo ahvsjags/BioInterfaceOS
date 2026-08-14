@@ -79,9 +79,7 @@ def _metrics(rows: list[dict[str, Any]], predictions: Mapping[str, float]) -> di
     )
 
 
-def _group_rmse(
-    rows: list[dict[str, Any]], predictions: Mapping[str, float], field: str
-) -> list[dict[str, Any]]:
+def _group_rmse(rows: list[dict[str, Any]], predictions: Mapping[str, float], field: str) -> list[dict[str, Any]]:
     groups: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
         groups.setdefault(row[field], []).append(row)
@@ -109,9 +107,7 @@ class M7Workflow:
 
     def _config(self) -> dict[str, Any]:
         try:
-            config = _mapping(
-                yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M7 config"
-            )
+            config = _mapping(yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M7 config")
         except (OSError, UnicodeError, yaml.YAMLError) as exc:
             raise M7Error(f"cannot load M7 config: {exc}") from exc
         if config.get("schema_version") != 1 or config.get("model") != "M7":
@@ -157,9 +153,7 @@ class M7Workflow:
             if label not in expected:
                 raise M7Error(f"unexpected M7 input: {label}")
             path, checksum = expected[label]
-            declared_path = (self.root / _string(row.get("path"), "M7 input path")).resolve(
-                strict=True
-            )
+            declared_path = (self.root / _string(row.get("path"), "M7 input path")).resolve(strict=True)
             if declared_path != path.resolve(strict=True):
                 raise M7Error(f"M7 input path mismatch: {label}")
             if _sha256(path.read_bytes()) != checksum or row.get("sha256") != checksum:
@@ -204,12 +198,8 @@ class M7Workflow:
                     "field": field,
                     "source": source,
                     "target_derived": target_derived,
-                    "unique_train_domains": len(
-                        {row[field] for row in rows if row["split"] == "train"}
-                    ),
-                    "unique_validation_domains": len(
-                        {row[field] for row in rows if row["split"] == "validation"}
-                    ),
+                    "unique_train_domains": len({row[field] for row in rows if row["split"] == "train"}),
+                    "unique_validation_domains": len({row[field] for row in rows if row["split"] == "validation"}),
                 }
             )
         expected_fields = {
@@ -288,37 +278,21 @@ class M7Workflow:
         erm_coefficients = _ridge_fit(_features(train), [row["target"] for row in train], ridge)
         fit_specs["erm"] = (erm_coefficients, {})
         group_errors: dict[str, list[float]] = {}
-        erm_predictions = {
-            row["row_id"]: _predict_linear(erm_coefficients, _features([row])[0]) for row in train
-        }
+        erm_predictions = {row["row_id"]: _predict_linear(erm_coefficients, _features([row])[0]) for row in train}
         for row in train:
-            group_errors.setdefault(row[primary], []).append(
-                (erm_predictions[row["row_id"]] - row["target"]) ** 2
-            )
-        mean_group_error = sum(sum(values) / len(values) for values in group_errors.values()) / len(
-            group_errors
-        )
+            group_errors.setdefault(row[primary], []).append((erm_predictions[row["row_id"]] - row["target"]) ** 2)
+        mean_group_error = sum(sum(values) / len(values) for values in group_errors.values()) / len(group_errors)
         weights = [
-            1.0
-            + 0.5
-            * (
-                (sum(group_errors[row[primary]]) / len(group_errors[row[primary]]))
-                / mean_group_error
-            )
+            1.0 + 0.5 * ((sum(group_errors[row[primary]]) / len(group_errors[row[primary]])) / mean_group_error)
             for row in train
         ]
         fit_specs["groupdro"] = (_weighted_ridge(train, weights, ridge), {})
-        irm_coefficients = _ridge_fit(
-            [[1.0, row["x1"], 0.0] for row in train], [row["target"] for row in train], ridge
-        )
+        irm_coefficients = _ridge_fit([[1.0, row["x1"], 0.0] for row in train], [row["target"] for row in train], ridge)
         fit_specs["irm_like"] = (irm_coefficients, {})
         hierarchical_effects: dict[str, float] = {}
         for domain in sorted(train_primary):
             members = [row for row in train if row[primary] == domain]
-            residuals = [
-                row["target"] - _predict_linear(erm_coefficients, _features([row])[0])
-                for row in members
-            ]
+            residuals = [row["target"] - _predict_linear(erm_coefficients, _features([row])[0]) for row in members]
             shrinkage = len(members) / (len(members) + float(config["random_effect_prior"]))
             hierarchical_effects[domain] = sum(residuals) / len(residuals) * shrinkage
         fit_specs["hierarchical_erm"] = (erm_coefficients, hierarchical_effects)
@@ -352,15 +326,12 @@ class M7Workflow:
             }
         baseline_rmse = float(model_records["hierarchical_erm"]["validation_metrics"]["rmse"])
         alternatives = {
-            name: float(model_records[name]["validation_metrics"]["rmse"])
-            for name in ("erm", "groupdro", "irm_like")
+            name: float(model_records[name]["validation_metrics"]["rmse"]) for name in ("erm", "groupdro", "irm_like")
         }
         best_alternative = min(alternatives, key=lambda name: alternatives[name])
         best_alternative_rmse = alternatives[best_alternative]
         ood_improvement = baseline_rmse - best_alternative_rmse
-        complexity_accepted = leakage_passed and ood_improvement >= float(
-            config["minimum_ood_improvement"]
-        )
+        complexity_accepted = leakage_passed and ood_improvement >= float(config["minimum_ood_improvement"])
         selected_model = best_alternative if complexity_accepted else str(config["fallback_model"])
         ood = {
             "schema_version": 1,
@@ -389,9 +360,7 @@ class M7Workflow:
             "model": "M7",
             "status": "VALID",
             "models": model_records,
-            "identical_tuning_budget": (
-                len({record["tuning_budget"] for record in model_records.values()}) == 1
-            ),
+            "identical_tuning_budget": (len({record["tuning_budget"] for record in model_records.values()}) == 1),
             "selected_model": selected_model,
             "complexity_accepted": complexity_accepted,
             "fallback_used": selected_model == "hierarchical_erm",
@@ -431,9 +400,7 @@ class M7Workflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -484,9 +451,7 @@ class M7Workflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

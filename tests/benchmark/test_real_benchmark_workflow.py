@@ -36,9 +36,7 @@ def test_real_benchmark_requires_strict_mode(tmp_path: Path) -> None:
 
 
 def test_real_benchmark_rejects_insufficient_independent_studies(tmp_path: Path) -> None:
-    registry = json.loads(
-        (ROOT / "data/empirical/R2_BENCHMARK_SOURCE_REGISTRY.json").read_text(encoding="utf-8")
-    )
+    registry = json.loads((ROOT / "data/empirical/R2_BENCHMARK_SOURCE_REGISTRY.json").read_text(encoding="utf-8"))
     registry["sources"].pop()
     registry_path = tmp_path / "insufficient_studies.json"
     registry_path.write_text(json.dumps(registry), encoding="utf-8")

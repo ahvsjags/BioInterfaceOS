@@ -35,9 +35,7 @@ class IndependentEvaluationSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -159,18 +157,13 @@ class IndependentEvaluationWorkflow:
     ) -> dict[str, bool]:
         mapping = _mapping(value, label)
         if set(mapping) != required or any(item is not True for item in mapping.values()):
-            raise IndependentEvaluationError(
-                f"{label} is incomplete or weakens a required boundary"
-            )
+            raise IndependentEvaluationError(f"{label} is incomplete or weakens a required boundary")
         return {key: True for key in required}
 
     def _protocol(self) -> tuple[dict[str, Any], Path]:
         path = self._path(self.PROTOCOL_RELATIVE, "T124 protocol")
         protocol = self._json(path, "T124 protocol")
-        if (
-            protocol.get("schema_version") != 1
-            or not self.REQUIRED_PROTOCOL_FIELDS.issubset(protocol)
-        ):
+        if protocol.get("schema_version") != 1 or not self.REQUIRED_PROTOCOL_FIELDS.issubset(protocol):
             raise IndependentEvaluationError("T124 protocol schema is invalid")
         if (
             protocol.get("protocol_id") != "bioif-r2-independent-evaluation-protocol-v1.0.0"
@@ -186,9 +179,7 @@ class IndependentEvaluationWorkflow:
             evidence_class is not EvidenceClass.DEVELOPMENT_OBSERVATION
             or claim_level is not AllowedClaimLevel.EXPLORATORY
         ):
-            raise IndependentEvaluationError(
-                "T124 protocol must remain exploratory before a receipt"
-            )
+            raise IndependentEvaluationError("T124 protocol must remain exploratory before a receipt")
         independence = _mapping(protocol["independence_requirements"], "independence requirements")
         if (
             set(independence) != self.REQUIRED_INDEPENDENCE
@@ -208,14 +199,9 @@ class IndependentEvaluationWorkflow:
         if not isinstance(frozen_bundle, list) or set(frozen_bundle) != self.REQUIRED_FROZEN_BUNDLE:
             raise IndependentEvaluationError("frozen-bundle requirements are incomplete")
         result_receipt = protocol["result_receipt_requirements"]
-        if (
-            not isinstance(result_receipt, list)
-            or set(result_receipt) != self.REQUIRED_RESULT_RECEIPT
-        ):
+        if not isinstance(result_receipt, list) or set(result_receipt) != self.REQUIRED_RESULT_RECEIPT:
             raise IndependentEvaluationError("result-receipt requirements are incomplete")
-        receipt_schema_path = self._path(
-            protocol["external_receipt_schema_path"], "external evaluator receipt schema"
-        )
+        receipt_schema_path = self._path(protocol["external_receipt_schema_path"], "external evaluator receipt schema")
         receipt_schema = self._json(receipt_schema_path, "external evaluator receipt schema")
         required_receipt_fields = {
             "schema_version",
@@ -261,19 +247,13 @@ class IndependentEvaluationWorkflow:
         decision = self._json(decision_path, "T123 compatibility decision")
         receipt = self._json(receipt_path, "T123 compatibility receipt")
         if receipt.get("compatibility_decision_sha256") != _sha256(decision_path):
-            raise IndependentEvaluationError(
-                "T123 compatibility receipt does not bind its decision"
-            )
-        compatible_target_count = _integer(
-            receipt.get("compatible_target_count"), "T123 compatible target count"
-        )
+            raise IndependentEvaluationError("T123 compatibility receipt does not bind its decision")
+        compatible_target_count = _integer(receipt.get("compatible_target_count"), "T123 compatible target count")
         if decision.get("status") != receipt.get("status"):
             raise IndependentEvaluationError("T123 decision and receipt statuses differ")
         reasons: list[str] = []
         if decision.get("status") != gate["required_status"]:
-            reasons.append(
-                "T123 compatibility decision is not ready for frozen real-model evaluation"
-            )
+            reasons.append("T123 compatibility decision is not ready for frozen real-model evaluation")
         if compatible_target_count < 1:
             reasons.append("T123 has no admitted compatible cross-study target")
         for field in false_fields:
@@ -298,16 +278,10 @@ class IndependentEvaluationWorkflow:
         if not strict:
             raise IndependentEvaluationError("T124 requires --strict")
         if self.output_root.exists():
-            raise IndependentEvaluationError(
-                "independent-evaluation readiness audit already executed"
-            )
+            raise IndependentEvaluationError("independent-evaluation readiness audit already executed")
         protocol, protocol_path = self._protocol()
         t123, reasons = self._t123_state(protocol)
-        status = (
-            "READY_FOR_EXTERNAL_EVALUATOR_FREEZE"
-            if not reasons
-            else "BLOCKED_T123_COMPATIBLE_TARGET_REQUIRED"
-        )
+        status = "READY_FOR_EXTERNAL_EVALUATOR_FREEZE" if not reasons else "BLOCKED_T123_COMPATIBLE_TARGET_REQUIRED"
         report = {
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
@@ -347,9 +321,7 @@ class IndependentEvaluationWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return IndependentEvaluationSummary(
             status=status,
             compatible_target_count=t123["compatible_target_count"],
@@ -385,15 +357,10 @@ class IndependentEvaluationWorkflow:
             receipt.get(field) is not False for field in required_false
         ):
             raise IndependentEvaluationError("readiness receipt contains an evaluation result")
-        compatible_target_count = _integer(
-            receipt.get("compatible_target_count"), "receipt compatible target count"
-        )
-        blocking_reason_count = _integer(
-            receipt.get("blocking_reason_count"), "receipt blocking reason count"
-        )
-        if (
-            report["status"] == "BLOCKED_T123_COMPATIBLE_TARGET_REQUIRED"
-            and (compatible_target_count != 0 or blocking_reason_count < 1)
+        compatible_target_count = _integer(receipt.get("compatible_target_count"), "receipt compatible target count")
+        blocking_reason_count = _integer(receipt.get("blocking_reason_count"), "receipt blocking reason count")
+        if report["status"] == "BLOCKED_T123_COMPATIBLE_TARGET_REQUIRED" and (
+            compatible_target_count != 0 or blocking_reason_count < 1
         ):
             raise IndependentEvaluationError("blocked readiness accounting is invalid")
         return IndependentEvaluationSummary(

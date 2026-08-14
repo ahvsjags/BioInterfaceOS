@@ -42,18 +42,13 @@ class SearchRunnerTests(unittest.TestCase):
             candidate_ledger = AppendOnlyJSONL(Path(temporary) / "registry/search_candidates.jsonl")
             run_ledger.validate()
             candidate_ledger.validate()
-            rows = [
-                json.loads(line)
-                for line in candidate_ledger.path.read_text(encoding="utf-8").splitlines()
-            ]
+            rows = [json.loads(line) for line in candidate_ledger.path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(len(rows), 14)
             self.assertEqual(
                 len({row["candidate_id"] for row in rows}),
                 14,
             )
-            self.assertTrue(
-                all(row["locked_test_accessed"] is False for row in rows) if rows else True
-            )
+            self.assertTrue(all(row["locked_test_accessed"] is False for row in rows) if rows else True)
 
     def test_validation_run_uses_only_validation_blocks(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -68,13 +63,9 @@ class SearchRunnerTests(unittest.TestCase):
             with self.assertRaisesRegex(SearchRunError, "scope"):
                 runner.run("lockbox")
             fixture = json.loads(
-                (self.project_root / "tests/fixtures/search/search_results.json").read_text(
-                    encoding="utf-8"
-                )
+                (self.project_root / "tests/fixtures/search/search_results.json").read_text(encoding="utf-8")
             )
-            fixture["results"]["epmc-train-01"]["pages"] = [
-                {"cursor": "*", "next_cursor": "*", "hits": []}
-            ]
+            fixture["results"]["epmc-train-01"]["pages"] = [{"cursor": "*", "next_cursor": "*", "hits": []}]
             bad_path = Path(temporary) / "bad_results.json"
             bad_path.write_text(json.dumps(fixture), encoding="utf-8")
             bad_runner = SearchRunner(

@@ -75,9 +75,7 @@ class EuropePmcTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             adapter = self._adapter(Path(temporary))
             candidates = adapter.search(SourceQuery("nanoparticle", limit=10))
-            self.assertEqual(
-                [candidate.accession for candidate in candidates], ["PMC123", "PMC124"]
-            )
+            self.assertEqual([candidate.accession for candidate in candidates], ["PMC123", "PMC124"])
             self.assertEqual(candidates[0].license_identifier, "CC-BY-4.0")
             self.assertEqual(candidates[0].evidence_location, "Europe PMC REST search result")
 
@@ -87,9 +85,7 @@ class EuropePmcTests(unittest.TestCase):
             candidate = adapter.search(SourceQuery("query"))[0]
             metadata = adapter.metadata(candidate)
             self.assertTrue(str(metadata["full_text_url"]).endswith("/PMC123/fullTextXML"))
-            self.assertTrue(
-                str(metadata["supplementary_url"]).endswith("/PMC123/supplementaryFiles")
-            )
+            self.assertTrue(str(metadata["supplementary_url"]).endswith("/PMC123/supplementaryFiles"))
             assets = adapter.list_assets(candidate)
             self.assertEqual([asset.asset_type for asset in assets], ["JATS", "SUPPLEMENTARY"])
             self.assertTrue(all(asset.sha256 is None for asset in assets))

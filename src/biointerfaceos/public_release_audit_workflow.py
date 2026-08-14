@@ -18,9 +18,7 @@ class PublicReleaseAuditError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -84,16 +82,12 @@ class PublicReleaseAuditWorkflow:
 
     def __init__(self, root: Path, *, output_root: Path | None = None) -> None:
         self.root = root.resolve(strict=True)
-        self.output_root = output_root or (
-            self.root / "reports/review_round_2/public_release_audit/v1.12.0"
-        )
+        self.output_root = output_root or (self.root / "reports/review_round_2/public_release_audit/v1.12.0")
 
     def _path(self, relative_path: str) -> Path:
         path = (self.root / relative_path).resolve(strict=False)
         if not path.is_relative_to(self.root) or not path.is_file():
-            raise PublicReleaseAuditError(
-                f"required public-release file is missing: {relative_path}"
-            )
+            raise PublicReleaseAuditError(f"required public-release file is missing: {relative_path}")
         return path
 
     def _tracked_paths(self) -> list[str]:
@@ -110,8 +104,7 @@ class PublicReleaseAuditWorkflow:
             paths = [
                 path.relative_to(self.root).as_posix()
                 for path in self.root.rglob("*")
-                if path.is_file()
-                and not any(part in ignored for part in path.relative_to(self.root).parts)
+                if path.is_file() and not any(part in ignored for part in path.relative_to(self.root).parts)
             ]
         else:
             paths = [item.decode("utf-8") for item in result.stdout.split(b"\0") if item]
@@ -151,9 +144,7 @@ class PublicReleaseAuditWorkflow:
                 or not include
                 or not all(isinstance(pattern, str) and pattern for pattern in include)
             ):
-                raise PublicReleaseAuditError(
-                    "public asset registry identifiers or globs are invalid"
-                )
+                raise PublicReleaseAuditError("public asset registry identifiers or globs are invalid")
             redistribution = value["redistribution"]
             evidence_status = value["evidence_status"]
             if redistribution not in self.ALLOWED_REDISTRIBUTION:
@@ -188,9 +179,7 @@ class PublicReleaseAuditWorkflow:
     def _matches(relative_path: str, entry: RegistryEntry) -> bool:
         return any(fnmatchcase(relative_path, pattern) for pattern in entry.include)
 
-    def _inventory(
-        self, entries: tuple[RegistryEntry, ...]
-    ) -> tuple[list[dict[str, Any]], list[str]]:
+    def _inventory(self, entries: tuple[RegistryEntry, ...]) -> tuple[list[dict[str, Any]], list[str]]:
         paths = self._tracked_paths()
         inventory: list[dict[str, Any]] = []
         findings: list[str] = []
@@ -235,9 +224,7 @@ class PublicReleaseAuditWorkflow:
                     continue
                 resolved = (path.parent / target).resolve(strict=False)
                 if not resolved.is_relative_to(self.root) or not resolved.exists():
-                    findings.append(
-                        f"README path does not resolve: {relative_path} -> {destination}"
-                    )
+                    findings.append(f"README path does not resolve: {relative_path} -> {destination}")
             for token in code_pattern.findall(text):
                 candidate = token.strip()
                 looks_like_path = (
@@ -255,10 +242,7 @@ class PublicReleaseAuditWorkflow:
                     (self.root / candidate).resolve(strict=False),
                     (path.parent / candidate).resolve(strict=False),
                 )
-                if not any(
-                    resolved.is_relative_to(self.root) and resolved.exists()
-                    for resolved in candidates
-                ):
+                if not any(resolved.is_relative_to(self.root) and resolved.exists() for resolved in candidates):
                     findings.append(f"README path does not resolve: {relative_path} -> {candidate}")
         public_readme = self._path("release/public/README.md").read_text(encoding="utf-8").lower()
         required_language = (
@@ -322,9 +306,7 @@ class PublicReleaseAuditWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return report
 
     def verify(self) -> dict[str, Any]:

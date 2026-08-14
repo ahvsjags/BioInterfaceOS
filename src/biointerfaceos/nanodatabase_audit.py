@@ -88,9 +88,7 @@ def validate_audit(value: Any) -> AuditSummary:
         if decision not in AUDIT_STATUSES:
             raise NanodatabaseAuditError(f"decision {identifier} status is invalid: {decision}")
         statuses.append(decision)
-    duplicate_ids = sorted(
-        identifier for identifier, count in Counter(identifiers).items() if count > 1
-    )
+    duplicate_ids = sorted(identifier for identifier, count in Counter(identifiers).items() if count > 1)
     if duplicate_ids:
         raise NanodatabaseAuditError(f"duplicate audit ids: {', '.join(duplicate_ids)}")
     counts = Counter(statuses)

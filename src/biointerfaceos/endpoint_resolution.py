@@ -72,9 +72,7 @@ class EndpointResolver:
         report_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/endpoints/endpoint_resolution.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/endpoints/endpoint_resolution.json")
         self.endpoints_path = endpoints_path or (self.root / "registry/endpoint_entities.json")
         self.strata_path = strata_path or (self.root / "registry/endpoint_strata.json")
         self.review_path = review_path or (self.root / "registry/endpoint_review_queue.jsonl")
@@ -133,13 +131,7 @@ class EndpointResolver:
         assay = _text(raw["assay"])
         basis = _text(raw["basis"])
         locator = _text(raw["source_locator"])
-        if (
-            not endpoint_id
-            or family not in self.FAMILIES
-            or not assay
-            or not basis
-            or not locator.startswith("asset:")
-        ):
+        if not endpoint_id or family not in self.FAMILIES or not assay or not basis or not locator.startswith("asset:"):
             raise EndpointResolutionError(f"{endpoint_id} identity/family/locator invalid")
         time_unit = None if raw["time_unit"] is None else _text(raw["time_unit"])
         time_seconds = self._time_seconds(raw["time_value"], time_unit, endpoint_id)
@@ -166,11 +158,7 @@ class EndpointResolver:
                     "resolution": "MANUAL_REVIEW",
                 }
             )
-        stratum_id = (
-            f"{family}|assay={assay}|basis={basis}|time_s={time_seconds}"
-            if status == "NORMALIZED"
-            else None
-        )
+        stratum_id = f"{family}|assay={assay}|basis={basis}|time_s={time_seconds}" if status == "NORMALIZED" else None
         return {
             "endpoint_id": endpoint_id,
             "raw_label": _text(raw["raw_label"]),

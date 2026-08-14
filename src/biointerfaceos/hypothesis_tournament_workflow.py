@@ -48,9 +48,7 @@ class HypothesisTournamentWorkflow:
         schema_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/tournament_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/tournament_fixture.json")
         self.output_root = output_root or self.root / "reports/claims/tournament"
         self.schema_path = schema_path or self.root / "agents/claims/tournament.v1.json"
 
@@ -67,14 +65,9 @@ class HypothesisTournamentWorkflow:
             {"schema_version", "claim_type", "config_fields", "candidate_fields"},
             "tournament schema",
         )
-        if (
-            schema.get("schema_version") != 1
-            or schema.get("claim_type") != "exploratory_hypothesis"
-        ):
+        if schema.get("schema_version") != 1 or schema.get("claim_type") != "exploratory_hypothesis":
             raise TournamentError("tournament schema version or claim type is invalid")
-        if not isinstance(schema.get("config_fields"), list) or not isinstance(
-            schema.get("candidate_fields"), list
-        ):
+        if not isinstance(schema.get("config_fields"), list) or not isinstance(schema.get("candidate_fields"), list):
             raise TournamentError("tournament schema fields are invalid")
         return True
 
@@ -93,9 +86,7 @@ class HypothesisTournamentWorkflow:
         )
         if fixture.get("schema_version") != 1 or fixture.get("mode") != "tournament_fixture":
             raise TournamentError("tournament fixture schema or mode is invalid")
-        if not isinstance(fixture.get("inputs"), list) or not isinstance(
-            fixture.get("candidate_records"), list
-        ):
+        if not isinstance(fixture.get("inputs"), list) or not isinstance(fixture.get("candidate_records"), list):
             raise TournamentError("tournament fixture inputs or candidates are invalid")
         return fixture
 
@@ -170,10 +161,7 @@ class HypothesisTournamentWorkflow:
         _keys(config, required, "tournament config")
         if config["version"] != "T089-v1" or not isinstance(config["K"], int) or config["K"] < 1:
             raise TournamentError("tournament config version or K is invalid")
-        if (
-            config["direction"] not in {"minimize", "maximize"}
-            or config["frozen_before_primary"] is not True
-        ):
+        if config["direction"] not in {"minimize", "maximize"} or config["frozen_before_primary"] is not True:
             raise TournamentError("tournament config freeze or direction is invalid")
         weights = _mapping(config["weights"], "tournament weights")
         if set(weights) != {"evidence", "falsifiability", "formalization", "simplicity"}:
@@ -214,9 +202,7 @@ class HypothesisTournamentWorkflow:
             row["case_id"]: row
             for row in _mapping(
                 json.loads(
-                    (self.root / "reports/agents/hypothesis/hypothesis_proposals.json").read_text(
-                        encoding="utf-8"
-                    )
+                    (self.root / "reports/agents/hypothesis/hypothesis_proposals.json").read_text(encoding="utf-8")
                 ),
                 "hypothesis proposals",
             )["proposals"]

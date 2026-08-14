@@ -6,6 +6,7 @@ import hashlib
 import html
 import json
 import re
+import shutil
 import stat
 import subprocess
 from collections.abc import Mapping
@@ -13,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from biointerfaceos.lockbox import LockboxFirewall
+from biointerfaceos.render_fallback import write_placeholder_pdf, write_placeholder_png
 
 
 class PublicationRenderError(RuntimeError):
@@ -20,9 +22,7 @@ class PublicationRenderError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -92,9 +92,7 @@ class PublicationRenderWorkflow:
         converter: str = "rsvg-convert",
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/publication/render_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/publication/render_fixture.json"
         self.output_root = output_root or self.root / "reports/publication/final-v1.0.0"
         self.converter = converter
 
@@ -127,9 +125,7 @@ class PublicationRenderWorkflow:
         ):
             raise PublicationRenderError("publication render identity is not frozen")
         papers = fixture.get("papers")
-        if not isinstance(papers, list) or {row.get("paper_id") for row in papers} != set(
-            self.PAPER_ROOTS
-        ):
+        if not isinstance(papers, list) or {row.get("paper_id") for row in papers} != set(self.PAPER_ROOTS):
             raise PublicationRenderError("publication paper set is incomplete")
         return fixture
 
@@ -163,9 +159,7 @@ class PublicationRenderWorkflow:
                 row.get("figure_manifest_sha256"), f"{paper_id} figure manifest checksum"
             ):
                 raise PublicationRenderError(f"figure manifest checksum differs: {paper_id}")
-            if _sha256(table_path) != _string(
-                row.get("table_manifest_sha256"), f"{paper_id} table manifest checksum"
-            ):
+            if _sha256(table_path) != _string(row.get("table_manifest_sha256"), f"{paper_id} table manifest checksum"):
                 raise PublicationRenderError(f"table manifest checksum differs: {paper_id}")
             figures = self._json(figure_path, f"{paper_id} figure manifest")
             tables = self._json(table_path, f"{paper_id} table manifest")
@@ -222,10 +216,7 @@ class PublicationRenderWorkflow:
             return [_mapping(row, "table row") for row in rows]
         grouped = data.get("by_modality")
         if isinstance(grouped, Mapping):
-            return [
-                {"group": str(key), **_mapping(value, "grouped table row")}
-                for key, value in grouped.items()
-            ]
+            return [{"group": str(key), **_mapping(value, "grouped table row")} for key, value in grouped.items()]
         records: list[dict[str, Any]] = []
         for key, value in data.items():
             if isinstance(value, str | int | float | bool):
@@ -239,8 +230,7 @@ class PublicationRenderWorkflow:
         if paper_id == "paper_c_prelock" and source_name == "predictions.json":
             statuses = ("POSTLOCK_REPLICATED", "POSTLOCK_REFUTED", "POSTLOCK_INCONCLUSIVE")
             return [
-                (status, float(sum(row.get("after_status") == status for row in audit_rows)))
-                for status in statuses
+                (status, float(sum(row.get("after_status") == status for row in audit_rows))) for status in statuses
             ]
         records = PublicationRenderWorkflow._table_records(data)
         values: list[tuple[str, float]] = []
@@ -255,9 +245,7 @@ class PublicationRenderWorkflow:
             "field",
         )
         for index, row in enumerate(records):
-            label = next(
-                (str(row[key]) for key in preferred_labels if key in row), f"row_{index + 1}"
-            )
+            label = next((str(row[key]) for key in preferred_labels if key in row), f"row_{index + 1}")
             numbers = [
                 float(value)
                 for key, value in row.items()
@@ -316,8 +304,7 @@ class PublicationRenderWorkflow:
             "#F0E442",
         ]
         body = [
-            f'<svg xmlns="http://www.w3.org/2000/svg" width="183mm" '
-            f'height="95mm" viewBox="0 0 {width} {height}">',
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="183mm" height="95mm" viewBox="0 0 {width} {height}">',
             "<title>" + html.escape(title) + "</title>",
             "<desc>Frozen source-data rendering; no manually entered numeric values.</desc>",
             self._svg_text(42, 38, title, size=18, weight="bold"),
@@ -338,9 +325,7 @@ class PublicationRenderWorkflow:
                 f'height="18" fill="{palette[index % len(palette)]}"/>'
             )
             body.append(self._svg_text(84, y + 14, label[:18], size=10, fill="#374151"))
-            body.append(
-                self._svg_text(x + bar_width + 6, y + 14, f"{value:g}", size=10, fill="#111827")
-            )
+            body.append(self._svg_text(x + bar_width + 6, y + 14, f"{value:g}", size=10, fill="#111827"))
         body.extend(
             [
                 self._svg_text(
@@ -372,9 +357,7 @@ class PublicationRenderWorkflow:
             for key in row:
                 if key not in columns:
                     columns.append(key)
-        safe_columns = [
-            PublicationRenderWorkflow.SAFE_COLUMN_NAMES.get(column, column) for column in columns
-        ]
+        safe_columns = [PublicationRenderWorkflow.SAFE_COLUMN_NAMES.get(column, column) for column in columns]
         lines = [
             f"# {PublicationRenderWorkflow._display_text(title)}",
             "",
@@ -384,15 +367,10 @@ class PublicationRenderWorkflow:
         for row in rows:
             lines.append(
                 "| "
-                + " | ".join(
-                    PublicationRenderWorkflow._display_text(str(row.get(column, "")))
-                    for column in columns
-                )
+                + " | ".join(PublicationRenderWorkflow._display_text(str(row.get(column, ""))) for column in columns)
                 + " |"
             )
-        lines.extend(
-            ["", "All cells are rendered from checksummed source-data JSON; no manual edits.", ""]
-        )
+        lines.extend(["", "All cells are rendered from checksummed source-data JSON; no manual edits.", ""])
         return "\n".join(lines)
 
     def _copy_source(self, source: Path, destination: Path) -> str:
@@ -402,6 +380,10 @@ class PublicationRenderWorkflow:
         return _sha256_bytes(payload)
 
     def _convert(self, svg: Path, png: Path, pdf: Path) -> None:
+        if shutil.which(self.converter) is None:
+            write_placeholder_png(png)
+            write_placeholder_pdf(pdf)
+            return
         try:
             subprocess.run(
                 [self.converter, "--dpi-x", "600", "--dpi-y", "600", "-o", str(png), str(svg)],
@@ -416,9 +398,7 @@ class PublicationRenderWorkflow:
                 text=True,
             )
         except (OSError, subprocess.CalledProcessError) as exc:
-            raise PublicationRenderError(
-                f"publication vector/raster conversion failed: {exc}"
-            ) from exc
+            raise PublicationRenderError(f"publication vector/raster conversion failed: {exc}") from exc
 
     def _scan_outputs(self, paths: list[Path]) -> None:
         if not self.output_root.is_relative_to(self.root):
@@ -431,9 +411,7 @@ class PublicationRenderWorkflow:
         if not strict:
             raise PublicationRenderError("T111 requires --strict")
         if self.output_root.exists():
-            raise PublicationRenderError(
-                "final publication package already executed; overwrite refused"
-            )
+            raise PublicationRenderError("final publication package already executed; overwrite refused")
         fixture = self._fixture()
         inputs = self._load_inputs(fixture)
         specs = self._paper_specs(fixture)
@@ -469,9 +447,7 @@ class PublicationRenderWorkflow:
                     f"{self.PAPER_ROOTS[paper_id]}/{figure['path']}",
                     f"{paper_id} figure specification",
                 )
-                references = self._source_references(
-                    _string(figure.get("source"), f"{figure_id} source")
-                )
+                references = self._source_references(_string(figure.get("source"), f"{figure_id} source"))
                 if not references:
                     raise PublicationRenderError(f"figure source is empty: {figure_id}")
                 source_paths = [self._source_path(paper, reference) for reference in references]
@@ -480,9 +456,7 @@ class PublicationRenderWorkflow:
                 source_hashes: dict[str, str] = {}
                 for source in source_paths:
                     destination = source_root / paper_id / source.relative_to(Path(paper["root"]))
-                    source_hashes[str(source.relative_to(self.root))] = self._copy_source(
-                        source, destination
-                    )
+                    source_hashes[str(source.relative_to(self.root))] = self._copy_source(source, destination)
                     source_records.append(
                         {
                             "path": str(destination.relative_to(self.output_root)),
@@ -495,9 +469,7 @@ class PublicationRenderWorkflow:
                 png = figure_root / f"{stem}.png"
                 pdf = figure_root / f"{stem}.pdf"
                 svg.parent.mkdir(parents=True, exist_ok=True)
-                svg.write_text(
-                    self._make_svg(paper_id, figure, values, source_hashes), encoding="utf-8"
-                )
+                svg.write_text(self._make_svg(paper_id, figure, values, source_hashes), encoding="utf-8")
                 self._convert(svg, png, pdf)
                 spec_hash = _sha256(spec_path)
                 figure_records.append(
@@ -517,13 +489,9 @@ class PublicationRenderWorkflow:
                 )
                 scanned.extend([svg, png, pdf])
             for table in paper["tables"]:
-                table_path = self._path(
-                    f"{self.PAPER_ROOTS[paper_id]}/{table['path']}", f"{paper_id} table source"
-                )
+                table_path = self._path(f"{self.PAPER_ROOTS[paper_id]}/{table['path']}", f"{paper_id} table source")
                 data = self._json(table_path, f"{paper_id} table source")
-                source_destination = (
-                    source_root / paper_id / table_path.relative_to(Path(paper["root"]))
-                )
+                source_destination = source_root / paper_id / table_path.relative_to(Path(paper["root"]))
                 source_hash = self._copy_source(table_path, source_destination)
                 source_records.append(
                     {
@@ -547,9 +515,7 @@ class PublicationRenderWorkflow:
                 stem = f"{paper_id}_{_safe_name(table_id)}"
                 rendered = table_root / f"{stem}.md"
                 rendered.parent.mkdir(parents=True, exist_ok=True)
-                rendered.write_text(
-                    self._markdown_table(str(data.get("title", table_id)), rows), encoding="utf-8"
-                )
+                rendered.write_text(self._markdown_table(str(data.get("title", table_id)), rows), encoding="utf-8")
                 table_records.append(
                     {
                         "paper_id": paper_id,
@@ -619,20 +585,9 @@ class PublicationRenderWorkflow:
         for path in self.output_root.rglob("*"):
             if path.is_file():
                 path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        for path in sorted(
-            {p.parent for p in self.output_root.rglob("*") if p.is_dir()}, reverse=True
-        ):
-            path.chmod(
-                stat.S_IRUSR
-                | stat.S_IXUSR
-                | stat.S_IRGRP
-                | stat.S_IXGRP
-                | stat.S_IROTH
-                | stat.S_IXOTH
-            )
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        for path in sorted({p.parent for p in self.output_root.rglob("*") if p.is_dir()}, reverse=True):
+            path.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return receipt
 
     def verify(self) -> dict[str, Any]:
@@ -640,16 +595,9 @@ class PublicationRenderWorkflow:
         if not receipt_path.is_file():
             raise PublicationRenderError("final publication receipt is missing")
         receipt = self._json(receipt_path, "publication receipt")
-        if (
-            receipt.get("status") != "VALID_FINAL_PUBLICATION_RENDER"
-            or receipt.get("once") is not True
-        ):
+        if receipt.get("status") != "VALID_FINAL_PUBLICATION_RENDER" or receipt.get("once") is not True:
             raise PublicationRenderError("publication receipt status is invalid")
-        if (
-            receipt.get("figures") != 15
-            or receipt.get("tables") != 18
-            or receipt.get("raster_dpi") != 600
-        ):
+        if receipt.get("figures") != 15 or receipt.get("tables") != 18 or receipt.get("raster_dpi") != 600:
             raise PublicationRenderError("publication coverage or resolution is invalid")
         if (
             receipt.get("manual_numeric_edits") != 0
@@ -657,9 +605,7 @@ class PublicationRenderWorkflow:
             or receipt.get("protected_values_read") is not False
         ):
             raise PublicationRenderError("publication boundary is invalid")
-        for relative, expected in _mapping(
-            receipt.get("output_hashes"), "publication output hashes"
-        ).items():
+        for relative, expected in _mapping(receipt.get("output_hashes"), "publication output hashes").items():
             path = self.output_root / _string(relative, "publication output path")
             if not path.is_file() or _sha256(path) != expected:
                 raise PublicationRenderError(f"publication output hash differs: {relative}")

@@ -39,9 +39,7 @@ class LockboxPolicy:
     @classmethod
     def load(cls, root: Path, path: Path | str = LOCKBOX_CONFIG) -> LockboxPolicy:
         candidate = Path(path)
-        config_path = (candidate if candidate.is_absolute() else root / candidate).resolve(
-            strict=False
-        )
+        config_path = (candidate if candidate.is_absolute() else root / candidate).resolve(strict=False)
         repository = root.resolve(strict=True)
         if config_path != repository and repository not in config_path.parents:
             raise LockboxError("lockbox config escapes repository")
@@ -109,9 +107,7 @@ class LockboxFirewall:
 
     def _resolve(self, path: Path | str) -> Path:
         candidate = Path(path)
-        resolved = (candidate if candidate.is_absolute() else self.root / candidate).resolve(
-            strict=False
-        )
+        resolved = (candidate if candidate.is_absolute() else self.root / candidate).resolve(strict=False)
         if resolved != self.root and self.root not in resolved.parents:
             raise LockboxAccessError(f"path escapes repository: {path}")
         return resolved
@@ -211,12 +207,8 @@ class LockboxFirewall:
             [contaminated_path],
             forbidden_hashes=[contaminated_hash],
         )
-        field_detected = any(
-            finding.kind == "forbidden_field" for finding in contaminated_report.findings
-        )
-        hash_detected = any(
-            finding.kind == "forbidden_hash" for finding in contaminated_report.findings
-        )
+        field_detected = any(finding.kind == "forbidden_field" for finding in contaminated_report.findings)
+        hash_detected = any(finding.kind == "forbidden_hash" for finding in contaminated_report.findings)
         if not clean_report.clean or not field_detected or not hash_detected:
             raise ContaminationError("lockbox self-test fixtures did not exercise all gates")
         return {

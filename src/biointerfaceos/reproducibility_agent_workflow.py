@@ -80,13 +80,9 @@ class ReproducibilityWorkflow:
         schema_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/reproducibility_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/reproducibility_fixture.json")
         self.output_root = output_root or self.root / "reports/agents/reproducibility"
-        self.schema_path = schema_path or (
-            self.root / "agents/reproducibility/reproducibility.v1.json"
-        )
+        self.schema_path = schema_path or (self.root / "agents/reproducibility/reproducibility.v1.json")
 
     def _schema_valid(self) -> bool:
         try:
@@ -101,10 +97,7 @@ class ReproducibilityWorkflow:
             {"schema_version", "agent", "capabilities", "forbidden_methods"},
             "reproducibility schema",
         )
-        if (
-            schema.get("schema_version") != 1
-            or schema.get("agent") != "ReproducibilityLockboxEvaluator"
-        ):
+        if schema.get("schema_version") != 1 or schema.get("agent") != "ReproducibilityLockboxEvaluator":
             raise ReproducibilityAgentError("reproducibility schema version or agent is invalid")
         capabilities = schema.get("capabilities")
         forbidden = schema.get("forbidden_methods")
@@ -158,13 +151,9 @@ class ReproducibilityWorkflow:
             if label not in expected:
                 raise ReproducibilityAgentError(f"unexpected reproducibility input: {label}")
             path, checksum = expected[label]
-            declared = (self.root / _string(row.get("path"), "reproducibility input path")).resolve(
-                strict=True
-            )
+            declared = (self.root / _string(row.get("path"), "reproducibility input path")).resolve(strict=True)
             if declared != path.resolve(strict=True) or row.get("sha256") != checksum:
-                raise ReproducibilityAgentError(
-                    f"reproducibility input path or checksum differs: {label}"
-                )
+                raise ReproducibilityAgentError(f"reproducibility input path or checksum differs: {label}")
             if _sha256(path.read_bytes()) != checksum:
                 raise ReproducibilityAgentError(f"reproducibility input checksum differs: {label}")
             rows.append({"label": label, "path": row["path"], "sha256": checksum})
@@ -173,9 +162,7 @@ class ReproducibilityWorkflow:
             raise ReproducibilityAgentError("reproducibility inputs are incomplete")
         return tuple(rows)
 
-    def _rebuild(
-        self, fixture: dict[str, Any], release_manifest_hash: str
-    ) -> tuple[dict[str, Any], str, str]:
+    def _rebuild(self, fixture: dict[str, Any], release_manifest_hash: str) -> tuple[dict[str, Any], str, str]:
         metrics_path = self.root / "reports/benchmark/grading/metrics.json"
         metrics = _mapping(json.loads(metrics_path.read_text(encoding="utf-8")), "grading metrics")
         if metrics.get("target_values_exposed", False) is not False:
@@ -214,16 +201,12 @@ class ReproducibilityWorkflow:
         except (ReleaseError, OSError) as exc:
             raise ReproducibilityAgentError(f"release verification failed: {exc}") from exc
         release_verified = release_summary.manifest_hash == expected_manifest_hash
-        recipe, rebuild_hash, recomputed_hash = self._rebuild(
-            fixture_data, release_summary.manifest_hash
-        )
+        recipe, rebuild_hash, recomputed_hash = self._rebuild(fixture_data, release_summary.manifest_hash)
         rebuild_clean = recipe["status"] == "REBUILT_CLEAN"
         hash_match = rebuild_hash == recomputed_hash
         evaluator = DisabledLockboxEvaluator(release_id, release_summary.manifest_hash)
         activation = evaluator.activation_status(fixture_data["signed_freeze_token"])
-        lockbox_activation_blocked = (
-            activation["active"] is False and activation["reason"] == "SIGNED_FREEZE_REQUIRED"
-        )
+        lockbox_activation_blocked = activation["active"] is False and activation["reason"] == "SIGNED_FREEZE_REQUIRED"
         capabilities = evaluator.capabilities()
         forbidden_methods = {"train", "fit", "optimize", "backprop", "download"}
         training_methods_exposed = bool(set(capabilities) & forbidden_methods)
@@ -287,9 +270,7 @@ class ReproducibilityWorkflow:
             "events": trace_events,
             "trace_sha256": _sha256(trace_bytes),
         }
-        payloads: dict[str, bytes] = {
-            name: _canonical(value) for name, value in raw_payloads.items()
-        }
+        payloads: dict[str, bytes] = {name: _canonical(value) for name, value in raw_payloads.items()}
         payloads["failures"] = _canonical({"schema_version": 1, "status": "VALID", "failures": []})
         payloads["trace"] = trace_bytes
         payloads["seal"] = _canonical(seal)
@@ -357,14 +338,10 @@ class ReproducibilityWorkflow:
         existing_receipt = paths["receipt"].read_bytes() if paths["receipt"].exists() else None
         if existing_receipt is not None:
             if existing_receipt != payloads["receipt"]:
-                raise ReproducibilityAgentError(
-                    "existing reproducibility receipt differs from rerun"
-                )
+                raise ReproducibilityAgentError("existing reproducibility receipt differs from rerun")
             for name, payload in payloads.items():
                 if paths[name].read_bytes() != payload:
-                    raise ReproducibilityAgentError(
-                        f"existing reproducibility artifact differs: {name}"
-                    )
+                    raise ReproducibilityAgentError(f"existing reproducibility artifact differs: {name}")
             resumed = 1
         else:
             for name, payload in payloads.items():

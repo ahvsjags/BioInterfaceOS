@@ -53,9 +53,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path]:
     workbook.save(workbook_path)
     workbook.close()
     registry = json.loads(
-        (ROOT / "docs/data/R3_T144_FULLTEXT_MULTICORE_SOURCE_REGISTRY.json").read_text(
-            encoding="utf-8"
-        )
+        (ROOT / "docs/data/R3_T144_FULLTEXT_MULTICORE_SOURCE_REGISTRY.json").read_text(encoding="utf-8")
     )
     registry["source_assets"] = [
         {
@@ -72,9 +70,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path]:
         },
     ]
     registry["semiquantitative_table"]["expected_data_rows"] = 12
-    registry["semiquantitative_table"]["expected_facility_row_counts"] = {
-        str(facility): 1 for facility in range(1, 13)
-    }
+    registry["semiquantitative_table"]["expected_facility_row_counts"] = {str(facility): 1 for facility in range(1, 13)}
     registry["semiquantitative_table"]["expected_replicate_source_cell_count"] = 36
     registry["semiquantitative_table"]["expected_numeric_replicate_value_count"] = 36
     registry["semiquantitative_table"]["expected_non_numeric_replicate_markers"] = {}

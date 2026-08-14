@@ -16,9 +16,7 @@ def test_tournament_freezes_config_deduplicates_and_preserves_exploration() -> N
     assert summary.lockbox_clean is True
     assert summary.claims_auto_accepted is False
     assert summary.selected_pipeline == "preregistered_tournament"
-    ranking = json.loads(
-        (root / "reports/claims/tournament/hypothesis_ranking.json").read_text(encoding="utf-8")
-    )
+    ranking = json.loads((root / "reports/claims/tournament/hypothesis_ranking.json").read_text(encoding="utf-8"))
     assert all(row["status"] == "EXPLORATORY_RANKED" for row in ranking["ranked"])
     assert all(row["claim_accepted"] is False for row in ranking["ranked"])
 
@@ -28,15 +26,11 @@ def test_tournament_hash_and_lockbox_receipts_are_clean() -> None:
     HypothesisTournamentWorkflow(root).run(development=True)
 
     hashes = json.loads(
-        (root / "reports/claims/tournament/preregistration_hash_receipt.json").read_text(
-            encoding="utf-8"
-        )
+        (root / "reports/claims/tournament/preregistration_hash_receipt.json").read_text(encoding="utf-8")
     )
     assert hashes["frozen_before_primary"] is True
     assert hashes["config_hash"]
-    lockbox = json.loads(
-        (root / "reports/claims/tournament/lockbox_scan.json").read_text(encoding="utf-8")
-    )
+    lockbox = json.loads((root / "reports/claims/tournament/lockbox_scan.json").read_text(encoding="utf-8"))
     assert lockbox["clean"] is True
     assert lockbox["findings"] == []
 

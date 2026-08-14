@@ -73,9 +73,7 @@ class FigureDetectorTests(unittest.TestCase):
             detector.run()
             detector.run()
             review_path = Path(temporary) / "figure_review_queue.jsonl"
-            reviews = [
-                json.loads(line) for line in review_path.read_text().splitlines() if line.strip()
-            ]
+            reviews = [json.loads(line) for line in review_path.read_text().splitlines() if line.strip()]
             self.assertEqual(len(reviews), 1)
             self.assertEqual(reviews[0]["reason"], "UNSUPPORTED_PANEL_TYPE_HEATMAP")
             AppendOnlyJSONL(review_path).validate()

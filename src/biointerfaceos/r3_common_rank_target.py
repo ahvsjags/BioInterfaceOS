@@ -13,7 +13,6 @@ import hashlib
 import json
 import math
 from collections import Counter, defaultdict
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -165,8 +164,7 @@ class R3CommonRankTargetWorkflow:
         receipt = self._json(receipt_path, "R3 UniProt receipt")
         if (
             receipt.get("audit_id") != "bioif-r3-uniprot-human-mapping-v1.0.1"
-            or receipt.get("status")
-            != "CANDIDATE_SHARED_PROTEIN_UNIVERSE_PENDING_PROTOCOL_AMENDMENT"
+            or receipt.get("status") != "CANDIDATE_SHARED_PROTEIN_UNIVERSE_PENDING_PROTOCOL_AMENDMENT"
             or receipt.get("target_status") != "CANDIDATE_COMMON_TARGET_NOT_FROZEN"
             or receipt.get("model_fitted") is not False
         ):
@@ -197,7 +195,14 @@ class R3CommonRankTargetWorkflow:
         ):
             raise R3CommonRankTargetError("R3 target definition is invalid")
         _string(target.get("target_description"), "R3 target description")
-        if any(not isinstance(item, str) or not item.strip() for item in _list(target.get("prohibited_interpretations"), "R3 target prohibited interpretations", minimum=3)):
+        if any(
+            not isinstance(item, str) or not item.strip()
+            for item in _list(
+                target.get("prohibited_interpretations"),
+                "R3 target prohibited interpretations",
+                minimum=3,
+            )
+        ):
             raise R3CommonRankTargetError("R3 target prohibited interpretations are invalid")
         minimums = _mapping(registry.get("minimums"), "R3 target minimums")
         if set(minimums) != self.REQUIRED_MINIMUMS or any(
@@ -255,23 +260,29 @@ class R3CommonRankTargetWorkflow:
         return "POSITIVE_QUANTIFIED", number
 
     @staticmethod
-    def _rank_percentiles(
-        records: list[dict[str, Any]]
-    ) -> dict[str, tuple[float, int]]:
+    def _rank_percentiles(records: list[dict[str, Any]]) -> dict[str, tuple[float, int]]:
         ranked: dict[str, tuple[float, int]] = {}
         by_batch: dict[str, list[dict[str, Any]]] = defaultdict(list)
         for record in records:
             if record["author_value_state"] == "POSITIVE_QUANTIFIED":
                 by_batch[str(record["measurement_batch_id"])].append(record)
-        for batch_id, values in by_batch.items():
+        for _batch_id, values in by_batch.items():
             if len({record["source_measurement_id"] for record in values}) != len(values):
                 raise R3CommonRankTargetError("R3 source measurement identity is duplicated")
-            ordered = sorted(values, key=lambda record: (-float(record["author_numeric_value"]), str(record["source_measurement_id"])))
+            ordered = sorted(
+                values,
+                key=lambda record: (
+                    -float(record["author_numeric_value"]),
+                    str(record["source_measurement_id"]),
+                ),
+            )
             count = len(ordered)
             start = 0
             while start < count:
                 end = start + 1
-                while end < count and float(ordered[end]["author_numeric_value"]) == float(ordered[start]["author_numeric_value"]):
+                while end < count and float(ordered[end]["author_numeric_value"]) == float(
+                    ordered[start]["author_numeric_value"]
+                ):
                     end += 1
                 midrank = (start + 1 + end) / 2.0
                 percentile = 0.5 if count == 1 else (count - midrank) / (count - 1)
@@ -285,8 +296,16 @@ class R3CommonRankTargetWorkflow:
         with source["path"].open("r", encoding="utf-8", newline="") as stream:
             rows = list(csv.DictReader(stream))
         required = {
-            "analysis_unit_id", "source_asset_id", "source_worksheet", "source_row", "source_cell",
-            "protein_source_identifier", "particle", "assay_replicate", "author_reported_lfq", "author_value_state",
+            "analysis_unit_id",
+            "source_asset_id",
+            "source_worksheet",
+            "source_row",
+            "source_cell",
+            "protein_source_identifier",
+            "particle",
+            "assay_replicate",
+            "author_reported_lfq",
+            "author_value_state",
         }
         if not rows or not required.issubset(rows[0]):
             raise R3CommonRankTargetError("PXD017052 source-cell schema is invalid")
@@ -320,20 +339,31 @@ class R3CommonRankTargetWorkflow:
         with source["path"].open("r", encoding="utf-8", newline="") as stream:
             rows = list(csv.DictReader(stream))
         required = {
-            "analysis_unit_id", "source_asset_id", "source_worksheet", "source_row", "protein_ids",
-            "replicate_1", "replicate_2", "replicate_3", "core_facility_code",
+            "analysis_unit_id",
+            "source_asset_id",
+            "source_worksheet",
+            "source_row",
+            "protein_ids",
+            "replicate_1",
+            "replicate_2",
+            "replicate_3",
+            "core_facility_code",
         }
         if not rows or not required.issubset(rows[0]):
             raise R3CommonRankTargetError("PMC9633814 source-cell schema is invalid")
         records: list[dict[str, Any]] = []
-        replicate_columns = ((1, "replicate_1", "G"), (2, "replicate_2", "H"), (3, "replicate_3", "I"))
+        replicate_columns = (
+            (1, "replicate_1", "G"),
+            (2, "replicate_2", "H"),
+            (3, "replicate_3", "I"),
+        )
         for row in rows:
             for replicate, column, letter in replicate_columns:
                 state, value = R3CommonRankTargetWorkflow._state(row[column])
                 records.append(
                     {
                         "source_id": "PMC9633814_MSU_MULTICORE",
-                        "measurement_batch_id": f"PMC9633814:core_{row['core_facility_code']}:technical_replicate_{replicate}",
+                        "measurement_batch_id": f"PMC9633814:core_{row['core_facility_code']}:technical_replicate_{replicate}",  # noqa: E501
                         "source_measurement_id": f"{row['analysis_unit_id']}:replicate_{replicate}",
                         "source_analysis_unit_id": row["analysis_unit_id"],
                         "source_asset_id": row["source_asset_id"],
@@ -353,8 +383,15 @@ class R3CommonRankTargetWorkflow:
         with source["path"].open("r", encoding="utf-8", newline="") as stream:
             rows = list(csv.DictReader(stream))
         required = {
-            "analysis_unit_id", "source_asset_id", "source_worksheet", "source_row", "source_cell_range",
-            "source_condition_id", "protein_source_identifier", "quantification_column", "author_reported_quantification",
+            "analysis_unit_id",
+            "source_asset_id",
+            "source_worksheet",
+            "source_row",
+            "source_cell_range",
+            "source_condition_id",
+            "protein_source_identifier",
+            "quantification_column",
+            "author_reported_quantification",
         }
         if not rows or not required.issubset(rows[0]):
             raise R3CommonRankTargetError("PMC7788026 source-cell schema is invalid")
@@ -417,7 +454,9 @@ class R3CommonRankTargetWorkflow:
                     "source_row": str(record["source_row"]),
                     "source_coordinate": str(record["source_coordinate"]),
                     "author_quantity_type": str(record["author_quantity_type"]),
-                    "author_numeric_value": "" if record["author_numeric_value"] is None else format(float(record["author_numeric_value"]), ".17g"),
+                    "author_numeric_value": ""
+                    if record["author_numeric_value"] is None
+                    else format(float(record["author_numeric_value"]), ".17g"),
                     "author_value_state": state,
                     "rank_percentile_descending": "" if rank is None else format(rank[0], ".17g"),
                     "measurement_batch_positive_protein_count": "" if rank is None else str(rank[1]),
@@ -429,11 +468,7 @@ class R3CommonRankTargetWorkflow:
         source_rank_eligible = [row for row in selected if row["rank_target_eligible"] == "true"]
         rank_eligible_shared_accessions = set.intersection(
             *(
-                {
-                    row["canonical_accession"]
-                    for row in source_rank_eligible
-                    if row["source_id"] == source_id
-                }
+                {row["canonical_accession"] for row in source_rank_eligible if row["source_id"] == source_id}
                 for source_id in self.SOURCE_IDS
             )
         )
@@ -449,8 +484,7 @@ class R3CommonRankTargetWorkflow:
         eligible = [
             row
             for row in selected
-            if row["rank_target_eligible"] == "true"
-            and row["common_rank_target_member"] == "true"
+            if row["rank_target_eligible"] == "true" and row["common_rank_target_member"] == "true"
         ]
         laboratory_anchors = {row["laboratory_anchor"] for row in eligible}
         measurement_batches = {row["measurement_batch_id"] for row in eligible}
@@ -465,8 +499,7 @@ class R3CommonRankTargetWorkflow:
         minimums = _mapping(registry["minimums"], "R3 target minimums")
         if (
             len(shared_accessions) < minimums["shared_canonical_protein_count"]
-            or len(rank_eligible_shared_accessions)
-            < minimums["rank_eligible_shared_canonical_protein_count"]
+            or len(rank_eligible_shared_accessions) < minimums["rank_eligible_shared_canonical_protein_count"]
             or len(laboratory_anchors) < minimums["laboratory_anchor_count"]
             or len(measurement_batches) < minimums["measurement_batch_count"]
             or len(eligible) < minimums["eligible_rank_observation_count"]
@@ -504,14 +537,13 @@ class R3CommonRankTargetWorkflow:
                 for source_id in self.SOURCE_IDS
             },
             "common_target_eligible_observation_count_by_source": {
-                source_id: sum(1 for row in eligible if row["source_id"] == source_id)
-                for source_id in self.SOURCE_IDS
+                source_id: sum(1 for row in eligible if row["source_id"] == source_id) for source_id in self.SOURCE_IDS
             },
             "ledger": {
                 "location": self.DERIVED_RELATIVE,
                 "sha256": _sha256(ledger_path),
-                "coordinate_definition": "Each record retains the original source asset, worksheet, row and measurement-specific cell coordinate.",
-                "transformation": "Strictly positive finite author values are converted to descending midrank percentiles within their source-defined measurement batch; zero, blank and NA values remain non-rank-eligible source states.",
+                "coordinate_definition": "Each record retains the original source asset, worksheet, row and measurement-specific cell coordinate.",  # noqa: E501
+                "transformation": "Strictly positive finite author values are converted to descending midrank percentiles within their source-defined measurement batch; zero, blank and NA values remain non-rank-eligible source states.",  # noqa: E501
             },
             "status": self.STATUS,
             "target_status": "NOT_FROZEN_PROTOCOL_AMENDMENT_REQUIRED",
@@ -570,9 +602,7 @@ class R3CommonRankTargetWorkflow:
             raise R3CommonRankTargetError("R3 common rank target receipt is invalid")
         return R3CommonRankTargetSummary(
             shared_canonical_protein_count=int(receipt["shared_canonical_protein_count"]),
-            rank_eligible_shared_canonical_protein_count=int(
-                receipt["rank_eligible_shared_canonical_protein_count"]
-            ),
+            rank_eligible_shared_canonical_protein_count=int(receipt["rank_eligible_shared_canonical_protein_count"]),
             eligible_rank_observation_count=int(receipt["eligible_rank_observation_count"]),
             laboratory_anchor_count=int(receipt["laboratory_anchor_count"]),
             measurement_batch_count=int(receipt["measurement_batch_count"]),

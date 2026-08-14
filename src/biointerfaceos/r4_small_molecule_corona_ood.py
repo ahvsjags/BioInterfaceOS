@@ -8,7 +8,7 @@ from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Any
+from typing import Any, ClassVar
 
 import numpy as np
 
@@ -48,13 +48,21 @@ class R4SmallMoleculeCoronaOODWorkflow:
     STATUS = "R4_PUBLIC_SAME_LINEAGE_OOD_EXECUTED_EXPLORATORY"
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
     TARGET_FIELDS = [
-        "external_target_observation_id", "source_id", "laboratory_anchor",
-        "canonical_accession", "measurement_batch_id", "source_worksheet", "source_row",
-        "source_coordinate", "author_quantity_type", "author_numeric_value",
-        "rank_percentile_descending", "measurement_batch_positive_protein_count",
+        "external_target_observation_id",
+        "source_id",
+        "laboratory_anchor",
+        "canonical_accession",
+        "measurement_batch_id",
+        "source_worksheet",
+        "source_row",
+        "source_coordinate",
+        "author_quantity_type",
+        "author_numeric_value",
+        "rank_percentile_descending",
+        "measurement_batch_positive_protein_count",
     ]
-    SOURCE_AUDIT_WORKFLOW = R4SmallMoleculeCoronaSourceAuditWorkflow
-    SOURCE_AUDIT_ERROR = R4SmallMoleculeCoronaSourceAuditError
+    SOURCE_AUDIT_WORKFLOW: ClassVar[type[Any]] = R4SmallMoleculeCoronaSourceAuditWorkflow
+    SOURCE_AUDIT_ERROR: ClassVar[type[Exception]] = R4SmallMoleculeCoronaSourceAuditError
 
     def __init__(
         self,
@@ -113,9 +121,21 @@ class R4SmallMoleculeCoronaOODWorkflow:
     def _protocol(self) -> tuple[dict[str, Any], dict[str, Path]]:
         protocol = self._json(self.protocol_path, "R4 small-molecule OOD protocol")
         expected_top = {
-            "schema_version", "protocol_id", "frozen_at", "evidence_class", "allowed_claim_level",
-            "references", "target", "development_selection", "external_evaluation", "feature_policy",
-            "models", "metrics", "uncertainty", "negative_control", "claim_boundary",
+            "schema_version",
+            "protocol_id",
+            "frozen_at",
+            "evidence_class",
+            "allowed_claim_level",
+            "references",
+            "target",
+            "development_selection",
+            "external_evaluation",
+            "feature_policy",
+            "models",
+            "metrics",
+            "uncertainty",
+            "negative_control",
+            "claim_boundary",
         }
         if set(protocol) != expected_top or protocol.get("schema_version") != 1:
             raise R4SmallMoleculeCoronaOODError("R4 OOD protocol fields are invalid")
@@ -127,8 +147,11 @@ class R4SmallMoleculeCoronaOODWorkflow:
             raise R4SmallMoleculeCoronaOODError("R4 OOD protocol identity is invalid")
         refs = _mapping(protocol.get("references"), "R4 OOD references")
         expected_refs = {
-            "r3_analysis_protocol_receipt", "r3_common_target_ledger", "r3_sequence_feature_table",
-            "r4_source_audit_receipt", "r4_source_cell_map",
+            "r3_analysis_protocol_receipt",
+            "r3_common_target_ledger",
+            "r3_sequence_feature_table",
+            "r4_source_audit_receipt",
+            "r4_source_cell_map",
         }
         if set(refs) != expected_refs:
             raise R4SmallMoleculeCoronaOODError("R4 OOD references are invalid")
@@ -142,7 +165,7 @@ class R4SmallMoleculeCoronaOODWorkflow:
         if _mapping(protocol["target"], "R4 OOD target") != {
             "target_id": "R4_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
             "development_target": "the frozen R3 source-local descending midrank percentile",
-            "external_target": "descending midrank percentile among strictly positive finite source-reported values within each eligible R4 corona measurement batch",
+            "external_target": "descending midrank percentile among strictly positive finite source-reported values within each eligible R4 corona measurement batch",  # noqa: E501
             "cross_study_raw_scale": "PROHIBITED",
         }:
             raise R4SmallMoleculeCoronaOODError("R4 OOD target is invalid")
@@ -150,17 +173,23 @@ class R4SmallMoleculeCoronaOODWorkflow:
         if external != {
             "source_id": "PMC11544298_SMALL_MOLECULE_HUMAN_PLASMA_CORONA",
             "laboratory_anchor": "Michigan State University-led small-molecule protein-corona study",
-            "analysis_population": "source-cell rows with analysis_candidate_eligible=true, rank_target_eligible=true and canonical accession present in the frozen R3 feature table",
+            "analysis_population": "source-cell rows with analysis_candidate_eligible=true, rank_target_eligible=true and canonical accession present in the frozen R3 feature table",  # noqa: E501
             "minimum_proteins_per_measurement_batch": 10,
             "expected_measurement_batch_count": 134,
             "expected_shared_canonical_protein_count_at_least": 94,
-            "access_condition": "public CC-BY supplementary source; author-run public OOD candidate; not a protected lockbox and not an independent evaluator",
+            "access_condition": "public CC-BY supplementary source; author-run public OOD candidate; not a protected lockbox and not an independent evaluator",  # noqa: E501
         }:
             raise R4SmallMoleculeCoronaOODError("R4 external evaluation contract is invalid")
         if protocol["models"] != [
             {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
-            {"model_id": "SEQUENCE_RIDGE_FULL", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
-            {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+            {
+                "model_id": "SEQUENCE_RIDGE_FULL",
+                "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+            },
+            {
+                "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+                "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+            },
         ]:
             raise R4SmallMoleculeCoronaOODError("R4 model contract is invalid")
         return protocol, paths
@@ -184,12 +213,17 @@ class R4SmallMoleculeCoronaOODWorkflow:
                 by_batch[_string(row.get("measurement_batch_id"), "R4 measurement batch ID")].append(row)
         ranks: dict[str, tuple[float, int]] = {}
         for batch_id, batch_rows in by_batch.items():
-            ordered = sorted(batch_rows, key=lambda row: (-float(row["author_numeric_value"]), row["source_coordinate"]))
+            ordered = sorted(
+                batch_rows,
+                key=lambda row: (-float(row["author_numeric_value"]), row["source_coordinate"]),
+            )
             count = len(ordered)
             start = 0
             while start < count:
                 end = start + 1
-                while end < count and float(ordered[end]["author_numeric_value"]) == float(ordered[start]["author_numeric_value"]):
+                while end < count and float(ordered[end]["author_numeric_value"]) == float(
+                    ordered[start]["author_numeric_value"]
+                ):
                     end += 1
                 midrank = (start + 1 + end) / 2.0
                 percentile = 0.5 if count == 1 else (count - midrank) / (count - 1)
@@ -202,13 +236,24 @@ class R4SmallMoleculeCoronaOODWorkflow:
         return ranks
 
     def _external_observations(
-        self, source_map_path: Path, feature_values: Mapping[str, tuple[float, ...]], protocol: Mapping[str, Any]
+        self,
+        source_map_path: Path,
+        feature_values: Mapping[str, tuple[float, ...]],
+        protocol: Mapping[str, Any],
     ) -> tuple[list[_Observation], list[dict[str, Any]], set[str]]:
         rows = self._read_csv(source_map_path, "R4 source cell map")
         required = {
-            "source_id", "laboratory_anchor", "source_worksheet", "source_row", "source_coordinate",
-            "source_identifier", "measurement_batch_id", "author_quantity_type", "author_numeric_value",
-            "analysis_candidate_eligible", "rank_target_eligible",
+            "source_id",
+            "laboratory_anchor",
+            "source_worksheet",
+            "source_row",
+            "source_coordinate",
+            "source_identifier",
+            "measurement_batch_id",
+            "author_quantity_type",
+            "author_numeric_value",
+            "analysis_candidate_eligible",
+            "rank_target_eligible",
         }
         if not required.issubset(rows[0]):
             raise R4SmallMoleculeCoronaOODError("R4 source cell map schema is invalid")
@@ -232,22 +277,36 @@ class R4SmallMoleculeCoronaOODWorkflow:
                 continue
             percentile, positive_count = rank
             batch_id = row["measurement_batch_id"]
-            target_id = f"R4PMC11544298:{row['source_asset_id']}:{row['source_worksheet']}:{row['source_row']}:{batch_id}"
-            observations.append(_Observation(target_id, external_contract["source_id"], accession, external_contract["laboratory_anchor"], batch_id, percentile, feature_values[accession]))
-            target_rows.append({
-                "external_target_observation_id": target_id,
-                "source_id": external_contract["source_id"],
-                "laboratory_anchor": external_contract["laboratory_anchor"],
-                "canonical_accession": accession,
-                "measurement_batch_id": batch_id,
-                "source_worksheet": row["source_worksheet"],
-                "source_row": row["source_row"],
-                "source_coordinate": row["source_coordinate"],
-                "author_quantity_type": row["author_quantity_type"],
-                "author_numeric_value": float(row["author_numeric_value"]),
-                "rank_percentile_descending": percentile,
-                "measurement_batch_positive_protein_count": positive_count,
-            })
+            target_id = (
+                f"R4PMC11544298:{row['source_asset_id']}:{row['source_worksheet']}:{row['source_row']}:{batch_id}"
+            )
+            observations.append(
+                _Observation(
+                    target_id,
+                    external_contract["source_id"],
+                    accession,
+                    external_contract["laboratory_anchor"],
+                    batch_id,
+                    percentile,
+                    feature_values[accession],
+                )
+            )
+            target_rows.append(
+                {
+                    "external_target_observation_id": target_id,
+                    "source_id": external_contract["source_id"],
+                    "laboratory_anchor": external_contract["laboratory_anchor"],
+                    "canonical_accession": accession,
+                    "measurement_batch_id": batch_id,
+                    "source_worksheet": row["source_worksheet"],
+                    "source_row": row["source_row"],
+                    "source_coordinate": row["source_coordinate"],
+                    "author_quantity_type": row["author_quantity_type"],
+                    "author_numeric_value": float(row["author_numeric_value"]),
+                    "rank_percentile_descending": percentile,
+                    "measurement_batch_positive_protein_count": positive_count,
+                }
+            )
             by_batch[batch_id] += 1
             accessions.add(accession)
         if (
@@ -256,7 +315,11 @@ class R4SmallMoleculeCoronaOODWorkflow:
             or any(count < external_contract["minimum_proteins_per_measurement_batch"] for count in by_batch.values())
         ):
             raise R4SmallMoleculeCoronaOODError("R4 source does not meet frozen external OOD coverage")
-        return sorted(observations, key=lambda row: (row.measurement_batch_id, row.target_observation_id)), target_rows, accessions
+        return (
+            sorted(observations, key=lambda row: (row.measurement_batch_id, row.target_observation_id)),
+            target_rows,
+            accessions,
+        )
 
     @staticmethod
     def _format(value: Any) -> str:
@@ -284,17 +347,23 @@ class R4SmallMoleculeCoronaOODWorkflow:
             raise R4SmallMoleculeCoronaOODError("a frozen R3/R4 input receipt does not verify") from exc
         helper = R3ModelEvaluationWorkflow(self.root, self.output_data_root, self.feature_root)
         try:
-            development, development_accessions = helper._observations(paths["r3_common_target_ledger"], paths["r3_sequence_feature_table"])
+            development, development_accessions = helper._observations(
+                paths["r3_common_target_ledger"], paths["r3_sequence_feature_table"]
+            )
         except R3ModelEvaluationError as exc:
             raise R4SmallMoleculeCoronaOODError("frozen R3 development data is invalid") from exc
         if len(development) != 2724 or len(development_accessions) != 99:
             raise R4SmallMoleculeCoronaOODError("frozen R3 development cohort differs")
         feature_values = {row.canonical_accession: row.feature_values for row in development}
-        external, target_rows, accessions = self._external_observations(paths["r4_source_cell_map"], feature_values, protocol)
+        external, target_rows, accessions = self._external_observations(
+            paths["r4_source_cell_map"], feature_values, protocol
+        )
         full_indices = tuple(range(len(helper.FEATURE_NAMES)))
         composition_indices = tuple(helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES)
         full_alpha, full_selection = helper._select_alpha(development, full_indices, minimum_proteins=10)
-        composition_alpha, composition_selection = helper._select_alpha(development, composition_indices, minimum_proteins=10)
+        composition_alpha, composition_selection = helper._select_alpha(
+            development, composition_indices, minimum_proteins=10
+        )
         constant_mean = float(np.mean([row.target for row in development]))
         full_model = helper._fit_ridge(development, full_indices, full_alpha)
         composition_model = helper._fit_ridge(development, composition_indices, composition_alpha)
@@ -315,30 +384,83 @@ class R4SmallMoleculeCoronaOODWorkflow:
             aggregate = helper._aggregate(metrics)
             status = "UNDEFINED_CONSTANT_PREDICTION" if model_id == "CONSTANT_TRAINING_MEAN" else "DEFINED"
             intervals: dict[str, dict[str, float | int] | None] = {}
-            for metric_name, key in (("spearman", "mean_spearman"), ("mae", "mean_mae"), ("rmse", "mean_rmse")):
+            for metric_name, key in (
+                ("spearman", "mean_spearman"),
+                ("mae", "mean_mae"),
+                ("rmse", "mean_rmse"),
+            ):
                 values = [metric[metric_name] for metric in metrics]
-                intervals[key] = None if any(value is None for value in values) else helper._bootstrap([float(value) for value in values], resamples=uncertainty["resamples"], seed=uncertainty["random_seed"] + model_index * 100)
+                intervals[key] = (
+                    None
+                    if any(value is None for value in values)
+                    else helper._bootstrap(
+                        [float(value) for value in values],
+                        resamples=uncertainty["resamples"],
+                        seed=uncertainty["random_seed"] + model_index * 100,
+                    )
+                )
             if model_id == "SEQUENCE_RIDGE_FULL":
                 full_primary = aggregate["mean_spearman"]
-            model_rows.append({
-                "model_id": model_id, "external_observation_count": len(external),
-                "external_measurement_batch_count": len(metrics), "primary_metric_status": status,
-                **aggregate,
-                "mean_spearman_lower_95": None if intervals["mean_spearman"] is None else intervals["mean_spearman"]["lower_95"],
-                "mean_spearman_upper_95": None if intervals["mean_spearman"] is None else intervals["mean_spearman"]["upper_95"],
-                "mean_mae_lower_95": intervals["mean_mae"]["lower_95"], "mean_mae_upper_95": intervals["mean_mae"]["upper_95"],
-                "mean_rmse_lower_95": intervals["mean_rmse"]["lower_95"], "mean_rmse_upper_95": intervals["mean_rmse"]["upper_95"],
-            })
+            mean_mae_interval = intervals["mean_mae"]
+            mean_rmse_interval = intervals["mean_rmse"]
+            model_rows.append(
+                {
+                    "model_id": model_id,
+                    "external_observation_count": len(external),
+                    "external_measurement_batch_count": len(metrics),
+                    "primary_metric_status": status,
+                    **aggregate,
+                    "mean_spearman_lower_95": None
+                    if intervals["mean_spearman"] is None
+                    else intervals["mean_spearman"]["lower_95"],
+                    "mean_spearman_upper_95": None
+                    if intervals["mean_spearman"] is None
+                    else intervals["mean_spearman"]["upper_95"],
+                    "mean_mae_lower_95": None if mean_mae_interval is None else mean_mae_interval["lower_95"],
+                    "mean_mae_upper_95": None if mean_mae_interval is None else mean_mae_interval["upper_95"],
+                    "mean_rmse_lower_95": None if mean_rmse_interval is None else mean_rmse_interval["lower_95"],
+                    "mean_rmse_upper_95": None if mean_rmse_interval is None else mean_rmse_interval["upper_95"],
+                }
+            )
             for metric in metrics:
                 metric_by_model_batch[(model_id, metric["measurement_batch_id"])] = metric
-                batch_rows.append({"model_id": model_id, **metric, "spearman_status": status if metric["spearman"] is None else "DEFINED"})
+                batch_rows.append(
+                    {
+                        "model_id": model_id,
+                        **metric,
+                        "spearman_status": status if metric["spearman"] is None else "DEFINED",
+                    }
+                )
             for observation, value in zip(external, predictions[model_id], strict=True):
-                prediction_rows.append({"model_id": model_id, "external_target_observation_id": observation.target_observation_id, "canonical_accession": observation.canonical_accession, "measurement_batch_id": observation.measurement_batch_id, "observed_rank_percentile_descending": observation.target, "predicted_rank_percentile_descending": float(value)})
+                prediction_rows.append(
+                    {
+                        "model_id": model_id,
+                        "external_target_observation_id": observation.target_observation_id,
+                        "canonical_accession": observation.canonical_accession,
+                        "measurement_batch_id": observation.measurement_batch_id,
+                        "observed_rank_percentile_descending": observation.target,
+                        "predicted_rank_percentile_descending": float(value),
+                    }
+                )
         if full_primary is None:
             raise R4SmallMoleculeCoronaOODError("R4 full sequence OOD primary metric is undefined")
-        paired_batches = sorted({batch for model_id, batch in metric_by_model_batch if model_id == "SEQUENCE_RIDGE_FULL"})
-        paired_difference = [float(metric_by_model_batch[("SEQUENCE_RIDGE_FULL", batch)]["spearman"]) - float(metric_by_model_batch[("SEQUENCE_RIDGE_COMPOSITION_ONLY", batch)]["spearman"]) for batch in paired_batches]
-        ablation = {"paired_measurement_batch_count": len(paired_difference), "full_minus_composition_mean_spearman": float(np.mean(paired_difference)), **helper._bootstrap(paired_difference, resamples=uncertainty["resamples"], seed=uncertainty["random_seed"] + 701)}
+        paired_batches = sorted(
+            {batch for model_id, batch in metric_by_model_batch if model_id == "SEQUENCE_RIDGE_FULL"}
+        )
+        paired_difference = [
+            float(metric_by_model_batch[("SEQUENCE_RIDGE_FULL", batch)]["spearman"])
+            - float(metric_by_model_batch[("SEQUENCE_RIDGE_COMPOSITION_ONLY", batch)]["spearman"])
+            for batch in paired_batches
+        ]
+        ablation = {
+            "paired_measurement_batch_count": len(paired_difference),
+            "full_minus_composition_mean_spearman": float(np.mean(paired_difference)),
+            **helper._bootstrap(
+                paired_difference,
+                resamples=uncertainty["resamples"],
+                seed=uncertainty["random_seed"] + 701,
+            ),
+        }
         by_development_batch: dict[str, list[int]] = defaultdict(list)
         for index, observation in enumerate(development):
             by_development_batch[observation.measurement_batch_id].append(index)
@@ -351,18 +473,35 @@ class R4SmallMoleculeCoronaOODWorkflow:
             for indices in by_development_batch.values():
                 permuted[indices] = rng.permutation(permuted[indices])
             null_model = helper._fit_ridge(development, full_indices, full_alpha, targets=permuted)
-            score = helper._aggregate(helper._batch_metrics(external, helper._predict_ridge(null_model, external), minimum_proteins=10))["mean_spearman"]
+            score = helper._aggregate(
+                helper._batch_metrics(external, helper._predict_ridge(null_model, external), minimum_proteins=10)
+            )["mean_spearman"]
             if score is None:
                 raise R4SmallMoleculeCoronaOODError("R4 permutation control has undefined primary metric")
             null_primary.append(float(score))
             null_rows.append({"resample": resample, "null_mean_spearman": float(score)})
         negative_summary = {
-            "selected_alpha": full_alpha, "resamples": negative["resamples"], "random_seed": negative["random_seed"],
-            "observed_mean_spearman": full_primary, "null_mean_spearman_mean": float(np.mean(null_primary)),
-            "null_mean_spearman_lower_95": float(np.quantile(null_primary, 0.025)), "null_mean_spearman_upper_95": float(np.quantile(null_primary, 0.975)),
-            "one_sided_upper_tail_p": float((1 + sum(value >= full_primary for value in null_primary)) / (1 + len(null_primary))),
+            "selected_alpha": full_alpha,
+            "resamples": negative["resamples"],
+            "random_seed": negative["random_seed"],
+            "observed_mean_spearman": full_primary,
+            "null_mean_spearman_mean": float(np.mean(null_primary)),
+            "null_mean_spearman_lower_95": float(np.quantile(null_primary, 0.025)),
+            "null_mean_spearman_upper_95": float(np.quantile(null_primary, 0.975)),
+            "one_sided_upper_tail_p": float(
+                (1 + sum(value >= full_primary for value in null_primary)) / (1 + len(null_primary))
+            ),
         }
-        selection_rows = [{"model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha} for row in full_selection] + [{"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", **row, "selected_alpha": composition_alpha} for row in composition_selection]
+        selection_rows = [
+            {"model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha} for row in full_selection
+        ] + [
+            {
+                "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+                **row,
+                "selected_alpha": composition_alpha,
+            }
+            for row in composition_selection
+        ]
         self.output_root.mkdir(parents=True, exist_ok=False)
         output_paths = {
             "external_target_ledger": self.output_root / "r4_external_rank_target_ledger.csv",
@@ -374,24 +513,134 @@ class R4SmallMoleculeCoronaOODWorkflow:
             "parameters": self.output_root / "r4_external_model_parameters.json",
         }
         self._write_csv(output_paths["external_target_ledger"], self.TARGET_FIELDS, target_rows)
-        self._write_csv(output_paths["predictions"], ["model_id", "external_target_observation_id", "canonical_accession", "measurement_batch_id", "observed_rank_percentile_descending", "predicted_rank_percentile_descending"], prediction_rows)
-        self._write_csv(output_paths["batch_metrics"], ["model_id", "measurement_batch_id", "protein_count", "spearman", "spearman_status", "mae", "rmse"], batch_rows)
-        self._write_csv(output_paths["model_metrics"], ["model_id", "external_observation_count", "external_measurement_batch_count", "primary_metric_status", "mean_spearman", "mean_spearman_lower_95", "mean_spearman_upper_95", "mean_mae", "mean_mae_lower_95", "mean_mae_upper_95", "mean_rmse", "mean_rmse_lower_95", "mean_rmse_upper_95"], model_rows)
-        self._write_csv(output_paths["selection"], ["model_id", "alpha", "held_out_inner_batch_id", "spearman", "selected_alpha"], selection_rows)
+        self._write_csv(
+            output_paths["predictions"],
+            [
+                "model_id",
+                "external_target_observation_id",
+                "canonical_accession",
+                "measurement_batch_id",
+                "observed_rank_percentile_descending",
+                "predicted_rank_percentile_descending",
+            ],
+            prediction_rows,
+        )
+        self._write_csv(
+            output_paths["batch_metrics"],
+            [
+                "model_id",
+                "measurement_batch_id",
+                "protein_count",
+                "spearman",
+                "spearman_status",
+                "mae",
+                "rmse",
+            ],
+            batch_rows,
+        )
+        self._write_csv(
+            output_paths["model_metrics"],
+            [
+                "model_id",
+                "external_observation_count",
+                "external_measurement_batch_count",
+                "primary_metric_status",
+                "mean_spearman",
+                "mean_spearman_lower_95",
+                "mean_spearman_upper_95",
+                "mean_mae",
+                "mean_mae_lower_95",
+                "mean_mae_upper_95",
+                "mean_rmse",
+                "mean_rmse_lower_95",
+                "mean_rmse_upper_95",
+            ],
+            model_rows,
+        )
+        self._write_csv(
+            output_paths["selection"],
+            ["model_id", "alpha", "held_out_inner_batch_id", "spearman", "selected_alpha"],
+            selection_rows,
+        )
         self._write_csv(output_paths["negative_control"], ["resample", "null_mean_spearman"], null_rows)
-        self._write_json(output_paths["parameters"], {"development_observation_count": len(development), "external_observation_count": len(external), "CONSTANT_TRAINING_MEAN": {"development_target_mean": constant_mean}, "SEQUENCE_RIDGE_FULL": {**helper._ridge_parameters(full_model, helper.FEATURE_NAMES), "negative_control": negative_summary}, "SEQUENCE_RIDGE_COMPOSITION_ONLY": helper._ridge_parameters(composition_model, helper.COMPOSITION_FEATURE_NAMES)})
-        artifacts = {name: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)} for name, path in output_paths.items()}
+        self._write_json(
+            output_paths["parameters"],
+            {
+                "development_observation_count": len(development),
+                "external_observation_count": len(external),
+                "CONSTANT_TRAINING_MEAN": {"development_target_mean": constant_mean},
+                "SEQUENCE_RIDGE_FULL": {
+                    **helper._ridge_parameters(full_model, helper.FEATURE_NAMES),
+                    "negative_control": negative_summary,
+                },
+                "SEQUENCE_RIDGE_COMPOSITION_ONLY": helper._ridge_parameters(
+                    composition_model, helper.COMPOSITION_FEATURE_NAMES
+                ),
+            },
+        )
+        artifacts = {
+            name: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)}
+            for name, path in output_paths.items()
+        }
         report = {
-            "schema_version": 1, "audit_id": self.AUDIT_ID, "protocol_id": protocol["protocol_id"], "protocol_sha256": _sha256(self.protocol_path), "execution_module_sha256": _sha256(Path(__file__).resolve(strict=True)), "numpy_version": np.__version__, "status": self.STATUS, "evidence_class": protocol["evidence_class"], "allowed_claim_level": protocol["allowed_claim_level"],
-            "input_references": {name: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)} for name, path in paths.items()},
-            "development_observation_count": len(development), "development_canonical_protein_count": len(development_accessions), "external_observation_count": len(external), "external_shared_canonical_protein_count": len(accessions), "external_measurement_batch_count": len({row.measurement_batch_id for row in external}), "model_results": model_rows, "paired_composition_ablation": ablation, "negative_control_summary": negative_summary, "external_access_condition": protocol["external_evaluation"]["access_condition"], "artifacts": artifacts, "claim_boundary": protocol["claim_boundary"], "independent_validation": False, "external_scientific_reproduction": False, "scientific_submission_ready": False,
+            "schema_version": 1,
+            "audit_id": self.AUDIT_ID,
+            "protocol_id": protocol["protocol_id"],
+            "protocol_sha256": _sha256(self.protocol_path),
+            "execution_module_sha256": _sha256(Path(__file__).resolve(strict=True)),
+            "numpy_version": np.__version__,
+            "status": self.STATUS,
+            "evidence_class": protocol["evidence_class"],
+            "allowed_claim_level": protocol["allowed_claim_level"],
+            "input_references": {
+                name: {
+                    "relative_path": path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(path),
+                }
+                for name, path in paths.items()
+            },
+            "development_observation_count": len(development),
+            "development_canonical_protein_count": len(development_accessions),
+            "external_observation_count": len(external),
+            "external_shared_canonical_protein_count": len(accessions),
+            "external_measurement_batch_count": len({row.measurement_batch_id for row in external}),
+            "model_results": model_rows,
+            "paired_composition_ablation": ablation,
+            "negative_control_summary": negative_summary,
+            "external_access_condition": protocol["external_evaluation"]["access_condition"],
+            "artifacts": artifacts,
+            "claim_boundary": protocol["claim_boundary"],
+            "independent_validation": False,
+            "external_scientific_reproduction": False,
+            "scientific_submission_ready": False,
         }
         report_path = self.output_root / "r4_external_ood_report.json"
         self._write_json(report_path, report)
-        receipt = {"schema_version": 1, "audit_id": self.AUDIT_ID, "status": self.STATUS, "report_sha256": _sha256(report_path), "development_observation_count": len(development), "external_observation_count": len(external), "external_shared_canonical_protein_count": len(accessions), "external_measurement_batch_count": len({row.measurement_batch_id for row in external}), "model_count": len(helper.MODEL_IDS), "model_fitted": True, "independent_validation": False, "external_scientific_reproduction": False, "scientific_submission_ready": False}
+        receipt = {
+            "schema_version": 1,
+            "audit_id": self.AUDIT_ID,
+            "status": self.STATUS,
+            "report_sha256": _sha256(report_path),
+            "development_observation_count": len(development),
+            "external_observation_count": len(external),
+            "external_shared_canonical_protein_count": len(accessions),
+            "external_measurement_batch_count": len({row.measurement_batch_id for row in external}),
+            "model_count": len(helper.MODEL_IDS),
+            "model_fitted": True,
+            "independent_validation": False,
+            "external_scientific_reproduction": False,
+            "scientific_submission_ready": False,
+        }
         receipt_path = self.output_root / "r4_external_ood_receipt.json"
         self._write_json(receipt_path, receipt)
-        return R4SmallMoleculeCoronaOODSummary(len(development), len(external), len(accessions), len({row.measurement_batch_id for row in external}), len(helper.MODEL_IDS), receipt_path)
+        return R4SmallMoleculeCoronaOODSummary(
+            len(development),
+            len(external),
+            len(accessions),
+            len({row.measurement_batch_id for row in external}),
+            len(helper.MODEL_IDS),
+            receipt_path,
+        )
 
     def verify(self) -> R4SmallMoleculeCoronaOODSummary:
         report_path = self.output_root / "r4_external_ood_report.json"
@@ -412,11 +661,23 @@ class R4SmallMoleculeCoronaOODWorkflow:
                 valid = False
                 break
         if (
-            report.get("audit_id") != self.AUDIT_ID or receipt.get("audit_id") != self.AUDIT_ID
-            or report.get("status") != self.STATUS or receipt.get("status") != self.STATUS
-            or receipt.get("report_sha256") != _sha256(report_path) or receipt.get("model_fitted") is not True
-            or receipt.get("independent_validation") is not False or receipt.get("external_scientific_reproduction") is not False
-            or receipt.get("scientific_submission_ready") is not False or not valid
+            report.get("audit_id") != self.AUDIT_ID
+            or receipt.get("audit_id") != self.AUDIT_ID
+            or report.get("status") != self.STATUS
+            or receipt.get("status") != self.STATUS
+            or receipt.get("report_sha256") != _sha256(report_path)
+            or receipt.get("model_fitted") is not True
+            or receipt.get("independent_validation") is not False
+            or receipt.get("external_scientific_reproduction") is not False
+            or receipt.get("scientific_submission_ready") is not False
+            or not valid
         ):
             raise R4SmallMoleculeCoronaOODError("R4 OOD receipt is invalid")
-        return R4SmallMoleculeCoronaOODSummary(int(receipt["development_observation_count"]), int(receipt["external_observation_count"]), int(receipt["external_shared_canonical_protein_count"]), int(receipt["external_measurement_batch_count"]), int(receipt["model_count"]), receipt_path)
+        return R4SmallMoleculeCoronaOODSummary(
+            int(receipt["development_observation_count"]),
+            int(receipt["external_observation_count"]),
+            int(receipt["external_shared_canonical_protein_count"]),
+            int(receipt["external_measurement_batch_count"]),
+            int(receipt["model_count"]),
+            receipt_path,
+        )

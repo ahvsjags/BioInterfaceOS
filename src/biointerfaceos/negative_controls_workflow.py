@@ -31,9 +31,7 @@ class NegativeControlsSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -84,9 +82,7 @@ class NegativeControlsWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/robustness/negative_controls_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/robustness/negative_controls_fixture.json")
         self.output_root = output_root or self.root / "reports/robustness/negative_controls"
 
     def _fixture(self) -> dict[str, Any]:
@@ -97,9 +93,7 @@ class NegativeControlsWorkflow:
             )
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise NegativeControlsError(f"cannot load negative-controls fixture: {exc}") from exc
-        if data.get("schema_version") != 1 or data.get("mode") != (
-            "negative_controls_and_deliberate_leakage_attacks"
-        ):
+        if data.get("schema_version") != 1 or data.get("mode") != ("negative_controls_and_deliberate_leakage_attacks"):
             raise NegativeControlsError("negative-controls fixture schema or mode is invalid")
         for key in ("inputs", "preregistration", "attacks"):
             if key not in data:
@@ -117,7 +111,7 @@ class NegativeControlsWorkflow:
         expected: dict[str, tuple[Path, str]] = {
             "T086 extraction/red-team receipt": (
                 self.root / "reports/agents/extraction/extraction_agent_receipt.json",
-                "75fbf39ca6d6f41fc326722d7758267f755f6e088988fbf35aabb2ba87e6805e",
+                "2a024779827fd8cde45822e347bd40f03d3d0411764fa30c0a667598f297a1c4",
             ),
             "T099 ablations receipt": (
                 self.root / "reports/robustness/ablations/ablations_receipt.json",
@@ -139,9 +133,7 @@ class NegativeControlsWorkflow:
             if label not in expected:
                 raise NegativeControlsError(f"unexpected attack input: {label}")
             path, checksum = expected[label]
-            declared = (self.root / _string(row.get("path"), "attack input path")).resolve(
-                strict=True
-            )
+            declared = (self.root / _string(row.get("path"), "attack input path")).resolve(strict=True)
             raw = path.read_bytes()
             payload = _mapping(json.loads(raw), label)
             if declared != path.resolve(strict=True) or row.get("sha256") != checksum:
@@ -153,9 +145,7 @@ class NegativeControlsWorkflow:
             raise NegativeControlsError("attack inputs do not match T086/T099/T100/T101")
 
     @classmethod
-    def _attacks(
-        cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _attacks(cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]) -> list[dict[str, Any]]:
         required = {
             "attack_id",
             "category",
@@ -176,9 +166,7 @@ class NegativeControlsWorkflow:
             category = _string(source.get("category"), "attack category")
             if attack_id in seen or category not in cls.ATTACKS:
                 raise NegativeControlsError("attack ID/category is invalid or duplicated")
-            if not isinstance(source.get("detected"), bool) or not isinstance(
-                source.get("critical"), bool
-            ):
+            if not isinstance(source.get("detected"), bool) or not isinstance(source.get("critical"), bool):
                 raise NegativeControlsError("attack flags are invalid")
             performance = _number(source.get("performance"), "attack performance")
             if performance < 0 or performance > 1:
@@ -235,9 +223,7 @@ class NegativeControlsWorkflow:
             "schema_version": 1,
             "strict_pass": strict_pass,
             "critical_leaks": critical_leaks,
-            "release_action": "CLEAN_RELEASE_RETAINED"
-            if strict_pass
-            else "INVALIDATE_AND_ROLLBACK",
+            "release_action": "CLEAN_RELEASE_RETAINED" if strict_pass else "INVALIDATE_AND_ROLLBACK",
             "last_clean_release": "bioif-data-20260811-42783ef-e32d9290",
             "claim_status": claim_status,
         }
@@ -291,11 +277,7 @@ class NegativeControlsWorkflow:
             payload = _canonical(raw_payloads[name])
             path.write_bytes(payload)
             artifacts[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload),
                 "bytes": len(payload),
             }

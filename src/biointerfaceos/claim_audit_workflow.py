@@ -23,9 +23,7 @@ class ClaimAuditError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -88,9 +86,7 @@ class ClaimAuditWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/claim_audit/audit_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/claim_audit/audit_fixture.json"
         self.output_root = output_root or self.root / "reports/claim_audit/final-v1.0.0"
 
     def _json(self, path: Path, label: str) -> dict[str, Any]:
@@ -193,9 +189,7 @@ class ClaimAuditWorkflow:
             claim = section_map[match.group(1)]
             if match.group(1) == "3" and "largest" in sentence.lower():
                 return "M4"
-            if match.group(1) == "4" and (
-                "ood" in sentence.lower() or "calibration" in sentence.lower()
-            ):
+            if match.group(1) == "4" and ("ood" in sentence.lower() or "calibration" in sentence.lower()):
                 return "M6" if "ood" in sentence.lower() else "M5"
             return claim
         return "M1"
@@ -205,9 +199,7 @@ class ClaimAuditWorkflow:
         lowered = sentence.lower()
         if any(word in lowered for word in cls.GUARD_WORDS):
             return []
-        return [
-            pattern for pattern in cls.POSITIVE_FORBIDDEN_PATTERNS if re.search(pattern, lowered)
-        ]
+        return [pattern for pattern in cls.POSITIVE_FORBIDDEN_PATTERNS if re.search(pattern, lowered)]
 
     def _resolve_evidence(self, paper_id: str, reference: str) -> dict[str, Any]:
         alias = self.EVIDENCE_ALIASES.get(reference)
@@ -255,9 +247,7 @@ class ClaimAuditWorkflow:
     ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
         matrix = self._json(matrix_path, f"{paper_id} claim matrix")
         claims = matrix.get("claims")
-        if not isinstance(claims, list) or {row.get("claim_id") for row in claims} != set(
-            self.CLAIM_IDS[paper_id]
-        ):
+        if not isinstance(claims, list) or {row.get("claim_id") for row in claims} != set(self.CLAIM_IDS[paper_id]):
             raise ClaimAuditError(f"{paper_id} claim matrix is incomplete")
         claim_by_id = {str(row["claim_id"]): _mapping(row, "claim row") for row in claims}
         sentences = self._sentences(manuscript.read_text(encoding="utf-8"))
@@ -291,9 +281,7 @@ class ClaimAuditWorkflow:
             if not isinstance(evidence, list) or not evidence:
                 raise ClaimAuditError(f"claim has no evidence: {paper_id}:{claim_id}")
             for reference in evidence:
-                evidence_records.append(
-                    {"claim_id": claim_id, **self._resolve_evidence(paper_id, str(reference))}
-                )
+                evidence_records.append({"claim_id": claim_id, **self._resolve_evidence(paper_id, str(reference))})
         return (
             {
                 "paper_id": paper_id,
@@ -305,10 +293,7 @@ class ClaimAuditWorkflow:
                 "scientific_sentence_count": sum(record["scientific"] for record in records),
                 "mapped_sentence_count": len(records),
                 "orphan_sentences": 0,
-                "claims": [
-                    {"claim_id": key, "status": claim_by_id[key]["status"]}
-                    for key in self.CLAIM_IDS[paper_id]
-                ],
+                "claims": [{"claim_id": key, "status": claim_by_id[key]["status"]} for key in self.CLAIM_IDS[paper_id]],
             },
             records + [{"evidence_records": evidence_records}],
         )
@@ -333,9 +318,7 @@ class ClaimAuditWorkflow:
             evidence_class is not EvidenceClass.LOCKED_EVALUATION
             or claim_level is not AllowedClaimLevel.EVALUATOR_BACKED
         ):
-            raise ClaimAuditError(
-                "T110 receipt is not evaluator-backed locked evidence; Paper C is protocol-only"
-            )
+            raise ClaimAuditError("T110 receipt is not evaluator-backed locked evidence; Paper C is protocol-only")
         if (
             t110_receipt.get("status") != "VALID_POSTLOCK_AUDIT_SEALED"
             or t112_report.get("status") != "VALID_CLEAN_ROOM_REPRODUCTION"
@@ -362,10 +345,7 @@ class ClaimAuditWorkflow:
         transition_map = {str(row["claim_id"]): row for row in transition_rows}
         if any(
             claim_id not in transition_map
-            or (
-                claim_id.startswith("C")
-                and transition_map[claim_id].get("threshold_changed") is not False
-            )
+            or (claim_id.startswith("C") and transition_map[claim_id].get("threshold_changed") is not False)
             for claim_id in self.CLAIM_IDS["paper_c_prelock"]
         ):
             raise ClaimAuditError("Paper C post-lock claim transition boundary is invalid")
@@ -492,20 +472,9 @@ class ClaimAuditWorkflow:
         for path in self.output_root.rglob("*"):
             if path.is_file():
                 path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        for path in sorted(
-            {item.parent for item in self.output_root.rglob("*") if item.is_dir()}, reverse=True
-        ):
-            path.chmod(
-                stat.S_IRUSR
-                | stat.S_IXUSR
-                | stat.S_IRGRP
-                | stat.S_IXGRP
-                | stat.S_IROTH
-                | stat.S_IXOTH
-            )
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        for path in sorted({item.parent for item in self.output_root.rglob("*") if item.is_dir()}, reverse=True):
+            path.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return report
 
     def verify(self) -> dict[str, Any]:
@@ -522,10 +491,8 @@ class ClaimAuditWorkflow:
             raise ClaimAuditError("claim audit status is invalid")
         if (
             receipt.get("report_sha256") != _sha256(report_path)
-            or receipt.get("sentence_map_sha256")
-            != _sha256(self.output_root / "claim_sentence_map.json")
-            or receipt.get("evidence_resolution_sha256")
-            != _sha256(self.output_root / "evidence_resolution.json")
+            or receipt.get("sentence_map_sha256") != _sha256(self.output_root / "claim_sentence_map.json")
+            or receipt.get("evidence_resolution_sha256") != _sha256(self.output_root / "evidence_resolution.json")
         ):
             raise ClaimAuditError("claim audit hash mismatch")
         if (

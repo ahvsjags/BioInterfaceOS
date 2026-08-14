@@ -72,9 +72,7 @@ class AgentBenchmarkWorkflow:
         schema_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/benchmark_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/benchmark_fixture.json")
         self.output_root = output_root or self.root / "reports/benchmark/agents"
         self.schema_path = schema_path or self.root / "agents/benchmark/agent_benchmark.v1.json"
 
@@ -154,7 +152,7 @@ class AgentBenchmarkWorkflow:
         rows: list[dict[str, Any]] = []
         for task_id, runner, tool_calls in runners:
             try:
-                summary = runner(root)
+                runner(root)
             except Exception as exc:  # pragma: no cover - failure taxonomy is persisted
                 rows.append(
                     {
@@ -178,7 +176,6 @@ class AgentBenchmarkWorkflow:
                     "reproducibility": True,
                     "tool_calls": tool_calls,
                     "cost_units": tool_calls + 1,
-                    "resumed": getattr(summary, "resumed", 0),
                 }
             )
         return rows

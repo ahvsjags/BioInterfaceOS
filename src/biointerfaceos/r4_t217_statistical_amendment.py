@@ -69,9 +69,7 @@ class R4T217StatisticalAmendmentWorkflow:
             writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
             writer.writeheader()
             for row in rows:
-                writer.writerow(
-                    {field: "" if row.get(field) is None else row.get(field) for field in fields}
-                )
+                writer.writerow({field: "" if row.get(field) is None else row.get(field) for field in fields})
 
     @staticmethod
     def _json(path: Path, label: str) -> dict[str, Any]:
@@ -163,15 +161,9 @@ class R4T217StatisticalAmendmentWorkflow:
                     "retention_fraction": values.get("retention_fraction"),
                     "candidate_observation_count": values.get("candidate_observation_count"),
                     "retained_observation_count": values.get("retained_observation_count"),
-                    "candidate_measurement_batch_count": values.get(
-                        "candidate_measurement_batch_count"
-                    ),
-                    "retained_measurement_batch_count": values.get(
-                        "retained_measurement_batch_count"
-                    ),
-                    "candidate_biological_unit_count": values.get(
-                        "candidate_biological_unit_count"
-                    ),
+                    "candidate_measurement_batch_count": values.get("candidate_measurement_batch_count"),
+                    "retained_measurement_batch_count": values.get("retained_measurement_batch_count"),
+                    "candidate_biological_unit_count": values.get("candidate_biological_unit_count"),
                     "retained_biological_unit_count": values.get("retained_biological_unit_count"),
                     "reported_paper_unit_count": values.get("reported_paper_unit_count"),
                     "exclusion_reason": values.get("exclusion_reason"),
@@ -182,9 +174,7 @@ class R4T217StatisticalAmendmentWorkflow:
             )
 
         target_count = self._int(t195["target_universe"]["count"], "T195 target count")
-        for source_id, meta in sorted(
-            _mapping(t195["source_accounting"], "T195 source accounting").items()
-        ):
+        for source_id, meta in sorted(_mapping(t195["source_accounting"], "T195 source accounting").items()):
             source = _mapping(meta, f"T195 source accounting {source_id}")
             observations = self._int(source["observation_count"], f"T195 observations {source_id}")
             batches = self._int(source["measurement_batch_count"], f"T195 batches {source_id}")
@@ -206,9 +196,7 @@ class R4T217StatisticalAmendmentWorkflow:
                 claim_status="EXPLORATORY_PORTABILITY_SENSITIVITY",
             )
 
-        for fold in sorted(
-            t197.get("fold_targets", []), key=lambda item: str(item.get("outer_fold_id"))
-        ):
+        for fold in sorted(t197.get("fold_targets", []), key=lambda item: str(item.get("outer_fold_id"))):
             item = _mapping(fold, "T197 fold target row")
             candidate = self._int(item["development_only_target_count"], "T197 candidate targets")
             retained = self._int(item["test_available_target_count"], "T197 retained targets")
@@ -236,19 +224,13 @@ class R4T217StatisticalAmendmentWorkflow:
         candidate_batches = None
         candidate_units = None
         for summary in t198_summary:
-            threshold = self._int(
-                summary["minimum_mapped_positive_proteins_per_batch"], "T198 threshold"
-            )
+            threshold = self._int(summary["minimum_mapped_positive_proteins_per_batch"], "T198 threshold")
             if candidate_batches is None:
                 candidate_batches = self._int(
                     summary["all_source_map_measurement_batch_count"], "T198 candidate batches"
                 )
-                candidate_units = self._int(
-                    summary["biological_unit_count"], "T198 candidate units"
-                )
-            retained_batches = self._int(
-                summary["measurement_batch_count"], "T198 retained batches"
-            )
+                candidate_units = self._int(summary["biological_unit_count"], "T198 candidate units")
+            retained_batches = self._int(summary["measurement_batch_count"], "T198 retained batches")
             retained_units = self._int(summary["biological_unit_count"], "T198 retained units")
             add(
                 route="T198",
@@ -259,9 +241,7 @@ class R4T217StatisticalAmendmentWorkflow:
                 retained_count=retained_batches,
                 retention_fraction=self._fraction(retained_batches, candidate_batches),
                 candidate_observation_count=None,
-                retained_observation_count=self._int(
-                    summary["external_observation_count"], "T198 observations"
-                ),
+                retained_observation_count=self._int(summary["external_observation_count"], "T198 observations"),
                 candidate_measurement_batch_count=candidate_batches,
                 retained_measurement_batch_count=retained_batches,
                 candidate_biological_unit_count=candidate_units,
@@ -276,12 +256,8 @@ class R4T217StatisticalAmendmentWorkflow:
             ("T203", t203, "PMC10257194_PAPER_COHORT"),
             ("T209", t209, "MANCHESTER_NANOOMIC_PAPER_COHORT"),
         ):
-            candidate = self._int(
-                report["development_canonical_protein_count"], f"{route} development proteins"
-            )
-            retained = self._int(
-                report["external_shared_canonical_protein_count"], f"{route} shared proteins"
-            )
+            candidate = self._int(report["development_canonical_protein_count"], f"{route} development proteins")
+            retained = self._int(report["external_shared_canonical_protein_count"], f"{route} shared proteins")
             batches = self._int(report["external_measurement_batch_count"], f"{route} batches")
             observations = self._int(report["external_observation_count"], f"{route} observations")
             biological = report.get("biological_unit_count")
@@ -299,12 +275,10 @@ class R4T217StatisticalAmendmentWorkflow:
                 retained_measurement_batch_count=batches,
                 candidate_biological_unit_count=None,
                 retained_biological_unit_count=(
-                    self._int(biological, f"{route} biological units")
-                    if biological is not None
-                    else None
+                    self._int(biological, f"{route} biological units") if biological is not None else None
                 ),
                 reported_paper_unit_count=(batches if route == "T203" else None),
-                exclusion_reason=f"{candidate - retained} development proteins not shared by the paper-derived OOD route",
+                exclusion_reason=f"{candidate - retained} development proteins not shared by the paper-derived OOD route",  # noqa: E501
                 evidence_class=str(report.get("evidence_class", "DEVELOPMENT_OBSERVATION")),
                 independence_status="author_run_analysis_only;not_independent_external_validation",
                 claim_status="ANALYSIS_ONLY_EXPLORATORY",
@@ -321,16 +295,13 @@ class R4T217StatisticalAmendmentWorkflow:
             (
                 row
                 for row in threshold_summary
-                if self._int(row["minimum_mapped_positive_proteins_per_batch"], "T198 threshold")
-                == threshold
+                if self._int(row["minimum_mapped_positive_proteins_per_batch"], "T198 threshold") == threshold
             ),
             None,
         )
         if primary_summary is None:
             raise R4T217StatisticalAmendmentError("T198 primary threshold 10 is missing")
-        groups: list[tuple[str, str, list[Mapping[str, str]]]] = [
-            ("overall", "ALL", list(source_rows))
-        ]
+        groups: list[tuple[str, str, list[Mapping[str, str]]]] = [("overall", "ALL", list(source_rows))]
         for dimension in self.STRATA:
             values = sorted({str(row.get(dimension, "")) for row in source_rows})
             for value in values:
@@ -354,11 +325,7 @@ class R4T217StatisticalAmendmentWorkflow:
                 if sum(self._state(row) == "POSITIVE_FINITE" for row in batch_rows) >= threshold
             ]
             all_units = {str(row.get("biological_unit_id", "")) for row in selected}
-            qualified_units = {
-                str(row.get("biological_unit_id", ""))
-                for batch_rows in qualified
-                for row in batch_rows
-            }
+            qualified_units = {str(row.get("biological_unit_id", "")) for batch_rows in qualified for row in batch_rows}
             row_count = len(selected)
             rows.append(
                 {
@@ -374,9 +341,7 @@ class R4T217StatisticalAmendmentWorkflow:
                     "na_fraction": self._fraction(states["AUTHOR_NA"], row_count),
                     "candidate_measurement_batch_count": len(batches),
                     "retained_measurement_batch_count_at_primary_threshold": len(qualified),
-                    "batch_retention_fraction_at_primary_threshold": self._fraction(
-                        len(qualified), len(batches)
-                    ),
+                    "batch_retention_fraction_at_primary_threshold": self._fraction(len(qualified), len(batches)),
                     "candidate_biological_unit_count": len(all_units),
                     "retained_biological_unit_count_at_primary_threshold": len(qualified_units),
                     "imputation": "NONE",
@@ -386,19 +351,13 @@ class R4T217StatisticalAmendmentWorkflow:
                 }
             )
         overall = rows[0]
-        expected_batches = self._int(
-            primary_summary["measurement_batch_count"], "T198 primary retained batches"
-        )
-        expected_units = self._int(
-            primary_summary["biological_unit_count"], "T198 primary retained units"
-        )
+        expected_batches = self._int(primary_summary["measurement_batch_count"], "T198 primary retained batches")
+        expected_units = self._int(primary_summary["biological_unit_count"], "T198 primary retained units")
         if (
             overall["retained_measurement_batch_count_at_primary_threshold"] != expected_batches
             or overall["retained_biological_unit_count_at_primary_threshold"] != expected_units
         ):
-            raise R4T217StatisticalAmendmentError(
-                "T217 missingness flow disagrees with T198 primary threshold summary"
-            )
+            raise R4T217StatisticalAmendmentError("T217 missingness flow disagrees with T198 primary threshold summary")
         return rows
 
     def _multiplicity_rows(
@@ -423,9 +382,7 @@ class R4T217StatisticalAmendmentWorkflow:
             }
         ]
         negative = [
-            row
-            for row in t197.get("negative_control_summary", [])
-            if row.get("one_sided_upper_tail_p") is not None
+            row for row in t197.get("negative_control_summary", []) if row.get("one_sided_upper_tail_p") is not None
         ]
         raw = [float(row["one_sided_upper_tail_p"]) for row in negative]
         adjusted = self._holm(raw)
@@ -464,9 +421,7 @@ class R4T217StatisticalAmendmentWorkflow:
                 }
             )
         if len(negative) != 3 or len(t198_summary) != 8 or not t203 or not t209:
-            raise R4T217StatisticalAmendmentError(
-                "T217 multiplicity ledger did not observe the frozen route inventory"
-            )
+            raise R4T217StatisticalAmendmentError("T217 multiplicity ledger did not observe the frozen route inventory")
         return rows
 
     @staticmethod
@@ -505,13 +460,8 @@ class R4T217StatisticalAmendmentWorkflow:
             raise R4T217StatisticalAmendmentError("T217 execution already exists")
         protocol_path = self._file(self.PROTOCOL_RELATIVE, "T217 protocol")
         protocol = self._json(protocol_path, "T217 protocol")
-        if (
-            protocol.get("protocol_id") != self.AUDIT_ID
-            or protocol.get("scientific_submission_ready") is not False
-        ):
-            raise R4T217StatisticalAmendmentError(
-                "T217 protocol identity or claim boundary is invalid"
-            )
+        if protocol.get("protocol_id") != self.AUDIT_ID or protocol.get("scientific_submission_ready") is not False:
+            raise R4T217StatisticalAmendmentError("T217 protocol identity or claim boundary is invalid")
         input_paths = {
             name: self._reference(value, f"T217 input {name}")
             for name, value in _mapping(protocol["input_artifacts"], "T217 input artifacts").items()
@@ -610,9 +560,7 @@ class R4T217StatisticalAmendmentWorkflow:
         }
         receipt_path = output / "t217_statistical_amendment_receipt.json"
         self._write_json(receipt_path, receipt)
-        return R4T217StatisticalAmendmentSummary(
-            len(availability), len(missingness), len(multiplicity), receipt_path
-        )
+        return R4T217StatisticalAmendmentSummary(len(availability), len(missingness), len(multiplicity), receipt_path)
 
     def verify(self, *, strict: bool = True) -> R4T217StatisticalAmendmentSummary:
         if not strict:
@@ -623,12 +571,8 @@ class R4T217StatisticalAmendmentWorkflow:
             raise R4T217StatisticalAmendmentError("T217 protocol identity is invalid")
         for name, value in _mapping(protocol["input_artifacts"], "T217 input artifacts").items():
             self._reference(value, f"T217 input {name}")
-        report_path = self._file(
-            f"{self.OUTPUT_RELATIVE}/t217_statistical_amendment_report.json", "T217 report"
-        )
-        receipt_path = self._file(
-            f"{self.OUTPUT_RELATIVE}/t217_statistical_amendment_receipt.json", "T217 receipt"
-        )
+        report_path = self._file(f"{self.OUTPUT_RELATIVE}/t217_statistical_amendment_report.json", "T217 report")
+        receipt_path = self._file(f"{self.OUTPUT_RELATIVE}/t217_statistical_amendment_receipt.json", "T217 receipt")
         report = self._json(report_path, "T217 report")
         receipt = self._json(receipt_path, "T217 receipt")
         if report.get("artifacts") is None:
@@ -654,20 +598,11 @@ class R4T217StatisticalAmendmentWorkflow:
             or _sha256(report_path) != receipt.get("report_sha256")
         ):
             raise R4T217StatisticalAmendmentError("T217 report or receipt identity is invalid")
-        if any(
-            report.get(key) != value or receipt.get(key) != value
-            for key, value in expected_flags.items()
-        ):
+        if any(report.get(key) != value or receipt.get(key) != value for key, value in expected_flags.items()):
             raise R4T217StatisticalAmendmentError("T217 claim-boundary flags are invalid")
-        availability_path = self._file(
-            f"{self.OUTPUT_RELATIVE}/availability_flow.csv", "T217 availability flow"
-        )
-        missingness_path = self._file(
-            f"{self.OUTPUT_RELATIVE}/missingness_flow.csv", "T217 missingness flow"
-        )
-        multiplicity_path = self._file(
-            f"{self.OUTPUT_RELATIVE}/multiplicity_ledger.csv", "T217 multiplicity ledger"
-        )
+        availability_path = self._file(f"{self.OUTPUT_RELATIVE}/availability_flow.csv", "T217 availability flow")
+        missingness_path = self._file(f"{self.OUTPUT_RELATIVE}/missingness_flow.csv", "T217 missingness flow")
+        multiplicity_path = self._file(f"{self.OUTPUT_RELATIVE}/multiplicity_ledger.csv", "T217 multiplicity ledger")
         availability = self._csv(availability_path, "T217 availability flow")
         missingness = self._csv(missingness_path, "T217 missingness flow")
         multiplicity = self._csv(multiplicity_path, "T217 multiplicity ledger")
@@ -681,21 +616,11 @@ class R4T217StatisticalAmendmentWorkflow:
         if len(primary) != 3 or any(
             row.get("candidate_count") != "9" or row.get("retained_count") != "9" for row in primary
         ):
-            raise R4T217StatisticalAmendmentError(
-                "T217 primary availability denominator is invalid"
-            )
+            raise R4T217StatisticalAmendmentError("T217 primary availability denominator is invalid")
         if not any(
-            row.get("dimension") == "overall" and row.get("author_na_row_count") == "6640"
-            for row in missingness
+            row.get("dimension") == "overall" and row.get("author_na_row_count") == "6640" for row in missingness
         ):
             raise R4T217StatisticalAmendmentError("T217 overall missingness row is invalid")
-        if (
-            sum(
-                row.get("family_id") == "T197_WITHIN_BATCH_NEGATIVE_CONTROL" for row in multiplicity
-            )
-            != 3
-        ):
+        if sum(row.get("family_id") == "T197_WITHIN_BATCH_NEGATIVE_CONTROL" for row in multiplicity) != 3:
             raise R4T217StatisticalAmendmentError("T217 QC multiplicity family is invalid")
-        return R4T217StatisticalAmendmentSummary(
-            len(availability), len(missingness), len(multiplicity), receipt_path
-        )
+        return R4T217StatisticalAmendmentSummary(len(availability), len(missingness), len(multiplicity), receipt_path)

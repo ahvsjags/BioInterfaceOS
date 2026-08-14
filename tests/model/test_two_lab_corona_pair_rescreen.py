@@ -23,9 +23,7 @@ def test_pair_rescreen_records_two_labs_without_target_promotion(tmp_path: Path)
     assert summary.candidate_source_count == 2
     assert summary.independent_laboratory_count == 2
     assert summary.candidate_size_count == 2
-    assert (
-        summary.status == "BLOCKED_PAIR_ASSET_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_AUDIT_REQUIRED"
-    )
+    assert summary.status == "BLOCKED_PAIR_ASSET_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_AUDIT_REQUIRED"
     assert workflow.verify() == summary
 
 
@@ -37,9 +35,7 @@ def test_pair_rescreen_requires_strict_mode(tmp_path: Path) -> None:
 
 
 def test_pair_rescreen_rejects_candidate_promotion(tmp_path: Path) -> None:
-    registry = json.loads(
-        (ROOT / "docs/data/R2_T129_TWO_LAB_CORONA_PAIR_REGISTRY.json").read_text(encoding="utf-8")
-    )
+    registry = json.loads((ROOT / "docs/data/R2_T129_TWO_LAB_CORONA_PAIR_REGISTRY.json").read_text(encoding="utf-8"))
     registry["candidates"][0]["admission"] = "ADMITTED"
     registry_path = tmp_path / "registry.json"
     registry_path.write_text(json.dumps(registry), encoding="utf-8")
@@ -54,9 +50,7 @@ def test_pair_rescreen_rejects_candidate_promotion(tmp_path: Path) -> None:
 
 
 def test_pair_rescreen_rejects_weakened_policy(tmp_path: Path) -> None:
-    registry = json.loads(
-        (ROOT / "docs/data/R2_T129_TWO_LAB_CORONA_PAIR_REGISTRY.json").read_text(encoding="utf-8")
-    )
+    registry = json.loads((ROOT / "docs/data/R2_T129_TWO_LAB_CORONA_PAIR_REGISTRY.json").read_text(encoding="utf-8"))
     registry["source_policy"]["cc0_cohort_unchanged"] = False
     registry_path = tmp_path / "registry.json"
     registry_path.write_text(json.dumps(registry), encoding="utf-8")

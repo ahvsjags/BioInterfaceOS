@@ -180,9 +180,7 @@ class RepositoryTests(unittest.TestCase):
             adapter = self._adapter(Path(temporary))
             candidate = adapter.search(SourceQuery("zenodo:12345"))[0]
             asset = adapter.list_assets(candidate)[0]
-            self.assertEqual(
-                adapter.policy_decision(candidate).decision, "ADMIT_PUBLIC_REDISTRIBUTABLE"
-            )
+            self.assertEqual(adapter.policy_decision(candidate).decision, "ADMIT_PUBLIC_REDISTRIBUTABLE")
             with self.assertRaises(AdapterError):
                 adapter.fetch(
                     candidate,

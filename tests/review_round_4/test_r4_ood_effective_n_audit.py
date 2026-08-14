@@ -106,9 +106,7 @@ def _write_fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
                 "measurement_batch_id",
             ],
             "pooled_unit_rule": "fixture pooled rule",
-            "threshold_sensitivity": {
-                "minimum_rank_eligible_proteins_per_batch": [1, 10, 20, 40, 50, 60, 70, 80]
-            },
+            "threshold_sensitivity": {"minimum_rank_eligible_proteins_per_batch": [1, 10, 20, 40, 50, 60, 70, 80]},
             "missingness_outputs": [
                 "source_value_state_counts",
                 "source_na_counts_by_biological_unit",

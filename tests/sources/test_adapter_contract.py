@@ -42,9 +42,7 @@ def candidate(source_id: str = "fixture-source", *, login: bool = False) -> Sour
 
 
 class AdapterContractTests(unittest.TestCase):
-    def _adapter(
-        self, root: Path
-    ) -> tuple[FixtureAdapter, SourceCandidate, AssetDescriptor, bytes]:
+    def _adapter(self, root: Path) -> tuple[FixtureAdapter, SourceCandidate, AssetDescriptor, bytes]:
         public = candidate()
         payload = b"fixture asset bytes"
         digest = hashlib.sha256(payload).hexdigest()

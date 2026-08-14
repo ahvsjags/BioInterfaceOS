@@ -43,9 +43,7 @@ def test_benchmark_freeze_rejects_input_checksum_mutation(tmp_path: Path) -> Non
     fixture_path = tmp_path / "fixture.json"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(BenchmarkFreezeError, match="checksum differs"):
-        BenchmarkFreezeWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "release"
-        ).run()
+        BenchmarkFreezeWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "release").run()
 
 
 def test_benchmark_freeze_never_overwrites_a_release(tmp_path: Path) -> None:

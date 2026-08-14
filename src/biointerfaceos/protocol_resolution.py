@@ -67,9 +67,7 @@ class ProtocolResolver:
         report_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/protocols/protocol_resolution.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/protocols/protocol_resolution.json")
         self.protocols_path = protocols_path or (self.root / "registry/protocol_entities.json")
         self.clusters_path = clusters_path or (self.root / "registry/protocol_clusters.json")
         self.review_path = review_path or (self.root / "registry/protocol_review_queue.jsonl")
@@ -113,12 +111,7 @@ class ProtocolResolver:
         field_type = _text(raw["field_type"]).lower()
         locator = _text(raw["source_locator"])
         observed = bool(raw["observed"])
-        if (
-            not field_id
-            or not name
-            or field_type not in self.FIELD_TYPES
-            or not locator.startswith("asset:")
-        ):
+        if not field_id or not name or field_type not in self.FIELD_TYPES or not locator.startswith("asset:"):
             raise ProtocolResolutionError(f"{protocol_id} field identifiers/type/locator invalid")
         raw_unit = None if raw["raw_unit"] is None else _text(raw["raw_unit"])
         target_unit = None if raw["target_unit"] is None else _text(raw["target_unit"])
@@ -130,9 +123,7 @@ class ProtocolResolver:
         reason: str | None = None
         if observed:
             if raw_value is None:
-                raise ProtocolResolutionError(
-                    f"{protocol_id}.{field_id} observed field has no value"
-                )
+                raise ProtocolResolutionError(f"{protocol_id}.{field_id} observed field has no value")
             if field_type == "ontology":
                 key = _text(raw_value).upper()
                 if key not in self.ONTOLOGY:
@@ -162,9 +153,7 @@ class ProtocolResolver:
                     reason = "PROTOCOL_UNIT_UNSUPPORTED"
             elif field_type == "integer":
                 if isinstance(raw_value, bool) or not isinstance(raw_value, int):
-                    raise ProtocolResolutionError(
-                        f"{protocol_id}.{field_id} requires integer value"
-                    )
+                    raise ProtocolResolutionError(f"{protocol_id}.{field_id} requires integer value")
                 normalized_value, normalized_unit = raw_value, target_unit
             else:
                 if not isinstance(raw_value, str):
@@ -234,16 +223,10 @@ class ProtocolResolver:
             protocol_id = _text(raw_protocol["protocol_id"])
             locator = _text(raw_protocol["source_locator"])
             raw_fields = raw_protocol["fields"]
-            if (
-                not protocol_id
-                or not locator.startswith("asset:")
-                or not isinstance(raw_fields, list)
-            ):
+            if not protocol_id or not locator.startswith("asset:") or not isinstance(raw_fields, list):
                 raise ProtocolResolutionError("protocol identifiers/fields are invalid")
             fields = [
-                self._normalize_field(protocol_id, field, reviews)
-                for field in raw_fields
-                if isinstance(field, dict)
+                self._normalize_field(protocol_id, field, reviews) for field in raw_fields if isinstance(field, dict)
             ]
             if len(fields) != len(raw_fields):
                 raise ProtocolResolutionError("protocol fields contain a non-object")
@@ -298,22 +281,17 @@ class ProtocolResolver:
 
         fields_count = sum(len(protocol["fields"]) for protocol in normalized_protocols)
         observed_count = sum(
-            field["status"] == "OBSERVED"
-            for protocol in normalized_protocols
-            for field in protocol["fields"]
+            field["status"] == "OBSERVED" for protocol in normalized_protocols for field in protocol["fields"]
         )
         missing_count = sum(
-            field["status"] == "MISSING"
-            for protocol in normalized_protocols
-            for field in protocol["fields"]
+            field["status"] == "MISSING" for protocol in normalized_protocols for field in protocol["fields"]
         )
         report = (
             "\n".join(
                 [
                     "# Bioenvironment and Protocol Resolution Report",
                     "",
-                    "Protocol fields retain raw values, normalized values, "
-                    "locators, and missingness.",
+                    "Protocol fields retain raw values, normalized values, locators, and missingness.",
                     "",
                     f"- protocols: {len(protocols)}",
                     f"- fields: {fields_count}",

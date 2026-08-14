@@ -47,9 +47,7 @@ def _ilr(composition: list[float]) -> list[float]:
     if len(composition) != 3 or any(value <= 0.0 for value in composition):
         raise M4Error("ILR requires three strictly positive composition parts")
     first = math.sqrt(0.5) * math.log(composition[0] / composition[1])
-    second = math.sqrt(2.0 / 3.0) * math.log(
-        math.sqrt(composition[0] * composition[1]) / composition[2]
-    )
+    second = math.sqrt(2.0 / 3.0) * math.log(math.sqrt(composition[0] * composition[1]) / composition[2])
     return [first, second]
 
 
@@ -88,9 +86,7 @@ class M4Workflow:
 
     def _config(self) -> dict[str, Any]:
         try:
-            config = _mapping(
-                yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M4 config"
-            )
+            config = _mapping(yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M4 config")
         except (OSError, UnicodeError, yaml.YAMLError) as exc:
             raise M4Error(f"cannot load M4 config: {exc}") from exc
         if config.get("schema_version") != 1 or config.get("model") != "M4":
@@ -160,9 +156,7 @@ class M4Workflow:
         fixture: Mapping[str, Any], public: Mapping[str, Any], targets: Mapping[str, float]
     ) -> list[dict[str, Any]]:
         public_rows = {
-            _string(_mapping(row, "public row").get("instance_id"), "public ID"): _mapping(
-                row, "public row"
-            )
+            _string(_mapping(row, "public row").get("instance_id"), "public ID"): _mapping(row, "public row")
             for row in public["instances"]
         }
         required = {"instance_id", "split", "composition", "zero_mask", "missingness"}
@@ -183,10 +177,7 @@ class M4Workflow:
             if (
                 not isinstance(composition, list)
                 or len(composition) != 3
-                or any(
-                    isinstance(part, bool) or not isinstance(part, int | float)
-                    for part in composition
-                )
+                or any(isinstance(part, bool) or not isinstance(part, int | float) for part in composition)
             ):
                 raise M4Error(f"M4 composition shape is invalid: {instance_id}")
             if (
@@ -262,10 +253,7 @@ class M4Workflow:
         alternatives: list[dict[str, Any]] = []
         for alternative in config["alternatives"]:
             transformed = {
-                row["instance_id"]: self._transform(
-                    row, str(alternative), float(config["pseudocount"])
-                )
-                for row in rows
+                row["instance_id"]: self._transform(row, str(alternative), float(config["pseudocount"])) for row in rows
             }
             coefficients = _ridge_fit(
                 [[1.0, *transformed[row["instance_id"]]] for row in train],
@@ -273,9 +261,7 @@ class M4Workflow:
                 ridge=float(config["ridge"]),
             )
             predictions = {
-                row["instance_id"]: _predict_linear(
-                    coefficients, [1.0, *transformed[row["instance_id"]]]
-                )
+                row["instance_id"]: _predict_linear(coefficients, [1.0, *transformed[row["instance_id"]]])
                 for row in rows
             }
             validation_metrics = _regression_metrics(validation, predictions)
@@ -360,9 +346,7 @@ class M4Workflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -417,9 +401,7 @@ class M4Workflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

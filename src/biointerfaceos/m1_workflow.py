@@ -102,8 +102,7 @@ class M1Workflow:
 
     def _inputs(self, fixture: Mapping[str, Any]) -> dict[str, Any]:
         required = {
-            "T067 public instances": self.root
-            / "reports/benchmark/instances/public_instances.json",
+            "T067 public instances": self.root / "reports/benchmark/instances/public_instances.json",
             "T069 baseline fixture": self.baseline_fixture_path,
         }
         loaded: dict[str, Any] = {}
@@ -144,8 +143,7 @@ class M1Workflow:
         fixture: Mapping[str, Any], public: Mapping[str, Any], targets: Mapping[str, float]
     ) -> list[dict[str, Any]]:
         public_ids = {
-            _string(_mapping(row, "public row").get("instance_id"), "public instance ID")
-            for row in public["instances"]
+            _string(_mapping(row, "public row").get("instance_id"), "public instance ID") for row in public["instances"]
         }
         required = {"instance_id", "split", "covariate", "study", "protocol", "material"}
         rows: list[dict[str, Any]] = []
@@ -163,8 +161,7 @@ class M1Workflow:
             public_split = next(
                 _string(_mapping(item, "public row").get("split"), "public split")
                 for item in public["instances"]
-                if _string(_mapping(item, "public row").get("instance_id"), "public ID")
-                == instance_id
+                if _string(_mapping(item, "public row").get("instance_id"), "public ID") == instance_id
             )
             if split != public_split:
                 raise M1Error(f"M1 split differs from T067: {instance_id}")
@@ -198,9 +195,7 @@ class M1Workflow:
             ridge=ridge,
         )
         residuals = {
-            row["instance_id"]: row["target"]
-            - (coefficients[0] + coefficients[1] * row["covariate"])
-            for row in train
+            row["instance_id"]: row["target"] - (coefficients[0] + coefficients[1] * row["covariate"]) for row in train
         }
         effects: dict[str, dict[str, float]] = {}
         for group in groups:
@@ -208,9 +203,7 @@ class M1Workflow:
             values_by_key: dict[str, list[float]] = {}
             for row in grouped:
                 values_by_key.setdefault(row[group], []).append(residuals[row["instance_id"]])
-            effects[group] = {
-                key: shrinkage * _mean(values) for key, values in values_by_key.items()
-            }
+            effects[group] = {key: shrinkage * _mean(values) for key, values in values_by_key.items()}
         predictions = {
             row["instance_id"]: coefficients[0]
             + coefficients[1] * row["covariate"]
@@ -222,9 +215,7 @@ class M1Workflow:
     @staticmethod
     def _toy_recovery() -> dict[str, Any]:
         toy = [{"x": index / 5.0, "y": 1.0 + 2.0 * index / 5.0} for index in range(6)]
-        coefficients = _ridge_fit(
-            [[1.0, row["x"]] for row in toy], [row["y"] for row in toy], ridge=1e-9
-        )
+        coefficients = _ridge_fit([[1.0, row["x"]] for row in toy], [row["y"] for row in toy], ridge=1e-9)
         recovered = abs(coefficients[0] - 1.0) < 0.01 and abs(coefficients[1] - 2.0) < 0.01
         return {
             "status": "PASSED" if recovered else "FAILED",
@@ -247,8 +238,7 @@ class M1Workflow:
                 ridge=float(config["ridge"]),
             )
             predictions = {
-                row["instance_id"]: coefficients[0] + coefficients[1] * row["covariate"]
-                for row in test_rows
+                row["instance_id"]: coefficients[0] + coefficients[1] * row["covariate"] for row in test_rows
             }
             metrics = _regression_metrics(test_rows, predictions)
             folds.append({"held_out_study": held_out, **metrics})
@@ -281,20 +271,15 @@ class M1Workflow:
         train_metrics = _regression_metrics(train, predictions)
         validation_metrics = _regression_metrics(validation, predictions)
         residuals = [row["target"] - predictions[row["instance_id"]] for row in train]
-        residual_variance = sum((value - _mean(residuals)) ** 2 for value in residuals) / len(
-            residuals
+        residual_variance = sum((value - _mean(residuals)) ** 2 for value in residuals) / len(residuals)
+        total_variance = sum((row["target"] - _mean([item["target"] for item in train])) ** 2 for row in train) / len(
+            train
         )
-        total_variance = sum(
-            (row["target"] - _mean([item["target"] for item in train])) ** 2 for row in train
-        ) / len(train)
         variance_partition = {
             "fixed_effect_variance": round(max(0.0, total_variance - residual_variance), 6),
             "random_effect_variance": {
                 group: round(
-                    sum(
-                        (value - _mean(list(effects[group].values()))) ** 2
-                        for value in effects[group].values()
-                    )
+                    sum((value - _mean(list(effects[group].values()))) ** 2 for value in effects[group].values())
                     / len(effects[group])
                     if effects[group]
                     else 0.0,
@@ -309,10 +294,7 @@ class M1Workflow:
         grouped_cv = self._grouped_cv(train, config)
         residual_sd = math.sqrt(residual_variance)
         calibration_error = _mean(
-            [
-                abs(abs(row["target"] - predictions[row["instance_id"]]) - residual_sd)
-                for row in validation
-            ]
+            [abs(abs(row["target"] - predictions[row["instance_id"]]) - residual_sd) for row in validation]
         )
         calibration = {
             "validation_mean_absolute_error": round(
@@ -331,9 +313,7 @@ class M1Workflow:
             "coefficients_finite": all(math.isfinite(value) for value in fixed.values()),
             "identity_features_used": False,
             "regularized": True,
-            "nonidentifiability_limitation": (
-                "Random effects are regularized on the small development fixture."
-            ),
+            "nonidentifiability_limitation": ("Random effects are regularized on the small development fixture."),
         }
         raw_payloads: dict[str, Any] = {
             "results": {
@@ -374,9 +354,7 @@ class M1Workflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -429,9 +407,7 @@ class M1Workflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

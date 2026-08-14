@@ -41,9 +41,7 @@ class TableSemanticsTests(unittest.TestCase):
             self.assertEqual(measurement["error"], 0.1)
             self.assertEqual(measurement["error_type"], "SD")
             self.assertEqual(measurement["unit"], "%")
-            self.assertTrue(
-                any(locator.endswith("cell:A3") for locator in measurement["source_cell_locators"])
-            )
+            self.assertTrue(any(locator.endswith("cell:A3") for locator in measurement["source_cell_locators"]))
             self.assertTrue(measurement["footnotes"])
 
     def test_ambiguity_is_retained_in_append_only_review_queue(self) -> None:
@@ -52,8 +50,7 @@ class TableSemanticsTests(unittest.TestCase):
             parser.run()
             parser.run()
             reviews = [
-                json.loads(line)
-                for line in (Path(temporary) / "table_review_queue.jsonl").read_text().splitlines()
+                json.loads(line) for line in (Path(temporary) / "table_review_queue.jsonl").read_text().splitlines()
             ]
             self.assertEqual(len(reviews), 2)
             self.assertEqual(

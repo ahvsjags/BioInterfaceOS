@@ -37,9 +37,7 @@ class SaturationAnalyzer:
         self.candidate_path = candidate_path or self.root / "registry/search_candidates.jsonl"
         self.expansion_run_path = expansion_run_path or self.root / "reports/expansion_runs.jsonl"
         self.edge_path = edge_path or self.root / "registry/expansion_edges.jsonl"
-        self.expectations_path = expectations_path or (
-            self.root / "tests/fixtures/search/saturation_expectations.json"
-        )
+        self.expectations_path = expectations_path or (self.root / "tests/fixtures/search/saturation_expectations.json")
 
     @staticmethod
     def _jsonl(path: Path) -> list[dict[str, Any]]:
@@ -90,9 +88,7 @@ class SaturationAnalyzer:
 
     @staticmethod
     def _observed(queries: tuple[dict[str, Any], ...], axes: set[str], terms: list[str]) -> bool:
-        corpus = " ".join(
-            str(query["query"]).lower() for query in queries if query.get("axis") in axes
-        )
+        corpus = " ".join(str(query["query"]).lower() for query in queries if query.get("axis") in axes)
         return any(term.lower() in corpus for term in terms)
 
     def analyze(self) -> dict[str, Any]:
@@ -147,17 +143,12 @@ class SaturationAnalyzer:
         for position, row in enumerate(runs):
             query_id = str(row["query_id"])
             query = query_by_id[query_id]
-            novel = [
-                candidate_id for candidate_id, first in first_position.items() if first == position
-            ]
+            novel = [candidate_id for candidate_id, first in first_position.items() if first == position]
             eligible = sum(
                 candidate_by_id[candidate_id].get("decision") == "ADMIT_PUBLIC_REDISTRIBUTABLE"
                 for candidate_id in novel
             )
-            quarantined = sum(
-                candidate_by_id[candidate_id].get("decision") == "QUARANTINE"
-                for candidate_id in novel
-            )
+            quarantined = sum(candidate_by_id[candidate_id].get("decision") == "QUARANTINE" for candidate_id in novel)
             cumulative += eligible
             raw_hits = int(row.get("raw_hits", 0))
             batches.append(
@@ -269,9 +260,7 @@ class SaturationAnalyzer:
                 )
 
         validation_sources = {str(query["source"]) for query in validation_queries}
-        observed_validation_sources = {
-            str(row["source"]) for row in runs if row["scope"] == "validation"
-        }
+        observed_validation_sources = {str(row["source"]) for row in runs if row["scope"] == "validation"}
         missing_sources = sorted(validation_sources - observed_validation_sources)
         if missing_sources:
             gaps.append(
@@ -287,8 +276,7 @@ class SaturationAnalyzer:
         eligible_yields = [int(batch["novel_eligible"]) for batch in batches]
         threshold = float(expectations["stopping"]["low_yield_threshold"])
         low_yield = [
-            bool(batch["raw_hits"]) and batch["novel_eligible"] / batch["raw_hits"] < threshold
-            for batch in batches
+            bool(batch["raw_hits"]) and batch["novel_eligible"] / batch["raw_hits"] < threshold for batch in batches
         ]
         max_zero = self._max_consecutive([yield_value == 0 for yield_value in eligible_yields])
         max_low = self._max_consecutive(low_yield)
@@ -304,15 +292,11 @@ class SaturationAnalyzer:
             "open_gap_count": len(gaps),
             "decision": (
                 "STOP"
-                if max_zero >= zero_limit
-                and max_low >= low_limit
-                and "validation" in executed_scopes
-                and not gaps
+                if max_zero >= zero_limit and max_low >= low_limit and "validation" in executed_scopes and not gaps
                 else "CONTINUE"
             ),
             "rationale": (
-                "Continue until validation, declared coverage gaps, and "
-                "diminishing-return criteria are satisfied."
+                "Continue until validation, declared coverage gaps, and diminishing-return criteria are satisfied."
             ),
         }
         return {
@@ -325,20 +309,14 @@ class SaturationAnalyzer:
                 "query_blocks": len(batches),
                 "raw_hits": sum(batch["raw_hits"] for batch in batches),
                 "unique_candidates": len(candidates),
-                "admitted_candidates": sum(
-                    row.get("decision") == "ADMIT_PUBLIC_REDISTRIBUTABLE" for row in candidates
-                ),
-                "quarantined_candidates": sum(
-                    row.get("decision") == "QUARANTINE" for row in candidates
-                ),
+                "admitted_candidates": sum(row.get("decision") == "ADMIT_PUBLIC_REDISTRIBUTABLE" for row in candidates),
+                "quarantined_candidates": sum(row.get("decision") == "QUARANTINE" for row in candidates),
             },
             "expansion": {
                 "run_rows": len(expansion_runs),
                 "raw_edges": sum(int(row.get("edge_count", 0)) for row in expansion_runs),
                 "unique_targets": len(edges),
-                "admitted_targets": sum(
-                    row.get("decision") == "ADMIT_PUBLIC_REDISTRIBUTABLE" for row in edges
-                ),
+                "admitted_targets": sum(row.get("decision") == "ADMIT_PUBLIC_REDISTRIBUTABLE" for row in edges),
                 "quarantined_targets": sum(row.get("decision") == "QUARANTINE" for row in edges),
                 "max_depth": max((int(row.get("min_depth", 1)) for row in edges), default=0),
             },
@@ -375,8 +353,7 @@ class SaturationAnalyzer:
             "cumulative_novel_eligible",
         )
         batch_rows = "".join(
-            "<tr>" + "".join(td(batch[field]) for field in batch_fields) + "</tr>"
-            for batch in metrics["batches"]
+            "<tr>" + "".join(td(batch[field]) for field in batch_fields) + "</tr>" for batch in metrics["batches"]
         )
         axis_fields = (
             "axis",
@@ -387,16 +364,10 @@ class SaturationAnalyzer:
             "novel_quarantined",
         )
         axis_rows = "".join(
-            "<tr>" + "".join(td(total[field]) for field in axis_fields) + "</tr>"
-            for total in metrics["axis_totals"]
+            "<tr>" + "".join(td(total[field]) for field in axis_fields) + "</tr>" for total in metrics["axis_totals"]
         )
         gap_rows = "".join(
-            "<tr>"
-            + td(gap["id"])
-            + td(gap["kind"])
-            + td(gap["status"])
-            + td(gap["evidence"])
-            + "</tr>"
+            "<tr>" + td(gap["id"]) + td(gap["kind"]) + td(gap["status"]) + td(gap["evidence"]) + "</tr>"
             for gap in metrics["coverage_gaps"]
         )
         search = metrics["search"]
@@ -419,9 +390,7 @@ class SaturationAnalyzer:
             f"{expansion['admitted_targets']} admitted, "
             f"{expansion['quarantined_targets']} quarantined."
         )
-        stopping_summary = (
-            f"Stopping decision: {stopping['decision']}; open gaps={stopping['open_gap_count']}."
-        )
+        stopping_summary = f"Stopping decision: {stopping['decision']}; open gaps={stopping['open_gap_count']}."
         return f"""<!doctype html>
 <html lang="en">
 <head><meta charset="utf-8">

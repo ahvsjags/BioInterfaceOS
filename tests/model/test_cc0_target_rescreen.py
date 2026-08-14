@@ -36,9 +36,7 @@ def test_rescreen_requires_strict_mode(tmp_path: Path) -> None:
 
 
 def test_rescreen_rejects_numeric_covariate_promotion(tmp_path: Path) -> None:
-    registry = json.loads(
-        (ROOT / "docs/data/R2_T129_CC0_RESCREEN_REGISTRY.json").read_text(encoding="utf-8")
-    )
+    registry = json.loads((ROOT / "docs/data/R2_T129_CC0_RESCREEN_REGISTRY.json").read_text(encoding="utf-8"))
     registry["candidates"][0]["numeric_covariate_map_status"] = "SOURCE_MATCHED_NUMERIC"
     registry_path = tmp_path / "registry.json"
     registry_path.write_text(json.dumps(registry), encoding="utf-8")

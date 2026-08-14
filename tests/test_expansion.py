@@ -39,10 +39,7 @@ class ExpansionTests(unittest.TestCase):
             run_ledger = AppendOnlyJSONL(Path(temporary) / "reports/expansion_runs.jsonl")
             edge_ledger.validate()
             run_ledger.validate()
-            rows = [
-                json.loads(line)
-                for line in edge_ledger.path.read_text(encoding="utf-8").splitlines()
-            ]
+            rows = [json.loads(line) for line in edge_ledger.path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(len(rows), 17)
             self.assertEqual(len({row["target_key"] for row in rows}), 17)
             self.assertTrue(all(row["locked_test_accessed"] is False for row in rows))
@@ -52,11 +49,7 @@ class ExpansionTests(unittest.TestCase):
             runner = self._runner(Path(temporary))
             runner.run("development", depth=2)
             runner.run("development", depth=2)
-            rows = (
-                Path(temporary, "registry/expansion_edges.jsonl")
-                .read_text(encoding="utf-8")
-                .splitlines()
-            )
+            rows = Path(temporary, "registry/expansion_edges.jsonl").read_text(encoding="utf-8").splitlines()
             self.assertEqual(len(rows), 17)
 
     def test_depth_scope_and_malformed_edges_are_explicit(self) -> None:
@@ -67,9 +60,7 @@ class ExpansionTests(unittest.TestCase):
             with self.assertRaisesRegex(ExpansionError, "depth"):
                 runner.run("development", depth=3)
             value = json.loads(
-                (self.project_root / "tests/fixtures/expansion/expansion_results.json").read_text(
-                    encoding="utf-8"
-                )
+                (self.project_root / "tests/fixtures/expansion/expansion_results.json").read_text(encoding="utf-8")
             )
             value["edges"]["europe_pmc:PMID:EXP-001"][0].pop("url")
             bad_path = Path(temporary) / "bad_expansion.json"

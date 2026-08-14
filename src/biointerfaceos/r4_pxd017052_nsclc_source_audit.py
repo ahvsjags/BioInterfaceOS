@@ -14,7 +14,6 @@ import csv
 import json
 import math
 from collections import Counter
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -130,14 +129,24 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
             raise R4PXD017052NSCLCSourceAuditError(f"{label} must use POSIX path separators")
         pure = PurePosixPath(relative_path)
         path = (base / Path(*pure.parts)).resolve(strict=False)
-        if pure.is_absolute() or not pure.parts or ".." in pure.parts or not path.is_relative_to(base) or not path.is_file():
+        if (
+            pure.is_absolute()
+            or not pure.parts
+            or ".." in pure.parts
+            or not path.is_relative_to(base)
+            or not path.is_file()
+        ):
             raise R4PXD017052NSCLCSourceAuditError(f"{label} is missing or escapes its root")
         return path
 
     def _checked_assets(self, registry: dict[str, Any]) -> tuple[Path, dict[str, Path]]:
         if set(registry) != self.REQUIRED_TOP_LEVEL or registry.get("schema_version") != 1:
             raise R4PXD017052NSCLCSourceAuditError("registry fields are invalid")
-        if registry.get("audit_id") != self.AUDIT_ID or registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION" or registry.get("allowed_claim_level") != "EXPLORATORY":
+        if (
+            registry.get("audit_id") != self.AUDIT_ID
+            or registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION"
+            or registry.get("allowed_claim_level") != "EXPLORATORY"
+        ):
             raise R4PXD017052NSCLCSourceAuditError("registry identity or evidence boundary is invalid")
         _string(registry.get("evaluated_at"), "evaluated_at")
         article = _mapping(registry.get("article"), "article")
@@ -175,7 +184,11 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
                 raise R4PXD017052NSCLCSourceAuditError("source asset fields are invalid")
             asset_id = _string(item.get("asset_id"), "source asset ID")
             path = self._under(self.assets_root, _string(item.get("relative_path"), asset_id), asset_id)
-            if asset_id in asset_paths or path.stat().st_size != item.get("expected_bytes") or _sha256(path) != _checksum(item.get("sha256"), asset_id):
+            if (
+                asset_id in asset_paths
+                or path.stat().st_size != item.get("expected_bytes")
+                or _sha256(path) != _checksum(item.get("sha256"), asset_id)
+            ):
                 raise R4PXD017052NSCLCSourceAuditError("source asset checksum differs")
             asset_paths[asset_id] = path
         if set(asset_paths) != {"supplementary_data_5_nsclc"}:
@@ -193,7 +206,11 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
             if asset_id in ref_paths or _sha256(path) != _checksum(item.get("sha256"), asset_id):
                 raise R4PXD017052NSCLCSourceAuditError("reference asset checksum differs")
             ref_paths[asset_id] = path
-        if set(ref_paths) != {"r3_common_target_ledger", "r3_feature_table", "source_identifier_resolution"}:
+        if set(ref_paths) != {
+            "r3_common_target_ledger",
+            "r3_feature_table",
+            "source_identifier_resolution",
+        }:
             raise R4PXD017052NSCLCSourceAuditError("reference asset roster is incomplete")
         if registry.get("worksheet_contract") != {
             "worksheet": "Sheet1",
@@ -208,8 +225,8 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
             raise R4PXD017052NSCLCSourceAuditError("worksheet contract differs")
         if registry.get("quantification_contract") != {
             "source_protein_column": "prot_group",
-            "source_identifier_resolution": "exact source_identifier_resolution row with UNIQUE_HUMAN_CANONICAL_ACCESSION; no ambiguous group splitting",
-            "rank_eligibility": "strictly positive finite author-reported value within one subject-particle measurement batch",
+            "source_identifier_resolution": "exact source_identifier_resolution row with UNIQUE_HUMAN_CANONICAL_ACCESSION; no ambiguous group splitting",  # noqa: E501
+            "rank_eligibility": "strictly positive finite author-reported value within one subject-particle measurement batch",  # noqa: E501
             "na_policy": "retain NA as AUTHOR_NA and exclude from rank; no imputation",
             "zero_policy": "retain explicit numeric zero as AUTHOR_EXPLICIT_ZERO and exclude from rank",
             "depleted_plasma_policy": "retain as provenance control but exclude from NP-corona analysis ledger",
@@ -237,7 +254,10 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
             resolution = list(csv.DictReader(stream))
         mapping: dict[str, str] = {}
         for row in resolution:
-            if row.get("source_id") != "PXD017052_SEER_BROAD" or row.get("resolution_status") != "UNIQUE_HUMAN_CANONICAL_ACCESSION":
+            if (
+                row.get("source_id") != "PXD017052_SEER_BROAD"
+                or row.get("resolution_status") != "UNIQUE_HUMAN_CANONICAL_ACCESSION"
+            ):
                 continue
             accession = row.get("resolved_canonical_accession", "")
             if accession in targets:
@@ -249,7 +269,9 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
         return targets, mapping
 
     def _cells(self, workbook_path: Path, references: dict[str, Path]) -> tuple[list[dict[str, Any]], dict[str, int]]:
-        _, identifier_map = self._mapping_tables(references["r3_common_target_ledger"], references["source_identifier_resolution"])
+        _, identifier_map = self._mapping_tables(
+            references["r3_common_target_ledger"], references["source_identifier_resolution"]
+        )
         workbook = load_workbook(workbook_path, read_only=True, data_only=True)
         if workbook.sheetnames != ["Sheet1"]:
             raise R4PXD017052NSCLCSourceAuditError("workbook sheets differ")
@@ -292,27 +314,36 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
                 batch_counts[batch_id] += 1
                 if state == "POSITIVE_FINITE":
                     positive_counts[batch_id] += 1
-                cells.append({
-                    "source_id": "PXD017052_SEER_BROAD_NSCLC_COHORT",
-                    "laboratory_anchor": "Seer, Inc. / Broad Institute of MIT and Harvard",
-                    "source_asset_id": "supplementary_data_5_nsclc",
-                    "source_worksheet": "Sheet1",
-                    "source_row": str(row_number),
-                    "source_coordinate": f"{get_column_letter(column_index + 1)}{row_number}",
-                    "source_identifier": identifier,
-                    "canonical_accession": accession,
-                    "biological_unit_id": biological_unit_id,
-                    "clinical_group": clinical_group,
-                    "particle": particle,
-                    "measurement_role": "NP_CORONA",
-                    "measurement_batch_id": batch_id,
-                    "author_quantity_type": "LOG2_MEDIAN_NORMALIZED_PROTEIN_GROUP_INTENSITY",
-                    "author_numeric_value": "" if value is None else format(value, ".17g"),
-                    "author_value_state": state,
-                    "rank_target_eligible": "true" if state == "POSITIVE_FINITE" else "false",
-                })
+                cells.append(
+                    {
+                        "source_id": "PXD017052_SEER_BROAD_NSCLC_COHORT",
+                        "laboratory_anchor": "Seer, Inc. / Broad Institute of MIT and Harvard",
+                        "source_asset_id": "supplementary_data_5_nsclc",
+                        "source_worksheet": "Sheet1",
+                        "source_row": str(row_number),
+                        "source_coordinate": f"{get_column_letter(column_index + 1)}{row_number}",
+                        "source_identifier": identifier,
+                        "canonical_accession": accession,
+                        "biological_unit_id": biological_unit_id,
+                        "clinical_group": clinical_group,
+                        "particle": particle,
+                        "measurement_role": "NP_CORONA",
+                        "measurement_batch_id": batch_id,
+                        "author_quantity_type": "LOG2_MEDIAN_NORMALIZED_PROTEIN_GROUP_INTENSITY",
+                        "author_numeric_value": "" if value is None else format(value, ".17g"),
+                        "author_value_state": state,
+                        "rank_target_eligible": "true" if state == "POSITIVE_FINITE" else "false",
+                    }
+                )
         qualified = {batch for batch, count in positive_counts.items() if count >= 10}
-        if len(subject_ids) != 141 or len(batch_counts) != 705 or len(qualified) != 666 or len({row["canonical_accession"] for row in cells}) != 34 or len(cells) != 23970 or sum(row["rank_target_eligible"] == "true" for row in cells) != 17330:
+        if (
+            len(subject_ids) != 141
+            or len(batch_counts) != 705
+            or len(qualified) != 666
+            or len({row["canonical_accession"] for row in cells}) != 34
+            or len(cells) != 23970
+            or sum(row["rank_target_eligible"] == "true" for row in cells) != 17330
+        ):
             raise R4PXD017052NSCLCSourceAuditError("source-cell accounting differs")
         return cells, {
             "protein_rows": protein_rows,
@@ -352,8 +383,20 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
             "independent_validation": False,
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
-            "source_asset": {item["asset_id"]: {"relative_path": item["relative_path"], "sha256": _sha256(workbook_path)} for item in registry["source_assets"]},
-            "reference_assets": {asset_id: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)} for asset_id, path in references.items()},
+            "source_asset": {
+                item["asset_id"]: {
+                    "relative_path": item["relative_path"],
+                    "sha256": _sha256(workbook_path),
+                }
+                for item in registry["source_assets"]
+            },
+            "reference_assets": {
+                asset_id: {
+                    "relative_path": path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(path),
+                }
+                for asset_id, path in references.items()
+            },
             "source_cell_map": {"relative_path": self.DERIVED_RELATIVE, "sha256": _sha256(derived)},
             **totals,
             "claim_boundary": registry["claim_boundary"],
@@ -379,7 +422,17 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
         }
         receipt_path = self.output_root / "pxd017052_nsclc_source_audit_receipt.json"
         self._write(receipt_path, receipt)
-        return R4PXD017052NSCLCSourceAuditSummary(len(registry["source_assets"]), totals["protein_rows"], totals["biological_units"], totals["measurement_batches"], totals["qualified_batches"], totals["shared_targets"], totals["source_cells"], totals["positive_cells"], receipt_path)
+        return R4PXD017052NSCLCSourceAuditSummary(
+            len(registry["source_assets"]),
+            totals["protein_rows"],
+            totals["biological_units"],
+            totals["measurement_batches"],
+            totals["qualified_batches"],
+            totals["shared_targets"],
+            totals["source_cells"],
+            totals["positive_cells"],
+            receipt_path,
+        )
 
     def verify(self) -> R4PXD017052NSCLCSourceAuditSummary:
         registry = self._json(self.registry_path, "R4 PXD017052 NSCLC registry")
@@ -388,16 +441,44 @@ class R4PXD017052NSCLCSourceAuditWorkflow:
         receipt_path = self.output_root / "pxd017052_nsclc_source_audit_receipt.json"
         report = self._json(report_path, "R4 PXD017052 NSCLC source audit report")
         receipt = self._json(receipt_path, "R4 PXD017052 NSCLC source audit receipt")
-        if report.get("status") != self.STATUS or receipt.get("status") != self.STATUS or receipt.get("report", {}).get("sha256") != _sha256(report_path):
+        if (
+            report.get("status") != self.STATUS
+            or receipt.get("status") != self.STATUS
+            or receipt.get("report", {}).get("sha256") != _sha256(report_path)
+        ):
             raise R4PXD017052NSCLCSourceAuditError("audit receipt differs")
-        cell_map = self._under(self.assets_root, _string(report.get("source_cell_map", {}).get("relative_path"), "source cell map path"), "source cell map")
+        cell_map = self._under(
+            self.assets_root,
+            _string(report.get("source_cell_map", {}).get("relative_path"), "source cell map path"),
+            "source cell map",
+        )
         if report["source_cell_map"].get("sha256") != _sha256(cell_map):
             raise R4PXD017052NSCLCSourceAuditError("source cell map checksum differs")
         with cell_map.open(newline="", encoding="utf-8") as stream:
             rows = list(csv.DictReader(stream))
         if (set(rows[0]) if rows else set()) != set(self.SOURCE_CELL_FIELDS):
             raise R4PXD017052NSCLCSourceAuditError("source cell map fields differ")
-        expected = (int(report["protein_rows"]), int(report["biological_units"]), int(report["measurement_batches"]), int(report["qualified_batches"]), int(report["shared_targets"]), int(report["source_cells"]), int(report["positive_cells"]))
-        if len(rows) != expected[-2] or sum(row["rank_target_eligible"] == "true" for row in rows) != expected[-1] or report.get("reference_assets") != {asset_id: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)} for asset_id, path in references.items()} or _sha256(workbook_path) != registry["source_assets"][0]["sha256"]:
+        expected = (
+            int(report["protein_rows"]),
+            int(report["biological_units"]),
+            int(report["measurement_batches"]),
+            int(report["qualified_batches"]),
+            int(report["shared_targets"]),
+            int(report["source_cells"]),
+            int(report["positive_cells"]),
+        )
+        if (
+            len(rows) != expected[-2]
+            or sum(row["rank_target_eligible"] == "true" for row in rows) != expected[-1]
+            or report.get("reference_assets")
+            != {
+                asset_id: {
+                    "relative_path": path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(path),
+                }
+                for asset_id, path in references.items()
+            }
+            or _sha256(workbook_path) != registry["source_assets"][0]["sha256"]
+        ):
             raise R4PXD017052NSCLCSourceAuditError("source audit accounting differs")
         return R4PXD017052NSCLCSourceAuditSummary(len(registry["source_assets"]), *expected, receipt_path)

@@ -10,9 +10,10 @@ or external validation is promoted.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import replace
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 from biointerfaceos.r3_uniprot_mapping import _canonical, _mapping, _sha256, _string
 from biointerfaceos.r4_t193_three_lab_prefrozen_execution import (
@@ -26,18 +27,14 @@ class R4T195CommonTargetExecutionError(R4T193ThreeLabExecutionError):
     """Raised when the frozen T195 common-target execution cannot close."""
 
 
-class R4T195ThreeLabCommonTargetExecutionWorkflow(
-    R4T193ThreeLabPrefrozenExecutionWorkflow
-):
+class R4T195ThreeLabCommonTargetExecutionWorkflow(R4T193ThreeLabPrefrozenExecutionWorkflow):
     """Run T195 on the exact T192 common-target intersection."""
 
     AUDIT_ID = "bioif-r4-t195-three-lab-common-target-execution-v1.0.0"
     STATUS = "T195_COMMON_TARGET_EXECUTION_COMPLETED_EXPLORATORY"
     PROTOCOL_RELATIVE = "docs/data/R4_T195_THREE_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json"
     REGISTRY_RELATIVE = "docs/data/R4_T195_THREE_LAB_COMMON_TARGET_EXECUTION_REGISTRY.json"
-    OUTPUT_RELATIVE = (
-        "reports/review_round_4/t195_three_lab_common_target_execution/v1.0.0"
-    )
+    OUTPUT_RELATIVE = "reports/review_round_4/t195_three_lab_common_target_execution/v1.0.0"
 
     def _registry(self):  # type: ignore[no-untyped-def]
         """Validate the compact T195 registry and close it to T192 assets."""
@@ -80,15 +77,9 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(
         ):
             raise R4T195CommonTargetExecutionError("T195 protocol identity or boundary is invalid")
         refs = {
-            "t192_source_registry": self._reference(
-                registry["t192_source_registry"], "T192 source registry"
-            ),
-            "r3_common_target_ledger": self._reference(
-                registry["r3_common_target_ledger"], "R3 common target ledger"
-            ),
-            "r3_sequence_feature_table": self._reference(
-                registry["r3_sequence_feature_table"], "R3 feature table"
-            ),
+            "t192_source_registry": self._reference(registry["t192_source_registry"], "T192 source registry"),
+            "r3_common_target_ledger": self._reference(registry["r3_common_target_ledger"], "R3 common target ledger"),
+            "r3_sequence_feature_table": self._reference(registry["r3_sequence_feature_table"], "R3 feature table"),
         }
         targets = _mapping(protocol["target_universe"], "T195 target universe")
         common_targets = targets.get("common_targets")
@@ -103,8 +94,7 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(
         if not isinstance(sources, list) or len(sources) != 3:
             raise R4T195CommonTargetExecutionError("T195 requires exactly three source summaries")
         source_ids = [
-            _string(_mapping(source, "T195 source summary")["source_id"], "T195 source ID")
-            for source in sources
+            _string(_mapping(source, "T195 source summary")["source_id"], "T195 source ID") for source in sources
         ]
         if len(set(source_ids)) != 3:
             raise R4T195CommonTargetExecutionError("T195 source IDs are not unique")
@@ -115,12 +105,12 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(
         t192_by_id = {str(item.get("source_id")): item for item in t192_sources}
         for source_id in source_ids:
             if source_id not in t192_by_id:
-                raise R4T195CommonTargetExecutionError(
-                    f"T195 source {source_id} is not closed by T192"
-                )
+                raise R4T195CommonTargetExecutionError(f"T195 source {source_id} is not closed by T192")
         return registry, protocol, refs, t192_sources
 
-    def _features_and_targets(self, refs: Mapping[str, Path], protocol: Mapping[str, Any]):
+    def _features_and_targets(
+        self, refs: Mapping[str, Path], protocol: Mapping[str, Any]
+    ) -> tuple[dict[str, tuple[float, ...]], set[str]]:
         features, _ = super()._features_and_targets(
             refs,
             {
@@ -129,14 +119,10 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(
                 },
             },
         )
-        common_targets = set(
-            _mapping(protocol["target_universe"], "T195 target universe")["common_targets"]
-        )
+        common_targets = set(_mapping(protocol["target_universe"], "T195 target universe")["common_targets"])
         missing = common_targets - set(features)
         if missing:
-            raise R4T195CommonTargetExecutionError(
-                f"T195 common targets have no sequence features: {sorted(missing)}"
-            )
+            raise R4T195CommonTargetExecutionError(f"T195 common targets have no sequence features: {sorted(missing)}")
         return {accession: features[accession] for accession in common_targets}, common_targets
 
     def _rename_parent_outputs(self, *, reverse: bool = False) -> None:
@@ -144,9 +130,13 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(
         old_receipt = self.output_root / "t193_three_lab_execution_receipt.json"
         new_report = self.output_root / "t195_three_lab_execution_report.json"
         new_receipt = self.output_root / "t195_three_lab_execution_receipt.json"
-        pairs = ((new_report, old_report), (new_receipt, old_receipt)) if reverse else (
-            (old_report, new_report),
-            (old_receipt, new_receipt),
+        pairs = (
+            ((new_report, old_report), (new_receipt, old_receipt))
+            if reverse
+            else (
+                (old_report, new_report),
+                (old_receipt, new_receipt),
+            )
         )
         for source, target in pairs:
             if source.is_file():
@@ -165,7 +155,10 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(
             "count": 9,
             "selection_after_outer_split": False,
             "common_targets": sorted(
-                _mapping(self._json(self.root / self.PROTOCOL_RELATIVE, "T195 protocol")["target_universe"], "T195 target universe")["common_targets"]
+                _mapping(
+                    self._json(self.root / self.PROTOCOL_RELATIVE, "T195 protocol")["target_universe"],
+                    "T195 target universe",
+                )["common_targets"]
             ),
         }
         report["audit_id"] = self.AUDIT_ID

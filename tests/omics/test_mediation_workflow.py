@@ -37,15 +37,9 @@ def test_mediation_outputs_include_clustered_uncertainty_and_controls(tmp_path: 
     workflow = MediationWorkflow(root, output_root=tmp_path / "mediation")
     workflow.run(fixture=True)
 
-    uncertainty = json.loads(
-        (tmp_path / "mediation" / "cluster_uncertainty.json").read_text(encoding="utf-8")
-    )
-    controls = json.loads(
-        (tmp_path / "mediation" / "mediator_controls.json").read_text(encoding="utf-8")
-    )
-    language = json.loads(
-        (tmp_path / "mediation" / "language_gate.json").read_text(encoding="utf-8")
-    )
+    uncertainty = json.loads((tmp_path / "mediation" / "cluster_uncertainty.json").read_text(encoding="utf-8"))
+    controls = json.loads((tmp_path / "mediation" / "mediator_controls.json").read_text(encoding="utf-8"))
+    language = json.loads((tmp_path / "mediation" / "language_gate.json").read_text(encoding="utf-8"))
     assert uncertainty["cluster_field"] == "study_id"
     assert uncertainty["cluster_resampling"] is True
     assert uncertainty["primary"]["replicates"] == 32

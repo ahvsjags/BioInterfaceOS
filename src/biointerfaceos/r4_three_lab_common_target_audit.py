@@ -43,22 +43,47 @@ class R4ThreeLabCommonTargetAuditWorkflow:
     OUTPUT_RELATIVE = "reports/review_round_4/three_lab_common_target/v1.0.0"
     STATUS = "THREE_INDEPENDENT_LABORATORY_COMMON_TARGET_VERIFIED_DEVELOPMENT_ONLY"
     REQUIRED_TOP_LEVEL = {
-        "schema_version", "audit_id", "evaluated_at", "evidence_class", "allowed_claim_level",
-        "status", "target_definition", "common_rank_ledger", "sources", "claim_boundary",
+        "schema_version",
+        "audit_id",
+        "evaluated_at",
+        "evidence_class",
+        "allowed_claim_level",
+        "status",
+        "target_definition",
+        "common_rank_ledger",
+        "sources",
+        "claim_boundary",
         "scientific_submission_ready",
     }
     REQUIRED_LEDGER_FIELDS = {
-        "target_observation_id", "source_id", "canonical_accession", "laboratory_anchor",
-        "measurement_batch_id", "source_analysis_unit_id", "source_measurement_id",
-        "source_identifier", "source_asset_id", "source_worksheet", "source_row",
-        "source_coordinate", "author_quantity_type", "author_numeric_value",
-        "author_value_state", "rank_percentile_descending",
-        "measurement_batch_positive_protein_count", "rank_target_eligible",
+        "target_observation_id",
+        "source_id",
+        "canonical_accession",
+        "laboratory_anchor",
+        "measurement_batch_id",
+        "source_analysis_unit_id",
+        "source_measurement_id",
+        "source_identifier",
+        "source_asset_id",
+        "source_worksheet",
+        "source_row",
+        "source_coordinate",
+        "author_quantity_type",
+        "author_numeric_value",
+        "author_value_state",
+        "rank_percentile_descending",
+        "measurement_batch_positive_protein_count",
+        "rank_target_eligible",
         "common_rank_target_member",
     }
     REQUIRED_MAP_FIELDS = {
-        "analysis_unit_id", "source_article_doi", "source_pmcid", "source_license",
-        "source_asset_id", "source_worksheet", "source_row",
+        "analysis_unit_id",
+        "source_article_doi",
+        "source_pmcid",
+        "source_license",
+        "source_asset_id",
+        "source_worksheet",
+        "source_row",
     }
 
     def __init__(self, root: Path, *, registry_path: Path | None = None, output_root: Path | None = None) -> None:
@@ -104,9 +129,11 @@ class R4ThreeLabCommonTargetAuditWorkflow:
             raise R4ThreeLabCommonTargetAuditError("registry fields are invalid")
         if registry.get("audit_id") != self.AUDIT_ID or registry.get("status") != self.STATUS:
             raise R4ThreeLabCommonTargetAuditError("registry identity is invalid")
-        if registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION" or registry.get(
-            "allowed_claim_level"
-        ) != "EXPLORATORY" or registry.get("scientific_submission_ready") is not False:
+        if (
+            registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION"
+            or registry.get("allowed_claim_level") != "EXPLORATORY"
+            or registry.get("scientific_submission_ready") is not False
+        ):
             raise R4ThreeLabCommonTargetAuditError("registry evidence boundary is invalid")
         ledger_item = _mapping(registry.get("common_rank_ledger"), "common rank ledger")
         if not {"relative_path", "sha256"}.issubset(ledger_item):
@@ -121,9 +148,17 @@ class R4ThreeLabCommonTargetAuditWorkflow:
 
     def _source_inputs(self, entry: Mapping[str, Any]) -> tuple[dict[str, Any], dict[str, Any], Path, Path]:
         expected = {
-            "source_id", "laboratory_anchor", "article", "source_registry", "source_audit_report",
-            "source_audit_receipt", "source_cell_map", "expected_common_rank_observations",
-            "expected_common_target_count", "expected_measurement_batch_count", "source_unit_boundary",
+            "source_id",
+            "laboratory_anchor",
+            "article",
+            "source_registry",
+            "source_audit_report",
+            "source_audit_receipt",
+            "source_cell_map",
+            "expected_common_rank_observations",
+            "expected_common_target_count",
+            "expected_measurement_batch_count",
+            "source_unit_boundary",
         }
         if set(entry) != expected:
             raise R4ThreeLabCommonTargetAuditError("source admission fields are invalid")
@@ -142,7 +177,10 @@ class R4ThreeLabCommonTargetAuditWorkflow:
             raise R4ThreeLabCommonTargetAuditError(f"{entry['source_id']} source article identity differs")
         report = self._json(report_path, f"{entry['source_id']} source audit report")
         receipt = self._json(receipt_path, f"{entry['source_id']} source audit receipt")
-        if report.get("scientific_submission_ready") is not False or receipt.get("scientific_submission_ready") is not False:
+        if (
+            report.get("scientific_submission_ready") is not False
+            or receipt.get("scientific_submission_ready") is not False
+        ):
             raise R4ThreeLabCommonTargetAuditError(f"{entry['source_id']} readiness boundary differs")
         if receipt.get("report_sha256") != _sha256(report_path):
             raise R4ThreeLabCommonTargetAuditError(f"{entry['source_id']} audit receipt does not close report")
@@ -157,7 +195,13 @@ class R4ThreeLabCommonTargetAuditWorkflow:
             if reader.fieldnames is None or not self.REQUIRED_MAP_FIELDS.issubset(reader.fieldnames):
                 raise R4ThreeLabCommonTargetAuditError(f"{source_id} source map schema is invalid")
             coordinate_field = "source_cell" if "source_cell" in reader.fieldnames else "source_cell_range"
-            identifier_field = "protein_source_identifier" if "protein_source_identifier" in reader.fieldnames else "protein_ids" if "protein_ids" in reader.fieldnames else None
+            identifier_field = (
+                "protein_source_identifier"
+                if "protein_source_identifier" in reader.fieldnames
+                else "protein_ids"
+                if "protein_ids" in reader.fieldnames
+                else None
+            )
             if identifier_field is None:
                 raise R4ThreeLabCommonTargetAuditError(f"{source_id} source map identifier field is missing")
             count = 0
@@ -166,7 +210,11 @@ class R4ThreeLabCommonTargetAuditWorkflow:
                 for field in self.REQUIRED_MAP_FIELDS:
                     if not str(row.get(field, "")).strip():
                         raise R4ThreeLabCommonTargetAuditError(f"{source_id} source map has blank {field}")
-                if row["source_article_doi"] != article["doi"] or row["source_pmcid"] != article["pmcid"] or row["source_license"] != article["license"]:
+                if (
+                    row["source_article_doi"] != article["doi"]
+                    or row["source_pmcid"] != article["pmcid"]
+                    or row["source_license"] != article["license"]
+                ):
                     raise R4ThreeLabCommonTargetAuditError(f"{source_id} source map identity differs")
                 if not row.get(coordinate_field, "").strip() or not row.get(identifier_field, "").strip():
                     raise R4ThreeLabCommonTargetAuditError(f"{source_id} source map provenance is incomplete")
@@ -195,24 +243,44 @@ class R4ThreeLabCommonTargetAuditWorkflow:
                     raise R4ThreeLabCommonTargetAuditError("common rank percentile is not numeric") from exc
                 if not 0.0 <= rank <= 1.0:
                     continue
-                for field in ("source_coordinate", "source_worksheet", "source_row", "canonical_accession", "measurement_batch_id"):
+                for field in (
+                    "source_coordinate",
+                    "source_worksheet",
+                    "source_row",
+                    "canonical_accession",
+                    "measurement_batch_id",
+                ):
                     if not row[field].strip():
                         raise R4ThreeLabCommonTargetAuditError(f"ledger common row has blank {field}")
                 by_source[source_id].append(row)
         if set(by_source) != set(declared):
             raise R4ThreeLabCommonTargetAuditError("ledger does not contain all declared sources")
-        target_sets = {source_id: {row["canonical_accession"] for row in values} for source_id, values in by_source.items()}
+        target_sets = {
+            source_id: {row["canonical_accession"] for row in values} for source_id, values in by_source.items()
+        }
         intersection = set.intersection(*target_sets.values())
-        batch_counts = {source_id: len({row["measurement_batch_id"] for row in values}) for source_id, values in by_source.items()}
+        batch_counts = {
+            source_id: len({row["measurement_batch_id"] for row in values}) for source_id, values in by_source.items()
+        }
         observation_counts = {source_id: len(values) for source_id, values in by_source.items()}
         expected = _mapping(json.loads(self.registry_path.read_text(encoding="utf-8")), "T178 registry")
         ledger_contract = _mapping(expected["common_rank_ledger"], "common rank ledger")
-        if len(rows) != ledger_contract["expected_selected_source_row_count"] or len(intersection) != ledger_contract["expected_common_target_count"]:
+        if (
+            len(rows) != ledger_contract["expected_selected_source_row_count"]
+            or len(intersection) != ledger_contract["expected_common_target_count"]
+        ):
             raise R4ThreeLabCommonTargetAuditError("common ledger total accounting differs")
         for source_id, entry in declared.items():
-            if observation_counts[source_id] != entry["expected_common_rank_observations"] or len(target_sets[source_id]) != entry["expected_common_target_count"] or batch_counts[source_id] != entry["expected_measurement_batch_count"]:
+            if (
+                observation_counts[source_id] != entry["expected_common_rank_observations"]
+                or len(target_sets[source_id]) != entry["expected_common_target_count"]
+                or batch_counts[source_id] != entry["expected_measurement_batch_count"]
+            ):
                 raise R4ThreeLabCommonTargetAuditError(f"{source_id} common ledger accounting differs")
-        if sum(observation_counts.values()) != ledger_contract["expected_common_rank_observation_count"] or sum(batch_counts.values()) != ledger_contract["expected_measurement_batch_count"]:
+        if (
+            sum(observation_counts.values()) != ledger_contract["expected_common_rank_observation_count"]
+            or sum(batch_counts.values()) != ledger_contract["expected_measurement_batch_count"]
+        ):
             raise R4ThreeLabCommonTargetAuditError("common ledger aggregate accounting differs")
         return {
             "selected_source_row_count": len(rows),
@@ -232,7 +300,9 @@ class R4ThreeLabCommonTargetAuditWorkflow:
         source_cell_counts: dict[str, int] = {}
         for entry in entries:
             _, report, map_path, _ = self._source_inputs(entry)
-            source_cell_counts[entry["source_id"]] = self._read_map(map_path, entry["source_id"], entry["laboratory_anchor"], entry["article"])
+            source_cell_counts[entry["source_id"]] = self._read_map(
+                map_path, entry["source_id"], entry["laboratory_anchor"], entry["article"]
+            )
             source_reports[entry["source_id"]] = {
                 "laboratory_anchor": entry["laboratory_anchor"],
                 "article": entry["article"],
@@ -248,8 +318,14 @@ class R4ThreeLabCommonTargetAuditWorkflow:
             "allowed_claim_level": "EXPLORATORY",
             "scientific_submission_ready": False,
             "input_references": {
-                "registry": {"relative_path": self.registry_path.relative_to(self.root).as_posix(), "sha256": _sha256(self.registry_path)},
-                "common_rank_ledger": {"relative_path": ledger_path.relative_to(self.root).as_posix(), "sha256": _sha256(ledger_path)},
+                "registry": {
+                    "relative_path": self.registry_path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(self.registry_path),
+                },
+                "common_rank_ledger": {
+                    "relative_path": ledger_path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(ledger_path),
+                },
             },
             "sources": source_reports,
             "source_cell_count_by_source": source_cell_counts,
@@ -284,9 +360,14 @@ class R4ThreeLabCommonTargetAuditWorkflow:
         receipt_path = self.output_root / "three_lab_common_target_receipt.json"
         self._write(receipt_path, receipt)
         return R4ThreeLabCommonTargetAuditSummary(
-            report["source_count"], report["laboratory_anchor_count"], report["common_target_count"],
-            report["common_rank_observation_count"], report["selected_source_row_count"],
-            report["measurement_batch_count"], sum(report["source_cell_count_by_source"].values()), receipt_path,
+            report["source_count"],
+            report["laboratory_anchor_count"],
+            report["common_target_count"],
+            report["common_rank_observation_count"],
+            report["selected_source_row_count"],
+            report["measurement_batch_count"],
+            sum(report["source_cell_count_by_source"].values()),
+            receipt_path,
         )
 
     def verify(self) -> R4ThreeLabCommonTargetAuditSummary:
@@ -294,14 +375,34 @@ class R4ThreeLabCommonTargetAuditWorkflow:
         receipt_path = self.output_root / "three_lab_common_target_receipt.json"
         report = self._json(report_path, "T178 report")
         receipt = self._json(receipt_path, "T178 receipt")
-        if report.get("audit_id") != self.AUDIT_ID or report.get("status") != self.STATUS or receipt.get("audit_id") != self.AUDIT_ID or receipt.get("status") != self.STATUS or receipt.get("report_sha256") != _sha256(report_path) or receipt.get("scientific_submission_ready") is not False:
+        if (
+            report.get("audit_id") != self.AUDIT_ID
+            or report.get("status") != self.STATUS
+            or receipt.get("audit_id") != self.AUDIT_ID
+            or receipt.get("status") != self.STATUS
+            or receipt.get("report_sha256") != _sha256(report_path)
+            or receipt.get("scientific_submission_ready") is not False
+        ):
             raise R4ThreeLabCommonTargetAuditError("T178 receipt identity or report hash differs")
         recomputed, _ = self._execute()
-        comparable = ("source_count", "laboratory_anchor_count", "common_target_count", "common_rank_observation_count", "selected_source_row_count", "measurement_batch_count", "source_cell_count_by_source")
+        comparable = (
+            "source_count",
+            "laboratory_anchor_count",
+            "common_target_count",
+            "common_rank_observation_count",
+            "selected_source_row_count",
+            "measurement_batch_count",
+            "source_cell_count_by_source",
+        )
         if any(report.get(key) != recomputed.get(key) or receipt.get(key) != recomputed.get(key) for key in comparable):
             raise R4ThreeLabCommonTargetAuditError("T178 accounting differs from current inputs")
         return R4ThreeLabCommonTargetAuditSummary(
-            recomputed["source_count"], recomputed["laboratory_anchor_count"], recomputed["common_target_count"],
-            recomputed["common_rank_observation_count"], recomputed["selected_source_row_count"],
-            recomputed["measurement_batch_count"], sum(recomputed["source_cell_count_by_source"].values()), receipt_path,
+            recomputed["source_count"],
+            recomputed["laboratory_anchor_count"],
+            recomputed["common_target_count"],
+            recomputed["common_rank_observation_count"],
+            recomputed["selected_source_row_count"],
+            recomputed["measurement_batch_count"],
+            sum(recomputed["source_cell_count_by_source"].values()),
+            receipt_path,
         )

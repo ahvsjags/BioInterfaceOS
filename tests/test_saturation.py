@@ -39,9 +39,7 @@ class SaturationAnalyzerTests(unittest.TestCase):
         self.assertIn("Novel eligible-study yield by batch", html)
         self.assertIn("saturation-data", html)
         with tempfile.TemporaryDirectory() as temporary:
-            output, _ = SaturationAnalyzer(self.project_root).write_report(
-                Path(temporary) / "saturation.html"
-            )
+            output, _ = SaturationAnalyzer(self.project_root).write_report(Path(temporary) / "saturation.html")
             self.assertEqual(output.read_text(encoding="utf-8"), html)
 
     def test_invalid_expectations_are_rejected(self) -> None:

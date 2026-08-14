@@ -46,9 +46,7 @@ class PaperASummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -118,9 +116,7 @@ class PaperAWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/manuscripts/paper_a_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/manuscripts/paper_a_fixture.json"
         self.output_root = output_root or self.root / "release/manuscripts/paper_a"
 
     def _path(self, value: Any, label: str) -> Path:
@@ -140,19 +136,13 @@ class PaperAWorkflow:
             fixture = self._json(self.fixture_path, "Paper A fixture")
         except (OSError, PaperAError) as exc:
             raise PaperAError(f"cannot load Paper A fixture: {exc}") from exc
-        if (
-            fixture.get("schema_version") != 1
-            or fixture.get("mode") != "paper_a_benchmark_manuscript"
-        ):
+        if fixture.get("schema_version") != 1 or fixture.get("mode") != "paper_a_benchmark_manuscript":
             raise PaperAError("Paper A fixture schema or mode is invalid")
         try:
             evidence_class, claim_level = require_metadata(fixture, "Paper A fixture")
         except EvidenceSemanticsError as exc:
             raise PaperAError(str(exc)) from exc
-        if (
-            evidence_class is not EvidenceClass.FIXTURE_TEST
-            or claim_level is not AllowedClaimLevel.CONTRACT_TEST
-        ):
+        if evidence_class is not EvidenceClass.FIXTURE_TEST or claim_level is not AllowedClaimLevel.CONTRACT_TEST:
             raise PaperAError("Paper A fixture must remain contract-only")
         if not isinstance(fixture.get("inputs"), list):
             raise PaperAError("Paper A inputs must be a list")
@@ -191,17 +181,12 @@ class PaperAWorkflow:
         if release.get("public_hidden_separation") is not True:
             raise PaperAError("benchmark public/hidden boundary is not frozen")
         freeze_receipt = _mapping(data["benchmark freeze receipt"], "benchmark freeze receipt")
-        if (
-            freeze_receipt.get("status") != "VALID"
-            or freeze_receipt.get("target_values_exposed") is not False
-        ):
+        if freeze_receipt.get("status") != "VALID" or freeze_receipt.get("target_values_exposed") is not False:
             raise PaperAError("benchmark freeze receipt is invalid")
         instances = _mapping(data["benchmark instances receipt"], "instances receipt")
         grading = _mapping(data["benchmark grading receipt"], "grading receipt")
         baseline = _mapping(data["benchmark baseline receipt"], "baseline receipt")
-        representation = _mapping(
-            data["benchmark representation receipt"], "representation receipt"
-        )
+        representation = _mapping(data["benchmark representation receipt"], "representation receipt")
         if any(
             receipt.get("status") != "VALID" or receipt.get("target_values_exposed") is not False
             for receipt in (instances, grading, baseline, representation)
@@ -686,9 +671,7 @@ The claim matrix maps labels E1--E8 to immutable repository artifacts and SHA-25
             payloads[f"figures/{figure_name}"] = figure_text.encode("utf-8")
         artifact_records: list[dict[str, Any]] = []
         for name, payload in sorted(payloads.items()):
-            artifact_records.append(
-                {"path": name, "sha256": _sha256(payload), "bytes": len(payload)}
-            )
+            artifact_records.append({"path": name, "sha256": _sha256(payload), "bytes": len(payload)})
         manifest: dict[str, Any] = {
             "schema_version": 1,
             **metadata_for(EvidenceClass.FIXTURE_TEST),

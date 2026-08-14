@@ -34,18 +34,14 @@ def test_target_corona_generator_beats_baseline_with_ood_gate(tmp_path: Path) ->
     assert receipt["lockbox_clean"] is True
     assert receipt["target_values_exposed"] is False
 
-    comparison = json.loads(
-        (tmp_path / "generative" / "validity_novelty_pareto.json").read_text(encoding="utf-8")
-    )
+    comparison = json.loads((tmp_path / "generative" / "validity_novelty_pareto.json").read_text(encoding="utf-8"))
     assert comparison["generator_beats_baseline"] is True
 
 
 def test_target_corona_generator_waives_when_sufficiency_fails(tmp_path: Path) -> None:
     root = Path(__file__).parents[2]
     fixture = json.loads(
-        (root / "tests/fixtures/design/target_corona_generative_fixture.json").read_text(
-            encoding="utf-8"
-        )
+        (root / "tests/fixtures/design/target_corona_generative_fixture.json").read_text(encoding="utf-8")
     )
     fixture["support_rows"] = fixture["support_rows"][:2]
     fixture_path = tmp_path / "insufficient.json"

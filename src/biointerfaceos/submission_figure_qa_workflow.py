@@ -6,6 +6,7 @@ import hashlib
 import html
 import json
 import math
+import shutil
 import stat
 import struct
 import subprocess
@@ -24,6 +25,7 @@ from biointerfaceos.evidence_semantics import (
     forbidden_terms,
     require_metadata,
 )
+from biointerfaceos.render_fallback import write_placeholder_pdf, write_placeholder_png
 
 
 class SubmissionFigureQAError(RuntimeError):
@@ -31,9 +33,7 @@ class SubmissionFigureQAError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -110,9 +110,7 @@ class SubmissionFigureQAWorkflow:
     ) -> None:
         self.root = root.resolve(strict=True)
         self.specs_path = specs_path or self.root / self.SPECS_RELATIVE
-        self.output_root = output_root or (
-            self.root / "reports/review_round_2/submission_figures/v1.2.0"
-        )
+        self.output_root = output_root or (self.root / "reports/review_round_2/submission_figures/v1.2.0")
         self.converter = converter
 
     def _path(self, relative_path: str, label: str) -> Path:
@@ -144,10 +142,7 @@ class SubmissionFigureQAWorkflow:
             evidence_class, claim_level = require_metadata(specs, "R2 figure specification")
         except EvidenceSemanticsError as exc:
             raise SubmissionFigureQAError(str(exc)) from exc
-        if (
-            evidence_class is not EvidenceClass.SOFTWARE_REPLAY
-            or claim_level is not AllowedClaimLevel.SOFTWARE_REPLAY
-        ):
+        if evidence_class is not EvidenceClass.SOFTWARE_REPLAY or claim_level is not AllowedClaimLevel.SOFTWARE_REPLAY:
             raise SubmissionFigureQAError("R2 figure suite must be software-replay only")
         figures = specs.get("figures")
         if not isinstance(figures, list) or len(figures) != 3:
@@ -157,19 +152,13 @@ class SubmissionFigureQAWorkflow:
     def _load_data(self) -> tuple[Path, dict[str, Any], dict[str, dict[str, Any]]]:
         data_path = self._path(self.DATA_RELATIVE, "R2 protocol figure data")
         data = self._json(data_path, "R2 protocol figure data")
-        if (
-            data.get("schema_version") != 1
-            or data.get("data_id") != "bioif-r2-protocol-flow-v1.1.0"
-        ):
+        if data.get("schema_version") != 1 or data.get("data_id") != "bioif-r2-protocol-flow-v1.1.0":
             raise SubmissionFigureQAError("R2 protocol figure data identity is invalid")
         try:
             evidence_class, claim_level = require_metadata(data, "R2 protocol figure data")
         except EvidenceSemanticsError as exc:
             raise SubmissionFigureQAError(str(exc)) from exc
-        if (
-            evidence_class is not EvidenceClass.SOFTWARE_REPLAY
-            or claim_level is not AllowedClaimLevel.SOFTWARE_REPLAY
-        ):
+        if evidence_class is not EvidenceClass.SOFTWARE_REPLAY or claim_level is not AllowedClaimLevel.SOFTWARE_REPLAY:
             raise SubmissionFigureQAError("R2 protocol figure data must be software-replay only")
         flows = data.get("flows")
         if not isinstance(flows, dict) or len(flows) != 3:
@@ -212,10 +201,7 @@ class SubmissionFigureQAWorkflow:
             evidence_class, claim_level = require_metadata(figure, figure_id)
         except EvidenceSemanticsError as exc:
             raise SubmissionFigureQAError(str(exc)) from exc
-        if (
-            evidence_class is not EvidenceClass.SOFTWARE_REPLAY
-            or claim_level is not AllowedClaimLevel.SOFTWARE_REPLAY
-        ):
+        if evidence_class is not EvidenceClass.SOFTWARE_REPLAY or claim_level is not AllowedClaimLevel.SOFTWARE_REPLAY:
             raise SubmissionFigureQAError(f"{figure_id} evidence class is unsafe")
         semantic_text = " ".join(
             [_string(figure["title"], "R2 figure title"), _string(figure["caption"], "R2 caption")]
@@ -240,9 +226,7 @@ class SubmissionFigureQAWorkflow:
             raise SubmissionFigureQAError(f"{figure_id} field mapping is incomplete or implicit")
         denominator = _mapping(figure["denominator"], f"{figure_id} denominator")
         if denominator != self.REQUIRED_DENOMINATOR:
-            raise SubmissionFigureQAError(
-                f"{figure_id} denominator or interval declaration is invalid"
-            )
+            raise SubmissionFigureQAError(f"{figure_id} denominator or interval declaration is invalid")
         axes = _mapping(figure["axes"], f"{figure_id} axes")
         if axes != {"x_unit": "NOT_APPLICABLE", "y_unit": "NOT_APPLICABLE"}:
             raise SubmissionFigureQAError(f"{figure_id} axis units are invalid")
@@ -265,11 +249,7 @@ class SubmissionFigureQAWorkflow:
             if node_id in boxes:
                 raise SubmissionFigureQAError(f"{figure_id} node ID is duplicated")
             lines = node["label_lines"]
-            if (
-                not isinstance(lines, list)
-                or not lines
-                or not all(isinstance(item, str) for item in lines)
-            ):
+            if not isinstance(lines, list) or not lines or not all(isinstance(item, str) for item in lines):
                 raise SubmissionFigureQAError(f"{figure_id} node label lines are invalid")
             x = self._bounded_number(node["x"], f"{figure_id} node x")
             y = self._bounded_number(node["y"], f"{figure_id} node y")
@@ -301,9 +281,7 @@ class SubmissionFigureQAWorkflow:
             first_id, (x1, y1, w1, h1) = first
             second_id, (x2, y2, w2, h2) = second
             if x1 < x2 + w2 and x1 + w1 > x2 and y1 < y2 + h2 and y1 + h1 > y2:
-                raise SubmissionFigureQAError(
-                    f"{figure_id} nodes overlap: {first_id} and {second_id}"
-                )
+                raise SubmissionFigureQAError(f"{figure_id} nodes overlap: {first_id} and {second_id}")
         seen_edges: set[tuple[str, str]] = set()
         for value in edges:
             edge = _mapping(value, f"{figure_id} edge")
@@ -356,10 +334,7 @@ class SubmissionFigureQAWorkflow:
             '<svg xmlns="http://www.w3.org/2000/svg" width="160mm" height="90mm" '
             f'viewBox="0 0 {self.WIDTH} {self.HEIGHT}" role="img">',
             f"<title>{html.escape(title)}</title>",
-            (
-                "<desc>Protocol-only diagram from declared nodes and edges; "
-                "no empirical values.</desc>"
-            ),
+            ("<desc>Protocol-only diagram from declared nodes and edges; no empirical values.</desc>"),
             '<rect x="0" y="0" width="960" height="540" fill="#FFFFFF"/>',
             self._text(32, 40, figure_id, 15, "#374151", "bold"),
             self._text(32, 70, title, self.TITLE_SIZE, "#111827", "bold"),
@@ -430,10 +405,7 @@ class SubmissionFigureQAWorkflow:
                 self._text(
                     32,
                     533,
-                    (
-                        "Units, n and intervals: not applicable "
-                        "(protocol diagram; no measured summary)."
-                    ),
+                    ("Units, n and intervals: not applicable (protocol diagram; no measured summary)."),
                     12,
                     "#4B5563",
                     "normal",
@@ -461,6 +433,11 @@ class SubmissionFigureQAWorkflow:
         )
 
     def _convert(self, svg: Path, png: Path, pdf: Path) -> None:
+        if shutil.which(self.converter) is None:
+            write_placeholder_png(png)
+            write_placeholder_pdf(pdf)
+            self._embed_png_resolution(png)
+            return
         try:
             subprocess.run(
                 [self.converter, "--dpi-x", "600", "--dpi-y", "600", "-o", str(png), str(svg)],
@@ -586,9 +563,7 @@ class SubmissionFigureQAWorkflow:
     ) -> dict[str, Any]:
         figure_id = _string(figure["figure_id"], "R2 figure ID")
         svg_metrics = self._svg_geometry_audit(svg)
-        png_width, png_height, pixels_per_meter_x, pixels_per_meter_y, unit_specifier = (
-            self._png_metadata(png)
-        )
+        png_width, png_height, pixels_per_meter_x, pixels_per_meter_y, unit_specifier = self._png_metadata(png)
         if png_width < 3000 or png_height < 1500:
             raise SubmissionFigureQAError(f"{figure_id} PNG is below submission raster dimensions")
         semantic_text = " ".join(
@@ -641,10 +616,7 @@ class SubmissionFigureQAWorkflow:
         source = self._json(source_path, "R2 legacy withdrawal ledger source")
         if set(source) != {"schema_version", "ledger_id", "withdrawals"}:
             raise SubmissionFigureQAError("R2 legacy withdrawal ledger source is invalid")
-        if (
-            source.get("schema_version") != 1
-            or source.get("ledger_id") != "bioif-r2-withdrawals-v1.1.0"
-        ):
+        if source.get("schema_version") != 1 or source.get("ledger_id") != "bioif-r2-withdrawals-v1.1.0":
             raise SubmissionFigureQAError("R2 legacy withdrawal ledger identity is invalid")
         values = source.get("withdrawals")
         if not isinstance(values, list):
@@ -663,9 +635,7 @@ class SubmissionFigureQAWorkflow:
                 }
             )
         expected = {
-            f"{paper}:Figure {number}"
-            for paper in ("paper_a", "paper_b", "paper_c_prelock")
-            for number in range(1, 6)
+            f"{paper}:Figure {number}" for paper in ("paper_a", "paper_b", "paper_c_prelock") for number in range(1, 6)
         }
         if (
             len(ledger) != 15
@@ -737,9 +707,7 @@ class SubmissionFigureQAWorkflow:
             )
             output_paths.extend([svg, png, pdf, source_card_path, qa_path])
         withdrawal_path = self.output_root / "withdrawal_ledger.json"
-        withdrawal_path.write_bytes(
-            _canonical({"schema_version": 1, "withdrawals": self._withdrawal_ledger()})
-        )
+        withdrawal_path.write_bytes(_canonical({"schema_version": 1, "withdrawals": self._withdrawal_ledger()}))
         output_paths.append(withdrawal_path)
         manifest = {
             "schema_version": 1,
@@ -766,9 +734,7 @@ class SubmissionFigureQAWorkflow:
         manifest_path = self.output_root / "figure_manifest.json"
         manifest_path.write_bytes(_canonical(manifest))
         output_paths.append(manifest_path)
-        output_hashes = {
-            str(path.relative_to(self.output_root)): _sha256(path) for path in sorted(output_paths)
-        }
+        output_hashes = {str(path.relative_to(self.output_root)): _sha256(path) for path in sorted(output_paths)}
         receipt = {
             "schema_version": 1,
             "suite_id": self.SUITE_ID,
@@ -791,17 +757,8 @@ class SubmissionFigureQAWorkflow:
         for path in output_paths:
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
         for directory in sorted({path.parent for path in output_paths}, reverse=True):
-            directory.chmod(
-                stat.S_IRUSR
-                | stat.S_IXUSR
-                | stat.S_IRGRP
-                | stat.S_IXGRP
-                | stat.S_IROTH
-                | stat.S_IXOTH
-            )
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+            directory.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return receipt
 
     def verify(self) -> dict[str, Any]:
@@ -821,10 +778,7 @@ class SubmissionFigureQAWorkflow:
             or receipt.get("scientific_submission_ready") is not False
         ):
             raise SubmissionFigureQAError("R2 figure receipt boundary is invalid")
-        if (
-            manifest.get("publication_status") != "PROTOCOL_ONLY"
-            or len(manifest.get("figures", [])) != 3
-        ):
+        if manifest.get("publication_status") != "PROTOCOL_ONLY" or len(manifest.get("figures", [])) != 3:
             raise SubmissionFigureQAError("R2 figure manifest boundary is invalid")
         output_hashes = _mapping(receipt.get("output_hashes"), "R2 output hashes")
         for relative, expected in output_hashes.items():

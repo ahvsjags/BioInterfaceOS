@@ -120,9 +120,7 @@ class RedTeamWorkflow:
             if label not in expected:
                 raise RedTeamError(f"unexpected redteam input: {label}")
             path, checksum = expected[label]
-            declared = (self.root / _string(row.get("path"), "redteam input path")).resolve(
-                strict=True
-            )
+            declared = (self.root / _string(row.get("path"), "redteam input path")).resolve(strict=True)
             if declared != path.resolve(strict=True) or row.get("sha256") != checksum:
                 raise RedTeamError(f"redteam input path or checksum differs: {label}")
             if _sha256(path.read_bytes()) != checksum:
@@ -267,11 +265,7 @@ class RedTeamWorkflow:
             findings.append(finding)
         trace.validate()
         release_blocked = critical_findings > 0
-        selected = (
-            "redteam_agent"
-            if schema_valid and adverse_preserved and not release_blocked
-            else "release_blocked"
-        )
+        selected = "redteam_agent" if schema_valid and adverse_preserved and not release_blocked else "release_blocked"
         comparison = {
             "schema_version": 1,
             "attacks": len(attacks),
@@ -323,9 +317,7 @@ class RedTeamWorkflow:
         payload_bytes["seal"] = _canonical(seal)
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -374,9 +366,7 @@ class RedTeamWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

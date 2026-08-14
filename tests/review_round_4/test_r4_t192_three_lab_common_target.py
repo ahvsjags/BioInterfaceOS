@@ -11,7 +11,6 @@ from biointerfaceos.r4_t192_three_lab_common_target import (
     R4T192ThreeLabCommonTargetWorkflow,
 )
 
-
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -36,12 +35,12 @@ def test_t192_three_lab_common_target_runs_and_verifies(tmp_path: Path) -> None:
 
 def test_t192_rejects_tampered_protocol_hash(tmp_path: Path) -> None:
     registry = ROOT / "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json"
-    text = registry.read_text(encoding="utf-8").replace("d1fa58c85324c6c9062cf5e6185a74c7814f8b567e66453d41a10c9d9c03a968", "0" * 64)
+    text = registry.read_text(encoding="utf-8").replace(
+        "d1fa58c85324c6c9062cf5e6185a74c7814f8b567e66453d41a10c9d9c03a968", "0" * 64
+    )
     registry_copy = tmp_path / "registry.json"
     registry_copy.write_text(text, encoding="utf-8")
-    workflow = R4T192ThreeLabCommonTargetWorkflow(
-        ROOT, registry_path=registry_copy, output_root=tmp_path / "audit"
-    )
+    workflow = R4T192ThreeLabCommonTargetWorkflow(ROOT, registry_path=registry_copy, output_root=tmp_path / "audit")
 
     with pytest.raises(R4T192ThreeLabCommonTargetError, match="T192 protocol checksum differs"):
         workflow.run(strict=True)

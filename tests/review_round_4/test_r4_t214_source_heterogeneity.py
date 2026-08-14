@@ -6,7 +6,6 @@ import pytest
 
 from biointerfaceos.r4_t214_source_heterogeneity import R4T214SourceHeterogeneityWorkflow
 
-
 ROOT = Path(__file__).resolve().parents[2]
 T214_OUTPUT = ROOT / R4T214SourceHeterogeneityWorkflow.OUTPUT_RELATIVE
 
@@ -36,7 +35,9 @@ def test_t214_preserves_route_and_missingness_boundaries() -> None:
         "T203_paper_cohort_ood",
         "T209_manchester_paper_cohort_ood",
     }
-    thresholds = list(csv.DictReader((output / "missingness_threshold_sensitivity.csv").open(encoding="utf-8", newline="")))
+    thresholds = list(
+        csv.DictReader((output / "missingness_threshold_sensitivity.csv").open(encoding="utf-8", newline=""))
+    )
     assert {int(row["threshold"]) for row in thresholds} == {5, 7, 10, 12, 15, 20, 25, 30}
     assert all(row["claim_status"] == "MISSINGNESS_SENSITIVITY_DESCRIPTIVE_ONLY" for row in thresholds)
 
@@ -54,7 +55,9 @@ def test_t214_does_not_infer_biological_n_from_measurement_batches() -> None:
 def test_t214_marks_degenerate_intervals_as_computational() -> None:
     output = ROOT / R4T214SourceHeterogeneityWorkflow.OUTPUT_RELATIVE
     rows = list(csv.DictReader((output / "effect_unit_descriptive_audit.csv").open(encoding="utf-8", newline="")))
-    degenerate = [row for row in rows if row["interval_semantics"] == "DEGENERATE_COMPUTATIONAL_INTERVAL_NOT_BIOLOGICAL_ZERO"]
+    degenerate = [
+        row for row in rows if row["interval_semantics"] == "DEGENERATE_COMPUTATIONAL_INTERVAL_NOT_BIOLOGICAL_ZERO"
+    ]
     assert {row["source_id"] for row in degenerate} == {
         "University College Dublin / Conway Institute",
         "University of Edinburgh-led controlled human exposure study",

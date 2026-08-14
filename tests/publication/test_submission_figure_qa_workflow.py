@@ -65,8 +65,7 @@ def test_r2_suite_rejects_clipped_or_overlapping_geometry() -> None:
     figure_id = figures[0]["figure_id"]
     clipped = {
         **flows["EVIDENCE_BOUNDARY"],
-        "nodes": [{**flows["EVIDENCE_BOUNDARY"]["nodes"][0], "x": 1}]
-        + flows["EVIDENCE_BOUNDARY"]["nodes"][1:],
+        "nodes": [{**flows["EVIDENCE_BOUNDARY"]["nodes"][0], "x": 1}] + flows["EVIDENCE_BOUNDARY"]["nodes"][1:],
     }
     with pytest.raises(SubmissionFigureQAError, match="out of bounds"):
         workflow._geometry(figure_id, clipped)

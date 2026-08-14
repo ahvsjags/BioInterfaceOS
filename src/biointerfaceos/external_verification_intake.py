@@ -187,9 +187,7 @@ class ExternalVerificationIntakeWorkflow:
         try:
             parsed = datetime.fromisoformat(submitted_at.replace("Z", "+00:00"))
         except ValueError as exc:
-            raise ExternalVerificationIntakeError(
-                "submitted_at must be an RFC3339 timestamp"
-            ) from exc
+            raise ExternalVerificationIntakeError("submitted_at must be an RFC3339 timestamp") from exc
         if parsed.tzinfo is None:
             raise ExternalVerificationIntakeError("submitted_at must include a timezone")
         return submitted_at
@@ -202,9 +200,7 @@ class ExternalVerificationIntakeWorkflow:
             raise ExternalVerificationIntakeError(f"{label} escapes the declared documents root")
         path = (self.documents_root / Path(*pure_path.parts)).resolve(strict=False)
         if not path.is_relative_to(self.documents_root) or not path.is_file():
-            raise ExternalVerificationIntakeError(
-                f"{label} is missing or outside the declared documents root"
-            )
+            raise ExternalVerificationIntakeError(f"{label} is missing or outside the declared documents root")
         return path
 
     @staticmethod
@@ -244,9 +240,7 @@ class ExternalVerificationIntakeWorkflow:
         if receipt["protocol_id"] != "bioif-r2-independent-evaluation-protocol-v1.0.0":
             raise ExternalVerificationIntakeError("evaluator receipt protocol id is invalid")
         cls._person(receipt["evaluator"], cls.REQUIRED_EVALUATOR_PERSON, "evaluator")
-        frozen_bundle = cls._exact_keys(
-            receipt["frozen_bundle"], cls.REQUIRED_FROZEN_BUNDLE, "evaluator frozen bundle"
-        )
+        frozen_bundle = cls._exact_keys(receipt["frozen_bundle"], cls.REQUIRED_FROZEN_BUNDLE, "evaluator frozen bundle")
         _hex(frozen_bundle["git_commit"], "evaluator checkout commit", length=40)
         for field in cls.REQUIRED_FROZEN_BUNDLE - {"git_commit"}:
             _checksum(frozen_bundle[field], f"evaluator frozen bundle {field}")
@@ -259,9 +253,7 @@ class ExternalVerificationIntakeWorkflow:
             or receipt["author_team_accessed_protected_observations"] is not False
             or receipt["post_freeze_tuning"] is not False
         ):
-            raise ExternalVerificationIntakeError(
-                "evaluator receipt weakens protected-data safeguards"
-            )
+            raise ExternalVerificationIntakeError("evaluator receipt weakens protected-data safeguards")
 
     @classmethod
     def _reproduction_receipt(cls, value: dict[str, Any]) -> None:
@@ -293,18 +285,11 @@ class ExternalVerificationIntakeWorkflow:
             deviation = cls._exact_keys(value, cls.REQUIRED_DEVIATION, "deviation record")
             for field in cls.REQUIRED_DEVIATION:
                 _string(deviation[field], f"deviation {field}")
-        summary = cls._exact_keys(
-            receipt["result_summary"], cls.REQUIRED_RESULT_SUMMARY, "reproduction result summary"
-        )
+        summary = cls._exact_keys(receipt["result_summary"], cls.REQUIRED_RESULT_SUMMARY, "reproduction result summary")
         _string(summary["scope"], "reproduction result scope")
         _string(summary["outcome"], "reproduction result outcome")
-        if (
-            summary["aggregate_only"] is not True
-            or receipt["raw_protected_values_included"] is not False
-        ):
-            raise ExternalVerificationIntakeError(
-                "reproduction receipt includes protected raw values"
-            )
+        if summary["aggregate_only"] is not True or receipt["raw_protected_values_included"] is not False:
+            raise ExternalVerificationIntakeError("reproduction receipt includes protected raw values")
         cls._attestation(receipt["attestation"], "reproduction attestation")
 
     @classmethod
@@ -332,23 +317,15 @@ class ExternalVerificationIntakeWorkflow:
                 raise ExternalVerificationIntakeError("editorial finding matrix is invalid")
             dispositions[finding_id] = disposition
         if tuple(dispositions) != cls.FINDING_IDS:
-            raise ExternalVerificationIntakeError(
-                "editorial finding matrix does not cover R2-01 through R2-09"
-            )
+            raise ExternalVerificationIntakeError("editorial finding matrix does not cover R2-01 through R2-09")
         critical_count = report["critical_finding_count"]
-        if (
-            isinstance(critical_count, bool)
-            or not isinstance(critical_count, int)
-            or critical_count < 0
-        ):
+        if isinstance(critical_count, bool) or not isinstance(critical_count, int) or critical_count < 0:
             raise ExternalVerificationIntakeError("critical finding count is invalid")
         expected_critical_count = sum(
             dispositions[finding_id] == "OPEN_BLOCKER" for finding_id in cls.CRITICAL_FINDING_IDS
         )
         if critical_count != expected_critical_count:
-            raise ExternalVerificationIntakeError(
-                "critical finding count does not match the finding matrix"
-            )
+            raise ExternalVerificationIntakeError("critical finding count does not match the finding matrix")
         _string_list(report["manuscript_dispositions"], "manuscript dispositions", minimum=1)
         cls._attestation(report["attestation"], "editorial attestation")
         return int(critical_count)
@@ -361,63 +338,40 @@ class ExternalVerificationIntakeWorkflow:
         bundle = self._json(self.bundle_path, "external verification bundle")
         bundle = self._exact_keys(bundle, self.REQUIRED_BUNDLE, "external verification bundle")
         if bundle["schema_version"] != 1:
-            raise ExternalVerificationIntakeError(
-                "external verification bundle schema version is invalid"
-            )
+            raise ExternalVerificationIntakeError("external verification bundle schema version is invalid")
         if bundle["submission_state"] != "SUBMITTED_FOR_PREFLIGHT":
             raise ExternalVerificationIntakeError("external verification bundle is not submitted")
-        if (
-            bundle["identity_and_scope_audit_pending"] is not True
-            or bundle["scientific_submission_ready"] is not False
-        ):
-            raise ExternalVerificationIntakeError(
-                "external verification bundle attempts acceptance"
-            )
+        if bundle["identity_and_scope_audit_pending"] is not True or bundle["scientific_submission_ready"] is not False:
+            raise ExternalVerificationIntakeError("external verification bundle attempts acceptance")
         _string(bundle["intake_id"], "external verification intake id")
         self._timestamp(bundle["submitted_at"])
         try:
             evidence_class, claim_level = require_metadata(bundle, "external verification bundle")
         except EvidenceSemanticsError as exc:
-            raise ExternalVerificationIntakeError(
-                "external verification bundle metadata is invalid"
-            ) from exc
+            raise ExternalVerificationIntakeError("external verification bundle metadata is invalid") from exc
         if (
             evidence_class is not EvidenceClass.DEVELOPMENT_OBSERVATION
             or claim_level is not AllowedClaimLevel.EXPLORATORY
         ):
-            raise ExternalVerificationIntakeError(
-                "external verification bundle claim level is invalid"
-            )
+            raise ExternalVerificationIntakeError("external verification bundle claim level is invalid")
         documents = bundle["documents"]
         if not isinstance(documents, list) or len(documents) != len(self.DOCUMENT_TYPES):
-            raise ExternalVerificationIntakeError(
-                "external verification bundle document count is invalid"
-            )
+            raise ExternalVerificationIntakeError("external verification bundle document count is invalid")
         parsed: dict[str, dict[str, Any]] = {}
         for value in documents:
-            document = self._exact_keys(
-                value, self.REQUIRED_DOCUMENT, "external verification document"
-            )
-            document_type = _string(
-                document["document_type"], "external verification document type"
-            )
+            document = self._exact_keys(value, self.REQUIRED_DOCUMENT, "external verification document")
+            document_type = _string(document["document_type"], "external verification document type")
             if document_type not in self.DOCUMENT_TYPES or document_type in parsed:
-                raise ExternalVerificationIntakeError(
-                    "external verification document types are invalid"
-                )
+                raise ExternalVerificationIntakeError("external verification document types are invalid")
             if document["role_not_author_declared"] is not True:
-                raise ExternalVerificationIntakeError(
-                    f"{document_type} does not declare a non-author role"
-                )
+                raise ExternalVerificationIntakeError(f"{document_type} does not declare a non-author role")
             document_path = self._document_path(
                 _string(document["relative_path"], f"{document_type} path"),
                 f"{document_type} path",
             )
             expected_checksum = _checksum(document["sha256"], f"{document_type} checksum")
             if _sha256(document_path) != expected_checksum:
-                raise ExternalVerificationIntakeError(
-                    f"{document_type} checksum does not match bytes"
-                )
+                raise ExternalVerificationIntakeError(f"{document_type} checksum does not match bytes")
             parsed[document_type] = self._json(document_path, document_type)
         if set(parsed) != self.DOCUMENT_TYPES:
             raise ExternalVerificationIntakeError("external verification documents are incomplete")
@@ -426,9 +380,7 @@ class ExternalVerificationIntakeWorkflow:
     def run(self, *, strict: bool = False) -> ExternalVerificationIntakeSummary:
         """Check a supplied verification bundle without promoting its claims."""
         if not strict:
-            raise ExternalVerificationIntakeError(
-                "external verification preflight requires --strict"
-            )
+            raise ExternalVerificationIntakeError("external verification preflight requires --strict")
         parsed = self._bundle()
         documents = parsed["documents"]
         self._evaluator_receipt(documents[self.EVALUATOR])

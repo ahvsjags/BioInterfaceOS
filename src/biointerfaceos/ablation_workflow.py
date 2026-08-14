@@ -34,9 +34,7 @@ class AblationSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -83,9 +81,7 @@ class AblationWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/robustness/ablations_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/robustness/ablations_fixture.json")
         self.output_root = output_root or self.root / "reports/robustness/ablations"
 
     def _fixture(self) -> dict[str, Any]:
@@ -96,16 +92,12 @@ class AblationWorkflow:
             )
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise AblationError(f"cannot load ablation fixture: {exc}") from exc
-        if data.get("schema_version") != 1 or data.get("mode") != (
-            "mandatory_model_and_data_ablations"
-        ):
+        if data.get("schema_version") != 1 or data.get("mode") != ("mandatory_model_and_data_ablations"):
             raise AblationError("ablation fixture schema or mode is invalid")
         for key in ("inputs", "preregistration", "paired_rows", "missing_ablations"):
             if key not in data:
                 raise AblationError(f"ablation fixture is missing {key}")
-        if not all(
-            isinstance(data[key], list) for key in ("inputs", "paired_rows", "missing_ablations")
-        ):
+        if not all(isinstance(data[key], list) for key in ("inputs", "paired_rows", "missing_ablations")):
             raise AblationError("ablation fixture list fields are invalid")
         preregistration = _mapping(data["preregistration"], "ablation preregistration")
         if preregistration.get("schema_version") != 1:
@@ -148,9 +140,7 @@ class AblationWorkflow:
             if label not in expected:
                 raise AblationError(f"unexpected ablation input: {label}")
             path, checksum = expected[label]
-            declared = (self.root / _string(row.get("path"), "ablation input path")).resolve(
-                strict=True
-            )
+            declared = (self.root / _string(row.get("path"), "ablation input path")).resolve(strict=True)
             raw = path.read_bytes()
             payload = _mapping(json.loads(raw), f"{label} payload")
             if declared != path.resolve(strict=True) or row.get("sha256") != checksum:
@@ -173,9 +163,7 @@ class AblationWorkflow:
         return preregistration
 
     @classmethod
-    def _rows(
-        cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _rows(cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]) -> list[dict[str, Any]]:
         required = {
             "ablation",
             "pair_id",
@@ -214,9 +202,7 @@ class AblationWorkflow:
                 "split": split,
                 "full_metric": _number(source.get("full_metric"), "full metric"),
                 "ablated_metric": _number(source.get("ablated_metric"), "ablated metric"),
-                "full_calibration_error": _number(
-                    source.get("full_calibration_error"), "full calibration error"
-                ),
+                "full_calibration_error": _number(source.get("full_calibration_error"), "full calibration error"),
                 "ablated_calibration_error": _number(
                     source.get("ablated_calibration_error"), "ablated calibration error"
                 ),
@@ -263,9 +249,7 @@ class AblationWorkflow:
             signatures.append(tuple((row["group_id"], row["split"]) for row in selected))
             budgets.append({row["budget"] for row in selected})
             effects = [row["full_metric"] - row["ablated_metric"] for row in selected]
-            calibration = [
-                row["ablated_calibration_error"] - row["full_calibration_error"] for row in selected
-            ]
+            calibration = [row["ablated_calibration_error"] - row["full_calibration_error"] for row in selected]
             ood = [row["ablated_ood_rmse"] - row["full_ood_rmse"] for row in selected]
             effects_all.extend(effects)
             effect_mean = round(sum(effects) / len(effects), 8)
@@ -309,9 +293,7 @@ class AblationWorkflow:
             source = _mapping(value, "missing ablation")
             if set(source) != required:
                 raise AblationError("missing-ablation fields do not match schema")
-            if not isinstance(source.get("essential"), bool) or not isinstance(
-                source.get("claim_blocked"), bool
-            ):
+            if not isinstance(source.get("essential"), bool) or not isinstance(source.get("claim_blocked"), bool):
                 raise AblationError("missing-ablation flags are invalid")
             if not _string(source.get("interface_test"), "missing interface test"):
                 raise AblationError("missing interface test is empty")
@@ -338,8 +320,8 @@ class AblationWorkflow:
         self._inputs(fixture_data)
         preregistration = self._preregistration(fixture_data)
         rows = self._rows(fixture_data, preregistration)
-        paired, intervals, calibration_ood, overall_effect, same_splits, same_budget = (
-            self._comparisons(rows, preregistration)
+        paired, intervals, calibration_ood, overall_effect, same_splits, same_budget = self._comparisons(
+            rows, preregistration
         )
         missing, claim_blocks = self._missing(fixture_data)
         fixture_text = self.fixture_path.read_text(encoding="utf-8").lower()
@@ -396,11 +378,7 @@ class AblationWorkflow:
             payload = _canonical(raw_payloads[name])
             path.write_bytes(payload)
             artifacts[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload),
                 "bytes": len(payload),
             }

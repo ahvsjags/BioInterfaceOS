@@ -24,9 +24,7 @@ class LockboxAuditError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -105,9 +103,7 @@ class LockboxAuditWorkflow:
     ) -> None:
         self.root = root.resolve(strict=True)
         self.fixture_path = fixture_path or self.root / "tests/fixtures/lockbox/audit_fixture.json"
-        self.output_root = output_root or (
-            self.root / "reports/lockbox/audit/bioif-lockbox-audit-v1.0.0"
-        )
+        self.output_root = output_root or (self.root / "reports/lockbox/audit/bioif-lockbox-audit-v1.0.0")
 
     def _path(self, value: Any, label: str) -> Path:
         path = (self.root / _string(value, label)).resolve(strict=False)
@@ -138,10 +134,7 @@ class LockboxAuditWorkflow:
         ):
             raise LockboxAuditError("audit identity is not frozen")
         inputs = fixture.get("inputs")
-        if (
-            not isinstance(inputs, list)
-            or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS
-        ):
+        if not isinstance(inputs, list) or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS:
             raise LockboxAuditError("lockbox audit input set is incomplete")
         return fixture
 
@@ -165,19 +158,11 @@ class LockboxAuditWorkflow:
         signature = inputs["signature"]
         plan = inputs["lockbox plan"]
         auth = inputs["evaluator authorization"]
-        if (
-            manifest.get("status") != "FROZEN_INTERNAL_PRELOCK"
-            or manifest.get("lockbox_accessed") is not False
-        ):
+        if manifest.get("status") != "FROZEN_INTERNAL_PRELOCK" or manifest.get("lockbox_accessed") is not False:
             raise LockboxAuditError("signed release is not a valid pre-lock release")
-        if (
-            receipt.get("release_id") != manifest.get("release_id")
-            or receipt.get("lockbox_accessed") is not False
-        ):
+        if receipt.get("release_id") != manifest.get("release_id") or receipt.get("lockbox_accessed") is not False:
             raise LockboxAuditError("release receipt boundary is invalid")
-        if signature.get("signature") != receipt.get("signature") or not signature.get(
-            "signed_manifest_sha256"
-        ):
+        if signature.get("signature") != receipt.get("signature") or not signature.get("signed_manifest_sha256"):
             raise LockboxAuditError("release signature metadata is invalid")
         if plan.get("scope") != "evaluator_only" or plan.get("development_access") is not False:
             raise LockboxAuditError("lockbox plan grants development access")
@@ -253,20 +238,13 @@ class LockboxAuditWorkflow:
         try:
             evidence_class, claim_level = require_metadata(receipt, "first-run receipt")
         except EvidenceSemanticsError as exc:
-            raise LockboxAuditError(
-                "legacy fixture evaluation cannot be consumed by a new scientific audit"
-            ) from exc
+            raise LockboxAuditError("legacy fixture evaluation cannot be consumed by a new scientific audit") from exc
         if (
             evidence_class is not EvidenceClass.LOCKED_EVALUATION
             or claim_level is not AllowedClaimLevel.EVALUATOR_BACKED
         ):
-            raise LockboxAuditError(
-                "only independently evaluator-backed locked evidence may enter a scientific audit"
-            )
-        if (
-            results.get("status") != "SEALED_METADATA_ONLY"
-            or results.get("raw_values_written") is not False
-        ):
+            raise LockboxAuditError("only independently evaluator-backed locked evidence may enter a scientific audit")
+        if results.get("status") != "SEALED_METADATA_ONLY" or results.get("raw_values_written") is not False:
             raise LockboxAuditError("evaluation results are not metadata-only")
         if (
             receipt.get("status") != "VALID_FIRST_RUN_SEALED"
@@ -380,8 +358,7 @@ class LockboxAuditWorkflow:
                 }
             )
         prediction_counts = {
-            status: sum(row["status"] == status for row in results)
-            for status in self.ALLOWED_STATUSES
+            status: sum(row["status"] == status for row in results) for status in self.ALLOWED_STATUSES
         }
         abstentions = sum(row["abstained"] for row in results)
         claim_transitions = {
@@ -507,9 +484,7 @@ class LockboxAuditWorkflow:
             (self.output_root / name).write_bytes(payload)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         self._scan_outputs()
         return LockboxAuditSummary(
             audit_id=self.AUDIT_ID,
@@ -532,10 +507,7 @@ class LockboxAuditWorkflow:
         transitions = self._json(transition_path, "claim transitions")
         failure = self._json(failure_path, "failure analysis")
         report = self._json(report_path, "audit report")
-        if (
-            receipt.get("status") != "VALID_POSTLOCK_AUDIT_SEALED"
-            or receipt.get("once") is not True
-        ):
+        if receipt.get("status") != "VALID_POSTLOCK_AUDIT_SEALED" or receipt.get("once") is not True:
             raise LockboxAuditError("audit receipt status is invalid")
         if (
             receipt.get("claim_transitions_sha256") != _sha256(transition_path)

@@ -27,9 +27,7 @@ def test_candidate_audit_deduplicates_and_gates_supported_cards(tmp_path: Path) 
     assert receipt["lockbox_clean"] is True
     assert receipt["target_values_exposed"] is False
 
-    cards = json.loads(
-        (tmp_path / "candidates" / "candidate_cards.json").read_text(encoding="utf-8")
-    )
+    cards = json.loads((tmp_path / "candidates" / "candidate_cards.json").read_text(encoding="utf-8"))
     assert len(cards["cards"]) == 3
     assert all(card["allowed_wording"] == "exploratory_supported" for card in cards["cards"])
 
@@ -39,12 +37,8 @@ def test_candidate_audit_temporal_matches_never_change_selection(tmp_path: Path)
     workflow = CandidateAuditWorkflow(root, output_root=tmp_path / "candidates")
     workflow.run(fixture=True)
 
-    retrospective = json.loads(
-        (tmp_path / "candidates" / "retrospective_validation.json").read_text(encoding="utf-8")
-    )
-    abstentions = json.loads(
-        (tmp_path / "candidates" / "abstention_ledger.json").read_text(encoding="utf-8")
-    )
+    retrospective = json.loads((tmp_path / "candidates" / "retrospective_validation.json").read_text(encoding="utf-8"))
+    abstentions = json.loads((tmp_path / "candidates" / "abstention_ledger.json").read_text(encoding="utf-8"))
     assert retrospective["policy"] == "descriptive_only"
     assert retrospective["used_for_selection"] is False
     assert all(item["used_for_selection"] is False for item in retrospective["matches"])

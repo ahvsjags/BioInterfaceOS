@@ -24,9 +24,7 @@ def test_external_gate_path_is_ordered_and_non_promoting(tmp_path: Path) -> None
     assert summary.stage_count == 6
     assert summary.command_count == 6
     assert summary.reference_count == 13
-    report = json.loads(
-        (tmp_path / "gate-path" / "external_gate_path_report.json").read_text(encoding="utf-8")
-    )
+    report = json.loads((tmp_path / "gate-path" / "external_gate_path_report.json").read_text(encoding="utf-8"))
     assert report["gate_status"] == "READY_FOR_EXTERNAL_HANDOFF_WITH_EXTERNAL_GATES_OPEN"
     assert report["scientific_submission_ready"] is False
     assert workflow.verify() == summary

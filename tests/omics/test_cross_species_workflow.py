@@ -34,15 +34,9 @@ def test_cross_species_outputs_preserve_pairing_and_leave_material_gate(tmp_path
     workflow = CrossSpeciesWorkflow(root, output_root=tmp_path / "cross_species")
     workflow.run(fixture=True)
 
-    pairing = json.loads(
-        (tmp_path / "cross_species" / "pairing_audit.json").read_text(encoding="utf-8")
-    )
-    leave_material = json.loads(
-        (tmp_path / "cross_species" / "leave_material_report.json").read_text(encoding="utf-8")
-    )
-    abstentions = json.loads(
-        (tmp_path / "cross_species" / "abstention_ledger.json").read_text(encoding="utf-8")
-    )
+    pairing = json.loads((tmp_path / "cross_species" / "pairing_audit.json").read_text(encoding="utf-8"))
+    leave_material = json.loads((tmp_path / "cross_species" / "leave_material_report.json").read_text(encoding="utf-8"))
+    abstentions = json.loads((tmp_path / "cross_species" / "abstention_ledger.json").read_text(encoding="utf-8"))
     assert pairing["pseudo_pairs_created"] is False
     assert pairing["unmatched_exclusions_preserved"] is True
     assert len(leave_material["materials"]) == 2

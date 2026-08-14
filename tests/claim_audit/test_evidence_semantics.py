@@ -32,9 +32,7 @@ def test_fixture_wording_rejects_empirical_inference() -> None:
 
 
 def test_evidence_metadata_is_required_and_cannot_be_upgraded() -> None:
-    evidence_class, claim_level = require_metadata(
-        metadata_for(EvidenceClass.FIXTURE_TEST), "fixture"
-    )
+    evidence_class, claim_level = require_metadata(metadata_for(EvidenceClass.FIXTURE_TEST), "fixture")
     assert evidence_class is EvidenceClass.FIXTURE_TEST
     assert claim_level.value == metadata_for(EvidenceClass.FIXTURE_TEST)["allowed_claim_level"]
     with pytest.raises(EvidenceSemanticsError, match="missing or invalid"):

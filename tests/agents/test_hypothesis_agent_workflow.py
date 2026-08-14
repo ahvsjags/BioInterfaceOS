@@ -22,9 +22,7 @@ def test_hypothesis_agent_gates_candidates_and_preserves_exploratory_status() ->
     payload = json.loads(summary.receipt_path.read_text(encoding="utf-8"))
     assert payload["target_values_exposed"] is False
 
-    proposals = json.loads(
-        (root / "reports/agents/hypothesis/hypothesis_proposals.json").read_text(encoding="utf-8")
-    )
+    proposals = json.loads((root / "reports/agents/hypothesis/hypothesis_proposals.json").read_text(encoding="utf-8"))
     assert all(row["status"] == "EXPLORATORY_PROPOSAL" for row in proposals["proposals"])
     assert all(row["claim_accepted"] is False for row in proposals["proposals"])
 
@@ -33,18 +31,14 @@ def test_hypothesis_agent_records_rejections_and_lockbox_scan() -> None:
     root = Path(__file__).parents[2]
     HypothesisAgentWorkflow(root).run(fixture=True)
 
-    rejections = json.loads(
-        (root / "reports/agents/hypothesis/hypothesis_rejections.json").read_text(encoding="utf-8")
-    )
+    rejections = json.loads((root / "reports/agents/hypothesis/hypothesis_rejections.json").read_text(encoding="utf-8"))
     reasons = {row["rejection_reason"] for row in rejections["rejections"]}
     assert reasons == {
         "DUPLICATE_NORMALIZED_HYPOTHESIS",
         "NOT_FALSIFIABLE",
         "UNGROUNDED_EVIDENCE",
     }
-    lockbox = json.loads(
-        (root / "reports/agents/hypothesis/lockbox_scan.json").read_text(encoding="utf-8")
-    )
+    lockbox = json.loads((root / "reports/agents/hypothesis/lockbox_scan.json").read_text(encoding="utf-8"))
     assert lockbox["clean"] is True
     assert lockbox["findings"] == []
     assert lockbox["locked_payload_opened"] is False

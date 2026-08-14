@@ -42,9 +42,7 @@ def test_related_work_requires_strict_mode(tmp_path: Path) -> None:
 
 def test_related_work_rejects_unverified_scope_citation(tmp_path: Path) -> None:
     root = _copy_literature_root(tmp_path)
-    mapping = json.loads(
-        (root / "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json").read_text(encoding="utf-8")
-    )
+    mapping = json.loads((root / "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json").read_text(encoding="utf-8"))
     mapping["manuscript_scopes"][0]["citation_keys"].append("NOT_A_VERIFIED_CITATION")
     map_path = root / "docs/literature/invalid-map.json"
     map_path.write_text(json.dumps(mapping), encoding="utf-8")
@@ -62,9 +60,7 @@ def test_related_work_rejects_missing_glossary_boundary(tmp_path: Path) -> None:
     root = _copy_literature_root(tmp_path)
     glossary_path = root / "docs/literature/invalid-glossary.md"
     glossary = (root / "docs/literature/R2_OPERATIONAL_GLOSSARY.md").read_text(encoding="utf-8")
-    glossary_path.write_text(
-        glossary.replace("source_not_stated", "unit_was_not_given"), encoding="utf-8"
-    )
+    glossary_path.write_text(glossary.replace("source_not_stated", "unit_was_not_given"), encoding="utf-8")
     workflow = RelatedWorkWorkflow(
         root,
         glossary_path=glossary_path,

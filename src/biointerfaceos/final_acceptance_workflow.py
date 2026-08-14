@@ -22,9 +22,7 @@ class FinalAcceptanceError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -63,9 +61,7 @@ class FinalAcceptanceWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/acceptance/final_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/acceptance/final_fixture.json"
         self.output_root = output_root or self.root / "release/public/bioif-public-v1.0.0"
         self.final_report = self.root / "reports/FINAL_AUDIT.md"
 
@@ -77,10 +73,7 @@ class FinalAcceptanceWorkflow:
 
     def _fixture(self) -> dict[str, Any]:
         fixture = self._json(self.fixture_path, "final acceptance fixture")
-        if (
-            fixture.get("schema_version") != 1
-            or fixture.get("mode") != "final_project_acceptance_once"
-        ):
+        if fixture.get("schema_version") != 1 or fixture.get("mode") != "final_project_acceptance_once":
             raise FinalAcceptanceError("final acceptance fixture schema or mode is invalid")
         if fixture.get("acceptance_id") != self.ACCEPTANCE_ID or fixture.get("once") is not True:
             raise FinalAcceptanceError("final acceptance identity is not frozen")
@@ -121,9 +114,7 @@ class FinalAcceptanceWorkflow:
         active = [task.id for task in tasks if task.status == "IN_PROGRESS"]
         if state.current_task != "T114" or active != ["T114"]:
             raise FinalAcceptanceError(f"final acceptance requires only T114 active: {active}")
-        nonterminal = [
-            task.id for task in tasks if task.id != "T114" and task.status not in {"DONE", "WAIVED"}
-        ]
+        nonterminal = [task.id for task in tasks if task.id != "T114" and task.status not in {"DONE", "WAIVED"}]
         if nonterminal:
             raise FinalAcceptanceError(f"mandatory tasks are not complete: {nonterminal}")
         ledger = AppendOnlyJSONL(self.root / "reports/task_ledger.jsonl")
@@ -299,9 +290,7 @@ class FinalAcceptanceWorkflow:
                 tarfile.open(fileobj=gzip_stream, mode="w") as tar,
             ):
                 for path in sorted(copied):
-                    info = tar.gettarinfo(
-                        str(path), arcname=path.relative_to(self.output_root).as_posix()
-                    )
+                    info = tar.gettarinfo(str(path), arcname=path.relative_to(self.output_root).as_posix())
                     info.uid = 0
                     info.gid = 0
                     info.uname = "root"
@@ -329,8 +318,7 @@ class FinalAcceptanceWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         copied.append(receipt_path)
         checksum_lines = [
-            f"{_sha256(path)}  {path.relative_to(self.output_root).as_posix()}"
-            for path in sorted(copied)
+            f"{_sha256(path)}  {path.relative_to(self.output_root).as_posix()}" for path in sorted(copied)
         ]
         checksums = self.output_root / "final_checksums.sha256"
         checksums.write_text("\n".join(checksum_lines) + "\n", encoding="utf-8")
@@ -356,9 +344,7 @@ class FinalAcceptanceWorkflow:
             or receipt.get("status") != "VALID_PUBLIC_RELEASE_SEALED"
         ):
             raise FinalAcceptanceError("public release status is invalid")
-        if receipt.get("manifest_sha256") != _sha256(manifest_path) or receipt.get(
-            "bundle_sha256"
-        ) != _sha256(archive):
+        if receipt.get("manifest_sha256") != _sha256(manifest_path) or receipt.get("bundle_sha256") != _sha256(archive):
             raise FinalAcceptanceError("public release receipt hash mismatch")
         for line in checksums.read_text(encoding="utf-8").splitlines():
             digest, relative = line.split("  ", 1)
@@ -397,8 +383,7 @@ class FinalAcceptanceWorkflow:
             "project_status": "IN_PROGRESS",
             "critical_findings": 0,
             "submission_stage_limitations": [
-                "External related-work citations remain a submission-stage requirement for "
-                "the development drafts.",
+                "External related-work citations remain a submission-stage requirement for the development drafts.",
                 "Raw/restricted source rebuild requires original licensed locators and remains "
                 "outside the public package.",
             ],
@@ -422,16 +407,13 @@ class FinalAcceptanceWorkflow:
             "|---|---|---|",
         ]
         for gate_id, gate in gates.items():
-            lines.append(
-                f"| {gate_id} | {gate['status']} | final acceptance workflow and sealed receipts |"
-            )
+            lines.append(f"| {gate_id} | {gate['status']} | final acceptance workflow and sealed receipts |")
         lines.extend(
             [
                 "",
                 "## Submission-stage limitations",
                 "",
-                "- External related-work citations remain to be added during submission "
-                "preparation.",
+                "- External related-work citations remain to be added during submission preparation.",
                 "- Raw/restricted source data must be rebuilt from original licensed locators "
                 "outside the public package.",
                 "",

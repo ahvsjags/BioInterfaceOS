@@ -42,10 +42,7 @@ class FamilyResolverTests(unittest.TestCase):
             self.assertIn("dataset_for", {row["relationship_to_family"] for row in family_one})
             self.assertTrue(all(row["study_key"].startswith("study:") for row in rows))
             self.assertTrue(all(row["lab_key"].startswith("lab:") for row in rows))
-            review_rows = [
-                json.loads(line)
-                for line in (root / "family_manual_review.jsonl").read_text().splitlines()
-            ]
+            review_rows = [json.loads(line) for line in (root / "family_manual_review.jsonl").read_text().splitlines()]
             self.assertEqual(
                 {row["reason"] for row in review_rows},
                 {

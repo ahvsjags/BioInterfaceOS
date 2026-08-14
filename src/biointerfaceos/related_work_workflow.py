@@ -15,9 +15,7 @@ class RelatedWorkError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -115,9 +113,7 @@ class RelatedWorkWorkflow:
         "r2_position",
         "non_equivalence",
     }
-    REQUIRED_SCOPE_IDS = frozenset(
-        {"R2_PAPER_AB_REAL_BENCHMARK_METHOD", "R2_PAPER_C_PREREGISTERED_PROTOCOL"}
-    )
+    REQUIRED_SCOPE_IDS = frozenset({"R2_PAPER_AB_REAL_BENCHMARK_METHOD", "R2_PAPER_C_PREREGISTERED_PROTOCOL"})
 
     def __init__(
         self,
@@ -168,9 +164,7 @@ class RelatedWorkWorkflow:
             raise RelatedWorkError("external-evidence registry fields or schema are invalid")
         _string(registry.get("registry_id"), "external-evidence registry ID")
         _string(registry.get("retrieved_at"), "external-evidence retrieval timestamp")
-        search_protocol = _mapping(
-            registry.get("search_protocol"), "external-evidence search protocol"
-        )
+        search_protocol = _mapping(registry.get("search_protocol"), "external-evidence search protocol")
         required_protocol_fields = {
             "question",
             "sources_searched",
@@ -208,9 +202,7 @@ class RelatedWorkWorkflow:
                 raise RelatedWorkError("external-evidence landing URL must use HTTPS")
             self._string_list(reference.get("roles"), "external-evidence reference roles")
             if any(
-                token in " ".join(
-                    str(reference[field]) for field in ("citation_key", "citation", "title")
-                ).lower()
+                token in " ".join(str(reference[field]) for field in ("citation_key", "citation", "title")).lower()
                 for token in ("fixture", "synthetic", "mock")
             ):
                 raise RelatedWorkError("fixture-like citation entered the external-evidence packet")
@@ -238,20 +230,14 @@ class RelatedWorkWorkflow:
             scope_ids.add(scope_id)
             for field in ("target_document", "position"):
                 _string(scope.get(field), f"manuscript scope {field}")
-            citation_keys = self._string_list(
-                scope.get("citation_keys"), "manuscript scope citation keys", minimum=6
-            )
+            citation_keys = self._string_list(scope.get("citation_keys"), "manuscript scope citation keys", minimum=6)
             if not set(citation_keys).issubset(references):
                 raise RelatedWorkError("manuscript scope cites an unverified external reference")
             required_terms = set(
-                self._string_list(
-                    scope.get("required_glossary_terms"), "manuscript scope glossary terms"
-                )
+                self._string_list(scope.get("required_glossary_terms"), "manuscript scope glossary terms")
             )
             if not self.REQUIRED_GLOSSARY_TERMS.issubset(required_terms):
-                raise RelatedWorkError(
-                    "manuscript scope omits a required operational glossary term"
-                )
+                raise RelatedWorkError("manuscript scope omits a required operational glossary term")
             self._string_list(scope.get("comparator_ids"), "manuscript scope comparator IDs")
             self._string_list(scope.get("claim_constraints"), "manuscript scope claim constraints")
             scopes.append(scope)
@@ -271,20 +257,14 @@ class RelatedWorkWorkflow:
             if comparator_id in comparator_ids:
                 raise RelatedWorkError("related-work comparator ID is duplicated")
             comparator_ids.add(comparator_id)
-            citation_keys = self._string_list(
-                comparator.get("citation_keys"), "related-work comparator citation keys"
-            )
+            citation_keys = self._string_list(comparator.get("citation_keys"), "related-work comparator citation keys")
             if not set(citation_keys).issubset(references):
-                raise RelatedWorkError(
-                    "related-work comparator cites an unverified external reference"
-                )
+                raise RelatedWorkError("related-work comparator cites an unverified external reference")
             for field in ("comparison_axis", "r2_position", "non_equivalence"):
                 _string(comparator.get(field), f"related-work comparator {field}")
             comparators.append(comparator)
         for scope in scopes:
-            scope_comparators = set(
-                self._string_list(scope["comparator_ids"], "manuscript scope comparator IDs")
-            )
+            scope_comparators = set(self._string_list(scope["comparator_ids"], "manuscript scope comparator IDs"))
             if not scope_comparators.issubset(comparator_ids):
                 raise RelatedWorkError("manuscript scope names an unknown comparator")
         used_citations = {
@@ -294,9 +274,7 @@ class RelatedWorkWorkflow:
         } | {
             key
             for comparator in comparators
-            for key in self._string_list(
-                comparator["citation_keys"], "related-work comparator citation keys"
-            )
+            for key in self._string_list(comparator["citation_keys"], "related-work comparator citation keys")
         }
         if used_citations != set(references):
             raise RelatedWorkError("external-evidence registry has an uncited reference")
@@ -323,13 +301,9 @@ class RelatedWorkWorkflow:
         if missing:
             raise RelatedWorkError(f"R2 operational glossary is missing: {', '.join(missing)}")
         if "source_not_stated" not in content or "not convertible by default" not in content:
-            raise RelatedWorkError(
-                "R2 glossary does not preserve missing-unit comparability boundary"
-            )
+            raise RelatedWorkError("R2 glossary does not preserve missing-unit comparability boundary")
         if not relative.startswith("docs/literature/"):
-            raise RelatedWorkError(
-                "R2 operational glossary is outside the reviewed documentation scope"
-            )
+            raise RelatedWorkError("R2 operational glossary is outside the reviewed documentation scope")
         return sorted(terms)
 
     def run(self, *, strict: bool = False) -> RelatedWorkSummary:
@@ -384,9 +358,7 @@ class RelatedWorkWorkflow:
             {
                 "schema_version": 1,
                 "audit_id": self.AUDIT_ID,
-                "glossary_relative_path": self._relative(
-                    self.glossary_path, "R2 operational glossary"
-                ),
+                "glossary_relative_path": self._relative(self.glossary_path, "R2 operational glossary"),
                 "glossary_sha256": _sha256(self.glossary_path),
                 "glossary_terms": glossary_terms,
                 "manuscript_scope_count": len(scopes),
@@ -419,18 +391,12 @@ class RelatedWorkWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return RelatedWorkSummary(
             citation_count=_integer(receipt["citation_count"], "citation count", minimum=12),
             comparator_count=_integer(receipt["comparator_count"], "comparator count", minimum=8),
-            manuscript_scope_count=_integer(
-                receipt["manuscript_scope_count"], "manuscript scope count", minimum=2
-            ),
-            glossary_term_count=_integer(
-                receipt["glossary_term_count"], "glossary term count", minimum=7
-            ),
+            manuscript_scope_count=_integer(receipt["manuscript_scope_count"], "manuscript scope count", minimum=2),
+            glossary_term_count=_integer(receipt["glossary_term_count"], "glossary term count", minimum=7),
             receipt_path=receipt_path,
         )
 
@@ -450,10 +416,7 @@ class RelatedWorkWorkflow:
             or receipt.get("manuscript_glossary_coverage_sha256") != _sha256(coverage_path)
             or _integer(receipt.get("citation_count"), "receipt citation count") < 12
             or _integer(receipt.get("comparator_count"), "receipt comparator count") < 8
-            or _integer(
-                receipt.get("manuscript_scope_count"), "receipt manuscript scope count"
-            )
-            != 2
+            or _integer(receipt.get("manuscript_scope_count"), "receipt manuscript scope count") != 2
             or _integer(receipt.get("glossary_term_count"), "receipt glossary term count") < 7
             or receipt.get("historical_fixture_manuscripts_retroactively_cleared") is not False
             or receipt.get("model_fitted") is not False

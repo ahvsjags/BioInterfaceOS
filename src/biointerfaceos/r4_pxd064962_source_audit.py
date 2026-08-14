@@ -174,9 +174,7 @@ class R4PXD064962SourceAuditWorkflow:
             _string(reference.get("relative_path"), "T188 R3 reference path"),
             "T188 R3 reference asset",
         )
-        if _sha256(reference_path) != _checksum(
-            reference.get("sha256"), "T188 R3 reference checksum"
-        ):
+        if _sha256(reference_path) != _checksum(reference.get("sha256"), "T188 R3 reference checksum"):
             raise R4PXD064962SourceAuditError("T188 R3 reference checksum differs")
         return (
             registry,
@@ -214,9 +212,7 @@ class R4PXD064962SourceAuditWorkflow:
     def _sample_contract(cls, sample: str) -> dict[str, str]:
         match = cls.SAMPLE_PATTERN.fullmatch(sample)
         if match is None:
-            raise R4PXD064962SourceAuditError(
-                f"sample label does not match frozen contract: {sample}"
-            )
+            raise R4PXD064962SourceAuditError(f"sample label does not match frozen contract: {sample}")
         cohort, timepoint, patient, replicate, injection = match.groups()
         batch = f"{cohort}_{timepoint}_{patient}"
         return {
@@ -242,14 +238,10 @@ class R4PXD064962SourceAuditWorkflow:
             reader = csv.DictReader(stream, delimiter="\t")
             if reader.fieldnames is None:
                 raise R4PXD064962SourceAuditError("proteinGroups header is missing")
-            measurement_columns = [
-                field for field in reader.fieldnames if field.startswith("LFQ intensity ")
-            ]
+            measurement_columns = [field for field in reader.fieldnames if field.startswith("LFQ intensity ")]
             contract = _mapping(registry["table_contract"], "T188 table contract")
             admission = _mapping(registry["admission_minimums"], "T188 admission minimums")
-            minimum_positive_targets = int(
-                admission["minimum_positive_shared_proteins_per_measurement_batch"]
-            )
+            minimum_positive_targets = int(admission["minimum_positive_shared_proteins_per_measurement_batch"])
             if len(measurement_columns) != contract["expected_lfq_columns"]:
                 raise R4PXD064962SourceAuditError("LFQ column count differs")
             for column in measurement_columns:
@@ -259,9 +251,7 @@ class R4PXD064962SourceAuditWorkflow:
         if len(rows) != contract["expected_protein_group_rows"]:
             raise R4PXD064962SourceAuditError("protein-group row count differs")
         for row_number, row in enumerate(rows, start=2):
-            identifiers = {
-                value.strip() for value in row.get("Protein IDs", "").split(";") if value.strip()
-            }
+            identifiers = {value.strip() for value in row.get("Protein IDs", "").split(";") if value.strip()}
             target_accessions = identifiers & features
             for column, sample, _sample_info in samples:
                 value = self._number(row.get(column, ""))
@@ -281,9 +271,7 @@ class R4PXD064962SourceAuditWorkflow:
             sample_info = next(info for _, sample_name, info in samples if sample_name == sample)
             raw_value = rows[row_number - 2].get(column, "")
             value = self._number(raw_value)
-            state = (
-                "SOURCE_BLANK" if value is None else ("EXPLICIT_ZERO" if value == 0 else "POSITIVE")
-            )
+            state = "SOURCE_BLANK" if value is None else ("EXPLICIT_ZERO" if value == 0 else "POSITIVE")
             eligible = value is not None and value > 0
             for accession in sorted(target_accessions):
                 target_source_cell_count += 1
@@ -320,44 +308,31 @@ class R4PXD064962SourceAuditWorkflow:
             raise R4PXD064962SourceAuditError("positive source-cell count differs")
         if target_source_cell_count != contract["expected_target_source_cell_count"]:
             raise R4PXD064962SourceAuditError("target source-cell count differs")
-        if (
-            target_positive_source_cell_count
-            != contract["expected_target_positive_source_cell_count"]
-        ):
+        if target_positive_source_cell_count != contract["expected_target_positive_source_cell_count"]:
             raise R4PXD064962SourceAuditError("target positive source-cell count differs")
         if len(batch_targets) != contract["expected_measurement_batches"]:
             raise R4PXD064962SourceAuditError("measurement-batch count differs")
         positive_batch_observations = sum(len(values) for values in batch_targets.values())
         if positive_batch_observations != contract["expected_target_positive_batch_observations"]:
             raise R4PXD064962SourceAuditError("batch-level target observation count differs")
-        if (
-            len({row["canonical_accession"] for row in rows_out})
-            != contract["expected_shared_target_count"]
-        ):
+        if len({row["canonical_accession"] for row in rows_out}) != contract["expected_shared_target_count"]:
             raise R4PXD064962SourceAuditError("shared target count differs")
         source_coordinates = {row["source_coordinate"] for row in rows_out}
         target_accessions_by_coordinate: dict[str, set[str]] = defaultdict(set)
         for row in rows_out:
-            target_accessions_by_coordinate[row["source_coordinate"]].add(
-                row["canonical_accession"]
-            )
+            target_accessions_by_coordinate[row["source_coordinate"]].add(row["canonical_accession"])
         ambiguous_coordinates = {
-            coordinate
-            for coordinate, accessions in target_accessions_by_coordinate.items()
-            if len(accessions) > 1
+            coordinate for coordinate, accessions in target_accessions_by_coordinate.items() if len(accessions) > 1
         }
         ambiguous_pair_excess = sum(
-            len(accessions) - 1
-            for accessions in target_accessions_by_coordinate.values()
-            if len(accessions) > 1
+            len(accessions) - 1 for accessions in target_accessions_by_coordinate.values() if len(accessions) > 1
         )
         positive_shared_targets = {
             row["canonical_accession"] for row in rows_out if row["rank_target_eligible"] == "true"
         }
         if (
             len(source_coordinates) != contract["expected_unique_target_source_coordinates"]
-            or len(ambiguous_coordinates)
-            != contract["expected_ambiguous_target_source_coordinates"]
+            or len(ambiguous_coordinates) != contract["expected_ambiguous_target_source_coordinates"]
             or ambiguous_pair_excess != contract["expected_ambiguous_target_accession_pair_excess"]
             or len(positive_shared_targets) != contract["expected_positive_shared_target_count"]
         ):
@@ -378,9 +353,7 @@ class R4PXD064962SourceAuditWorkflow:
                 len(values) >= minimum_positive_targets for values in batch_targets.values()
             ),
             "shared_canonical_protein_count": len({row["canonical_accession"] for row in rows_out}),
-            "technical_replicate_count": len(
-                {info["technical_replicate_id"] for _, _, info in samples}
-            ),
+            "technical_replicate_count": len({info["technical_replicate_id"] for _, _, info in samples}),
             "batch_target_counts": counts,
         }
         return rows_out, summary
@@ -465,26 +438,14 @@ class R4PXD064962SourceAuditWorkflow:
             positive_source_cell_count=accounting["positive_source_cell_count"],
             target_source_cell_count=accounting["target_source_cell_count"],
             target_positive_source_cell_count=accounting["target_positive_source_cell_count"],
-            target_positive_batch_observation_count=accounting[
-                "target_positive_batch_observation_count"
-            ],
-            unique_target_source_coordinate_count=accounting[
-                "unique_target_source_coordinate_count"
-            ],
-            ambiguous_target_source_coordinate_count=accounting[
-                "ambiguous_target_source_coordinate_count"
-            ],
-            ambiguous_target_accession_pair_excess=accounting[
-                "ambiguous_target_accession_pair_excess"
-            ],
-            positive_shared_canonical_protein_count=accounting[
-                "positive_shared_canonical_protein_count"
-            ],
+            target_positive_batch_observation_count=accounting["target_positive_batch_observation_count"],
+            unique_target_source_coordinate_count=accounting["unique_target_source_coordinate_count"],
+            ambiguous_target_source_coordinate_count=accounting["ambiguous_target_source_coordinate_count"],
+            ambiguous_target_accession_pair_excess=accounting["ambiguous_target_accession_pair_excess"],
+            positive_shared_canonical_protein_count=accounting["positive_shared_canonical_protein_count"],
             biological_unit_count=accounting["biological_unit_count"],
             measurement_batch_count=accounting["measurement_batch_count"],
-            rank_qualified_measurement_batch_count=accounting[
-                "rank_qualified_measurement_batch_count"
-            ],
+            rank_qualified_measurement_batch_count=accounting["rank_qualified_measurement_batch_count"],
             shared_canonical_protein_count=accounting["shared_canonical_protein_count"],
             technical_replicate_count=accounting["technical_replicate_count"],
             receipt_path=receipt_path,
@@ -511,14 +472,12 @@ class R4PXD064962SourceAuditWorkflow:
         if (
             report.get("audit_id") != self.AUDIT_ID
             or report.get("status") != self.STATUS
-            or report.get("registry", {}).get("relative_path")
-            != self.registry_path.relative_to(self.root).as_posix()
+            or report.get("registry", {}).get("relative_path") != self.registry_path.relative_to(self.root).as_posix()
             or report.get("registry", {}).get("sha256") != _sha256(self.registry_path)
             or report.get("source_cell_map", {}).get("sha256") != _sha256(derived)
             or report.get("source_asset", {}).get("sha256") != _sha256(asset)
             or report.get("source_asset", {}).get("summary_sha256") != _sha256(summary_asset)
-            or report.get("source_asset", {}).get("pride_metadata_sha256")
-            != _sha256(pride_metadata_asset)
+            or report.get("source_asset", {}).get("pride_metadata_sha256") != _sha256(pride_metadata_asset)
             or receipt.get("audit_id") != self.AUDIT_ID
             or receipt.get("status") != self.STATUS
             or receipt.get("registry") != report.get("registry")
@@ -534,26 +493,14 @@ class R4PXD064962SourceAuditWorkflow:
             positive_source_cell_count=accounting["positive_source_cell_count"],
             target_source_cell_count=accounting["target_source_cell_count"],
             target_positive_source_cell_count=accounting["target_positive_source_cell_count"],
-            target_positive_batch_observation_count=accounting[
-                "target_positive_batch_observation_count"
-            ],
-            unique_target_source_coordinate_count=accounting[
-                "unique_target_source_coordinate_count"
-            ],
-            ambiguous_target_source_coordinate_count=accounting[
-                "ambiguous_target_source_coordinate_count"
-            ],
-            ambiguous_target_accession_pair_excess=accounting[
-                "ambiguous_target_accession_pair_excess"
-            ],
-            positive_shared_canonical_protein_count=accounting[
-                "positive_shared_canonical_protein_count"
-            ],
+            target_positive_batch_observation_count=accounting["target_positive_batch_observation_count"],
+            unique_target_source_coordinate_count=accounting["unique_target_source_coordinate_count"],
+            ambiguous_target_source_coordinate_count=accounting["ambiguous_target_source_coordinate_count"],
+            ambiguous_target_accession_pair_excess=accounting["ambiguous_target_accession_pair_excess"],
+            positive_shared_canonical_protein_count=accounting["positive_shared_canonical_protein_count"],
             biological_unit_count=accounting["biological_unit_count"],
             measurement_batch_count=accounting["measurement_batch_count"],
-            rank_qualified_measurement_batch_count=accounting[
-                "rank_qualified_measurement_batch_count"
-            ],
+            rank_qualified_measurement_batch_count=accounting["rank_qualified_measurement_batch_count"],
             shared_canonical_protein_count=accounting["shared_canonical_protein_count"],
             technical_replicate_count=accounting["technical_replicate_count"],
             receipt_path=receipt_path,

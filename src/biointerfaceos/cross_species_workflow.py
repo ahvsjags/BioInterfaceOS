@@ -34,9 +34,7 @@ class CrossSpeciesSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -87,9 +85,7 @@ class CrossSpeciesWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/cross_species_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/cross_species_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/cross_species"
 
     def _fixture(self) -> dict[str, Any]:
@@ -116,15 +112,9 @@ class CrossSpeciesWorkflow:
     def _inputs(self, fixture: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         expected = {
             "T056 module matrix": self.root / "reports/omics/harmonization/module_matrix.json",
-            "T078 uncertainty receipt": (
-                self.root / "reports/models/uncertainty/uncertainty_receipt.json"
-            ),
-            "T089 tournament config": (
-                self.root / "reports/claims/tournament/tournament_config.json"
-            ),
-            "T090 functional axes receipt": (
-                self.root / "reports/omics/functional_axes/functional_axes_receipt.json"
-            ),
+            "T078 uncertainty receipt": (self.root / "reports/models/uncertainty/uncertainty_receipt.json"),
+            "T089 tournament config": (self.root / "reports/claims/tournament/tournament_config.json"),
+            "T090 functional axes receipt": (self.root / "reports/omics/functional_axes/functional_axes_receipt.json"),
         }
         loaded: dict[str, dict[str, Any]] = {}
         for value in fixture["inputs"]:
@@ -132,20 +122,14 @@ class CrossSpeciesWorkflow:
             label = _string(row.get("label"), "cross-species input label")
             if label not in expected:
                 raise CrossSpeciesError(f"unexpected cross-species input: {label}")
-            path = (self.root / _string(row.get("path"), "cross-species input path")).resolve(
-                strict=True
-            )
+            path = (self.root / _string(row.get("path"), "cross-species input path")).resolve(strict=True)
             if path != expected[label].resolve(strict=True):
                 raise CrossSpeciesError(f"cross-species input path mismatch: {label}")
-            if _sha256(path.read_bytes()) != _string(
-                row.get("sha256"), "cross-species input checksum"
-            ):
+            if _sha256(path.read_bytes()) != _string(row.get("sha256"), "cross-species input checksum"):
                 raise CrossSpeciesError(f"cross-species input checksum differs: {label}")
             loaded[label] = _mapping(json.loads(path.read_text(encoding="utf-8")), label)
         if set(loaded) != set(expected):
-            raise CrossSpeciesError(
-                "cross-species inputs do not match T056/T078/T089/T090 contract"
-            )
+            raise CrossSpeciesError("cross-species inputs do not match T056/T078/T089/T090 contract")
         module_matrix = loaded["T056 module matrix"]
         if not isinstance(module_matrix.get("rows"), list) or not module_matrix["rows"]:
             raise CrossSpeciesError("T056 module matrix has no rows")
@@ -189,9 +173,7 @@ class CrossSpeciesWorkflow:
             pair_status = _string(row.get("pair_status"), "cross-species pair status")
             stratum = _string(row.get("stratum"), "cross-species stratum")
             if case_id in seen_cases or split not in {"development", "heldout"}:
-                raise CrossSpeciesError(
-                    f"cross-species case identity or split is invalid: {case_id}"
-                )
+                raise CrossSpeciesError(f"cross-species case identity or split is invalid: {case_id}")
             if stratum not in {"human_mouse", "biofluid"}:
                 raise CrossSpeciesError(f"unsupported cross-species stratum: {stratum}")
             if pair_status not in {"PAIRED", "UNMATCHED"}:
@@ -220,9 +202,7 @@ class CrossSpeciesWorkflow:
                     "pair_id": pair_id,
                     "source_signal": _number(row.get("source_signal"), "source signal"),
                     "functional_axis": _number(row.get("functional_axis"), "functional axis"),
-                    "conditional_covariate": _number(
-                        row.get("conditional_covariate"), "conditional covariate"
-                    ),
+                    "conditional_covariate": _number(row.get("conditional_covariate"), "conditional covariate"),
                     "support_distance": _number(row.get("support_distance"), "support distance"),
                     "target_available": target_available,
                     "target_value": target,
@@ -272,9 +252,7 @@ class CrossSpeciesWorkflow:
             if left["source_signal"] <= signal <= right["source_signal"]:
                 span = right["source_signal"] - left["source_signal"]
                 weight = (signal - left["source_signal"]) / span
-                return float(
-                    left["target_value"] + weight * (right["target_value"] - left["target_value"])
-                )
+                return float(left["target_value"] + weight * (right["target_value"] - left["target_value"]))
         raise CrossSpeciesError("optimal-transport interpolation failed")
 
     @classmethod
@@ -301,9 +279,7 @@ class CrossSpeciesWorkflow:
         raise CrossSpeciesError(f"unsupported transfer method: {method}")
 
     @staticmethod
-    def _metrics(
-        rows: list[dict[str, Any]], predictions: dict[str, float], interval_scale: float
-    ) -> dict[str, Any]:
+    def _metrics(rows: list[dict[str, Any]], predictions: dict[str, float], interval_scale: float) -> dict[str, Any]:
         scored = [row for row in rows if row["case_id"] in predictions]
         if not scored:
             return {
@@ -317,8 +293,7 @@ class CrossSpeciesWorkflow:
             }
         errors = [predictions[row["case_id"]] - row["target_value"] for row in scored]
         covered = sum(
-            abs(error) <= interval_scale * row["uncertainty"]
-            for error, row in zip(errors, scored, strict=True)
+            abs(error) <= interval_scale * row["uncertainty"] for error, row in zip(errors, scored, strict=True)
         )
         rank_pairs = 0
         rank_correct = 0
@@ -355,31 +330,22 @@ class CrossSpeciesWorkflow:
         abstentions: list[dict[str, Any]] = []
         overlap_rows: list[dict[str, Any]] = []
         scored_heldout = 0
-        heldout_materials = sorted(
-            {row["material_id"] for row in rows if row["split"] == "heldout"}
-        )
-        development_materials = sorted(
-            {row["material_id"] for row in rows if row["split"] == "development"}
-        )
+        heldout_materials = sorted({row["material_id"] for row in rows if row["split"] == "heldout"})
+        development_materials = sorted({row["material_id"] for row in rows if row["split"] == "development"})
         for stratum in ("human_mouse", "biofluid"):
             development = [
                 row
                 for row in rows
-                if row["stratum"] == stratum
-                and row["split"] == "development"
-                and row["pair_status"] == "PAIRED"
+                if row["stratum"] == stratum and row["split"] == "development" and row["pair_status"] == "PAIRED"
             ]
-            heldout = [
-                row for row in rows if row["stratum"] == stratum and row["split"] == "heldout"
-            ]
+            heldout = [row for row in rows if row["stratum"] == stratum and row["split"] == "heldout"]
             if len(development) < 2:
                 raise CrossSpeciesError(f"insufficient development support: {stratum}")
             offsets = self._fit_offsets(development)
             method_results[stratum] = {}
             for method in self.METHODS:
                 dev_predictions = {
-                    row["case_id"]: self._predict(method, row, development, offsets)
-                    for row in development
+                    row["case_id"]: self._predict(method, row, development, offsets) for row in development
                 }
                 heldout_predictions: dict[str, float] = {}
                 for row in heldout:
@@ -389,14 +355,10 @@ class CrossSpeciesWorkflow:
                         and row["support_distance"] <= threshold
                     )
                     if supported:
-                        heldout_predictions[row["case_id"]] = self._predict(
-                            method, row, development, offsets
-                        )
+                        heldout_predictions[row["case_id"]] = self._predict(method, row, development, offsets)
                     elif method == "direct":
                         reason = (
-                            "unmatched_pair"
-                            if row["pair_status"] != "PAIRED"
-                            else "support_distance_exceeds_threshold"
+                            "unmatched_pair" if row["pair_status"] != "PAIRED" else "support_distance_exceeds_threshold"
                         )
                         abstentions.append(
                             {
@@ -422,9 +384,7 @@ class CrossSpeciesWorkflow:
                 {
                     "stratum": stratum,
                     "heldout_materials": sorted({row["material_id"] for row in heldout}),
-                    "methods": {
-                        name: method_results[stratum][name]["heldout"] for name in self.METHODS
-                    },
+                    "methods": {name: method_results[stratum][name]["heldout"] for name in self.METHODS},
                     "tuned_on_heldout": False,
                 }
             )
@@ -467,9 +427,7 @@ class CrossSpeciesWorkflow:
             "schema_version": 1,
             "paired_cases": sum(row["pair_status"] == "PAIRED" for row in rows),
             "unmatched_cases": sum(row["pair_status"] == "UNMATCHED" for row in rows),
-            "unique_pair_ids": len(
-                {row["pair_id"] for row in rows if row["pair_status"] == "PAIRED"}
-            ),
+            "unique_pair_ids": len({row["pair_id"] for row in rows if row["pair_status"] == "PAIRED"}),
             "pseudo_pairs_created": False,
             "cross_study_merge": False,
             "unmatched_exclusions_preserved": True,
@@ -549,11 +507,7 @@ class CrossSpeciesWorkflow:
         for name, path in paths.items():
             path.write_bytes(payload_bytes[name])
             artifact_records[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -603,9 +557,7 @@ class CrossSpeciesWorkflow:
         }
         receipt_path.write_bytes(_canonical(receipt))
         receipt_relative = (
-            str(receipt_path.relative_to(self.root))
-            if receipt_path.is_relative_to(self.root)
-            else str(receipt_path)
+            str(receipt_path.relative_to(self.root)) if receipt_path.is_relative_to(self.root) else str(receipt_path)
         )
         manifest = {
             "schema_version": 1,

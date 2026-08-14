@@ -6,8 +6,10 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import stat
 import subprocess
+import sys
 import tarfile
 from collections.abc import Mapping
 from pathlib import Path
@@ -19,9 +21,7 @@ class CleanRoomError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -92,9 +92,7 @@ class CleanRoomWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/reproducibility/clean_room_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/reproducibility/clean_room_fixture.json"
         self.output_root = output_root or self.root / "reports/reproducibility/clean-room-v1.0.0"
 
     def _path(self, value: str, label: str) -> Path:
@@ -144,17 +142,13 @@ class CleanRoomWorkflow:
             "reports/lockbox/audit/bioif-lockbox-audit-v1.0.0/audit_receipt.json",
         }
         if not required.issubset(relative):
-            raise CleanRoomError(
-                f"required public package files are missing: {sorted(required - set(relative))}"
-            )
+            raise CleanRoomError(f"required public package files are missing: {sorted(required - set(relative))}")
         return [self.root / name for name in relative]
 
     def _check_license_metadata(self) -> dict[str, Any]:
         manifest_path = self._path("data/bronze/bronze_manifest.json", "bronze manifest")
         tiers_path = self._path("data/bronze/license_tiers.json", "license tiers")
-        manifest = _mapping(
-            json.loads(manifest_path.read_text(encoding="utf-8")), "bronze manifest"
-        )
+        manifest = _mapping(json.loads(manifest_path.read_text(encoding="utf-8")), "bronze manifest")
         tiers = _mapping(json.loads(tiers_path.read_text(encoding="utf-8")), "license tiers")
         assets = manifest.get("assets")
         if not isinstance(assets, list) or not assets:
@@ -162,17 +156,10 @@ class CleanRoomWorkflow:
         for asset_value in assets:
             asset = _mapping(asset_value, "bronze license asset")
             if asset.get("redistribution") not in {"allowed", "manifest_only"}:
-                raise CleanRoomError(
-                    f"unlicensed asset cannot enter public package: {asset.get('asset_id')}"
-                )
-            if (
-                asset.get("license_tier") == "restricted_pointer"
-                and asset.get("payload_mode") != "POINTER_ONLY"
-            ):
+                raise CleanRoomError(f"unlicensed asset cannot enter public package: {asset.get('asset_id')}")
+            if asset.get("license_tier") == "restricted_pointer" and asset.get("payload_mode") != "POINTER_ONLY":
                 raise CleanRoomError("restricted asset payload is not pointer-only")
-        if tiers.get("schema_version") != 1 or tiers.get("manifest_hash") != manifest.get(
-            "manifest_hash"
-        ):
+        if tiers.get("schema_version") != 1 or tiers.get("manifest_hash") != manifest.get("manifest_hash"):
             raise CleanRoomError("license tier manifest does not bind to bronze manifest")
         return {
             "manifest": str(manifest_path.relative_to(self.root)),
@@ -222,9 +209,7 @@ class CleanRoomWorkflow:
             raise CleanRoomError("offline benchmark output did not report passed tests")
         return int(matches[-1])
 
-    def _run_benchmark(
-        self, run_id: int, package_sha256: str, license_check: Mapping[str, Any]
-    ) -> dict[str, Any]:
+    def _run_benchmark(self, run_id: int, package_sha256: str, license_check: Mapping[str, Any]) -> dict[str, Any]:
         env = os.environ.copy()
         env.update(
             {
@@ -234,6 +219,8 @@ class CleanRoomWorkflow:
             }
         )
         command = self.BENCHMARK_COMMAND.split()
+        if shutil.which(command[0]) is None:
+            command = [sys.executable, "-m", *command[4:]]
         try:
             completed = subprocess.run(
                 command,
@@ -331,8 +318,7 @@ class CleanRoomWorkflow:
             "raw_values_written": False,
             "license_safe": True,
             "nonredistributable_rebuild_steps": [
-                "Use the original licensed source locator and local credentials outside this "
-                "package.",
+                "Use the original licensed source locator and local credentials outside this package.",
                 "Rebuild raw or restricted-pointer data only under the documented source policy.",
                 "Do not copy data/locked_test, data/raw, data/cas, credentials, or model "
                 "payloads into the public package.",
@@ -350,32 +336,20 @@ class CleanRoomWorkflow:
         archive = self.output_root / "public_package.tar.gz"
         if not report_path.is_file() or not manifest_path.is_file() or not archive.is_file():
             raise CleanRoomError("clean-room output is incomplete")
-        report = _mapping(
-            json.loads(report_path.read_text(encoding="utf-8")), "reproduction report"
-        )
-        manifest = _mapping(
-            json.loads(manifest_path.read_text(encoding="utf-8")), "package manifest"
-        )
-        if (
-            report.get("status") != "VALID_CLEAN_ROOM_REPRODUCTION"
-            or report.get("independent_runs") != 3
-        ):
+        report = _mapping(json.loads(report_path.read_text(encoding="utf-8")), "reproduction report")
+        manifest = _mapping(json.loads(manifest_path.read_text(encoding="utf-8")), "package manifest")
+        if report.get("status") != "VALID_CLEAN_ROOM_REPRODUCTION" or report.get("independent_runs") != 3:
             raise CleanRoomError("clean-room report status or run count is invalid")
         if report.get("package_sha256") != _sha256(archive):
             raise CleanRoomError("public package hash differs from report")
-        if (
-            manifest.get("status") != "VALID_PUBLIC_PACKAGE_MANIFEST"
-            or manifest.get("network_accessed") is not False
-        ):
+        if manifest.get("status") != "VALID_PUBLIC_PACKAGE_MANIFEST" or manifest.get("network_accessed") is not False:
             raise CleanRoomError("public package boundary is invalid")
         receipts: list[dict[str, Any]] = []
         for run_id in (1, 2, 3):
             path = self.output_root / "runs" / f"run_{run_id}" / "receipt.json"
             if not path.is_file():
                 raise CleanRoomError(f"missing clean-room receipt: run {run_id}")
-            receipts.append(
-                _mapping(json.loads(path.read_text(encoding="utf-8")), f"run {run_id} receipt")
-            )
+            receipts.append(_mapping(json.loads(path.read_text(encoding="utf-8")), f"run {run_id} receipt"))
         if len({receipt.get("result_hash") for receipt in receipts}) != 1:
             raise CleanRoomError("clean-room result hashes diverge")
         if len({receipt.get("package_sha256") for receipt in receipts}) != 1:

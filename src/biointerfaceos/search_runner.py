@@ -73,9 +73,7 @@ class SearchRunner:
         self.root = root.resolve(strict=True)
         self.policy = policy
         self.matrix_path = matrix_path or self.root / "configs/search_queries.yaml"
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/search/search_results.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/search/search_results.json")
 
     @staticmethod
     def _load_fixture(path: Path) -> Mapping[str, Any]:
@@ -106,9 +104,7 @@ class SearchRunner:
 
     @staticmethod
     def _page_hash(page: Mapping[str, Any]) -> str:
-        payload = (
-            json.dumps(page, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-        ).encode("utf-8")
+        payload = (json.dumps(page, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
         return hashlib.sha256(payload).hexdigest()
 
     @staticmethod
@@ -149,19 +145,13 @@ class SearchRunner:
             raise SearchRunError("scope must be development or validation")
         matrix_summary = load_matrix(self.matrix_path)
         target_scope = "train" if scope == "development" else "validation"
-        queries = tuple(
-            item
-            for item in self._load_matrix_records(self.matrix_path)
-            if item["scope"] == target_scope
-        )
+        queries = tuple(item for item in self._load_matrix_records(self.matrix_path) if item["scope"] == target_scope)
         if not queries:
             raise SearchRunError(f"matrix has no queries for scope {target_scope}")
         fixture = self._load_fixture(self.fixture_path)
         results = fixture["results"]
         timestamp = datetime.now(UTC).isoformat()
-        run_id = hashlib.sha256(
-            f"{scope}|{matrix_summary.sha256}|{timestamp}".encode()
-        ).hexdigest()[:16]
+        run_id = hashlib.sha256(f"{scope}|{matrix_summary.sha256}|{timestamp}".encode()).hexdigest()[:16]
         run_ledger = AppendOnlyJSONL(self.root / "reports/search_runs.jsonl")
         candidate_ledger = AppendOnlyJSONL(self.root / "registry/search_candidates.jsonl")
         run_ledger.initialize()

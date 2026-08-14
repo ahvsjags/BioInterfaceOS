@@ -18,9 +18,10 @@ from __future__ import annotations
 import csv
 import json
 from collections import defaultdict
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 import numpy as np
 
@@ -46,7 +47,7 @@ class R4T200StatisticalClosureWorkflow:
     STATUS = "T200_STATISTICAL_CLOSURE_COMPLETED_EXPLORATORY"
     PROTOCOL_RELATIVE = "docs/data/R4_T200_STATISTICAL_CLOSURE_PROTOCOL.json"
     OUTPUT_RELATIVE = "reports/review_round_4/t200_statistical_closure/v1.0.0"
-    T197_REPORT = "reports/review_round_4/t197_source_availability_execution/v1.0.0/t197_source_availability_execution_report.json"
+    T197_REPORT = "reports/review_round_4/t197_source_availability_execution/v1.0.0/t197_source_availability_execution_report.json"  # noqa: E501
     T197_BATCH = "reports/review_round_4/t197_source_availability_execution/v1.0.0/outer_fold_batch_metrics.csv"
     T198_SOURCE = "data/raw/r4_candidate_pxd017052_nsclc/derived/R4_PXD017052_NSCLC_source_cell_map.csv"
     T198_SUMMARY = "reports/review_round_4/t198_paper_cohort_missingness/v1.0.0/threshold_summary.csv"
@@ -142,7 +143,9 @@ class R4T200StatisticalClosureWorkflow:
             adjusted[index] = running
         return adjusted
 
-    def _t197_intervals(self, batch_rows: Sequence[Mapping[str, str]], protocol: Mapping[str, Any]) -> list[dict[str, Any]]:
+    def _t197_intervals(
+        self, batch_rows: Sequence[Mapping[str, str]], protocol: Mapping[str, Any]
+    ) -> list[dict[str, Any]]:
         uncertainty = _mapping(protocol["uncertainty"], "T200 T197 uncertainty")
         resamples = int(uncertainty["resamples"])
         seed_base = int(uncertainty["random_seed_base"])
@@ -153,42 +156,48 @@ class R4T200StatisticalClosureWorkflow:
                 for metric_index, metric in enumerate(self.METRICS, start=1):
                     values = [float(row[metric]) for row in selected if row.get(metric, "") not in (None, "")]
                     if not values:
-                        output.append({
+                        output.append(
+                            {
+                                "outer_fold_id": fold,
+                                "model_id": model,
+                                "metric": metric,
+                                "cluster": "measurement_batch",
+                                "cluster_count": 0,
+                                "point_estimate": None,
+                                "interval_status": "UNDEFINED_CONSTANT_PREDICTION",
+                                "resamples": resamples,
+                                "seed": None,
+                                "lower_95": None,
+                                "upper_95": None,
+                            }
+                        )
+                        continue
+                    seed = seed_base + int(fold.rsplit("_", 1)[-1]) * 1000 + model_index * 100 + metric_index
+                    interval = self._cluster_interval(values, resamples=resamples, seed=seed)
+                    output.append(
+                        {
                             "outer_fold_id": fold,
                             "model_id": model,
                             "metric": metric,
                             "cluster": "measurement_batch",
-                            "cluster_count": 0,
-                            "point_estimate": None,
-                            "interval_status": "UNDEFINED_CONSTANT_PREDICTION",
-                            "resamples": resamples,
-                            "seed": None,
-                            "lower_95": None,
-                            "upper_95": None,
-                        })
-                        continue
-                    seed = seed_base + int(fold.rsplit("_", 1)[-1]) * 1000 + model_index * 100 + metric_index
-                    interval = self._cluster_interval(values, resamples=resamples, seed=seed)
-                    output.append({
-                        "outer_fold_id": fold,
-                        "model_id": model,
-                        "metric": metric,
-                        "cluster": "measurement_batch",
-                        "cluster_count": len(values),
-                        "point_estimate": float(np.mean(values)),
-                        "interval_status": "DEFINED",
-                        **interval,
-                    })
+                            "cluster_count": len(values),
+                            "point_estimate": float(np.mean(values)),
+                            "interval_status": "DEFINED",
+                            **interval,
+                        }
+                    )
         return output
 
     @staticmethod
-    def _t198_strata(source_rows: Sequence[Mapping[str, str]], thresholds: Sequence[int]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    def _t198_strata(
+        source_rows: Sequence[Mapping[str, str]], thresholds: Sequence[int]
+    ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
         batch_meta: dict[str, dict[str, str]] = {}
         batch_positive: defaultdict[str, int] = defaultdict(int)
         batch_rows: defaultdict[str, list[Mapping[str, str]]] = defaultdict(list)
         for row in source_rows:
             batch = row["measurement_batch_id"]
-            batch_meta.setdefault(batch, row)
+            batch_meta.setdefault(batch, dict(row))
             batch_rows[batch].append(row)
             if row.get("rank_target_eligible", "").lower() == "true":
                 batch_positive[batch] += 1
@@ -202,29 +211,35 @@ class R4T200StatisticalClosureWorkflow:
                 positive = sum(row.get("rank_target_eligible", "").lower() == "true" for row in rows)
                 missing = sum(row.get("author_value_state") == "AUTHOR_NA" for row in rows)
                 zero = sum(row.get("author_value_state") == "AUTHOR_EXPLICIT_ZERO" for row in rows)
-                strata_rows.append({
-                    "dimension": dimension,
-                    "stratum": stratum,
-                    "source_row_count": len(rows),
-                    "positive_row_count": positive,
-                    "author_na_row_count": missing,
-                    "explicit_zero_row_count": zero,
-                    "na_fraction": missing / len(rows) if rows else None,
-                    "measurement_batch_count": len(batches),
-                    "biological_unit_count": len({row["biological_unit_id"] for row in rows}),
-                    "qualification_threshold_reference": "threshold_grid",
-                })
-                for threshold in thresholds:
-                    qualified = [batch for batch in batches if batch_positive[batch] >= threshold]
-                    threshold_rows.append({
-                        "threshold": threshold,
+                strata_rows.append(
+                    {
                         "dimension": dimension,
                         "stratum": stratum,
+                        "source_row_count": len(rows),
+                        "positive_row_count": positive,
+                        "author_na_row_count": missing,
+                        "explicit_zero_row_count": zero,
+                        "na_fraction": missing / len(rows) if rows else None,
                         "measurement_batch_count": len(batches),
-                        "qualified_batch_count": len(qualified),
-                        "qualification_rate": len(qualified) / len(batches) if batches else None,
-                        "biological_unit_count": len({batch_meta[batch]["biological_unit_id"] for batch in qualified}),
-                    })
+                        "biological_unit_count": len({row["biological_unit_id"] for row in rows}),
+                        "qualification_threshold_reference": "threshold_grid",
+                    }
+                )
+                for threshold in thresholds:
+                    qualified = [batch for batch in batches if batch_positive[batch] >= threshold]
+                    threshold_rows.append(
+                        {
+                            "threshold": threshold,
+                            "dimension": dimension,
+                            "stratum": stratum,
+                            "measurement_batch_count": len(batches),
+                            "qualified_batch_count": len(qualified),
+                            "qualification_rate": len(qualified) / len(batches) if batches else None,
+                            "biological_unit_count": len(
+                                {batch_meta[batch]["biological_unit_id"] for batch in qualified}
+                            ),
+                        }
+                    )
         return strata_rows, threshold_rows
 
     def run(self, *, strict: bool = False) -> R4T200StatisticalClosureSummary:
@@ -246,7 +261,11 @@ class R4T200StatisticalClosureWorkflow:
         thresholds = [int(row["minimum_mapped_positive_proteins_per_batch"]) for row in threshold_rows]
         t197_intervals = self._t197_intervals(t197_rows, protocol)
         strata_rows, threshold_strata_rows = self._t198_strata(source_rows, thresholds)
-        negative = [row for row in t197_report.get("negative_control_summary", []) if row.get("one_sided_upper_tail_p") is not None]
+        negative = [
+            row
+            for row in t197_report.get("negative_control_summary", [])
+            if row.get("one_sided_upper_tail_p") is not None
+        ]
         raw_p = [float(row["one_sided_upper_tail_p"]) for row in negative]
         holm = self._holm(raw_p) if raw_p else []
         multiplicity_rows = [
@@ -272,7 +291,20 @@ class R4T200StatisticalClosureWorkflow:
         self._write_csv(paths["t197_intervals"], list(t197_intervals[0]), t197_intervals)
         self._write_csv(paths["t198_strata"], list(strata_rows[0]), strata_rows)
         self._write_csv(paths["t198_threshold_strata"], list(threshold_strata_rows[0]), threshold_strata_rows)
-        self._write_csv(paths["multiplicity"], list(multiplicity_rows[0]) if multiplicity_rows else ["family", "hypothesis_id", "outer_fold_id", "raw_p", "holm_adjusted_p", "claim_status"], multiplicity_rows)
+        self._write_csv(
+            paths["multiplicity"],
+            list(multiplicity_rows[0])
+            if multiplicity_rows
+            else [
+                "family",
+                "hypothesis_id",
+                "outer_fold_id",
+                "raw_p",
+                "holm_adjusted_p",
+                "claim_status",
+            ],
+            multiplicity_rows,
+        )
         estimand = protocol["estimands"]
         self._write_json(paths["estimand"], estimand)
         artifacts = {
@@ -280,11 +312,23 @@ class R4T200StatisticalClosureWorkflow:
             for name, path in paths.items()
         }
         input_hashes = {
-            "protocol": {"relative_path": self.PROTOCOL_RELATIVE, "sha256": _sha256(self._file(self.PROTOCOL_RELATIVE, "T200 protocol"))},
+            "protocol": {
+                "relative_path": self.PROTOCOL_RELATIVE,
+                "sha256": _sha256(self._file(self.PROTOCOL_RELATIVE, "T200 protocol")),
+            },
             "t197_report": {"relative_path": self.T197_REPORT, "sha256": _sha256(t197_report_path)},
-            "t197_batch_metrics": {"relative_path": self.T197_BATCH, "sha256": _sha256(t197_batch_path)},
-            "t198_source_map": {"relative_path": self.T198_SOURCE, "sha256": _sha256(t198_source_path)},
-            "t198_threshold_summary": {"relative_path": self.T198_SUMMARY, "sha256": _sha256(t198_summary_path)},
+            "t197_batch_metrics": {
+                "relative_path": self.T197_BATCH,
+                "sha256": _sha256(t197_batch_path),
+            },
+            "t198_source_map": {
+                "relative_path": self.T198_SOURCE,
+                "sha256": _sha256(t198_source_path),
+            },
+            "t198_threshold_summary": {
+                "relative_path": self.T198_SUMMARY,
+                "sha256": _sha256(t198_summary_path),
+            },
         }
         report = {
             "schema_version": 1,
@@ -325,7 +369,9 @@ class R4T200StatisticalClosureWorkflow:
         }
         receipt_path = output / "t200_statistical_closure_receipt.json"
         self._write_json(receipt_path, receipt)
-        return R4T200StatisticalClosureSummary(len(t197_intervals), len(strata_rows), len(threshold_strata_rows), receipt_path)
+        return R4T200StatisticalClosureSummary(
+            len(t197_intervals), len(strata_rows), len(threshold_strata_rows), receipt_path
+        )
 
     def verify(self, *, strict: bool = True) -> R4T200StatisticalClosureSummary:
         if not strict:

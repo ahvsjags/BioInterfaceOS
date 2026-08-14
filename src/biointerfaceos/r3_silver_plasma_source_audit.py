@@ -174,7 +174,7 @@ class R3SilverPlasmaSourceAuditWorkflow:
         if set(article) != self.REQUIRED_ARTICLE or article != {
             "pmcid": "PMC6592156",
             "doi": "10.1039/c8en01054d",
-            "title": "Protein corona formed on silver nanoparticles in blood plasma is highly selective and resistant to physicochemical changes of the solution",
+            "title": "Protein corona formed on silver nanoparticles in blood plasma is highly selective and resistant to physicochemical changes of the solution",  # noqa: E501
             "publication_year": 2019,
             "license": "CC-BY-3.0",
             "full_text_locator": "https://europepmc.org/articles/PMC6592156",
@@ -184,8 +184,7 @@ class R3SilverPlasmaSourceAuditWorkflow:
         scope = _mapping(registry.get("source_scope"), "silver-plasma source scope")
         if set(scope) != self.REQUIRED_SCOPE or (
             scope.get("source_id") != "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA"
-            or scope.get("laboratory_anchor")
-            != "University of Southern Denmark / Russian Academy of Sciences study"
+            or scope.get("laboratory_anchor") != "University of Southern Denmark / Russian Academy of Sciences study"
             or scope.get("biofluid") != "human blood plasma"
             or scope.get("nanoparticle") != "60 nm silver nanoparticles"
             or scope.get("analysis_role") != "EXTERNAL_LAB_OOD_CANDIDATE_ONLY"
@@ -247,7 +246,7 @@ class R3SilverPlasmaSourceAuditWorkflow:
             "rank_eligibility": "strictly positive finite author-reported value in one Rep1/Rep2/Rep3 column",
             "numeric_zero_policy": "retain as NUMERIC_ZERO_SEMANTICS_UNSPECIFIED and exclude from rank; never impute",
             "blank_policy": "retain as SOURCE_BLANK and exclude from rank; never impute",
-            "control_policy": "exclude Control columns from modelable measurement batches; retain their existence in the audit report",
+            "control_policy": "exclude Control columns from modelable measurement batches; retain their existence in the audit report",  # noqa: E501
             "raw_scale_cross_study_use": "PROHIBITED",
         }:
             raise R3SilverPlasmaSourceAuditError("silver-plasma quantification contract is invalid")
@@ -269,10 +268,10 @@ class R3SilverPlasmaSourceAuditWorkflow:
             letters = chr(ord("A") + remainder) + letters
         return letters
 
-    def _source_rows(self, registry: Mapping[str, Any], workbook_path: Path) -> tuple[list[dict[str, str]], dict[str, Any]]:
-        contracts = {
-            item["worksheet"]: item for item in registry["worksheet_contracts"]
-        }
+    def _source_rows(
+        self, registry: Mapping[str, Any], workbook_path: Path
+    ) -> tuple[list[dict[str, str]], dict[str, Any]]:
+        contracts = {item["worksheet"]: item for item in registry["worksheet_contracts"]}
         source_scope = registry["source_scope"]
         workbook = load_workbook(workbook_path, read_only=True, data_only=True)
         mapped_rows: list[dict[str, str]] = []
@@ -321,15 +320,13 @@ class R3SilverPlasmaSourceAuditWorkflow:
                     seen.add(identity)
                     for column, condition_label, replicate_label in batch_columns:
                         value = values[column - 1]
-                        batch_id = (
-                            f"PMC6592156:{contract['condition_kind']}:{condition_label}:{replicate_label}"
-                        )
+                        batch_id = f"PMC6592156:{contract['condition_kind']}:{condition_label}:{replicate_label}"
                         state: str
                         numeric_value = ""
                         eligible = "false"
                         if value is None or (isinstance(value, str) and not value.strip()):
                             state = "SOURCE_BLANK"
-                        elif isinstance(value, bool) or not isinstance(value, (int, float)):
+                        elif isinstance(value, bool) or not isinstance(value, int | float):
                             raise R3SilverPlasmaSourceAuditError("silver-plasma value is non-numeric")
                         elif not math.isfinite(float(value)):
                             raise R3SilverPlasmaSourceAuditError("silver-plasma value is non-finite")
@@ -413,9 +410,7 @@ class R3SilverPlasmaSourceAuditWorkflow:
         else:
             source_map_path.parent.mkdir(parents=True, exist_ok=True)
             with source_map_path.open("w", encoding="utf-8", newline="") as stream:
-                writer = csv.DictWriter(
-                    stream, fieldnames=self.SOURCE_CELL_FIELDS, lineterminator="\n"
-                )
+                writer = csv.DictWriter(stream, fieldnames=self.SOURCE_CELL_FIELDS, lineterminator="\n")
                 writer.writeheader()
                 writer.writerows(mapped_rows)
         report = {

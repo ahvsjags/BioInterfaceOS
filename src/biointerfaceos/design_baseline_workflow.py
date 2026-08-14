@@ -35,9 +35,7 @@ class DesignBaselineSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -78,9 +76,7 @@ class DesignBaselineWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/design/constrained_design_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/design/constrained_design_fixture.json")
         self.output_root = output_root or self.root / "reports/design/baseline"
 
     def _fixture(self) -> dict[str, Any]:
@@ -111,12 +107,9 @@ class DesignBaselineWorkflow:
     def _inputs(self, fixture: Mapping[str, Any]) -> dict[str, dict[str, Any] | str]:
         expected: dict[str, Path] = {
             "T041 material resolution": self.root / "reports/T041_material_resolution.md",
-            "T078 uncertainty receipt": self.root
-            / "reports/models/uncertainty/uncertainty_receipt.json",
-            "T090 functional axes receipt": self.root
-            / "reports/omics/functional_axes/functional_axes_receipt.json",
-            "T095 counterfactual receipt": self.root
-            / "reports/omics/counterfactuals/counterfactuals_receipt.json",
+            "T078 uncertainty receipt": self.root / "reports/models/uncertainty/uncertainty_receipt.json",
+            "T090 functional axes receipt": self.root / "reports/omics/functional_axes/functional_axes_receipt.json",
+            "T095 counterfactual receipt": self.root / "reports/omics/counterfactuals/counterfactuals_receipt.json",
         }
         loaded: dict[str, dict[str, Any] | str] = {}
         for value in fixture["inputs"]:
@@ -139,9 +132,7 @@ class DesignBaselineWorkflow:
         if not isinstance(material_report, str) or "valid formulations" not in material_report:
             raise DesignBaselineError("T041 material resolution report is invalid")
         uncertainty = loaded["T078 uncertainty receipt"]
-        if not isinstance(uncertainty, dict) or uncertainty.get("selected_model") != (
-            "conservative_conformal"
-        ):
+        if not isinstance(uncertainty, dict) or uncertainty.get("selected_model") != ("conservative_conformal"):
             raise DesignBaselineError("T078 uncertainty policy is not frozen")
         axes = loaded["T090 functional axes receipt"]
         if not isinstance(axes, dict) or axes.get("candidate_axes") != 2:
@@ -152,9 +143,7 @@ class DesignBaselineWorkflow:
         return loaded
 
     @staticmethod
-    def _validate_candidate(
-        candidate: Mapping[str, Any], preregistration: Mapping[str, Any]
-    ) -> tuple[bool, str]:
+    def _validate_candidate(candidate: Mapping[str, Any], preregistration: Mapping[str, Any]) -> tuple[bool, str]:
         fractions = _mapping(candidate.get("fractions"), "design fractions")
         components = preregistration["components"]
         if set(fractions) != set(components):
@@ -174,9 +163,7 @@ class DesignBaselineWorkflow:
         return True, "valid"
 
     @staticmethod
-    def _score(
-        candidate: Mapping[str, Any], preregistration: Mapping[str, Any]
-    ) -> dict[str, float]:
+    def _score(candidate: Mapping[str, Any], preregistration: Mapping[str, Any]) -> dict[str, float]:
         performance = _number(candidate.get("performance"), "design performance")
         risk = _number(candidate.get("risk"), "design risk")
         novelty = _number(candidate.get("novelty"), "design novelty")
@@ -250,9 +237,7 @@ class DesignBaselineWorkflow:
         if not valid:
             raise DesignBaselineError("no valid design candidates")
         ad_threshold = float(preregistration["ad_threshold"])
-        supported = [
-            candidate for candidate in valid if candidate["score"]["ad_distance"] <= ad_threshold
-        ]
+        supported = [candidate for candidate in valid if candidate["score"]["ad_distance"] <= ad_threshold]
         abstentions = [
             {
                 "candidate_id": candidate["candidate_id"],
@@ -264,9 +249,7 @@ class DesignBaselineWorkflow:
             if candidate not in supported
         ]
         budget = int(preregistration["budget"])
-        controls = [
-            _string(value, "observed control ID") for value in preregistration["observed_controls"]
-        ]
+        controls = [_string(value, "observed control ID") for value in preregistration["observed_controls"]]
         by_id = {candidate["candidate_id"]: candidate for candidate in supported}
         ordered = sorted(
             supported,
@@ -301,8 +284,7 @@ class DesignBaselineWorkflow:
         }
         pareto = self._pareto(supported)
         recovered_controls = sorted(
-            {candidate_id for values in method_lists.values() for candidate_id in values}
-            & set(controls)
+            {candidate_id for values in method_lists.values() for candidate_id in values} & set(controls)
         )
         control_recovery = {
             "schema_version": 1,
@@ -388,11 +370,7 @@ class DesignBaselineWorkflow:
         for name, path in paths.items():
             path.write_bytes(payload_bytes[name])
             artifact_records[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -421,9 +399,7 @@ class DesignBaselineWorkflow:
         }
         receipt_path = self.output_root / "design_baseline_receipt.json"
         resumed = int(receipt_path.exists())
-        method_control_counts = {
-            method: len(set(method_lists[method]) & set(controls)) for method in self.METHODS
-        }
+        method_control_counts = {method: len(set(method_lists[method]) & set(controls)) for method in self.METHODS}
         selected_method = min(
             self.METHODS,
             key=lambda method: (-method_control_counts[method], method),
@@ -450,9 +426,7 @@ class DesignBaselineWorkflow:
         }
         receipt_path.write_bytes(_canonical(receipt))
         receipt_relative = (
-            str(receipt_path.relative_to(self.root))
-            if receipt_path.is_relative_to(self.root)
-            else str(receipt_path)
+            str(receipt_path.relative_to(self.root)) if receipt_path.is_relative_to(self.root) else str(receipt_path)
         )
         manifest = {
             "schema_version": 1,

@@ -47,9 +47,7 @@ class ExpansionRunner:
         self.root = root.resolve(strict=True)
         self.policy = policy
         self.seed_path = seed_path or self.root / "registry/search_candidates.jsonl"
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/expansion/expansion_results.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/expansion/expansion_results.json")
 
     @staticmethod
     def _load_json(path: Path) -> Mapping[str, Any]:
@@ -98,9 +96,7 @@ class ExpansionRunner:
 
     @staticmethod
     def _edge_hash(edge: Mapping[str, Any]) -> str:
-        payload = (
-            json.dumps(edge, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-        ).encode("utf-8")
+        payload = (json.dumps(edge, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
         return hashlib.sha256(payload).hexdigest()
 
     @staticmethod

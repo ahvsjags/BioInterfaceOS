@@ -46,9 +46,9 @@ def test_evaluation_rejects_fixture_checksum_mutation(tmp_path: Path) -> None:
     fixture_path = tmp_path / "fixture.json"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(LockboxEvaluationError, match="checksum differs"):
-        LockboxEvaluationWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "evaluation"
-        ).run(release="FROZEN_DEV", once=True)
+        LockboxEvaluationWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "evaluation").run(
+            release="FROZEN_DEV", once=True
+        )
 
 
 def test_evaluation_rejects_forbidden_operation(tmp_path: Path) -> None:
@@ -57,9 +57,9 @@ def test_evaluation_rejects_forbidden_operation(tmp_path: Path) -> None:
     fixture_path = tmp_path / "fixture.json"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(LockboxEvaluationError, match="operation sequence"):
-        LockboxEvaluationWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "evaluation"
-        ).run(release="FROZEN_DEV", once=True)
+        LockboxEvaluationWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "evaluation").run(
+            release="FROZEN_DEV", once=True
+        )
 
 
 def test_evaluation_rejects_tampered_sealed_result(tmp_path: Path) -> None:
@@ -80,6 +80,6 @@ def test_evaluation_rejects_protected_path_in_fixture(tmp_path: Path) -> None:
     fixture_path = tmp_path / "fixture.json"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(LockboxEvaluationError, match="protected payload path"):
-        LockboxEvaluationWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "evaluation"
-        ).run(release="FROZEN_DEV", once=True)
+        LockboxEvaluationWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "evaluation").run(
+            release="FROZEN_DEV", once=True
+        )

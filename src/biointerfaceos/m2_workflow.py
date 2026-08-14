@@ -95,8 +95,7 @@ class M2Workflow:
 
     def _inputs(self, fixture: Mapping[str, Any]) -> dict[str, Any]:
         required = {
-            "T067 public instances": self.root
-            / "reports/benchmark/instances/public_instances.json",
+            "T067 public instances": self.root / "reports/benchmark/instances/public_instances.json",
             "T069 baseline fixture": self.baseline_fixture_path,
         }
         loaded: dict[str, Any] = {}
@@ -137,9 +136,7 @@ class M2Workflow:
         fixture: Mapping[str, Any], public: Mapping[str, Any], targets: Mapping[str, float]
     ) -> list[dict[str, Any]]:
         public_rows = {
-            _string(_mapping(row, "public row").get("instance_id"), "public ID"): _mapping(
-                row, "public row"
-            )
+            _string(_mapping(row, "public row").get("instance_id"), "public ID"): _mapping(row, "public row")
             for row in public["instances"]
         }
         required = {
@@ -169,19 +166,11 @@ class M2Workflow:
                 {
                     "instance_id": instance_id,
                     "family": _string(public_rows[instance_id].get("family"), "public family"),
-                    "group_key": _string(
-                        public_rows[instance_id].get("group_key"), "public group key"
-                    ),
+                    "group_key": _string(public_rows[instance_id].get("group_key"), "public group key"),
                     "split": split,
-                    "material_feature": _encode_text(
-                        row.get("material_feature"), "material feature"
-                    ),
-                    "environment_feature": _encode_text(
-                        row.get("environment_feature"), "environment feature"
-                    ),
-                    "protocol_feature": _encode_text(
-                        row.get("protocol_feature"), "protocol feature"
-                    ),
+                    "material_feature": _encode_text(row.get("material_feature"), "material feature"),
+                    "environment_feature": _encode_text(row.get("environment_feature"), "environment feature"),
+                    "protocol_feature": _encode_text(row.get("protocol_feature"), "protocol feature"),
                     "missingness": _number(row.get("missingness"), "M2 missingness"),
                     "target": targets[instance_id],
                 }
@@ -213,8 +202,7 @@ class M2Workflow:
         train: list[dict[str, Any]], coefficients: list[float], feature_names: list[str]
     ) -> list[dict[str, Any]]:
         baseline_predictions = {
-            row["instance_id"]: _predict_linear(coefficients, M2Workflow._features(row))
-            for row in train
+            row["instance_id"]: _predict_linear(coefficients, M2Workflow._features(row)) for row in train
         }
         baseline_rmse = _regression_metrics(train, baseline_predictions)["rmse"]
         importances: list[dict[str, Any]] = []
@@ -222,12 +210,9 @@ class M2Workflow:
             permuted = list(train)
             values = [row[name] for row in train]
             rotated = values[1:] + values[:1]
-            changed = [
-                dict(row, **{name: value}) for row, value in zip(permuted, rotated, strict=True)
-            ]
+            changed = [dict(row, **{name: value}) for row, value in zip(permuted, rotated, strict=True)]
             predictions = {
-                row["instance_id"]: _predict_linear(coefficients, M2Workflow._features(row))
-                for row in changed
+                row["instance_id"]: _predict_linear(coefficients, M2Workflow._features(row)) for row in changed
             }
             score = _regression_metrics(changed, predictions)["rmse"]
             importances.append(
@@ -258,14 +243,10 @@ class M2Workflow:
             [row["target"] for row in train],
             ridge=float(config["ridge"]),
         )
-        predictions = {
-            row["instance_id"]: _predict_linear(coefficients, self._features(row)) for row in rows
-        }
+        predictions = {row["instance_id"]: _predict_linear(coefficients, self._features(row)) for row in rows}
         train_metrics = _regression_metrics(train, predictions)
         validation_metrics = _regression_metrics(validation, predictions)
-        residual_sd = math.sqrt(
-            _mean([(row["target"] - predictions[row["instance_id"]]) ** 2 for row in train])
-        )
+        residual_sd = math.sqrt(_mean([(row["target"] - predictions[row["instance_id"]]) ** 2 for row in train]))
         calibration = {
             "validation_mean_absolute_error": round(
                 _mean([abs(row["target"] - predictions[row["instance_id"]]) for row in validation]),
@@ -273,12 +254,7 @@ class M2Workflow:
             ),
             "train_residual_sd": round(residual_sd, 6),
             "calibration_error": round(
-                _mean(
-                    [
-                        abs(abs(row["target"] - predictions[row["instance_id"]]) - residual_sd)
-                        for row in validation
-                    ]
-                ),
+                _mean([abs(abs(row["target"] - predictions[row["instance_id"]]) - residual_sd) for row in validation]),
                 6,
             ),
             "uncertainty_source": "train_residual_sd",
@@ -355,9 +331,7 @@ class M2Workflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -408,9 +382,7 @@ class M2Workflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

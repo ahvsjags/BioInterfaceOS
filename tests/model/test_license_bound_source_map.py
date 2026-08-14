@@ -39,9 +39,7 @@ def test_audit_requires_strict_mode(tmp_path: Path) -> None:
 
 def test_audit_rejects_license_tampering(tmp_path: Path) -> None:
     registry = json.loads(
-        (ROOT / "docs/data/R2_T130_LICENSE_BOUND_SOURCE_MAP_REGISTRY.json").read_text(
-            encoding="utf-8"
-        )
+        (ROOT / "docs/data/R2_T130_LICENSE_BOUND_SOURCE_MAP_REGISTRY.json").read_text(encoding="utf-8")
     )
     registry["routes"][0]["mapping_evidence"]["license_id"] = "CC0-1.0"
     registry_path = tmp_path / "registry.json"

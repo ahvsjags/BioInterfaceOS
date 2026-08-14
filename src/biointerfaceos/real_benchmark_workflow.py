@@ -26,9 +26,7 @@ class RealBenchmarkError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -202,21 +200,15 @@ class RealBenchmarkWorkflow:
             if any(token in relative.lower() for token in ("fixture", "synthetic", "mock")):
                 raise RealBenchmarkError(f"real benchmark source is not empirical: {relative}")
             source_hash = _string(asset.get("sha256"), "raw asset SHA-256").lower()
-            if len(source_hash) != 64 or any(
-                char not in "0123456789abcdef" for char in source_hash
-            ):
+            if len(source_hash) != 64 or any(char not in "0123456789abcdef" for char in source_hash):
                 raise RealBenchmarkError("real benchmark raw asset hash is invalid")
             if _sha256(path) != source_hash:
                 raise RealBenchmarkError(f"real benchmark raw asset checksum differs: {relative}")
             if path.stat().st_size != _integer(asset.get("bytes"), "raw asset bytes"):
                 raise RealBenchmarkError(f"real benchmark raw asset size differs: {relative}")
-            if not _string(asset.get("download_url"), "raw asset download URL").startswith(
-                "https://"
-            ):
+            if not _string(asset.get("download_url"), "raw asset download URL").startswith("https://"):
                 raise RealBenchmarkError("real benchmark raw asset needs an HTTPS URL")
-            if asset.get("content_type") != (
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            ):
+            if asset.get("content_type") != ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"):
                 raise RealBenchmarkError("real benchmark raw asset must be XLSX")
             if relative in assets:
                 raise RealBenchmarkError("duplicate real benchmark raw asset")
@@ -229,9 +221,7 @@ class RealBenchmarkWorkflow:
             }
         return assets
 
-    def _items(
-        self, source: dict[str, Any], assets: dict[str, dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _items(self, source: dict[str, Any], assets: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
         source_text = " ".join(str(source[key]) for key in ("source_id", "study_id", "laboratory"))
         if any(token in source_text.lower() for token in ("fixture", "synthetic", "mock")):
             raise RealBenchmarkError("real benchmark source labels cross an evidence boundary")
@@ -262,9 +252,7 @@ class RealBenchmarkWorkflow:
             try:
                 workbook = load_workbook(path, data_only=True, read_only=True)
                 sheet = workbook[worksheet]
-                resolved_value = _number(
-                    sheet[value_locator].value, f"raw cell for real benchmark item {item_id}"
-                )
+                resolved_value = _number(sheet[value_locator].value, f"raw cell for real benchmark item {item_id}")
                 unit_parts: list[str] = []
                 labels: set[str] = set()
                 for unit_value in unit_locators:
@@ -289,9 +277,7 @@ class RealBenchmarkWorkflow:
                 raise RealBenchmarkError("real benchmark expected cell value differs from source")
             independent_unit_id = _string(item.get("independent_unit_id"), "independent unit ID")
             if independent_unit_id != "|".join(unit_parts):
-                raise RealBenchmarkError(
-                    "real benchmark independent-unit lineage differs from source"
-                )
+                raise RealBenchmarkError("real benchmark independent-unit lineage differs from source")
             results.append(
                 {
                     "item_id": item_id,
@@ -340,9 +326,7 @@ class RealBenchmarkWorkflow:
                 raise RealBenchmarkError("real benchmark source licence is not reusable")
             if source["access"] != "ANONYMOUS_PUBLIC":
                 raise RealBenchmarkError("real benchmark source access is restricted")
-            if not source["doi"].startswith("10.") or not source["landing_url"].startswith(
-                "https://"
-            ):
+            if not source["doi"].startswith("10.") or not source["landing_url"].startswith("https://"):
                 raise RealBenchmarkError("real benchmark source DOI or landing page is invalid")
             if not source["laboratory_evidence_url"].startswith("https://"):
                 raise RealBenchmarkError("real benchmark laboratory evidence URL is invalid")
@@ -353,9 +337,7 @@ class RealBenchmarkWorkflow:
             assets.extend(source_assets.values())
             items.extend(self._items(source, source_assets))
         if len(studies) < 3 or len(laboratories) < 3 or len(sources) < 3:
-            raise RealBenchmarkError(
-                "real benchmark requires three independent studies and laboratories"
-            )
+            raise RealBenchmarkError("real benchmark requires three independent studies and laboratories")
         if len({item["item_id"] for item in items}) != len(items):
             raise RealBenchmarkError("real benchmark item IDs are not globally unique")
         if len({item["study_id"] for item in items}) != len(studies):
@@ -383,9 +365,7 @@ class RealBenchmarkWorkflow:
                 raise RealBenchmarkError("study-held-out split leaks the test study")
             for item in (row for row in items if row["study_id"] == held_out_study):
                 predicted = float(item["reference_value"])
-                correct = math.isclose(
-                    predicted, float(item["reference_value"]), rel_tol=0.0, abs_tol=1e-12
-                )
+                correct = math.isclose(predicted, float(item["reference_value"]), rel_tol=0.0, abs_tol=1e-12)
                 predictions.append(
                     {
                         "prediction_id": f"PRED-{item['item_id']}",
@@ -501,9 +481,7 @@ class RealBenchmarkWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return RealBenchmarkSummary(
             benchmark_id=self.BENCHMARK_ID,
             study_count=_integer(receipt["study_count"], "benchmark study count"),

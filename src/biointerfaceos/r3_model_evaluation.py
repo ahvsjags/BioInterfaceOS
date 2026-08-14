@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 import math
 from collections import defaultdict
@@ -200,9 +199,7 @@ class R3ModelEvaluationWorkflow:
         if references["analysis_protocol_receipt"].parent != self.root / self.PROTOCOL_OUTPUT_RELATIVE:
             raise R3ModelEvaluationError("R3 protocol receipt does not use the frozen protocol output")
         expected_data_root = (self.root / "data/raw").resolve(strict=False)
-        expected_feature_root = (self.root / "data/raw/r3_uniprot_sequence_features").resolve(
-            strict=False
-        )
+        expected_feature_root = (self.root / "data/raw/r3_uniprot_sequence_features").resolve(strict=False)
         if self.output_data_root != expected_data_root or self.feature_root != expected_feature_root:
             raise R3ModelEvaluationError("R3 evaluation requires the registry-fixed data roots")
         return registry, references
@@ -239,9 +236,7 @@ class R3ModelEvaluationWorkflow:
             raise R3ModelEvaluationError(f"{label} is empty")
         return rows
 
-    def _observations(
-        self, ledger_path: Path, feature_path: Path
-    ) -> tuple[list[_Observation], list[str]]:
+    def _observations(self, ledger_path: Path, feature_path: Path) -> tuple[list[_Observation], list[str]]:
         feature_rows = self._read_csv(feature_path, "R3 sequence feature table")
         expected_feature_columns = {"canonical_accession", *self.FEATURE_NAMES}
         if set(feature_rows[0]) != expected_feature_columns:
@@ -274,10 +269,7 @@ class R3ModelEvaluationWorkflow:
             raise R3ModelEvaluationError("R3 common target ledger schema is invalid")
         observations: list[_Observation] = []
         for row in ledger_rows:
-            if (
-                row.get("rank_target_eligible") != "true"
-                or row.get("common_rank_target_member") != "true"
-            ):
+            if row.get("rank_target_eligible") != "true" or row.get("common_rank_target_member") != "true":
                 continue
             accession = _string(row.get("canonical_accession"), "common target accession")
             if accession not in features:
@@ -294,9 +286,7 @@ class R3ModelEvaluationWorkflow:
                     source_id=_string(row.get("source_id"), "source ID"),
                     canonical_accession=accession,
                     laboratory_anchor=_string(row.get("laboratory_anchor"), "laboratory anchor"),
-                    measurement_batch_id=_string(
-                        row.get("measurement_batch_id"), "measurement batch ID"
-                    ),
+                    measurement_batch_id=_string(row.get("measurement_batch_id"), "measurement batch ID"),
                     target=target,
                     feature_values=features[accession],
                 )
@@ -311,9 +301,7 @@ class R3ModelEvaluationWorkflow:
             raise R3ModelEvaluationError("sequence feature table does not exactly close common target")
         return sorted(observations, key=lambda row: row.target_observation_id), sorted(accessions)
 
-    def _validate_splits(
-        self, split_path: Path, observations: Sequence[_Observation]
-    ) -> list[tuple[str, str]]:
+    def _validate_splits(self, split_path: Path, observations: Sequence[_Observation]) -> list[tuple[str, str]]:
         rows = self._read_csv(split_path, "frozen R3 outer split manifest")
         required = {
             "outer_fold_id",
@@ -338,7 +326,10 @@ class R3ModelEvaluationWorkflow:
             if len(held_out_values) != 1 or not isinstance(next(iter(held_out_values)), str):
                 raise R3ModelEvaluationError("outer fold must specify one held-out laboratory")
             held_out_lab = _string(next(iter(held_out_values)), "held-out laboratory anchor")
-            by_identifier = {row.get("target_observation_id"): row for row in fold_rows}
+            by_identifier: dict[str, dict[str, str]] = {}
+            for split_row in fold_rows:
+                identifier = _string(split_row.get("target_observation_id"), "target observation ID")
+                by_identifier[identifier] = split_row
             if len(by_identifier) != len(fold_rows) or set(by_identifier) != expected_ids:
                 raise R3ModelEvaluationError("outer fold does not close the frozen observations")
             for identifier, split_row in by_identifier.items():
@@ -371,7 +362,11 @@ class R3ModelEvaluationWorkflow:
         return ranks
 
     @classmethod
-    def _spearman(cls, observed: Sequence[float], predicted: Sequence[float]) -> float | None:
+    def _spearman(
+        cls,
+        observed: Sequence[float] | np.ndarray[Any, Any],
+        predicted: Sequence[float] | np.ndarray[Any, Any],
+    ) -> float | None:
         observed_array = np.asarray(observed, dtype=float)
         predicted_array = np.asarray(predicted, dtype=float)
         if len(observed_array) < 2 or not np.all(np.isfinite(predicted_array)):
@@ -381,8 +376,7 @@ class R3ModelEvaluationWorkflow:
         observed_centered = observed_rank - observed_rank.mean()
         predicted_centered = predicted_rank - predicted_rank.mean()
         denominator = math.sqrt(
-            float(np.dot(observed_centered, observed_centered))
-            * float(np.dot(predicted_centered, predicted_centered))
+            float(np.dot(observed_centered, observed_centered)) * float(np.dot(predicted_centered, predicted_centered))
         )
         if denominator == 0.0:
             return None
@@ -392,7 +386,7 @@ class R3ModelEvaluationWorkflow:
     def _batch_metrics(
         cls,
         observations: Sequence[_Observation],
-        predictions: Sequence[float],
+        predictions: Sequence[float] | np.ndarray[Any, Any],
         *,
         minimum_proteins: int,
     ) -> list[dict[str, Any]]:
@@ -474,7 +468,7 @@ class R3ModelEvaluationWorkflow:
         }
 
     @staticmethod
-    def _predict_ridge(model: Mapping[str, Any], observations: Sequence[_Observation]) -> np.ndarray:
+    def _predict_ridge(model: Mapping[str, Any], observations: Sequence[_Observation]) -> np.ndarray[Any, Any]:
         feature_indices = model["feature_indices"]
         matrix = np.asarray(
             [[row.feature_values[index] for index in feature_indices] for row in observations],
@@ -485,7 +479,7 @@ class R3ModelEvaluationWorkflow:
         prediction = design @ model["coefficients"]
         if not np.all(np.isfinite(prediction)):
             raise R3ModelEvaluationError("ridge prediction is not finite")
-        return prediction
+        return np.asarray(prediction, dtype=float)
 
     def _select_alpha(
         self,
@@ -503,9 +497,7 @@ class R3ModelEvaluationWorkflow:
         for alpha in self.ALPHA_GRID:
             batch_scores: list[float] = []
             for held_out_batch in sorted(by_batch):
-                training = [
-                    row for batch_id, rows in by_batch.items() if batch_id != held_out_batch for row in rows
-                ]
+                training = [row for batch_id, rows in by_batch.items() if batch_id != held_out_batch for row in rows]
                 validation = by_batch[held_out_batch]
                 model = self._fit_ridge(training, feature_indices, alpha)
                 metric = self._batch_metrics(
@@ -542,9 +534,7 @@ class R3ModelEvaluationWorkflow:
         return selected, selection_rows
 
     @staticmethod
-    def _bootstrap(
-        values: Sequence[float], *, resamples: int, seed: int
-    ) -> dict[str, float | int]:
+    def _bootstrap(values: Sequence[float], *, resamples: int, seed: int) -> dict[str, float | int]:
         array = np.asarray(values, dtype=float)
         if not len(array) or not np.all(np.isfinite(array)):
             raise R3ModelEvaluationError("cluster bootstrap values are invalid")
@@ -617,9 +607,7 @@ class R3ModelEvaluationWorkflow:
         negative_resamples = int(negative_config["resamples"])
         negative_seed = int(negative_config["random_seed"])
         full_indices = tuple(range(len(self.FEATURE_NAMES)))
-        composition_indices = tuple(
-            self.FEATURE_NAMES.index(name) for name in self.COMPOSITION_FEATURE_NAMES
-        )
+        composition_indices = tuple(self.FEATURE_NAMES.index(name) for name in self.COMPOSITION_FEATURE_NAMES)
 
         predictions_rows: list[dict[str, Any]] = []
         per_batch_rows: list[dict[str, Any]] = []
@@ -680,16 +668,10 @@ class R3ModelEvaluationWorkflow:
             }
             for model_index, model_id in enumerate(self.MODEL_IDS, start=1):
                 prediction = model_predictions[model_id]
-                metrics = self._batch_metrics(
-                    testing, prediction, minimum_proteins=minimum_proteins
-                )
+                metrics = self._batch_metrics(testing, prediction, minimum_proteins=minimum_proteins)
                 aggregate = self._aggregate(metrics)
                 fold_primary[(fold_id, model_id)] = aggregate["mean_spearman"]
-                metric_status = (
-                    "UNDEFINED_CONSTANT_PREDICTION"
-                    if model_id == "CONSTANT_TRAINING_MEAN"
-                    else "DEFINED"
-                )
+                metric_status = "UNDEFINED_CONSTANT_PREDICTION" if model_id == "CONSTANT_TRAINING_MEAN" else "DEFINED"
                 uncertainty: dict[str, Any] = {}
                 for metric_name, output_name in (
                     ("spearman", "mean_spearman"),
@@ -761,11 +743,7 @@ class R3ModelEvaluationWorkflow:
             )
             differences = [
                 float(batch_metrics_by_key[(fold_id, "SEQUENCE_RIDGE_FULL", batch_id)]["spearman"])
-                - float(
-                    batch_metrics_by_key[(fold_id, "SEQUENCE_RIDGE_COMPOSITION_ONLY", batch_id)][
-                        "spearman"
-                    ]
-                )
+                - float(batch_metrics_by_key[(fold_id, "SEQUENCE_RIDGE_COMPOSITION_ONLY", batch_id)]["spearman"])
                 for batch_id in paired_batches
             ]
             ablation_rows.append(
@@ -787,17 +765,15 @@ class R3ModelEvaluationWorkflow:
                 raise R3ModelEvaluationError("full sequence model has undefined primary metric")
             development_targets = np.asarray([row.target for row in development], dtype=float)
             development_by_batch: dict[str, list[int]] = defaultdict(list)
-            for position, row in enumerate(development):
-                development_by_batch[row.measurement_batch_id].append(position)
+            for position, development_row in enumerate(development):
+                development_by_batch[development_row.measurement_batch_id].append(position)
             negative_rng = np.random.default_rng(negative_seed + fold_index)
             null_primary: list[float] = []
             for resample in range(1, negative_resamples + 1):
                 permuted = development_targets.copy()
                 for positions in development_by_batch.values():
                     permuted[positions] = negative_rng.permutation(permuted[positions])
-                null_model = self._fit_ridge(
-                    development, full_indices, full_alpha, targets=permuted
-                )
+                null_model = self._fit_ridge(development, full_indices, full_alpha, targets=permuted)
                 null_metrics = self._batch_metrics(
                     testing,
                     self._predict_ridge(null_model, testing),
@@ -816,9 +792,7 @@ class R3ModelEvaluationWorkflow:
                         "null_mean_spearman": float(null_score),
                     }
                 )
-            upper_tail_p = (1 + sum(value >= observed_primary for value in null_primary)) / (
-                1 + negative_resamples
-            )
+            upper_tail_p = (1 + sum(value >= observed_primary for value in null_primary)) / (1 + negative_resamples)
             parameters[fold_id]["SEQUENCE_RIDGE_FULL"]["negative_control"] = {
                 "resamples": negative_resamples,
                 "random_seed": negative_seed + fold_index,
@@ -842,43 +816,74 @@ class R3ModelEvaluationWorkflow:
         self._write_csv(
             paths["predictions"],
             [
-                "outer_fold_id", "held_out_laboratory_anchor", "model_id", "target_observation_id",
-                "source_id", "canonical_accession", "measurement_batch_id",
-                "observed_rank_percentile_descending", "predicted_rank_percentile_descending",
+                "outer_fold_id",
+                "held_out_laboratory_anchor",
+                "model_id",
+                "target_observation_id",
+                "source_id",
+                "canonical_accession",
+                "measurement_batch_id",
+                "observed_rank_percentile_descending",
+                "predicted_rank_percentile_descending",
             ],
             predictions_rows,
         )
         self._write_csv(
             paths["batch_metrics"],
             [
-                "outer_fold_id", "held_out_laboratory_anchor", "model_id", "measurement_batch_id",
-                "protein_count", "spearman", "spearman_status", "mae", "rmse",
+                "outer_fold_id",
+                "held_out_laboratory_anchor",
+                "model_id",
+                "measurement_batch_id",
+                "protein_count",
+                "spearman",
+                "spearman_status",
+                "mae",
+                "rmse",
             ],
             per_batch_rows,
         )
         self._write_csv(
             paths["fold_metrics"],
             [
-                "outer_fold_id", "held_out_laboratory_anchor", "model_id",
-                "held_out_observation_count", "held_out_measurement_batch_count",
-                "primary_metric_status", "mean_spearman", "mean_spearman_lower_95",
-                "mean_spearman_upper_95", "mean_mae", "mean_mae_lower_95", "mean_mae_upper_95",
-                "mean_rmse", "mean_rmse_lower_95", "mean_rmse_upper_95",
+                "outer_fold_id",
+                "held_out_laboratory_anchor",
+                "model_id",
+                "held_out_observation_count",
+                "held_out_measurement_batch_count",
+                "primary_metric_status",
+                "mean_spearman",
+                "mean_spearman_lower_95",
+                "mean_spearman_upper_95",
+                "mean_mae",
+                "mean_mae_lower_95",
+                "mean_mae_upper_95",
+                "mean_rmse",
+                "mean_rmse_lower_95",
+                "mean_rmse_upper_95",
             ],
             fold_rows,
         )
         self._write_csv(
             paths["inner_selection"],
             [
-                "outer_fold_id", "held_out_laboratory_anchor", "model_id", "alpha",
-                "held_out_inner_batch_id", "spearman", "selected_alpha",
+                "outer_fold_id",
+                "held_out_laboratory_anchor",
+                "model_id",
+                "alpha",
+                "held_out_inner_batch_id",
+                "spearman",
+                "selected_alpha",
             ],
             selection_rows,
         )
         self._write_csv(
             paths["negative_control"],
             [
-                "outer_fold_id", "held_out_laboratory_anchor", "selected_alpha", "resample",
+                "outer_fold_id",
+                "held_out_laboratory_anchor",
+                "selected_alpha",
+                "resample",
                 "null_mean_spearman",
             ],
             negative_rows,
@@ -886,8 +891,14 @@ class R3ModelEvaluationWorkflow:
         self._write_csv(
             paths["paired_ablation"],
             [
-                "outer_fold_id", "held_out_laboratory_anchor", "paired_measurement_batch_count",
-                "full_minus_composition_mean_spearman", "resamples", "seed", "lower_95", "upper_95",
+                "outer_fold_id",
+                "held_out_laboratory_anchor",
+                "paired_measurement_batch_count",
+                "full_minus_composition_mean_spearman",
+                "resamples",
+                "seed",
+                "lower_95",
+                "upper_95",
             ],
             ablation_rows,
         )
@@ -990,9 +1001,7 @@ class R3ModelEvaluationWorkflow:
                 break
             try:
                 path = self._root_file(_string(item.get("relative_path"), "artifact path"), "artifact")
-                artifacts_valid = artifacts_valid and _sha256(path) == _checksum(
-                    item.get("sha256"), "artifact"
-                )
+                artifacts_valid = artifacts_valid and _sha256(path) == _checksum(item.get("sha256"), "artifact")
             except Exception:
                 artifacts_valid = False
                 break

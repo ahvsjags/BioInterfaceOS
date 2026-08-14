@@ -21,9 +21,7 @@ class CC0TargetRescreenError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -132,17 +130,13 @@ class CC0TargetRescreenWorkflow:
         "PXD019524": {
             "asset_count": 6,
             "source_label_status": "CATEGORICAL_GO_FLG_SOURCE_LABELS",
-            "numeric_covariate_map_status": (
-                "NO_NUMERIC_MATERIAL_OR_SIZE_COVARIATE_IN_SCREENED_CSVS"
-            ),
+            "numeric_covariate_map_status": ("NO_NUMERIC_MATERIAL_OR_SIZE_COVARIATE_IN_SCREENED_CSVS"),
             "common_endpoint_status": "AUTHOR_SPECIFIC_TMT_OUTPUT_NOT_SHARED_CROSS_STUDY_ENDPOINT",
         },
         "PXD046988": {
             "asset_count": 1,
             "source_label_status": "CATEGORICAL_GO_GNP_AND_MEDIA_SOURCE_LABELS",
-            "numeric_covariate_map_status": (
-                "NO_NUMERIC_MATERIAL_OR_SIZE_COVARIATE_IN_SCREENED_QUANT_TABLE"
-            ),
+            "numeric_covariate_map_status": ("NO_NUMERIC_MATERIAL_OR_SIZE_COVARIATE_IN_SCREENED_QUANT_TABLE"),
             "common_endpoint_status": "AUTHOR_SPECIFIC_DIA_OUTPUT_NOT_SHARED_CROSS_STUDY_ENDPOINT",
         },
     }
@@ -189,22 +183,15 @@ class CC0TargetRescreenWorkflow:
         if registry.get("allowed_claim_level") != "EXPLORATORY":
             raise CC0TargetRescreenError("CC0 rescreen claim level is unsafe")
         _string(registry.get("evaluated_at"), "CC0 rescreen evaluated_at")
-        if _string(registry.get("development_cutoff"), "CC0 rescreen cutoff") != (
-            "2024-12-31T23:59:59+00:00"
-        ):
+        if _string(registry.get("development_cutoff"), "CC0 rescreen cutoff") != ("2024-12-31T23:59:59+00:00"):
             raise CC0TargetRescreenError("CC0 rescreen cutoff changed")
 
         policy = _mapping(registry.get("source_policy"), "CC0 rescreen policy")
         if set(policy) != self.REQUIRED_POLICY_FIELDS:
             raise CC0TargetRescreenError("CC0 rescreen policy fields are invalid")
-        if set(_list(policy.get("allowed_licenses"), "CC0 rescreen licences")) != (
-            self.ALLOWED_LICENSES
-        ):
+        if set(_list(policy.get("allowed_licenses"), "CC0 rescreen licences")) != (self.ALLOWED_LICENSES):
             raise CC0TargetRescreenError("CC0 rescreen licences are invalid")
-        if any(
-            policy.get(field) is not True
-            for field in self.REQUIRED_POLICY_FIELDS - {"allowed_licenses"}
-        ):
+        if any(policy.get(field) is not True for field in self.REQUIRED_POLICY_FIELDS - {"allowed_licenses"}):
             raise CC0TargetRescreenError("CC0 rescreen policy is weakened")
 
         scope = _mapping(registry.get("search_scope"), "CC0 rescreen search scope")
@@ -215,9 +202,7 @@ class CC0TargetRescreenWorkflow:
         ):
             raise CC0TargetRescreenError("CC0 rescreen search endpoint is invalid")
         terms = _list(scope.get("query_terms"), "CC0 rescreen query terms", minimum=8)
-        if len(terms) != len(set(terms)) or any(
-            not isinstance(term, str) or not term for term in terms
-        ):
+        if len(terms) != len(set(terms)) or any(not isinstance(term, str) or not term for term in terms):
             raise CC0TargetRescreenError("CC0 rescreen query terms are invalid")
         if _integer(scope.get("unique_project_count"), "CC0 rescreen unique projects") != 83:
             raise CC0TargetRescreenError("CC0 rescreen project accounting is invalid")
@@ -228,9 +213,7 @@ class CC0TargetRescreenWorkflow:
         )
         if len(eligible) != 25 or len(eligible) != len(set(eligible)):
             raise CC0TargetRescreenError("CC0 rescreen eligible-project accounting is invalid")
-        if set(
-            _list(scope.get("directory_screened_accessions"), "CC0 directory screens", minimum=7)
-        ) != {
+        if set(_list(scope.get("directory_screened_accessions"), "CC0 directory screens", minimum=7)) != {
             "PXD010910",
             "PXD019524",
             "PXD023001",
@@ -240,11 +223,9 @@ class CC0TargetRescreenWorkflow:
             "PXD052226",
         }:
             raise CC0TargetRescreenError("CC0 rescreen directory scope is invalid")
-        if set(
-            _list(
-                scope.get("small_asset_inspected_accessions"), "CC0 small-asset screens", minimum=2
-            )
-        ) != set(self.EXPECTED_CANDIDATES):
+        if set(_list(scope.get("small_asset_inspected_accessions"), "CC0 small-asset screens", minimum=2)) != set(
+            self.EXPECTED_CANDIDATES
+        ):
             raise CC0TargetRescreenError("CC0 rescreen small-asset scope is invalid")
 
         candidates: list[dict[str, Any]] = []
@@ -272,17 +253,11 @@ class CC0TargetRescreenWorkflow:
                 raise CC0TargetRescreenError("CC0 rescreen landing locator is invalid")
             if candidate["publication_date"] > "2024-12-31":
                 raise CC0TargetRescreenError("CC0 rescreen candidate is post-freeze")
-            if (
-                candidate["license_id"] not in self.ALLOWED_LICENSES
-                or candidate["access"] != "ANONYMOUS_PUBLIC"
-            ):
+            if candidate["license_id"] not in self.ALLOWED_LICENSES or candidate["access"] != "ANONYMOUS_PUBLIC":
                 raise CC0TargetRescreenError("CC0 rescreen candidate access is unsafe")
             if "human" not in candidate["biological_context"].lower():
                 raise CC0TargetRescreenError("CC0 rescreen candidate lacks human context")
-            if (
-                candidate["laboratory_disclosure_status"]
-                != "NOT_DISCLOSED_IN_OFFICIAL_PROJECT_RECORD"
-            ):
+            if candidate["laboratory_disclosure_status"] != "NOT_DISCLOSED_IN_OFFICIAL_PROJECT_RECORD":
                 raise CC0TargetRescreenError("CC0 rescreen laboratory status is invalid")
             for field in (
                 "source_label_status",
@@ -311,15 +286,11 @@ class CC0TargetRescreenWorkflow:
                 _integer(asset.get("observed_local_bytes"), "CC0 rescreen asset bytes", minimum=1)
                 for digest_field, length in (("local_sha256", 64), ("publisher_sha1", 40)):
                     digest = asset[digest_field].lower()
-                    if len(digest) != length or any(
-                        char not in "0123456789abcdef" for char in digest
-                    ):
+                    if len(digest) != length or any(char not in "0123456789abcdef" for char in digest):
                         raise CC0TargetRescreenError("CC0 rescreen asset checksum is invalid")
                 if not asset["download_url"].startswith("https://ftp.pride.ebi.ac.uk/"):
                     raise CC0TargetRescreenError("CC0 rescreen asset locator is invalid")
-            reasons = _list(
-                candidate.get("non_admission_reasons"), "CC0 rescreen reasons", minimum=2
-            )
+            reasons = _list(candidate.get("non_admission_reasons"), "CC0 rescreen reasons", minimum=2)
             if any(not isinstance(reason, str) or not reason.strip() for reason in reasons):
                 raise CC0TargetRescreenError("CC0 rescreen reason is invalid")
             asset_count += len(assets)
@@ -389,9 +360,7 @@ class CC0TargetRescreenWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return CC0TargetRescreenSummary(2, 0, asset_count, receipt_path)
 
     def verify(self) -> CC0TargetRescreenSummary:
@@ -414,14 +383,8 @@ class CC0TargetRescreenWorkflow:
             or report.get("status") != "BLOCKED_CC0_RESCREEN_NO_NEW_ADMISSIBLE_TARGET"
             or receipt.get("status") != report.get("status")
             or receipt.get("target_rescreen_report_sha256") != _sha256(report_path)
-            or any(
-                report.get(key) != value or receipt.get(key) != value
-                for key, value in expected.items()
-            )
-            or any(
-                report.get(field) is not False or receipt.get(field) is not False
-                for field in self.REQUIRED_FALSE
-            )
+            or any(report.get(key) != value or receipt.get(key) != value for key, value in expected.items())
+            or any(report.get(field) is not False or receipt.get(field) is not False for field in self.REQUIRED_FALSE)
         ):
             raise CC0TargetRescreenError("CC0 rescreen receipt is invalid")
         self._registry()

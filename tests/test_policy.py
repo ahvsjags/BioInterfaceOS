@@ -67,9 +67,7 @@ class PolicyTests(unittest.TestCase):
             )
         )
         self.assertEqual(analysis.decision, "ADMIT_ANALYSIS_ONLY")
-        unknown = self.engine.evaluate(
-            candidate(license_identifier=None, license_text="license supplied on request")
-        )
+        unknown = self.engine.evaluate(candidate(license_identifier=None, license_text="license supplied on request"))
         self.assertEqual(unknown.decision, "QUARANTINE")
         self.assertEqual(unknown.rejection_code, "LICENSE_UNCLEAR")
         restricted = self.engine.evaluate(

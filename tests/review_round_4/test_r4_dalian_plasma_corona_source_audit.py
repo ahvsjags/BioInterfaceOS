@@ -7,14 +7,13 @@ from pathlib import Path
 
 import pytest
 
+from biointerfaceos.r4_dalian_plasma_corona_sensitivity import (
+    R4DalianPlasmaCoronaSensitivityWorkflow,
+)
 from biointerfaceos.r4_dalian_plasma_corona_source_audit import (
     R4DalianPlasmaCoronaSourceAuditError,
     R4DalianPlasmaCoronaSourceAuditWorkflow,
 )
-from biointerfaceos.r4_dalian_plasma_corona_sensitivity import (
-    R4DalianPlasmaCoronaSensitivityWorkflow,
-)
-
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "data/raw/r4_candidate_pxd060795"
@@ -54,7 +53,9 @@ def test_r4_dalian_audit_rejects_tampered_workbook(tmp_path: Path) -> None:
         workflow.run(strict=True)
 
 
-def test_r4_dalian_small_n_sensitivity_executes_with_explicit_claim_boundary(tmp_path: Path) -> None:
+def test_r4_dalian_small_n_sensitivity_executes_with_explicit_claim_boundary(
+    tmp_path: Path,
+) -> None:
     del tmp_path
     output_root = ROOT / "reports/review_round_4/_test_r4_dalian_sensitivity"
     shutil.rmtree(output_root, ignore_errors=True)

@@ -1,0 +1,23 @@
+{
+  "task_id": "R4-T245",
+  "date": "2026-08-14",
+  "branch": "r3-real-data-execution-20260813",
+  "status": "completed",
+  "scope": "ci_engineering_reproducibility",
+  "acceptance": {
+    "pytest_passed": 581,
+    "pytest_skipped": 5,
+    "ruff_check": "passed",
+    "ruff_format_files": 375,
+    "mypy_source_files": 375,
+    "mypy": "passed"
+  },
+  "scientific_gate_status": {
+    "independent_validation": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "Engineering reproducibility is repaired; local tests and author-run paper-data execution are not independent external validation."
+}

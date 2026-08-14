@@ -51,10 +51,7 @@ def _number(value: Any, label: str) -> float:
 
 
 def _rmse(rows: list[dict[str, Any]], predictions: Mapping[str, float]) -> float:
-    errors = [
-        float(predictions[_string(row["row_id"], "M6 row ID")]) - float(row["outcome"])
-        for row in rows
-    ]
+    errors = [float(predictions[_string(row["row_id"], "M6 row ID")]) - float(row["outcome"]) for row in rows]
     return math.sqrt(sum(error * error for error in errors) / len(errors))
 
 
@@ -76,9 +73,7 @@ class M6Workflow:
 
     def _config(self) -> dict[str, Any]:
         try:
-            config = _mapping(
-                yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M6 config"
-            )
+            config = _mapping(yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M6 config")
         except (OSError, UnicodeError, yaml.YAMLError) as exc:
             raise M6Error(f"cannot load M6 config: {exc}") from exc
         if config.get("schema_version") != 1 or config.get("model") != "M6":
@@ -122,9 +117,7 @@ class M6Workflow:
             if label not in expected:
                 raise M6Error(f"unexpected M6 input: {label}")
             path, checksum = expected[label]
-            declared_path = (self.root / _string(row.get("path"), "M6 input path")).resolve(
-                strict=True
-            )
+            declared_path = (self.root / _string(row.get("path"), "M6 input path")).resolve(strict=True)
             if declared_path != path.resolve(strict=True):
                 raise M6Error(f"M6 input path mismatch: {label}")
             if _sha256(path.read_bytes()) != checksum or row.get("sha256") != checksum:
@@ -225,12 +218,8 @@ class M6Workflow:
             "target_values_exposed": False,
         }
 
-        coefficients = _ridge_fit(
-            self._features(train), [row["outcome"] for row in train], float(config["ridge"])
-        )
-        predictions = {
-            row["row_id"]: _predict_linear(coefficients, self._features([row])[0]) for row in rows
-        }
+        coefficients = _ridge_fit(self._features(train), [row["outcome"] for row in train], float(config["ridge"]))
+        predictions = {row["row_id"]: _predict_linear(coefficients, self._features([row])[0]) for row in rows}
         train_metrics = self._metrics(train, predictions)
         validation_metrics = self._metrics(validation, predictions)
         validation_rmse = float(validation_metrics["rmse"])
@@ -243,15 +232,12 @@ class M6Workflow:
         beta_treatment = coefficients[1]
         beta_mediator = coefficients[2]
         sensitivity_strengths = [
-            _number(value, "M6 confounding bias strength")
-            for value in config["confounding_bias_strengths"]
+            _number(value, "M6 confounding bias strength") for value in config["confounding_bias_strengths"]
         ]
         sensitivity = [
             {
                 "bias_strength": strength,
-                "adjusted_treatment_coefficient": round(
-                    beta_treatment - strength * beta_mediator, 6
-                ),
+                "adjusted_treatment_coefficient": round(beta_treatment - strength * beta_mediator, 6),
                 "absolute_shift": round(abs(strength * beta_mediator), 6),
                 "identified": False,
             }
@@ -303,9 +289,7 @@ class M6Workflow:
             "schema_version": 1,
             "policy": "automatic_downgrade",
             "causal_claim_permitted": causal_claim_permitted,
-            "allowed_label": (
-                "CAUSAL" if causal_claim_permitted else "PREDICTIVE_ASSOCIATIONAL_ONLY"
-            ),
+            "allowed_label": ("CAUSAL" if causal_claim_permitted else "PREDICTIVE_ASSOCIATIONAL_ONLY"),
             "blocked_terms": ["causal effect", "causes", "mediates", "ATE", "identified effect"],
             "approved_summary": (
                 "The model supports predictive and associational reporting only; causal "
@@ -372,11 +356,7 @@ class M6Workflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -422,9 +402,7 @@ class M6Workflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

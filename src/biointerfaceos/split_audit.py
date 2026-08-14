@@ -30,9 +30,7 @@ class SplitAuditSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -185,9 +183,7 @@ class SplitAuditWorkflow:
                 "schema_version": 1,
                 "status": "APPROVED",
                 "critical_findings": critical_findings,
-                "split_hash": _sha256(
-                    _canonical(_mapping(inputs["T065 split manifest"], "split manifest"))
-                ),
+                "split_hash": _sha256(_canonical(_mapping(inputs["T065 split manifest"], "split manifest"))),
                 "feature_blacklist_hash": _sha256(_canonical(blacklist_payload)),
                 "lockbox_forbidden_read_blocked": lockbox_blocked,
             },
@@ -205,9 +201,7 @@ class SplitAuditWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -254,9 +248,7 @@ class SplitAuditWorkflow:
             "lockbox_forbidden_read_blocked": lockbox_blocked,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

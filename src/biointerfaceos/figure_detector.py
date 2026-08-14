@@ -205,9 +205,7 @@ class FigureDetector:
         report_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/figures/figure_detection.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/figures/figure_detection.json")
         self.normalized_path = normalized_path or self.root / "registry/figure_detection.json"
         self.review_path = review_path or self.root / "registry/figure_review_queue.jsonl"
         self.report_path = report_path or self.root / "reports/figure_detection.md"
@@ -480,9 +478,7 @@ class FigureDetector:
         figure_results: list[dict[str, Any]] = []
         panels: list[DetectedPanel] = []
         for raw_figure in raw_figures:
-            detected_panels = tuple(
-                self._parse_panel(raw_figure, panel) for panel in raw_figure["panels"]
-            )
+            detected_panels = tuple(self._parse_panel(raw_figure, panel) for panel in raw_figure["panels"])
             panels.extend(detected_panels)
             figure_results.append(
                 {
@@ -551,8 +547,7 @@ class FigureDetector:
                     f"- uncertainty cues: {sum(len(panel.uncertainty_cues) for panel in panels)}",
                     f"- review items: {len(reviews)}",
                     "",
-                    "Unsupported 3D, heatmap, and image-assay panels are routed to "
-                    "registry/figure_review_queue.jsonl.",
+                    "Unsupported 3D, heatmap, and image-assay panels are routed to registry/figure_review_queue.jsonl.",
                 ]
             )
             + "\n"

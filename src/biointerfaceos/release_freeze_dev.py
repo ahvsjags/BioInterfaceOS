@@ -31,9 +31,7 @@ class DevelopmentReleaseFreezeSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -77,12 +75,8 @@ class DevelopmentReleaseFreezeWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/release/freeze_dev_fixture.json"
-        )
-        self.output_root = output_root or (
-            self.root / "release/dev_data_model/bioif-data-model-dev-v1.0.0"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/release/freeze_dev_fixture.json"
+        self.output_root = output_root or (self.root / "release/dev_data_model/bioif-data-model-dev-v1.0.0")
 
     def _fixture(self) -> dict[str, Any]:
         try:
@@ -92,12 +86,8 @@ class DevelopmentReleaseFreezeWorkflow:
             )
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise DevelopmentReleaseFreezeError(f"cannot load freeze fixture: {exc}") from exc
-        if fixture.get("schema_version") != 1 or fixture.get("mode") != (
-            "development_data_model_freeze"
-        ):
-            raise DevelopmentReleaseFreezeError(
-                "development release fixture schema or mode is invalid"
-            )
+        if fixture.get("schema_version") != 1 or fixture.get("mode") != ("development_data_model_freeze"):
+            raise DevelopmentReleaseFreezeError("development release fixture schema or mode is invalid")
         prereg = _mapping(fixture.get("preregistration"), "development preregistration")
         if prereg.get("release_id") != "bioif-data-model-dev-v1.0.0":
             raise DevelopmentReleaseFreezeError("development data/model release id is not frozen")
@@ -169,15 +159,10 @@ class DevelopmentReleaseFreezeWorkflow:
         if not isinstance(uncertainty, dict) or uncertainty.get("status") != "VALID":
             raise DevelopmentReleaseFreezeError("T078 uncertainty receipt is invalid")
         if uncertainty.get("selected_model") != "conservative_conformal":
-            raise DevelopmentReleaseFreezeError(
-                "T078 conservative uncertainty model is not selected"
-            )
+            raise DevelopmentReleaseFreezeError("T078 conservative uncertainty model is not selected")
         if not isinstance(multimodal, dict) or multimodal.get("status") != "VALID":
             raise DevelopmentReleaseFreezeError("T079 multimodal receipt is invalid")
-        if (
-            multimodal.get("leakage_passed") is not True
-            or multimodal.get("missingness_masked") is not True
-        ):
+        if multimodal.get("leakage_passed") is not True or multimodal.get("missingness_masked") is not True:
             raise DevelopmentReleaseFreezeError("T079 multimodal safety gates failed")
         if not isinstance(negative, dict) or negative.get("strict_pass") is not True:
             raise DevelopmentReleaseFreezeError("T102 negative-control gate failed")

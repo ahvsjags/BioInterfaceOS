@@ -38,9 +38,7 @@ class PrelockReleaseSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -98,12 +96,8 @@ class PrelockReleaseWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/release/prelock_fixture.json"
-        )
-        self.output_root = (
-            output_root or self.root / "release/internal_prelock/bioif-internal-prelock-v1.0.0"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/release/prelock_fixture.json"
+        self.output_root = output_root or self.root / "release/internal_prelock/bioif-internal-prelock-v1.0.0"
 
     def _path(self, value: Any, label: str) -> Path:
         relative = _string(value, label)
@@ -116,31 +110,20 @@ class PrelockReleaseWorkflow:
 
     def _fixture(self) -> dict[str, Any]:
         try:
-            fixture = _mapping(
-                json.loads(self.fixture_path.read_text(encoding="utf-8")), "pre-lock fixture"
-            )
+            fixture = _mapping(json.loads(self.fixture_path.read_text(encoding="utf-8")), "pre-lock fixture")
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise PrelockReleaseError(f"cannot load pre-lock fixture: {exc}") from exc
         if fixture.get("schema_version") != 1 or fixture.get("mode") != "internal_prelock_release":
             raise PrelockReleaseError("pre-lock fixture schema or mode is invalid")
         prereg = _mapping(fixture.get("preregistration"), "pre-lock preregistration")
-        if (
-            prereg.get("release_id") != "bioif-internal-prelock-v1.0.0"
-            or prereg.get("semantic_version") != "1.0.0"
-        ):
+        if prereg.get("release_id") != "bioif-internal-prelock-v1.0.0" or prereg.get("semantic_version") != "1.0.0":
             raise PrelockReleaseError("pre-lock release identity is not frozen")
         if prereg.get("created_at") != "2026-08-12T00:00:00+00:00":
             raise PrelockReleaseError("pre-lock freeze timestamp is not frozen")
-        if (
-            prereg.get("target_values_exposed") is not False
-            or prereg.get("lockbox_access") != "evaluator_only"
-        ):
+        if prereg.get("target_values_exposed") is not False or prereg.get("lockbox_access") != "evaluator_only":
             raise PrelockReleaseError("pre-lock authorization boundary is invalid")
         inputs = fixture.get("inputs")
-        if (
-            not isinstance(inputs, list)
-            or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS
-        ):
+        if not isinstance(inputs, list) or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS:
             raise PrelockReleaseError("pre-lock input set is incomplete")
         return fixture
 
@@ -220,9 +203,7 @@ class PrelockReleaseWorkflow:
     @staticmethod
     def _git_commit(root: Path) -> str:
         try:
-            result = subprocess.run(
-                ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
-            )
+            result = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True)
         except (OSError, subprocess.CalledProcessError) as exc:
             raise PrelockReleaseError(f"cannot determine Git commit: {exc}") from exc
         commit = result.stdout.strip()
@@ -244,9 +225,7 @@ class PrelockReleaseWorkflow:
             raise PrelockReleaseError(f"cannot inspect Git working tree: {exc}") from exc
         return not result.stdout.strip()
 
-    def run(
-        self, *, fixture: bool = True, strict: bool = False, now: datetime | None = None
-    ) -> PrelockReleaseSummary:
+    def run(self, *, fixture: bool = True, strict: bool = False, now: datetime | None = None) -> PrelockReleaseSummary:
         """Freeze the internal release and reject overwrite or protected access."""
         if not fixture:
             raise PrelockReleaseError("only the explicit fixture pre-lock release is enabled")
@@ -275,9 +254,7 @@ class PrelockReleaseWorkflow:
         }
         manifest_bytes = _canonical(manifest)
         signature = _sha256(b"BIOINTERFACEOS-INTERNAL-PRELOCK-V1\0" + manifest_bytes)
-        authorization_token = "eval-prelock-" + _sha256(
-            b"BIOINTERFACEOS-EVALUATOR-ONLY\0" + bytes.fromhex(signature)
-        )
+        authorization_token = "eval-prelock-" + _sha256(b"BIOINTERFACEOS-EVALUATOR-ONLY\0" + bytes.fromhex(signature))
         current = now or datetime.now(UTC)
         if current.tzinfo is None:
             raise PrelockReleaseError("freeze timestamp must include timezone")
@@ -331,9 +308,7 @@ class PrelockReleaseWorkflow:
             "prediction_count": manifest["prediction_count"],
             "manifest_sha256": _sha256(manifest_bytes),
             "signature": signature,
-            "resume_key": _sha256(
-                manifest_bytes + _canonical(signature_record) + _canonical(lockbox_plan)
-            ),
+            "resume_key": _sha256(manifest_bytes + _canonical(signature_record) + _canonical(lockbox_plan)),
         }
         payloads = {
             "release_manifest.json": manifest_bytes,
@@ -341,9 +316,9 @@ class PrelockReleaseWorkflow:
             "signature.json": _canonical(signature_record),
             "lockbox_plan.json": _canonical(lockbox_plan),
             "evaluator_authorization.json": _canonical(authorization),
-            "checksums.txt": "".join(
-                f"{record['sha256']}  {record['path']}\n" for record in input_records
-            ).encode("utf-8"),
+            "checksums.txt": "".join(f"{record['sha256']}  {record['path']}\n" for record in input_records).encode(
+                "utf-8"
+            ),
         }
         self.output_root.mkdir(parents=True, exist_ok=True)
         resumed = 0
@@ -386,9 +361,7 @@ class PrelockReleaseWorkflow:
             "signature",
         )
         authorization = _mapping(
-            json.loads(
-                (self.output_root / "evaluator_authorization.json").read_text(encoding="utf-8")
-            ),
+            json.loads((self.output_root / "evaluator_authorization.json").read_text(encoding="utf-8")),
             "authorization",
         )
         manifest_bytes = _canonical(manifest)

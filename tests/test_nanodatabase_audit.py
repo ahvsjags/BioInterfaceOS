@@ -22,11 +22,7 @@ class NanodatabaseAuditTests(unittest.TestCase):
 
     def test_audit_rejects_duplicate_or_missing_evidence(self) -> None:
         root = Path(__file__).resolve().parents[1]
-        value = json.loads(
-            (root / "tests/fixtures/nanodatabases/admission_decisions.json").read_text(
-                encoding="utf-8"
-            )
-        )
+        value = json.loads((root / "tests/fixtures/nanodatabases/admission_decisions.json").read_text(encoding="utf-8"))
         value["decisions"][1]["id"] = value["decisions"][0]["id"]
         with self.assertRaises(NanodatabaseAuditError):
             validate_audit(value)

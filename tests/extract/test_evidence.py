@@ -39,9 +39,7 @@ class EvidenceResolverTests(unittest.TestCase):
             evidence = json.loads(summary.evidence_path.read_text())
             resolved = [row for row in evidence["rows"] if row["resolution_status"] == "RESOLVED"]
             self.assertTrue(all(row["source_asset_id"] for row in resolved))
-            trace = self._resolver(Path(temporary)).reverse_trace(
-                "asset:asset-table-001/table:table-main/cell:C3"
-            )
+            trace = self._resolver(Path(temporary)).reverse_trace("asset:asset-table-001/table:table-main/cell:C3")
             self.assertEqual(
                 {row["assertion_id"] for row in trace},
                 {
@@ -62,9 +60,7 @@ class EvidenceResolverTests(unittest.TestCase):
             resolver.run()
             resolver.run()
             review_path = Path(temporary) / "evidence_review_queue.jsonl"
-            reviews = [
-                json.loads(line) for line in review_path.read_text().splitlines() if line.strip()
-            ]
+            reviews = [json.loads(line) for line in review_path.read_text().splitlines() if line.strip()]
             self.assertEqual(len(reviews), 1)
             self.assertEqual(reviews[0]["reason"], "BROKEN_OR_MISSING_EVIDENCE_LOCATOR")
             AppendOnlyJSONL(review_path).validate()

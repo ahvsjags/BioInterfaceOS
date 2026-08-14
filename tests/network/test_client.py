@@ -185,13 +185,9 @@ class AnonymousNetworkTests(unittest.TestCase):
                     headers={"Content-Range": "bytes 3-5/6"},
                 )
 
-            client = AnonymousHttpClient(
-                root=root, opener=opener, clock=lambda: 0.0, sleep=lambda _: None
-            )
+            client = AnonymousHttpClient(root=root, opener=opener, clock=lambda: 0.0, sleep=lambda _: None)
             expected = hashlib.sha256(b"abcdef").hexdigest()
-            result = client.download(
-                "https://public.example/file", destination, expected_sha256=expected
-            )
+            result = client.download("https://public.example/file", destination, expected_sha256=expected)
             self.assertEqual(result, destination)
             self.assertEqual(destination.read_bytes(), b"abcdef")
             self.assertFalse(part.exists())
@@ -210,9 +206,7 @@ class AnonymousNetworkTests(unittest.TestCase):
                 self.assertEqual(request.get_header("Range"), "bytes=7-")
                 return FakeResponse(b"fresh")
 
-            client = AnonymousHttpClient(
-                root=root, opener=opener, clock=lambda: 0.0, sleep=lambda _: None
-            )
+            client = AnonymousHttpClient(root=root, opener=opener, clock=lambda: 0.0, sleep=lambda _: None)
             with self.assertRaises(ChecksumMismatchError):
                 client.download(
                     "https://public.example/file",
@@ -225,9 +219,7 @@ class AnonymousNetworkTests(unittest.TestCase):
     def test_download_contains_destination_and_requires_digest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            client = AnonymousHttpClient(
-                root=root, opener=lambda *args, **kwargs: FakeResponse(b"")
-            )
+            client = AnonymousHttpClient(root=root, opener=lambda *args, **kwargs: FakeResponse(b""))
             with self.assertRaises(NetworkPolicyError):
                 client.download(
                     "https://public.example/file",

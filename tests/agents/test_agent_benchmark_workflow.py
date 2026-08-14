@@ -18,27 +18,18 @@ def test_agent_benchmark_reports_all_modes_and_metrics() -> None:
     assert summary.reproducibility == 1.0
     assert summary.failures == 0
     assert summary.selected_mode == "single_agent"
-    comparison = json.loads(
-        (root / "reports/benchmark/agents/mode_comparison.json").read_text(encoding="utf-8")
-    )
+    comparison = json.loads((root / "reports/benchmark/agents/mode_comparison.json").read_text(encoding="utf-8"))
     assert set(comparison["modes"]) == {"no_tool", "single_agent", "multi_agent"}
-    assert (
-        comparison["modes"]["multi_agent"]["cost_units"]
-        > comparison["modes"]["single_agent"]["cost_units"]
-    )
+    assert comparison["modes"]["multi_agent"]["cost_units"] > comparison["modes"]["single_agent"]["cost_units"]
 
 
 def test_agent_benchmark_preserves_failure_taxonomy_and_intervals() -> None:
     root = Path(__file__).parents[2]
     AgentBenchmarkWorkflow(root).run(development=True)
 
-    confidence = json.loads(
-        (root / "reports/benchmark/agents/confidence_intervals.json").read_text(encoding="utf-8")
-    )
+    confidence = json.loads((root / "reports/benchmark/agents/confidence_intervals.json").read_text(encoding="utf-8"))
     assert confidence["metrics"]["completion"]["confidence_interval_95"][0] > 0.0
-    failures = json.loads(
-        (root / "reports/benchmark/agents/failure_taxonomy.json").read_text(encoding="utf-8")
-    )
+    failures = json.loads((root / "reports/benchmark/agents/failure_taxonomy.json").read_text(encoding="utf-8"))
     assert len(failures["failures"]) == 7
     assert all(row["preserved"] is True for row in failures["failures"])
 

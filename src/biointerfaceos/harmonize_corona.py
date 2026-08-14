@@ -30,9 +30,7 @@ class HarmonizationSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -72,9 +70,7 @@ class HarmonizationWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/harmonize_corona_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/harmonize_corona_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/harmonization"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -99,17 +95,13 @@ class HarmonizationWorkflow:
             inputs.get("quantification_receipt_path"), "inputs.quantification_receipt_path"
         )
         quant_receipt = (self.root / quant_receipt_relative).resolve(strict=True)
-        normalized_relative = _string(
-            inputs.get("normalized_matrix_path"), "inputs.normalized_matrix_path"
-        )
+        normalized_relative = _string(inputs.get("normalized_matrix_path"), "inputs.normalized_matrix_path")
         normalized = (self.root / normalized_relative).resolve(strict=True)
         for path in (quant_receipt, normalized):
             try:
                 path.relative_to(self.root)
             except ValueError as exc:
-                raise HarmonizationError(
-                    "harmonization inputs must remain inside repository"
-                ) from exc
+                raise HarmonizationError("harmonization inputs must remain inside repository") from exc
         if _sha256_path(quant_receipt) != _string(
             inputs.get("quantification_receipt_sha256"), "inputs.quantification_receipt_sha256"
         ):
@@ -118,9 +110,7 @@ class HarmonizationWorkflow:
             inputs.get("normalized_matrix_sha256"), "inputs.normalized_matrix_sha256"
         ):
             raise HarmonizationError("T055 normalized matrix checksum differs from fixture")
-        receipt = _mapping(
-            json.loads(quant_receipt.read_text(encoding="utf-8")), "quantification receipt"
-        )
+        receipt = _mapping(json.loads(quant_receipt.read_text(encoding="utf-8")), "quantification receipt")
         if receipt.get("status") != "COMPLETED":
             raise HarmonizationError("T055 quantification receipt is not completed")
         matrix = _mapping(json.loads(normalized.read_text(encoding="utf-8")), "normalized matrix")
@@ -185,18 +175,12 @@ class HarmonizationWorkflow:
     def _closure_clr(
         values: Mapping[str, Any],
     ) -> tuple[dict[str, float | None], dict[str, float | None], int]:
-        observed = {
-            key: _float(value, f"sample value {key}")
-            for key, value in values.items()
-            if value is not None
-        }
+        observed = {key: _float(value, f"sample value {key}") for key, value in values.items() if value is not None}
         if not observed or any(value <= 0 for value in observed.values()):
             raise HarmonizationError("each sample needs at least one positive observed protein")
         total = sum(observed.values())
         composition = {key: value / total for key, value in observed.items()}
-        geometric_mean = math.exp(
-            sum(math.log(value) for value in composition.values()) / len(composition)
-        )
+        geometric_mean = math.exp(sum(math.log(value) for value in composition.values()) / len(composition))
         clr = {key: math.log(value / geometric_mean) for key, value in composition.items()}
         all_keys = set(values)
         return (
@@ -247,9 +231,7 @@ class HarmonizationWorkflow:
                     "raw_values": {key: values[key] for key in sorted(values)},
                     "composition_values": {key: composition[key] for key in sorted(composition)},
                     "clr_values": {key: clr[key] for key in sorted(clr)},
-                    "missing_proteins": sorted(
-                        key for key, value in composition.items() if value is None
-                    ),
+                    "missing_proteins": sorted(key for key, value in composition.items() if value is None),
                 }
                 rows.append(row)
                 module_values: dict[str, list[float]] = {module: [] for module in module_names}
@@ -269,9 +251,7 @@ class HarmonizationWorkflow:
                         "batch_id": batch,
                         "source_scale": scale,
                         "module_values": {
-                            module: round(sum(module_values[module]), 8)
-                            if module_values[module]
-                            else None
+                            module: round(sum(module_values[module]), 8) if module_values[module] else None
                             for module in module_names
                         },
                         "module_missing": module_missing,
@@ -308,22 +288,11 @@ class HarmonizationWorkflow:
             "project_scales": sorted({row["source_scale"] for row in project_rows}),
             "batches": sorted(batches),
             "project_scale_preserved": all(
-                len(
-                    {
-                        row["source_scale"]
-                        for row in project_rows
-                        if row["project_accession"] == project
-                    }
-                )
-                == 1
+                len({row["source_scale"] for row in project_rows if row["project_accession"] == project}) == 1
                 for project in {row["project_accession"] for row in project_rows}
             ),
             "composition_sums_valid": all(
-                abs(
-                    sum(value for value in row["composition_values"].values() if value is not None)
-                    - 1.0
-                )
-                < 1e-7
+                abs(sum(value for value in row["composition_values"].values() if value is not None) - 1.0) < 1e-7
                 for row in project_rows
             ),
             "no_combat": policy["batch_correction"] == "none",
@@ -361,10 +330,7 @@ class HarmonizationWorkflow:
             "batch": {
                 "schema_version": 1,
                 "project_batches": sorted(
-                    {
-                        (row["project_accession"], row["batch_id"], row["source_scale"])
-                        for row in project_rows
-                    }
+                    {(row["project_accession"], row["batch_id"], row["source_scale"]) for row in project_rows}
                 ),
                 "batch_correction": "none",
             },
@@ -387,9 +353,7 @@ class HarmonizationWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -437,9 +401,7 @@ class HarmonizationWorkflow:
             "missing_cells": missing_cells,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

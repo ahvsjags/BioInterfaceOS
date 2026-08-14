@@ -37,9 +37,7 @@ def test_audit_requires_strict_mode(tmp_path: Path) -> None:
 
 
 def test_audit_rejects_silent_candidate_promotion(tmp_path: Path) -> None:
-    registry = json.loads(
-        (ROOT / "docs/data/R2_T129_CC0_TARGET_ADMISSION_REGISTRY.json").read_text(encoding="utf-8")
-    )
+    registry = json.loads((ROOT / "docs/data/R2_T129_CC0_TARGET_ADMISSION_REGISTRY.json").read_text(encoding="utf-8"))
     registry["candidates"][0]["admission"] = "ADMITTED"
     registry_path = tmp_path / "registry.json"
     registry_path.write_text(json.dumps(registry), encoding="utf-8")

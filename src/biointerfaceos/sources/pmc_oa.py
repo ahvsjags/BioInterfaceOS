@@ -133,11 +133,7 @@ class PmcOaAdapter(SourceAdapter):
         record: PmcOaRecord | None,
     ) -> SourceCandidate:
         license_value = record.license_identifier if record else None
-        evidence = (
-            "PMC OA Web Service record"
-            if record is not None
-            else "PMC OA Web Service non-OA response"
-        )
+        evidence = "PMC OA Web Service record" if record is not None else "PMC OA Web Service non-OA response"
         return SourceCandidate.from_mapping(
             {
                 "source_id": f"pmc_oa:{accession}",
@@ -190,10 +186,7 @@ class PmcOaAdapter(SourceAdapter):
             "open_access_subset": True,
             "citation": record.citation,
             "license": record.license_identifier,
-            "links": [
-                {"format": file_format, "url": self._public_url(href)}
-                for file_format, href in record.links
-            ],
+            "links": [{"format": file_format, "url": self._public_url(href)} for file_format, href in record.links],
             "request_url": request_url,
             "response_sha256": response_sha256,
             "evidence_location": "PMC OA Web Service record",
@@ -214,9 +207,7 @@ class PmcOaAdapter(SourceAdapter):
         for file_format, href in record.links:
             url = self._public_url(href)
             asset_type = self._asset_type(file_format)
-            asset_id = hashlib.sha256(
-                f"{candidate.source_id}|{asset_type}|{url}".encode()
-            ).hexdigest()
+            asset_id = hashlib.sha256(f"{candidate.source_id}|{asset_type}|{url}".encode()).hexdigest()
             assets.append(
                 AssetDescriptor(
                     asset_id=asset_id,

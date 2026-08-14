@@ -19,9 +19,7 @@ class CC0TargetAdmissionError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -159,17 +157,13 @@ class CC0TargetAdmissionWorkflow:
         if registry.get("allowed_claim_level") != "EXPLORATORY":
             raise CC0TargetAdmissionError("CC0 target-admission claim level is unsafe")
         _string(registry.get("evaluated_at"), "CC0 target-admission evaluated_at")
-        if _string(registry.get("development_cutoff"), "CC0 target-admission cutoff") != (
-            "2024-12-31T23:59:59+00:00"
-        ):
+        if _string(registry.get("development_cutoff"), "CC0 target-admission cutoff") != ("2024-12-31T23:59:59+00:00"):
             raise CC0TargetAdmissionError("CC0 target-admission cutoff changed")
 
         policy = _mapping(registry.get("source_policy"), "CC0 target-admission policy")
         if set(policy) != self.REQUIRED_POLICY_FIELDS:
             raise CC0TargetAdmissionError("CC0 target-admission policy fields are invalid")
-        if set(_list(policy.get("allowed_licenses"), "CC0 target-admission licences")) != (
-            self.ALLOWED_LICENSES
-        ):
+        if set(_list(policy.get("allowed_licenses"), "CC0 target-admission licences")) != (self.ALLOWED_LICENSES):
             raise CC0TargetAdmissionError("CC0 target-admission licences are invalid")
         for field in self.REQUIRED_POLICY_FIELDS - {"allowed_licenses"}:
             if policy.get(field) is not True:
@@ -178,9 +172,7 @@ class CC0TargetAdmissionWorkflow:
         candidates: list[dict[str, Any]] = []
         source_ids: set[str] = set()
         laboratories: set[str] = set()
-        for value in _list(
-            registry.get("candidates"), "CC0 target-admission candidates", minimum=2
-        ):
+        for value in _list(registry.get("candidates"), "CC0 target-admission candidates", minimum=2):
             candidate = _mapping(value, "CC0 target-admission candidate")
             if set(candidate) != self.REQUIRED_CANDIDATE_FIELDS:
                 raise CC0TargetAdmissionError("CC0 target-admission candidate fields are invalid")
@@ -223,12 +215,8 @@ class CC0TargetAdmissionWorkflow:
             if len(digest) != 64 or any(char not in "0123456789abcdef" for char in digest):
                 raise CC0TargetAdmissionError("CC0 target-admission asset SHA-256 is invalid")
             if not asset["download_url"].startswith("https://ftp.pride.ebi.ac.uk/"):
-                raise CC0TargetAdmissionError(
-                    "CC0 target-admission asset needs an official HTTPS URL"
-                )
-            for cell_value in _list(
-                asset.get("cell_evidence"), "CC0 target-admission cell evidence", minimum=3
-            ):
+                raise CC0TargetAdmissionError("CC0 target-admission asset needs an official HTTPS URL")
+            for cell_value in _list(asset.get("cell_evidence"), "CC0 target-admission cell evidence", minimum=3):
                 cell = _mapping(cell_value, "CC0 target-admission cell evidence")
                 if set(cell) != self.REQUIRED_CELL_EVIDENCE_FIELDS:
                     raise CC0TargetAdmissionError("CC0 target-admission cell evidence is invalid")
@@ -244,16 +232,12 @@ class CC0TargetAdmissionWorkflow:
             for condition_value in conditions:
                 condition = _mapping(condition_value, "CC0 target-admission source condition")
                 if set(condition) != self.REQUIRED_CONDITION_FIELDS:
-                    raise CC0TargetAdmissionError(
-                        "CC0 target-admission condition fields are invalid"
-                    )
+                    raise CC0TargetAdmissionError("CC0 target-admission condition fields are invalid")
                 for field in self.REQUIRED_CONDITION_FIELDS - {"author_quantification_columns"}:
                     _string(condition.get(field), f"CC0 target-admission condition {field}")
                 condition_id = condition["source_condition_id"]
                 if condition_id in condition_ids or not condition_id.startswith(f"{source_id}-"):
-                    raise CC0TargetAdmissionError(
-                        "CC0 target-admission condition identity is invalid"
-                    )
+                    raise CC0TargetAdmissionError("CC0 target-admission condition identity is invalid")
                 condition_ids.add(condition_id)
                 columns = _list(
                     condition.get("author_quantification_columns"),
@@ -261,13 +245,9 @@ class CC0TargetAdmissionWorkflow:
                     minimum=1,
                 )
                 if any(not isinstance(column, str) or not column.strip() for column in columns):
-                    raise CC0TargetAdmissionError(
-                        "CC0 target-admission quantification column is invalid"
-                    )
+                    raise CC0TargetAdmissionError("CC0 target-admission quantification column is invalid")
 
-            if candidate["numeric_covariate_map_status"] != (
-                "MISSING_IN_SELECTED_CC0_SOURCE_ASSETS"
-            ):
+            if candidate["numeric_covariate_map_status"] != ("MISSING_IN_SELECTED_CC0_SOURCE_ASSETS"):
                 raise CC0TargetAdmissionError("CC0 target-admission silently promotes covariates")
             if candidate["admission"] != "NOT_ADMITTED" or candidate["model_use"] != "PROHIBITED":
                 raise CC0TargetAdmissionError("CC0 target-admission silently promotes a target")
@@ -355,19 +335,13 @@ class CC0TargetAdmissionWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return CC0TargetAdmissionSummary(
-            candidate_source_count=_integer(
-                receipt["candidate_source_count"], "candidate source count", minimum=2
-            ),
+            candidate_source_count=_integer(receipt["candidate_source_count"], "candidate source count", minimum=2),
             candidate_laboratory_count=_integer(
                 receipt["candidate_laboratory_count"], "candidate laboratory count", minimum=2
             ),
-            source_condition_count=_integer(
-                receipt["source_condition_count"], "source condition count", minimum=1
-            ),
+            source_condition_count=_integer(receipt["source_condition_count"], "source condition count", minimum=1),
             receipt_path=receipt_path,
         )
 

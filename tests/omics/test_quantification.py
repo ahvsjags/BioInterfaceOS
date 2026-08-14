@@ -50,9 +50,7 @@ class QuantificationWorkflowTests(unittest.TestCase):
 
     def test_search_receipt_checksum_fails_closed(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            fixture = json.loads(
-                (self.project_root / "tests/fixtures/omics/quantification_fixture.json").read_text()
-            )
+            fixture = json.loads((self.project_root / "tests/fixtures/omics/quantification_fixture.json").read_text())
             fixture["search"]["receipt_sha256"] = "0" * 64
             bad_fixture = Path(temporary) / "bad_quantification_fixture.json"
             bad_fixture.write_text(json.dumps(fixture), encoding="utf-8")

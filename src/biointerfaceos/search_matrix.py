@@ -11,16 +11,10 @@ from typing import Any
 
 import yaml  # type: ignore[import-untyped]
 
-ALLOWED_AXES = frozenset(
-    {"material", "corona", "endpoint", "protocol", "species", "assay", "data_code"}
-)
-ALLOWED_SOURCES = frozenset(
-    {"europe_pmc", "pmc_oa", "pride", "geo", "pubchem", "chembl", "zenodo", "figshare", "osf"}
-)
+ALLOWED_AXES = frozenset({"material", "corona", "endpoint", "protocol", "species", "assay", "data_code"})
+ALLOWED_SOURCES = frozenset({"europe_pmc", "pmc_oa", "pride", "geo", "pubchem", "chembl", "zenodo", "figshare", "osf"})
 ALLOWED_SCOPES = frozenset({"train", "validation"})
-ALLOWED_CURSORS = frozenset(
-    {"cursorMark", "page", "offset", "accession_seed", "provider_release", "single"}
-)
+ALLOWED_CURSORS = frozenset({"cursorMark", "page", "offset", "accession_seed", "provider_release", "single"})
 QUERY_FIELDS = frozenset(
     {
         "id",
@@ -79,9 +73,7 @@ def validate_matrix(value: Any) -> None:
         "date_firewall",
         "queries",
     }:
-        raise SearchMatrixError(
-            "matrix must contain schema_version, matrix_version, date_firewall, queries"
-        )
+        raise SearchMatrixError("matrix must contain schema_version, matrix_version, date_firewall, queries")
     if value["schema_version"] != 1:
         raise SearchMatrixError("schema_version must be 1")
     _require_text(value, "matrix_version", "matrix")
@@ -145,9 +137,7 @@ def validate_matrix(value: Any) -> None:
         if scope == "train" and date_to != train_end:
             raise SearchMatrixError(f"query {identifier} train scope must end at train_end")
         if scope == "validation" and (date_from != validation_start or date_to != validation_end):
-            raise SearchMatrixError(
-                f"query {identifier} validation scope must use the frozen 2024 interval"
-            )
+            raise SearchMatrixError(f"query {identifier} validation scope must use the frozen 2024 interval")
         if "lockbox" in query_text.lower() or "2025-01-01" in query_text:
             raise SearchMatrixError(f"query {identifier} contains forbidden lockbox text")
         key = (source, axis, scope, _canonical_query(query_text))
@@ -163,9 +153,7 @@ def validate_matrix(value: Any) -> None:
         raise SearchMatrixError(f"matrix is missing axes: {', '.join(missing)}")
     if set(scopes) != ALLOWED_SCOPES:
         missing_scopes = sorted(ALLOWED_SCOPES - set(scopes))
-        raise SearchMatrixError(
-            f"matrix must include train and validation scopes; missing={missing_scopes}"
-        )
+        raise SearchMatrixError(f"matrix must include train and validation scopes; missing={missing_scopes}")
 
 
 def load_matrix(path: Path) -> SearchMatrixSummary:

@@ -34,48 +34,30 @@ class UnitNormalizerTests(unittest.TestCase):
             self.assertEqual(summary.review_items, 2)
             self.assertEqual(summary.uncertainty_records, 5)
             payload = json.loads(summary.output_path.read_text())
-            size = next(
-                item for item in payload["assertions"] if item["assertion_id"] == "size-001"
-            )
+            size = next(item for item in payload["assertions"] if item["assertion_id"] == "size-001")
             self.assertEqual(size["normalized_value"], 1e-8)
             self.assertEqual(size["dimension"], "length")
-            time = next(
-                item for item in payload["assertions"] if item["assertion_id"] == "time-001"
-            )
+            time = next(item for item in payload["assertions"] if item["assertion_id"] == "time-001")
             self.assertEqual(time["normalized_value"], 7200.0)
-            concentration = next(
-                item
-                for item in payload["assertions"]
-                if item["assertion_id"] == "concentration-001"
-            )
+            concentration = next(item for item in payload["assertions"] if item["assertion_id"] == "concentration-001")
             self.assertEqual(concentration["normalized_value"], 2.0)
             self.assertEqual(concentration["target_unit"], "g/L")
 
     def test_uncertainty_uses_the_same_valid_conversion_factor(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             payload = json.loads(self._normalizer(Path(temporary)).run().output_path.read_text())
-            size = next(
-                item for item in payload["assertions"] if item["assertion_id"] == "size-001"
-            )
+            size = next(item for item in payload["assertions"] if item["assertion_id"] == "size-001")
             self.assertEqual(size["normalized_uncertainty"], 2e-9)
             self.assertAlmostEqual(size["relative_uncertainty"], 0.2)
-            dose = next(
-                item for item in payload["assertions"] if item["assertion_id"] == "dose-001"
-            )
+            dose = next(item for item in payload["assertions"] if item["assertion_id"] == "dose-001")
             self.assertEqual(dose["normalized_uncertainty"], 0.2)
 
     def test_unknown_basis_and_incompatible_dimensions_are_not_converted(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             summary = self._normalizer(Path(temporary)).run()
             payload = json.loads(summary.output_path.read_text())
-            unknown = next(
-                item
-                for item in payload["assertions"]
-                if item["assertion_id"] == "unknown-basis-001"
-            )
-            incompatible = next(
-                item for item in payload["assertions"] if item["assertion_id"] == "incompatible-001"
-            )
+            unknown = next(item for item in payload["assertions"] if item["assertion_id"] == "unknown-basis-001")
+            incompatible = next(item for item in payload["assertions"] if item["assertion_id"] == "incompatible-001")
             self.assertIsNone(unknown["normalized_value"])
             self.assertEqual(unknown["clarification_reason"], "UNKNOWN_BASIS_FOR_DOSE")
             self.assertIsNone(incompatible["normalized_value"])

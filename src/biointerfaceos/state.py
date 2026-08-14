@@ -25,9 +25,7 @@ TASK_FIELDS = (
     "acceptance",
     "failure_policy",
 )
-ALLOWED_STATUSES = frozenset(
-    {"READY", "BLOCKED", "IN_PROGRESS", "DONE", "FAILED_RETRYABLE", "FAILED_FINAL", "WAIVED"}
-)
+ALLOWED_STATUSES = frozenset({"READY", "BLOCKED", "IN_PROGRESS", "DONE", "FAILED_RETRYABLE", "FAILED_FINAL", "WAIVED"})
 SATISFIED_STATUSES = frozenset({"DONE", "WAIVED"})
 TRANSITIONS: Mapping[str, frozenset[str]] = {
     "READY": frozenset({"IN_PROGRESS", "BLOCKED", "WAIVED"}),
@@ -134,9 +132,7 @@ def load_tasks(path: Path) -> tuple[Task, ...]:
                 id=row["id"],
                 phase=row["phase"],
                 title=row["title"],
-                depends_on=tuple(
-                    part.strip() for part in row["depends_on"].split(",") if part.strip()
-                ),
+                depends_on=tuple(part.strip() for part in row["depends_on"].split(",") if part.strip()),
                 status=row["status"],
                 priority=row["priority"],
                 inputs=row["inputs"],
@@ -244,9 +240,7 @@ def next_ready_task(tasks: Sequence[Task]) -> Task | None:
             task
             for task in tasks
             if task.status == "READY"
-            and all(
-                by_id[dependency].status in SATISFIED_STATUSES for dependency in task.depends_on
-            )
+            and all(by_id[dependency].status in SATISFIED_STATUSES for dependency in task.depends_on)
         ),
         None,
     )

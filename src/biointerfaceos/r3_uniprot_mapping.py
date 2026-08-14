@@ -25,9 +25,7 @@ class R3UniProtMappingError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -57,10 +55,10 @@ def _string(value: Any, label: str) -> str:
 
 
 def _checksum(value: Any, label: str) -> str:
-    value = _string(value, label)
-    if len(value) != 64 or any(character not in "0123456789abcdef" for character in value):
+    checksum = _string(value, label)
+    if len(checksum) != 64 or any(character not in "0123456789abcdef" for character in checksum):
         raise R3UniProtMappingError(f"{label} must be a lowercase SHA-256")
-    return value
+    return checksum
 
 
 ACCESSION = re.compile(
@@ -191,7 +189,11 @@ class R3UniProtMappingWorkflow:
             if identifier_column not in header:
                 raise R3UniProtMappingError(f"R3 source identifier column missing: {source_id}")
             sources.append({**source, "path": path})
-        if source_ids != {"PXD017052_SEER_BROAD", "PMC9633814_MSU_MULTICORE", "PMC7788026_OUHSC_GOLD"}:
+        if source_ids != {
+            "PXD017052_SEER_BROAD",
+            "PMC9633814_MSU_MULTICORE",
+            "PMC7788026_OUHSC_GOLD",
+        }:
             raise R3UniProtMappingError("R3 source-map laboratory roster is invalid")
         minimum = registry.get("minimum_shared_canonical_proteins")
         if not isinstance(minimum, int) or minimum < 100:
@@ -282,13 +284,15 @@ class R3UniProtMappingWorkflow:
             entry_name = row.get("Entry Name", "").strip()
             if not accession:
                 continue
-            matches[("accession", accession)] .add(accession)
+            matches[("accession", accession)].add(accession)
             if entry_name:
                 matches[("id", entry_name)].add(accession)
         return matches
 
     @staticmethod
-    def _source_identifiers(sources: list[dict[str, Any]]) -> tuple[dict[str, set[str]], list[tuple[str, str]]]:
+    def _source_identifiers(
+        sources: list[dict[str, Any]],
+    ) -> tuple[dict[str, set[str]], list[tuple[str, str]]]:
         identifiers: dict[str, set[str]] = {}
         all_tokens: set[tuple[str, str]] = set()
         for source in sources:
@@ -314,9 +318,7 @@ class R3UniProtMappingWorkflow:
         identifiers, tokens = self._source_identifiers(sources)
         if not tokens:
             raise R3UniProtMappingError("R3 UniProt mapping found no supported source tokens")
-        api_rows, request_rows, response_payloads, response_headers = self._fetch_uniprot(
-            tokens, uniprot
-        )
+        api_rows, request_rows, response_payloads, response_headers = self._fetch_uniprot(tokens, uniprot)
         matches = self._token_matches(api_rows)
         resolutions: list[dict[str, str]] = []
         resolved_by_source: dict[str, dict[str, str]] = {}
@@ -349,8 +351,7 @@ class R3UniProtMappingWorkflow:
                 )
             resolved_by_source[source_id] = source_resolution
         canonical_sets = {
-            source_id: set(source_resolution.values())
-            for source_id, source_resolution in resolved_by_source.items()
+            source_id: set(source_resolution.values()) for source_id, source_resolution in resolved_by_source.items()
         }
         shared = set.intersection(*canonical_sets.values())
         if len(shared) < registry["minimum_shared_canonical_proteins"]:
@@ -474,20 +475,17 @@ class R3UniProtMappingWorkflow:
         report = self._json(report_path, "R3 UniProt mapping report")
         receipt = self._json(receipt_path, "R3 UniProt mapping receipt")
         request_path = self.mapping_root / _string(
-            _mapping(report.get("uniprot_source"), "R3 UniProt source").get(
-                "request_manifest_location"
-            ),
+            _mapping(report.get("uniprot_source"), "R3 UniProt source").get("request_manifest_location"),
             "request manifest location",
         )
         required_files = (
             request_path,
             self.mapping_root / _string(report.get("resolution_manifest_location"), "resolution location"),
-            self.mapping_root / _string(report.get("shared_canonical_source_cells_location"), "shared source-cell location"),
+            self.mapping_root
+            / _string(report.get("shared_canonical_source_cells_location"), "shared source-cell location"),
         )
         response_root = self.mapping_root / _string(
-            _mapping(report.get("uniprot_source"), "R3 UniProt source").get(
-                "response_batch_directory"
-            ),
+            _mapping(report.get("uniprot_source"), "R3 UniProt source").get("response_batch_directory"),
             "response batch directory",
         )
         response_manifest_valid = False
@@ -496,8 +494,7 @@ class R3UniProtMappingWorkflow:
                 request_rows = list(csv.DictReader(stream))
             response_manifest_valid = bool(request_rows) and all(
                 (response_root / row.get("response_file_name", "")).is_file()
-                and _sha256(response_root / row["response_file_name"])
-                == row.get("response_sha256")
+                and _sha256(response_root / row["response_file_name"]) == row.get("response_sha256")
                 for row in request_rows
             )
         if (

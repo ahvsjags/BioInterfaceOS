@@ -115,9 +115,7 @@ def _check_schema(node: Any, path: str = "$") -> None:
         if value is not None and (isinstance(value, bool) or not isinstance(value, int | float)):
             raise SchemaDefinitionError(f"{path}.{key}: expected a number")
     if "minItems" in node and (
-        isinstance(node["minItems"], bool)
-        or not isinstance(node["minItems"], int)
-        or node["minItems"] < 0
+        isinstance(node["minItems"], bool) or not isinstance(node["minItems"], int) or node["minItems"] < 0
     ):
         raise SchemaDefinitionError(f"{path}.minItems: expected a non-negative integer")
     if schema_type == "object":
@@ -207,9 +205,7 @@ def validate(instance: Any, schema: dict[str, Any], path: str = "$") -> None:
             validate(value, schema["items"], f"{path}[{index}]")
 
 
-def load_config(
-    root: Path, path: Path, expected_schema: str, expected_version: int
-) -> LoadedConfig:
+def load_config(root: Path, path: Path, expected_schema: str, expected_version: int) -> LoadedConfig:
     """Safely load and validate one strict YAML configuration envelope."""
     config_path = _contained(root, path)
     try:

@@ -14,9 +14,7 @@ def _root() -> Path:
 
 
 def test_representation_baselines_report_coverage_and_full_split_metrics(tmp_path: Path) -> None:
-    summary = BenchmarkRepresentationWorkflow(
-        _root(), output_root=tmp_path / "representations"
-    ).run()
+    summary = BenchmarkRepresentationWorkflow(_root(), output_root=tmp_path / "representations").run()
 
     assert summary.baselines == 4
     assert summary.successful == 4
@@ -56,6 +54,4 @@ def test_representation_baselines_resume_is_deterministic(tmp_path: Path) -> Non
 
 def test_representation_baselines_require_group(tmp_path: Path) -> None:
     with pytest.raises(BenchmarkRepresentationError, match="--group representation is required"):
-        BenchmarkRepresentationWorkflow(_root(), output_root=tmp_path / "representations").run(
-            group="simple"
-        )
+        BenchmarkRepresentationWorkflow(_root(), output_root=tmp_path / "representations").run(group="simple")

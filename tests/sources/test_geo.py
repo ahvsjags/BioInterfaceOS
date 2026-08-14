@@ -47,8 +47,7 @@ class GeoSraTests(unittest.TestCase):
         cls.project_root = Path(__file__).resolve().parents[2]
         fixture_root = cls.project_root / "tests/fixtures/sources/geo"
         cls.soft = {
-            accession: (fixture_root / f"{accession}.soft").read_bytes()
-            for accession in ("GSE12345", "GSE99999")
+            accession: (fixture_root / f"{accession}.soft").read_bytes() for accession in ("GSE12345", "GSE99999")
         }
         cls.runinfo = (fixture_root / "SRR000001.runinfo.csv").read_bytes()
 
@@ -92,9 +91,7 @@ class GeoSraTests(unittest.TestCase):
             self.assertEqual(metadata["samples"], ["GSM1001", "GSM1002"])
             self.assertEqual(metadata["sra_accessions"], ["SRP000001"])
             self.assertEqual(metadata["bioproject"], "PRJNA999")
-            self.assertEqual(
-                metadata["response_sha256"], hashlib.sha256(self.soft["GSE12345"]).hexdigest()
-            )
+            self.assertEqual(metadata["response_sha256"], hashlib.sha256(self.soft["GSE12345"]).hexdigest())
 
     def test_processed_and_raw_assets_are_linked(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

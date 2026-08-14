@@ -28,9 +28,7 @@ def _fixture_root(tmp_path: Path) -> tuple[Path, Path]:
     workbook = Workbook()
     worksheet = workbook.active
     worksheet.title = "Run info"
-    worksheet.append(
-        ["Run", "NP", "P/NP ratio", "Replicate", "Remove from analysis", "Notes", "Incubation time"]
-    )
+    worksheet.append(["Run", "NP", "P/NP ratio", "Replicate", "Remove from analysis", "Notes", "Incubation time"])
     worksheet.append(["run1", "NP-A", 1, 1, False, None, 1])
     worksheet.append(["run2", "NP-B", 2, 2, False, None, 1])
     worksheet.append(["run3", "NP-A", 1, 1, True, None, 1])
@@ -104,12 +102,8 @@ def _fixture_root(tmp_path: Path) -> tuple[Path, Path]:
             "unexcluded_units_missing_from_matrices": 0,
         },
         "target_admission": {
-            "numeric_material_covariate_status": (
-                "MISSING_SOURCE_MATCHED_MATERIAL_OR_SIZE_COVARIATE"
-            ),
-            "source_ratio_interpretation": (
-                "SOURCE_DEFINED_NUMERIC_EXPOSURE_NOT_MATERIAL_OR_SIZE_COVARIATE"
-            ),
+            "numeric_material_covariate_status": ("MISSING_SOURCE_MATCHED_MATERIAL_OR_SIZE_COVARIATE"),
+            "source_ratio_interpretation": ("SOURCE_DEFINED_NUMERIC_EXPOSURE_NOT_MATERIAL_OR_SIZE_COVARIATE"),
             "categorical_np_label_status": "PROHIBITED_AS_PREDICTIVE_IDENTITY_FEATURE",
             "cross_laboratory_endpoint_status": "SINGLE_LAB_ONLY_NO_COMMON_ENDPOINT",
             "admission": "NOT_ADMITTED",
@@ -123,9 +117,7 @@ def _fixture_root(tmp_path: Path) -> tuple[Path, Path]:
 
 def test_audit_verifies_source_units_without_admitting_a_target(tmp_path: Path) -> None:
     root, manifest_path = _fixture_root(tmp_path)
-    workflow = CC0PXD030327UnitMapWorkflow(
-        root, manifest_path=manifest_path, output_root=root / "output"
-    )
+    workflow = CC0PXD030327UnitMapWorkflow(root, manifest_path=manifest_path, output_root=root / "output")
 
     summary = workflow.run(strict=True)
 
@@ -138,9 +130,7 @@ def test_audit_verifies_source_units_without_admitting_a_target(tmp_path: Path) 
 
 def test_audit_requires_strict_mode(tmp_path: Path) -> None:
     root, manifest_path = _fixture_root(tmp_path)
-    workflow = CC0PXD030327UnitMapWorkflow(
-        root, manifest_path=manifest_path, output_root=root / "output"
-    )
+    workflow = CC0PXD030327UnitMapWorkflow(root, manifest_path=manifest_path, output_root=root / "output")
 
     with pytest.raises(CC0PXD030327UnitMapError, match="requires --strict"):
         workflow.run()
@@ -151,9 +141,7 @@ def test_audit_rejects_weakened_non_admission_boundary(tmp_path: Path) -> None:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["target_admission"]["admission"] = "ADMITTED"
     manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
-    workflow = CC0PXD030327UnitMapWorkflow(
-        root, manifest_path=manifest_path, output_root=root / "output"
-    )
+    workflow = CC0PXD030327UnitMapWorkflow(root, manifest_path=manifest_path, output_root=root / "output")
 
     with pytest.raises(CC0PXD030327UnitMapError, match="boundary is weakened"):
         workflow.run(strict=True)
@@ -170,9 +158,7 @@ def test_audit_rejects_matrix_column_without_source_unit(tmp_path: Path) -> None
     manifest["assets"][1]["expected_bytes"] = matrix_path.stat().st_size
     manifest["assets"][1]["sha256"] = _sha256(matrix_path)
     manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
-    workflow = CC0PXD030327UnitMapWorkflow(
-        root, manifest_path=manifest_path, output_root=root / "output"
-    )
+    workflow = CC0PXD030327UnitMapWorkflow(root, manifest_path=manifest_path, output_root=root / "output")
 
     with pytest.raises(CC0PXD030327UnitMapError, match="mapping is stale"):
         workflow.run(strict=True)

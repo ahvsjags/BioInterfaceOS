@@ -34,10 +34,7 @@ def test_simple_baselines_run_with_grouped_metrics_and_intervals(tmp_path: Path)
     for baseline in results["baselines"]:
         assert baseline["seed"] == 17
         assert len(baseline["family_metrics"]) == 8
-        assert (
-            baseline["primary_ood_confidence_interval"][0]
-            <= baseline["primary_ood_confidence_interval"][1]
-        )
+        assert baseline["primary_ood_confidence_interval"][0] <= baseline["primary_ood_confidence_interval"][1]
         assert baseline["missingness"]["missingness_indicator_used"] is True
 
     audit = json.loads((tmp_path / "baselines" / "feature_audit.json").read_text())
@@ -57,6 +54,4 @@ def test_simple_baselines_resume_is_deterministic(tmp_path: Path) -> None:
 
 def test_simple_baselines_require_group(tmp_path: Path) -> None:
     with pytest.raises(BenchmarkBaselineError, match="--group simple is required"):
-        BenchmarkBaselineWorkflow(_root(), output_root=tmp_path / "baselines").run(
-            group="representation"
-        )
+        BenchmarkBaselineWorkflow(_root(), output_root=tmp_path / "baselines").run(group="representation")

@@ -61,9 +61,7 @@ class ProteinResolver:
         report_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/proteins/protein_resolution.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/proteins/protein_resolution.json")
         self.entities_path = entities_path or self.root / "registry/protein_entities.json"
         self.orthology_path = orthology_path or (self.root / "registry/orthology_groups.json")
         self.review_path = review_path or (self.root / "registry/protein_review_queue.jsonl")
@@ -85,9 +83,7 @@ class ProteinResolver:
             raise ProteinResolutionError("protein fixture envelope is invalid")
         if value["schema_version"] != 1:
             raise ProteinResolutionError("protein fixture schema is invalid")
-        if not isinstance(value["proteins"], list) or not isinstance(
-            value["orthology_groups"], list
-        ):
+        if not isinstance(value["proteins"], list) or not isinstance(value["orthology_groups"], list):
             raise ProteinResolutionError("protein or orthology fixture lists are invalid")
         proteins = [dict(item) for item in value["proteins"] if isinstance(item, Mapping)]
         groups = [dict(item) for item in value["orthology_groups"] if isinstance(item, Mapping)]
@@ -145,9 +141,7 @@ class ProteinResolver:
                 status = "AMBIGUOUS"
                 reason = (
                     "ISOFORM_AMBIGUITY"
-                    if any(
-                        "isoform" in _text(item["isoform_status"]).lower() for item in candidates
-                    )
+                    if any("isoform" in _text(item["isoform_status"]).lower() for item in candidates)
                     else "MULTIPLE_PROTEIN_CANDIDATES"
                 )
             elif float(top["confidence"]) >= 0.8:
@@ -293,8 +287,7 @@ class ProteinResolver:
                 [
                     "# Protein Identifier and Orthology Resolution Report",
                     "",
-                    "Species-aware accession/gene mapping preserves isoform and "
-                    "obsolete ambiguity.",
+                    "Species-aware accession/gene mapping preserves isoform and obsolete ambiguity.",
                     "",
                     f"- mentions: {len(proteins)}",
                     f"- resolved: {resolved_count}",

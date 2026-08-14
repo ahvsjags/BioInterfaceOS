@@ -34,9 +34,7 @@ class ReviewSummary:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -211,10 +209,7 @@ class ReviewPacketBuilder:
                         reason="DUAL_PATH_FIELD_DISAGREEMENT",
                         record_id=record_id,
                         field_name=field_name,
-                        question=(
-                            "Which candidate value is supported, or should this field "
-                            "remain unresolved?"
-                        ),
+                        question=("Which candidate value is supported, or should this field remain unresolved?"),
                         candidates=candidate_values,
                         evidence_locators=item["evidence_locators"],
                     )
@@ -227,9 +222,7 @@ class ReviewPacketBuilder:
                         reason="NO_RESOLVED_EVIDENCE_ASSERTION",
                         record_id=record_id,
                         field_name=field_name,
-                        question=(
-                            "Can a resolved evidence assertion be linked to this candidate field?"
-                        ),
+                        question=("Can a resolved evidence assertion be linked to this candidate field?"),
                         candidates=candidate_values,
                         evidence_locators=item["evidence_locators"],
                     )
@@ -267,9 +260,7 @@ class ReviewPacketBuilder:
         packets.sort(key=lambda packet: packet["packet_id"])
         actual_strata = len({p["stratum"] for p in packets})
         if len(packets) != expected_packets or actual_strata != expected_strata:
-            raise ReviewPacketError(
-                f"review expectations differ: packets={len(packets)} strata={actual_strata}"
-            )
+            raise ReviewPacketError(f"review expectations differ: packets={len(packets)} strata={actual_strata}")
         if any(packet["annotation_status"] != "UNSIGNED" for packet in packets):
             raise ReviewPacketError("review export contains signed packets")
         required_fields = [
@@ -289,10 +280,7 @@ class ReviewPacketBuilder:
                 "NOT_APPLICABLE",
             ],
             "required_fields": required_fields,
-            "blinding": (
-                "Source and record labels are blinded; exact evidence locators remain "
-                "visible for audit."
-            ),
+            "blinding": ("Source and record labels are blinded; exact evidence locators remain visible for audit."),
         }
         signoff = {
             "schema_version": 1,
@@ -329,9 +317,7 @@ class ReviewPacketBuilder:
             "coverage_report.json": payload["coverage"],
         }
         serialized = {name: _canonical(value) for name, value in files.items()}
-        export_hash = _sha256_bytes(
-            _canonical({name: _sha256_bytes(value) for name, value in serialized.items()})
-        )
+        export_hash = _sha256_bytes(_canonical({name: _sha256_bytes(value) for name, value in serialized.items()}))
         receipt = {
             "schema_version": 1,
             "sample_strategy": sample,

@@ -84,9 +84,18 @@ class R4PMC10257194PaperSourceAuditWorkflow:
     def _registry(self) -> tuple[dict[str, Any], Path, Path]:
         registry = self._json(self.registry_path, "PMC10257194 source registry")
         expected = {
-            "schema_version", "audit_id", "status", "evidence_class", "allowed_claim_level",
-            "article", "source_scope", "source_asset", "derived_source_map", "expected_accounting",
-            "claim_boundary", "scientific_submission_ready",
+            "schema_version",
+            "audit_id",
+            "status",
+            "evidence_class",
+            "allowed_claim_level",
+            "article",
+            "source_scope",
+            "source_asset",
+            "derived_source_map",
+            "expected_accounting",
+            "claim_boundary",
+            "scientific_submission_ready",
         }
         if set(registry) != expected or registry.get("schema_version") != 1:
             raise R4PMC10257194PaperSourceAuditError("source registry fields are invalid")
@@ -114,13 +123,17 @@ class R4PMC10257194PaperSourceAuditWorkflow:
             "laboratory_anchor": "Tianjin University / Tianjin Medical University",
             "source_lineage": "NEW_TO_CURRENT_R3_LABORATORY_ANCHORS",
             "biofluid": "human plasma",
-            "biological_unit_semantics": "45 subject plasma units: 15 healthy and 30 lung adenocarcinoma; one measurement batch per subject",
+            "biological_unit_semantics": "45 subject plasma units: 15 healthy and 30 lung adenocarcinoma; one measurement batch per subject",  # noqa: E501
             "analysis_role": "ANALYSIS_ONLY_EXTERNAL_PAPER_OOD",
         }:
             raise R4PMC10257194PaperSourceAuditError("source scope is invalid")
         asset = _mapping(registry["source_asset"], "source asset")
         asset_path = self._under(self.assets_root, _string(asset["relative_path"], "source asset"), "source asset")
-        if set(asset) != {"relative_path", "sha256", "expected_bytes"} or asset_path.stat().st_size != asset["expected_bytes"] or _sha256(asset_path) != _checksum(asset["sha256"], "source asset"):
+        if (
+            set(asset) != {"relative_path", "sha256", "expected_bytes"}
+            or asset_path.stat().st_size != asset["expected_bytes"]
+            or _sha256(asset_path) != _checksum(asset["sha256"], "source asset")
+        ):
             raise R4PMC10257194PaperSourceAuditError("source asset checksum differs")
         derived = self._reference(registry["derived_source_map"], "derived source map")
         return registry, asset_path, derived
@@ -132,10 +145,20 @@ class R4PMC10257194PaperSourceAuditWorkflow:
         if not rows:
             raise R4PMC10257194PaperSourceAuditError("derived source map is empty")
         required = {
-            "source_id", "laboratory_anchor", "source_worksheet", "source_row", "source_coordinate",
-            "source_identifier", "measurement_batch_id", "biological_unit_id", "condition_label",
-            "canonical_accession", "author_quantity_type", "author_numeric_value",
-            "analysis_candidate_eligible", "rank_target_eligible",
+            "source_id",
+            "laboratory_anchor",
+            "source_worksheet",
+            "source_row",
+            "source_coordinate",
+            "source_identifier",
+            "measurement_batch_id",
+            "biological_unit_id",
+            "condition_label",
+            "canonical_accession",
+            "author_quantity_type",
+            "author_numeric_value",
+            "analysis_candidate_eligible",
+            "rank_target_eligible",
         }
         if not required.issubset(rows[0]):
             raise R4PMC10257194PaperSourceAuditError("derived source map schema is invalid")
@@ -148,7 +171,11 @@ class R4PMC10257194PaperSourceAuditWorkflow:
             raise R4PMC10257194PaperSourceAuditError("PMC10257194 source audit already executed")
         registry, asset_path, map_path = self._registry()
         rows = self._read_rows(map_path)
-        eligible = [row for row in rows if row["analysis_candidate_eligible"] == "true" and row["rank_target_eligible"] == "true"]
+        eligible = [
+            row
+            for row in rows
+            if row["analysis_candidate_eligible"] == "true" and row["rank_target_eligible"] == "true"
+        ]
         if any(row["source_id"] != registry["source_scope"]["source_id"] for row in rows):
             raise R4PMC10257194PaperSourceAuditError("source map source ID differs")
         batches = {row["measurement_batch_id"] for row in eligible}
@@ -166,20 +193,34 @@ class R4PMC10257194PaperSourceAuditWorkflow:
         if actual != expected:
             raise R4PMC10257194PaperSourceAuditError(f"source accounting differs: {actual} != {expected}")
         report = {
-            "schema_version": 1, "audit_id": self.AUDIT_ID, "status": "ANALYSIS_ONLY_PAPER_SOURCE_AUDITED",
-            "source_asset": {"relative_path": asset_path.relative_to(self.root).as_posix(), "sha256": _sha256(asset_path)},
-            "derived_source_map": {"relative_path": map_path.relative_to(self.root).as_posix(), "sha256": _sha256(map_path)},
+            "schema_version": 1,
+            "audit_id": self.AUDIT_ID,
+            "status": "ANALYSIS_ONLY_PAPER_SOURCE_AUDITED",
+            "source_asset": {
+                "relative_path": asset_path.relative_to(self.root).as_posix(),
+                "sha256": _sha256(asset_path),
+            },
+            "derived_source_map": {
+                "relative_path": map_path.relative_to(self.root).as_posix(),
+                "sha256": _sha256(map_path),
+            },
             "accounting": actual,
-            "license_boundary": "CC-BY-NC-ND-4.0 source and numeric derivatives remain analysis-only and are excluded from redistributable release",
-            "claim_boundary": registry["claim_boundary"], "scientific_submission_ready": False,
+            "license_boundary": "CC-BY-NC-ND-4.0 source and numeric derivatives remain analysis-only and are excluded from redistributable release",  # noqa: E501
+            "claim_boundary": registry["claim_boundary"],
+            "scientific_submission_ready": False,
         }
         self.output_root.mkdir(parents=True, exist_ok=False)
         report_path = self.output_root / self.REPORT_NAME
         report_path.write_bytes(_canonical(report))
         receipt = {
-            "schema_version": 1, "audit_id": self.AUDIT_ID, "status": "ANALYSIS_ONLY_PAPER_SOURCE_AUDITED",
-            "report_sha256": _sha256(report_path), **actual, "independent_validation": False,
-            "external_scientific_reproduction": False, "scientific_submission_ready": False,
+            "schema_version": 1,
+            "audit_id": self.AUDIT_ID,
+            "status": "ANALYSIS_ONLY_PAPER_SOURCE_AUDITED",
+            "report_sha256": _sha256(report_path),
+            **actual,
+            "independent_validation": False,
+            "external_scientific_reproduction": False,
+            "scientific_submission_ready": False,
         }
         receipt_path = self.output_root / self.RECEIPT_NAME
         receipt_path.write_bytes(_canonical(receipt))
@@ -188,7 +229,11 @@ class R4PMC10257194PaperSourceAuditWorkflow:
     def verify(self) -> R4PMC10257194PaperSourceAuditSummary:
         registry, _, map_path = self._registry()
         rows = self._read_rows(map_path)
-        eligible = [row for row in rows if row["analysis_candidate_eligible"] == "true" and row["rank_target_eligible"] == "true"]
+        eligible = [
+            row
+            for row in rows
+            if row["analysis_candidate_eligible"] == "true" and row["rank_target_eligible"] == "true"
+        ]
         actual = {
             "source_cell_count": len(rows),
             "positive_source_cell_count": sum(float(row["author_numeric_value"]) > 0 for row in eligible),
@@ -201,6 +246,11 @@ class R4PMC10257194PaperSourceAuditWorkflow:
         receipt_path = self.output_root / self.RECEIPT_NAME
         report_path = self.output_root / self.REPORT_NAME
         receipt = self._json(receipt_path, "PMC10257194 source receipt")
-        if receipt.get("audit_id") != self.AUDIT_ID or receipt.get("report_sha256") != _sha256(report_path) or any(receipt.get(k) != v for k, v in actual.items()) or receipt.get("scientific_submission_ready") is not False:
+        if (
+            receipt.get("audit_id") != self.AUDIT_ID
+            or receipt.get("report_sha256") != _sha256(report_path)
+            or any(receipt.get(k) != v for k, v in actual.items())
+            or receipt.get("scientific_submission_ready") is not False
+        ):
             raise R4PMC10257194PaperSourceAuditError("source receipt is invalid")
         return R4PMC10257194PaperSourceAuditSummary(receipt_path=receipt_path, **actual)

@@ -37,9 +37,7 @@ class _ReadableBytes(Protocol):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -54,9 +52,7 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
 
 def _list(value: Any, label: str, *, minimum: int = 0) -> list[Any]:
     if not isinstance(value, list) or len(value) < minimum:
-        raise RealProteomicsAcquisitionError(
-            f"{label} must be a list with at least {minimum} items"
-        )
+        raise RealProteomicsAcquisitionError(f"{label} must be a list with at least {minimum} items")
     return value
 
 
@@ -108,8 +104,7 @@ class RealProteomicsAcquisitionWorkflow:
     MANIFEST_RELATIVE = "docs/data/R2_T123_PROTEOMICS_TRANSFER_MANIFEST.json"
     PREFLIGHT_REGISTRY_RELATIVE = "docs/data/R2_T123_PROTEOMICS_SOURCE_PREFLIGHT.json"
     PREFLIGHT_RECEIPT_RELATIVE = (
-        "reports/review_round_2/real_proteomics_source_preflight/v1.0.0/"
-        "source_preflight_receipt.json"
+        "reports/review_round_2/real_proteomics_source_preflight/v1.0.0/source_preflight_receipt.json"
     )
     RAW_RELATIVE = "data/raw/r2_t123_proteomics"
     OUTPUT_RELATIVE = "reports/review_round_2/real_proteomics_acquisition/v1.0.0"
@@ -208,9 +203,7 @@ class RealProteomicsAcquisitionWorkflow:
             with path.open("rb") as stream:
                 return cls._sha1_stream(stream)
         except OSError as exc:
-            raise RealProteomicsAcquisitionError(
-                f"cannot digest publisher checksum representation for {path}"
-            ) from exc
+            raise RealProteomicsAcquisitionError(f"cannot digest publisher checksum representation for {path}") from exc
 
     def _assert_local_path(self, path: Path) -> Path:
         resolved = path.resolve(strict=False)
@@ -230,9 +223,7 @@ class RealProteomicsAcquisitionWorkflow:
             or parsed.query
             or parsed.fragment
         ):
-            raise RealProteomicsAcquisitionError(
-                "transfer URL is not an approved anonymous PRIDE URL"
-            )
+            raise RealProteomicsAcquisitionError("transfer URL is not an approved anonymous PRIDE URL")
         return url
 
     def _manifest(self) -> tuple[dict[str, Any], tuple[TransferAsset, ...]]:
@@ -242,23 +233,14 @@ class RealProteomicsAcquisitionWorkflow:
         if manifest.get("manifest_id") != self.MANIFEST_ID:
             raise RealProteomicsAcquisitionError("transfer manifest identity is invalid")
         _string(manifest.get("evaluated_at"), "transfer manifest evaluated_at")
-        if manifest.get("source_preflight_registry_sha256") != _sha256(
-            self.root / self.PREFLIGHT_REGISTRY_RELATIVE
-        ):
-            raise RealProteomicsAcquisitionError(
-                "transfer manifest does not bind preflight registry"
-            )
-        if manifest.get("source_preflight_receipt_sha256") != _sha256(
-            self.root / self.PREFLIGHT_RECEIPT_RELATIVE
-        ):
-            raise RealProteomicsAcquisitionError(
-                "transfer manifest does not bind preflight receipt"
-            )
+        if manifest.get("source_preflight_registry_sha256") != _sha256(self.root / self.PREFLIGHT_REGISTRY_RELATIVE):
+            raise RealProteomicsAcquisitionError("transfer manifest does not bind preflight registry")
+        if manifest.get("source_preflight_receipt_sha256") != _sha256(self.root / self.PREFLIGHT_RECEIPT_RELATIVE):
+            raise RealProteomicsAcquisitionError("transfer manifest does not bind preflight receipt")
 
         policy = _mapping(manifest.get("transport_policy"), "transfer transport policy")
         if set(policy) != self.REQUIRED_POLICY_FIELDS or any(
-            policy.get(field) is not True
-            for field in self.REQUIRED_POLICY_FIELDS - {"allowed_host"}
+            policy.get(field) is not True for field in self.REQUIRED_POLICY_FIELDS - {"allowed_host"}
         ):
             raise RealProteomicsAcquisitionError("transfer policy is unsafe")
         if policy.get("allowed_host") != self.ALLOWED_HOST:
@@ -286,9 +268,7 @@ class RealProteomicsAcquisitionWorkflow:
             if not _url.endswith("/probe"):
                 raise RealProteomicsAcquisitionError("transfer archive prefix is malformed")
             source_assets = _list(source.get("assets"), "transfer source assets", minimum=1)
-            if _integer(source.get("asset_count"), "transfer source asset count", minimum=1) != len(
-                source_assets
-            ):
+            if _integer(source.get("asset_count"), "transfer source asset count", minimum=1) != len(source_assets):
                 raise RealProteomicsAcquisitionError("transfer source asset count is invalid")
             if len(source_assets) != self.EXPECTED_SOURCE_COUNTS[source_id]:
                 raise RealProteomicsAcquisitionError("transfer source selection changed")
@@ -301,9 +281,7 @@ class RealProteomicsAcquisitionWorkflow:
                 relative_path = _string(asset.get("relative_path"), "transfer relative_path")
                 relative = self._safe_relative(relative_path, "transfer relative_path")
                 if relative.parts[0] != accession or relative.name != file_name:
-                    raise RealProteomicsAcquisitionError(
-                        "transfer asset path does not bind its source"
-                    )
+                    raise RealProteomicsAcquisitionError("transfer asset path does not bind its source")
                 if asset_id in asset_ids or relative_path in relative_paths:
                     raise RealProteomicsAcquisitionError("transfer asset identity is not unique")
                 asset_ids.add(asset_id)
@@ -313,28 +291,17 @@ class RealProteomicsAcquisitionWorkflow:
                 )
                 expected_bytes_value = asset.get("expected_bytes")
                 if expected_bytes_value is not None:
-                    expected_bytes = _integer(
-                        expected_bytes_value, "transfer expected_bytes", minimum=1
-                    )
+                    expected_bytes = _integer(expected_bytes_value, "transfer expected_bytes", minimum=1)
                     if expected_bytes != publisher_api_bytes:
-                        raise RealProteomicsAcquisitionError(
-                            "exact byte verification must match publisher metadata"
-                        )
+                        raise RealProteomicsAcquisitionError("exact byte verification must match publisher metadata")
                 else:
                     expected_bytes = None
                 checksum = asset.get("publisher_checksum")
                 checksum_algorithm = asset.get("publisher_checksum_algorithm")
-                representation = _string(
-                    asset.get("checksum_representation"), "transfer checksum_representation"
-                )
+                representation = _string(asset.get("checksum_representation"), "transfer checksum_representation")
                 if checksum is None:
-                    if (
-                        checksum_algorithm is not None
-                        or representation != "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD"
-                    ):
-                        raise RealProteomicsAcquisitionError(
-                            "absent publisher checksum is represented unsafely"
-                        )
+                    if checksum_algorithm is not None or representation != "NOT_AVAILABLE_IN_PRIDE_FILE_RECORD":
+                        raise RealProteomicsAcquisitionError("absent publisher checksum is represented unsafely")
                 else:
                     checksum = _string(checksum, "transfer publisher_checksum").lower()
                     if (
@@ -343,21 +310,14 @@ class RealProteomicsAcquisitionWorkflow:
                         or any(character not in "0123456789abcdef" for character in checksum)
                         or representation not in {"FILE_BYTES", "GZIP_DECOMPRESSED_BYTES"}
                     ):
-                        raise RealProteomicsAcquisitionError(
-                            "publisher checksum contract is invalid"
-                        )
-                byte_verification = _string(
-                    asset.get("byte_verification"), "transfer byte_verification"
-                )
+                        raise RealProteomicsAcquisitionError("publisher checksum contract is invalid")
+                byte_verification = _string(asset.get("byte_verification"), "transfer byte_verification")
                 if expected_bytes is None:
                     if (
-                        byte_verification
-                        != "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"
+                        byte_verification != "INFORMATIONAL_ONLY_PUBLISHER_API_SIZE_MISMATCH_OBSERVED"
                         or checksum is None
                     ):
-                        raise RealProteomicsAcquisitionError(
-                            "unverified transfer size is not allowed"
-                        )
+                        raise RealProteomicsAcquisitionError("unverified transfer size is not allowed")
                 elif byte_verification != "EXACT_FILE_BYTES":
                     raise RealProteomicsAcquisitionError("transfer byte verification is invalid")
                 assets.append(
@@ -382,9 +342,7 @@ class RealProteomicsAcquisitionWorkflow:
         return manifest, tuple(sorted(assets, key=lambda item: item.asset_id))
 
     def _asset_path(self, asset: TransferAsset) -> Path:
-        return self._assert_local_path(
-            self.raw_root / self._safe_relative(asset.relative_path, "asset")
-        )
+        return self._assert_local_path(self.raw_root / self._safe_relative(asset.relative_path, "asset"))
 
     def _verify_path(self, path: Path, asset: TransferAsset) -> dict[str, Any]:
         if not path.is_file():
@@ -392,8 +350,7 @@ class RealProteomicsAcquisitionWorkflow:
         bytes_on_disk = path.stat().st_size
         if asset.expected_bytes is not None and bytes_on_disk != asset.expected_bytes:
             raise RealProteomicsAcquisitionError(
-                f"byte count mismatch for {asset.asset_id}: expected {asset.expected_bytes}, "
-                f"got {bytes_on_disk}"
+                f"byte count mismatch for {asset.asset_id}: expected {asset.expected_bytes}, got {bytes_on_disk}"
             )
         publisher_checksum_verified = False
         if asset.publisher_checksum is not None:
@@ -449,19 +406,13 @@ class RealProteomicsAcquisitionWorkflow:
                 if close is not None:
                     close()
                 if status not in retryable or attempt >= self._MAX_RETRIES:
-                    raise RealProteomicsAcquisitionError(
-                        f"unexpected HTTP status {status} for {request.full_url}"
-                    )
+                    raise RealProteomicsAcquisitionError(f"unexpected HTTP status {status} for {request.full_url}")
             except HTTPError as exc:
                 if exc.code not in retryable or attempt >= self._MAX_RETRIES:
-                    raise RealProteomicsAcquisitionError(
-                        f"HTTP {exc.code} for {request.full_url}"
-                    ) from exc
+                    raise RealProteomicsAcquisitionError(f"HTTP {exc.code} for {request.full_url}") from exc
             except (URLError, TimeoutError) as exc:
                 if attempt >= self._MAX_RETRIES:
-                    raise RealProteomicsAcquisitionError(
-                        f"transport failure for {request.full_url}"
-                    ) from exc
+                    raise RealProteomicsAcquisitionError(f"transport failure for {request.full_url}") from exc
             self._sleep(float(2**attempt))
         raise RealProteomicsAcquisitionError("transfer retry loop ended unexpectedly")
 
@@ -516,16 +467,10 @@ class RealProteomicsAcquisitionWorkflow:
                 append = existing_bytes > 0 and status == 206
                 if existing_bytes > 0 and status == 206:
                     content_range = self._header(response, "Content-Range")
-                    if content_range is None or not content_range.startswith(
-                        f"bytes {existing_bytes}-"
-                    ):
-                        raise RealProteomicsAcquisitionError(
-                            "server returned an incompatible Content-Range"
-                        )
+                    if content_range is None or not content_range.startswith(f"bytes {existing_bytes}-"):
+                        raise RealProteomicsAcquisitionError("server returned an incompatible Content-Range")
                 elif existing_bytes > 0 and status == 200:
-                    preserved = self._assert_local_path(
-                        Path(f"{partial}.range-ignored-{existing_bytes}")
-                    )
+                    preserved = self._assert_local_path(Path(f"{partial}.range-ignored-{existing_bytes}"))
                     if preserved.exists():
                         raise RealProteomicsAcquisitionError(
                             f"cannot preserve existing partial without overwrite: {preserved}"
@@ -533,9 +478,7 @@ class RealProteomicsAcquisitionWorkflow:
                     os.replace(partial, preserved)
                     append = False
                 elif status != 200:
-                    raise RealProteomicsAcquisitionError(
-                        f"unexpected download status {status} for {asset.asset_id}"
-                    )
+                    raise RealProteomicsAcquisitionError(f"unexpected download status {status} for {asset.asset_id}")
                 mode = "ab" if append else "wb"
                 try:
                     with partial.open(mode) as stream:
@@ -544,9 +487,7 @@ class RealProteomicsAcquisitionWorkflow:
                             if not chunk:
                                 break
                             if not isinstance(chunk, bytes):
-                                raise RealProteomicsAcquisitionError(
-                                    "HTTP stream did not return bytes"
-                                )
+                                raise RealProteomicsAcquisitionError("HTTP stream did not return bytes")
                             stream.write(chunk)
                         stream.flush()
                         os.fsync(stream.fileno())
@@ -594,9 +535,7 @@ class RealProteomicsAcquisitionWorkflow:
         raise RealProteomicsAcquisitionError("transfer stream resume loop ended unexpectedly")
 
     @staticmethod
-    def _select(
-        assets: Iterable[TransferAsset], source_ids: Iterable[str] | None
-    ) -> tuple[TransferAsset, ...]:
+    def _select(assets: Iterable[TransferAsset], source_ids: Iterable[str] | None) -> tuple[TransferAsset, ...]:
         requested = set(source_ids or ())
         known = {asset.source_id for asset in assets}
         if requested and not requested <= known:
@@ -619,9 +558,7 @@ class RealProteomicsAcquisitionWorkflow:
         return RealProteomicsAcquisitionSummary(
             asset_count=len(records),
             source_count=len({record["source_id"] for record in records}),
-            publisher_checksum_verified_count=sum(
-                record["publisher_checksum_verified"] for record in records
-            ),
+            publisher_checksum_verified_count=sum(record["publisher_checksum_verified"] for record in records),
             receipt_path=None,
         )
 
@@ -636,9 +573,7 @@ class RealProteomicsAcquisitionWorkflow:
         if not strict:
             raise RealProteomicsAcquisitionError("proteomics acquisition audit requires --strict")
         if self.output_root.exists():
-            raise RealProteomicsAcquisitionError(
-                "real proteomics acquisition audit already executed"
-            )
+            raise RealProteomicsAcquisitionError("real proteomics acquisition audit already executed")
         manifest, assets, records = self._records()
         if len(records) != 27 or len({record["source_id"] for record in records}) != 3:
             raise RealProteomicsAcquisitionError("full transfer cohort is incomplete")
@@ -666,12 +601,9 @@ class RealProteomicsAcquisitionWorkflow:
             "independent_validation": False,
             "scientific_submission_ready": False,
             "required_before_target_freeze": [
-                "Resolve PXD052701 covariates from a source-matched reusable record "
-                "without inferring L/S names.",
-                "Define and lock one common parser, protein-crown endpoint and "
-                "analysis-unit manifest.",
-                "Revise the T121 analysis plan before any fit, ablation, OOD or "
-                "external evaluation.",
+                "Resolve PXD052701 covariates from a source-matched reusable record without inferring L/S names.",
+                "Define and lock one common parser, protein-crown endpoint and analysis-unit manifest.",
+                "Revise the T121 analysis plan before any fit, ablation, OOD or external evaluation.",
             ],
         }
         self.output_root.mkdir(parents=True, exist_ok=False)
@@ -699,9 +631,7 @@ class RealProteomicsAcquisitionWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return RealProteomicsAcquisitionSummary(
             asset_count=len(records),
             source_count=3,

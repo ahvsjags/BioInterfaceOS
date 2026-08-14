@@ -30,9 +30,7 @@ class GroupKeysSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -66,9 +64,7 @@ class GroupKeysWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/splits/group_keys_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/splits/group_keys_fixture.json"
         self.output_root = output_root or self.root / "reports/splits/group_keys"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -253,9 +249,7 @@ class GroupKeysWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -301,9 +295,7 @@ class GroupKeysWorkflow:
             "split_frozen": False,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

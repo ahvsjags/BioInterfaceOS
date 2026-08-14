@@ -34,9 +34,7 @@ class SymbolicLawsSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -85,9 +83,7 @@ class SymbolicLawsWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/symbolic_laws_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/symbolic_laws_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/symbolic_laws"
 
     def _fixture(self) -> dict[str, Any]:
@@ -118,12 +114,8 @@ class SymbolicLawsWorkflow:
     def _inputs(self, fixture: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         expected = {
             "T071 normalized model results": self.root / "reports/models/m1/m1_results.json",
-            "T089 tournament config": (
-                self.root / "reports/claims/tournament/tournament_config.json"
-            ),
-            "T090 functional axes receipt": (
-                self.root / "reports/omics/functional_axes/functional_axes_receipt.json"
-            ),
+            "T089 tournament config": (self.root / "reports/claims/tournament/tournament_config.json"),
+            "T090 functional axes receipt": (self.root / "reports/omics/functional_axes/functional_axes_receipt.json"),
         }
         loaded: dict[str, dict[str, Any]] = {}
         for value in fixture["inputs"]:
@@ -131,14 +123,10 @@ class SymbolicLawsWorkflow:
             label = _string(row.get("label"), "symbolic-laws input label")
             if label not in expected:
                 raise SymbolicLawsError(f"unexpected symbolic-laws input: {label}")
-            path = (self.root / _string(row.get("path"), "symbolic-laws input path")).resolve(
-                strict=True
-            )
+            path = (self.root / _string(row.get("path"), "symbolic-laws input path")).resolve(strict=True)
             if path != expected[label].resolve(strict=True):
                 raise SymbolicLawsError(f"symbolic-laws input path mismatch: {label}")
-            if _sha256(path.read_bytes()) != _string(
-                row.get("sha256"), "symbolic-laws input checksum"
-            ):
+            if _sha256(path.read_bytes()) != _string(row.get("sha256"), "symbolic-laws input checksum"):
                 raise SymbolicLawsError(f"symbolic-laws input checksum differs: {label}")
             loaded[label] = _mapping(json.loads(path.read_text(encoding="utf-8")), label)
         if set(loaded) != set(expected):
@@ -202,9 +190,7 @@ class SymbolicLawsWorkflow:
     ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
         valid: list[dict[str, Any]] = []
         rejected: list[dict[str, Any]] = []
-        feature_units = {
-            str(name): _string(unit, f"unit for {name}") for name, unit in features.items()
-        }
+        feature_units = {str(name): _string(unit, f"unit for {name}") for name, unit in features.items()}
         for value in candidates:
             candidate = _mapping(value, "symbolic candidate")
             candidate_id = _string(candidate.get("candidate_id"), "candidate ID")
@@ -247,9 +233,7 @@ class SymbolicLawsWorkflow:
                         "candidate_id": candidate_id,
                         "expression": _string(candidate.get("expression"), "candidate expression"),
                         "terms": terms,
-                        "complexity": int(
-                            _number(candidate.get("complexity"), "candidate complexity")
-                        ),
+                        "complexity": int(_number(candidate.get("complexity"), "candidate complexity")),
                         "unit_valid": True,
                     }
                 )
@@ -260,15 +244,11 @@ class SymbolicLawsWorkflow:
         total = 0.0
         for value in candidate["terms"]:
             term = _mapping(value, "symbolic term")
-            total += float(term["coefficient"]) * float(row[str(term["feature"])]) ** int(
-                term["power"]
-            )
+            total += float(term["coefficient"]) * float(row[str(term["feature"])]) ** int(term["power"])
         return total
 
     @classmethod
-    def _score(
-        cls, candidate: Mapping[str, Any], rows: list[dict[str, Any]], penalty: float
-    ) -> dict[str, Any]:
+    def _score(cls, candidate: Mapping[str, Any], rows: list[dict[str, Any]], penalty: float) -> dict[str, Any]:
         errors = [cls._predict(candidate, row) - row["outcome"] for row in rows]
         rmse = _rmse(errors)
         objective = rmse + penalty * int(candidate["complexity"])
@@ -286,13 +266,9 @@ class SymbolicLawsWorkflow:
             + 0.30 * row["functional_axis"]
             + 0.10 * row["charge_norm"],
             "tree_control": lambda row: (
-                0.58 * row["surface_norm"]
-                + 0.32 * row["functional_axis"]
-                + 0.10 * row["charge_norm"]
+                0.58 * row["surface_norm"] + 0.32 * row["functional_axis"] + 0.10 * row["charge_norm"]
                 if row["surface_norm"] < 0.5
-                else 0.65 * row["surface_norm"]
-                + 0.25 * row["functional_axis"]
-                + 0.10 * row["charge_norm"]
+                else 0.65 * row["surface_norm"] + 0.25 * row["functional_axis"] + 0.10 * row["charge_norm"]
             ),
         }
         result: dict[str, dict[str, Any]] = {}
@@ -318,8 +294,7 @@ class SymbolicLawsWorkflow:
             inner = [row for row in rows if row["study_id"] != outer_study]
             outer = [row for row in rows if row["study_id"] == outer_study]
             inner_scores = {
-                candidate["candidate_id"]: cls._score(candidate, inner, penalty)
-                for candidate in candidates
+                candidate["candidate_id"]: cls._score(candidate, inner, penalty) for candidate in candidates
             }
             selected_id = min(
                 inner_scores,
@@ -328,9 +303,7 @@ class SymbolicLawsWorkflow:
                     candidate_id,
                 ),
             )
-            selected = next(
-                candidate for candidate in candidates if candidate["candidate_id"] == selected_id
-            )
+            selected = next(candidate for candidate in candidates if candidate["candidate_id"] == selected_id)
             outer_score = cls._score(selected, outer, penalty)
             folds.append(
                 {
@@ -415,14 +388,12 @@ class SymbolicLawsWorkflow:
                 candidate_id,
             ),
         )
-        selected = next(
-            candidate for candidate in valid if candidate["candidate_id"] == selected_id
-        )
+        selected = next(candidate for candidate in valid if candidate["candidate_id"] == selected_id)
         ood_threshold = float(preregistration["ood_rmse_threshold"])
         ood_passed = candidate_scores[selected_id]["ood"]["rmse"] <= ood_threshold
-        stability_passed = bootstrap["selected_candidate"] == selected_id and bootstrap[
-            "stability"
-        ] >= float(preregistration["stability_threshold"])
+        stability_passed = bootstrap["selected_candidate"] == selected_id and bootstrap["stability"] >= float(
+            preregistration["stability_threshold"]
+        )
         fallback = not (ood_passed and stability_passed and bool(nested_folds))
         pareto: list[dict[str, Any]] = []
         for candidate_id, score in candidate_scores.items():
@@ -494,9 +465,7 @@ class SymbolicLawsWorkflow:
                 "symbolic_law_permitted": not fallback,
                 "fallback": fallback,
                 "allowed_wording": (
-                    "stable unit-aware candidate law"
-                    if not fallback
-                    else "flexible predictive baseline; no simple law"
+                    "stable unit-aware candidate law" if not fallback else "flexible predictive baseline; no simple law"
                 ),
             },
             "failures": {"schema_version": 1, "status": "VALID", "failures": []},
@@ -520,11 +489,7 @@ class SymbolicLawsWorkflow:
         for name, path in paths.items():
             path.write_bytes(payload_bytes[name])
             artifact_records[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -573,9 +538,7 @@ class SymbolicLawsWorkflow:
         }
         receipt_path.write_bytes(_canonical(receipt))
         receipt_relative = (
-            str(receipt_path.relative_to(self.root))
-            if receipt_path.is_relative_to(self.root)
-            else str(receipt_path)
+            str(receipt_path.relative_to(self.root)) if receipt_path.is_relative_to(self.root) else str(receipt_path)
         )
         manifest = {
             "schema_version": 1,

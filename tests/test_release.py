@@ -27,11 +27,7 @@ class ReleaseTests(unittest.TestCase):
             now = datetime(2026, 8, 12, 12, 0, tzinfo=UTC)
             summary = manager.freeze(fixture=True, git_commit="a" * 40, now=now)
             self.assertEqual(manager.verify(summary.release_id), summary)
-            receipt = json.loads(
-                (
-                    root / "release/fixtures" / summary.release_id / "release_receipt.json"
-                ).read_text()
-            )
+            receipt = json.loads((root / "release/fixtures" / summary.release_id / "release_receipt.json").read_text())
             self.assertTrue(receipt["frozen"])
             with self.assertRaises(ReleaseError):
                 manager.freeze(fixture=True, git_commit="a" * 40, now=now)

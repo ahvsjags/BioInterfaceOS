@@ -19,9 +19,7 @@ def test_functional_axes_compares_alternatives_and_emits_uncertainty() -> None:
     assert summary.selected_model == "log_ratio"
     assert summary.lockbox_clean is True
 
-    candidates = json.loads(
-        (root / "reports/omics/functional_axes/candidate_axes.json").read_text(encoding="utf-8")
-    )
+    candidates = json.loads((root / "reports/omics/functional_axes/candidate_axes.json").read_text(encoding="utf-8"))
     assert all(row["status"] == "EXPLORATORY_CANDIDATE" for row in candidates["axes"])
     enrichment = json.loads(
         (root / "reports/omics/functional_axes/pathway_enrichment.json").read_text(encoding="utf-8")
@@ -33,15 +31,11 @@ def test_functional_axes_random_controls_and_stability_are_recorded() -> None:
     root = Path(__file__).parents[2]
     FunctionalAxesWorkflow(root).run(fixture=True)
 
-    stability = json.loads(
-        (root / "reports/omics/functional_axes/stability_report.json").read_text(encoding="utf-8")
-    )
+    stability = json.loads((root / "reports/omics/functional_axes/stability_report.json").read_text(encoding="utf-8"))
     assert stability["random_control_passed"] is True
     assert stability["bootstrap_replicates"] == 8
     assert len(stability["leave_study_folds"]) == 2
-    lockbox = json.loads(
-        (root / "reports/omics/functional_axes/lockbox_scan.json").read_text(encoding="utf-8")
-    )
+    lockbox = json.loads((root / "reports/omics/functional_axes/lockbox_scan.json").read_text(encoding="utf-8"))
     assert lockbox["clean"] is True
     assert lockbox["locked_payload_opened"] is False
 

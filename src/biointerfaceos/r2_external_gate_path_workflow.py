@@ -37,9 +37,7 @@ class R2ExternalGatePathSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -61,6 +59,12 @@ def _string(value: Any, label: str) -> str:
     return value.strip()
 
 
+def _integer(value: Any, label: str) -> int:
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise R2ExternalGatePathError(f"{label} must be an integer")
+    return int(value)
+
+
 class R2ExternalGatePathWorkflow:
     """Verify the ordered, fail-closed path for future external evidence."""
 
@@ -73,8 +77,7 @@ class R2ExternalGatePathWorkflow:
             "R2 external-evidence handoff package",
         ),
         "handoff_receipt": (
-            "reports/review_round_2/external_evidence_handoff/v1.10.0/"
-            "external_evidence_handoff_receipt.json",
+            "reports/review_round_2/external_evidence_handoff/v1.10.0/external_evidence_handoff_receipt.json",
             "R2 external-evidence handoff receipt",
         ),
         "source_template": (
@@ -173,9 +176,7 @@ class R2ExternalGatePathWorkflow:
 
     def _audit_state(self) -> dict[str, int | str]:
         handoff = self._json(self._path(*self.REFERENCES["handoff_package"]), "handoff package")
-        handoff_receipt = self._json(
-            self._path(*self.REFERENCES["handoff_receipt"]), "handoff receipt"
-        )
+        handoff_receipt = self._json(self._path(*self.REFERENCES["handoff_receipt"]), "handoff receipt")
         if (
             handoff.get("status") != "READY_FOR_EXTERNAL_SOURCE_INTAKE"
             or handoff.get("cohort_routing", {}).get("active_route") != "CC0_ONLY"
@@ -196,9 +197,7 @@ class R2ExternalGatePathWorkflow:
         if handoff.get("handoff_order") != self.HANDOFF_ORDER:
             raise R2ExternalGatePathError("external handoff order is invalid")
 
-        source_template = self._json(
-            self._path(*self.REFERENCES["source_template"]), "source-intake template"
-        )
+        source_template = self._json(self._path(*self.REFERENCES["source_template"]), "source-intake template")
         if (
             source_template.get("submission_state") != "TEMPLATE_NOT_FOR_VALIDATION"
             or source_template.get("target_admission_requested") is not False
@@ -216,16 +215,12 @@ class R2ExternalGatePathWorkflow:
         ):
             raise R2ExternalGatePathError("verification template is promotable")
 
-        protocol = self._json(
-            self._path(*self.REFERENCES["external_protocol"]), "external protocol"
-        )
+        protocol = self._json(self._path(*self.REFERENCES["external_protocol"]), "external protocol")
         external_requirements = _mapping(
             protocol.get("external_reproduction_requirements"),
             "external reproduction requirements",
         )
-        editorial_requirements = _mapping(
-            protocol.get("editorial_rereview_requirements"), "editorial requirements"
-        )
+        editorial_requirements = _mapping(protocol.get("editorial_rereview_requirements"), "editorial requirements")
         if (
             protocol.get("status") != "PROTOCOL_ONLY_PENDING_T123_T124_T126_T127"
             or any(value is not True for value in external_requirements.values())
@@ -261,21 +256,14 @@ class R2ExternalGatePathWorkflow:
         cli = self._path(*self.REFERENCES["cli"]).read_text(encoding="utf-8")
         missing_commands = [name for name, command in self.COMMANDS.items() if command not in cli]
         if missing_commands:
-            raise R2ExternalGatePathError(
-                f"CLI lacks external gate commands: {', '.join(missing_commands)}"
-            )
+            raise R2ExternalGatePathError(f"CLI lacks external gate commands: {', '.join(missing_commands)}")
         for key in ("source_execplan", "verification_execplan"):
             content = self._path(*self.REFERENCES[key]).read_text(encoding="utf-8")
             if "--strict" not in content or "never" not in content.lower():
                 raise R2ExternalGatePathError(f"{key} lacks strict non-promoting instructions")
         runbook = self._path(*self.REFERENCES["operator_runbook"]).read_text(encoding="utf-8")
-        if (
-            "preflight-external-source-intake" not in runbook
-            or "scientific_submission_ready" not in runbook
-        ):
-            raise R2ExternalGatePathError(
-                "operator runbook lacks external intake or readiness boundary"
-            )
+        if "preflight-external-source-intake" not in runbook or "scientific_submission_ready" not in runbook:
+            raise R2ExternalGatePathError("operator runbook lacks external intake or readiness boundary")
         return {
             "stage_count": len(self.HANDOFF_ORDER),
             "reference_count": len(self.REFERENCES),
@@ -332,19 +320,12 @@ class R2ExternalGatePathWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR
-            | stat.S_IXUSR
-            | stat.S_IRGRP
-            | stat.S_IXGRP
-            | stat.S_IROTH
-            | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return R2ExternalGatePathSummary(
-            status=report["status"],
-            stage_count=int(report["stage_count"]),
-            reference_count=int(report["reference_count"]),
-            command_count=int(report["command_count"]),
+            status=_string(report.get("status"), "R2 external gate-path status"),
+            stage_count=_integer(report.get("stage_count"), "R2 external gate-path stage count"),
+            reference_count=_integer(report.get("reference_count"), "R2 external gate-path reference count"),
+            command_count=_integer(report.get("command_count"), "R2 external gate-path command count"),
             receipt_path=receipt_path,
         )
 
@@ -376,15 +357,10 @@ class R2ExternalGatePathWorkflow:
             or receipt.get("command_count") != metrics["command_count"]
             or any(report.get(key) is not False for key in process_flags)
             or report.get("scientific_submission_ready") is not False
-            or any(
-                receipt.get(key) is not False
-                for key in (*process_flags, "scientific_submission_ready")
-            )
+            or any(receipt.get(key) is not False for key in (*process_flags, "scientific_submission_ready"))
         ):
             raise R2ExternalGatePathError("R2 external gate-path receipt is invalid")
-        if report.get("ordered_stages") != self.HANDOFF_ORDER or report.get(
-            "command_inventory"
-        ) != self.COMMANDS:
+        if report.get("ordered_stages") != self.HANDOFF_ORDER or report.get("command_inventory") != self.COMMANDS:
             raise R2ExternalGatePathError("R2 external gate-path inventory is stale")
         if report.get("reference_receipts") != self._sources():
             raise R2ExternalGatePathError("R2 external gate-path source inventory is stale")
@@ -394,9 +370,9 @@ class R2ExternalGatePathWorkflow:
         ):
             raise R2ExternalGatePathError("R2 external gate-path output is writable")
         return R2ExternalGatePathSummary(
-            status=report["status"],
-            stage_count=int(report["stage_count"]),
-            reference_count=int(report["reference_count"]),
-            command_count=int(report["command_count"]),
+            status=_string(report.get("status"), "R2 external gate-path status"),
+            stage_count=_integer(report.get("stage_count"), "R2 external gate-path stage count"),
+            reference_count=_integer(report.get("reference_count"), "R2 external gate-path reference count"),
+            command_count=_integer(report.get("command_count"), "R2 external gate-path command count"),
             receipt_path=receipt_path,
         )

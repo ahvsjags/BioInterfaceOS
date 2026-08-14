@@ -39,9 +39,7 @@ class BenchmarkSummary:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -163,10 +161,7 @@ class ExtractionBenchmark:
         precision = len(eligible_correct) / len(eligible) if eligible else 0.0
         recall = len(eligible_correct) / len(correct_rows) if correct_rows else 0.0
         calibration_error = (
-            sum(
-                abs(float(row["confidence"]) - (1.0 if row["correct"] else 0.0)) for row in eligible
-            )
-            / len(eligible)
+            sum(abs(float(row["confidence"]) - (1.0 if row["correct"] else 0.0)) for row in eligible) / len(eligible)
             if eligible
             else 1.0
         )
@@ -204,21 +199,13 @@ class ExtractionBenchmark:
                     "upper": upper,
                     "rows": len([row for row in rows if lower <= float(row["confidence"]) < upper]),
                     "mean_confidence": (
-                        sum(
-                            float(row["confidence"])
-                            for row in rows
-                            if lower <= float(row["confidence"]) < upper
-                        )
+                        sum(float(row["confidence"]) for row in rows if lower <= float(row["confidence"]) < upper)
                         / len([row for row in rows if lower <= float(row["confidence"]) < upper])
                         if any(lower <= float(row["confidence"]) < upper for row in rows)
                         else None
                     ),
                     "accuracy": (
-                        sum(
-                            bool(row["correct"])
-                            for row in rows
-                            if lower <= float(row["confidence"]) < upper
-                        )
+                        sum(bool(row["correct"]) for row in rows if lower <= float(row["confidence"]) < upper)
                         / len([row for row in rows if lower <= float(row["confidence"]) < upper])
                         if any(lower <= float(row["confidence"]) < upper for row in rows)
                         else None
@@ -287,9 +274,7 @@ class ExtractionBenchmark:
             "fixture": True,
             "g2_status": g2_status,
             "rows": len(rows),
-            "outputs_sha256": {
-                name: hashlib.sha256(content).hexdigest() for name, content in serialized.items()
-            },
+            "outputs_sha256": {name: hashlib.sha256(content).hexdigest() for name, content in serialized.items()},
             "locked_test_accessed": False,
         }
         serialized["benchmark_receipt.json"] = _canonical(receipt)

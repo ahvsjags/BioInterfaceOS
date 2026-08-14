@@ -48,14 +48,10 @@ class DualExperimentExtractorTests(unittest.TestCase):
             for path_name in ("rule_path", "mock_path"):
                 for field in record[path_name]["fields"]:
                     self.assertTrue(field["evidence_locators"])
-                    self.assertTrue(
-                        all(locator.startswith("asset:") for locator in field["evidence_locators"])
-                    )
+                    self.assertTrue(all(locator.startswith("asset:") for locator in field["evidence_locators"]))
             consensus = json.loads(summary.consensus_path.read_text())
             disagreement = next(
-                field
-                for field in consensus["records"][0]["fields"]
-                if field["status"] == "REVIEW_REQUIRED"
+                field for field in consensus["records"][0]["fields"] if field["status"] == "REVIEW_REQUIRED"
             )
             self.assertIsNone(disagreement["accepted_value"])
             self.assertIsNotNone(disagreement["review_id"])
@@ -66,9 +62,7 @@ class DualExperimentExtractorTests(unittest.TestCase):
             extractor.run()
             extractor.run()
             review_path = Path(temporary) / "consensus_review_queue.jsonl"
-            reviews = [
-                json.loads(line) for line in review_path.read_text().splitlines() if line.strip()
-            ]
+            reviews = [json.loads(line) for line in review_path.read_text().splitlines() if line.strip()]
             self.assertEqual(len(reviews), 1)
             self.assertEqual(reviews[0]["field_name"], "outcome_mean")
             AppendOnlyJSONL(review_path).validate()

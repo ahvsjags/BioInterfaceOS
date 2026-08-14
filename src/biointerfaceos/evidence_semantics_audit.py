@@ -23,9 +23,7 @@ class EvidenceSemanticsAuditError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -110,18 +108,14 @@ class EvidenceSemanticsAuditWorkflow:
 
     def __init__(self, root: Path, *, output_root: Path | None = None) -> None:
         self.root = root.resolve(strict=True)
-        self.output_root = output_root or (
-            self.root / "reports/review_round_2/evidence_semantics/v1.2.0"
-        )
+        self.output_root = output_root or (self.root / "reports/review_round_2/evidence_semantics/v1.2.0")
 
     def _path(self, relative_path: str) -> Path:
         path = (self.root / relative_path).resolve(strict=False)
         if not path.is_relative_to(self.root) or not path.is_file():
             raise EvidenceSemanticsAuditError(f"evidence artifact is missing: {relative_path}")
         if "data/locked_test" in path.as_posix():
-            raise EvidenceSemanticsAuditError(
-                f"protected payload path is forbidden: {relative_path}"
-            )
+            raise EvidenceSemanticsAuditError(f"protected payload path is forbidden: {relative_path}")
         return path
 
     def _quarantine(self) -> tuple[dict[str, dict[str, str]], str]:
@@ -156,9 +150,7 @@ class EvidenceSemanticsAuditWorkflow:
             raise EvidenceSemanticsAuditError("legacy fixture quarantine prohibitions are invalid")
         artifacts = payload.get("quarantined_artifacts")
         if not isinstance(artifacts, list) or len(artifacts) != 1:
-            raise EvidenceSemanticsAuditError(
-                "legacy fixture quarantine artifact inventory is invalid"
-            )
+            raise EvidenceSemanticsAuditError("legacy fixture quarantine artifact inventory is invalid")
         artifact = artifacts[0]
         if not isinstance(artifact, dict) or set(artifact) != {
             "artifact_type",
@@ -168,9 +160,7 @@ class EvidenceSemanticsAuditWorkflow:
             "scope",
             "reason",
         }:
-            raise EvidenceSemanticsAuditError(
-                "legacy fixture quarantine artifact schema is invalid"
-            )
+            raise EvidenceSemanticsAuditError("legacy fixture quarantine artifact schema is invalid")
         expected_path = "release/manuscripts/paper_a/paper_a.md"
         source_path = self._path(expected_path)
         if (
@@ -265,9 +255,7 @@ class EvidenceSemanticsAuditWorkflow:
         quarantined = [finding for finding in violations if finding["path"] in quarantine]
         blocking = [finding for finding in violations if finding["path"] not in quarantine]
         status = (
-            "PASS_EVIDENCE_SEMANTICS_WITH_QUARANTINED_LEGACY_FIXTURES"
-            if not blocking
-            else "BLOCKED_EVIDENCE_SEMANTICS"
+            "PASS_EVIDENCE_SEMANTICS_WITH_QUARANTINED_LEGACY_FIXTURES" if not blocking else "BLOCKED_EVIDENCE_SEMANTICS"
         )
         ledger = {
             "schema_version": 1,
@@ -309,9 +297,7 @@ class EvidenceSemanticsAuditWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return report
 
     def verify(self) -> dict[str, Any]:

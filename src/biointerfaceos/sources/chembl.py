@@ -197,8 +197,7 @@ class ChemblAdapter(SourceAdapter):
             "molecule_chembl_id": molecule_id,
             "pref_name": record.get("pref_name"),
             "molecule_type": record.get("molecule_type"),
-            "parent_chembl_id": record.get("parent_molecule_chembl_id")
-            or record.get("parent_chembl_id"),
+            "parent_chembl_id": record.get("parent_molecule_chembl_id") or record.get("parent_chembl_id"),
             "canonical_smiles": structures_map.get("canonical_smiles"),
             "isomeric_smiles": structures_map.get("isomeric_smiles"),
             "inchi": structures_map.get("standard_inchi"),

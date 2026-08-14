@@ -14,9 +14,10 @@ import hashlib
 import json
 import math
 from collections import defaultdict
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 import numpy as np
 
@@ -51,8 +52,7 @@ class R4T197SourceAvailabilityWorkflow:
     REGISTRY_RELATIVE = "docs/data/R4_T197_SOURCE_AVAILABILITY_EXECUTION_REGISTRY.json"
     T192_REGISTRY_RELATIVE = "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json"
     FEATURE_RELATIVE = (
-        "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/"
-        "R3_uniprot_sequence_features.csv"
+        "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv"
     )
     OUTPUT_RELATIVE = "reports/review_round_4/t197_source_availability_execution/v1.0.0"
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
@@ -121,9 +121,19 @@ class R4T197SourceAvailabilityWorkflow:
     def _registry(self) -> tuple[dict[str, Any], dict[str, Any], dict[str, Path]]:
         registry = self._json(self.root / self.REGISTRY_RELATIVE, "T197 registry")
         required = {
-            "schema_version", "audit_id", "protocol_id", "status", "evidence_class",
-            "allowed_claim_level", "protocol", "t192_source_registry", "r3_sequence_feature_table",
-            "sources", "expected_accounting", "output_contract", "claim_boundary",
+            "schema_version",
+            "audit_id",
+            "protocol_id",
+            "status",
+            "evidence_class",
+            "allowed_claim_level",
+            "protocol",
+            "t192_source_registry",
+            "r3_sequence_feature_table",
+            "sources",
+            "expected_accounting",
+            "output_contract",
+            "claim_boundary",
             "scientific_submission_ready",
         }
         if set(registry) != required or registry.get("schema_version") != 1:
@@ -148,9 +158,7 @@ class R4T197SourceAvailabilityWorkflow:
         refs = {
             "protocol": protocol_path,
             "t192_source_registry": self._reference(registry["t192_source_registry"], "T192 registry"),
-            "r3_sequence_feature_table": self._reference(
-                registry["r3_sequence_feature_table"], "R3 feature table"
-            ),
+            "r3_sequence_feature_table": self._reference(registry["r3_sequence_feature_table"], "R3 feature table"),
         }
         if refs["t192_source_registry"] != self.root / self.T192_REGISTRY_RELATIVE:
             raise R4T197SourceAvailabilityError("T197 does not use the release-fixed T192 registry")
@@ -185,10 +193,12 @@ class R4T197SourceAvailabilityWorkflow:
 
     def _source_rows(
         self, refs: Mapping[str, Path]
-    ) -> tuple[R4T192ThreeLabCommonTargetWorkflow, dict[str, dict[str, Any]], dict[str, list[tuple[dict[str, str], float, int]]]]:
-        t192 = R4T192ThreeLabCommonTargetWorkflow(
-            self.root, registry_path=refs["t192_source_registry"]
-        )
+    ) -> tuple[
+        R4T192ThreeLabCommonTargetWorkflow,
+        dict[str, dict[str, Any]],
+        dict[str, list[tuple[dict[str, str], float, int]]],
+    ]:
+        t192 = R4T192ThreeLabCommonTargetWorkflow(self.root, registry_path=refs["t192_source_registry"])
         try:
             _, _, sources = t192._documents()
             rows: dict[str, list[tuple[dict[str, str], float, int]]] = {}
@@ -197,10 +207,7 @@ class R4T197SourceAvailabilityWorkflow:
                 source_id = _string(source["source_id"], "T192 source ID")
                 _, eligible = t192._validate_source_metadata(source)
                 ranks = t192._rank_rows(eligible)
-                rows[source_id] = [
-                    (row, ranks[index][0], ranks[index][1])
-                    for index, row in enumerate(eligible)
-                ]
+                rows[source_id] = [(row, ranks[index][0], ranks[index][1]) for index, row in enumerate(eligible)]
                 source_meta[source_id] = source
         except R4T192ThreeLabCommonTargetError as exc:
             raise R4T197SourceAvailabilityError("T192 source admission does not verify") from exc
@@ -261,9 +268,7 @@ class R4T197SourceAvailabilityWorkflow:
         )
 
     @staticmethod
-    def _permuted_observations(
-        observations: Sequence[_Observation], targets: np.ndarray
-    ) -> list[_Observation]:
+    def _permuted_observations(observations: Sequence[_Observation], targets: np.ndarray) -> list[_Observation]:
         return [
             _Observation(
                 row.target_observation_id,
@@ -289,12 +294,8 @@ class R4T197SourceAvailabilityWorkflow:
         nested = _mapping(protocol["nested_selection"], "T197 nested selection")
         minimum = int(nested["minimum_proteins_per_batch"])
         full_indices = tuple(range(len(helper.FEATURE_NAMES)))
-        composition_indices = tuple(
-            helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES
-        )
-        full_alpha, full_selection = helper._select_alpha(
-            development, full_indices, minimum_proteins=minimum
-        )
+        composition_indices = tuple(helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES)
+        full_alpha, full_selection = helper._select_alpha(development, full_indices, minimum_proteins=minimum)
         composition_alpha, composition_selection = helper._select_alpha(
             development, composition_indices, minimum_proteins=minimum
         )
@@ -323,7 +324,8 @@ class R4T197SourceAvailabilityWorkflow:
                     "observation_count": len(testing),
                     "measurement_batch_count": len(metrics),
                     "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
-                    if model_id == "CONSTANT_TRAINING_MEAN" else "DEFINED",
+                    if model_id == "CONSTANT_TRAINING_MEAN"
+                    else "DEFINED",
                     **aggregate,
                 }
             )
@@ -336,8 +338,7 @@ class R4T197SourceAvailabilityWorkflow:
                         **metric,
                         "spearman_status": (
                             "UNDEFINED_CONSTANT_PREDICTION"
-                            if model_id == "CONSTANT_TRAINING_MEAN"
-                            and metric["spearman"] is None
+                            if model_id == "CONSTANT_TRAINING_MEAN" and metric["spearman"] is None
                             else "DEFINED"
                         ),
                     }
@@ -363,26 +364,29 @@ class R4T197SourceAvailabilityWorkflow:
             if full["spearman"] is not None and composition["spearman"] is not None
         ]
         uncertainty = _mapping(protocol["uncertainty"], "T197 uncertainty")
-        paired_interval = (
-            helper._bootstrap(
-                differences,
-                resamples=int(uncertainty["resamples"]),
-                seed=int(uncertainty["random_seed"]) + len(fold_id),
+        paired_interval: dict[str, float | int | None] = {}
+        if differences:
+            paired_interval.update(
+                helper._bootstrap(
+                    differences,
+                    resamples=int(uncertainty["resamples"]),
+                    seed=int(uncertainty["random_seed"]) + len(fold_id),
+                )
             )
-            if differences
-            else {
-                "resamples": int(uncertainty["resamples"]),
-                "seed": int(uncertainty["random_seed"]) + len(fold_id),
-                "lower_95": None,
-                "upper_95": None,
-            }
-        )
+        else:
+            paired_interval.update(
+                {
+                    "resamples": int(uncertainty["resamples"]),
+                    "seed": int(uncertainty["random_seed"]) + len(fold_id),
+                    "lower_95": None,
+                    "upper_95": None,
+                }
+            )
         paired = {
             "outer_fold_id": fold_id,
             "held_out_source_id": held_out_source,
             "paired_measurement_batch_count": len(differences),
-            "full_minus_composition_mean_spearman": float(np.mean(differences))
-            if differences else None,
+            "full_minus_composition_mean_spearman": float(np.mean(differences)) if differences else None,
             **paired_interval,
         }
         negative = _mapping(protocol["negative_control"], "T197 negative control")
@@ -398,12 +402,8 @@ class R4T197SourceAvailabilityWorkflow:
             for positions in by_batch.values():
                 permuted[positions] = rng.permutation(permuted[positions])
             permuted_development = self._permuted_observations(development, permuted)
-            null_alpha, _ = helper._select_alpha(
-                permuted_development, full_indices, minimum_proteins=minimum
-            )
-            null_model = helper._fit_ridge(
-                permuted_development, full_indices, null_alpha, targets=permuted
-            )
+            null_alpha, _ = helper._select_alpha(permuted_development, full_indices, minimum_proteins=minimum)
+            null_model = helper._fit_ridge(permuted_development, full_indices, null_alpha, targets=permuted)
             null_metrics = helper._batch_metrics(
                 testing, helper._predict_ridge(null_model, testing), minimum_proteins=minimum
             )
@@ -420,9 +420,7 @@ class R4T197SourceAvailabilityWorkflow:
                     "null_mean_spearman": float(score),
                 }
             )
-        observed = next(
-            row["mean_spearman"] for row in model_rows if row["model_id"] == "SEQUENCE_RIDGE_FULL"
-        )
+        observed = next(row["mean_spearman"] for row in model_rows if row["model_id"] == "SEQUENCE_RIDGE_FULL")
         negative_summary = {
             "resamples": int(negative["resamples"]),
             "random_seed": int(negative["random_seed"]) + len(fold_id),
@@ -432,8 +430,7 @@ class R4T197SourceAvailabilityWorkflow:
             "null_mean_spearman_lower_95": float(np.quantile(null_scores, 0.025)),
             "null_mean_spearman_upper_95": float(np.quantile(null_scores, 0.975)),
             "one_sided_upper_tail_p": float(
-                (1 + sum(value >= observed for value in null_scores))
-                / (1 + len(null_scores))
+                (1 + sum(value >= observed for value in null_scores)) / (1 + len(null_scores))
             ),
         }
         return {
@@ -441,13 +438,23 @@ class R4T197SourceAvailabilityWorkflow:
             "batch_rows": batch_rows,
             "prediction_rows": prediction_rows,
             "selection_rows": [
-                {"outer_fold_id": fold_id, "held_out_source_id": held_out_source,
-                 "model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha}
+                {
+                    "outer_fold_id": fold_id,
+                    "held_out_source_id": held_out_source,
+                    "model_id": "SEQUENCE_RIDGE_FULL",
+                    **row,
+                    "selected_alpha": full_alpha,
+                }
                 for row in full_selection
-            ] + [
-                {"outer_fold_id": fold_id, "held_out_source_id": held_out_source,
-                 "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", **row,
-                 "selected_alpha": composition_alpha}
+            ]
+            + [
+                {
+                    "outer_fold_id": fold_id,
+                    "held_out_source_id": held_out_source,
+                    "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+                    **row,
+                    "selected_alpha": composition_alpha,
+                }
                 for row in composition_selection
             ],
             "paired": paired,
@@ -459,9 +466,7 @@ class R4T197SourceAvailabilityWorkflow:
                 "development_observation_count": len(development),
                 "test_observation_count": len(testing),
                 "full_model": helper._ridge_parameters(full_model, helper.FEATURE_NAMES),
-                "composition_model": helper._ridge_parameters(
-                    composition_model, helper.COMPOSITION_FEATURE_NAMES
-                ),
+                "composition_model": helper._ridge_parameters(composition_model, helper.COMPOSITION_FEATURE_NAMES),
             },
         }
 
@@ -477,8 +482,7 @@ class R4T197SourceAvailabilityWorkflow:
         if set(source_ids) != set(source_rows):
             raise R4T197SourceAvailabilityError("T197 registry does not close T192 sources")
         source_target_sets = {
-            source_id: {row[0]["canonical_accession"] for row in rows}
-            for source_id, rows in source_rows.items()
+            source_id: {row[0]["canonical_accession"] for row in rows} for source_id, rows in source_rows.items()
         }
         helper = R3ModelEvaluationWorkflow(
             self.root,
@@ -502,9 +506,7 @@ class R4T197SourceAvailabilityWorkflow:
             development_sources = sorted(source_id for source_id in source_ids if source_id != held_out_source)
             target_set = set.intersection(*(source_target_sets[source_id] for source_id in development_sources))
             if len(target_set) < minimum_target_count:
-                raise R4T197SourceAvailabilityError(
-                    f"T197 fold {fold_id} has too few development-only targets"
-                )
+                raise R4T197SourceAvailabilityError(f"T197 fold {fold_id} has too few development-only targets")
             development: list[_Observation] = []
             testing: list[_Observation] = []
             fold_ledger: list[dict[str, Any]] = []
@@ -513,18 +515,14 @@ class R4T197SourceAvailabilityWorkflow:
                     (dict(row, split_role="DEVELOPMENT"), percentile, count)
                     for row, percentile, count in source_rows[source_id]
                 ]
-                observations, ledger = self._make_observations(
-                    source_id, fold_id, rows, target_set, features
-                )
+                observations, ledger = self._make_observations(source_id, fold_id, rows, target_set, features)
                 development.extend(observations)
                 fold_ledger.extend(ledger)
             rows = [
                 (dict(row, split_role="TEST"), percentile, count)
                 for row, percentile, count in source_rows[held_out_source]
             ]
-            testing, test_ledger = self._make_observations(
-                held_out_source, fold_id, rows, target_set, features
-            )
+            testing, test_ledger = self._make_observations(held_out_source, fold_id, rows, target_set, features)
             fold_ledger.extend(test_ledger)
             minimum = int(_mapping(protocol["nested_selection"], "T197 nested selection")["minimum_proteins_per_batch"])
             if not development or not testing:
@@ -534,9 +532,7 @@ class R4T197SourceAvailabilityWorkflow:
                 for batch_id in {row.measurement_batch_id for row in development}
             ):
                 raise R4T197SourceAvailabilityError(f"T197 fold {fold_id} has an under-covered development batch")
-            fold_result = self._run_models(
-                helper, development, testing, protocol, fold_id, held_out_source
-            )
+            fold_result = self._run_models(helper, development, testing, protocol, fold_id, held_out_source)
             for item in fold_ledger:
                 item["target_universe_count"] = len(target_set)
             all_ledger.extend(fold_ledger)
@@ -550,9 +546,7 @@ class R4T197SourceAvailabilityWorkflow:
                 "held_out_source_id": held_out_source,
                 "development_source_ids": development_sources,
                 "development_only_target_set": sorted(target_set),
-                "test_available_target_count": len(
-                    target_set & source_target_sets[held_out_source]
-                ),
+                "test_available_target_count": len(target_set & source_target_sets[held_out_source]),
                 "negative_control": fold_result["negative_summary"],
             }
             fold_targets.append(
@@ -647,8 +641,12 @@ class R4T197SourceAvailabilityWorkflow:
         receipt_path = output / "t197_source_availability_execution_receipt.json"
         self._write_json(receipt_path, receipt)
         return R4T197SourceAvailabilitySummary(
-            len(all_ledger), len(fold_targets), int(receipt["target_count_minimum"]),
-            int(receipt["measurement_batch_count"]), len(self.MODEL_IDS), receipt_path
+            len(all_ledger),
+            len(fold_targets),
+            int(receipt["target_count_minimum"]),
+            int(receipt["measurement_batch_count"]),
+            len(self.MODEL_IDS),
+            receipt_path,
         )
 
     def verify(self, *, strict: bool = True) -> R4T197SourceAvailabilitySummary:
@@ -681,7 +679,10 @@ class R4T197SourceAvailabilityWorkflow:
         ):
             raise R4T197SourceAvailabilityError("T197 receipt is invalid")
         return R4T197SourceAvailabilitySummary(
-            int(receipt["observation_count"]), int(receipt["outer_fold_count"]),
-            int(receipt["target_count_minimum"]), int(receipt["measurement_batch_count"]),
-            int(receipt["model_count"]), receipt_path
+            int(receipt["observation_count"]),
+            int(receipt["outer_fold_count"]),
+            int(receipt["target_count_minimum"]),
+            int(receipt["measurement_batch_count"]),
+            int(receipt["model_count"]),
+            receipt_path,
         )

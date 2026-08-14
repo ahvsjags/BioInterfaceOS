@@ -19,13 +19,9 @@ def test_signature_workflow_separates_families_and_audits_stability(tmp_path: Pa
     assert summary.scores == 36
     assert 0 <= summary.stable_folds <= summary.total_folds == 9
 
-    registry = json.loads(
-        (tmp_path / "signatures" / "signature_registry.json").read_text(encoding="utf-8")
-    )
+    registry = json.loads((tmp_path / "signatures" / "signature_registry.json").read_text(encoding="utf-8"))
     assert {row["family"] for row in registry["signatures"]} == {"predefined", "data_driven"}
-    leakage = json.loads(
-        (tmp_path / "signatures" / "leakage_audit.json").read_text(encoding="utf-8")
-    )
+    leakage = json.loads((tmp_path / "signatures" / "leakage_audit.json").read_text(encoding="utf-8"))
     assert leakage["feature_selection_uses_outcome_labels"] is False
     assert leakage["status"] == "PASSED"
 

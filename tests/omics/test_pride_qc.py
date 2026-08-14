@@ -49,9 +49,7 @@ class PrideQCWorkflowTests(unittest.TestCase):
 
     def test_three_project_attempt_gate_fails_closed(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            fixture = json.loads(
-                (self.project_root / "tests/fixtures/omics/pride_qc_fixture.json").read_text()
-            )
+            fixture = json.loads((self.project_root / "tests/fixtures/omics/pride_qc_fixture.json").read_text())
             fixture["projects"] = fixture["projects"][:2]
             bad_fixture = Path(temporary) / "bad_qc_fixture.json"
             bad_fixture.write_text(json.dumps(fixture), encoding="utf-8")

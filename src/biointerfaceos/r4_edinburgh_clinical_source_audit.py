@@ -11,7 +11,6 @@ from __future__ import annotations
 import csv
 import json
 import math
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -127,16 +126,15 @@ class R4EdinburghClinicalSourceAuditWorkflow:
             raise R4EdinburghClinicalSourceAuditError(f"{label} is missing or outside its root")
         return path
 
-    def _checked_assets(
-        self, registry: dict[str, Any]
-    ) -> tuple[Path, dict[str, Path], dict[str, Path]]:
+    def _checked_assets(self, registry: dict[str, Any]) -> tuple[Path, dict[str, Path], dict[str, Path]]:
         if set(registry) != self.REQUIRED_TOP_LEVEL or registry.get("schema_version") != 1:
             raise R4EdinburghClinicalSourceAuditError("registry fields are invalid")
         if registry.get("audit_id") != self.AUDIT_ID:
             raise R4EdinburghClinicalSourceAuditError("registry audit ID is invalid")
-        if registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION" or registry.get(
-            "allowed_claim_level"
-        ) != "EXPLORATORY":
+        if (
+            registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION"
+            or registry.get("allowed_claim_level") != "EXPLORATORY"
+        ):
             raise R4EdinburghClinicalSourceAuditError("registry evidence boundary is invalid")
         _string(registry.get("evaluated_at"), "evaluated_at")
         _string(registry.get("claim_boundary"), "claim_boundary")
@@ -145,7 +143,7 @@ class R4EdinburghClinicalSourceAuditWorkflow:
         expected_article = {
             "pmcid": "PMC11106005",
             "doi": "10.1038/s41565-023-01572-3",
-            "title": "First-in-human controlled inhalation of thin graphene oxide nanosheets to study acute cardiorespiratory responses",
+            "title": "First-in-human controlled inhalation of thin graphene oxide nanosheets to study acute cardiorespiratory responses",  # noqa: E501
             "publication_year": 2024,
             "license": "CC-BY-4.0",
             "full_text_locator": "https://europepmc.org/articles/PMC11106005",
@@ -162,22 +160,24 @@ class R4EdinburghClinicalSourceAuditWorkflow:
         if dataset != expected_dataset:
             raise R4EdinburghClinicalSourceAuditError("dataset declaration is invalid")
         scope = _mapping(registry.get("source_scope"), "source scope")
-        if set(scope) != {
-            "source_id",
-            "laboratory_anchor",
-            "biofluid",
-            "nanoparticle_enrichment",
-            "analysis_role",
-            "prohibited_interpretations",
-        } or scope.get("source_id") != "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS" or scope.get(
-            "laboratory_anchor"
-        ) != "University of Edinburgh-led controlled human exposure study" or scope.get(
-            "biofluid"
-        ) != "human plasma" or scope.get("nanoparticle_enrichment") != "lipid-nanoparticle NanoOmics plasma enrichment" or scope.get(
-            "analysis_role"
-        ) != "SEPARATE_R4_EXTERNAL_OOD_CANDIDATE_ONLY" or not isinstance(
-            scope.get("prohibited_interpretations"), list
-        ) or len(scope["prohibited_interpretations"]) != 4:
+        if (
+            set(scope)
+            != {
+                "source_id",
+                "laboratory_anchor",
+                "biofluid",
+                "nanoparticle_enrichment",
+                "analysis_role",
+                "prohibited_interpretations",
+            }
+            or scope.get("source_id") != "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS"
+            or scope.get("laboratory_anchor") != "University of Edinburgh-led controlled human exposure study"
+            or scope.get("biofluid") != "human plasma"
+            or scope.get("nanoparticle_enrichment") != "lipid-nanoparticle NanoOmics plasma enrichment"
+            or scope.get("analysis_role") != "SEPARATE_R4_EXTERNAL_OOD_CANDIDATE_ONLY"
+            or not isinstance(scope.get("prohibited_interpretations"), list)
+            or len(scope["prohibited_interpretations"]) != 4
+        ):
             raise R4EdinburghClinicalSourceAuditError("source scope is invalid")
 
         assets = registry.get("source_assets")
@@ -186,7 +186,13 @@ class R4EdinburghClinicalSourceAuditWorkflow:
         asset_paths: dict[str, Path] = {}
         for item in assets:
             item = _mapping(item, "source asset")
-            if set(item) != {"asset_id", "relative_path", "sha256", "expected_bytes", "repository_md5"}:
+            if set(item) != {
+                "asset_id",
+                "relative_path",
+                "sha256",
+                "expected_bytes",
+                "repository_md5",
+            }:
                 raise R4EdinburghClinicalSourceAuditError("source asset fields are invalid")
             asset_id = _string(item.get("asset_id"), "source asset ID")
             path = self._under(self.assets_root, _string(item.get("relative_path"), asset_id), asset_id)
@@ -228,10 +234,29 @@ class R4EdinburghClinicalSourceAuditWorkflow:
             raise R4EdinburghClinicalSourceAuditError("worksheet contracts are invalid")
         for item in contracts:
             item = _mapping(item, "worksheet contract")
-            if set(item) != {"worksheet", "expected_rows", "expected_columns", "sample_column_count", "unambiguous_shared_protein_rows"}:
+            if set(item) != {
+                "worksheet",
+                "expected_rows",
+                "expected_columns",
+                "sample_column_count",
+                "unambiguous_shared_protein_rows",
+            }:
                 raise R4EdinburghClinicalSourceAuditError("worksheet contract fields are invalid")
-            expected = expected_contracts.pop(item.get("worksheet"), None)
-            if expected is None or tuple(item[key] for key in ("expected_rows", "expected_columns", "sample_column_count", "unambiguous_shared_protein_rows")) != expected:
+            worksheet_name = _string(item.get("worksheet"), "worksheet contract name")
+            expected = expected_contracts.pop(worksheet_name, None)
+            if (
+                expected is None
+                or tuple(
+                    item[key]
+                    for key in (
+                        "expected_rows",
+                        "expected_columns",
+                        "sample_column_count",
+                        "unambiguous_shared_protein_rows",
+                    )
+                )
+                != expected
+            ):
                 raise R4EdinburghClinicalSourceAuditError("worksheet contract differs")
         if expected_contracts:
             raise R4EdinburghClinicalSourceAuditError("worksheet contracts are incomplete")
@@ -239,7 +264,7 @@ class R4EdinburghClinicalSourceAuditWorkflow:
         if quantification != {
             "source_accession_column": "Accession",
             "author_quantity_type": "NORMALIZED_ABUNDANCE",
-            "entry_name_mapping": "map only a source row with exactly one R3 FASTA entry-name match; exclude all zero-or-many-match rows",
+            "entry_name_mapping": "map only a source row with exactly one R3 FASTA entry-name match; exclude all zero-or-many-match rows",  # noqa: E501
             "rank_eligibility": "strictly positive finite author-reported abundance within one sample column",
             "numeric_zero_policy": "retain as NUMERIC_ZERO and exclude from rank; never impute",
             "blank_policy": "retain as SOURCE_BLANK and exclude from rank; never impute",
@@ -274,9 +299,12 @@ class R4EdinburghClinicalSourceAuditWorkflow:
             raise R4EdinburghClinicalSourceAuditError("R3 reference assets are empty")
         return features, entry_to_accession
 
-    def _cells(self, workbook_path: Path, reference_paths: dict[str, Path]) -> tuple[list[dict[str, Any]], dict[str, int]]:
+    def _cells(
+        self, workbook_path: Path, reference_paths: dict[str, Path]
+    ) -> tuple[list[dict[str, Any]], dict[str, int]]:
         features, entry_to_accession = self._reference_mapping(
-            reference_paths["feature_table"], [reference_paths["fasta_batch_0001"], reference_paths["fasta_batch_0002"]]
+            reference_paths["feature_table"],
+            [reference_paths["fasta_batch_0001"], reference_paths["fasta_batch_0002"]],
         )
         workbook = load_workbook(workbook_path, read_only=True, data_only=True)
         expected = {"sGO 0h v 6h": (702, 25), "usGO 0h vs 6h": (782, 28)}
@@ -291,7 +319,9 @@ class R4EdinburghClinicalSourceAuditWorkflow:
                 raise R4EdinburghClinicalSourceAuditError("workbook dimensions differ")
             phase_row = next(sheet.iter_rows(min_row=2, max_row=2, values_only=True))
             header = next(sheet.iter_rows(min_row=3, max_row=3, values_only=True))
-            if header[0:2] != ("Accession", "Description") or any(not isinstance(value, str) or not value for value in header[2:]):
+            if header[0:2] != ("Accession", "Description") or any(
+                not isinstance(value, str) or not value for value in header[2:]
+            ):
                 raise R4EdinburghClinicalSourceAuditError("workbook sample header differs")
             seen_accessions: set[str] = set()
             shared_rows = 0
@@ -318,7 +348,11 @@ class R4EdinburghClinicalSourceAuditWorkflow:
                     elif numeric > 0.0:
                         state, eligible, rendered = "POSITIVE_FINITE", True, format(numeric, ".17g")
                     else:
-                        state, eligible, rendered = "NEGATIVE_FINITE", False, format(numeric, ".17g")
+                        state, eligible, rendered = (
+                            "NEGATIVE_FINITE",
+                            False,
+                            format(numeric, ".17g"),
+                        )
                     declared_phase = str(phase_row[column_index] or "").strip()
                     if declared_phase:
                         current_phase = declared_phase
@@ -336,7 +370,7 @@ class R4EdinburghClinicalSourceAuditWorkflow:
                             "source_identifier": str(row[0]),
                             "canonical_accession": canonical_accession,
                             "sample_phase": current_phase,
-                            "measurement_batch_id": f"R4_EDINBURGH_{'SGO' if sheet_name.startswith('sGO') else 'USGO'}_{sample_label}",
+                            "measurement_batch_id": f"R4_EDINBURGH_{'SGO' if sheet_name.startswith('sGO') else 'USGO'}_{sample_label}",  # noqa: E501
                             "author_quantity_type": "NORMALIZED_ABUNDANCE",
                             "author_numeric_value": rendered,
                             "author_value_state": state,
@@ -354,7 +388,12 @@ class R4EdinburghClinicalSourceAuditWorkflow:
         }
         if len(batches) != 49 or len(canonical) != 23 or min(positive_by_batch.values()) < 10:
             raise R4EdinburghClinicalSourceAuditError("external candidate admission minimum is not met")
-        return cells, {"protein_rows": protein_rows, "batches": len(batches), "canonical": len(canonical), "positive": sum(row["rank_target_eligible"] == "true" for row in cells)}
+        return cells, {
+            "protein_rows": protein_rows,
+            "batches": len(batches),
+            "canonical": len(canonical),
+            "positive": sum(row["rank_target_eligible"] == "true" for row in cells),
+        }
 
     def run(self, *, strict: bool = False) -> R4EdinburghClinicalSourceAuditSummary:
         if not strict:
@@ -391,7 +430,13 @@ class R4EdinburghClinicalSourceAuditWorkflow:
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
             "source_assets": source_asset_references,
-            "r3_reference_assets": {asset_id: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)} for asset_id, path in reference_paths.items()},
+            "r3_reference_assets": {
+                asset_id: {
+                    "relative_path": path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(path),
+                }
+                for asset_id, path in reference_paths.items()
+            },
             "source_cell_map": {"relative_path": self.DERIVED_RELATIVE, "sha256": _sha256(derived)},
             "protein_row_count": totals["protein_rows"],
             "measurement_batch_count": totals["batches"],
@@ -415,7 +460,15 @@ class R4EdinburghClinicalSourceAuditWorkflow:
         }
         receipt_path = self.output_root / "edinburgh_clinical_source_audit_receipt.json"
         self._write(receipt_path, receipt)
-        return R4EdinburghClinicalSourceAuditSummary(len(asset_paths), totals["protein_rows"], totals["batches"], totals["canonical"], len(cells), totals["positive"], receipt_path)
+        return R4EdinburghClinicalSourceAuditSummary(
+            len(asset_paths),
+            totals["protein_rows"],
+            totals["batches"],
+            totals["canonical"],
+            len(cells),
+            totals["positive"],
+            receipt_path,
+        )
 
     def verify(self) -> R4EdinburghClinicalSourceAuditSummary:
         registry = self._json(self.registry_path, "R4 Edinburgh registry")
@@ -424,7 +477,11 @@ class R4EdinburghClinicalSourceAuditWorkflow:
         receipt_path = self.output_root / "edinburgh_clinical_source_audit_receipt.json"
         report = self._json(report_path, "R4 Edinburgh audit report")
         receipt = self._json(receipt_path, "R4 Edinburgh audit receipt")
-        if report.get("status") != self.STATUS or receipt.get("status") != self.STATUS or receipt.get("report", {}).get("sha256") != _sha256(report_path):
+        if (
+            report.get("status") != self.STATUS
+            or receipt.get("status") != self.STATUS
+            or receipt.get("report", {}).get("sha256") != _sha256(report_path)
+        ):
             raise R4EdinburghClinicalSourceAuditError("R4 Edinburgh audit receipt differs")
         cell_map = self._under(
             self.assets_root,
@@ -437,9 +494,26 @@ class R4EdinburghClinicalSourceAuditWorkflow:
             rows = list(csv.DictReader(stream))
         if (set(rows[0]) if rows else set()) != set(self.SOURCE_CELL_FIELDS):
             raise R4EdinburghClinicalSourceAuditError("R4 Edinburgh source cell map fields differ")
-        summary = R4EdinburghClinicalSourceAuditSummary(len(asset_paths), int(report["protein_row_count"]), int(report["measurement_batch_count"]), int(report["shared_canonical_protein_count"]), int(report["source_cell_count"]), int(report["positive_source_cell_count"]), receipt_path)
-        if len(rows) != summary.source_cell_count or sum(row["rank_target_eligible"] == "true" for row in rows) != summary.positive_source_cell_count:
+        summary = R4EdinburghClinicalSourceAuditSummary(
+            len(asset_paths),
+            int(report["protein_row_count"]),
+            int(report["measurement_batch_count"]),
+            int(report["shared_canonical_protein_count"]),
+            int(report["source_cell_count"]),
+            int(report["positive_source_cell_count"]),
+            receipt_path,
+        )
+        if (
+            len(rows) != summary.source_cell_count
+            or sum(row["rank_target_eligible"] == "true" for row in rows) != summary.positive_source_cell_count
+        ):
             raise R4EdinburghClinicalSourceAuditError("R4 Edinburgh source cell counts differ")
-        if report.get("r3_reference_assets") != {asset_id: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)} for asset_id, path in reference_paths.items()}:
+        if report.get("r3_reference_assets") != {
+            asset_id: {
+                "relative_path": path.relative_to(self.root).as_posix(),
+                "sha256": _sha256(path),
+            }
+            for asset_id, path in reference_paths.items()
+        }:
             raise R4EdinburghClinicalSourceAuditError("R4 Edinburgh R3 references differ")
         return summary

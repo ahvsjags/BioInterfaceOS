@@ -50,14 +50,10 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
     STATUS = "T194_FULLTEXT_CORE_FACILITY_EXECUTION_COMPLETED_EXPLORATORY"
     PROTOCOL_RELATIVE = "docs/data/R4_T194_FULLTEXT_CORE_FACILITY_EXECUTION_PROTOCOL.json"
     REGISTRY_RELATIVE = "docs/data/R4_T194_FULLTEXT_CORE_FACILITY_EXECUTION_REGISTRY.json"
-    MAP_RELATIVE = (
-        "data/raw/r3_fulltext_pmc9633814/derived/"
-        "R3_PMC9633814_semiquantitative_source_cell_map.csv"
-    )
+    MAP_RELATIVE = "data/raw/r3_fulltext_pmc9633814/derived/R3_PMC9633814_semiquantitative_source_cell_map.csv"
     TARGET_RELATIVE = "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv"
     FEATURE_RELATIVE = (
-        "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/"
-        "R3_uniprot_sequence_features.csv"
+        "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv"
     )
     OUTPUT_RELATIVE = "reports/review_round_4/t194_fulltext_core_facility_execution/v1.0.0"
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
@@ -149,10 +145,20 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
     def _documents(self) -> tuple[dict[str, Any], dict[str, Any], dict[str, Path]]:
         registry = self._json(self.root / self.REGISTRY_RELATIVE, "T194 registry")
         expected_registry = {
-            "schema_version", "audit_id", "protocol_id", "status", "evidence_class",
-            "allowed_claim_level", "protocol", "source_cell_map", "r3_common_target_ledger",
-            "r3_sequence_feature_table", "expected_accounting", "output_contract",
-            "claim_boundary", "scientific_submission_ready",
+            "schema_version",
+            "audit_id",
+            "protocol_id",
+            "status",
+            "evidence_class",
+            "allowed_claim_level",
+            "protocol",
+            "source_cell_map",
+            "r3_common_target_ledger",
+            "r3_sequence_feature_table",
+            "expected_accounting",
+            "output_contract",
+            "claim_boundary",
+            "scientific_submission_ready",
         }
         if set(registry) != expected_registry or registry.get("schema_version") != 1:
             raise R4T194FulltextExecutionError("T194 registry fields are invalid")
@@ -175,12 +181,8 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
             raise R4T194FulltextExecutionError("T194 protocol identity or boundary is invalid")
         refs = {
             "source_cell_map": self._reference(registry["source_cell_map"], "T194 source map"),
-            "r3_common_target_ledger": self._reference(
-                registry["r3_common_target_ledger"], "R3 target ledger"
-            ),
-            "r3_sequence_feature_table": self._reference(
-                registry["r3_sequence_feature_table"], "R3 feature table"
-            ),
+            "r3_common_target_ledger": self._reference(registry["r3_common_target_ledger"], "R3 target ledger"),
+            "r3_sequence_feature_table": self._reference(registry["r3_sequence_feature_table"], "R3 feature table"),
         }
         if refs["source_cell_map"] != self.root / self.MAP_RELATIVE:
             raise R4T194FulltextExecutionError("T194 source map path is not release-fixed")
@@ -215,7 +217,9 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
             for row in target_rows
             if row.get("common_rank_target_member") == "true"
         }
-        expected_count = int(_mapping(protocol["frozen_target_universe"], "T194 target universe")["expected_target_count"])
+        expected_count = int(
+            _mapping(protocol["frozen_target_universe"], "T194 target universe")["expected_target_count"]
+        )
         if len(targets) != expected_count or set(features) != targets:
             raise R4T194FulltextExecutionError("pre-frozen target universe does not close feature table")
         return features, targets
@@ -350,11 +354,13 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
         expected_obs = int(_mapping(registry["expected_accounting"], "T194 accounting")["eligible_observation_count"])
         if selected_count != expected_obs or len({row.canonical_accession for row in observations}) != len(targets):
             raise R4T194FulltextExecutionError("T194 observation or target accounting differs")
-        return sorted(observations, key=lambda row: row.target_observation_id), sorted(ledger, key=lambda row: row["target_observation_id"]), accounting
+        return (
+            sorted(observations, key=lambda row: row.target_observation_id),
+            sorted(ledger, key=lambda row: row["target_observation_id"]),
+            accounting,
+        )
 
-    def _execute_models(
-        self, observations: Sequence[_Observation], protocol: Mapping[str, Any]
-    ) -> dict[str, Any]:
+    def _execute_models(self, observations: Sequence[_Observation], protocol: Mapping[str, Any]) -> dict[str, Any]:
         helper = R3ModelEvaluationWorkflow(
             self.root,
             self.root / "data/raw",
@@ -385,14 +391,34 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
                 key=lambda row: row.target_observation_id,
             )
             try:
-                full_alpha, full_selection = helper._select_alpha(development, full_indices, minimum_proteins=minimum_proteins)
-                composition_alpha, composition_selection = helper._select_alpha(development, composition_indices, minimum_proteins=minimum_proteins)
+                full_alpha, full_selection = helper._select_alpha(
+                    development, full_indices, minimum_proteins=minimum_proteins
+                )
+                composition_alpha, composition_selection = helper._select_alpha(
+                    development, composition_indices, minimum_proteins=minimum_proteins
+                )
             except R3ModelEvaluationError as exc:
                 raise R4T194FulltextExecutionError("T194 nested alpha selection failed") from exc
             for row in full_selection:
-                selections.append({"outer_fold_id": fold_id, "held_out_core": held_out, "model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha})
+                selections.append(
+                    {
+                        "outer_fold_id": fold_id,
+                        "held_out_core": held_out,
+                        "model_id": "SEQUENCE_RIDGE_FULL",
+                        **row,
+                        "selected_alpha": full_alpha,
+                    }
+                )
             for row in composition_selection:
-                selections.append({"outer_fold_id": fold_id, "held_out_core": held_out, "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", **row, "selected_alpha": composition_alpha})
+                selections.append(
+                    {
+                        "outer_fold_id": fold_id,
+                        "held_out_core": held_out,
+                        "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+                        **row,
+                        "selected_alpha": composition_alpha,
+                    }
+                )
             constant_mean = float(np.mean([row.target for row in development]))
             full_model = helper._fit_ridge(development, full_indices, full_alpha)
             composition_model = helper._fit_ridge(development, composition_indices, composition_alpha)
@@ -406,7 +432,9 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
                 "development_observation_count": len(development),
                 "held_out_observation_count": len(testing),
                 "SEQUENCE_RIDGE_FULL": helper._ridge_parameters(full_model, helper.FEATURE_NAMES),
-                "SEQUENCE_RIDGE_COMPOSITION_ONLY": helper._ridge_parameters(composition_model, helper.COMPOSITION_FEATURE_NAMES),
+                "SEQUENCE_RIDGE_COMPOSITION_ONLY": helper._ridge_parameters(
+                    composition_model, helper.COMPOSITION_FEATURE_NAMES
+                ),
                 "constant_training_mean": constant_mean,
             }
             metrics_by_model: dict[str, list[dict[str, Any]]] = {}
@@ -415,38 +443,60 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
                 metrics = helper._batch_metrics(testing, predicted, minimum_proteins=minimum_proteins)
                 metrics_by_model[model_id] = metrics
                 aggregate = helper._aggregate(metrics)
-                fold_metrics.append({
-                    "outer_fold_id": fold_id,
-                    "held_out_core": held_out,
-                    "model_id": model_id,
-                    "held_out_observation_count": len(testing),
-                    "held_out_measurement_batch_count": len(metrics),
-                    "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION" if model_id == "CONSTANT_TRAINING_MEAN" else "DEFINED",
-                    **aggregate,
-                })
-                for metric in metrics:
-                    batch_metrics.append({"outer_fold_id": fold_id, "held_out_core": held_out, "model_id": model_id, **metric})
-                for observation, value in zip(testing, predicted, strict=True):
-                    predictions.append({
+                fold_metrics.append(
+                    {
                         "outer_fold_id": fold_id,
                         "held_out_core": held_out,
                         "model_id": model_id,
-                        "target_observation_id": observation.target_observation_id,
-                        "source_id": observation.source_id,
-                        "canonical_accession": observation.canonical_accession,
-                        "measurement_batch_id": observation.measurement_batch_id,
-                        "observed_rank_percentile_descending": observation.target,
-                        "predicted_rank_percentile_descending": float(value),
-                    })
+                        "held_out_observation_count": len(testing),
+                        "held_out_measurement_batch_count": len(metrics),
+                        "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
+                        if model_id == "CONSTANT_TRAINING_MEAN"
+                        else "DEFINED",
+                        **aggregate,
+                    }
+                )
+                for metric in metrics:
+                    batch_metrics.append(
+                        {
+                            "outer_fold_id": fold_id,
+                            "held_out_core": held_out,
+                            "model_id": model_id,
+                            **metric,
+                        }
+                    )
+                for observation, value in zip(testing, predicted, strict=True):
+                    predictions.append(
+                        {
+                            "outer_fold_id": fold_id,
+                            "held_out_core": held_out,
+                            "model_id": model_id,
+                            "target_observation_id": observation.target_observation_id,
+                            "source_id": observation.source_id,
+                            "canonical_accession": observation.canonical_accession,
+                            "measurement_batch_id": observation.measurement_batch_id,
+                            "observed_rank_percentile_descending": observation.target,
+                            "predicted_rank_percentile_descending": float(value),
+                        }
+                    )
             full_metric = metrics_by_model["SEQUENCE_RIDGE_FULL"][0]
             composition_metric = metrics_by_model["SEQUENCE_RIDGE_COMPOSITION_ONLY"][0]
-            differences = [] if full_metric["spearman"] is None or composition_metric["spearman"] is None else [float(full_metric["spearman"]) - float(composition_metric["spearman"])]
-            ablation = {"outer_fold_id": fold_id, "held_out_core": held_out, "paired_measurement_batch_count": len(differences), "full_minus_composition_spearman": differences[0] if differences else None}
+            differences = (
+                []
+                if full_metric["spearman"] is None or composition_metric["spearman"] is None
+                else [float(full_metric["spearman"]) - float(composition_metric["spearman"])]
+            )
+            ablation = {
+                "outer_fold_id": fold_id,
+                "held_out_core": held_out,
+                "paired_measurement_batch_count": len(differences),
+                "full_minus_composition_spearman": differences[0] if differences else None,
+            }
             ablations.append(ablation)
             dev_targets = np.asarray([row.target for row in development], dtype=float)
             by_core: dict[str, list[int]] = defaultdict(list)
-            for position, row in enumerate(development):
-                by_core[row.laboratory_anchor].append(position)
+            for position, development_row in enumerate(development):
+                by_core[development_row.laboratory_anchor].append(position)
             rng = np.random.default_rng(int(negative["random_seed"]) + fold_index)
             null_values: list[float] = []
             for resample in range(1, int(negative["resamples"]) + 1):
@@ -454,12 +504,24 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
                 for positions in by_core.values():
                     permuted[positions] = rng.permutation(permuted[positions])
                 null_model = helper._fit_ridge(development, full_indices, full_alpha, targets=permuted)
-                null_metric = helper._batch_metrics(testing, helper._predict_ridge(null_model, testing), minimum_proteins=minimum_proteins)[0]
+                null_metric = helper._batch_metrics(
+                    testing,
+                    helper._predict_ridge(null_model, testing),
+                    minimum_proteins=minimum_proteins,
+                )[0]
                 if null_metric["spearman"] is None:
                     raise R4T194FulltextExecutionError("T194 negative-control Spearman is undefined")
                 null_value = float(null_metric["spearman"])
                 null_values.append(null_value)
-                negative_rows.append({"outer_fold_id": fold_id, "held_out_core": held_out, "selected_alpha": full_alpha, "resample": resample, "null_spearman": null_value})
+                negative_rows.append(
+                    {
+                        "outer_fold_id": fold_id,
+                        "held_out_core": held_out,
+                        "selected_alpha": full_alpha,
+                        "resample": resample,
+                        "null_spearman": null_value,
+                    }
+                )
             observed = float(full_metric["spearman"]) if full_metric["spearman"] is not None else None
             if observed is None:
                 raise R4T194FulltextExecutionError("T194 full-model primary metric is undefined")
@@ -470,13 +532,26 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
                 "null_spearman_mean": float(np.mean(null_values)),
                 "null_spearman_lower_95": float(np.quantile(null_values, 0.025)),
                 "null_spearman_upper_95": float(np.quantile(null_values, 0.975)),
-                "one_sided_upper_tail_p": float((1 + sum(value >= observed for value in null_values)) / (1 + len(null_values))),
+                "one_sided_upper_tail_p": float(
+                    (1 + sum(value >= observed for value in null_values)) / (1 + len(null_values))
+                ),
             }
         cluster_bootstrap: dict[str, Any] = {}
         for model_id in self.MODEL_IDS:
-            values = [float(row["mean_spearman"]) for row in fold_metrics if row["model_id"] == model_id and row["mean_spearman"] is not None]
+            values = [
+                float(row["mean_spearman"])
+                for row in fold_metrics
+                if row["model_id"] == model_id and row["mean_spearman"] is not None
+            ]
             if values:
-                cluster_bootstrap[model_id] = {"cluster_count": len(values), **helper._bootstrap(values, resamples=int(uncertainty["resamples"]), seed=int(uncertainty["random_seed"]))}
+                cluster_bootstrap[model_id] = {
+                    "cluster_count": len(values),
+                    **helper._bootstrap(
+                        values,
+                        resamples=int(uncertainty["resamples"]),
+                        seed=int(uncertainty["random_seed"]),
+                    ),
+                }
             else:
                 cluster_bootstrap[model_id] = {
                     "cluster_count": 0,
@@ -518,32 +593,118 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
             "parameters": self.output_root / "outer_fold_model_parameters.json",
         }
         self._write_csv(paths["ledger"], self.LEDGER_FIELDS, ledger)
-        self._write_csv(paths["predictions"], ["outer_fold_id", "held_out_core", "model_id", "target_observation_id", "source_id", "canonical_accession", "measurement_batch_id", "observed_rank_percentile_descending", "predicted_rank_percentile_descending"], artifacts["predictions"])
-        self._write_csv(paths["batch_metrics"], ["outer_fold_id", "held_out_core", "model_id", "measurement_batch_id", "protein_count", "spearman", "mae", "rmse"], artifacts["batch_metrics"])
-        self._write_csv(paths["fold_metrics"], ["outer_fold_id", "held_out_core", "model_id", "held_out_observation_count", "held_out_measurement_batch_count", "primary_metric_status", "mean_spearman", "mean_mae", "mean_rmse"], artifacts["fold_metrics"])
-        self._write_csv(paths["inner_selection"], ["outer_fold_id", "held_out_core", "model_id", "alpha", "held_out_inner_batch_id", "spearman", "selected_alpha"], artifacts["selections"])
-        self._write_csv(paths["paired_ablation"], ["outer_fold_id", "held_out_core", "paired_measurement_batch_count", "full_minus_composition_spearman"], artifacts["ablations"])
-        self._write_csv(paths["negative_control"], ["outer_fold_id", "held_out_core", "selected_alpha", "resample", "null_spearman"], artifacts["negative_rows"])
+        self._write_csv(
+            paths["predictions"],
+            [
+                "outer_fold_id",
+                "held_out_core",
+                "model_id",
+                "target_observation_id",
+                "source_id",
+                "canonical_accession",
+                "measurement_batch_id",
+                "observed_rank_percentile_descending",
+                "predicted_rank_percentile_descending",
+            ],
+            artifacts["predictions"],
+        )
+        self._write_csv(
+            paths["batch_metrics"],
+            [
+                "outer_fold_id",
+                "held_out_core",
+                "model_id",
+                "measurement_batch_id",
+                "protein_count",
+                "spearman",
+                "mae",
+                "rmse",
+            ],
+            artifacts["batch_metrics"],
+        )
+        self._write_csv(
+            paths["fold_metrics"],
+            [
+                "outer_fold_id",
+                "held_out_core",
+                "model_id",
+                "held_out_observation_count",
+                "held_out_measurement_batch_count",
+                "primary_metric_status",
+                "mean_spearman",
+                "mean_mae",
+                "mean_rmse",
+            ],
+            artifacts["fold_metrics"],
+        )
+        self._write_csv(
+            paths["inner_selection"],
+            [
+                "outer_fold_id",
+                "held_out_core",
+                "model_id",
+                "alpha",
+                "held_out_inner_batch_id",
+                "spearman",
+                "selected_alpha",
+            ],
+            artifacts["selections"],
+        )
+        self._write_csv(
+            paths["paired_ablation"],
+            [
+                "outer_fold_id",
+                "held_out_core",
+                "paired_measurement_batch_count",
+                "full_minus_composition_spearman",
+            ],
+            artifacts["ablations"],
+        )
+        self._write_csv(
+            paths["negative_control"],
+            ["outer_fold_id", "held_out_core", "selected_alpha", "resample", "null_spearman"],
+            artifacts["negative_rows"],
+        )
         self._write_json(paths["parameters"], artifacts["parameters"])
-        artifact_manifest = {name: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)} for name, path in paths.items()}
+        artifact_manifest = {
+            name: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)}
+            for name, path in paths.items()
+        }
         report = {
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
             "status": self.STATUS,
             "evidence_class": registry["evidence_class"],
             "allowed_claim_level": registry["allowed_claim_level"],
-            "input_references": {name: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)} for name, path in refs.items()},
+            "input_references": {
+                name: {
+                    "relative_path": path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(path),
+                }
+                for name, path in refs.items()
+            },
             "source_semantics": {
                 "source_article": "10.1038/s41467-022-34438-8",
                 "source_pmcid": "PMC9633814",
                 "source_license": "CC-BY-4.0",
                 "core_facility_count": len(accounting),
                 "biological_unit_count": 1,
-                "biological_unit_semantics": "one common pooled human-plasma aliquot; technical core-facility replication",
+                "biological_unit_semantics": "one common pooled human-plasma aliquot; technical core-facility replication",  # noqa: E501
             },
-            "target_universe": {"source": "R3_common_rank_target_ledger", "count": len(targets), "selection_after_outer_split": False},
+            "target_universe": {
+                "source": "R3_common_rank_target_ledger",
+                "count": len(targets),
+                "selection_after_outer_split": False,
+            },
             "source_accounting": accounting,
-            "frozen_cohort": {"observation_count": len(observations), "target_universe_count": len(targets), "core_facility_count": len({row.laboratory_anchor for row in observations}), "measurement_batch_count": len({row.measurement_batch_id for row in observations}), "outer_fold_count": 12, "model_count": len(self.MODEL_IDS)},
+            "frozen_cohort": {
+                "observation_count": len(observations),
+                "target_universe_count": len(targets),
+                "core_facility_count": len({row.laboratory_anchor for row in observations}),
+                "measurement_batch_count": len({row.measurement_batch_id for row in observations}),
+                "outer_fold_count": 12,
+                "model_count": len(self.MODEL_IDS),
+            },
             "model_results": artifacts["fold_metrics"],
             "paired_composition_ablation": artifacts["ablations"],
             "core_cluster_bootstrap": artifacts["cluster_bootstrap"],
@@ -575,7 +736,14 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
         }
         receipt_path = self.output_root / "t194_fulltext_core_facility_execution_receipt.json"
         self._write_json(receipt_path, receipt)
-        return R4T194FulltextExecutionSummary(len(observations), len(targets), len({row.laboratory_anchor for row in observations}), len({row.measurement_batch_id for row in observations}), len(self.MODEL_IDS), receipt_path)
+        return R4T194FulltextExecutionSummary(
+            len(observations),
+            len(targets),
+            len({row.laboratory_anchor for row in observations}),
+            len({row.measurement_batch_id for row in observations}),
+            len(self.MODEL_IDS),
+            receipt_path,
+        )
 
     def verify(self, *, strict: bool = True) -> R4T194FulltextExecutionSummary:
         if not strict:
@@ -605,4 +773,11 @@ class R4T194FulltextCoreFacilityExecutionWorkflow:
             or receipt.get("scientific_submission_ready") is not False
         ):
             raise R4T194FulltextExecutionError("T194 report or receipt is invalid")
-        return R4T194FulltextExecutionSummary(int(receipt["observation_count"]), int(receipt["target_universe_count"]), int(receipt["core_facility_count"]), int(receipt["measurement_batch_count"]), int(receipt["model_count"]), receipt_path)
+        return R4T194FulltextExecutionSummary(
+            int(receipt["observation_count"]),
+            int(receipt["target_universe_count"]),
+            int(receipt["core_facility_count"]),
+            int(receipt["measurement_batch_count"]),
+            int(receipt["model_count"]),
+            receipt_path,
+        )

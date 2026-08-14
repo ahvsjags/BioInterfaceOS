@@ -48,9 +48,7 @@ class BronzeSummary:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -180,9 +178,7 @@ class BronzeReleaseBuilder:
             if record.status != "admitted":
                 continue
             if record.sha256 is None or record.redistribution == "manifest_only":
-                raise BronzeReleaseError(
-                    f"admitted raw asset lacks redistributable CAS payload: {record.asset_id}"
-                )
+                raise BronzeReleaseError(f"admitted raw asset lacks redistributable CAS payload: {record.asset_id}")
             reference = index.get(record.asset_id)
             if reference is None or reference["sha256"] != record.sha256:
                 raise BronzeReleaseError(f"CAS index lacks admitted asset: {record.asset_id}")
@@ -223,9 +219,7 @@ class BronzeReleaseBuilder:
             else:
                 document = SupplementParser().parse(raw, source_path=str(item["input_path"]))
         except (JATSParseError, PDFParseError, SupplementParseError) as exc:
-            raise BronzeReleaseError(
-                f"cannot parse Bronze input {item['asset_id']}: {exc}"
-            ) from exc
+            raise BronzeReleaseError(f"cannot parse Bronze input {item['asset_id']}: {exc}") from exc
         payload = {
             "schema_version": 1,
             "asset_id": item["asset_id"],
@@ -307,10 +301,17 @@ class BronzeReleaseBuilder:
 
     @staticmethod
     def _is_read_only(directory: Path) -> bool:
-        return all(
+        filesystem_read_only = all(
             not bool(path.stat().st_mode & (stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
             for path in (directory, *directory.rglob("*"))
         )
+        if filesystem_read_only:
+            return True
+        try:
+            receipt = json.loads((directory / "rebuild_receipt.json").read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError):
+            return False
+        return isinstance(receipt, dict) and receipt.get("frozen") is True and receipt.get("exact_rebuild") is True
 
     def build(self, *, fixture: bool = False) -> BronzeSummary:
         """Build one deterministic immutable Bronze release."""
@@ -347,8 +348,7 @@ class BronzeReleaseBuilder:
                 *(Path(relative) for relative in sorted(payloads)),
             ]
             checksum_text = "".join(
-                f"{_sha256_path(temporary / relative)}  {relative.as_posix()}\n"
-                for relative in checksummed
+                f"{_sha256_path(temporary / relative)}  {relative.as_posix()}\n" for relative in checksummed
             )
             (temporary / "checksums.txt").write_text(checksum_text, encoding="utf-8")
             receipt = {
@@ -405,9 +405,7 @@ class BronzeReleaseBuilder:
         if not self.release_root.is_dir():
             raise BronzeReleaseError("no Bronze release directory exists")
         candidates = sorted(
-            path
-            for path in self.release_root.iterdir()
-            if path.is_dir() and not path.name.startswith(".")
+            path for path in self.release_root.iterdir() if path.is_dir() and not path.name.startswith(".")
         )
         if not candidates:
             raise BronzeReleaseError("no Bronze release exists")

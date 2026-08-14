@@ -35,9 +35,7 @@ class ManuscriptPortfolioSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -72,41 +70,24 @@ class ManuscriptPortfolioWorkflow:
     AUDITED_AT = "2026-08-13T00:00:00+00:00"
     PORTFOLIO_RELATIVE = "docs/manuscripts/R2_MANUSCRIPT_PORTFOLIO.json"
     COMPARATOR_MAP_RELATIVE = "docs/literature/R2_MANUSCRIPT_COMPARATOR_MAP.json"
-    FIGURE_MANIFEST_RELATIVE = (
-        "reports/review_round_2/submission_figures/v1.2.0/figure_manifest.json"
-    )
+    FIGURE_MANIFEST_RELATIVE = "reports/review_round_2/submission_figures/v1.2.0/figure_manifest.json"
     WITHDRAWAL_RELATIVE = "reports/review_round_2/submission_figures/v1.2.0/withdrawal_ledger.json"
     RELATED_WORK_RELATIVE = "reports/review_round_2/related_work/v1.1.0/related_work_receipt.json"
-    T123_COMPATIBILITY_RELATIVE = (
-        "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
-    )
+    T123_COMPATIBILITY_RELATIVE = "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
     T123_RESULT_PROFILE_RELATIVE = (
         "reports/review_round_2/real_proteomics_result_profile/v1.0.0/result_profile_receipt.json"
     )
-    T129_ADMISSION_RELATIVE = (
-        "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json"
-    )
-    T129_DISCOVERY_RELATIVE = (
-        "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
-    )
+    T129_ADMISSION_RELATIVE = "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json"
+    T129_DISCOVERY_RELATIVE = "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
     T129_CURRENT_TARGET_EVIDENCE_RELATIVE = (
-        "reports/review_round_2/t129_current_target_evidence/v1.3.0/"
-        "current_target_evidence_receipt.json"
+        "reports/review_round_2/t129_current_target_evidence/v1.3.0/current_target_evidence_receipt.json"
     )
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
     OUTPUT_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.8.0"
-    T140_PAIR_REPORT_RELATIVE = (
-        "reports/review_round_2/two_lab_corona_pair_rescreen/v1.0.0/pair_rescreen_report.json"
-    )
-    T140_PAIR_RECEIPT_RELATIVE = (
-        "reports/review_round_2/two_lab_corona_pair_rescreen/v1.0.0/pair_rescreen_receipt.json"
-    )
-    T142_ASSET_REPORT_RELATIVE = (
-        "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_report.json"
-    )
-    T142_ASSET_RECEIPT_RELATIVE = (
-        "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_receipt.json"
-    )
+    T140_PAIR_REPORT_RELATIVE = "reports/review_round_2/two_lab_corona_pair_rescreen/v1.0.0/pair_rescreen_report.json"
+    T140_PAIR_RECEIPT_RELATIVE = "reports/review_round_2/two_lab_corona_pair_rescreen/v1.0.0/pair_rescreen_receipt.json"
+    T142_ASSET_REPORT_RELATIVE = "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_report.json"
+    T142_ASSET_RECEIPT_RELATIVE = "reports/review_round_2/two_lab_corona_asset_audit/v1.0.0/asset_audit_receipt.json"
     REQUIRED_PORTFOLIO_FIELDS = {
         "schema_version",
         "portfolio_id",
@@ -200,20 +181,14 @@ class ManuscriptPortfolioWorkflow:
             or portfolio.get("required_legacy_withdrawal_count") != 15
         ):
             raise ManuscriptPortfolioError("R2 manuscript portfolio identity or status is invalid")
-        historical = _string_list(
-            portfolio.get("historical_artifacts"), "historical artifacts", minimum=3
-        )
-        if len(historical) != 3 or any(
-            not item.startswith("release/manuscripts/") for item in historical
-        ):
+        historical = _string_list(portfolio.get("historical_artifacts"), "historical artifacts", minimum=3)
+        if len(historical) != 3 or any(not item.startswith("release/manuscripts/") for item in historical):
             raise ManuscriptPortfolioError("historical manuscript exclusion set is invalid")
         for relative in historical:
             self._path(relative, "historical manuscript")
         raw_manuscripts = portfolio.get("manuscripts")
         if not isinstance(raw_manuscripts, list) or len(raw_manuscripts) != 2:
-            raise ManuscriptPortfolioError(
-                "R2 portfolio must contain exactly two manuscript routes"
-            )
+            raise ManuscriptPortfolioError("R2 portfolio must contain exactly two manuscript routes")
         manuscripts: list[dict[str, Any]] = []
         identifiers: set[str] = set()
         for value in raw_manuscripts:
@@ -262,12 +237,8 @@ class ManuscriptPortfolioWorkflow:
                 content = document_path.read_text(encoding="utf-8")
             except (OSError, UnicodeError) as exc:
                 raise ManuscriptPortfolioError("cannot read R2 manuscript outline") from exc
-            required_sections = _string_list(
-                manuscript["required_sections"], "R2 manuscript sections", minimum=9
-            )
-            missing_sections = [
-                section for section in required_sections if f"## {section}" not in content
-            ]
+            required_sections = _string_list(manuscript["required_sections"], "R2 manuscript sections", minimum=9)
+            missing_sections = [section for section in required_sections if f"## {section}" not in content]
             if missing_sections:
                 raise ManuscriptPortfolioError("R2 manuscript outline is missing required sections")
             normalized_content = " ".join(content.split())
@@ -297,9 +268,7 @@ class ManuscriptPortfolioWorkflow:
         if not {item["comparator_scope_id"] for item in manuscripts}.issubset(scope_ids):
             raise ManuscriptPortfolioError("R2 manuscript route lacks a verified comparator scope")
         for manuscript in manuscripts:
-            for relative in _string_list(
-                manuscript["required_evidence_paths"], "R2 manuscript evidence paths"
-            ):
+            for relative in _string_list(manuscript["required_evidence_paths"], "R2 manuscript evidence paths"):
                 self._path(relative, "R2 manuscript evidence")
 
         related = self._json(
@@ -313,9 +282,7 @@ class ManuscriptPortfolioWorkflow:
             or related.get("historical_fixture_manuscripts_retroactively_cleared") is not False
         ):
             raise ManuscriptPortfolioError("R2 related-work evidence is insufficient")
-        figures = self._json(
-            self._path(self.FIGURE_MANIFEST_RELATIVE, "R2 figure manifest"), "R2 figure manifest"
-        )
+        figures = self._json(self._path(self.FIGURE_MANIFEST_RELATIVE, "R2 figure manifest"), "R2 figure manifest")
         figure_rows = figures.get("figures")
         if (
             figures.get("publication_status") != "PROTOCOL_ONLY"
@@ -327,13 +294,9 @@ class ManuscriptPortfolioWorkflow:
             raise ManuscriptPortfolioError("R2 figure suite is not protocol-only")
         figure_ids = {item.get("figure_id") for item in figure_rows if isinstance(item, dict)}
         for manuscript in manuscripts:
-            if not set(_string_list(manuscript["figure_usage"], "R2 manuscript figures")).issubset(
-                figure_ids
-            ):
+            if not set(_string_list(manuscript["figure_usage"], "R2 manuscript figures")).issubset(figure_ids):
                 raise ManuscriptPortfolioError("R2 manuscript names an unavailable protocol figure")
-        withdrawal = self._json(
-            self._path(self.WITHDRAWAL_RELATIVE, "R2 withdrawal ledger"), "R2 withdrawal ledger"
-        )
+        withdrawal = self._json(self._path(self.WITHDRAWAL_RELATIVE, "R2 withdrawal ledger"), "R2 withdrawal ledger")
         withdrawals = withdrawal.get("withdrawals")
         if (
             not isinstance(withdrawals, list)
@@ -402,14 +365,12 @@ class ManuscriptPortfolioWorkflow:
             or t129_admission.get("target_status") != "NOT_FROZEN"
             or t129_admission.get("model_use") != "PROHIBITED"
             or t129_admission.get("model_fitted") is not False
-            or t129_discovery.get("status")
-            != "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
+            or t129_discovery.get("status") != "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
             or t129_discovery.get("admissible_target_count") != 0
             or t129_discovery.get("target_status") != "NOT_FROZEN"
             or t129_discovery.get("model_use") != "PROHIBITED"
             or t129_discovery.get("model_fitted") is not False
-            or t129_current_target_evidence.get("status")
-            != "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
+            or t129_current_target_evidence.get("status") != "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
             or t129_current_target_evidence.get("candidate_source_count") != 8
             or t129_current_target_evidence.get("candidate_laboratory_count") != 5
             or t129_current_target_evidence.get("verified_source_asset_count") != 31
@@ -457,20 +418,14 @@ class ManuscriptPortfolioWorkflow:
             or t124.get("status") != "BLOCKED_T123_COMPATIBLE_TARGET_REQUIRED"
             or t124.get("external_evaluator_receipt_verified") is not False
         ):
-            raise ManuscriptPortfolioError(
-                "T123/T124/T129 evidence state is not represented honestly"
-            )
+            raise ManuscriptPortfolioError("T123/T124/T129 evidence state is not represented honestly")
         return (
             {
                 "related_work_receipt_sha256": _sha256(
                     self._path(self.RELATED_WORK_RELATIVE, "R2 related-work receipt")
                 ),
-                "figure_manifest_sha256": _sha256(
-                    self._path(self.FIGURE_MANIFEST_RELATIVE, "R2 figure manifest")
-                ),
-                "withdrawal_ledger_sha256": _sha256(
-                    self._path(self.WITHDRAWAL_RELATIVE, "R2 withdrawal ledger")
-                ),
+                "figure_manifest_sha256": _sha256(self._path(self.FIGURE_MANIFEST_RELATIVE, "R2 figure manifest")),
+                "withdrawal_ledger_sha256": _sha256(self._path(self.WITHDRAWAL_RELATIVE, "R2 withdrawal ledger")),
                 "t123_compatibility_receipt_sha256": _sha256(
                     self._path(self.T123_COMPATIBILITY_RELATIVE, "T123 compatibility receipt")
                 ),
@@ -489,9 +444,7 @@ class ManuscriptPortfolioWorkflow:
                         "T129 current target-evidence receipt",
                     )
                 ),
-                "t124_readiness_receipt_sha256": _sha256(
-                    self._path(self.T124_RELATIVE, "T124 readiness receipt")
-                ),
+                "t124_readiness_receipt_sha256": _sha256(self._path(self.T124_RELATIVE, "T124 readiness receipt")),
                 "t123_compatible_target_count": 0,
                 "t123_profile_compatible_cross_study_target_count": 0,
                 "t129_admission_admissible_target_count": 0,
@@ -589,9 +542,7 @@ class ManuscriptPortfolioWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return ManuscriptPortfolioSummary(
             manuscript_count=len(documents),
             protocol_figure_count=figure_count,

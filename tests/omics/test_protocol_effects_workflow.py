@@ -34,18 +34,10 @@ def test_protocol_effects_outputs_keep_predefined_subgroups_and_counterexamples(
     workflow = ProtocolEffectsWorkflow(root, output_root=tmp_path / "protocol_effects")
     workflow.run(fixture=True)
 
-    ontology = json.loads(
-        (tmp_path / "protocol_effects" / "protocol_ontology.json").read_text(encoding="utf-8")
-    )
-    reversal = json.loads(
-        (tmp_path / "protocol_effects" / "reversal_tests.json").read_text(encoding="utf-8")
-    )
-    exclusions = json.loads(
-        (tmp_path / "protocol_effects" / "exclusion_ledger.json").read_text(encoding="utf-8")
-    )
-    language = json.loads(
-        (tmp_path / "protocol_effects" / "language_gate.json").read_text(encoding="utf-8")
-    )
+    ontology = json.loads((tmp_path / "protocol_effects" / "protocol_ontology.json").read_text(encoding="utf-8"))
+    reversal = json.loads((tmp_path / "protocol_effects" / "reversal_tests.json").read_text(encoding="utf-8"))
+    exclusions = json.loads((tmp_path / "protocol_effects" / "exclusion_ledger.json").read_text(encoding="utf-8"))
+    language = json.loads((tmp_path / "protocol_effects" / "language_gate.json").read_text(encoding="utf-8"))
     assert ontology["no_posthoc_subgroups"] is True
     assert len(ontology["variables"]) == 4
     assert reversal["counterexamples"]

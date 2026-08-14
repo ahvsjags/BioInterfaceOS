@@ -32,9 +32,7 @@ class DuplicateDetectionSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -64,9 +62,7 @@ class DuplicateDetectionWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/splits/duplicate_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/splits/duplicate_fixture.json")
         self.output_root = output_root or self.root / "reports/splits/duplicates"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -161,12 +157,8 @@ class DuplicateDetectionWorkflow:
             for right in items[left_index + 1 :]:
                 left_id = left["item_id"]
                 right_id = right["item_id"]
-                text_similarity = round(
-                    self._jaccard(left["normalized_text"], right["normalized_text"]), 8
-                )
-                composition_distance = round(
-                    self._composition_l1(left["composition"], right["composition"]), 8
-                )
+                text_similarity = round(self._jaccard(left["normalized_text"], right["normalized_text"]), 8)
+                composition_distance = round(self._composition_l1(left["composition"], right["composition"]), 8)
                 method: str | None = None
                 score: float | None = None
                 if left["normalized_text"] == right["normalized_text"]:
@@ -238,14 +230,9 @@ class DuplicateDetectionWorkflow:
             {
                 "cluster_id": f"DUP-{index:03d}",
                 "item_ids": sorted(member_ids),
-                "methods": sorted(
-                    {edge["method"] for edge in edges if set(edge["item_ids"]) <= set(member_ids)}
-                ),
+                "methods": sorted({edge["method"] for edge in edges if set(edge["item_ids"]) <= set(member_ids)}),
                 "cluster_status": "REVIEW_CROSS_SPLIT"
-                if any(
-                    set(edge["item_ids"]) <= set(member_ids) and len(edge["split_labels"]) > 1
-                    for edge in edges
-                )
+                if any(set(edge["item_ids"]) <= set(member_ids) and len(edge["split_labels"]) > 1 for edge in edges)
                 else "SAFE_WITHIN_SPLIT",
             }
             for index, member_ids in enumerate(sorted(clusters_by_root.values()), start=1)
@@ -270,9 +257,7 @@ class DuplicateDetectionWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -323,9 +308,7 @@ class DuplicateDetectionWorkflow:
             "thresholds_tuned_on_split_labels": False,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

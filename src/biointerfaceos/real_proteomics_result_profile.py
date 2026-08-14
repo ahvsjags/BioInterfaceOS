@@ -29,9 +29,7 @@ class RealProteomicsResultProfileError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -115,9 +113,7 @@ class RealProteomicsResultProfileWorkflow:
     AUDIT_ID = "bioif-r2-real-proteomics-result-profile-v1.0.0"
     RAW_RELATIVE = "data/raw/r2_t123_proteomics"
     OUTPUT_RELATIVE = "reports/review_round_2/real_proteomics_result_profile/v1.0.0"
-    ACQUISITION_RELATIVE = (
-        "reports/review_round_2/real_proteomics_acquisition/v1.0.0/acquisition_receipt.json"
-    )
+    ACQUISITION_RELATIVE = "reports/review_round_2/real_proteomics_acquisition/v1.0.0/acquisition_receipt.json"
     PXD017_PREFIX = "PXD017776/author_results"
     PXD052_PREFIX = "PXD052701/author_results"
     PXD032_MZID = "PXD032162/author_results/Proteinkorona_Nanoplastik_static.mzid.gz"
@@ -175,9 +171,7 @@ class RealProteomicsResultProfileWorkflow:
         path = (self.raw_root / relative).resolve(strict=False)
         raw_root = self.raw_root.resolve(strict=False)
         if raw_root not in path.parents or not path.is_file():
-            raise RealProteomicsResultProfileError(
-                f"required acquired result is missing: {relative}"
-            )
+            raise RealProteomicsResultProfileError(f"required acquired result is missing: {relative}")
         return path
 
     @staticmethod
@@ -212,11 +206,7 @@ class RealProteomicsResultProfileWorkflow:
                         if element.attrib.get("passThreshold", "").lower() == "true":
                             for reference in element.findall("{*}PeptideEvidenceRef"):
                                 evidence_id = reference.attrib.get("peptideEvidence_ref")
-                                database_id = (
-                                    evidence_to_database.get(evidence_id)
-                                    if evidence_id is not None
-                                    else None
-                                )
+                                database_id = evidence_to_database.get(evidence_id) if evidence_id is not None else None
                                 if database_id is not None:
                                     detected_database_ids.add(database_id)
                         element.clear()
@@ -226,9 +216,7 @@ class RealProteomicsResultProfileWorkflow:
                     elif tag not in {"PeptideEvidenceRef", "SpectrumIdentificationItem"}:
                         element.clear()
         except (OSError, ValueError) as exc:
-            raise RealProteomicsResultProfileError(
-                f"cannot parse mzIdentML result: {path}"
-            ) from exc
+            raise RealProteomicsResultProfileError(f"cannot parse mzIdentML result: {path}") from exc
         accessions: set[str] = set()
         unparseable = 0
         for database_id in detected_database_ids:
@@ -269,9 +257,7 @@ class RealProteomicsResultProfileWorkflow:
             else:
                 accessions.add(canonical)
         if not accessions:
-            raise RealProteomicsResultProfileError(
-                f"MSF profile has no canonical target protein evidence: {path}"
-            )
+            raise RealProteomicsResultProfileError(f"MSF profile has no canonical target protein evidence: {path}")
         return tuple(sorted(accessions)), len(rows), unparseable
 
     def _profiles(self) -> tuple[ResultProfile, ...]:
@@ -351,14 +337,10 @@ class RealProteomicsResultProfileWorkflow:
                 {
                     "source_id": source_id,
                     "profile_count": len(source_profiles),
-                    "profile_resolution": sorted(
-                        {profile.profile_resolution for profile in source_profiles}
-                    ),
+                    "profile_resolution": sorted({profile.profile_resolution for profile in source_profiles}),
                     "detected_accession_union_count": len(union),
                     "detected_accession_within_source_intersection_count": len(intersection),
-                    "covariate_statuses": sorted(
-                        {profile.covariate_status for profile in source_profiles}
-                    ),
+                    "covariate_statuses": sorted({profile.covariate_status for profile in source_profiles}),
                 }
             )
         return summary
@@ -438,9 +420,7 @@ class RealProteomicsResultProfileWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return RealProteomicsResultProfileSummary(
             source_count=len(source_summary),
             source_result_count=len(profiles),

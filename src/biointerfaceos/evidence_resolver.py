@@ -193,9 +193,7 @@ class EvidenceResolver:
         rows = payload.get("rows")
         if not isinstance(rows, list):
             raise EvidenceResolutionError("evidence table rows are invalid")
-        return [
-            dict(row) for row in rows if isinstance(row, Mapping) and row.get("locator") == locator
-        ]
+        return [dict(row) for row in rows if isinstance(row, Mapping) and row.get("locator") == locator]
 
     def run(self) -> EvidenceTraceSummary:
         """Resolve assertions, build conflict graph, and write review evidence."""
@@ -231,8 +229,7 @@ class EvidenceResolver:
             node["assertion_id"]
             for node in nodes
             if any(
-                edge["from_assertion"] == node["assertion_id"]
-                or edge["to_assertion"] == node["assertion_id"]
+                edge["from_assertion"] == node["assertion_id"] or edge["to_assertion"] == node["assertion_id"]
                 for edge in edges
             )
         }
@@ -273,8 +270,7 @@ class EvidenceResolver:
                 [
                     "# Evidence Resolver and Reverse Trace Report",
                     "",
-                    "Forward evidence resolution and reverse tracing are fixture-backed "
-                    "and locator exact.",
+                    "Forward evidence resolution and reverse tracing are fixture-backed and locator exact.",
                     "",
                     f"- assertions: {len(rows)}",
                     f"- resolved: {sum(row.resolution_status == 'RESOLVED' for row in rows)}",

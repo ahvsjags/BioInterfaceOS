@@ -47,9 +47,7 @@ class SourceLicenseWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/source_license_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/source_license_fixture.json")
         self.output_root = output_root or self.root / "reports/agents/source_license"
 
     def _fixture(self) -> dict[str, Any]:
@@ -77,9 +75,7 @@ class SourceLicenseWorkflow:
                 raise SourceLicenseError("source-license input fields do not match schema")
             if _string(row.get("label"), "source-license input label") != "T080 agent receipt":
                 raise SourceLicenseError("unexpected source-license input")
-            path = (self.root / _string(row.get("path"), "source-license input path")).resolve(
-                strict=True
-            )
+            path = (self.root / _string(row.get("path"), "source-license input path")).resolve(strict=True)
             if path != expected_path.resolve(strict=True) or row.get("sha256") != expected_hash:
                 raise SourceLicenseError("T080 agent receipt path or checksum differs")
             if _sha256(path.read_bytes()) != expected_hash:
@@ -154,9 +150,7 @@ class SourceLicenseWorkflow:
         }
 
     @staticmethod
-    def _record(
-        candidate: SourceCandidate, decision: PolicyDecision, checked_at: str
-    ) -> RejectionRecord:
+    def _record(candidate: SourceCandidate, decision: PolicyDecision, checked_at: str) -> RejectionRecord:
         return RejectionRecord(
             source_id=candidate.source_id,
             source_name=candidate.source_name,
@@ -195,20 +189,15 @@ class SourceLicenseWorkflow:
                 or (decision.rejection_code or "") != case["expected_code"]
             ):
                 raise SourceLicenseError(
-                    f"case mismatch {case['case_id']}: "
-                    f"{decision.decision}/{decision.rejection_code}"
+                    f"case mismatch {case['case_id']}: {decision.decision}/{decision.rejection_code}"
                 )
             if decision.decision.startswith("ADMIT"):
                 recovered += 1
             else:
                 rejected_or_quarantined += 1
-                rejection_records.append(
-                    self._record(candidate, decision, "2026-08-12T00:00:00+00:00")
-                )
+                rejection_records.append(self._record(candidate, decision, "2026-08-12T00:00:00+00:00"))
             evidence_complete = evidence_complete and bool(decision.evidence_location)
-            no_credentials_requested = (
-                no_credentials_requested and not scout["credentials_requested"]
-            )
+            no_credentials_requested = no_credentials_requested and not scout["credentials_requested"]
             scout_results.append(scout)
             gate_results.append(
                 {
@@ -266,9 +255,7 @@ class SourceLicenseWorkflow:
         payload_bytes["registry"] = registry.path.read_bytes()
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -316,9 +303,7 @@ class SourceLicenseWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

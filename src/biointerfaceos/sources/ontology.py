@@ -129,18 +129,14 @@ class OntologyAdapter(SourceAdapter):
         if source == "uniprot":
             return f"https://rest.uniprot.org/uniprotkb/{quote(identifier, safe='')}.json"
         if source == "go":
-            return "https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/" + quote(
-                identifier, safe=""
-            )
+            return "https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/" + quote(identifier, safe="")
         if source == "reactome":
             return f"https://reactome.org/ContentService/data/query/{quote(identifier, safe='')}"
         if source == "taxonomy":
             return "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?" + urlencode(
                 {"db": "taxonomy", "id": identifier, "retmode": "json"}
             )
-        return (
-            "https://api.cellosaurus.org/cell-line/" + quote(identifier, safe="") + "?format=json"
-        )
+        return "https://api.cellosaurus.org/cell-line/" + quote(identifier, safe="") + "?format=json"
 
     @staticmethod
     def _search_url(source: str, label: str) -> str:
@@ -148,9 +144,7 @@ class OntologyAdapter(SourceAdapter):
             params = (("fields", "id,ac"), ("format", "json"), ("q", label))
             return "https://api.cellosaurus.org/search/cell-line?" + urlencode(params)
         if source == "go":
-            return "https://www.ebi.ac.uk/QuickGO/services/ontology/go/search?" + urlencode(
-                (("query", label),)
-            )
+            return "https://www.ebi.ac.uk/QuickGO/services/ontology/go/search?" + urlencode((("query", label),))
         if source == "taxonomy":
             return "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?" + urlencode(
                 {"db": "taxonomy", "term": label, "retmode": "json", "retmax": 20}
@@ -190,12 +184,8 @@ class OntologyAdapter(SourceAdapter):
         seen: set[str] = set()
         if source_name == "taxonomy":
             search_result = value.get("esearchresult") if isinstance(value, Mapping) else None
-            identifiers = (
-                search_result.get("idlist") if isinstance(search_result, Mapping) else None
-            )
-            for raw_identifier in (
-                identifiers[: self.config.max_results] if isinstance(identifiers, list) else []
-            ):
+            identifiers = search_result.get("idlist") if isinstance(search_result, Mapping) else None
+            for raw_identifier in identifiers[: self.config.max_results] if isinstance(identifiers, list) else []:
                 if not isinstance(raw_identifier, str) or not raw_identifier.strip():
                     continue
                 candidate = self._candidate(source_name, raw_identifier.strip())

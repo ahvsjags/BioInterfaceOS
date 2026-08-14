@@ -5,10 +5,8 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
-import math
 import urllib.parse
 import urllib.request
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -22,15 +20,48 @@ class R3UniProtSequenceFeaturesError(RuntimeError):
 
 AA_ORDER = "ACDEFGHIKLMNPQRSTVWY"
 AA_MASS = {
-    "A": 71.0788, "C": 103.1388, "D": 115.0886, "E": 129.1155, "F": 147.1766,
-    "G": 57.0519, "H": 137.1411, "I": 113.1594, "K": 128.1741, "L": 113.1594,
-    "M": 131.1926, "N": 114.1038, "P": 97.1167, "Q": 128.1307, "R": 156.1875,
-    "S": 87.0782, "T": 101.1051, "V": 99.1326, "W": 186.2132, "Y": 163.1760,
+    "A": 71.0788,
+    "C": 103.1388,
+    "D": 115.0886,
+    "E": 129.1155,
+    "F": 147.1766,
+    "G": 57.0519,
+    "H": 137.1411,
+    "I": 113.1594,
+    "K": 128.1741,
+    "L": 113.1594,
+    "M": 131.1926,
+    "N": 114.1038,
+    "P": 97.1167,
+    "Q": 128.1307,
+    "R": 156.1875,
+    "S": 87.0782,
+    "T": 101.1051,
+    "V": 99.1326,
+    "W": 186.2132,
+    "Y": 163.1760,
 }
 HYDROPATHY = {
-    "A": 1.8, "C": 2.5, "D": -3.5, "E": -3.5, "F": 2.8, "G": -0.4, "H": -3.2,
-    "I": 4.5, "K": -3.9, "L": 3.8, "M": 1.9, "N": -3.5, "P": -1.6, "Q": -3.5,
-    "R": -4.5, "S": -0.8, "T": -0.7, "V": 4.2, "W": -0.9, "Y": -1.3,
+    "A": 1.8,
+    "C": 2.5,
+    "D": -3.5,
+    "E": -3.5,
+    "F": 2.8,
+    "G": -0.4,
+    "H": -3.2,
+    "I": 4.5,
+    "K": -3.9,
+    "L": 3.8,
+    "M": 1.9,
+    "N": -3.5,
+    "P": -1.6,
+    "Q": -3.5,
+    "R": -4.5,
+    "S": -0.8,
+    "T": -0.7,
+    "V": 4.2,
+    "W": -0.9,
+    "Y": -1.3,
 }
 
 
@@ -62,13 +93,26 @@ class R3UniProtSequenceFeaturesWorkflow:
     FEATURES_RELATIVE = "uniprot_sequence_features/R3_uniprot_sequence_features.csv"
     STATUS = "R3_SEQUENCE_FEATURES_READY_FOR_PROTOCOL_FREEZE"
     REQUIRED_TOP_LEVEL = {
-        "schema_version", "audit_id", "evaluated_at", "evidence_class", "allowed_claim_level",
-        "common_target_receipt", "common_target_ledger", "uniprot_source", "feature_definition", "scope",
+        "schema_version",
+        "audit_id",
+        "evaluated_at",
+        "evidence_class",
+        "allowed_claim_level",
+        "common_target_receipt",
+        "common_target_ledger",
+        "uniprot_source",
+        "feature_definition",
+        "scope",
     }
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
     REQUIRED_UNIPROT = {"api_locator", "license", "batch_size"}
     REQUIRED_FEATURES = {"feature_set_id", "feature_names", "unknown_residue_policy"}
-    REQUIRED_SCOPE = {"status", "prohibited_features", "model_status", "scientific_submission_ready"}
+    REQUIRED_SCOPE = {
+        "status",
+        "prohibited_features",
+        "model_status",
+        "scientific_submission_ready",
+    }
 
     def __init__(
         self,
@@ -122,9 +166,15 @@ class R3UniProtSequenceFeaturesWorkflow:
     @staticmethod
     def _feature_names() -> list[str]:
         return [
-            "sequence_length", "estimated_molecular_mass_da", "hydrophobic_fraction",
-            "aromatic_fraction", "acidic_fraction", "basic_fraction", "cysteine_fraction",
-            "proline_fraction", "mean_kyte_doolittle",
+            "sequence_length",
+            "estimated_molecular_mass_da",
+            "hydrophobic_fraction",
+            "aromatic_fraction",
+            "acidic_fraction",
+            "basic_fraction",
+            "cysteine_fraction",
+            "proline_fraction",
+            "mean_kyte_doolittle",
         ] + [f"aa_fraction_{residue}" for residue in AA_ORDER]
 
     def _registry(self) -> tuple[dict[str, Any], list[str]]:
@@ -158,8 +208,7 @@ class R3UniProtSequenceFeaturesWorkflow:
             {
                 row["canonical_accession"]
                 for row in rows
-                if row["rank_target_eligible"] == "true"
-                and row["common_rank_target_member"] == "true"
+                if row["rank_target_eligible"] == "true" and row["common_rank_target_member"] == "true"
             }
         )
         if len(accessions) != receipt.get("rank_eligible_shared_canonical_protein_count"):
@@ -216,7 +265,9 @@ class R3UniProtSequenceFeaturesWorkflow:
             raise R3UniProtSequenceFeaturesError("UniProt FASTA response is empty")
         return sequences
 
-    def _fetch(self, accessions: list[str], config: dict[str, Any]) -> tuple[dict[str, str], list[dict[str, str]], list[tuple[str, str]], dict[str, str]]:
+    def _fetch(
+        self, accessions: list[str], config: dict[str, Any]
+    ) -> tuple[dict[str, str], list[dict[str, str]], list[tuple[str, str]], dict[str, str]]:
         sequences: dict[str, str] = {}
         manifest: list[dict[str, str]] = []
         payloads: list[tuple[str, str]] = []

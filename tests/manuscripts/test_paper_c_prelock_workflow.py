@@ -27,9 +27,7 @@ def test_paper_c_prelock_freezes_candidates_and_resumes(tmp_path: Path) -> None:
 
     manuscript = (tmp_path / "paper_c_prelock" / "paper_c_prelock.md").read_text()
     predictions = json.loads((tmp_path / "paper_c_prelock" / "prediction_table.json").read_text())
-    manifest = json.loads(
-        (tmp_path / "paper_c_prelock" / "paper_c_prelock_manifest.json").read_text()
-    )
+    manifest = json.loads((tmp_path / "paper_c_prelock" / "paper_c_prelock_manifest.json").read_text())
     audit = json.loads((tmp_path / "paper_c_prelock" / "style_audit.json").read_text())
     assert "PREDICTED_BEFORE_LOCKBOX" in json.dumps(predictions)
     assert "protected payloads" in manuscript
@@ -45,16 +43,12 @@ def test_paper_c_prelock_freezes_candidates_and_resumes(tmp_path: Path) -> None:
 
 
 def test_paper_c_prelock_rejects_input_checksum_mutation(tmp_path: Path) -> None:
-    fixture = json.loads(
-        (_root() / "tests/fixtures/manuscripts/paper_c_prelock_fixture.json").read_text()
-    )
+    fixture = json.loads((_root() / "tests/fixtures/manuscripts/paper_c_prelock_fixture.json").read_text())
     fixture["inputs"][0]["sha256"] = "0" * 64
     fixture_path = tmp_path / "fixture.json"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(PaperCPrelockError, match="checksum differs"):
-        PaperCPrelockWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "paper_c_prelock"
-        ).run()
+        PaperCPrelockWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "paper_c_prelock").run()
 
 
 def test_paper_c_prelock_rejects_tampered_artifact(tmp_path: Path) -> None:

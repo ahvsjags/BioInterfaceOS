@@ -127,23 +127,11 @@ class JATSParser:
     def _table_attributes(element: ET.Element) -> dict[str, str]:
         attributes = JATSParser._attributes(element)
         caption = next(
-            (
-                JATSParser._text(child)
-                for child in list(element)
-                if JATSParser._local(child.tag) == "caption"
-            ),
+            (JATSParser._text(child) for child in list(element) if JATSParser._local(child.tag) == "caption"),
             "",
         )
-        headers = [
-            JATSParser._text(child)
-            for child in element.iter()
-            if JATSParser._local(child.tag) == "th"
-        ]
-        cells = [
-            JATSParser._text(child)
-            for child in element.iter()
-            if JATSParser._local(child.tag) in {"th", "td"}
-        ]
+        headers = [JATSParser._text(child) for child in element.iter() if JATSParser._local(child.tag) == "th"]
+        cells = [JATSParser._text(child) for child in element.iter() if JATSParser._local(child.tag) in {"th", "td"}]
         if caption:
             attributes["caption"] = caption
         if headers:
@@ -157,9 +145,7 @@ class JATSParser:
         if not source_asset_id.strip():
             raise JATSParseError("source_asset_id is required")
         if self._unsafe_xml(raw):
-            raise JATSParseError(
-                "DTD, external entity, SYSTEM, or PUBLIC declarations are forbidden"
-            )
+            raise JATSParseError("DTD, external entity, SYSTEM, or PUBLIC declarations are forbidden")
         try:
             root = ET.fromstring(raw)
         except ET.ParseError as exc:
@@ -205,9 +191,7 @@ class JATSParser:
                     locator=f"asset:{source_asset_id}/{path}",
                     node_type=node_type,
                     text=self._text(element),
-                    parent_locator=(
-                        f"asset:{source_asset_id}/{parent_path}" if parent_path else None
-                    ),
+                    parent_locator=(f"asset:{source_asset_id}/{parent_path}" if parent_path else None),
                     ordinal=ordinal,
                     attributes=attributes,
                 )

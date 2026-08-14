@@ -23,16 +23,12 @@ def test_reproducibility_keeps_evaluator_metadata_only() -> None:
     ReproducibilityWorkflow(root).run(fixture=True)
 
     activation = json.loads(
-        (root / "reports/agents/reproducibility/lockbox_activation_gate.json").read_text(
-            encoding="utf-8"
-        )
+        (root / "reports/agents/reproducibility/lockbox_activation_gate.json").read_text(encoding="utf-8")
     )
     assert activation["active"] is False
     assert activation["reason"] == "SIGNED_FREEZE_REQUIRED"
     capabilities = json.loads(
-        (root / "reports/agents/reproducibility/evaluator_capabilities.json").read_text(
-            encoding="utf-8"
-        )
+        (root / "reports/agents/reproducibility/evaluator_capabilities.json").read_text(encoding="utf-8")
     )
     assert capabilities["training_methods_exposed"] is False
     assert "train" not in capabilities["capabilities"]

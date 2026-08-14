@@ -137,10 +137,7 @@ class R4PaperDataFallbackWorkflow:
         }
         if set(ledger) != required or ledger["schema_version"] != 1:
             raise R4PaperDataFallbackError("T222 ledger fields are invalid")
-        if (
-            ledger["task_id"] != self.AUDIT_ID
-            or ledger["status"] != "FROZEN_PUBLIC_PAPER_DATA_FALLBACK"
-        ):
+        if ledger["task_id"] != self.AUDIT_ID or ledger["status"] != "FROZEN_PUBLIC_PAPER_DATA_FALLBACK":
             raise R4PaperDataFallbackError("T222 ledger identity is invalid")
         if ledger["scientific_submission_ready"] is not False:
             raise R4PaperDataFallbackError("T222 ledger cannot claim submission readiness")
@@ -178,9 +175,7 @@ class R4PaperDataFallbackWorkflow:
                 raise R4PaperDataFallbackError(f"T222 route {route_id} is duplicated")
             route_ids.add(route_id)
             self._string(route["source_kind"], f"T222 route {route_id} source_kind")
-            evidence_class = self._string(
-                route["evidence_class"], f"T222 route {route_id} evidence_class"
-            )
+            evidence_class = self._string(route["evidence_class"], f"T222 route {route_id} evidence_class")
             if evidence_class not in self.EVIDENCE_CLASSES:
                 raise R4PaperDataFallbackError(f"T222 route {route_id} evidence class is invalid")
             article = self._mapping(route["article"], f"T222 route {route_id} article")
@@ -196,9 +191,7 @@ class R4PaperDataFallbackWorkflow:
                 raise R4PaperDataFallbackError(f"T222 route {route_id} source_maps are empty")
             map_hashes: list[str] = []
             for map_index, item in enumerate(source_maps, start=1):
-                _, map_hash = self._reference(
-                    item, f"T222 route {route_id} source_map {map_index}"
-                )
+                _, map_hash = self._reference(item, f"T222 route {route_id} source_map {map_index}")
                 source_map_count += 1
                 map_hashes.append(map_hash)
             report_hashes: list[str] = []
@@ -206,37 +199,21 @@ class R4PaperDataFallbackWorkflow:
             if not isinstance(reports, list) or not reports:
                 raise R4PaperDataFallbackError(f"T222 route {route_id} output_reports are empty")
             for report_index, item in enumerate(reports, start=1):
-                _, report_hash = self._reference(
-                    item, f"T222 route {route_id} output_report {report_index}"
-                )
+                _, report_hash = self._reference(item, f"T222 route {route_id} output_report {report_index}")
                 report_count += 1
                 report_hashes.append(report_hash)
-            expected = self._mapping(
-                route["expected_accounting"], f"T222 route {route_id} accounting"
-            )
+            expected = self._mapping(route["expected_accounting"], f"T222 route {route_id} accounting")
             if not expected or any(not isinstance(key, str) for key in expected):
                 raise R4PaperDataFallbackError(f"T222 route {route_id} accounting is invalid")
-            license_boundary = self._mapping(
-                route["license_boundary"], f"T222 route {route_id} license boundary"
-            )
+            license_boundary = self._mapping(route["license_boundary"], f"T222 route {route_id} license boundary")
             self._string(license_boundary.get("license"), f"T222 route {route_id} license")
             if license_boundary.get("public_release_asset") is not True:
-                raise R4PaperDataFallbackError(
-                    f"T222 route {route_id} must use a release-eligible public asset"
-                )
-            gates = self._mapping(
-                route["external_gate_effect"], f"T222 route {route_id} external gates"
-            )
-            if set(gates) != self.REQUIRED_GATE_FIELDS or any(
-                value is not False for value in gates.values()
-            ):
-                raise R4PaperDataFallbackError(
-                    f"T222 route {route_id} must keep all external gates closed"
-                )
+                raise R4PaperDataFallbackError(f"T222 route {route_id} must use a release-eligible public asset")
+            gates = self._mapping(route["external_gate_effect"], f"T222 route {route_id} external gates")
+            if set(gates) != self.REQUIRED_GATE_FIELDS or any(value is not False for value in gates.values()):
+                raise R4PaperDataFallbackError(f"T222 route {route_id} must keep all external gates closed")
             external_gate_count += len(gates)
-            claim_boundary = self._string(
-                route["claim_boundary"], f"T222 route {route_id} claim boundary"
-            )
+            claim_boundary = self._string(route["claim_boundary"], f"T222 route {route_id} claim boundary")
             route_rows.append(
                 {
                     "route_id": route_id,
@@ -329,23 +306,25 @@ class R4PaperDataFallbackWorkflow:
 
     def verify(self, *, strict: bool = False) -> R4PaperDataFallbackSummary:
         if not strict:
-            raise R4PaperDataFallbackError(
-                "T222 paper-data fallback verification requires --strict"
-            )
+            raise R4PaperDataFallbackError("T222 paper-data fallback verification requires --strict")
         _, report = self._audit()
         receipt = self._json(self.receipt_path, "T222 receipt")
-        if not self.report_path.is_file() or self._sha256(self.report_path) != receipt.get(
-            "report", {}
-        ).get("sha256"):
+        if not self.report_path.is_file() or self._sha256(self.report_path) != receipt.get("report", {}).get("sha256"):
             raise R4PaperDataFallbackError("T222 report checksum differs")
         if self._json(self.report_path, "T222 report") != report:
             raise R4PaperDataFallbackError("T222 report differs from the frozen ledger audit")
-        if any(receipt.get(field) is not False for field in (
-            "independent_validation",
-            "external_scientific_reproduction",
-            "external_user_adoption",
-            "doi_archived",
-            "scientific_submission_ready",
-        )) or receipt.get("published_paper_data_audited") is not True:
+        if (
+            any(
+                receipt.get(field) is not False
+                for field in (
+                    "independent_validation",
+                    "external_scientific_reproduction",
+                    "external_user_adoption",
+                    "doi_archived",
+                    "scientific_submission_ready",
+                )
+            )
+            or receipt.get("published_paper_data_audited") is not True
+        ):
             raise R4PaperDataFallbackError("T222 receipt claim boundary is invalid")
         return self._summary()

@@ -7,10 +7,10 @@ non-detection label.
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import hashlib
 import json
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -200,10 +200,7 @@ class FulltextGoldSourceAuditWorkflow:
         ):
             raise FulltextGoldSourceAuditError("R3 full-text gold scope is over-promoted or invalid")
         for field in ("permitted_use", "prohibited_use"):
-            if any(
-                not isinstance(item, str) or not item.strip()
-                for item in _list(scope.get(field), field, minimum=2)
-            ):
+            if any(not isinstance(item, str) or not item.strip() for item in _list(scope.get(field), field, minimum=2)):
                 raise FulltextGoldSourceAuditError("R3 full-text gold scope list is invalid")
         return registry, assets, tables
 
@@ -254,10 +251,8 @@ class FulltextGoldSourceAuditWorkflow:
         except (OSError, StopIteration) as exc:
             raise FulltextGoldSourceAuditError("R3 full-text gold table cannot be read") from exc
         finally:
-            try:
+            with contextlib.suppress(UnboundLocalError):
                 workbook.close()
-            except UnboundLocalError:
-                pass
         return rows, explicit_zeros
 
     def run(self, *, strict: bool = False) -> FulltextGoldSourceAuditSummary:
@@ -271,9 +266,7 @@ class FulltextGoldSourceAuditWorkflow:
         zero_counts: dict[str, int] = {}
         for table in tables:
             extracted, zero_count = self._extract_table(assets[table["asset_id"]], table)
-            if len(extracted) != table["expected_data_rows"] or zero_count != table[
-                "expected_explicit_zero_count"
-            ]:
+            if len(extracted) != table["expected_data_rows"] or zero_count != table["expected_explicit_zero_count"]:
                 raise FulltextGoldSourceAuditError("R3 full-text gold table count does not match registry")
             table_counts[table["condition_id"]] = len(extracted)
             zero_counts[table["condition_id"]] = zero_count
@@ -304,8 +297,8 @@ class FulltextGoldSourceAuditWorkflow:
             "source_to_cell_map": {
                 "location": self.DERIVED_RELATIVE,
                 "sha256": _sha256(source_map),
-                "coordinate_definition": "Every output row retains the original worksheet row and full source-row cell range.",
-                "transformation": "openpyxl read_only/data_only extraction; no abundance rescaling, protein remapping, non-detection inference or rank transformation.",
+                "coordinate_definition": "Every output row retains the original worksheet row and full source-row cell range.",  # noqa: E501
+                "transformation": "openpyxl read_only/data_only extraction; no abundance rescaling, protein remapping, non-detection inference or rank transformation.",  # noqa: E501
             },
             "status": self.STATUS,
             "target_status": "SOURCE_NATIVE_RANK_ONLY",

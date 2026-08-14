@@ -110,9 +110,7 @@ class RepositoryAdapter(SourceAdapter):
     @staticmethod
     def _record_url(provider: str, identifier: str) -> str:
         if provider == "zenodo":
-            record_id = (
-                identifier.rsplit(".", 1)[-1] if identifier.startswith("10.") else identifier
-            )
+            record_id = identifier.rsplit(".", 1)[-1] if identifier.startswith("10.") else identifier
             return f"https://zenodo.org/api/records/{quote(record_id, safe='')}"
         if provider == "figshare":
             return f"https://api.figshare.com/v2/articles/{quote(identifier, safe='')}"
@@ -128,9 +126,7 @@ class RepositoryAdapter(SourceAdapter):
         return f"https://api.github.com/repos/{repository}"
 
     def _zenodo_search_url(self, term: str, page: int) -> str:
-        return "https://zenodo.org/api/records?" + urlencode(
-            {"q": term, "size": self.config.page_size, "page": page}
-        )
+        return "https://zenodo.org/api/records?" + urlencode({"q": term, "size": self.config.page_size, "page": page})
 
     @staticmethod
     def _license_parts(record: Mapping[str, Any]) -> tuple[str | None, str | None]:
@@ -365,11 +361,7 @@ class RepositoryAdapter(SourceAdapter):
             raw_id = item.get("id") or item.get("key") or item.get("name") or index
             asset_id = f"{candidate.source_id}:asset:{raw_id}"
             if provider == "zenodo":
-                url = (
-                    item.get("links", {}).get("self")
-                    if isinstance(item.get("links"), Mapping)
-                    else None
-                )
+                url = item.get("links", {}).get("self") if isinstance(item.get("links"), Mapping) else None
                 url = item.get("download") or url
                 asset_type = item.get("type") or "application/octet-stream"
                 checksum = item.get("checksum")
@@ -382,20 +374,14 @@ class RepositoryAdapter(SourceAdapter):
                 asset_type = item.get("content_type") or "application/octet-stream"
                 checksum = item.get("digest")
             else:
-                url = (
-                    item.get("links", {}).get("download")
-                    if isinstance(item.get("links"), Mapping)
-                    else None
-                )
+                url = item.get("links", {}).get("download") if isinstance(item.get("links"), Mapping) else None
                 asset_type = (
                     item.get("attributes", {}).get("contentType")
                     if isinstance(item.get("attributes"), Mapping)
                     else None
                 )
                 checksum = (
-                    item.get("attributes", {}).get("checksum")
-                    if isinstance(item.get("attributes"), Mapping)
-                    else None
+                    item.get("attributes", {}).get("checksum") if isinstance(item.get("attributes"), Mapping) else None
                 )
             if not isinstance(url, str) or not url.strip():
                 continue

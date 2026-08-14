@@ -30,9 +30,7 @@ class SplitFreezeSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -75,9 +73,7 @@ class SplitFreezeWorkflow:
             raise SplitFreezeError("split fixture schema or mode is invalid")
         if not isinstance(data.get("inputs"), list) or not isinstance(data.get("candidates"), list):
             raise SplitFreezeError("split fixture inputs/candidates are invalid")
-        if not isinstance(data.get("rules"), dict) or not isinstance(
-            data.get("feature_blacklist"), list
-        ):
+        if not isinstance(data.get("rules"), dict) or not isinstance(data.get("feature_blacklist"), list):
             raise SplitFreezeError("split fixture rules/blacklist are invalid")
         return data
 
@@ -127,9 +123,7 @@ class SplitFreezeWorkflow:
         self._verify_inputs(data)
         rules = _mapping(data["rules"], "split rules")
         train_latest = self._parse_date(rules.get("train_latest_date"), "train latest date")
-        validation_start = self._parse_date(
-            rules.get("validation_start_date"), "validation start date"
-        )
+        validation_start = self._parse_date(rules.get("validation_start_date"), "validation start date")
         validation_end = self._parse_date(rules.get("validation_end_date"), "validation end date")
         blacklist = self._validate_blacklist(data["feature_blacklist"])
         if train_latest >= validation_start or validation_start > validation_end:
@@ -310,9 +304,7 @@ class SplitFreezeWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -362,9 +354,7 @@ class SplitFreezeWorkflow:
             "feature_blacklist_hash": _sha256(payload_bytes["blacklist"]),
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

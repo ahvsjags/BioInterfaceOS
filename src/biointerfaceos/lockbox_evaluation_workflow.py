@@ -45,9 +45,7 @@ class LockboxEvaluationSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -88,12 +86,8 @@ class LockboxEvaluationWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/lockbox/evaluate_fixture.json"
-        )
-        self.output_root = (
-            output_root or self.root / "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/lockbox/evaluate_fixture.json"
+        self.output_root = output_root or self.root / "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0"
 
     def _path(self, value: Any, label: str) -> Path:
         path = (self.root / _string(value, label)).resolve(strict=False)
@@ -127,16 +121,10 @@ class LockboxEvaluationWorkflow:
             evidence_class, claim_level = require_metadata(fixture, "lockbox evaluation fixture")
         except EvidenceSemanticsError as exc:
             raise LockboxEvaluationError(str(exc)) from exc
-        if (
-            evidence_class is not EvidenceClass.FIXTURE_TEST
-            or claim_level is not AllowedClaimLevel.CONTRACT_TEST
-        ):
+        if evidence_class is not EvidenceClass.FIXTURE_TEST or claim_level is not AllowedClaimLevel.CONTRACT_TEST:
             raise LockboxEvaluationError("lockbox fixture evidence class must remain contract-only")
         inputs = fixture.get("inputs")
-        if (
-            not isinstance(inputs, list)
-            or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS
-        ):
+        if not isinstance(inputs, list) or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS:
             raise LockboxEvaluationError("lockbox input set is incomplete")
         return fixture
 
@@ -161,19 +149,11 @@ class LockboxEvaluationWorkflow:
         signature = inputs["signature"]
         plan = inputs["lockbox plan"]
         auth = inputs["evaluator authorization"]
-        if (
-            manifest.get("status") != "FROZEN_INTERNAL_PRELOCK"
-            or manifest.get("lockbox_accessed") is not False
-        ):
+        if manifest.get("status") != "FROZEN_INTERNAL_PRELOCK" or manifest.get("lockbox_accessed") is not False:
             raise LockboxEvaluationError("signed release is not a valid pre-lock release")
-        if (
-            receipt.get("release_id") != manifest.get("release_id")
-            or receipt.get("lockbox_accessed") is not False
-        ):
+        if receipt.get("release_id") != manifest.get("release_id") or receipt.get("lockbox_accessed") is not False:
             raise LockboxEvaluationError("release receipt boundary is invalid")
-        if signature.get("signature") != receipt.get("signature") or not signature.get(
-            "signed_manifest_sha256"
-        ):
+        if signature.get("signature") != receipt.get("signature") or not signature.get("signed_manifest_sha256"):
             raise LockboxEvaluationError("release signature metadata is invalid")
         if plan.get("scope") != "evaluator_only" or plan.get("development_access") is not False:
             raise LockboxEvaluationError("lockbox plan grants development access")
@@ -226,9 +206,7 @@ class LockboxEvaluationWorkflow:
             "emit_aggregate_status",
             "seal_receipt",
         ]:
-            raise LockboxEvaluationError(
-                "evaluator operation sequence differs from preregistration"
-            )
+            raise LockboxEvaluationError("evaluator operation sequence differs from preregistration")
         if self.FORBIDDEN_OPERATIONS.intersection(str(item) for item in operations):
             raise LockboxEvaluationError("forbidden train/tune/select operation requested")
         result_rows = []
@@ -251,21 +229,14 @@ class LockboxEvaluationWorkflow:
                     "status": status,
                     "metric_digest": digest,
                     "abstained": result["abstained"],
-                    "failure_class": _string(
-                        result.get("failure_class"), f"{prediction_id} failure class"
-                    ),
+                    "failure_class": _string(result.get("failure_class"), f"{prediction_id} failure class"),
                 }
             )
-        if {row["prediction_id"] for row in result_rows} != {
-            row["prediction_id"] for row in predictions
-        }:
+        if {row["prediction_id"] for row in result_rows} != {row["prediction_id"] for row in predictions}:
             raise LockboxEvaluationError("evaluator results do not cover the frozen predictions")
         if len(result_rows) != len(predictions):
             raise LockboxEvaluationError("evaluator result IDs are duplicated")
-        counts = {
-            status: sum(row["status"] == status for row in result_rows)
-            for status in self.ALLOWED_STATUSES
-        }
+        counts = {status: sum(row["status"] == status for row in result_rows) for status in self.ALLOWED_STATUSES}
         abstentions = sum(row["abstained"] for row in result_rows)
         evaluation_results = {
             "schema_version": 1,
@@ -357,12 +328,9 @@ class LockboxEvaluationWorkflow:
         ) != _sha256(log_bytes):
             raise LockboxEvaluationError("sealed evaluator hash mismatch")
         if (
-            require_metadata(receipt, "sealed evaluator receipt")[0]
-            is not EvidenceClass.FIXTURE_TEST
-            or require_metadata(results, "sealed evaluation results")[0]
-            is not EvidenceClass.FIXTURE_TEST
-            or require_metadata(log, "sealed evaluator operation log")[0]
-            is not EvidenceClass.FIXTURE_TEST
+            require_metadata(receipt, "sealed evaluator receipt")[0] is not EvidenceClass.FIXTURE_TEST
+            or require_metadata(results, "sealed evaluation results")[0] is not EvidenceClass.FIXTURE_TEST
+            or require_metadata(log, "sealed evaluator operation log")[0] is not EvidenceClass.FIXTURE_TEST
             or receipt.get("allowed_claim_level") != AllowedClaimLevel.CONTRACT_TEST.value
             or results.get("allowed_claim_level") != AllowedClaimLevel.CONTRACT_TEST.value
             or log.get("allowed_claim_level") != AllowedClaimLevel.CONTRACT_TEST.value
@@ -375,10 +343,7 @@ class LockboxEvaluationWorkflow:
         rows = results.get("rows")
         if not isinstance(rows, list):
             raise LockboxEvaluationError("sealed evaluator rows are invalid")
-        counts = {
-            status: sum(row.get("status") == status for row in rows)
-            for status in self.ALLOWED_STATUSES
-        }
+        counts = {status: sum(row.get("status") == status for row in rows) for status in self.ALLOWED_STATUSES}
         abstentions = sum(bool(row.get("abstained")) for row in rows)
         self._scan_outputs()
         return LockboxEvaluationSummary(

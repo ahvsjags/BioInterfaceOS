@@ -35,9 +35,7 @@ def test_bias_workflow_keeps_missingness_and_pvalue_policy_explicit(tmp_path: Pa
     workflow.run(fixture=True)
 
     missing = json.loads((tmp_path / "bias" / "missingness_audit.json").read_text(encoding="utf-8"))
-    comparison = json.loads(
-        (tmp_path / "bias" / "model_comparison.json").read_text(encoding="utf-8")
-    )
+    comparison = json.loads((tmp_path / "bias" / "model_comparison.json").read_text(encoding="utf-8"))
     assert missing["mechanism_counts"] == {"MCAR": 1, "MAR": 1, "MNAR": 1}
     assert missing["p_values_used"] is False
     assert all(row["p_values_used"] is False for row in comparison["models"].values())

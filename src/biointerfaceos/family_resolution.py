@@ -88,9 +88,7 @@ class FamilyResolver:
         review_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/families/paper_family_records.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/families/paper_family_records.json")
         self.parquet_path = parquet_path or self.root / "registry/paper_families.parquet"
         self.report_path = report_path or self.root / "reports/paper_family_dedup.md"
         self.review_path = review_path or self.root / "registry/family_manual_review.jsonl"
@@ -134,13 +132,9 @@ class FamilyResolver:
             raise FamilyResolutionError("family fixture schema_version must be 1")
         raw_records = value["records"]
         raw_relationships = value["relationships"]
-        if not isinstance(raw_records, list) or not all(
-            isinstance(row, Mapping) for row in raw_records
-        ):
+        if not isinstance(raw_records, list) or not all(isinstance(row, Mapping) for row in raw_records):
             raise FamilyResolutionError("family fixture records are invalid")
-        if not isinstance(raw_relationships, list) or not all(
-            isinstance(row, Mapping) for row in raw_relationships
-        ):
+        if not isinstance(raw_relationships, list) or not all(isinstance(row, Mapping) for row in raw_relationships):
             raise FamilyResolutionError("family fixture relationships are invalid")
         records = [dict(row) for row in raw_records]
         relationships = [dict(row) for row in raw_relationships]
@@ -179,10 +173,7 @@ class FamilyResolver:
                 "confidence",
             }:
                 raise FamilyResolutionError("family relationship fields are invalid")
-            if (
-                relationship["source_record_id"] not in ids
-                or relationship["target_record_id"] not in ids
-            ):
+            if relationship["source_record_id"] not in ids or relationship["target_record_id"] not in ids:
                 raise FamilyResolutionError("family relationship references an unknown record")
             if relationship["confidence"] not in {"high", "uncertain"}:
                 raise FamilyResolutionError("family relationship confidence is invalid")
@@ -293,9 +284,7 @@ class FamilyResolver:
             primary_author = self._author_surname(str(primary_record["authors"][0]))
             study_material = f"{primary_title}|{primary_author}|{primary_record['year']}"
             study_key = f"study:{hashlib.sha256(study_material.encode()).hexdigest()[:16]}"
-            lab_material = "|".join(
-                self._author_surname(str(author)) for author in primary_record["authors"][:3]
-            )
+            lab_material = "|".join(self._author_surname(str(author)) for author in primary_record["authors"][:3])
             lab_key = f"lab:{hashlib.sha256(lab_material.encode()).hexdigest()[:16]}"
             member_set = set(members)
             for record_id in members:
@@ -303,14 +292,8 @@ class FamilyResolver:
                 member_relationships = [
                     str(link["relationship"])
                     for link in relationships
-                    if (
-                        link["source_record_id"] == record_id
-                        and link["target_record_id"] in member_set
-                    )
-                    or (
-                        link["target_record_id"] == record_id
-                        and link["source_record_id"] in member_set
-                    )
+                    if (link["source_record_id"] == record_id and link["target_record_id"] in member_set)
+                    or (link["target_record_id"] == record_id and link["source_record_id"] in member_set)
                 ]
                 rows.append(
                     {
@@ -369,8 +352,7 @@ class FamilyResolver:
                 [
                     "# Paper Family Deduplication Report",
                     "",
-                    "Fixture-backed identity resolution; no live endpoints or locked-test payloads "
-                    "were accessed.",
+                    "Fixture-backed identity resolution; no live endpoints or locked-test payloads were accessed.",
                     "",
                     f"- resolved families: {len(ordered_groups)}",
                     f"- resolved member rows: {len(rows)}",

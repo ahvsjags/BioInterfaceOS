@@ -202,9 +202,7 @@ class AssetDownloader:
             download_status="quarantined",
             rejection_reason=reason,
         )
-        current = [
-            item for item in self.manifest.records() if item.asset_id != quarantined.asset_id
-        ]
+        current = [item for item in self.manifest.records() if item.asset_id != quarantined.asset_id]
         current.append(quarantined)
         self.manifest.write(current)
 

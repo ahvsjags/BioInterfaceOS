@@ -74,9 +74,8 @@ class PXD017052CompleteAttachmentsWorkflow:
         raw_root = self.root / str(registry.get("raw_directory"))
         self._require(raw_root.is_dir(), "T132 protected raw directory is missing")
         assets = registry.get("assets")
-        self._require(
-            isinstance(assets, list) and len(assets) == 8, "T132 asset inventory is invalid"
-        )
+        if not isinstance(assets, list) or len(assets) != 8:
+            raise PXD017052CompleteAttachmentsError("T132 asset inventory is invalid")
         names: set[str] = set()
         for asset in assets:
             self._require(
@@ -92,15 +91,12 @@ class PXD017052CompleteAttachmentsWorkflow:
             names.add(name)
         self._require("41467_2020_17033_MOESM8_ESM.xlsx" in names, "T132 unit-map asset is missing")
         unit_map = registry.get("unit_map")
-        self._require(isinstance(unit_map, list) and len(unit_map) == 9, "T132 unit map is invalid")
-        self._require(
-            all(
-                isinstance(row, dict)
-                and set(row) == {"particle", "result_unit_id", "assay_replicate"}
-                for row in unit_map
-            ),
-            "T132 unit-map fields are invalid",
-        )
+        if not isinstance(unit_map, list) or len(unit_map) != 9:
+            raise PXD017052CompleteAttachmentsError("T132 unit map is invalid")
+        if not all(
+            isinstance(row, dict) and set(row) == {"particle", "result_unit_id", "assay_replicate"} for row in unit_map
+        ):
+            raise PXD017052CompleteAttachmentsError("T132 unit-map fields are invalid")
         self._require(
             registry.get("decision")
             == {
@@ -111,7 +107,7 @@ class PXD017052CompleteAttachmentsWorkflow:
             },
             "T132 decision boundary is invalid",
         )
-        return registry, raw_root, unit_map
+        return registry, raw_root, [row for row in unit_map if isinstance(row, dict)]
 
     def _verify_assets(self, registry: dict[str, Any], raw_root: Path) -> list[dict[str, Any]]:
         verified: list[dict[str, Any]] = []
@@ -129,9 +125,7 @@ class PXD017052CompleteAttachmentsWorkflow:
             verified.append({key: asset[key] for key in ("file_name", "bytes", "sha256", "role")})
         return verified
 
-    def _verify_map(
-        self, registry: dict[str, Any], raw_root: Path, unit_map: list[dict[str, Any]]
-    ) -> None:
+    def _verify_map(self, registry: dict[str, Any], raw_root: Path, unit_map: list[dict[str, Any]]) -> None:
         base = _json(self.root / registry["base_t131_registry"], "T131 registry")
         base_units = base["particle_unit_map"]["result_unit_ids"]
         self._require(
@@ -148,17 +142,14 @@ class PXD017052CompleteAttachmentsWorkflow:
             },
             "T132 particle replicate coverage is invalid",
         )
-        worksheet = load_workbook(
-            raw_root / "41467_2020_17033_MOESM8_ESM.xlsx", read_only=True, data_only=True
-        ).active
+        worksheet = load_workbook(raw_root / "41467_2020_17033_MOESM8_ESM.xlsx", read_only=True, data_only=True).active
         self._require(
             worksheet.title == "Sheet1"
             and worksheet.max_row == 3266
             and worksheet.max_column == 18
             and worksheet.cell(1, 1).value == "Supplamentary Data 6.   Sample Identifier"
             and worksheet.cell(2, 1).value == "3 NPs (Figure3)"
-            and [worksheet.cell(3, column).value for column in (1, 2, 3)]
-            == ["nanoparticles", "File", "rep"],
+            and [worksheet.cell(3, column).value for column in (1, 2, 3)] == ["nanoparticles", "File", "rep"],
             "T132 unit-map worksheet schema differs",
         )
         observed = [
@@ -194,9 +185,7 @@ class PXD017052CompleteAttachmentsWorkflow:
         }
         self.output_root.mkdir(parents=True, exist_ok=False)
         report_path = self.output_root / "complete_attachment_report.json"
-        report_path.write_text(
-            json.dumps(report, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8"
-        )
+        report_path.write_text(json.dumps(report, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
         receipt = {
             "schema_version": 1,
             "audit_id": self.AUDIT_ID,
@@ -208,12 +197,8 @@ class PXD017052CompleteAttachmentsWorkflow:
             **{field: False for field in self.FALSE_FIELDS},
         }
         receipt_path = self.output_root / "complete_attachment_receipt.json"
-        receipt_path.write_text(
-            json.dumps(receipt, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8"
-        )
+        receipt_path.write_text(json.dumps(receipt, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return PXD017052CompleteAttachmentsSummary(8, 9, receipt_path)

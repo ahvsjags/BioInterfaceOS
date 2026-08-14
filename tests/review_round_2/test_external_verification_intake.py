@@ -126,9 +126,7 @@ def _write_structural_bundle(tmp_path: Path) -> tuple[Path, Path]:
         "reproduction.json": reproduction,
         "editorial.json": editorial,
     }
-    checksums = {
-        name: _write_json(documents_root / name, value) for name, value in document_values.items()
-    }
+    checksums = {name: _write_json(documents_root / name, value) for name, value in document_values.items()}
     bundle = {
         "schema_version": 1,
         "submission_state": "SUBMITTED_FOR_PREFLIGHT",

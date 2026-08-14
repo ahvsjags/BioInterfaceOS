@@ -73,9 +73,7 @@ class MultimodalWorkflow:
     ) -> None:
         self.root = root.resolve(strict=True)
         self.config_path = config_path or self.root / "configs/models/multimodal.yaml"
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/models/multimodal_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/models/multimodal_fixture.json")
         self.output_root = output_root or self.root / "reports/models/multimodal"
 
     def _config(self) -> dict[str, Any]:
@@ -132,9 +130,7 @@ class MultimodalWorkflow:
             if label not in expected:
                 raise MultimodalError(f"unexpected multimodal input: {label}")
             path, checksum = expected[label]
-            declared_path = (self.root / _string(row.get("path"), "multimodal input path")).resolve(
-                strict=True
-            )
+            declared_path = (self.root / _string(row.get("path"), "multimodal input path")).resolve(strict=True)
             if declared_path != path.resolve(strict=True):
                 raise MultimodalError(f"multimodal input path mismatch: {label}")
             if _sha256(path.read_bytes()) != checksum or row.get("sha256") != checksum:
@@ -224,9 +220,7 @@ class MultimodalWorkflow:
                 raise MultimodalError(f"multimodal field is duplicated or missing: {field}")
             if field in forbidden or outcome_derived:
                 raise MultimodalError(f"forbidden or outcome-derived modality: {field}")
-            if name == "text" and (
-                outcome_derived or "outcome" in source.lower() or "result" in source.lower()
-            ):
+            if name == "text" and (outcome_derived or "outcome" in source.lower() or "result" in source.lower()):
                 outcome_text_leakage = True
             fields.add(field)
             definitions.append(
@@ -235,12 +229,8 @@ class MultimodalWorkflow:
                     "field": field,
                     "source": source,
                     "outcome_derived": outcome_derived,
-                    "missing_train": sum(
-                        row[field] is None for row in rows if row["split"] == "train"
-                    ),
-                    "missing_validation": sum(
-                        row[field] is None for row in rows if row["split"] == "validation"
-                    ),
+                    "missing_train": sum(row[field] is None for row in rows if row["split"] == "train"),
+                    "missing_validation": sum(row[field] is None for row in rows if row["split"] == "validation"),
                 }
             )
         expected = set(config["modality_fields"])
@@ -267,13 +257,8 @@ class MultimodalWorkflow:
         fields: list[str],
         ridge: float,
     ) -> dict[str, Any]:
-        coefficients = _ridge_fit(
-            self._features(train, fields), [row["target"] for row in train], ridge
-        )
-        predictions = {
-            row["row_id"]: _predict_linear(coefficients, self._features([row], fields)[0])
-            for row in rows
-        }
+        coefficients = _ridge_fit(self._features(train, fields), [row["target"] for row in train], ridge)
+        predictions = {row["row_id"]: _predict_linear(coefficients, self._features([row], fields)[0]) for row in rows}
         return {
             "feature_fields": fields,
             "predictions": predictions,
@@ -293,14 +278,10 @@ class MultimodalWorkflow:
         ood = [row for row in validation if row["ood"]]
         if not train or not validation or not ood:
             raise MultimodalError("multimodal requires train, validation, and OOD rows")
-        definitions, source_identity_passed, text_leakage_passed = self._audit_definitions(
-            fixture_data, rows, config
-        )
+        definitions, source_identity_passed, text_leakage_passed = self._audit_definitions(fixture_data, rows, config)
         modality_fields = [str(field) for field in config["modality_fields"]]
         ridge = float(config["ridge"])
-        model_fields = {
-            f"single_{field.removesuffix('_feature')}": [field] for field in modality_fields
-        }
+        model_fields = {f"single_{field.removesuffix('_feature')}": [field] for field in modality_fields}
         model_fields["material_protocol_masked"] = [
             "material_feature",
             "protocol_feature",
@@ -322,25 +303,19 @@ class MultimodalWorkflow:
                 "target_values_exposed": False,
             }
         single_names = [name for name in model_records if name.startswith("single_")]
-        best_single_name = min(
-            single_names, key=lambda name: model_records[name]["ood_metrics"]["rmse"]
-        )
+        best_single_name = min(single_names, key=lambda name: model_records[name]["ood_metrics"]["rmse"])
         fusion_ood_rmse = float(model_records["fusion"]["ood_metrics"]["rmse"])
         best_single_ood_rmse = float(model_records[best_single_name]["ood_metrics"]["rmse"])
         fusion_ood_gain = best_single_ood_rmse - fusion_ood_rmse
         leakage_passed = source_identity_passed and text_leakage_passed
-        fusion_gain_persists = leakage_passed and fusion_ood_gain >= float(
-            config["minimum_ood_gain"]
-        )
+        fusion_gain_persists = leakage_passed and fusion_ood_gain >= float(config["minimum_ood_gain"])
         selected_model = "fusion" if fusion_gain_persists else str(config["fallback_model"])
         missingness = {
             "schema_version": 1,
             "modalities": definitions,
             "mask_columns_emitted": True,
             "all_missingness_masked": True,
-            "missing_rows": {
-                field: sum(row[field] is None for row in rows) for field in modality_fields
-            },
+            "missing_rows": {field: sum(row[field] is None for row in rows) for field in modality_fields},
             "target_values_exposed": False,
         }
         leakage = {
@@ -349,9 +324,7 @@ class MultimodalWorkflow:
             "source_identity_leakage_passed": source_identity_passed,
             "outcome_text_leakage_passed": text_leakage_passed,
             "forbidden_feature_fields": config["forbidden_feature_fields"],
-            "model_feature_fields": sorted(
-                {field for fields in model_fields.values() for field in fields}
-            ),
+            "model_feature_fields": sorted({field for fields in model_fields.values() for field in fields}),
             "target_values_exposed": False,
         }
         comparison = {
@@ -415,9 +388,7 @@ class MultimodalWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -464,9 +435,7 @@ class MultimodalWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

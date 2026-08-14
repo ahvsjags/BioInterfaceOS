@@ -76,11 +76,7 @@ def _text(value: Any) -> str:
 
 
 def _value_equal(left: FieldAssertion, right: FieldAssertion) -> bool:
-    return (
-        left.value_type == right.value_type
-        and left.unit == right.unit
-        and left.value == right.value
-    )
+    return left.value_type == right.value_type and left.unit == right.unit and left.value == right.value
 
 
 class DualExperimentExtractor:
@@ -97,12 +93,8 @@ class DualExperimentExtractor:
         report_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/extract/dual_experiment.json"
-        )
-        self.candidates_path = candidates_path or (
-            self.root / "registry/experiment_candidates.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/extract/dual_experiment.json")
+        self.candidates_path = candidates_path or (self.root / "registry/experiment_candidates.json")
         self.consensus_path = consensus_path or (self.root / "registry/experiment_consensus.json")
         self.review_path = review_path or (self.root / "registry/consensus_review_queue.jsonl")
         self.report_path = report_path or self.root / "reports/dual_extraction.md"
@@ -126,9 +118,7 @@ class DualExperimentExtractor:
                 "mock_fields",
             }:
                 raise DualExtractionError("dual extraction record fields are invalid")
-            if not isinstance(raw_record["rule_fields"], list) or not isinstance(
-                raw_record["mock_fields"], list
-            ):
+            if not isinstance(raw_record["rule_fields"], list) or not isinstance(raw_record["mock_fields"], list):
                 raise DualExtractionError("dual extraction paths must be lists")
             records.append(dict(raw_record))
         return records
@@ -164,9 +154,7 @@ class DualExperimentExtractor:
             raise DualExtractionError(f"{path}.{field_name} must be a string")
         if value_type == "integer" and (isinstance(value, bool) or not isinstance(value, int)):
             raise DualExtractionError(f"{path}.{field_name} must be an integer")
-        if value_type == "number" and (
-            isinstance(value, bool) or not isinstance(value, int | float)
-        ):
+        if value_type == "number" and (isinstance(value, bool) or not isinstance(value, int | float)):
             raise DualExtractionError(f"{path}.{field_name} must be numeric")
         try:
             confidence = float(raw["confidence"])
@@ -196,9 +184,7 @@ class DualExperimentExtractor:
         if not isinstance(raw_fields, list):
             raise DualExtractionError(f"{path} fields must be a list")
         fields = tuple(
-            self._field(record_id, path, raw_field)
-            for raw_field in raw_fields
-            if isinstance(raw_field, Mapping)
+            self._field(record_id, path, raw_field) for raw_field in raw_fields if isinstance(raw_field, Mapping)
         )
         if len(fields) != len(raw_fields):
             raise DualExtractionError(f"{path} contains a non-object field")

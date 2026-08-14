@@ -55,9 +55,7 @@ def _frozen_bundle() -> dict[str, str]:
         "protocol_sha256": "b" * 64,
         "environment_digest": "c" * 64,
         "dependency_lockfile_sha256": "d" * 64,
-        "input_manifest_sha256_or_protected_data_attestation": (
-            "contract-test protected input attestation"
-        ),
+        "input_manifest_sha256_or_protected_data_attestation": ("contract-test protected input attestation"),
     }
 
 
@@ -203,9 +201,7 @@ def test_r4_preflight_validates_three_receipts_without_promoting_evidence(tmp_pa
     bundle_path, documents_root = _write_submitted_bundle(tmp_path)
     receipt_path = tmp_path / "preflight.json"
 
-    summary = R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, receipt_path).run(
-        strict=True
-    )
+    summary = R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, receipt_path).run(strict=True)
 
     assert summary.status == "STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW"
     assert summary.document_count == 4
@@ -219,9 +215,7 @@ def test_r4_preflight_validates_three_receipts_without_promoting_evidence(tmp_pa
     assert receipt["external_user_adoption_accepted"] is False
     assert receipt["scientific_submission_ready"] is False
 
-    verified = R4ExternalReceiptPreflightWorkflow(
-        bundle_path, documents_root, receipt_path
-    ).verify()
+    verified = R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, receipt_path).verify()
     assert verified == summary
 
 
@@ -231,9 +225,7 @@ def test_r4_preflight_rejects_document_tampering(tmp_path: Path) -> None:
     path.write_text(path.read_text(encoding="utf-8") + "\n", encoding="utf-8")
 
     with pytest.raises(R4ExternalReceiptPreflightError, match="checksum differs"):
-        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
-            strict=True
-        )
+        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(strict=True)
 
 
 def test_r4_preflight_rejects_author_membership(tmp_path: Path) -> None:
@@ -249,9 +241,7 @@ def test_r4_preflight_rejects_author_membership(tmp_path: Path) -> None:
     _write_json(bundle_path, bundle)
 
     with pytest.raises(R4ExternalReceiptPreflightError, match="author-team membership"):
-        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
-            strict=True
-        )
+        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(strict=True)
 
 
 def test_r4_preflight_rejects_release_drift(tmp_path: Path) -> None:
@@ -261,9 +251,7 @@ def test_r4_preflight_rejects_release_drift(tmp_path: Path) -> None:
     _write_json(bundle_path, bundle)
 
     with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.28 release"):
-        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
-            strict=True
-        )
+        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(strict=True)
 
 
 def test_r4_preflight_rejects_release_commit_drift(tmp_path: Path) -> None:
@@ -273,9 +261,7 @@ def test_r4_preflight_rejects_release_commit_drift(tmp_path: Path) -> None:
     _write_json(bundle_path, bundle)
 
     with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.28 release"):
-        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
-            strict=True
-        )
+        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(strict=True)
 
 
 def test_r4_preflight_rejects_release_manifest_hash_drift(tmp_path: Path) -> None:
@@ -285,33 +271,25 @@ def test_r4_preflight_rejects_release_manifest_hash_drift(tmp_path: Path) -> Non
     _write_json(bundle_path, bundle)
 
     with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.28 release"):
-        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
-            strict=True
-        )
+        R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(strict=True)
 
 
 def test_r4_fixed_release_anchors_match_all_public_handoff_records() -> None:
     expected = R4ExternalReceiptPreflightWorkflow.FIXED_RELEASE
     handoff_records = [
+        json.loads((ROOT / "docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json").read_text(encoding="utf-8"))[
+            "fixed_release"
+        ],
         json.loads(
-            (ROOT / "docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json").read_text(
+            (ROOT / "docs/data/R4_T234_FIXED_RELEASE_EXTERNAL_HANDOFF_20260814.json").read_text(encoding="utf-8")
+        )["fixed_release"],
+        json.loads(
+            (ROOT / "docs/data/R4_T240_EXTERNAL_RECEIPT_FIXED_RELEASE_BINDING_20260814.json").read_text(
                 encoding="utf-8"
             )
         )["fixed_release"],
         json.loads(
-            (ROOT / "docs/data/R4_T234_FIXED_RELEASE_EXTERNAL_HANDOFF_20260814.json").read_text(
-                encoding="utf-8"
-            )
-        )["fixed_release"],
-        json.loads(
-            (
-                ROOT / "docs/data/R4_T240_EXTERNAL_RECEIPT_FIXED_RELEASE_BINDING_20260814.json"
-            ).read_text(encoding="utf-8")
-        )["fixed_release"],
-        json.loads(
-            (
-                ROOT / "docs/data/R4_T241_CANONICAL_RELEASE_MANIFEST_HASH_AUDIT_20260814.json"
-            ).read_text(encoding="utf-8")
+            (ROOT / "docs/data/R4_T241_CANONICAL_RELEASE_MANIFEST_HASH_AUDIT_20260814.json").read_text(encoding="utf-8")
         )["fixed_release"],
     ]
     for record in handoff_records:
@@ -322,17 +300,15 @@ def test_r4_fixed_release_anchors_match_all_public_handoff_records() -> None:
         assert record["manifest_sha256"] == expected["manifest_sha256"]
 
     t235 = json.loads(
-        (ROOT / "docs/data/R4_T235_PAPER_DATA_EXTERNAL_EVIDENCE_GOAL_20260814.json").read_text(
-            encoding="utf-8"
-        )
+        (ROOT / "docs/data/R4_T235_PAPER_DATA_EXTERNAL_EVIDENCE_GOAL_20260814.json").read_text(encoding="utf-8")
     )["fixed_release"]
     assert t235["tag"] == expected["tag"]
     assert t235["manifest"] == expected["manifest_path"]
     assert t235["manifest_sha256"] == expected["manifest_sha256"]
 
-    doi_release = json.loads(
-        (ROOT / "docs/release/R10_28_DOI_DEPOSIT_METADATA.json").read_text(encoding="utf-8")
-    )["release"]
+    doi_release = json.loads((ROOT / "docs/release/R10_28_DOI_DEPOSIT_METADATA.json").read_text(encoding="utf-8"))[
+        "release"
+    ]
     assert doi_release["tag"] == expected["tag"]
     assert doi_release["release_commit"] == expected["commit"]
     assert doi_release["manifest_path"] == expected["manifest_path"]

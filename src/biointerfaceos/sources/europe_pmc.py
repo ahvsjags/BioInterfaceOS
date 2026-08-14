@@ -144,12 +144,7 @@ class EuropePmcAdapter(SourceAdapter):
                     candidates.append(candidate)
                     seen_sources.add(candidate.source_id)
             next_cursor = page.get("nextCursorMark")
-            if (
-                not isinstance(next_cursor, str)
-                or not next_cursor
-                or next_cursor == cursor
-                or next_cursor == "*"
-            ):
+            if not isinstance(next_cursor, str) or not next_cursor or next_cursor == cursor or next_cursor == "*":
                 return tuple(candidates[: query.limit])
             if next_cursor in seen:
                 raise AdapterError(f"Europe PMC cursor repeated: {next_cursor}")
@@ -174,9 +169,7 @@ class EuropePmcAdapter(SourceAdapter):
             "source_id": candidate.source_id,
             "accession": candidate.accession,
             "title": result.get("title") if isinstance(result, Mapping) else None,
-            "publication_date": (
-                result.get("firstPublicationDate") if isinstance(result, Mapping) else None
-            ),
+            "publication_date": (result.get("firstPublicationDate") if isinstance(result, Mapping) else None),
             "license": candidate.license_identifier,
             "full_text_url": self._full_text_url(pmcid_value),
             "supplementary_url": self._supplementary_url(pmcid_value),
@@ -192,9 +185,7 @@ class EuropePmcAdapter(SourceAdapter):
         license_value = candidate.license_identifier
         return (
             AssetDescriptor(
-                asset_id=hashlib.sha256(
-                    f"{candidate.source_id}|{pmcid}|fulltext_xml".encode()
-                ).hexdigest(),
+                asset_id=hashlib.sha256(f"{candidate.source_id}|{pmcid}|fulltext_xml".encode()).hexdigest(),
                 source_id=candidate.source_id,
                 url=self._full_text_url(pmcid) or "",
                 asset_type="JATS",
@@ -204,9 +195,7 @@ class EuropePmcAdapter(SourceAdapter):
                 license=license_value,
             ),
             AssetDescriptor(
-                asset_id=hashlib.sha256(
-                    f"{candidate.source_id}|{pmcid}|supplementary".encode()
-                ).hexdigest(),
+                asset_id=hashlib.sha256(f"{candidate.source_id}|{pmcid}|supplementary".encode()).hexdigest(),
                 source_id=candidate.source_id,
                 url=self._supplementary_url(pmcid) or "",
                 asset_type="SUPPLEMENTARY",

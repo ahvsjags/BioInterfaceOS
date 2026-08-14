@@ -25,9 +25,7 @@ class EmpiricalProvenanceError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -139,9 +137,7 @@ class EmpiricalProvenanceWorkflow:
 
     def _load_registry(self) -> dict[str, Any]:
         try:
-            registry = _mapping(
-                json.loads(self.registry_path.read_text(encoding="utf-8")), "empirical registry"
-            )
+            registry = _mapping(json.loads(self.registry_path.read_text(encoding="utf-8")), "empirical registry")
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise EmpiricalProvenanceError("cannot parse empirical registry") from exc
         if set(registry) != self.REQUIRED_REGISTRY_FIELDS or registry.get("schema_version") != 1:
@@ -174,9 +170,7 @@ class EmpiricalProvenanceWorkflow:
         if "fixture" in relative.lower() or "synthetic" in relative.lower():
             raise EmpiricalProvenanceError(f"non-empirical raw asset path: {relative}")
         expected_hash = _string(asset.get("sha256"), "raw asset SHA-256").lower()
-        if len(expected_hash) != 64 or any(
-            character not in "0123456789abcdef" for character in expected_hash
-        ):
+        if len(expected_hash) != 64 or any(character not in "0123456789abcdef" for character in expected_hash):
             raise EmpiricalProvenanceError("raw asset SHA-256 is invalid")
         if _sha256(path) != expected_hash:
             raise EmpiricalProvenanceError(f"raw asset checksum differs: {relative}")
@@ -205,15 +199,11 @@ class EmpiricalProvenanceWorkflow:
             raise EmpiricalProvenanceError("raw value column must be a single uppercase letter")
         return ord(value) - ord("A") + 1
 
-    def _source_rows(
-        self, source: dict[str, Any], assets: dict[str, dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _source_rows(self, source: dict[str, Any], assets: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
         rows_value = source["rows"]
         if not isinstance(rows_value, list) or not rows_value:
             raise EmpiricalProvenanceError(f"{source['source_id']} has no observation rows")
-        source_text = " ".join(
-            str(source[field]) for field in ("source_id", "title", "study_id", "laboratory")
-        ).lower()
+        source_text = " ".join(str(source[field]) for field in ("source_id", "title", "study_id", "laboratory")).lower()
         if any(token in source_text for token in ("fixture", "synthetic", "mock")):
             raise EmpiricalProvenanceError(f"{source['source_id']} is not a real-source record")
         result: list[dict[str, Any]] = []
@@ -228,9 +218,7 @@ class EmpiricalProvenanceWorkflow:
             seen_ids.add(observation_id)
             raw_asset = _string(row.get("raw_asset"), "observation raw asset")
             if raw_asset not in assets:
-                raise EmpiricalProvenanceError(
-                    f"observation uses an unregistered raw asset: {raw_asset}"
-                )
+                raise EmpiricalProvenanceError(f"observation uses an unregistered raw asset: {raw_asset}")
             worksheet = _string(row.get("worksheet"), "observation worksheet")
             row_number = _integer(row.get("row_number"), "observation row number", minimum=2)
             value_column = _string(row.get("value_column"), "observation value column")
@@ -241,29 +229,18 @@ class EmpiricalProvenanceWorkflow:
                 workbook = load_workbook(path, data_only=True, read_only=True)
                 sheet = workbook[worksheet]
                 observed_unit = sheet.cell(row=row_number, column=1).value
-                observed_value = sheet.cell(
-                    row=row_number, column=self._column_index(value_column)
-                ).value
+                observed_value = sheet.cell(row=row_number, column=self._column_index(value_column)).value
             except (KeyError, OSError, ValueError) as exc:
-                raise EmpiricalProvenanceError(
-                    f"cannot locate raw observation {observation_id}"
-                ) from exc
+                raise EmpiricalProvenanceError(f"cannot locate raw observation {observation_id}") from exc
             finally:
                 if workbook is not None:
                     workbook.close()
             actual_value = _number(observed_value, f"raw value for {observation_id}")
             if not math.isclose(actual_value, expected_value, rel_tol=0.0, abs_tol=1e-12):
-                raise EmpiricalProvenanceError(
-                    f"raw value differs from registered observation: {observation_id}"
-                )
+                raise EmpiricalProvenanceError(f"raw value differs from registered observation: {observation_id}")
             independent_unit_id = _string(row.get("independent_unit_id"), "independent unit ID")
-            if (
-                _string(observed_unit, f"raw independent unit for {observation_id}")
-                != independent_unit_id
-            ):
-                raise EmpiricalProvenanceError(
-                    f"raw independent unit differs from registry: {observation_id}"
-                )
+            if _string(observed_unit, f"raw independent unit for {observation_id}") != independent_unit_id:
+                raise EmpiricalProvenanceError(f"raw independent unit differs from registry: {observation_id}")
             result.append(
                 {
                     "observation_id": observation_id,
@@ -299,13 +276,9 @@ class EmpiricalProvenanceWorkflow:
         if source["license_id"] not in self.ALLOWED_LICENSES:
             raise EmpiricalProvenanceError(f"source license is not reusable: {source['source_id']}")
         if source["access"] != "ANONYMOUS_PUBLIC":
-            raise EmpiricalProvenanceError(
-                f"source is not anonymously accessible: {source['source_id']}"
-            )
+            raise EmpiricalProvenanceError(f"source is not anonymously accessible: {source['source_id']}")
         if not source["landing_url"].startswith("https://") or not source["doi"].startswith("10."):
-            raise EmpiricalProvenanceError(
-                f"source DOI or landing URL is invalid: {source['source_id']}"
-            )
+            raise EmpiricalProvenanceError(f"source DOI or landing URL is invalid: {source['source_id']}")
         assets_value = source["raw_assets"]
         if not isinstance(assets_value, list) or not assets_value:
             raise EmpiricalProvenanceError(f"{source['source_id']} has no raw assets")
@@ -390,9 +363,7 @@ class EmpiricalProvenanceWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return EmpiricalProvenanceSummary(
             registry_id=str(audit["registry_id"]),
             source_count=int(audit["source_count"]),
@@ -409,9 +380,7 @@ class EmpiricalProvenanceWorkflow:
         receipt_path = self.output_root / "audit_receipt.json"
         try:
             audit = _mapping(json.loads(audit_path.read_text(encoding="utf-8")), "empirical audit")
-            receipt = _mapping(
-                json.loads(receipt_path.read_text(encoding="utf-8")), "empirical audit receipt"
-            )
+            receipt = _mapping(json.loads(receipt_path.read_text(encoding="utf-8")), "empirical audit receipt")
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise EmpiricalProvenanceError("empirical-provenance audit output is invalid") from exc
         if (

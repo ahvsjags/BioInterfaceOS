@@ -32,9 +32,7 @@ def test_t194_fulltext_execution_verifies_and_closes_outputs() -> None:
         assert summary.measurement_batch_count == 12
         assert summary.model_count == 3
         assert workflow.verify() == summary
-        report = json.loads(
-            (output_root / "t194_fulltext_core_facility_execution_report.json").read_text()
-        )
+        report = json.loads((output_root / "t194_fulltext_core_facility_execution_report.json").read_text())
         assert report["source_semantics"]["biological_unit_count"] == 1
         assert report["scientific_submission_ready"] is False
         assert len(report["model_results"]) == 36

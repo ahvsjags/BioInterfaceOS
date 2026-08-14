@@ -36,9 +36,7 @@ class ExternalVerificationSignatureError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _mapping(value: Any, label: str) -> dict[str, Any]:
@@ -62,12 +60,8 @@ def _checksum(value: Any, label: str) -> str:
 
 def _fingerprint(value: Any, label: str) -> str:
     fingerprint = _string(value, label).lower()
-    if len(fingerprint) != 40 or any(
-        character not in "0123456789abcdef" for character in fingerprint
-    ):
-        raise ExternalVerificationSignatureError(
-            f"{label} must be a 40-character OpenPGP primary-key fingerprint"
-        )
+    if len(fingerprint) != 40 or any(character not in "0123456789abcdef" for character in fingerprint):
+        raise ExternalVerificationSignatureError(f"{label} must be a 40-character OpenPGP primary-key fingerprint")
     return fingerprint
 
 
@@ -193,9 +187,7 @@ class ExternalVerificationSignatureWorkflow:
             raise ExternalVerificationSignatureError(f"{label} escapes its declared root")
         path = (root / Path(*pure_path.parts)).resolve(strict=False)
         if not path.is_relative_to(root) or not path.is_file():
-            raise ExternalVerificationSignatureError(
-                f"{label} is missing or outside its declared root"
-            )
+            raise ExternalVerificationSignatureError(f"{label} is missing or outside its declared root")
         return path
 
     @staticmethod
@@ -204,9 +196,7 @@ class ExternalVerificationSignatureWorkflow:
             attestation = _mapping(document["attestation"], f"{label} attestation")
         except KeyError as exc:
             raise ExternalVerificationSignatureError(f"{label} has no attestation") from exc
-        return _fingerprint(
-            attestation.get("signature_fingerprint"), f"{label} signature fingerprint"
-        )
+        return _fingerprint(attestation.get("signature_fingerprint"), f"{label} signature fingerprint")
 
     @staticmethod
     def _run(command: Sequence[str], label: str) -> subprocess.CompletedProcess[str]:
@@ -225,9 +215,7 @@ class ExternalVerificationSignatureWorkflow:
 
     def _signature_manifest(self) -> tuple[dict[str, Any], dict[str, Path]]:
         manifest = self._exact_keys(
-            self._json(
-                self._file(self.signature_manifest_path, "signature manifest"), "signature manifest"
-            ),
+            self._json(self._file(self.signature_manifest_path, "signature manifest"), "signature manifest"),
             self.REQUIRED_SIGNATURE_MANIFEST,
             "signature manifest",
         )
@@ -238,9 +226,7 @@ class ExternalVerificationSignatureWorkflow:
         try:
             evidence_class, claim_level = require_metadata(manifest, "signature manifest")
         except EvidenceSemanticsError as exc:
-            raise ExternalVerificationSignatureError(
-                "signature manifest metadata is invalid"
-            ) from exc
+            raise ExternalVerificationSignatureError("signature manifest metadata is invalid") from exc
         if (
             evidence_class is not EvidenceClass.DEVELOPMENT_OBSERVATION
             or claim_level is not AllowedClaimLevel.EXPLORATORY
@@ -249,31 +235,23 @@ class ExternalVerificationSignatureWorkflow:
         if _checksum(manifest["bundle_sha256"], "signature manifest bundle checksum") != _sha256(
             self._file(self.bundle_path, "external verification bundle")
         ):
-            raise ExternalVerificationSignatureError(
-                "signature manifest is not bound to the bundle bytes"
-            )
+            raise ExternalVerificationSignatureError("signature manifest is not bound to the bundle bytes")
         entries = manifest["signatures"]
         if not isinstance(entries, list) or len(entries) != len(self.DOCUMENT_TYPES):
-            raise ExternalVerificationSignatureError(
-                "signature manifest has the wrong signature count"
-            )
+            raise ExternalVerificationSignatureError("signature manifest has the wrong signature count")
         signature_paths: dict[str, Path] = {}
         for value in entries:
             entry = self._exact_keys(value, self.REQUIRED_SIGNATURE, "signature manifest entry")
             document_type = _string(entry["document_type"], "signature document type")
             if document_type not in self.DOCUMENT_TYPES or document_type in signature_paths:
-                raise ExternalVerificationSignatureError(
-                    "signature manifest document types are invalid"
-                )
+                raise ExternalVerificationSignatureError("signature manifest document types are invalid")
             signature_paths[document_type] = self._relative_file(
                 self._directory(self.signatures_root, "signatures root"),
                 entry["signature_relative_path"],
                 f"{document_type} detached signature",
             )
         if tuple(signature_paths) != self.DOCUMENT_TYPES:
-            raise ExternalVerificationSignatureError(
-                "signature manifest does not cover all document types"
-            )
+            raise ExternalVerificationSignatureError("signature manifest does not cover all document types")
         return manifest, signature_paths
 
     def _trusted_signers(self) -> dict[str, dict[str, Any]]:
@@ -286,17 +264,13 @@ class ExternalVerificationSignatureWorkflow:
             "trusted signer registry",
         )
         if registry["schema_version"] != 1:
-            raise ExternalVerificationSignatureError(
-                "trusted signer registry schema version is invalid"
-            )
+            raise ExternalVerificationSignatureError("trusted signer registry schema version is invalid")
         _string(registry["registry_id"], "trusted signer registry id")
         _timestamp(registry["approved_at"], "trusted signer registry approval time")
         _string(registry["approval_scope"], "trusted signer registry approval scope")
         values = registry["signers"]
         if not isinstance(values, list) or len(values) != len(self.DOCUMENT_TYPES):
-            raise ExternalVerificationSignatureError(
-                "trusted signer registry has the wrong signer count"
-            )
+            raise ExternalVerificationSignatureError("trusted signer registry has the wrong signer count")
         trusted_root = self._directory(self.trusted_keys_root, "trusted keys root")
         signers: dict[str, dict[str, Any]] = {}
         fingerprints: set[str] = set()
@@ -304,33 +278,23 @@ class ExternalVerificationSignatureWorkflow:
             signer = self._exact_keys(value, self.REQUIRED_SIGNER, "trusted signer entry")
             document_type = _string(signer["document_type"], "trusted signer document type")
             if document_type not in self.DOCUMENT_TYPES or document_type in signers:
-                raise ExternalVerificationSignatureError(
-                    "trusted signer document types are invalid"
-                )
-            fingerprint = _fingerprint(
-                signer["signer_key_fingerprint"], "trusted signer fingerprint"
-            )
+                raise ExternalVerificationSignatureError("trusted signer document types are invalid")
+            fingerprint = _fingerprint(signer["signer_key_fingerprint"], "trusted signer fingerprint")
             if fingerprint in fingerprints:
-                raise ExternalVerificationSignatureError(
-                    "each external role must use a distinct trusted signing key"
-                )
+                raise ExternalVerificationSignatureError("each external role must use a distinct trusted signing key")
             fingerprints.add(fingerprint)
             key_path = self._relative_file(
                 trusted_root,
                 signer["public_key_relative_path"],
                 f"{document_type} trusted public key",
             )
-            if _checksum(signer["public_key_sha256"], "trusted public-key checksum") != _sha256(
-                key_path
-            ):
+            if _checksum(signer["public_key_sha256"], "trusted public-key checksum") != _sha256(key_path):
                 raise ExternalVerificationSignatureError(
                     f"{document_type} trusted public-key checksum does not match bytes"
                 )
             signers[document_type] = {**signer, "key_path": key_path, "fingerprint": fingerprint}
         if tuple(signers) != self.DOCUMENT_TYPES:
-            raise ExternalVerificationSignatureError(
-                "trusted signer registry does not cover all roles"
-            )
+            raise ExternalVerificationSignatureError("trusted signer registry does not cover all roles")
         return signers
 
     def _public_key_fingerprint(self, key_path: Path, home: Path) -> str:
@@ -407,9 +371,7 @@ class ExternalVerificationSignatureWorkflow:
             f"{document_type} detached-signature verification",
         )
         if result.returncode != 0:
-            raise ExternalVerificationSignatureError(
-                f"{document_type} detached signature does not verify"
-            )
+            raise ExternalVerificationSignatureError(f"{document_type} detached signature does not verify")
         valid_signatures = []
         for line in result.stdout.splitlines():
             prefix = "[GNUPG:] VALIDSIG "
@@ -428,18 +390,14 @@ class ExternalVerificationSignatureWorkflow:
             preflight.run(strict=True)
             parsed = preflight._bundle()
         except ExternalVerificationIntakeError as exc:
-            raise ExternalVerificationSignatureError(
-                "external verification structural preflight failed"
-            ) from exc
+            raise ExternalVerificationSignatureError("external verification structural preflight failed") from exc
         bundle = _mapping(parsed["bundle"], "preflighted external verification bundle")
         parsed_documents = _mapping(parsed["documents"], "preflighted external documents")
         documents: dict[str, tuple[Path, dict[str, Any]]] = {}
         for value in bundle["documents"]:
             entry = _mapping(value, "preflighted document entry")
             document_type = _string(entry["document_type"], "preflighted document type")
-            document_path = preflight._document_path(
-                entry["relative_path"], f"{document_type} path"
-            )
+            document_path = preflight._document_path(entry["relative_path"], f"{document_type} path")
             documents[document_type] = (
                 document_path,
                 _mapping(parsed_documents[document_type], document_type),
@@ -453,9 +411,7 @@ class ExternalVerificationSignatureWorkflow:
             raise ExternalVerificationSignatureError("signature receipt path already exists")
         parent = self.receipt_path.parent
         if not parent.is_dir():
-            raise ExternalVerificationSignatureError(
-                "signature receipt parent directory is missing"
-            )
+            raise ExternalVerificationSignatureError("signature receipt parent directory is missing")
         for root in (self.documents_root, self.signatures_root, self.trusted_keys_root):
             if self.receipt_path.is_relative_to(root):
                 raise ExternalVerificationSignatureError(
@@ -466,9 +422,7 @@ class ExternalVerificationSignatureWorkflow:
     def run(self, *, strict: bool = False) -> ExternalVerificationSignatureSummary:
         """Verify cryptographic provenance without accepting an external result."""
         if not strict:
-            raise ExternalVerificationSignatureError(
-                "external signature verification requires --strict"
-            )
+            raise ExternalVerificationSignatureError("external signature verification requires --strict")
         manifest, signature_paths = self._signature_manifest()
         signers = self._trusted_signers()
         documents = self._validated_documents()

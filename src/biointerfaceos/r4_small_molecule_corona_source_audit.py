@@ -13,7 +13,6 @@ import json
 import math
 import zipfile
 from collections import defaultdict
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -140,9 +139,10 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
             raise R4SmallMoleculeCoronaSourceAuditError("registry fields are invalid")
         if registry.get("audit_id") != self.AUDIT_ID:
             raise R4SmallMoleculeCoronaSourceAuditError("registry audit ID is invalid")
-        if registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION" or registry.get(
-            "allowed_claim_level"
-        ) != "EXPLORATORY":
+        if (
+            registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION"
+            or registry.get("allowed_claim_level") != "EXPLORATORY"
+        ):
             raise R4SmallMoleculeCoronaSourceAuditError("registry evidence boundary is invalid")
         _string(registry.get("evaluated_at"), "evaluated_at")
         _string(registry.get("claim_boundary"), "claim_boundary")
@@ -168,8 +168,7 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
         }
         if set(scope) != expected_scope_keys or (
             scope.get("source_id") != "PMC11544298_SMALL_MOLECULE_HUMAN_PLASMA_CORONA"
-            or scope.get("laboratory_anchor")
-            != "Michigan State University-led small-molecule protein-corona study"
+            or scope.get("laboratory_anchor") != "Michigan State University-led small-molecule protein-corona study"
             or scope.get("source_lineage") != "NOT_INDEPENDENT_OF_EXISTING_R3_MICHIGAN_STATE_LINEAGE"
             or scope.get("biofluid") != "commercial pooled healthy human plasma plus four-donor plasma panel"
             or scope.get("nanoparticle") != "80 nm polystyrene nanoparticles"
@@ -207,13 +206,17 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
             for asset_id in ("data_1", "data_3", "data_5"):
                 name = paths[asset_id].name
                 if name not in archive_names or archive.read(name) != paths[asset_id].read_bytes():
-                    raise R4SmallMoleculeCoronaSourceAuditError("official extraction differs from supplementary package")
+                    raise R4SmallMoleculeCoronaSourceAuditError(
+                        "official extraction differs from supplementary package"
+                    )
 
         reference = _mapping(registry.get("r3_reference_asset"), "R3 reference asset")
         if set(reference) != {"relative_path", "sha256"}:
             raise R4SmallMoleculeCoronaSourceAuditError("R3 reference asset fields are invalid")
         feature_path = self._under(
-            self.root, _string(reference.get("relative_path"), "R3 reference asset"), "R3 reference asset"
+            self.root,
+            _string(reference.get("relative_path"), "R3 reference asset"),
+            "R3 reference asset",
         )
         if _sha256(feature_path) != _checksum(reference.get("sha256"), "R3 reference asset"):
             raise R4SmallMoleculeCoronaSourceAuditError("R3 reference asset checksum differs")
@@ -241,7 +244,8 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
             }
             if set(item) != fields:
                 raise R4SmallMoleculeCoronaSourceAuditError("worksheet contract fields are invalid")
-            expected = expected_contracts.pop(item.get("asset_id"), None)
+            asset_id = _string(item.get("asset_id"), "worksheet contract asset ID")
+            expected = expected_contracts.pop(asset_id, None)
             values = tuple(
                 item[key]
                 for key in (
@@ -255,20 +259,25 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
             )
             expected_header = 3 if item.get("asset_id") in {"data_1", "data_3"} else 4
             expected_first = expected_header + 1
-            if expected is None or values != expected or item.get("header_row") != expected_header or item.get("first_data_row") != expected_first:
+            if (
+                expected is None
+                or values != expected
+                or item.get("header_row") != expected_header
+                or item.get("first_data_row") != expected_first
+            ):
                 raise R4SmallMoleculeCoronaSourceAuditError("worksheet contract differs")
         if expected_contracts:
             raise R4SmallMoleculeCoronaSourceAuditError("worksheet contracts are incomplete")
         quantification = _mapping(registry.get("quantification_contract"), "quantification contract")
         if quantification != {
-            "source_accession_policy": "map only a non-empty direct UniProt accession that is exactly present in the frozen R3 feature table; never collapse semicolon-delimited source groups",
+            "source_accession_policy": "map only a non-empty direct UniProt accession that is exactly present in the frozen R3 feature table; never collapse semicolon-delimited source groups",  # noqa: E501
             "author_quantity_type_data_1_and_3": "NORMALIZED_INTENSITY",
             "author_quantity_type_data_5": "AUTHOR_REPORTED_ABUNDANCE",
-            "rank_eligibility": "candidate-eligible source condition plus strictly positive finite author-reported value",
+            "rank_eligibility": "candidate-eligible source condition plus strictly positive finite author-reported value",  # noqa: E501
             "numeric_zero_policy": "retain as NUMERIC_ZERO and exclude from rank; never impute",
-            "source_na_policy": "retain literal author NA markers as SOURCE_NA and exclude from rank; never coerce to zero or impute",
+            "source_na_policy": "retain literal author NA markers as SOURCE_NA and exclude from rank; never coerce to zero or impute",  # noqa: E501
             "blank_policy": "retain as SOURCE_BLANK and exclude from rank; never impute",
-            "plasma_alone_policy": "retain in source cell map with analysis_candidate_eligible=false; never treat as a corona measurement batch",
+            "plasma_alone_policy": "retain in source cell map with analysis_candidate_eligible=false; never treat as a corona measurement batch",  # noqa: E501
             "raw_scale_cross_study_use": "PROHIBITED",
         }:
             raise R4SmallMoleculeCoronaSourceAuditError("quantification contract is invalid")
@@ -401,9 +410,7 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
         sample_columns = [
             (index, label)
             for index, label in enumerate(header)
-            if index >= 5
-            and isinstance(label, str)
-            and not label.startswith(("Mean_", "SD_", "NACount_"))
+            if index >= 5 and isinstance(label, str) and not label.startswith(("Mean_", "SD_", "NACount_"))
         ]
         if len(sample_columns) != 28 or any("_donor" not in label for _, label in sample_columns):
             raise R4SmallMoleculeCoronaSourceAuditError("donor sample columns differ")
@@ -451,9 +458,7 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
         for row in rows:
             by_batch[row["measurement_batch_id"]].append(row)
         candidate_batches = {
-            batch: values
-            for batch, values in by_batch.items()
-            if values[0]["analysis_candidate_eligible"] == "true"
+            batch: values for batch, values in by_batch.items() if values[0]["analysis_candidate_eligible"] == "true"
         }
         if len(by_batch) != 142 or len(candidate_batches) != 136:
             raise R4SmallMoleculeCoronaSourceAuditError("measurement batch accounting differs")
@@ -508,7 +513,10 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
             "source_assets": {
-                item["asset_id"]: {"relative_path": item["relative_path"], "sha256": _sha256(paths[item["asset_id"]])}
+                item["asset_id"]: {
+                    "relative_path": item["relative_path"],
+                    "sha256": _sha256(paths[item["asset_id"]]),
+                }
                 for item in registry["source_assets"]
             },
             "r3_reference_asset": {
@@ -520,15 +528,12 @@ class R4SmallMoleculeCoronaSourceAuditWorkflow:
             "all_measurement_batch_count": len(all_batches),
             "corona_measurement_batch_count": len(candidate_batches),
             "rank_qualified_measurement_batch_count": sum(
-                sum(row["rank_target_eligible"] == "true" for row in rows if row["measurement_batch_id"] == batch)
-                >= 10
+                sum(row["rank_target_eligible"] == "true" for row in rows if row["measurement_batch_id"] == batch) >= 10
                 for batch in candidate_batches
             ),
             "shared_canonical_protein_count": len({row["canonical_accession"] for row in rows}),
             "source_cell_count": len(rows),
-            "candidate_positive_source_cell_count": sum(
-                row["rank_target_eligible"] == "true" for row in rows
-            ),
+            "candidate_positive_source_cell_count": sum(row["rank_target_eligible"] == "true" for row in rows),
             "same_lineage_independent_laboratory_anchor_count_contributed": 0,
             "claim_boundary": registry["claim_boundary"],
         }

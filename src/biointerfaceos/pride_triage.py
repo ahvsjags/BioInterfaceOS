@@ -33,9 +33,7 @@ class PrideTriageSummary:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _sha256(data: bytes) -> str:
@@ -142,8 +140,7 @@ class PrideTriage:
             or not isinstance(file_record["size_bytes"], int)
             or file_record["size_bytes"] < 0
             or file_record["access"] not in {"PUBLIC", "RESTRICTED", "METADATA_ONLY", "UNAVAILABLE"}
-            or file_record["checksum_status"]
-            not in {"CAPTURED_NOT_DOWNLOADED", "NOT_APPLICABLE", "UNAVAILABLE"}
+            or file_record["checksum_status"] not in {"CAPTURED_NOT_DOWNLOADED", "NOT_APPLICABLE", "UNAVAILABLE"}
         ):
             raise PrideTriageError(f"file values are invalid for {project}")
         checksum = file_record["checksum_sha256"]
@@ -172,9 +169,7 @@ class PrideTriage:
             raise PrideTriageError(f"sample-map values are invalid for {project}")
 
     @staticmethod
-    def _eligible(
-        project: Mapping[str, Any], samples: list[dict[str, Any]]
-    ) -> tuple[bool, list[str]]:
+    def _eligible(project: Mapping[str, Any], samples: list[dict[str, Any]]) -> tuple[bool, list[str]]:
         reasons: list[str] = []
         availability = project["raw_search_availability"]
         if project["locked_project"]:
@@ -210,9 +205,7 @@ class PrideTriage:
         family_ids = _family_ids(self.root)
         candidates = _jsonl(self.root / "registry/search_candidates.jsonl")
         candidate_by_id = {
-            str(row["candidate_id"]): row
-            for row in candidates
-            if isinstance(row.get("candidate_id"), str)
+            str(row["candidate_id"]): row for row in candidates if isinstance(row.get("candidate_id"), str)
         }
         required_project_fields = {
             "project_accession",
@@ -259,9 +252,7 @@ class PrideTriage:
                 if candidate is None or candidate.get("source") != "pride":
                     raise PrideTriageError(f"candidate is not a PRIDE registry row: {candidate_id}")
                 if candidate_id in seen_candidates:
-                    raise PrideTriageError(
-                        f"candidate is assigned to multiple projects: {candidate_id}"
-                    )
+                    raise PrideTriageError(f"candidate is assigned to multiple projects: {candidate_id}")
                 seen_candidates.add(candidate_id)
             if not isinstance(project["family_ids"], list) or not project["family_ids"]:
                 raise PrideTriageError(f"family links are missing for {accession}")
@@ -278,9 +269,7 @@ class PrideTriage:
                 or not isinstance(project["instrument"], str)
                 or not project["instrument"]
             ):
-                raise PrideTriageError(
-                    f"official species/instrument metadata is invalid for {accession}"
-                )
+                raise PrideTriageError(f"official species/instrument metadata is invalid for {accession}")
             files = project["file_inventory"]
             if not isinstance(files, list) or not files:
                 raise PrideTriageError(f"file inventory is missing for {accession}")
@@ -292,30 +281,20 @@ class PrideTriage:
             if (
                 not isinstance(availability, Mapping)
                 or set(availability) != {"raw", "search"}
-                or availability["raw"]
-                not in {"PUBLIC", "RESTRICTED", "UNAVAILABLE", "METADATA_ONLY"}
-                or availability["search"]
-                not in {"PUBLIC", "RESTRICTED", "UNAVAILABLE", "METADATA_ONLY"}
+                or availability["raw"] not in {"PUBLIC", "RESTRICTED", "UNAVAILABLE", "METADATA_ONLY"}
+                or availability["search"] not in {"PUBLIC", "RESTRICTED", "UNAVAILABLE", "METADATA_ONLY"}
             ):
                 raise PrideTriageError(f"raw/search availability is invalid for {accession}")
             arms = project["material_arms"]
-            if (
-                not isinstance(arms, list)
-                or not arms
-                or not all(isinstance(arm, str) for arm in arms)
-            ):
+            if not isinstance(arms, list) or not arms or not all(isinstance(arm, str) for arm in arms):
                 raise PrideTriageError(f"material arms are missing for {accession}")
             if not isinstance(project["biofluid"], str) or not project["biofluid"]:
                 raise PrideTriageError(f"biofluid status is missing for {accession}")
             counts = project["replicate_counts"]
             if not isinstance(counts, Mapping) or set(counts) != set(arms):
-                raise PrideTriageError(
-                    f"replicate counts do not cover material arms for {accession}"
-                )
+                raise PrideTriageError(f"replicate counts do not cover material arms for {accession}")
             outcomes = project["outcomes"]
-            if not isinstance(outcomes, list) or not all(
-                isinstance(value, str) for value in outcomes
-            ):
+            if not isinstance(outcomes, list) or not all(isinstance(value, str) for value in outcomes):
                 raise PrideTriageError(f"outcomes are invalid for {accession}")
             samples = project["sample_map"]
             if not isinstance(samples, list):
@@ -343,14 +322,10 @@ class PrideTriage:
             if project["split_decision"] == "ELIGIBLE" and not eligible:
                 raise PrideTriageError(f"eligible project failed sample-plan checks: {accession}")
             if project["split_decision"] != "ELIGIBLE" and eligible:
-                raise PrideTriageError(
-                    f"non-eligible project passed sample-plan checks: {accession}"
-                )
+                raise PrideTriageError(f"non-eligible project passed sample-plan checks: {accession}")
             card = dict(project)
             card["candidate_registry_status"] = "LINKED" if candidate_ids else "METADATA_ONLY_SEED"
-            card["file_status_counts"] = dict(
-                sorted(Counter(_file_status(file) for file in files).items())
-            )
+            card["file_status_counts"] = dict(sorted(Counter(_file_status(file) for file in files).items()))
             card["sample_count"] = len(normalized_samples)
             card["sample_plan_valid"] = eligible
             card["no_raw_download"] = True
@@ -391,9 +366,7 @@ class PrideTriage:
             "projects": len(cards),
             "eligible_projects": sum(row["eligible_for_split"] for row in eligibility),
             "review_projects": sum(row["split_decision"] == "PARK_REVIEW" for row in eligibility),
-            "metadata_only_projects": sum(
-                row["split_decision"] == "METADATA_ONLY" for row in eligibility
-            ),
+            "metadata_only_projects": sum(row["split_decision"] == "METADATA_ONLY" for row in eligibility),
             "sample_rows": sum(len(value["samples"]) for value in sample_maps),
             "no_raw_download": True,
             "locked_payload_accessed": False,
@@ -402,9 +375,7 @@ class PrideTriage:
         input_hashes = {
             "fixture": _sha256(self.fixture_path.read_bytes()),
             "paper_families": _sha256((self.root / "registry/paper_families.parquet").read_bytes()),
-            "search_candidates": _sha256(
-                (self.root / "registry/search_candidates.jsonl").read_bytes()
-            ),
+            "search_candidates": _sha256((self.root / "registry/search_candidates.jsonl").read_bytes()),
             "pride_project_fixture": _sha256(
                 (self.root / "tests/fixtures/sources/pride/project_PXD000001.json").read_bytes()
             ),

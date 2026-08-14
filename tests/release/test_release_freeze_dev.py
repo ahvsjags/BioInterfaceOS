@@ -44,9 +44,7 @@ def test_development_release_freeze_rejects_checksum_mutation(tmp_path: Path) ->
     fixture_path = tmp_path / "fixture.json"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(DevelopmentReleaseFreezeError, match="checksum differs"):
-        DevelopmentReleaseFreezeWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "release"
-        ).run()
+        DevelopmentReleaseFreezeWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "release").run()
 
 
 def test_development_release_freeze_rejects_tampered_artifact(tmp_path: Path) -> None:

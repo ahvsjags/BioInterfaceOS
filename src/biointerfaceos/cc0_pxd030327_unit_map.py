@@ -30,9 +30,7 @@ class CC0PXD030327UnitMapSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -138,22 +136,20 @@ class CC0PXD030327UnitMapWorkflow:
             "PXD030327 unit-map manifest identity is invalid",
         )
         source = _mapping(manifest.get("source"), "PXD030327 source")
+        publication_date = source.get("publication_date")
         self._require(
             set(source) == self.REQUIRED_SOURCE_FIELDS
             and source.get("accession") == "PXD030327"
             and source.get("license_id") == "CC0-1.0"
-            and source.get("project_api_url")
-            == "https://www.ebi.ac.uk/pride/ws/archive/v2/projects/PXD030327"
-            and source.get("landing_url")
-            == "https://www.ebi.ac.uk/pride/archive/projects/PXD030327"
-            and source.get("publication_date") <= "2024-12-31",
+            and source.get("project_api_url") == "https://www.ebi.ac.uk/pride/ws/archive/v2/projects/PXD030327"
+            and source.get("landing_url") == "https://www.ebi.ac.uk/pride/archive/projects/PXD030327"
+            and isinstance(publication_date, str)
+            and publication_date <= "2024-12-31",
             "PXD030327 source identity is invalid",
         )
         assets = manifest.get("assets")
-        self._require(
-            isinstance(assets, list) and len(assets) == 3,
-            "PXD030327 source asset inventory is invalid",
-        )
+        if not isinstance(assets, list) or len(assets) != 3:
+            raise CC0PXD030327UnitMapError("PXD030327 source asset inventory is invalid")
         assets_by_id: dict[str, dict[str, Any]] = {}
         for value in assets:
             asset = _mapping(value, "PXD030327 source asset")
@@ -190,10 +186,8 @@ class CC0PXD030327UnitMapWorkflow:
             == "MISSING_SOURCE_MATCHED_MATERIAL_OR_SIZE_COVARIATE"
             and admission.get("source_ratio_interpretation")
             == "SOURCE_DEFINED_NUMERIC_EXPOSURE_NOT_MATERIAL_OR_SIZE_COVARIATE"
-            and admission.get("categorical_np_label_status")
-            == "PROHIBITED_AS_PREDICTIVE_IDENTITY_FEATURE"
-            and admission.get("cross_laboratory_endpoint_status")
-            == "SINGLE_LAB_ONLY_NO_COMMON_ENDPOINT"
+            and admission.get("categorical_np_label_status") == "PROHIBITED_AS_PREDICTIVE_IDENTITY_FEATURE"
+            and admission.get("cross_laboratory_endpoint_status") == "SINGLE_LAB_ONLY_NO_COMMON_ENDPOINT"
             and admission.get("admission") == "NOT_ADMITTED"
             and admission.get("model_use") == "PROHIBITED",
             "PXD030327 target admission boundary is weakened",
@@ -203,9 +197,7 @@ class CC0PXD030327UnitMapWorkflow:
     def _verified_assets(self, assets: dict[str, dict[str, Any]]) -> dict[str, Path]:
         paths: dict[str, Path] = {}
         for asset_id, asset in assets.items():
-            path = self._relative_path(
-                asset.get("local_relative_path"), f"PXD030327 asset {asset_id}"
-            )
+            path = self._relative_path(asset.get("local_relative_path"), f"PXD030327 asset {asset_id}")
             self._require(
                 path.stat().st_size == asset["expected_bytes"] and _sha256(path) == asset["sha256"],
                 f"PXD030327 asset {asset_id} does not match the declared source bytes",
@@ -246,9 +238,7 @@ class CC0PXD030327UnitMapWorkflow:
             raise CC0PXD030327UnitMapError("PXD030327 source design columns are invalid")
         positions = {name: index for index, name in enumerate(required_columns)}
         source_rows = [row for row in rows[1:] if row[positions["Run"]] is not None]
-        included_rows = [
-            row for row in source_rows if row[positions["Remove from analysis"]] is False
-        ]
+        included_rows = [row for row in source_rows if row[positions["Remove from analysis"]] is False]
         included_runs = {str(row[positions["Run"]]) for row in included_rows}
         if len(included_runs) != len(included_rows):
             raise CC0PXD030327UnitMapError("PXD030327 unexcluded source runs are not unique")
@@ -259,19 +249,13 @@ class CC0PXD030327UnitMapWorkflow:
             "source_np_labels": sorted({str(row[positions["NP"]]) for row in included_rows}),
             "source_ratio_values": sorted(
                 {row[positions["P/NP ratio"]] for row in included_rows},
-                key=lambda value: (1, 0.0, value)
-                if isinstance(value, str)
-                else (0, float(value), ""),
+                key=lambda value: (1, 0.0, value) if isinstance(value, str) else (0, float(value), ""),
             ),
-            "source_replicate_values": sorted(
-                {row[positions["Replicate"]] for row in included_rows}
-            ),
+            "source_replicate_values": sorted({row[positions["Replicate"]] for row in included_rows}),
         }
         return included_runs, observed
 
-    def _audit_inputs(
-        self, manifest: dict[str, Any], paths: dict[str, Path]
-    ) -> tuple[dict[str, Any], dict[str, Any]]:
+    def _audit_inputs(self, manifest: dict[str, Any], paths: dict[str, Path]) -> tuple[dict[str, Any], dict[str, Any]]:
         contract = _mapping(manifest.get("analysis_unit_contract"), "PXD030327 unit contract")
         included_runs, observed = self._source_rows(paths["sample_table"], contract)
         expected_metadata = contract.get("matrix_metadata_columns")
@@ -293,16 +277,10 @@ class CC0PXD030327UnitMapWorkflow:
                 raise CC0PXD030327UnitMapError(f"PXD030327 source design {key} is stale")
         counts = {
             "matrix_run_column_counts": {key: len(value) for key, value in matrix_runs.items()},
-            "unexcluded_matrix_match_counts": {
-                key: len(value & included_runs) for key, value in matrix_runs.items()
-            },
-            "unmapped_matrix_column_counts": {
-                key: len(value - included_runs) for key, value in matrix_runs.items()
-            },
+            "unexcluded_matrix_match_counts": {key: len(value & included_runs) for key, value in matrix_runs.items()},
+            "unmapped_matrix_column_counts": {key: len(value - included_runs) for key, value in matrix_runs.items()},
             "unique_matrix_run_count": len(set().union(*matrix_runs.values())),
-            "unexcluded_units_missing_from_matrices": len(
-                included_runs - set().union(*matrix_runs.values())
-            ),
+            "unexcluded_units_missing_from_matrices": len(included_runs - set().union(*matrix_runs.values())),
         }
         if any(contract.get(key) != value for key, value in counts.items()):
             raise CC0PXD030327UnitMapError("PXD030327 matrix-to-unit mapping is stale")
@@ -361,9 +339,7 @@ class CC0PXD030327UnitMapWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return CC0PXD030327UnitMapSummary(
             status=report["status"],
             unexcluded_unit_count=observed["unexcluded_unit_count"],
@@ -398,18 +374,11 @@ class CC0PXD030327UnitMapWorkflow:
             or receipt.get("model_use") != "PROHIBITED"
             or admission.get("admission") != "NOT_ADMITTED"
             or admission.get("model_use") != "PROHIBITED"
-            or any(
-                report.get(field) is not False or receipt.get(field) is not False
-                for field in required_false
-            )
+            or any(report.get(field) is not False or receipt.get(field) is not False for field in required_false)
             or receipt.get("unexcluded_unit_count") != observations.get("unexcluded_unit_count")
             or receipt.get("unique_matrix_run_count") != observations.get("unique_matrix_run_count")
             or receipt.get("unmapped_matrix_column_count")
-            != sum(
-                _mapping(
-                    observations.get("unmapped_matrix_column_counts"), "PXD030327 unmapped columns"
-                ).values()
-            )
+            != sum(_mapping(observations.get("unmapped_matrix_column_counts"), "PXD030327 unmapped columns").values())
         ):
             raise CC0PXD030327UnitMapError("PXD030327 unit-map receipt is invalid")
         return CC0PXD030327UnitMapSummary(

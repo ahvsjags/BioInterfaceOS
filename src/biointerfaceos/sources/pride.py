@@ -94,8 +94,7 @@ class PrideAdapter(SourceAdapter):
     def _normalize_accession(value: str) -> str:
         accession = value.strip().upper()
         if not any(
-            accession.startswith(prefix) and accession[len(prefix) :].isdigit()
-            for prefix in PROJECT_ACCESSION_PREFIXES
+            accession.startswith(prefix) and accession[len(prefix) :].isdigit() for prefix in PROJECT_ACCESSION_PREFIXES
         ):
             raise AdapterError("PRIDE queries require a project accession such as PXD000001")
         return accession
@@ -236,12 +235,8 @@ class PrideAdapter(SourceAdapter):
             "source_id": candidate.source_id,
             "accession": accession,
             "title": self._text(record.get("title")),
-            "submission_date": self._text(
-                record.get("submissionDate") or record.get("submission_date")
-            ),
-            "publication_date": self._text(
-                record.get("publicationDate") or record.get("publication_date")
-            ),
+            "submission_date": self._text(record.get("submissionDate") or record.get("submission_date")),
+            "publication_date": self._text(record.get("publicationDate") or record.get("publication_date")),
             "species": self._names(record.get("organisms") or record.get("species")),
             "instruments": self._names(record.get("instruments")),
             "license": self._license(record),
@@ -264,9 +259,7 @@ class PrideAdapter(SourceAdapter):
                 continue
             sha256 = self._sha256_if_supported(item.checksum, item.checksum_type)
             asset_type = (item.category or self._file_type(item.name)).upper()
-            asset_id = hashlib.sha256(
-                f"{candidate.source_id}|{item.name}|{item.url}".encode()
-            ).hexdigest()
+            asset_id = hashlib.sha256(f"{candidate.source_id}|{item.name}|{item.url}".encode()).hexdigest()
             assets.append(
                 AssetDescriptor(
                     asset_id=asset_id,
@@ -348,9 +341,7 @@ class PrideAdapter(SourceAdapter):
             records = [value]
         files: list[PrideFile] = []
         for record in records:
-            name = PrideAdapter._text(
-                record.get("fileName") or record.get("filename") or record.get("name")
-            )
+            name = PrideAdapter._text(record.get("fileName") or record.get("filename") or record.get("name"))
             href = PrideAdapter._text(
                 record.get("downloadLink")
                 or record.get("url")
@@ -365,20 +356,13 @@ class PrideAdapter(SourceAdapter):
             except AdapterError:
                 continue
             checksum = PrideAdapter._text(
-                record.get("sha256")
-                or record.get("sha256sum")
-                or record.get("checksum")
-                or record.get("fileChecksum")
+                record.get("sha256") or record.get("sha256sum") or record.get("checksum") or record.get("fileChecksum")
             )
-            checksum_type = PrideAdapter._text(
-                record.get("checksumType") or record.get("fileChecksumType")
-            )
+            checksum_type = PrideAdapter._text(record.get("checksumType") or record.get("fileChecksumType"))
             category = PrideAdapter._text(
                 record.get("fileType") or record.get("fileCategory") or record.get("category")
             )
-            access = " ".join(
-                str(record.get(key, "")).upper() for key in ("access", "availability", "status")
-            )
+            access = " ".join(str(record.get(key, "")).upper() for key in ("access", "availability", "status"))
             available = not any(word in access for word in ("RESTRICTED", "UNAVAILABLE", "PRIVATE"))
             files.append(
                 PrideFile(

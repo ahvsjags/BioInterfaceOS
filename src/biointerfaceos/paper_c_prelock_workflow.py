@@ -45,9 +45,7 @@ class PaperCPrelockSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -107,9 +105,7 @@ class PaperCPrelockWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/manuscripts/paper_c_prelock_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/manuscripts/paper_c_prelock_fixture.json"
         self.output_root = output_root or self.root / "release/manuscripts/paper_c_prelock"
 
     def _path(self, value: Any, label: str) -> Path:
@@ -126,25 +122,16 @@ class PaperCPrelockWorkflow:
 
     def _fixture(self) -> dict[str, Any]:
         fixture = self._json(self.fixture_path, "Paper C pre-lock fixture")
-        if (
-            fixture.get("schema_version") != 1
-            or fixture.get("mode") != "paper_c_scientific_law_prelock"
-        ):
+        if fixture.get("schema_version") != 1 or fixture.get("mode") != "paper_c_scientific_law_prelock":
             raise PaperCPrelockError("Paper C fixture schema or mode is invalid")
         try:
             evidence_class, claim_level = require_metadata(fixture, "Paper C fixture")
         except EvidenceSemanticsError as exc:
             raise PaperCPrelockError(str(exc)) from exc
-        if (
-            evidence_class is not EvidenceClass.FIXTURE_TEST
-            or claim_level is not AllowedClaimLevel.CONTRACT_TEST
-        ):
+        if evidence_class is not EvidenceClass.FIXTURE_TEST or claim_level is not AllowedClaimLevel.CONTRACT_TEST:
             raise PaperCPrelockError("Paper C fixture must remain contract-only")
         inputs = fixture.get("inputs")
-        if (
-            not isinstance(inputs, list)
-            or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS
-        ):
+        if not isinstance(inputs, list) or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS:
             raise PaperCPrelockError("Paper C input set does not match the evidence contract")
         return fixture
 
@@ -245,9 +232,7 @@ class PaperCPrelockWorkflow:
             or selection.get("claim_status") != "DOWNGRADED_SELECTION_SENSITIVE"
         ):
             raise PaperCPrelockError("T101 selection evidence is invalid")
-        expression_match = re.search(
-            r"selected_expression=(.+?) fallback=", data["T093 symbolic-law report"]
-        )
+        expression_match = re.search(r"selected_expression=(.+?) fallback=", data["T093 symbolic-law report"])
         if expression_match is None:
             raise PaperCPrelockError("T093 selected expression is missing")
         return {
@@ -580,10 +565,7 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
             "abstention_boundaries": {
                 "schema_version": 1,
                 "title": "Abstention boundaries",
-                "rows": [
-                    {"candidate_id": card["candidate_id"], "abstain_if": card["abstain_if"]}
-                    for card in cards
-                ],
+                "rows": [{"candidate_id": card["candidate_id"], "abstain_if": card["abstain_if"]} for card in cards],
             },
             "selection_ood_limits": {
                 "schema_version": 1,
@@ -698,9 +680,7 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
                     "analyses": analyses,
                 }
             ),
-            "allowed_wording.json": _canonical(
-                {**metadata_for(EvidenceClass.FIXTURE_TEST), **allowed}
-            ),
+            "allowed_wording.json": _canonical({**metadata_for(EvidenceClass.FIXTURE_TEST), **allowed}),
             "claim_matrix.json": _canonical(
                 {"schema_version": 1, **metadata_for(EvidenceClass.FIXTURE_TEST), "claims": claims}
             ),
@@ -735,9 +715,7 @@ The claim matrix links C1--C5 to T090, T091, T092, T093, T094, T095, T100, and T
             "predictions_frozen": True,
             "evidence_inputs": len(fixture_data["inputs"]),
             "candidates": len(cards),
-            "strong_candidates": sum(
-                card["support"] == "HIGH_DEVELOPMENT_SUPPORT" for card in cards
-            ),
+            "strong_candidates": sum(card["support"] == "HIGH_DEVELOPMENT_SUPPORT" for card in cards),
             "analyses": len(analyses),
             "predictions": len(predictions),
             "claims": len(claims),

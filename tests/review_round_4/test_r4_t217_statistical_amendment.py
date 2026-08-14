@@ -35,9 +35,7 @@ def test_t217_receipt_verifies_and_keeps_external_gates_closed() -> None:
 
 def test_t217_primary_and_secondary_availability_denominators_are_explicit() -> None:
     output = ROOT / R4T217StatisticalAmendmentWorkflow.OUTPUT_RELATIVE
-    rows = list(
-        csv.DictReader((output / "availability_flow.csv").open(encoding="utf-8", newline=""))
-    )
+    rows = list(csv.DictReader((output / "availability_flow.csv").open(encoding="utf-8", newline="")))
     primary = [row for row in rows if row["route"] == "T195"]
     assert len(primary) == 3
     assert {(row["candidate_count"], row["retained_count"]) for row in primary} == {("9", "9")}
@@ -77,9 +75,7 @@ def test_t217_primary_and_secondary_availability_denominators_are_explicit() -> 
 
 def test_t217_missingness_flow_preserves_author_na_without_imputation() -> None:
     output = ROOT / R4T217StatisticalAmendmentWorkflow.OUTPUT_RELATIVE
-    rows = list(
-        csv.DictReader((output / "missingness_flow.csv").open(encoding="utf-8", newline=""))
-    )
+    rows = list(csv.DictReader((output / "missingness_flow.csv").open(encoding="utf-8", newline="")))
     overall = next(row for row in rows if row["dimension"] == "overall")
     assert overall["source_row_count"] == "23970"
     assert overall["author_na_row_count"] == "6640"
@@ -92,9 +88,7 @@ def test_t217_missingness_flow_preserves_author_na_without_imputation() -> None:
 
 def test_t217_multiplicity_ledger_separates_primary_qc_and_secondary_routes() -> None:
     output = ROOT / R4T217StatisticalAmendmentWorkflow.OUTPUT_RELATIVE
-    rows = list(
-        csv.DictReader((output / "multiplicity_ledger.csv").open(encoding="utf-8", newline=""))
-    )
+    rows = list(csv.DictReader((output / "multiplicity_ledger.csv").open(encoding="utf-8", newline="")))
     primary = [row for row in rows if row["family_id"] == "T217_PRIMARY_EFFECT_AND_INTERVAL"]
     qc = [row for row in rows if row["family_id"] == "T197_WITHIN_BATCH_NEGATIVE_CONTROL"]
     secondary = [row for row in rows if row["family_id"] == "T217_SECONDARY_DESCRIPTIVE_ROUTES"]

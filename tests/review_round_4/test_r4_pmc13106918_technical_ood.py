@@ -9,7 +9,6 @@ import pytest
 
 from biointerfaceos.r4_pmc13106918_technical_ood import R4PMC13106918TechnicalOODWorkflow
 
-
 ROOT = Path(__file__).resolve().parents[2]
 
 

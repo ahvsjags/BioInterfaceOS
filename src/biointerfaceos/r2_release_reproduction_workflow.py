@@ -26,9 +26,7 @@ class R2ReleaseReproductionError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -102,9 +100,7 @@ class R2ReleaseReproductionWorkflow:
         else:
             findings.extend(audit._readme_findings())
         if findings:
-            raise R2ReleaseReproductionError(
-                "public-release boundary is not auditable: " + "; ".join(sorted(findings))
-            )
+            raise R2ReleaseReproductionError("public-release boundary is not auditable: " + "; ".join(sorted(findings)))
         public = [row for row in inventory if row["redistribution"] == "PUBLIC"]
         paths = {str(row["path"]) for row in public}
         missing = self.REQUIRED_PUBLIC_PATHS - paths
@@ -112,9 +108,7 @@ class R2ReleaseReproductionWorkflow:
             raise R2ReleaseReproductionError(
                 "required R2 public source is not registered: " + ", ".join(sorted(missing))
             )
-        unsafe = [
-            str(row["path"]) for row in public if self._forbidden_public_path(str(row["path"]))
-        ]
+        unsafe = [str(row["path"]) for row in public if self._forbidden_public_path(str(row["path"]))]
         if unsafe:
             raise R2ReleaseReproductionError(
                 "fixture, data, registry, report, or legacy release entered R2 source scope: "
@@ -124,16 +118,11 @@ class R2ReleaseReproductionWorkflow:
 
     def _is_public_source_only(self) -> bool:
         """Recognize a source bundle before it has created any excluded output directory."""
-        return not any(
-            (self.root / relative).exists() for relative in ("data", "registry", "reports")
-        )
+        return not any((self.root / relative).exists() for relative in ("data", "registry", "reports"))
 
     @classmethod
     def _forbidden_public_path(cls, path: str) -> bool:
-        return (
-            path.startswith(cls.FORBIDDEN_PUBLIC_PREFIXES)
-            and path not in cls.RELEASE_BOUNDARY_DOCUMENTS
-        )
+        return path.startswith(cls.FORBIDDEN_PUBLIC_PREFIXES) and path not in cls.RELEASE_BOUNDARY_DOCUMENTS
 
     @staticmethod
     def _copy_public_source(root: Path, inventory: list[dict[str, Any]], destination: Path) -> None:
@@ -146,9 +135,7 @@ class R2ReleaseReproductionWorkflow:
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
 
-    def _source_manifest(
-        self, inventory: list[dict[str, Any]], *, clean_public_source: bool
-    ) -> dict[str, Any]:
+    def _source_manifest(self, inventory: list[dict[str, Any]], *, clean_public_source: bool) -> dict[str, Any]:
         sources = [
             {
                 "path": str(row["path"]),
@@ -176,9 +163,7 @@ class R2ReleaseReproductionWorkflow:
         pyproject_path = self.root / "pyproject.toml"
         lock_path = self.root / "uv.lock"
         try:
-            pyproject = _mapping(
-                tomllib.loads(pyproject_path.read_text(encoding="utf-8")), "pyproject"
-            )
+            pyproject = _mapping(tomllib.loads(pyproject_path.read_text(encoding="utf-8")), "pyproject")
             lock = _mapping(tomllib.loads(lock_path.read_text(encoding="utf-8")), "uv lock")
         except (OSError, UnicodeError, tomllib.TOMLDecodeError) as exc:
             raise R2ReleaseReproductionError("cannot read pinned Python environment") from exc
@@ -256,9 +241,7 @@ class R2ReleaseReproductionWorkflow:
             self._copy_public_source(self.root, inventory, source_root)
             environment = os.environ.copy()
             environment["BIOINTERFACEOS_NETWORK_DISABLED"] = "1"
-            environment["PYTHONPATH"] = (
-                str(source_root / "src") + os.pathsep + environment.get("PYTHONPATH", "")
-            )
+            environment["PYTHONPATH"] = str(source_root / "src") + os.pathsep + environment.get("PYTHONPATH", "")
             command = [
                 sys.executable,
                 "-m",
@@ -280,8 +263,7 @@ class R2ReleaseReproductionWorkflow:
             except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
                 raise R2ReleaseReproductionError("clean public-source replay failed") from exc
             nested_receipt_path = (
-                source_root
-                / "reports/review_round_2/submission_figures/v1.2.0/generation_receipt.json"
+                source_root / "reports/review_round_2/submission_figures/v1.2.0/generation_receipt.json"
             )
             try:
                 nested_receipt = _mapping(
@@ -289,9 +271,7 @@ class R2ReleaseReproductionWorkflow:
                     "clean replay receipt",
                 )
             except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-                raise R2ReleaseReproductionError(
-                    "clean replay did not write a valid receipt"
-                ) from exc
+                raise R2ReleaseReproductionError("clean replay did not write a valid receipt") from exc
             if (
                 nested_receipt.get("status") != "PASS_R2_PROTOCOL_FIGURE_SUITE"
                 or nested_receipt.get("scientific_submission_ready") is not False
@@ -301,9 +281,7 @@ class R2ReleaseReproductionWorkflow:
                 "command": "python -m biointerfaceos publication render-r2 --strict",
                 "python_executable": sys.executable,
                 "source_mode": "temporary_public_source_only",
-                "network_policy": (
-                    "BIOINTERFACEOS_NETWORK_DISABLED=1; container command requires --network=none"
-                ),
+                "network_policy": ("BIOINTERFACEOS_NETWORK_DISABLED=1; container command requires --network=none"),
                 "return_code": completed.returncode,
                 "stdout_sha256": hashlib.sha256(completed.stdout.encode("utf-8")).hexdigest(),
                 "stderr_sha256": hashlib.sha256(completed.stderr.encode("utf-8")).hexdigest(),
@@ -324,9 +302,7 @@ class R2ReleaseReproductionWorkflow:
             receipt = workflow.run(strict=True)
             verified = workflow.verify()
             if receipt != verified or receipt.get("figure_count") != 3:
-                raise R2ReleaseReproductionError(
-                    "clean source did not rebuild all R2 protocol figures"
-                )
+                raise R2ReleaseReproductionError("clean source did not rebuild all R2 protocol figures")
             return {
                 "command": "SubmissionFigureQAWorkflow(...).run(strict=True)",
                 "python_executable": sys.executable,
@@ -367,9 +343,7 @@ class R2ReleaseReproductionWorkflow:
         if not strict:
             raise R2ReleaseReproductionError("T118 requires --strict")
         if self.output_root.exists():
-            raise R2ReleaseReproductionError(
-                "R2 software replay already executed; overwrite refused"
-            )
+            raise R2ReleaseReproductionError("R2 software replay already executed; overwrite refused")
         clean_public_source = self._is_public_source_only()
         inventory = self._public_inventory()
         self.output_root.mkdir(parents=True, exist_ok=False)
@@ -384,11 +358,7 @@ class R2ReleaseReproductionWorkflow:
             source_root = Path(temporary) / "source"
             self._copy_public_source(self.root, inventory, source_root)
             archive_path = self._write_source_archive(source_root, source_manifest_path)
-        clean_replay = (
-            self._source_only_figure_rebuild()
-            if clean_public_source
-            else self._clean_replay(inventory)
-        )
+        clean_replay = self._source_only_figure_rebuild() if clean_public_source else self._clean_replay(inventory)
         clean_replay_path = self.output_root / "clean_replay.json"
         self._write(clean_replay_path, clean_replay)
         junit_path = self.output_root / "junit.xml"
@@ -464,8 +434,7 @@ class R2ReleaseReproductionWorkflow:
             or receipt.get("scientific_reproduction") is not False
             or receipt.get("scientific_submission_ready") is not False
             or source_manifest.get("scope") != "R2_PUBLIC_SOFTWARE_REPLAY_SOURCE"
-            or release_manifest.get("container_network_requirement")
-            != self.CONTAINER_NETWORK_REQUIREMENT
+            or release_manifest.get("container_network_requirement") != self.CONTAINER_NETWORK_REQUIREMENT
         ):
             raise R2ReleaseReproductionError("R2 software replay evidence boundary is invalid")
         files = source_manifest.get("files")

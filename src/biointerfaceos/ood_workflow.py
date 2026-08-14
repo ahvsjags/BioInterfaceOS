@@ -33,9 +33,7 @@ class OODSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -82,21 +80,15 @@ class OODWorkflow:
 
     def _fixture(self) -> dict[str, Any]:
         try:
-            data = _mapping(
-                json.loads(self.fixture_path.read_text(encoding="utf-8")), "OOD fixture"
-            )
+            data = _mapping(json.loads(self.fixture_path.read_text(encoding="utf-8")), "OOD fixture")
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise OODWorkflowError(f"cannot load OOD fixture: {exc}") from exc
-        if data.get("schema_version") != 1 or data.get("mode") != (
-            "ood_leave_group_and_sensitivity"
-        ):
+        if data.get("schema_version") != 1 or data.get("mode") != ("ood_leave_group_and_sensitivity"):
             raise OODWorkflowError("OOD fixture schema or mode is invalid")
         for key in ("inputs", "preregistration", "group_rows", "sensitivity_rows"):
             if key not in data:
                 raise OODWorkflowError(f"OOD fixture is missing {key}")
-        if not all(
-            isinstance(data[key], list) for key in ("inputs", "group_rows", "sensitivity_rows")
-        ):
+        if not all(isinstance(data[key], list) for key in ("inputs", "group_rows", "sensitivity_rows")):
             raise OODWorkflowError("OOD fixture list fields are invalid")
         preregistration = _mapping(data["preregistration"], "OOD preregistration")
         if preregistration.get("schema_version") != 1:
@@ -130,9 +122,7 @@ class OODWorkflow:
             raise OODWorkflowError("T099 ablation receipt is missing")
 
     @classmethod
-    def _rows(
-        cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _rows(cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]) -> list[dict[str, Any]]:
         required = {
             "dimension",
             "group_id",
@@ -158,24 +148,16 @@ class OODWorkflow:
                 raise OODWorkflowError("OOD dimension/group is invalid or duplicated")
             if source.get("key_source") != "pre_outcome_group_key":
                 raise OODWorkflowError("OOD group key is outcome-dependent")
-            if not isinstance(source.get("ood"), bool) or not isinstance(
-                source.get("is_largest_group"), bool
-            ):
+            if not isinstance(source.get("ood"), bool) or not isinstance(source.get("is_largest_group"), bool):
                 raise OODWorkflowError("OOD group flags are invalid")
             rows.append(
                 {
                     "dimension": dimension,
                     "group_id": group_id,
                     "n": int(_number(source.get("n"), "OOD group n")),
-                    "primary_metric": round(
-                        _number(source.get("primary_metric"), "primary metric"), 8
-                    ),
-                    "calibration_error": round(
-                        _number(source.get("calibration_error"), "calibration error"), 8
-                    ),
-                    "selective_risk": round(
-                        _number(source.get("selective_risk"), "selective risk"), 8
-                    ),
+                    "primary_metric": round(_number(source.get("primary_metric"), "primary metric"), 8),
+                    "calibration_error": round(_number(source.get("calibration_error"), "calibration error"), 8),
+                    "selective_risk": round(_number(source.get("selective_risk"), "selective risk"), 8),
                     "coverage": round(_number(source.get("coverage"), "coverage"), 8),
                     "ood": source["ood"],
                     "evidence_grade": _string(source.get("evidence_grade"), "evidence grade"),
@@ -217,15 +199,9 @@ class OODWorkflow:
                     "scenario": scenario,
                     "dimension": _string(source.get("dimension"), "sensitivity dimension"),
                     "excluded_group": _string(source.get("excluded_group"), "excluded group"),
-                    "primary_metric": round(
-                        _number(source.get("primary_metric"), "sensitivity metric"), 8
-                    ),
-                    "calibration_error": round(
-                        _number(source.get("calibration_error"), "sensitivity calibration"), 8
-                    ),
-                    "selective_risk": round(
-                        _number(source.get("selective_risk"), "sensitivity risk"), 8
-                    ),
+                    "primary_metric": round(_number(source.get("primary_metric"), "sensitivity metric"), 8),
+                    "calibration_error": round(_number(source.get("calibration_error"), "sensitivity calibration"), 8),
+                    "selective_risk": round(_number(source.get("selective_risk"), "sensitivity risk"), 8),
                     "evidence_grade_only": source["evidence_grade_only"],
                 }
             )
@@ -245,9 +221,7 @@ class OODWorkflow:
         sensitivity = self._sensitivity(fixture_data)
         low_n = [row for row in rows if row["n"] < int(preregistration["minimum_group_n"])]
         largest = [row for row in rows if row["is_largest_group"]]
-        claim_status = (
-            "NARROWED_BY_OOD" if low_n or any(row["ood"] for row in rows) else "SUPPORTED"
-        )
+        claim_status = "NARROWED_BY_OOD" if low_n or any(row["ood"] for row in rows) else "SUPPORTED"
         low_n_ledger = [
             {
                 "dimension": row["dimension"],
@@ -335,11 +309,7 @@ class OODWorkflow:
             payload = _canonical(raw_payloads[name])
             path.write_bytes(payload)
             artifacts[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload),
                 "bytes": len(payload),
             }

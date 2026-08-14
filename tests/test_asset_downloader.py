@@ -44,8 +44,7 @@ class AssetDownloaderTests(unittest.TestCase):
             self.assertEqual(summary.bytes, 61)
             self.assertEqual(AssetStore(root).verify().references, 2)
             receipts = [
-                json.loads(line)
-                for line in (root / "reports/download_receipts.jsonl").read_text().splitlines()
+                json.loads(line) for line in (root / "reports/download_receipts.jsonl").read_text().splitlines()
             ]
             self.assertEqual(
                 {row["status"] for row in receipts},

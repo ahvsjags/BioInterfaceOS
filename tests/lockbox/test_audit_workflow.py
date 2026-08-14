@@ -42,13 +42,9 @@ def test_audit_rejects_tampered_audit_receipt(tmp_path: Path) -> None:
 
 
 def test_audit_rejects_protected_value_contamination() -> None:
-    result_path = (
-        _root() / "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0/evaluation_results.json"
-    )
+    result_path = _root() / "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0/evaluation_results.json"
     log_path = _root() / "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0/operation_log.json"
-    receipt_path = (
-        _root() / "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0/first_run_receipt.json"
-    )
+    receipt_path = _root() / "reports/lockbox/evaluation/bioif-lockbox-eval-v1.0.0/first_run_receipt.json"
     results = _json(result_path)
     results["rows"][0]["raw_value"] = 0.0
     with pytest.raises(LockboxAuditError):

@@ -85,9 +85,7 @@ class M5Workflow:
 
     def _config(self) -> dict[str, Any]:
         try:
-            config = _mapping(
-                yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M5 config"
-            )
+            config = _mapping(yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M5 config")
         except (OSError, UnicodeError, yaml.YAMLError) as exc:
             raise M5Error(f"cannot load M5 config: {exc}") from exc
         if config.get("schema_version") != 1 or config.get("model") != "M5":
@@ -105,9 +103,7 @@ class M5Workflow:
             raise M5Error(f"cannot load M5 fixture: {exc}") from exc
         if data.get("schema_version") != 1 or data.get("mode") != "m5_dynamic_fixture":
             raise M5Error("M5 fixture schema or mode is invalid")
-        if not isinstance(data.get("inputs"), list) or not isinstance(
-            data.get("trajectories"), list
-        ):
+        if not isinstance(data.get("inputs"), list) or not isinstance(data.get("trajectories"), list):
             raise M5Error("M5 inputs/trajectories are invalid")
         return data
 
@@ -138,9 +134,7 @@ class M5Workflow:
         return loaded
 
     @staticmethod
-    def _trajectories(
-        fixture: Mapping[str, Any], config: Mapping[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _trajectories(fixture: Mapping[str, Any], config: Mapping[str, Any]) -> list[dict[str, Any]]:
         trajectories: list[dict[str, Any]] = []
         seen: set[str] = set()
         for value in fixture["trajectories"]:
@@ -169,16 +163,11 @@ class M5Workflow:
                 if (
                     not isinstance(component, list)
                     or len(component) != 3
-                    or any(
-                        isinstance(part, bool) or not isinstance(part, int | float)
-                        for part in component
-                    )
+                    or any(isinstance(part, bool) or not isinstance(part, int | float) for part in component)
                 ):
                     raise M5Error(f"M5 component vector is invalid: {trajectory_id}")
                 vector = [_number(part, "M5 component") for part in component]
-                if any(part < 0.0 for part in vector) or abs(sum(vector) - 1.0) > float(
-                    config["simplex_tolerance"]
-                ):
+                if any(part < 0.0 for part in vector) or abs(sum(vector) - 1.0) > float(config["simplex_tolerance"]):
                     raise M5Error(f"M5 component violates simplex: {trajectory_id}")
                 vectors.append(_normalize(vector))
             trajectories.append(
@@ -205,8 +194,7 @@ class M5Workflow:
             duration = end_time - start_time
             rates.append(
                 [
-                    (trajectory["components"][-1][index] - trajectory["components"][0][index])
-                    / duration
+                    (trajectory["components"][-1][index] - trajectory["components"][0][index]) / duration
                     for index in range(3)
                 ]
             )
@@ -215,16 +203,12 @@ class M5Workflow:
         ]
 
     @staticmethod
-    def _predict(
-        trajectory: Mapping[str, Any], start: list[float], rates: list[float]
-    ) -> list[list[float]]:
+    def _predict(trajectory: Mapping[str, Any], start: list[float], rates: list[float]) -> list[list[float]]:
         origin = trajectory["times"][0]
         predictions: list[list[float]] = []
         for time in trajectory["times"]:
             elapsed = time - origin
-            predictions.append(
-                _normalize([start[index] + rates[index] * elapsed for index in range(3)])
-            )
+            predictions.append(_normalize([start[index] + rates[index] * elapsed for index in range(3)]))
         return predictions
 
     @staticmethod
@@ -233,13 +217,10 @@ class M5Workflow:
         toy_start = [0.5, 0.3, 0.2]
         toy_rates = [-0.05, 0.02, 0.03]
         observed = [
-            _normalize([toy_start[index] + toy_rates[index] * time for index in range(3)])
-            for time in toy_times
+            _normalize([toy_start[index] + toy_rates[index] * time for index in range(3)]) for time in toy_times
         ]
         recovered_rates = [(observed[-1][index] - observed[0][index]) / 2.0 for index in range(3)]
-        max_error = max(
-            abs(left - right) for left, right in zip(toy_rates, recovered_rates, strict=True)
-        )
+        max_error = max(abs(left - right) for left, right in zip(toy_rates, recovered_rates, strict=True))
         return {
             "status": "PASSED" if max_error < 1e-9 else "FAILED",
             "expected_rates": toy_rates,
@@ -257,13 +238,9 @@ class M5Workflow:
         self._inputs(fixture_data)
         trajectories = self._trajectories(fixture_data, config)
         train = [trajectory for trajectory in trajectories if trajectory["split"] == "train"]
-        validation = [
-            trajectory for trajectory in trajectories if trajectory["split"] == "validation"
-        ]
+        validation = [trajectory for trajectory in trajectories if trajectory["split"] == "validation"]
         sufficiency_passed = len(trajectories) >= int(config["g3_min_trajectories"])
-        model_kind = (
-            "hierarchical_kinetics" if sufficiency_passed else str(config["fallback_model"])
-        )
+        model_kind = "hierarchical_kinetics" if sufficiency_passed else str(config["fallback_model"])
         start, rates = self._fit_rates(train)
         predictions: dict[str, list[list[float]]] = {}
         trajectory_metrics: list[dict[str, Any]] = []
@@ -280,9 +257,7 @@ class M5Workflow:
                     "simplex_valid": all(abs(sum(vector) - 1.0) < 1e-9 for vector in predicted),
                 }
             )
-        validation_errors = [
-            metric["rmse"] for metric in trajectory_metrics if metric["split"] == "validation"
-        ]
+        validation_errors = [metric["rmse"] for metric in trajectory_metrics if metric["split"] == "validation"]
         validation_rmse = _mean(validation_errors)
         leave_study_out: list[dict[str, Any]] = []
         for held_out in sorted({trajectory["study"] for trajectory in train}):
@@ -290,9 +265,7 @@ class M5Workflow:
             hold = [trajectory for trajectory in train if trajectory["study"] == held_out]
             hold_start, hold_rates = self._fit_rates(fit)
             errors = [
-                _trajectory_rmse(
-                    trajectory["components"], self._predict(trajectory, hold_start, hold_rates)
-                )
+                _trajectory_rmse(trajectory["components"], self._predict(trajectory, hold_start, hold_rates))
                 for trajectory in hold
             ]
             leave_study_out.append(
@@ -305,9 +278,7 @@ class M5Workflow:
         constraints = {
             "schema_version": 1,
             "all_input_simplex_valid": True,
-            "all_prediction_simplex_valid": all(
-                metric["simplex_valid"] for metric in trajectory_metrics
-            ),
+            "all_prediction_simplex_valid": all(metric["simplex_valid"] for metric in trajectory_metrics),
             "mass_error_max": 0.0,
             "negative_values": 0,
             "constraint_policy": "clip_and_renormalize",
@@ -374,9 +345,7 @@ class M5Workflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -424,9 +393,7 @@ class M5Workflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

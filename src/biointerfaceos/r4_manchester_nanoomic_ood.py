@@ -115,9 +115,7 @@ class R4ManchesterNanoOmicWorkflow:
             writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
             writer.writeheader()
             for row in rows:
-                writer.writerow(
-                    {field: "" if row.get(field) is None else row.get(field) for field in fields}
-                )
+                writer.writerow({field: "" if row.get(field) is None else row.get(field) for field in fields})
 
     @staticmethod
     def _json(path: Path, label: str) -> dict[str, Any]:
@@ -153,9 +151,7 @@ class R4ManchesterNanoOmicWorkflow:
     def _source_files(self) -> dict[str, Path]:
         expected = (self.root / "data/raw/r4_candidate_pmc13212878/author_repo").resolve()
         if self.assets_root != expected:
-            raise R4ManchesterNanoOmicError(
-                "Manchester source requires the fixed author-repository root"
-            )
+            raise R4ManchesterNanoOmicError("Manchester source requires the fixed author-repository root")
         paths: dict[str, Path] = {}
         for cohort, filename in self.MATRIX_FILES.items():
             path = self.assets_root / filename
@@ -186,16 +182,9 @@ class R4ManchesterNanoOmicWorkflow:
 
     def _target_gene_map(self) -> tuple[dict[str, str], set[str]]:
         ledger_path = self.root / "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv"
-        mapping_dir = (
-            self.root
-            / "data/raw/r3_uniprot_v1_0_1/uniprot_human_mapping/uniprot_api_response_batches"
-        )
+        mapping_dir = self.root / "data/raw/r3_uniprot_v1_0_1/uniprot_human_mapping/uniprot_api_response_batches"
         ledger = self._read_csv(ledger_path, "R3 common target ledger")
-        targets = {
-            row["canonical_accession"]
-            for row in ledger
-            if row.get("common_rank_target_member") == "true"
-        }
+        targets = {row["canonical_accession"] for row in ledger if row.get("common_rank_target_member") == "true"}
         gene_to_accessions: dict[str, set[str]] = defaultdict(set)
         for path in sorted(mapping_dir.glob("*.tsv")):
             for row in self._read_csv(path, f"UniProt mapping batch {path.name}", delimiter="\t"):
@@ -206,9 +195,7 @@ class R4ManchesterNanoOmicWorkflow:
                     if gene:
                         gene_to_accessions[gene].add(accession)
         unique = {
-            gene: next(iter(accessions))
-            for gene, accessions in gene_to_accessions.items()
-            if len(accessions) == 1
+            gene: next(iter(accessions)) for gene, accessions in gene_to_accessions.items() if len(accessions) == 1
         }
         if len(unique) < 200 or len(targets) != 99:
             raise R4ManchesterNanoOmicError("frozen R3 gene-to-UniProt mapping is incomplete")
@@ -277,16 +264,10 @@ class R4ManchesterNanoOmicWorkflow:
                                     "measurement_batch_id": batch,
                                     "source_file": path.name,
                                     "source_row": source_row_number,
-                                    "source_coordinate": (
-                                        f"{path.name}::{column}::{source_row_number}"
-                                    ),
+                                    "source_coordinate": (f"{path.name}::{column}::{source_row_number}"),
                                     "author_quantity_type": "STANDARDIZED_AUTHOR_ABUNDANCE",
-                                    "author_numeric_value": ""
-                                    if not math.isfinite(numeric)
-                                    else numeric,
-                                    "author_value_state": "POSITIVE_QUANTIFIED"
-                                    if positive
-                                    else "NOT_RANK_ELIGIBLE",
+                                    "author_numeric_value": "" if not math.isfinite(numeric) else numeric,
+                                    "author_value_state": "POSITIVE_QUANTIFIED" if positive else "NOT_RANK_ELIGIBLE",
                                     "rank_target_eligible": "true" if positive else "false",
                                     "analysis_candidate_eligible": "true"
                                     if positive and canonical_accession
@@ -294,9 +275,7 @@ class R4ManchesterNanoOmicWorkflow:
                                 }
                             )
             except (OSError, UnicodeError, csv.Error) as exc:
-                raise R4ManchesterNanoOmicError(
-                    f"cannot parse Manchester matrix {path.name}"
-                ) from exc
+                raise R4ManchesterNanoOmicError(f"cannot parse Manchester matrix {path.name}") from exc
         qualified = {batch for batch, count in batch_target_positive.items() if count >= 10}
         shared = {row["canonical_accession"] for row in rows if row["canonical_accession"]}
         expected = {
@@ -320,9 +299,7 @@ class R4ManchesterNanoOmicWorkflow:
         if actual != expected:
             raise R4ManchesterNanoOmicError(f"Manchester source accounting differs: {actual}")
         for row in rows:
-            row["rank_qualified_measurement_batch"] = (
-                "true" if row["measurement_batch_id"] in qualified else "false"
-            )
+            row["rank_qualified_measurement_batch"] = "true" if row["measurement_batch_id"] in qualified else "false"
         return rows, {
             **actual,
             "qualified_batches": sorted(qualified),
@@ -391,12 +368,8 @@ class R4ManchesterNanoOmicWorkflow:
                 "biofluid": "human plasma",
                 "particle": "liposome protein corona",
                 "source_unit": "patient-by-timepoint matrix column",
-                "independent_biological_unit": (
-                    "deidentified patient ID, clustered across timepoints"
-                ),
-                "target_resolution": (
-                    "gene name resolved to one frozen R3 UniProt canonical accession"
-                ),
+                "independent_biological_unit": ("deidentified patient ID, clustered across timepoints"),
+                "target_resolution": ("gene name resolved to one frozen R3 UniProt canonical accession"),
             },
             "source_access_condition": {
                 "status": "PUBLIC_ANALYSIS_ONLY_NO_REPOSITORY_LICENSE_ASSERTION",
@@ -413,9 +386,7 @@ class R4ManchesterNanoOmicWorkflow:
                 "relative_path": map_path.relative_to(self.root).as_posix(),
                 "sha256": _sha256(map_path),
             },
-            "accounting": {
-                key: value for key, value in accounting.items() if key != "qualified_batches"
-            },
+            "accounting": {key: value for key, value in accounting.items() if key != "qualified_batches"},
             "claim_boundary": (
                 "Author-run exploratory external OOD only; not a protected lockbox, "
                 "independent evaluator receipt, no-author reproduction, clinical "
@@ -463,9 +434,7 @@ class R4ManchesterNanoOmicWorkflow:
         report = self._json(report_path, "Manchester source report")
         receipt = self._json(receipt_path, "Manchester source receipt")
         source_map = _mapping(report.get("source_map"), "Manchester source map")
-        map_path = self._root_file(
-            _string(source_map.get("relative_path"), "source map path"), "source map"
-        )
+        map_path = self._root_file(_string(source_map.get("relative_path"), "source map path"), "source map")
         if (
             report.get("audit_id") != self.AUDIT_ID
             or receipt.get("audit_id") != self.AUDIT_ID
@@ -537,10 +506,9 @@ class R4ManchesterNanoOmicWorkflow:
         }
         for name in ("spearman", "mae", "rmse"):
             values = [row[name] for row in unit_rows.values()]
+            numeric_values = [float(value) for value in values if value is not None]
             aggregate[f"subject_equal_mean_{name}"] = (
-                None
-                if any(value is None for value in values)
-                else float(np.mean([float(value) for value in values]))
+                None if len(numeric_values) != len(values) else float(np.mean(numeric_values))
             )
         spearman_values = [item["spearman"] for item in metrics]
         aggregate["batch_weighted_mean_spearman"] = (
@@ -554,10 +522,12 @@ class R4ManchesterNanoOmicWorkflow:
     def _cluster_bootstrap(
         unit_rows: Mapping[str, Mapping[str, float | None]], metric: str, seed: int
     ) -> tuple[float, float] | None:
-        values = np.asarray(
-            [float(row[metric]) for row in unit_rows.values() if row[metric] is not None],
-            dtype=float,
-        )
+        numeric_values: list[float] = []
+        for row in unit_rows.values():
+            value = row[metric]
+            if value is not None:
+                numeric_values.append(float(value))
+        values = np.asarray(numeric_values, dtype=float)
         if len(values) != len(unit_rows):
             return None
         rng = np.random.default_rng(seed)
@@ -580,10 +550,7 @@ class R4ManchesterNanoOmicWorkflow:
         observations: list[_Observation] = []
         target_rows: list[dict[str, Any]] = []
         for row in rows:
-            if (
-                row.get("analysis_candidate_eligible") != "true"
-                or row["measurement_batch_id"] not in qualified
-            ):
+            if row.get("analysis_candidate_eligible") != "true" or row["measurement_batch_id"] not in qualified:
                 continue
             rank = ranks.get(f"{row['measurement_batch_id']}:{row['source_coordinate']}")
             accession = row.get("canonical_accession", "")
@@ -658,12 +625,8 @@ class R4ManchesterNanoOmicWorkflow:
         feature_values = {row.canonical_accession: row.feature_values for row in development}
         external, target_rows, batch_to_unit = self._external_observations(feature_values, protocol)
         full_indices = tuple(range(len(helper.FEATURE_NAMES)))
-        composition_indices = tuple(
-            helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES
-        )
-        full_alpha, full_selection = helper._select_alpha(
-            development, full_indices, minimum_proteins=10
-        )
+        composition_indices = tuple(helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES)
+        full_alpha, full_selection = helper._select_alpha(development, full_indices, minimum_proteins=10)
         composition_alpha, composition_selection = helper._select_alpha(
             development, composition_indices, minimum_proteins=10
         )
@@ -685,22 +648,21 @@ class R4ManchesterNanoOmicWorkflow:
             spearman_ci = self._cluster_bootstrap(unit_rows, "spearman", 20260820 + index)
             mae_ci = self._cluster_bootstrap(unit_rows, "mae", 20260820 + index + 10)
             rmse_ci = self._cluster_bootstrap(unit_rows, "rmse", 20260820 + index + 20)
+            biological_unit_count = aggregate["biological_unit_count"]
+            if biological_unit_count is None:
+                raise R4ManchesterNanoOmicError("biological unit count is undefined")
             model_rows.append(
                 {
                     "model_id": model_id,
                     "external_observation_count": len(external),
                     "external_measurement_batch_count": len(metrics),
-                    "biological_unit_count": int(aggregate["biological_unit_count"]),
+                    "biological_unit_count": int(biological_unit_count),
                     "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
                     if model_id == "CONSTANT_TRAINING_MEAN"
                     else "DEFINED",
                     **aggregate,
-                    "subject_equal_mean_spearman_lower_95": None
-                    if spearman_ci is None
-                    else spearman_ci[0],
-                    "subject_equal_mean_spearman_upper_95": None
-                    if spearman_ci is None
-                    else spearman_ci[1],
+                    "subject_equal_mean_spearman_lower_95": None if spearman_ci is None else spearman_ci[0],
+                    "subject_equal_mean_spearman_upper_95": None if spearman_ci is None else spearman_ci[1],
                     "subject_equal_mean_mae_lower_95": None if mae_ci is None else mae_ci[0],
                     "subject_equal_mean_mae_upper_95": None if mae_ci is None else mae_ci[1],
                     "subject_equal_mean_rmse_lower_95": None if rmse_ci is None else rmse_ci[0],
@@ -729,19 +691,15 @@ class R4ManchesterNanoOmicWorkflow:
                     }
                 )
         full_primary = next(
-            row["subject_equal_mean_spearman"]
-            for row in model_rows
-            if row["model_id"] == "SEQUENCE_RIDGE_FULL"
+            row["subject_equal_mean_spearman"] for row in model_rows if row["model_id"] == "SEQUENCE_RIDGE_FULL"
         )
-        paired_batches = sorted(
-            {batch for model, batch in metric_by_model_batch if model == "SEQUENCE_RIDGE_FULL"}
-        )
+        paired_batches = sorted({batch for model, batch in metric_by_model_batch if model == "SEQUENCE_RIDGE_FULL"})
         paired_by_unit: dict[str, list[float]] = defaultdict(list)
         paired = []
         for batch in paired_batches:
-            difference = float(
-                metric_by_model_batch[("SEQUENCE_RIDGE_FULL", batch)]["spearman"]
-            ) - float(metric_by_model_batch[("SEQUENCE_RIDGE_COMPOSITION_ONLY", batch)]["spearman"])
+            difference = float(metric_by_model_batch[("SEQUENCE_RIDGE_FULL", batch)]["spearman"]) - float(
+                metric_by_model_batch[("SEQUENCE_RIDGE_COMPOSITION_ONLY", batch)]["spearman"]
+            )
             paired.append(difference)
             paired_by_unit[batch_to_unit[batch]].append(difference)
         paired_unit_means = [float(np.mean(values)) for _, values in sorted(paired_by_unit.items())]
@@ -769,23 +727,15 @@ class R4ManchesterNanoOmicWorkflow:
                 )
                 for row, target in zip(development, permuted, strict=True)
             ]
-            permuted_alpha, _ = helper._select_alpha(
-                permuted_development, full_indices, minimum_proteins=10
-            )
-            null_model = helper._fit_ridge(
-                permuted_development, full_indices, permuted_alpha, targets=permuted
-            )
+            permuted_alpha, _ = helper._select_alpha(permuted_development, full_indices, minimum_proteins=10)
+            null_model = helper._fit_ridge(permuted_development, full_indices, permuted_alpha, targets=permuted)
             null_metrics, _ = self._cluster_metrics(
-                helper._batch_metrics(
-                    external, helper._predict_ridge(null_model, external), minimum_proteins=10
-                ),
+                helper._batch_metrics(external, helper._predict_ridge(null_model, external), minimum_proteins=10),
                 batch_to_unit,
             )
             score = null_metrics["subject_equal_mean_spearman"]
             if score is None:
-                raise R4ManchesterNanoOmicError(
-                    "Manchester negative control has undefined Spearman"
-                )
+                raise R4ManchesterNanoOmicError("Manchester negative control has undefined Spearman")
             null_scores.append(float(score))
             null_rows.append(
                 {
@@ -836,10 +786,7 @@ class R4ManchesterNanoOmicWorkflow:
         self._write_csv(
             paths["selection"],
             ["model_id", "alpha", "held_out_inner_batch_id", "spearman", "selected_alpha"],
-            [
-                {"model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha}
-                for row in full_selection
-            ]
+            [{"model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha} for row in full_selection]
             + [
                 {
                     "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
@@ -897,9 +844,7 @@ class R4ManchesterNanoOmicWorkflow:
             "development_observation_count": len(development),
             "development_canonical_protein_count": len(accessions),
             "external_observation_count": len(external),
-            "external_shared_canonical_protein_count": len(
-                {row.canonical_accession for row in external}
-            ),
+            "external_shared_canonical_protein_count": len({row.canonical_accession for row in external}),
             "external_measurement_batch_count": len({row.measurement_batch_id for row in external}),
             "biological_unit_count": len(set(batch_to_unit.values())),
             "laboratory_anchor_count": 1,
@@ -908,9 +853,7 @@ class R4ManchesterNanoOmicWorkflow:
                 "paired_measurement_batch_count": len(paired),
                 "paired_patient_cluster_count": len(paired_unit_means),
                 "full_minus_composition_batch_weighted_mean_spearman": float(np.mean(paired)),
-                "full_minus_composition_patient_equal_mean_spearman": float(
-                    np.mean(paired_unit_means)
-                ),
+                "full_minus_composition_patient_equal_mean_spearman": float(np.mean(paired_unit_means)),
                 **paired_ci,
             },
             "negative_control_summary": negative,
@@ -933,9 +876,7 @@ class R4ManchesterNanoOmicWorkflow:
                 "report_sha256": _sha256(report_path),
                 "development_observation_count": len(development),
                 "external_observation_count": len(external),
-                "external_shared_canonical_protein_count": report[
-                    "external_shared_canonical_protein_count"
-                ],
+                "external_shared_canonical_protein_count": report["external_shared_canonical_protein_count"],
                 "external_measurement_batch_count": report["external_measurement_batch_count"],
                 "biological_unit_count": report["biological_unit_count"],
                 "model_count": len(helper.MODEL_IDS),
@@ -949,12 +890,12 @@ class R4ManchesterNanoOmicWorkflow:
         return R4ManchesterNanoOmicSummary(
             193360,
             177067,
-            report["biological_unit_count"],
-            report["external_measurement_batch_count"],
-            report["external_measurement_batch_count"],
-            report["external_shared_canonical_protein_count"],
+            int(str(report["biological_unit_count"])),
+            int(str(report["external_measurement_batch_count"])),
+            int(str(report["external_measurement_batch_count"])),
+            int(str(report["external_shared_canonical_protein_count"])),
             len(external),
-            report["external_measurement_batch_count"],
+            int(str(report["external_measurement_batch_count"])),
             len(helper.MODEL_IDS),
             receipt_path,
         )
@@ -1009,13 +950,7 @@ class R4ManchesterNanoOmicWorkflow:
             rows.append(
                 {
                     "subject_equal_mean_spearman": float(
-                        np.mean(
-                            [
-                                float(row["spearman"])
-                                for row in values
-                                if row["spearman"] is not None
-                            ]
-                        )
+                        np.mean([float(row["spearman"]) for row in values if row["spearman"] is not None])
                     )
                 }
             )

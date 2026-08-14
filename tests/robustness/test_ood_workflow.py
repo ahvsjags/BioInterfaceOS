@@ -33,9 +33,7 @@ def test_ood_sensitivity_includes_largest_study_and_evidence_grade(tmp_path: Pat
     workflow = OODWorkflow(root, output_root=tmp_path / "ood")
     workflow.run(all_groups=True)
 
-    sensitivity = json.loads(
-        (tmp_path / "ood" / "sensitivity_report.json").read_text(encoding="utf-8")
-    )
+    sensitivity = json.loads((tmp_path / "ood" / "sensitivity_report.json").read_text(encoding="utf-8"))
     low_n = json.loads((tmp_path / "ood" / "low_n_ledger.json").read_text(encoding="utf-8"))
     assert {row["scenario"] for row in sensitivity["rows"]} == {
         "leave_largest_study",

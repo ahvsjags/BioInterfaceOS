@@ -32,9 +32,7 @@ class PrideTriageTests(unittest.TestCase):
             self.assertEqual(len(cards["cards"]), 3)
             self.assertTrue(cards["cards"][0]["sample_plan_valid"])
             self.assertTrue(cards["cards"][0]["no_raw_download"])
-            eligibility = json.loads(
-                summary.outputs["split_eligibility.json"].read_text(encoding="utf-8")
-            )
+            eligibility = json.loads(summary.outputs["split_eligibility.json"].read_text(encoding="utf-8"))
             self.assertEqual(
                 {row["split_decision"] for row in eligibility["projects"]},
                 {"ELIGIBLE", "PARK_REVIEW", "METADATA_ONLY"},

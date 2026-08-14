@@ -47,9 +47,7 @@ class ResolutionAuditWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/resolution_audit_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/resolution_audit_fixture.json")
         self.output_root = output_root or self.root / "reports/agents/audit"
 
     def _fixture(self) -> dict[str, Any]:
@@ -130,9 +128,7 @@ class ResolutionAuditWorkflow:
                     "case_id": case_id,
                     "kind": kind,
                     "original_assertion": dict(original),
-                    "candidate_assertions": [
-                        _mapping(candidate, "candidate assertion") for candidate in candidates
-                    ],
+                    "candidate_assertions": [_mapping(candidate, "candidate assertion") for candidate in candidates],
                     "expected_conflict": expected,
                 }
             )
@@ -197,11 +193,7 @@ class ResolutionAuditWorkflow:
             )
         trace.validate()
         false_merge_rate = (conflicts - detected) / conflicts if conflicts else 0.0
-        selected = (
-            "resolution_audit_agent"
-            if preserved and false_merge_rate <= 0.0
-            else "deterministic_resolver"
-        )
+        selected = "resolution_audit_agent" if preserved and false_merge_rate <= 0.0 else "deterministic_resolver"
         comparison = {
             "schema_version": 1,
             "cases": len(cases),
@@ -246,9 +238,7 @@ class ResolutionAuditWorkflow:
         )
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -295,9 +285,7 @@ class ResolutionAuditWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

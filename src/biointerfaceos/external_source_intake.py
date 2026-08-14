@@ -137,9 +137,7 @@ class ExternalSourceIntakeWorkflow:
             raise ExternalSourceIntakeError(f"{label} escapes the declared assets root")
         path = (self.assets_root / Path(*pure_path.parts)).resolve(strict=False)
         if not path.is_relative_to(self.assets_root) or not path.is_file():
-            raise ExternalSourceIntakeError(
-                f"{label} is missing or outside the declared assets root"
-            )
+            raise ExternalSourceIntakeError(f"{label} is missing or outside the declared assets root")
         return path
 
     @staticmethod
@@ -174,9 +172,7 @@ class ExternalSourceIntakeWorkflow:
         if package["schema_version"] != 1:
             raise ExternalSourceIntakeError("external source manifest schema version is invalid")
         if package["submission_state"] != "SUBMITTED_FOR_PREFLIGHT":
-            raise ExternalSourceIntakeError(
-                "external source manifest is not a submitted preflight package"
-            )
+            raise ExternalSourceIntakeError("external source manifest is not a submitted preflight package")
         if package["target_admission_requested"] is not False:
             raise ExternalSourceIntakeError("external source manifest attempts target admission")
         _string(package["intake_id"], "intake_id")
@@ -227,19 +223,11 @@ class ExternalSourceIntakeWorkflow:
         if unit_id in unit_ids:
             raise ExternalSourceIntakeError(f"analysis unit id is not globally unique: {unit_id}")
         unit_ids.add(unit_id)
-        source_asset_id = _string(
-            unit["source_file_or_result_id"], f"{source_id} source file or result id"
-        )
+        source_asset_id = _string(unit["source_file_or_result_id"], f"{source_id} source file or result id")
         if source_asset_id not in assets:
-            raise ExternalSourceIntakeError(
-                f"{source_id} analysis unit does not reference a source asset"
-            )
-        if _checksum(unit["source_asset_checksum"], f"{source_id} unit asset checksum") != assets[
-            source_asset_id
-        ]:
-            raise ExternalSourceIntakeError(
-                f"{source_id} analysis unit asset checksum is not source-matched"
-            )
+            raise ExternalSourceIntakeError(f"{source_id} analysis unit does not reference a source asset")
+        if _checksum(unit["source_asset_checksum"], f"{source_id} unit asset checksum") != assets[source_asset_id]:
+            raise ExternalSourceIntakeError(f"{source_id} analysis unit asset checksum is not source-matched")
         _string(unit["material_identity"], f"{source_id} material identity")
         covariate = ExternalSourceIntakeWorkflow._exact_keys(
             unit["numeric_material_or_size_covariate"],
@@ -253,9 +241,7 @@ class ExternalSourceIntakeWorkflow:
         _string(unit["replicate_role"], f"{source_id} replicate role")
         _finite_number(unit["shared_endpoint_value"], f"{source_id} shared endpoint value")
         endpoint_unit = _string(unit["endpoint_unit_or_scale"], f"{source_id} endpoint unit")
-        preprocessing = _string(
-            unit["shared_preprocessing_version"], f"{source_id} preprocessing version"
-        )
+        preprocessing = _string(unit["shared_preprocessing_version"], f"{source_id} preprocessing version")
         return unit_id, endpoint_unit, preprocessing
 
     def run(self, *, strict: bool = False) -> ExternalSourceIntakeSummary:
@@ -278,13 +264,9 @@ class ExternalSourceIntakeWorkflow:
                 raise ExternalSourceIntakeError(f"source id is not unique: {source_id}")
             source_ids.add(source_id)
             _string(source["source_accession_or_doi"], f"{source_id} accession or DOI")
-            self._https_locator(
-                source["official_repository_or_publisher_locator"], f"{source_id} official locator"
-            )
+            self._https_locator(source["official_repository_or_publisher_locator"], f"{source_id} official locator")
             if _string(source["source_license"], f"{source_id} source licence") != "CC0-1.0":
-                raise ExternalSourceIntakeError(
-                    f"{source_id} is not eligible for the CC0-only route"
-                )
+                raise ExternalSourceIntakeError(f"{source_id} is not eligible for the CC0-only route")
             laboratory = _string(source["laboratory_affiliation"], f"{source_id} laboratory")
             laboratories.add(laboratory.casefold())
             biofluid = _string(source["human_biofluid"], f"{source_id} human biofluid")
@@ -292,9 +274,7 @@ class ExternalSourceIntakeWorkflow:
                 raise ExternalSourceIntakeError(f"{source_id} does not declare a human biofluid")
             _string(source["assay_and_acquisition_context"], f"{source_id} assay context")
             if source["author_scale_segregated"] is not True:
-                raise ExternalSourceIntakeError(
-                    f"{source_id} does not segregate author quantification"
-                )
+                raise ExternalSourceIntakeError(f"{source_id} does not segregate author quantification")
             assets = self._source_assets(source, source_id)
             for checksum in assets.values():
                 prior_owner = asset_owners.setdefault(checksum, source_id)
@@ -312,9 +292,7 @@ class ExternalSourceIntakeWorkflow:
                 preprocessing_versions.add(preprocessing)
 
         if len(laboratories) < 2:
-            raise ExternalSourceIntakeError(
-                "external source package has fewer than two laboratories"
-            )
+            raise ExternalSourceIntakeError("external source package has fewer than two laboratories")
         if len(endpoint_units) != 1 or len(preprocessing_versions) != 1:
             raise ExternalSourceIntakeError(
                 "external source package does not declare one shared endpoint and preprocessing"

@@ -36,9 +36,7 @@ class ProtocolEffectsSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -91,9 +89,7 @@ class ProtocolEffectsWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/protocol_effects_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/protocol_effects_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/protocol_effects"
 
     def _fixture(self) -> dict[str, Any]:
@@ -123,9 +119,7 @@ class ProtocolEffectsWorkflow:
     def _inputs(self, fixture: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         expected = {
             "T071 model receipt": self.root / "reports/models/m1/m1_receipt.json",
-            "T089 tournament config": (
-                self.root / "reports/claims/tournament/tournament_config.json"
-            ),
+            "T089 tournament config": (self.root / "reports/claims/tournament/tournament_config.json"),
             "T091 mediation receipt": self.root / "reports/omics/mediation/mediation_receipt.json",
         }
         loaded: dict[str, dict[str, Any]] = {}
@@ -134,20 +128,14 @@ class ProtocolEffectsWorkflow:
             label = _string(row.get("label"), "protocol-effects input label")
             if label not in expected:
                 raise ProtocolEffectsError(f"unexpected protocol-effects input: {label}")
-            path = (self.root / _string(row.get("path"), "protocol-effects input path")).resolve(
-                strict=True
-            )
+            path = (self.root / _string(row.get("path"), "protocol-effects input path")).resolve(strict=True)
             if path != expected[label].resolve(strict=True):
                 raise ProtocolEffectsError(f"protocol-effects input path mismatch: {label}")
-            if _sha256(path.read_bytes()) != _string(
-                row.get("sha256"), "protocol-effects input checksum"
-            ):
+            if _sha256(path.read_bytes()) != _string(row.get("sha256"), "protocol-effects input checksum"):
                 raise ProtocolEffectsError(f"protocol-effects input checksum differs: {label}")
             loaded[label] = _mapping(json.loads(path.read_text(encoding="utf-8")), label)
         if set(loaded) != set(expected):
-            raise ProtocolEffectsError(
-                "protocol-effects inputs do not match T071/T089/T091 contract"
-            )
+            raise ProtocolEffectsError("protocol-effects inputs do not match T071/T089/T091 contract")
         if loaded["T071 model receipt"].get("target_values_exposed") is not False:
             raise ProtocolEffectsError("T071 model receipt is not target-isolated")
         if loaded["T089 tournament config"].get("frozen_before_primary") is not True:
@@ -182,9 +170,7 @@ class ProtocolEffectsWorkflow:
             row_id = _string(row.get("row_id"), "protocol-effects row ID")
             split = _string(row.get("split"), "protocol-effects split")
             if row_id in seen or split not in {"development", "validation"}:
-                raise ProtocolEffectsError(
-                    f"protocol-effects row identity or split invalid: {row_id}"
-                )
+                raise ProtocolEffectsError(f"protocol-effects row identity or split invalid: {row_id}")
             sample_size = int(_number(row.get("sample_size"), "protocol sample size"))
             if sample_size < 1:
                 raise ProtocolEffectsError(f"protocol sample size is invalid: {row_id}")
@@ -211,9 +197,7 @@ class ProtocolEffectsWorkflow:
         if not any(row["split"] == "validation" for row in rows):
             raise ProtocolEffectsError("protocol-effects fixture has no validation rows")
         if not all(row["comparable"] for row in rows):
-            raise ProtocolEffectsError(
-                "non-comparable rows must be explicitly excluded before analysis"
-            )
+            raise ProtocolEffectsError("non-comparable rows must be explicitly excluded before analysis")
         return rows
 
     @staticmethod
@@ -227,9 +211,7 @@ class ProtocolEffectsWorkflow:
             "adjusted_effect": round(adjusted, 8),
             "raw_sign": _sign(raw),
             "adjusted_sign": _sign(adjusted),
-            "reversal": _sign(raw) != "zero"
-            and _sign(adjusted) != "zero"
-            and _sign(raw) != _sign(adjusted),
+            "reversal": _sign(raw) != "zero" and _sign(adjusted) != "zero" and _sign(raw) != _sign(adjusted),
         }
 
     @staticmethod
@@ -262,9 +244,7 @@ class ProtocolEffectsWorkflow:
         fixture_data = self._fixture()
         self._inputs(fixture_data)
         rows = self._rows(fixture_data)
-        preregistration = _mapping(
-            fixture_data["preregistration"], "protocol-effects preregistration"
-        )
+        preregistration = _mapping(fixture_data["preregistration"], "protocol-effects preregistration")
         variables = [_string(value, "protocol variable") for value in preregistration["variables"]]
         development = [row for row in rows if row["split"] == "development"]
         validation = [row for row in rows if row["split"] == "validation"]
@@ -273,9 +253,7 @@ class ProtocolEffectsWorkflow:
             "validation": self._effect_summary(validation),
             "all": self._effect_summary(rows),
         }
-        strata: dict[str, list[dict[str, Any]]] = {
-            variable: self._group(rows, variable) for variable in variables
-        }
+        strata: dict[str, list[dict[str, Any]]] = {variable: self._group(rows, variable) for variable in variables}
         within_study = [
             {"study_id": study_id, **self._effect_summary(group)}
             for study_id, group in sorted(
@@ -290,9 +268,7 @@ class ProtocolEffectsWorkflow:
             {"scope": "within_study", "tests": within_study},
             {"scope": "aggregate", "tests": [raw_adjusted["all"]]},
         ] + [{"scope": variable, "tests": tests} for variable, tests in strata.items()]
-        reversals = [
-            test for block in reversal_tests for test in block["tests"] if test["reversal"]
-        ]
+        reversals = [test for block in reversal_tests for test in block["tests"] if test["reversal"]]
         heterogeneity = {variable: self._heterogeneity(tests) for variable, tests in strata.items()}
         counterexamples = [
             {
@@ -307,9 +283,7 @@ class ProtocolEffectsWorkflow:
             if _sign(row["raw_effect"]) == _sign(row["adjusted_effect"])
         ]
         reversal_tolerance = float(preregistration["reversal_tolerance"])
-        heterogeneity_max = max(
-            (float(value["range"]) for value in heterogeneity.values()), default=0.0
-        )
+        heterogeneity_max = max((float(value["range"]) for value in heterogeneity.values()), default=0.0)
         stable_reversal = (
             bool(reversals)
             and all(test["reversal"] for test in within_study)
@@ -317,9 +291,7 @@ class ProtocolEffectsWorkflow:
             and heterogeneity_max <= reversal_tolerance
         )
         universal_reversal_permitted = stable_reversal and not counterexamples
-        language_status = (
-            "UNIVERSAL_REVERSAL" if universal_reversal_permitted else "PROTOCOL_DEPENDENT_BOUNDARY"
-        )
+        language_status = "UNIVERSAL_REVERSAL" if universal_reversal_permitted else "PROTOCOL_DEPENDENT_BOUNDARY"
         language_gate = {
             "schema_version": 1,
             "status": language_status,
@@ -336,9 +308,7 @@ class ProtocolEffectsWorkflow:
         ontology = {
             "schema_version": 1,
             "variables": variables,
-            "levels": {
-                variable: sorted({str(row[variable]) for row in rows}) for variable in variables
-            },
+            "levels": {variable: sorted({str(row[variable]) for row in rows}) for variable in variables},
             "frozen_before_analysis": True,
             "no_posthoc_subgroups": True,
         }
@@ -391,11 +361,7 @@ class ProtocolEffectsWorkflow:
         for name, path in paths.items():
             path.write_bytes(payload_bytes[name])
             artifact_records[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -446,9 +412,7 @@ class ProtocolEffectsWorkflow:
         }
         receipt_path.write_bytes(_canonical(receipt))
         receipt_relative = (
-            str(receipt_path.relative_to(self.root))
-            if receipt_path.is_relative_to(self.root)
-            else str(receipt_path)
+            str(receipt_path.relative_to(self.root)) if receipt_path.is_relative_to(self.root) else str(receipt_path)
         )
         manifest = {
             "schema_version": 1,

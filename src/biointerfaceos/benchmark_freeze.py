@@ -33,9 +33,7 @@ class BenchmarkFreezeSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -74,12 +72,8 @@ class BenchmarkFreezeWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/benchmark/freeze_dev_fixture.json"
-        )
-        self.output_root = output_root or (
-            self.root / "reports/benchmark/releases/biointerfacebench-dev-v1.0.0"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/benchmark/freeze_dev_fixture.json"
+        self.output_root = output_root or (self.root / "reports/benchmark/releases/biointerfacebench-dev-v1.0.0")
 
     def _load_fixture(self) -> dict[str, Any]:
         try:
@@ -132,15 +126,10 @@ class BenchmarkFreezeWorkflow:
             if _sha256(raw) != _string(row.get("sha256"), f"{label} checksum"):
                 raise BenchmarkFreezeError(f"freeze input checksum differs: {label}")
             payload = self._load_json(path, label)
-            expected_status = _mapping(fixture["preregistration"]["required_statuses"], "statuses")[
-                label
-            ]
+            expected_status = _mapping(fixture["preregistration"]["required_statuses"], "statuses")[label]
             if payload.get("status") != expected_status:
                 raise BenchmarkFreezeError(f"{label} status is not {expected_status}")
-            if (
-                label != "T065 frozen development split manifest"
-                and payload.get("target_values_exposed") is not False
-            ):
+            if label != "T065 frozen development split manifest" and payload.get("target_values_exposed") is not False:
                 raise BenchmarkFreezeError(f"{label} exposes target values")
             loaded[label] = payload
         negative = loaded["T102 negative-controls receipt"]
@@ -162,10 +151,7 @@ class BenchmarkFreezeWorkflow:
             layers[name] = self._load_json(path, f"{name} layer")
         public = layers["public_instances"]
         hidden = layers["hidden_registry_metadata"]
-        if (
-            public.get("target_values_exposed") is not False
-            or hidden.get("target_values_exposed") is not False
-        ):
+        if public.get("target_values_exposed") is not False or hidden.get("target_values_exposed") is not False:
             raise BenchmarkFreezeError("benchmark layer target exposure flag is invalid")
         public_rows = public.get("instances")
         hidden_rows = hidden.get("targets")

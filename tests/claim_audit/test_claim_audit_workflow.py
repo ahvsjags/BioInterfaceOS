@@ -22,16 +22,12 @@ def test_claim_audit_rejects_legacy_fixture_lockbox_receipt(tmp_path: Path) -> N
 
 
 def test_claim_audit_rejects_positive_causal_wording() -> None:
-    findings = ClaimAuditWorkflow._language_findings(
-        "The intervention causes a universal reversal."
-    )
+    findings = ClaimAuditWorkflow._language_findings("The intervention causes a universal reversal.")
     assert findings
 
 
 def test_claim_audit_allows_explicit_boundary_wording() -> None:
-    findings = ClaimAuditWorkflow._language_findings(
-        "The package blocks causal and universal-law wording."
-    )
+    findings = ClaimAuditWorkflow._language_findings("The package blocks causal and universal-law wording.")
     assert findings == []
 
 

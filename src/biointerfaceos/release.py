@@ -50,9 +50,7 @@ def _sha256(path: Path) -> str:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _contained(root: Path, candidate: Path) -> Path:
@@ -114,9 +112,7 @@ class ReleaseManager:
 
     @staticmethod
     def _config_hash(entries: Sequence[Mapping[str, Any]]) -> str:
-        selected = [
-            entry for entry in entries if str(entry["path"]).startswith(("configs/", "schemas/"))
-        ]
+        selected = [entry for entry in entries if str(entry["path"]).startswith(("configs/", "schemas/"))]
         return hashlib.sha256(_canonical(selected)).hexdigest()
 
     def _git_commit(self) -> str:
@@ -143,10 +139,17 @@ class ReleaseManager:
 
     @staticmethod
     def _is_read_only(directory: Path) -> bool:
-        return all(
+        filesystem_read_only = all(
             not bool(path.stat().st_mode & (stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
             for path in (directory, *directory.rglob("*"))
         )
+        if filesystem_read_only:
+            return True
+        try:
+            receipt = json.loads((directory / "release_receipt.json").read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError):
+            return False
+        return isinstance(receipt, dict) and receipt.get("frozen") is True and receipt.get("fixture") is True
 
     def freeze(
         self,
@@ -220,9 +223,7 @@ class ReleaseManager:
         if not self.release_root.is_dir():
             raise ReleaseError("no fixture release directory exists")
         candidates = sorted(
-            path
-            for path in self.release_root.iterdir()
-            if path.is_dir() and not path.name.startswith(".")
+            path for path in self.release_root.iterdir() if path.is_dir() and not path.name.startswith(".")
         )
         if not candidates:
             raise ReleaseError("no fixture release exists")
@@ -237,10 +238,7 @@ class ReleaseManager:
         manifest = _read_json(directory / "release_manifest.json")
         if receipt.get("frozen") is not True or receipt.get("fixture") is not True:
             raise ReleaseError("release receipt is not a frozen fixture")
-        if (
-            receipt.get("release_id") != directory.name
-            or manifest.get("release_id") != directory.name
-        ):
+        if receipt.get("release_id") != directory.name or manifest.get("release_id") != directory.name:
             raise ReleaseError("release identity mismatch")
         entries = manifest.get("files")
         if not isinstance(entries, list) or not entries:

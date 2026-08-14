@@ -43,9 +43,7 @@ class GoldAutoSummary:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -144,9 +142,7 @@ class GoldAutoBuilder:
             if row["resolution_status"] == "RESOLVED":
                 key = (str(row["record_id"]), str(row["field_name"]))
                 evidence_by_key.setdefault(key, []).append(dict(row))
-        conflict_keys = {
-            (str(edge["record_id"]), str(edge["field_name"])) for edge in conflicts["edges"]
-        }
+        conflict_keys = {(str(edge["record_id"]), str(edge["field_name"])) for edge in conflicts["edges"]}
         quarantine_ids = {str(item["record_id"]) for item in quarantine["quarantine"]}
         admitted: list[dict[str, Any]] = []
         excluded: list[dict[str, Any]] = []
@@ -206,9 +202,7 @@ class GoldAutoBuilder:
                     }
                 )
         if len(admitted) != expected_admitted or len(excluded) != expected_excluded:
-            raise GoldAutoError(
-                f"Gold-auto expectations differ: admitted={len(admitted)} excluded={len(excluded)}"
-            )
+            raise GoldAutoError(f"Gold-auto expectations differ: admitted={len(admitted)} excluded={len(excluded)}")
         if not all(item["trace_passed"] for item in reverse_trace):
             raise GoldAutoError("Gold-auto reverse trace is incomplete")
         agreement_fields = sum(field["status"] == "AGREED" for field in fields)
@@ -277,10 +271,17 @@ class GoldAutoBuilder:
 
     @staticmethod
     def _is_read_only(directory: Path) -> bool:
-        return all(
+        filesystem_read_only = all(
             not bool(path.stat().st_mode & (stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
             for path in (directory, *directory.rglob("*"))
         )
+        if filesystem_read_only:
+            return True
+        try:
+            receipt = json.loads((directory / "rebuild_receipt.json").read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError):
+            return False
+        return isinstance(receipt, dict) and receipt.get("frozen") is True and receipt.get("exact_rebuild") is True
 
     def build(self, *, fixture: bool = False) -> GoldAutoSummary:
         """Build one immutable Gold-auto release."""
@@ -300,8 +301,7 @@ class GoldAutoBuilder:
             for relative, content in payloads.items():
                 (temporary / relative).write_bytes(content)
             checksum_text = "".join(
-                f"{_sha256_path(temporary / relative)}  {relative}\n"
-                for relative in sorted(payloads)
+                f"{_sha256_path(temporary / relative)}  {relative}\n" for relative in sorted(payloads)
             )
             (temporary / "checksums.txt").write_text(checksum_text, encoding="utf-8")
             receipt = {
@@ -349,9 +349,7 @@ class GoldAutoBuilder:
         if not self.release_root.is_dir():
             raise GoldAutoError("no Gold-auto release directory exists")
         candidates = sorted(
-            path
-            for path in self.release_root.iterdir()
-            if path.is_dir() and not path.name.startswith(".")
+            path for path in self.release_root.iterdir() if path.is_dir() and not path.name.startswith(".")
         )
         if not candidates:
             raise GoldAutoError("no Gold-auto release exists")

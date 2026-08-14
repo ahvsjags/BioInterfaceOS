@@ -37,9 +37,7 @@ class MediationSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -90,8 +88,7 @@ def _solve(matrix: list[list[float]], vector: list[float]) -> list[float]:
                 continue
             factor = augmented[row][column]
             augmented[row] = [
-                left - factor * right
-                for left, right in zip(augmented[row], augmented[column], strict=True)
+                left - factor * right for left, right in zip(augmented[row], augmented[column], strict=True)
             ]
     return [augmented[row][-1] for row in range(size)]
 
@@ -104,8 +101,7 @@ def _regression(rows: list[dict[str, Any]], outcome: str, features: list[str]) -
     ]
     values = [row[outcome] for row in rows]
     vector = [
-        sum(row[index] * value for row, value in zip(design, values, strict=True))
-        for index in range(len(design[0]))
+        sum(row[index] * value for row, value in zip(design, values, strict=True)) for index in range(len(design[0]))
     ]
     return _solve(matrix, vector)
 
@@ -139,9 +135,7 @@ def _estimate(rows: list[dict[str, Any]], mediator: str) -> dict[str, float | No
     }
 
 
-def _cluster_bootstrap(
-    rows: list[dict[str, Any]], mediator: str, seed: int, replicates: int
-) -> dict[str, Any]:
+def _cluster_bootstrap(rows: list[dict[str, Any]], mediator: str, seed: int, replicates: int) -> dict[str, Any]:
     by_study: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
         by_study.setdefault(row["study_id"], []).append(row)
@@ -161,9 +155,7 @@ def _cluster_bootstrap(
             if value is not None:
                 values.append(float(value))
         intervals[metric] = (
-            [round(_percentile(values, 0.025), 8), round(_percentile(values, 0.975), 8)]
-            if values
-            else None
+            [round(_percentile(values, 0.025), 8), round(_percentile(values, 0.975), 8)] if values else None
         )
     return {
         "mediator": mediator,
@@ -186,9 +178,7 @@ class MediationWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/mediation_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/mediation_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/mediation"
 
     def _fixture(self) -> dict[str, Any]:
@@ -199,10 +189,7 @@ class MediationWorkflow:
             )
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise MediationError(f"cannot load mediation fixture: {exc}") from exc
-        if (
-            data.get("schema_version") != 1
-            or data.get("mode") != "material_corona_outcome_mediation"
-        ):
+        if data.get("schema_version") != 1 or data.get("mode") != "material_corona_outcome_mediation":
             raise MediationError("mediation fixture schema or mode is invalid")
         if not isinstance(data.get("inputs"), list) or not isinstance(data.get("rows"), list):
             raise MediationError("mediation inputs/rows are invalid")
@@ -221,9 +208,7 @@ class MediationWorkflow:
         expected_labels = {
             "T073 M3 receipt": self.root / "reports/models/m3/m3_receipt.json",
             "T076 DAG card": self.root / "reports/models/m6/dag_card.json",
-            "T090 functional axes receipt": (
-                self.root / "reports/omics/functional_axes/functional_axes_receipt.json"
-            ),
+            "T090 functional axes receipt": (self.root / "reports/omics/functional_axes/functional_axes_receipt.json"),
             "T062 modality link graph": self.root / "reports/omics/modality_links/link_graph.json",
         }
         loaded: dict[str, dict[str, Any]] = {}
@@ -232,9 +217,7 @@ class MediationWorkflow:
             label = _string(row.get("label"), "mediation input label")
             if label not in expected_labels:
                 raise MediationError(f"unexpected mediation input: {label}")
-            path = (self.root / _string(row.get("path"), "mediation input path")).resolve(
-                strict=True
-            )
+            path = (self.root / _string(row.get("path"), "mediation input path")).resolve(strict=True)
             if path != expected_labels[label].resolve(strict=True):
                 raise MediationError(f"mediation input path mismatch: {label}")
             if _sha256(path.read_bytes()) != _string(row.get("sha256"), "mediation input checksum"):
@@ -286,13 +269,9 @@ class MediationWorkflow:
                 "split": split,
                 "treatment": treatment,
                 "mediator_primary": _number(row.get("mediator_primary"), "primary mediator"),
-                "mediator_alternative": _number(
-                    row.get("mediator_alternative"), "alternative mediator"
-                ),
+                "mediator_alternative": _number(row.get("mediator_alternative"), "alternative mediator"),
                 "outcome": _number(row.get("outcome"), "mediation outcome"),
-                "baseline_confounder": _number(
-                    row.get("baseline_confounder"), "baseline confounder"
-                ),
+                "baseline_confounder": _number(row.get("baseline_confounder"), "baseline confounder"),
             }
             rows.append(normalized)
             seen.add(row_id)
@@ -328,12 +307,8 @@ class MediationWorkflow:
         uncertainty = {
             "schema_version": 1,
             "cluster_field": "study_id",
-            "primary": _cluster_bootstrap(
-                development, "mediator_primary", bootstrap_seed, replicates
-            ),
-            "alternative": _cluster_bootstrap(
-                development, "mediator_alternative", bootstrap_seed + 1, replicates
-            ),
+            "primary": _cluster_bootstrap(development, "mediator_primary", bootstrap_seed, replicates),
+            "alternative": _cluster_bootstrap(development, "mediator_alternative", bootstrap_seed + 1, replicates),
             "cluster_resampling": True,
         }
         replication_estimates = {
@@ -343,9 +318,7 @@ class MediationWorkflow:
         replication_passed = (
             primary["indirect_effect"] is not None
             and replication_estimates["primary"]["indirect_effect"] is not None
-            and float(primary["indirect_effect"])
-            * float(replication_estimates["primary"]["indirect_effect"])
-            > 0
+            and float(primary["indirect_effect"]) * float(replication_estimates["primary"]["indirect_effect"]) > 0
         )
         dag_sensitivity = []
         for value in fixture_data["dag_scenarios"]:
@@ -370,9 +343,7 @@ class MediationWorkflow:
         all_dag_identified = all(item["causal_claim_permitted"] for item in dag_sensitivity)
         language_gate = {
             "schema_version": 1,
-            "status": "MEDIATION_PERMITTED"
-            if all_dag_identified and replication_passed
-            else "ASSOCIATION_ONLY",
+            "status": "MEDIATION_PERMITTED" if all_dag_identified and replication_passed else "ASSOCIATION_ONLY",
             "causal_claim_permitted": all_dag_identified and replication_passed,
             "gates": {
                 "overlap_passed": True,
@@ -443,11 +414,7 @@ class MediationWorkflow:
         for name, path in paths.items():
             path.write_bytes(payload_bytes[name])
             artifact_records[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -466,9 +433,7 @@ class MediationWorkflow:
         lockbox_path = self.output_root / "lockbox_scan.json"
         lockbox_path.write_bytes(lockbox_bytes)
         lockbox_relative = (
-            str(lockbox_path.relative_to(self.root))
-            if lockbox_path.is_relative_to(self.root)
-            else str(lockbox_path)
+            str(lockbox_path.relative_to(self.root)) if lockbox_path.is_relative_to(self.root) else str(lockbox_path)
         )
         artifact_records["lockbox"] = {
             "path": lockbox_relative,
@@ -500,9 +465,7 @@ class MediationWorkflow:
         }
         receipt_path.write_bytes(_canonical(receipt))
         receipt_relative = (
-            str(receipt_path.relative_to(self.root))
-            if receipt_path.is_relative_to(self.root)
-            else str(receipt_path)
+            str(receipt_path.relative_to(self.root)) if receipt_path.is_relative_to(self.root) else str(receipt_path)
         )
         manifest = {
             "schema_version": 1,

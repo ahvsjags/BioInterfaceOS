@@ -34,10 +34,7 @@ def test_extraction_agent_selects_parsers_and_improves_fixed_pipeline(tmp_path: 
 def test_extraction_agent_trace_contains_tool_decisions(tmp_path: Path) -> None:
     ExtractionAgentWorkflow(_root(), output_root=tmp_path / "extraction").run()
 
-    records = [
-        json.loads(line)
-        for line in (tmp_path / "extraction" / "tool_trace.jsonl").read_text().splitlines()
-    ]
+    records = [json.loads(line) for line in (tmp_path / "extraction" / "tool_trace.jsonl").read_text().splitlines()]
     assert len(records) == 8
     assert {record["event_type"] for record in records} == {
         "parser_selected",

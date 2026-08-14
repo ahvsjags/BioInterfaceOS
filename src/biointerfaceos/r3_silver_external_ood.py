@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
-import math
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
@@ -195,7 +193,7 @@ class R3SilverExternalOODWorkflow:
         if _mapping(protocol.get("target"), "R3 silver external OOD target") != {
             "target_id": "R3_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
             "development_target": "the frozen R3 source-local descending midrank percentile",
-            "external_target": "descending midrank percentile among all strictly positive finite author-reported LOG_CONVERTED_LFQ_ABUNDANCE values in the same silver-source measurement batch",
+            "external_target": "descending midrank percentile among all strictly positive finite author-reported LOG_CONVERTED_LFQ_ABUNDANCE values in the same silver-source measurement batch",  # noqa: E501
             "cross_study_raw_scale": "PROHIBITED",
         }:
             raise R3SilverExternalOODerror("R3 silver external OOD target is invalid")
@@ -212,17 +210,24 @@ class R3SilverExternalOODWorkflow:
         if set(external) != self.REQUIRED_EXTERNAL or external != {
             "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
             "laboratory_anchor": "University of Southern Denmark / Russian Academy of Sciences study",
-            "analysis_population": "strictly positive source rows whose direct UniProt accession exists in the frozen R3 sequence-feature table",
+            "analysis_population": "strictly positive source rows whose direct UniProt accession exists in the frozen R3 sequence-feature table",  # noqa: E501
             "minimum_proteins_per_measurement_batch": 10,
             "expected_measurement_batch_count": 30,
             "expected_shared_canonical_protein_count_at_least": 45,
-            "access_condition": "public author-accessible source; not a protected lockbox and not an independent evaluator",
+            "access_condition": "public author-accessible source; not a protected lockbox and not an independent evaluator",  # noqa: E501
         }:
             raise R3SilverExternalOODerror("R3 silver external OOD external evaluation is invalid")
         features = _mapping(protocol.get("feature_policy"), "R3 silver external OOD feature policy")
         prohibited = [
-            "protein identity", "source identity", "laboratory identity", "worksheet", "condition",
-            "replicate", "source coordinate", "author quantification value", "author rank",
+            "protein identity",
+            "source identity",
+            "laboratory identity",
+            "worksheet",
+            "condition",
+            "replicate",
+            "source coordinate",
+            "author quantification value",
+            "author rank",
         ]
         if set(features) != self.REQUIRED_FEATURES or features != {
             "allowed_feature_set": "R3_UNIPROT_SEQUENCE_COMPOSITION_PHYSICOCHEMICAL_V1",
@@ -233,8 +238,14 @@ class R3SilverExternalOODWorkflow:
         models = protocol.get("models")
         if models != [
             {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
-            {"model_id": "SEQUENCE_RIDGE_FULL", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
-            {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+            {
+                "model_id": "SEQUENCE_RIDGE_FULL",
+                "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+            },
+            {
+                "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+                "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+            },
         ]:
             raise R3SilverExternalOODerror("R3 silver external OOD models are invalid")
         metrics = _mapping(protocol.get("metrics"), "R3 silver external OOD metrics")
@@ -256,7 +267,7 @@ class R3SilverExternalOODWorkflow:
             raise R3SilverExternalOODerror("R3 silver external OOD uncertainty is invalid")
         negative = _mapping(protocol.get("negative_control"), "R3 silver external OOD negative control")
         if set(negative) != self.REQUIRED_NEGATIVE or negative != {
-            "method": "permute R3 development targets independently within each development measurement batch while holding observed nested-selected alpha fixed",
+            "method": "permute R3 development targets independently within each development measurement batch while holding observed nested-selected alpha fixed",  # noqa: E501
             "resamples": 256,
             "random_seed": 20260817,
             "tail": "one-sided upper tail",
@@ -313,8 +324,15 @@ class R3SilverExternalOODWorkflow:
     ) -> tuple[list[_Observation], list[dict[str, Any]], set[str]]:
         source_rows = self._read_csv(source_map_path, "silver source cell map")
         required = {
-            "source_id", "laboratory_anchor", "source_worksheet", "source_row", "source_coordinate",
-            "source_identifier", "measurement_batch_id", "author_quantity_type", "author_numeric_value",
+            "source_id",
+            "laboratory_anchor",
+            "source_worksheet",
+            "source_row",
+            "source_coordinate",
+            "source_identifier",
+            "measurement_batch_id",
+            "author_quantity_type",
+            "author_numeric_value",
             "rank_target_eligible",
         }
         if not required.issubset(source_rows[0]):
@@ -377,7 +395,14 @@ class R3SilverExternalOODWorkflow:
             or any(count < external["minimum_proteins_per_measurement_batch"] for count in by_batch.values())
         ):
             raise R3SilverExternalOODerror("silver source does not meet frozen external OOD coverage")
-        return sorted(observations, key=lambda item: (item.measurement_batch_id, item.target_observation_id)), target_rows, accessions
+        return (
+            sorted(
+                observations,
+                key=lambda item: (item.measurement_batch_id, item.target_observation_id),
+            ),
+            target_rows,
+            accessions,
+        )
 
     @staticmethod
     def _format(value: Any) -> str:
@@ -412,8 +437,7 @@ class R3SilverExternalOODWorkflow:
         if (
             r3_protocol_receipt.get("status") != "FROZEN_R3_COMMON_RANK_ANALYSIS_PROTOCOL"
             or r3_protocol_receipt.get("target_status") != "FROZEN_R3_RANK_BENCHMARK"
-            or silver_receipt.get("status")
-            != "ADMITTED_REAL_HUMAN_PLASMA_EXTERNAL_OOD_SOURCE_PENDING_PROTOCOL_FREEZE"
+            or silver_receipt.get("status") != "ADMITTED_REAL_HUMAN_PLASMA_EXTERNAL_OOD_SOURCE_PENDING_PROTOCOL_FREEZE"
             or silver_receipt.get("model_fitted") is not False
         ):
             raise R3SilverExternalOODerror("frozen R3 input receipt state is invalid")
@@ -431,12 +455,8 @@ class R3SilverExternalOODWorkflow:
             paths["silver_source_cell_map"], features, protocol
         )
         full_indices = tuple(range(len(helper.FEATURE_NAMES)))
-        composition_indices = tuple(
-            helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES
-        )
-        full_alpha, full_selection = helper._select_alpha(
-            development, full_indices, minimum_proteins=10
-        )
+        composition_indices = tuple(helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES)
+        full_alpha, full_selection = helper._select_alpha(development, full_indices, minimum_proteins=10)
         composition_alpha, composition_selection = helper._select_alpha(
             development, composition_indices, minimum_proteins=10
         )
@@ -477,6 +497,8 @@ class R3SilverExternalOODWorkflow:
                 )
             if model_id == "SEQUENCE_RIDGE_FULL":
                 full_primary = aggregate["mean_spearman"]
+            mean_mae_interval = intervals["mean_mae"]
+            mean_rmse_interval = intervals["mean_rmse"]
             model_rows.append(
                 {
                     "model_id": model_id,
@@ -484,18 +506,26 @@ class R3SilverExternalOODWorkflow:
                     "external_measurement_batch_count": len(batch_metrics),
                     "primary_metric_status": primary_status,
                     **aggregate,
-                    "mean_spearman_lower_95": None if intervals["mean_spearman"] is None else intervals["mean_spearman"]["lower_95"],
-                    "mean_spearman_upper_95": None if intervals["mean_spearman"] is None else intervals["mean_spearman"]["upper_95"],
-                    "mean_mae_lower_95": intervals["mean_mae"]["lower_95"],
-                    "mean_mae_upper_95": intervals["mean_mae"]["upper_95"],
-                    "mean_rmse_lower_95": intervals["mean_rmse"]["lower_95"],
-                    "mean_rmse_upper_95": intervals["mean_rmse"]["upper_95"],
+                    "mean_spearman_lower_95": None
+                    if intervals["mean_spearman"] is None
+                    else intervals["mean_spearman"]["lower_95"],
+                    "mean_spearman_upper_95": None
+                    if intervals["mean_spearman"] is None
+                    else intervals["mean_spearman"]["upper_95"],
+                    "mean_mae_lower_95": None if mean_mae_interval is None else mean_mae_interval["lower_95"],
+                    "mean_mae_upper_95": None if mean_mae_interval is None else mean_mae_interval["upper_95"],
+                    "mean_rmse_lower_95": None if mean_rmse_interval is None else mean_rmse_interval["lower_95"],
+                    "mean_rmse_upper_95": None if mean_rmse_interval is None else mean_rmse_interval["upper_95"],
                 }
             )
             for metric in batch_metrics:
                 metric_by_model_batch[(model_id, metric["measurement_batch_id"])] = metric
                 batch_rows.append(
-                    {"model_id": model_id, **metric, "spearman_status": primary_status if metric["spearman"] is None else "DEFINED"}
+                    {
+                        "model_id": model_id,
+                        **metric,
+                        "spearman_status": primary_status if metric["spearman"] is None else "DEFINED",
+                    }
                 )
             for observation, value in zip(external, predictions[model_id], strict=True):
                 prediction_rows.append(
@@ -560,10 +590,13 @@ class R3SilverExternalOODWorkflow:
             ),
         }
         selection_rows = [
-            {"model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha}
-            for row in full_selection
+            {"model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha} for row in full_selection
         ] + [
-            {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", **row, "selected_alpha": composition_alpha}
+            {
+                "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+                **row,
+                "selected_alpha": composition_alpha,
+            }
             for row in composition_selection
         ]
         self.output_root.mkdir(parents=True, exist_ok=False)
@@ -579,17 +612,46 @@ class R3SilverExternalOODWorkflow:
         self._write_csv(paths["external_target_ledger"], self.TARGET_FIELDS, target_rows)
         self._write_csv(
             paths["predictions"],
-            ["model_id", "external_target_observation_id", "canonical_accession", "measurement_batch_id", "observed_rank_percentile_descending", "predicted_rank_percentile_descending"],
+            [
+                "model_id",
+                "external_target_observation_id",
+                "canonical_accession",
+                "measurement_batch_id",
+                "observed_rank_percentile_descending",
+                "predicted_rank_percentile_descending",
+            ],
             prediction_rows,
         )
         self._write_csv(
             paths["batch_metrics"],
-            ["model_id", "measurement_batch_id", "protein_count", "spearman", "spearman_status", "mae", "rmse"],
+            [
+                "model_id",
+                "measurement_batch_id",
+                "protein_count",
+                "spearman",
+                "spearman_status",
+                "mae",
+                "rmse",
+            ],
             batch_rows,
         )
         self._write_csv(
             paths["model_metrics"],
-            ["model_id", "external_observation_count", "external_measurement_batch_count", "primary_metric_status", "mean_spearman", "mean_spearman_lower_95", "mean_spearman_upper_95", "mean_mae", "mean_mae_lower_95", "mean_mae_upper_95", "mean_rmse", "mean_rmse_lower_95", "mean_rmse_upper_95"],
+            [
+                "model_id",
+                "external_observation_count",
+                "external_measurement_batch_count",
+                "primary_metric_status",
+                "mean_spearman",
+                "mean_spearman_lower_95",
+                "mean_spearman_upper_95",
+                "mean_mae",
+                "mean_mae_lower_95",
+                "mean_mae_upper_95",
+                "mean_rmse",
+                "mean_rmse_lower_95",
+                "mean_rmse_upper_95",
+            ],
             model_rows,
         )
         self._write_csv(
@@ -626,7 +688,10 @@ class R3SilverExternalOODWorkflow:
             "evidence_class": protocol["evidence_class"],
             "allowed_claim_level": protocol["allowed_claim_level"],
             "input_references": {
-                name: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)}
+                name: {
+                    "relative_path": path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(path),
+                }
                 for name, path in paths.items()
             },
             "development_observation_count": len(development),

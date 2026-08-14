@@ -116,9 +116,7 @@ class R4ExternalReceiptPreflightWorkflow:
         self.bundle_path = bundle_path.resolve(strict=False)
         self.documents_root = documents_root.resolve(strict=False)
         self.receipt_out = receipt_out.resolve(strict=False)
-        self.repository_root = (
-            repository_root.resolve(strict=False) if repository_root is not None else None
-        )
+        self.repository_root = repository_root.resolve(strict=False) if repository_root is not None else None
 
     @staticmethod
     def _json(path: Path, label: str) -> dict[str, Any]:
@@ -151,27 +149,19 @@ class R4ExternalReceiptPreflightWorkflow:
         fixed = _mapping(value, "fixed release")
         expected_fields = set(cls.FIXED_RELEASE)
         if set(fixed) != expected_fields:
-            raise R4ExternalReceiptPreflightError(
-                "fixed release fields are incomplete or unexpected"
-            )
+            raise R4ExternalReceiptPreflightError("fixed release fields are incomplete or unexpected")
         for key, expected in cls.FIXED_RELEASE.items():
             if fixed[key] != expected:
-                raise R4ExternalReceiptPreflightError(
-                    "bundle is not bound to the current immutable r10.28 release"
-                )
+                raise R4ExternalReceiptPreflightError("bundle is not bound to the current immutable r10.28 release")
         _digest(fixed["commit"], "fixed release commit", length=40)
         _string(fixed["source_commit"], "fixed release source_commit")
         _digest(fixed["manifest_sha256"], "fixed release manifest_sha256")
         return {key: str(item) for key, item in fixed.items()}
 
     @classmethod
-    def _assert_fixed_checkout(
-        cls, value: Any, label: str, fixed_release: Mapping[str, str]
-    ) -> None:
+    def _assert_fixed_checkout(cls, value: Any, label: str, fixed_release: Mapping[str, str]) -> None:
         if value != fixed_release["commit"]:
-            raise R4ExternalReceiptPreflightError(
-                f"{label} checkout_commit is not the fixed r10.28 release commit"
-            )
+            raise R4ExternalReceiptPreflightError(f"{label} checkout_commit is not the fixed r10.28 release commit")
 
     def _assert_repository_anchor(self, fixed_release: Mapping[str, str]) -> None:
         if self.repository_root is None:
@@ -184,16 +174,10 @@ class R4ExternalReceiptPreflightWorkflow:
                 stderr=subprocess.STDOUT,
             ).strip()
         except (OSError, subprocess.CalledProcessError) as exc:
-            raise R4ExternalReceiptPreflightError(
-                "repository root cannot resolve the fixed release tag"
-            ) from exc
+            raise R4ExternalReceiptPreflightError("repository root cannot resolve the fixed release tag") from exc
         if actual_commit != fixed_release["commit"]:
-            raise R4ExternalReceiptPreflightError(
-                "repository checkout does not resolve to the fixed release tag"
-            )
-        manifest_path = self.repository_root / Path(
-            *PurePosixPath(fixed_release["manifest_path"]).parts
-        )
+            raise R4ExternalReceiptPreflightError("repository checkout does not resolve to the fixed release tag")
+        manifest_path = self.repository_root / Path(*PurePosixPath(fixed_release["manifest_path"]).parts)
         try:
             canonical_manifest_bytes = subprocess.check_output(
                 ["git", "show", f"{fixed_release['tag']}:{fixed_release['manifest_path']}"],
@@ -201,27 +185,20 @@ class R4ExternalReceiptPreflightWorkflow:
                 stderr=subprocess.STDOUT,
             )
         except (OSError, subprocess.CalledProcessError) as exc:
-            raise R4ExternalReceiptPreflightError(
-                "repository cannot read the fixed release manifest blob"
-            ) from exc
+            raise R4ExternalReceiptPreflightError("repository cannot read the fixed release manifest blob") from exc
         manifest_matches = (
             manifest_path.is_file()
-            and hashlib.sha256(canonical_manifest_bytes).hexdigest()
-            == fixed_release["manifest_sha256"]
+            and hashlib.sha256(canonical_manifest_bytes).hexdigest() == fixed_release["manifest_sha256"]
         )
         if not manifest_matches:
-            raise R4ExternalReceiptPreflightError(
-                "repository release manifest does not match the fixed release"
-            )
+            raise R4ExternalReceiptPreflightError("repository release manifest does not match the fixed release")
         try:
             manifest = _mapping(
                 json.loads(canonical_manifest_bytes.decode("utf-8")),
                 "fixed release manifest",
             )
         except (UnicodeError, json.JSONDecodeError) as exc:
-            raise R4ExternalReceiptPreflightError(
-                "cannot parse fixed release manifest blob"
-            ) from exc
+            raise R4ExternalReceiptPreflightError("cannot parse fixed release manifest blob") from exc
         if manifest.get("source_commit") != fixed_release["source_commit"]:
             raise R4ExternalReceiptPreflightError("fixed release manifest source_commit differs")
 
@@ -255,9 +232,7 @@ class R4ExternalReceiptPreflightWorkflow:
     @classmethod
     def _failure_records(cls, value: Any, label: str) -> None:
         if not isinstance(value, list) or not value:
-            raise R4ExternalReceiptPreflightError(
-                f"{label} must contain failures and/or negative runs"
-            )
+            raise R4ExternalReceiptPreflightError(f"{label} must contain failures and/or negative runs")
         for index, item in enumerate(value, start=1):
             row = _mapping(item, f"{label} {index}")
             if set(row) != {"run_id", "status", "detail"}:
@@ -353,9 +328,7 @@ class R4ExternalReceiptPreflightWorkflow:
         cls._assert_fixed_checkout(frozen["checkout_commit"], "evaluator", fixed_release)
         _string_list(receipt["commands_and_scope"], "evaluator commands_and_scope")
         cls._aggregate_results(receipt["aggregate_results"], "evaluator aggregate_results")
-        cls._failure_records(
-            receipt["failure_and_negative_runs"], "evaluator failure_and_negative_runs"
-        )
+        cls._failure_records(receipt["failure_and_negative_runs"], "evaluator failure_and_negative_runs")
         cls._deviations(receipt["deviation_ledger"])
         cls._attestation(receipt["attestation"], "evaluator attestation")
         if (
@@ -363,9 +336,7 @@ class R4ExternalReceiptPreflightWorkflow:
             or receipt["author_accessed_protected_observations"] is not False
             or receipt["post_freeze_tuning"] is not False
         ):
-            raise R4ExternalReceiptPreflightError(
-                "evaluator receipt weakens protected-data safeguards"
-            )
+            raise R4ExternalReceiptPreflightError("evaluator receipt weakens protected-data safeguards")
         _string(receipt["immutable_archive_locator"], "evaluator immutable archive locator")
 
     @classmethod
@@ -406,9 +377,7 @@ class R4ExternalReceiptPreflightWorkflow:
         cls._assert_fixed_checkout(frozen["checkout_commit"], "reproduction", fixed_release)
         _string_list(receipt["commands_and_scope"], "reproduction commands_and_scope")
         cls._aggregate_results(receipt["aggregate_results"], "reproduction aggregate_results")
-        cls._failure_records(
-            receipt["failure_and_negative_runs"], "reproduction failure_and_negative_runs"
-        )
+        cls._failure_records(receipt["failure_and_negative_runs"], "reproduction failure_and_negative_runs")
         cls._deviations(receipt["deviation_ledger"])
         cls._attestation(receipt["attestation"], "reproduction attestation")
         if (
@@ -500,9 +469,7 @@ class R4ExternalReceiptPreflightWorkflow:
                 raise R4ExternalReceiptPreflightError("bundle document types are invalid")
             if item["role_not_author_declared"] is not True:
                 raise R4ExternalReceiptPreflightError(f"{document_type} is not declared non-author")
-            path = self._document_path(
-                _string(item["relative_path"], f"{document_type} path"), document_type
-            )
+            path = self._document_path(_string(item["relative_path"], f"{document_type} path"), document_type)
             expected = _digest(item["sha256"], f"{document_type} checksum")
             if _sha256(path) != expected:
                 raise R4ExternalReceiptPreflightError(f"{document_type} checksum differs")
@@ -522,9 +489,7 @@ class R4ExternalReceiptPreflightWorkflow:
             first_user["identity"] == second_user["identity"]
             and first_user["institution"] == second_user["institution"]
         ):
-            raise R4ExternalReceiptPreflightError(
-                "adoption receipts must declare distinct users or institutions"
-            )
+            raise R4ExternalReceiptPreflightError("adoption receipts must declare distinct users or institutions")
 
     def run(self, *, strict: bool = False) -> R4ExternalReceiptPreflightSummary:
         if not strict:
@@ -585,17 +550,14 @@ class R4ExternalReceiptPreflightWorkflow:
             or receipt.get("bundle_id") != bundle["bundle_id"]
             or receipt.get("bundle_sha256") != _sha256(self.bundle_path)
             or receipt.get("fixed_release") != fixed_release
-            or receipt.get("document_sha256")
-            != {name: _sha256(path) for name, path in paths.items()}
+            or receipt.get("document_sha256") != {name: _sha256(path) for name, path in paths.items()}
             or receipt.get("scientific_submission_ready") is not False
             or receipt.get("independence_authenticated") is not False
             or receipt.get("protected_lockbox_accepted") is not False
             or receipt.get("external_scientific_reproduction_accepted") is not False
             or receipt.get("external_user_adoption_accepted") is not False
         ):
-            raise R4ExternalReceiptPreflightError(
-                "R4 external receipt preflight receipt is invalid"
-            )
+            raise R4ExternalReceiptPreflightError("R4 external receipt preflight receipt is invalid")
         return R4ExternalReceiptPreflightSummary(
             status=self.STATUS,
             bundle_id=str(bundle["bundle_id"]),

@@ -58,9 +58,7 @@ class ModelingAgentWorkflow:
         schema_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/modeling_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/modeling_fixture.json")
         self.output_root = output_root or self.root / "reports/agents/modeling"
         self.schema_path = schema_path or self.root / "agents/modeling/modeling.v1.json"
 
@@ -135,9 +133,7 @@ class ModelingAgentWorkflow:
             if label not in expected:
                 raise ModelingAgentError(f"unexpected modeling input: {label}")
             path, checksum = expected[label]
-            declared = (self.root / _string(row.get("path"), "modeling input path")).resolve(
-                strict=True
-            )
+            declared = (self.root / _string(row.get("path"), "modeling input path")).resolve(strict=True)
             if declared != path.resolve(strict=True) or row.get("sha256") != checksum:
                 raise ModelingAgentError(f"modeling input path or checksum differs: {label}")
             if row.get("split") not in {"train", "validation", "frozen"}:
@@ -235,9 +231,7 @@ class ModelingAgentWorkflow:
     @staticmethod
     def _heldout_tuning(plan: dict[str, Any]) -> bool:
         value = _mapping(plan["split_policy"], "modeling split policy")
-        return (
-            value.get("tune_on_validation_targets") is True or value.get("use_test_targets") is True
-        )
+        return value.get("tune_on_validation_targets") is True or value.get("use_test_targets") is True
 
     @staticmethod
     def _compile(code: str) -> tuple[bool, str]:
@@ -438,9 +432,7 @@ class ModelingAgentWorkflow:
         payload_bytes["seal"] = _canonical(seal)
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -494,9 +486,7 @@ class ModelingAgentWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

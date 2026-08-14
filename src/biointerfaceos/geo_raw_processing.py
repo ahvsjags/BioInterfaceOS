@@ -31,9 +31,7 @@ class GeoRawProcessingSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -69,9 +67,7 @@ class GeoRawProcessingWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/geo_raw_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/geo_raw_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/geo_raw"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -104,14 +100,10 @@ class GeoRawProcessingWorkflow:
             raise GeoRawProcessingError(f"raw study requires credentials: {accession}")
         if study.get("manageable") is not True:
             raise GeoRawProcessingError(f"raw study is not manageable: {accession}")
-        self._verify_digest(
-            study.get("source_checksum_material"), study.get("source_file_sha256"), "source reads"
-        )
+        self._verify_digest(study.get("source_checksum_material"), study.get("source_file_sha256"), "source reads")
         reference = _mapping(study.get("reference"), "reference")
         reference_version = _string(reference.get("version"), "reference version")
-        self._verify_digest(
-            reference.get("checksum_material"), reference.get("sha256"), "reference"
-        )
+        self._verify_digest(reference.get("checksum_material"), reference.get("sha256"), "reference")
         reference_rows = reference.get("genes")
         if not isinstance(reference_rows, list) or not reference_rows:
             raise GeoRawProcessingError("reference has no genes")
@@ -187,9 +179,7 @@ class GeoRawProcessingWorkflow:
             }
             if expected_counts != counts:
                 raise GeoRawProcessingError(f"count recovery failed: {sample_id}")
-            expected_unmatched = _int(
-                sample.get("expected_unmatched_pairs"), "expected unmatched pairs"
-            )
+            expected_unmatched = _int(sample.get("expected_unmatched_pairs"), "expected unmatched pairs")
             if expected_unmatched != unmatched:
                 raise GeoRawProcessingError(f"unmatched-pair QC failed: {sample_id}")
             pairs_count = len(pairs)
@@ -219,16 +209,10 @@ class GeoRawProcessingWorkflow:
             raise GeoRawProcessingError(f"within-study replicate QC failed: {accession}")
         condition_means: dict[str, dict[str, float]] = {}
         for condition in sorted(conditions):
-            condition_ids = [
-                row["sample_id"] for row in sample_rows if row["condition"] == condition
-            ]
+            condition_ids = [row["sample_id"] for row in sample_rows if row["condition"] == condition]
             condition_means[condition] = {
                 gene_id: round(
-                    sum(
-                        row["counts"][gene_id]
-                        for row in counts_rows
-                        if row["sample_id"] in condition_ids
-                    )
+                    sum(row["counts"][gene_id] for row in counts_rows if row["sample_id"] in condition_ids)
                     / len(condition_ids),
                     8,
                 )
@@ -246,9 +230,7 @@ class GeoRawProcessingWorkflow:
                         "control_mean_count": control,
                         "treated_mean_count": treated,
                         "treated_minus_control": round(treated - control, 8),
-                        "treated_control_ratio": round(treated / control, 8)
-                        if control > 0
-                        else None,
+                        "treated_control_ratio": round(treated / control, 8) if control > 0 else None,
                     }
                 )
         study_object = {
@@ -272,9 +254,7 @@ class GeoRawProcessingWorkflow:
         data = self._load_fixture()
         study = _mapping(data["study"], "study")
         counting = _mapping(data["counting"], "counting")
-        study_object, qc_rows, contrasts, pairs, matched, unmatched = self._process_study(
-            study, counting
-        )
+        study_object, qc_rows, contrasts, pairs, matched, unmatched = self._process_study(study, counting)
         resume_material = {
             "study": study_object,
             "qc": qc_rows,
@@ -307,9 +287,7 @@ class GeoRawProcessingWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -374,9 +352,7 @@ class GeoRawProcessingWorkflow:
             "cross_study_batch_merge": False,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

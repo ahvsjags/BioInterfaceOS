@@ -97,8 +97,7 @@ class Catalog:
         try:
             connection.execute("BEGIN TRANSACTION")
             connection.execute(
-                "CREATE TABLE IF NOT EXISTS catalog_meta "
-                "(key VARCHAR PRIMARY KEY, value VARCHAR NOT NULL)"
+                "CREATE TABLE IF NOT EXISTS catalog_meta (key VARCHAR PRIMARY KEY, value VARCHAR NOT NULL)"
             )
             connection.execute("DELETE FROM catalog_meta")
             metadata = [("schema_version", str(SCHEMA_VERSION))]
@@ -106,8 +105,7 @@ class Catalog:
             connection.executemany("INSERT INTO catalog_meta VALUES (?, ?)", metadata)
             for name, path in self.inputs.items():
                 connection.execute(
-                    f"CREATE OR REPLACE VIEW {name} AS "
-                    f"SELECT * FROM read_parquet('{self._sql_path(path)}')"
+                    f"CREATE OR REPLACE VIEW {name} AS SELECT * FROM read_parquet('{self._sql_path(path)}')"
                 )
             connection.execute(
                 "CREATE OR REPLACE VIEW asset_provenance AS "
@@ -147,16 +145,10 @@ class Catalog:
                 if expected != _sha256(path):
                     raise CatalogError(f"catalog input changed since build: {name}")
                 connection.execute(f"SELECT * FROM {name} LIMIT 0")
-            source_rows = int(
-                connection.execute("SELECT count(*) FROM source_manifest").fetchone()[0]
-            )
+            source_rows = int(connection.execute("SELECT count(*) FROM source_manifest").fetchone()[0])
             asset_rows = int(connection.execute("SELECT count(*) FROM asset_index").fetchone()[0])
-            rejection_rows = int(
-                connection.execute("SELECT count(*) FROM rejected_sources").fetchone()[0]
-            )
-            join_rows = int(
-                connection.execute("SELECT count(*) FROM asset_provenance").fetchone()[0]
-            )
+            rejection_rows = int(connection.execute("SELECT count(*) FROM rejected_sources").fetchone()[0])
+            join_rows = int(connection.execute("SELECT count(*) FROM asset_provenance").fetchone()[0])
         except CatalogError:
             raise
         except Exception as exc:

@@ -48,9 +48,7 @@ class MaterialResolverTests(unittest.TestCase):
             valid = next(item for item in graphs if item["formulation_id"] == "formulation-valid")
             self.assertTrue(valid["valid"])
             self.assertAlmostEqual(valid["fraction_total"], 1.0)
-            self.assertEqual(
-                {edge["relation"] for edge in valid["edges"]}, {"FORMULATION_COMPONENT"}
-            )
+            self.assertEqual({edge["relation"] for edge in valid["edges"]}, {"FORMULATION_COMPONENT"})
 
     def test_ambiguity_and_invalid_fraction_are_queued_idempotently(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -58,9 +56,7 @@ class MaterialResolverTests(unittest.TestCase):
             resolver.run()
             resolver.run()
             review_path = Path(temporary) / "material_review_queue.jsonl"
-            reviews = [
-                json.loads(line) for line in review_path.read_text().splitlines() if line.strip()
-            ]
+            reviews = [json.loads(line) for line in review_path.read_text().splitlines() if line.strip()]
             self.assertEqual(len(reviews), 2)
             self.assertEqual(
                 {review["reason"] for review in reviews},

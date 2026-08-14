@@ -31,9 +31,7 @@ class QuantificationSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -91,9 +89,7 @@ class QuantificationWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/quantification_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/quantification_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/quantification"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -129,12 +125,8 @@ class QuantificationWorkflow:
             raise QuantificationError("T054 search receipt is not completed")
         artifacts = _mapping(receipt["artifacts"], "search artifacts")
         proteins_artifact = _mapping(artifacts["proteins"], "proteins artifact")
-        proteins_path = (
-            self.root / _string(proteins_artifact.get("path"), "proteins path")
-        ).resolve(strict=True)
-        if _sha256_path(proteins_path) != _string(
-            proteins_artifact.get("sha256"), "proteins sha256"
-        ):
+        proteins_path = (self.root / _string(proteins_artifact.get("path"), "proteins path")).resolve(strict=True)
+        if _sha256_path(proteins_path) != _string(proteins_artifact.get("sha256"), "proteins sha256"):
             raise QuantificationError("T054 protein output checksum differs from receipt")
         proteins = _mapping(json.loads(proteins_path.read_text(encoding="utf-8")), "protein output")
         rows = proteins.get("rows")
@@ -149,9 +141,7 @@ class QuantificationWorkflow:
             accessions.add(accession)
         return accessions
 
-    def _load_samples(
-        self, data: Mapping[str, Any]
-    ) -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
+    def _load_samples(self, data: Mapping[str, Any]) -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
         samples: list[dict[str, Any]] = []
         runs: dict[str, dict[str, Any]] = {}
         seen_replicates: set[tuple[str, int]] = set()
@@ -180,9 +170,7 @@ class QuantificationWorkflow:
             raise QuantificationError("at least two independent runs are required")
         condition_replicates: dict[str, set[int]] = {}
         for row in samples:
-            condition_replicates.setdefault(row["condition"], set()).add(
-                row["biological_replicate"]
-            )
+            condition_replicates.setdefault(row["condition"], set()).add(row["biological_replicate"])
         if any(len(replicates) < 2 for replicates in condition_replicates.values()):
             raise QuantificationError("each condition requires two biological replicates")
         return samples, runs
@@ -252,9 +240,7 @@ class QuantificationWorkflow:
             )
             run_id = str(row["run_id"])
             value = row["intensity"]
-            record["values"][run_id] = (
-                round(float(value) / factors[run_id], 8) if value is not None else None
-            )
+            record["values"][run_id] = round(float(value) / factors[run_id], 8) if value is not None else None
             record["observed"][run_id] = bool(row["observed"])
         run_ids = [str(run["run_id"]) for run in runs]
         for record in by_protein.values():
@@ -336,9 +322,7 @@ class QuantificationWorkflow:
                 if protein_row["values"].get(run_id) is not None
             ]
             if not numerator_values or not denominator_values:
-                raise QuantificationError(
-                    f"expected ratio has insufficient observations: {protein}"
-                )
+                raise QuantificationError(f"expected ratio has insufficient observations: {protein}")
             observed_ratio = round(_median(numerator_values) / _median(denominator_values), 8)
             results.append(
                 {
@@ -378,20 +362,14 @@ class QuantificationWorkflow:
         samples, runs = self._load_samples(data)
         intensities, intensity_proteins = self._load_intensities(data, runs, accepted_proteins)
         groups, contaminant_groups = self._groups(data, intensity_proteins, accepted_proteins)
-        primary_factors = {
-            run_id: float(row["normalization_factor"]) for run_id, row in runs.items()
-        }
+        primary_factors = {run_id: float(row["normalization_factor"]) for run_id, row in runs.items()}
         raw_factors = {run_id: 1.0 for run_id in runs}
         raw_matrix = self._matrix(intensities, samples, factors=raw_factors)
         normalized_matrix = self._matrix(intensities, samples, factors=primary_factors)
         non_contaminant = [row for row in raw_matrix if not row["is_contaminant"]]
         run_medians = {
             run_id: _median(
-                [
-                    float(row["values"][run_id])
-                    for row in non_contaminant
-                    if row["values"].get(run_id) is not None
-                ]
+                [float(row["values"][run_id]) for row in non_contaminant if row["values"].get(run_id) is not None]
             )
             for run_id in runs
         }
@@ -399,12 +377,8 @@ class QuantificationWorkflow:
         median_centering_factors = {
             run_id: round(median / reference_median, 8) for run_id, median in run_medians.items()
         }
-        median_centered_matrix = self._matrix(
-            intensities, samples, factors=median_centering_factors
-        )
-        ratios = self._ratio_recovery(
-            cast(list[Any], data["expected_ratios"]), normalized_matrix, samples
-        )
+        median_centered_matrix = self._matrix(intensities, samples, factors=median_centering_factors)
+        ratios = self._ratio_recovery(cast(list[Any], data["expected_ratios"]), normalized_matrix, samples)
         if not ratios["passed"]:
             raise QuantificationError("synthetic ratio recovery failed")
         missing_rows = [row for row in normalized_matrix if not row["is_contaminant"]]
@@ -413,10 +387,7 @@ class QuantificationWorkflow:
             for row in missing_rows
         }
         missing_by_run = {
-            str(run["run_id"]): sum(
-                row["values"].get(run["run_id"]) is None for row in missing_rows
-            )
-            for run in samples
+            str(run["run_id"]): sum(row["values"].get(run["run_id"]) is None for row in missing_rows) for run in samples
         }
         missing_total = sum(missing_by_protein.values())
         resume_material = {
@@ -473,13 +444,7 @@ class QuantificationWorkflow:
                 "contaminant_groups": contaminant_groups,
                 "quantifiable_proteins": len(non_contaminant),
                 "replicate_counts": {
-                    condition: len(
-                        {
-                            run["biological_replicate"]
-                            for run in samples
-                            if run["condition"] == condition
-                        }
-                    )
+                    condition: len({run["biological_replicate"] for run in samples if run["condition"] == condition})
                     for condition in sorted({run["condition"] for run in samples})
                 },
             },
@@ -488,9 +453,7 @@ class QuantificationWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256_bytes(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -516,8 +479,7 @@ class QuantificationWorkflow:
                 "quantifiable_proteins": len(non_contaminant),
                 "contaminant_groups": contaminant_groups,
                 "ambiguous_groups": sum(
-                    not bool(group["quantifiable"]) and not bool(group["is_contaminant"])
-                    for group in groups
+                    not bool(group["quantifiable"]) and not bool(group["is_contaminant"]) for group in groups
                 ),
             },
             "missingness": {"missing_cells": missing_total, "no_imputation": True},
@@ -557,9 +519,7 @@ class QuantificationWorkflow:
             "ratios_total": ratios["total_count"],
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256_bytes(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

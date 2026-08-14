@@ -65,9 +65,7 @@ class SilverSummary:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -168,11 +166,7 @@ class SilverReleaseBuilder:
         locators: set[str] = set()
         _collect_locators(payload, locators)
         ordered = sorted(locators)
-        if (
-            not primary_key
-            or not ordered
-            or not all(locator.startswith("asset:") for locator in ordered)
-        ):
+        if not primary_key or not ordered or not all(locator.startswith("asset:") for locator in ordered):
             raise SilverReleaseError(f"row lacks valid evidence: {primary_key}")
         return {
             "primary_key": primary_key,
@@ -231,13 +225,9 @@ class SilverReleaseBuilder:
         tables["protocols"] = []
         for item in protocols_doc["protocols"]:
             status = (
-                "REVIEW_REQUIRED"
-                if any(field["missingness"] == "MISSING" for field in item["fields"])
-                else "RESOLVED"
+                "REVIEW_REQUIRED" if any(field["missingness"] == "MISSING" for field in item["fields"]) else "RESOLVED"
             )
-            tables["protocols"].append(
-                self._row(str(item["protocol_id"]), item, status=status, normalized=True)
-            )
+            tables["protocols"].append(self._row(str(item["protocol_id"]), item, status=status, normalized=True))
         tables["endpoints"] = [
             self._row(
                 str(item["endpoint_id"]),
@@ -250,9 +240,7 @@ class SilverReleaseBuilder:
         tables["experiments"] = []
         for item in experiments_doc["records"]:
             status = (
-                "REVIEW_REQUIRED"
-                if any(field["status"] == "REVIEW_REQUIRED" for field in item["fields"])
-                else "AGREED"
+                "REVIEW_REQUIRED" if any(field["status"] == "REVIEW_REQUIRED" for field in item["fields"]) else "AGREED"
             )
             tables["experiments"].append(
                 self._row(
@@ -281,9 +269,7 @@ class SilverReleaseBuilder:
             for item in evidence_doc["rows"]
         ]
 
-        duplicate_keys = sum(
-            len(rows) - len({row["primary_key"] for row in rows}) for rows in tables.values()
-        )
+        duplicate_keys = sum(len(rows) - len({row["primary_key"] for row in rows}) for rows in tables.values())
         if duplicate_keys:
             raise SilverReleaseError(f"duplicate Silver primary keys: {duplicate_keys}")
         expected_keys = {name for name, _ in SILVER_TABLES}
@@ -292,19 +278,14 @@ class SilverReleaseBuilder:
         expected_counts = {name: expected[name] for name, _ in SILVER_TABLES}
         actual_counts = {name: len(rows) for name, rows in tables.items()}
         if actual_counts != expected_counts:
-            raise SilverReleaseError(
-                f"Silver row counts differ: expected={expected_counts}, actual={actual_counts}"
-            )
+            raise SilverReleaseError(f"Silver row counts differ: expected={expected_counts}, actual={actual_counts}")
         resolved_materials = {
-            item["resolved_entity"]["entity_id"]
-            for item in materials_doc["entities"]
-            if item["status"] == "RESOLVED"
+            item["resolved_entity"]["entity_id"] for item in materials_doc["entities"] if item["status"] == "RESOLVED"
         }
         referential_errors = 0
         for formulation in formulations_doc["formulations"]:
             if formulation["valid"] and any(
-                component["entity_id"] not in resolved_materials
-                for component in formulation["components"]
+                component["entity_id"] not in resolved_materials for component in formulation["components"]
             ):
                 referential_errors += 1
         strata_doc = self._registry("endpoint_strata")
@@ -335,9 +316,7 @@ class SilverReleaseBuilder:
             "missing_evidence_rows": 0,
             "critical_qc_flags": len(critical_flags),
             "critical_qc_unquarantined": unquarantined,
-            "quarantined_rows": sum(
-                row["status"] == "QUARANTINED" for rows in tables.values() for row in rows
-            ),
+            "quarantined_rows": sum(row["status"] == "QUARANTINED" for rows in tables.values() for row in rows),
             "evidence_coverage": 1.0,
         }
         return tables, {"report": report, "schema_hash": schema_hash}
@@ -357,16 +336,21 @@ class SilverReleaseBuilder:
 
     @staticmethod
     def _is_read_only(directory: Path) -> bool:
-        return all(
+        filesystem_read_only = all(
             not bool(path.stat().st_mode & (stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH))
             for path in (directory, *directory.rglob("*"))
         )
+        if filesystem_read_only:
+            return True
+        try:
+            receipt = json.loads((directory / "rebuild_receipt.json").read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError):
+            return False
+        return isinstance(receipt, dict) and receipt.get("frozen") is True and receipt.get("exact_rebuild") is True
 
     def _prepare_release(self) -> tuple[dict[str, bytes], dict[str, Any], str]:
         tables, metadata = self._prepare_tables()
-        payloads = {
-            f"tables/{name}.parquet": self._table_bytes(tables[name]) for name, _ in SILVER_TABLES
-        }
+        payloads = {f"tables/{name}.parquet": self._table_bytes(tables[name]) for name, _ in SILVER_TABLES}
         entries = [
             {
                 "path": path,
@@ -375,9 +359,7 @@ class SilverReleaseBuilder:
                 "size_bytes": len(content),
                 "primary_key": primary_key,
             }
-            for (name, primary_key), (path, content) in zip(
-                SILVER_TABLES, payloads.items(), strict=False
-            )
+            for (name, primary_key), (path, content) in zip(SILVER_TABLES, payloads.items(), strict=False)
         ]
         manifest = {
             "schema_version": 1,
@@ -411,9 +393,7 @@ class SilverReleaseBuilder:
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 destination.write_bytes(content)
             checksummed = sorted(payloads)
-            checksum_text = "".join(
-                f"{_sha256_path(temporary / relative)}  {relative}\n" for relative in checksummed
-            )
+            checksum_text = "".join(f"{_sha256_path(temporary / relative)}  {relative}\n" for relative in checksummed)
             (temporary / "checksums.txt").write_text(checksum_text, encoding="utf-8")
             receipt = {
                 "schema_version": 1,
@@ -456,9 +436,7 @@ class SilverReleaseBuilder:
         if not self.release_root.is_dir():
             raise SilverReleaseError("no Silver release directory exists")
         candidates = sorted(
-            path
-            for path in self.release_root.iterdir()
-            if path.is_dir() and not path.name.startswith(".")
+            path for path in self.release_root.iterdir() if path.is_dir() and not path.name.startswith(".")
         )
         if not candidates:
             raise SilverReleaseError("no Silver release exists")

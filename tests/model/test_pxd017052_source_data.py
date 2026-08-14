@@ -72,9 +72,7 @@ def _write_pride_readme(path: Path, result_units: list[str]) -> None:
 
 def _prepared_workflow(tmp_path: Path) -> PXD017052SourceDataWorkflow:
     registry = json.loads(
-        (ROOT / "docs/data/R2_T131_PXD017052_SOURCE_DATA_AUDIT_REGISTRY.json").read_text(
-            encoding="utf-8"
-        )
+        (ROOT / "docs/data/R2_T131_PXD017052_SOURCE_DATA_AUDIT_REGISTRY.json").read_text(encoding="utf-8")
     )
     raw_root = tmp_path / "raw"
     raw_root.mkdir()

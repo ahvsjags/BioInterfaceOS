@@ -29,9 +29,7 @@ class BenchmarkBaselineSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -85,8 +83,7 @@ def _solve(matrix: list[list[float]], vector: list[float]) -> list[float]:
                 continue
             factor = augmented[row][column]
             augmented[row] = [
-                current - factor * basis
-                for current, basis in zip(augmented[row], augmented[column], strict=True)
+                current - factor * basis for current, basis in zip(augmented[row], augmented[column], strict=True)
             ]
     return [augmented[index][-1] for index in range(size)]
 
@@ -106,30 +103,17 @@ def _ridge_fit(features: list[list[float]], targets: list[float], ridge: float) 
 
 
 def _predict_linear(coefficients: list[float], features: list[float]) -> float:
-    return sum(
-        coefficient * value for coefficient, value in zip(coefficients, features, strict=True)
-    )
+    return sum(coefficient * value for coefficient, value in zip(coefficients, features, strict=True))
 
 
 def _rmse(rows: list[dict[str, Any]], predictions: Mapping[str, float]) -> float:
     return math.sqrt(
-        _mean(
-            [
-                (float(predictions[_string(row["instance_id"], "instance ID")]) - row["target"])
-                ** 2
-                for row in rows
-            ]
-        )
+        _mean([(float(predictions[_string(row["instance_id"], "instance ID")]) - row["target"]) ** 2 for row in rows])
     )
 
 
-def _regression_metrics(
-    rows: list[dict[str, Any]], predictions: Mapping[str, float]
-) -> dict[str, Any]:
-    errors = [
-        float(predictions[_string(row["instance_id"], "instance ID")]) - row["target"]
-        for row in rows
-    ]
+def _regression_metrics(rows: list[dict[str, Any]], predictions: Mapping[str, float]) -> dict[str, Any]:
+    errors = [float(predictions[_string(row["instance_id"], "instance ID")]) - row["target"] for row in rows]
     targets = [row["target"] for row in rows]
     mse = _mean([error**2 for error in errors])
     target_mean = _mean(targets)
@@ -144,9 +128,7 @@ def _regression_metrics(
     }
 
 
-def _group_metrics(
-    rows: list[dict[str, Any]], predictions: Mapping[str, float], field: str
-) -> list[dict[str, Any]]:
+def _group_metrics(rows: list[dict[str, Any]], predictions: Mapping[str, float], field: str) -> list[dict[str, Any]]:
     groups: dict[str, list[dict[str, Any]]] = {}
     for row in rows:
         key = _string(row[field], f"group field {field}")
@@ -154,9 +136,7 @@ def _group_metrics(
     return [{field: key, **_regression_metrics(groups[key], predictions)} for key in sorted(groups)]
 
 
-def _bootstrap_ci(
-    rows: list[dict[str, Any]], predictions: Mapping[str, float], seed: int, samples: int
-) -> list[float]:
+def _bootstrap_ci(rows: list[dict[str, Any]], predictions: Mapping[str, float], seed: int, samples: int) -> list[float]:
     rng = random.Random(seed)
     values: list[float] = []
     for _ in range(samples):
@@ -179,9 +159,7 @@ class BenchmarkBaselineWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/benchmark/baseline_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/benchmark/baseline_fixture.json")
         self.instances_path = self.root / "reports/benchmark/instances/public_instances.json"
         self.grading_metrics_path = self.root / "reports/benchmark/grading/metrics.json"
         self.output_root = output_root or self.root / "reports/benchmark/baselines"
@@ -279,10 +257,7 @@ class BenchmarkBaselineWorkflow:
                     excluded.add(key_text)
                     continue
                 if isinstance(value, Mapping):
-                    stack.extend(
-                        (f"{key_text}.{child_key}", child_value)
-                        for child_key, child_value in value.items()
-                    )
+                    stack.extend((f"{key_text}.{child_key}", child_value) for child_key, child_value in value.items())
                     continue
                 leaves += 1
                 if value is None:
@@ -340,9 +315,7 @@ class BenchmarkBaselineWorkflow:
         family_means = {key: _mean(value) for key, value in family_values.items()}
         train_vectors = [vectors[_string(row["instance_id"], "instance ID")] for row in train]
         train_targets = [row["target"] for row in train]
-        linear_coefficients = _ridge_fit(
-            [[1.0, *vector] for vector in train_vectors], train_targets, ridge=0.1
-        )
+        linear_coefficients = _ridge_fit([[1.0, *vector] for vector in train_vectors], train_targets, ridge=0.1)
         baseline_predictions: dict[str, dict[str, float]] = {}
         for name in ("mean", "family_mean", "knn", "linear", "mixed_effect"):
             predictions: dict[str, float] = {}
@@ -359,9 +332,7 @@ class BenchmarkBaselineWorkflow:
                             math.sqrt(
                                 sum(
                                     (left - right) ** 2
-                                    for left, right in zip(
-                                        vectors[instance_id], candidate, strict=True
-                                    )
+                                    for left, right in zip(vectors[instance_id], candidate, strict=True)
                                 )
                             ),
                             train_row["target"],
@@ -434,9 +405,7 @@ class BenchmarkBaselineWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -490,9 +459,7 @@ class BenchmarkBaselineWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

@@ -29,9 +29,7 @@ class BenchmarkGradeSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -116,12 +114,8 @@ def _metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "accuracy": round(accuracy, 6) if accuracy is not None else None,
         "coverage": round(coverage, 6),
         "selective_risk": round(1.0 - accuracy, 6) if accuracy is not None else None,
-        "mean_uncertainty": round(sum(row["uncertainty"] for row in rows) / total, 6)
-        if total
-        else 0.0,
-        "calibration_error": _calibration_error(
-            [bool(row["correct"]) for row in answered], confidence
-        ),
+        "mean_uncertainty": round(sum(row["uncertainty"] for row in rows) / total, 6) if total else 0.0,
+        "calibration_error": _calibration_error([bool(row["correct"]) for row in answered], confidence),
     }
 
 
@@ -144,9 +138,7 @@ class BenchmarkGradingWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/benchmark/grading_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/benchmark/grading_fixture.json")
         self.instances_path = self.root / "reports/benchmark/instances/public_instances.json"
         self.registry_path = self.root / "reports/benchmark/instances/hidden_target_registry.json"
         self.output_root = output_root or self.root / "reports/benchmark/grading"
@@ -192,12 +184,8 @@ class BenchmarkGradingWorkflow:
         if seen != set(required):
             raise BenchmarkGradeError("grading inputs do not match T067 contract")
         try:
-            public = _mapping(
-                json.loads(self.instances_path.read_text(encoding="utf-8")), "public instances"
-            )
-            registry = _mapping(
-                json.loads(self.registry_path.read_text(encoding="utf-8")), "hidden registry"
-            )
+            public = _mapping(json.loads(self.instances_path.read_text(encoding="utf-8")), "public instances")
+            registry = _mapping(json.loads(self.registry_path.read_text(encoding="utf-8")), "hidden registry")
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise BenchmarkGradeError(f"cannot load T067 grading inputs: {exc}") from exc
         if public.get("status") != "VALID" or public.get("target_values_exposed") is not False:
@@ -215,9 +203,7 @@ class BenchmarkGradingWorkflow:
         public_rows = [_mapping(row, "public instance") for row in public["instances"]]
         registry_rows = [_mapping(row, "hidden registry row") for row in registry["targets"]]
         public_ids = {_string(row.get("instance_id"), "public instance ID") for row in public_rows}
-        registry_ids = {
-            _string(row.get("instance_id"), "registry instance ID") for row in registry_rows
-        }
+        registry_ids = {_string(row.get("instance_id"), "registry instance ID") for row in registry_rows}
         if public_ids != registry_ids:
             raise BenchmarkGradeError("public and hidden registry instance IDs differ")
         targets: dict[str, Any] = {}
@@ -275,9 +261,7 @@ class BenchmarkGradingWorkflow:
             instance_id = _string(instance.get("instance_id"), "public instance ID")
             target = targets[instance_id]
             abstained = mode == "abstain"
-            prediction = (
-                None if abstained else target if mode == "perfect" else _wrong_value(target)
-            )
+            prediction = None if abstained else target if mode == "perfect" else _wrong_value(target)
             correct = not abstained and prediction == target
             rows.append(
                 {
@@ -363,9 +347,7 @@ class BenchmarkGradingWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -413,9 +395,7 @@ class BenchmarkGradingWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

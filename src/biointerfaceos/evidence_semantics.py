@@ -100,9 +100,7 @@ def require_metadata(value: Any, label: str) -> tuple[EvidenceClass, AllowedClai
         raise EvidenceSemanticsError(f"{label} evidence metadata is missing or invalid") from exc
     expected = ALLOWED_CLAIM_LEVEL[evidence_class]
     if claim_level is not expected:
-        raise EvidenceSemanticsError(
-            f"{label} claim level {claim_level.value} exceeds {evidence_class.value}"
-        )
+        raise EvidenceSemanticsError(f"{label} claim level {claim_level.value} exceeds {evidence_class.value}")
     return evidence_class, claim_level
 
 
@@ -111,9 +109,7 @@ def forbidden_terms(text: str, evidence_class: EvidenceClass) -> list[str]:
 
     lowered = text.lower()
     return [
-        pattern
-        for pattern in PROHIBITED_PATTERNS[evidence_class]
-        if re.search(pattern, lowered, flags=re.IGNORECASE)
+        pattern for pattern in PROHIBITED_PATTERNS[evidence_class] if re.search(pattern, lowered, flags=re.IGNORECASE)
     ]
 
 

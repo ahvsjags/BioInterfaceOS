@@ -51,9 +51,7 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(first, second)
             self.assertEqual(first.schema_version, 1)
             self.assertEqual(first.source_rows, 0)
-            self.assertEqual(
-                catalog.query("SELECT value FROM catalog_meta WHERE key='schema_version'"), [("1",)]
-            )
+            self.assertEqual(catalog.query("SELECT value FROM catalog_meta WHERE key='schema_version'"), [("1",)])
 
     def test_core_join_reads_parquet_backed_rows(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

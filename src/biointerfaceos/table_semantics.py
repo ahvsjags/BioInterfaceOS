@@ -98,12 +98,8 @@ class TableSemanticsParser:
         report_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/semantics/table_semantics.json"
-        )
-        self.normalized_path = normalized_path or (
-            self.root / "registry/experiment_table_semantics.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/semantics/table_semantics.json")
+        self.normalized_path = normalized_path or (self.root / "registry/experiment_table_semantics.json")
         self.review_path = review_path or self.root / "registry/table_review_queue.jsonl"
         self.report_path = report_path or self.root / "reports/table_semantics.md"
 
@@ -171,25 +167,14 @@ class TableSemanticsParser:
                 cells_by_column["raw_value"]
                 for header in range(1, header_rows + 1)
                 for cells_by_column in sorted(
-                    (
-                        cell
-                        for cell in cells.values()
-                        if cell["column"] == column and cell["row"] == header
-                    ),
+                    (cell for cell in cells.values() if cell["column"] == column and cell["row"] == header),
                     key=lambda value: value["row"],
                 )
             )
             hierarchy[str(column)] = values
-        combined = {
-            column: " ".join(value for value in hierarchy[str(column)] if value).lower()
-            for column in columns
-        }
+        combined = {column: " ".join(value for value in hierarchy[str(column)] if value).lower() for column in columns}
         arm_column = next(
-            (
-                column
-                for column in columns
-                if any(token in combined[column] for token in ("arm", "group", "treatment"))
-            ),
+            (column for column in columns if any(token in combined[column] for token in ("arm", "group", "treatment"))),
             columns[0],
         )
         n_column = next(
@@ -208,22 +193,14 @@ class TableSemanticsParser:
             for column in columns
             if column not in {arm_column, n_column}
             and any(token in combined[column] for token in ("mean", "outcome", "value"))
-            and not any(
-                token in combined[column] for token in ("sd", "se", "error", "stderr", "unit")
-            )
+            and not any(token in combined[column] for token in ("sd", "se", "error", "stderr", "unit"))
         ]
         if not outcome_columns:
             outcome_columns = [column for column in columns if column not in {arm_column, n_column}]
         error_columns = [
-            column
-            for column in columns
-            if any(token in combined[column] for token in ("sd", "se", "error", "stderr"))
+            column for column in columns if any(token in combined[column] for token in ("sd", "se", "error", "stderr"))
         ]
-        unit_columns = [
-            column
-            for column in columns
-            if any(token in combined[column] for token in ("unit", "units"))
-        ]
+        unit_columns = [column for column in columns if any(token in combined[column] for token in ("unit", "units"))]
         reviews: list[dict[str, Any]] = []
         if len(outcome_columns) > 1:
             reviews.append(
@@ -265,20 +242,14 @@ class TableSemanticsParser:
             label = arm_cell["raw_value"]
             arm_id = f"{_slug(str(table['table_id']))}:{_slug(label)}"
             n_cell = row_cells.get(n_column) if n_column is not None else None
-            n_value = (
-                int(float(n_cell["raw_value"]))
-                if n_cell and _number(n_cell["raw_value"]) is not None
-                else None
-            )
+            n_value = int(float(n_cell["raw_value"])) if n_cell and _number(n_cell["raw_value"]) is not None else None
             confidence = "HIGH" if n_value is not None else "LOW"
             arms.append(
                 ExperimentArm(
                     arm_id=arm_id,
                     label=label,
                     sample_size=n_value,
-                    sample_size_locator=(
-                        self._cell_locator(table, n_cell["coordinate"]) if n_cell else None
-                    ),
+                    sample_size_locator=(self._cell_locator(table, n_cell["coordinate"]) if n_cell else None),
                     source_cell_locators=(self._cell_locator(table, arm_cell["coordinate"]),),
                     confidence=confidence,
                 )
@@ -307,18 +278,12 @@ class TableSemanticsParser:
                     if error_cell
                     else None
                 )
-                unit = (
-                    unit_cell["raw_value"]
-                    if unit_cell and unit_cell["raw_value"]
-                    else outcome_cell["unit"]
-                )
+                unit = unit_cell["raw_value"] if unit_cell and unit_cell["raw_value"] else outcome_cell["unit"]
                 measurement_confidence = "HIGH" if mean_value is not None and unit else "LOW"
                 if mean_value is None:
                     reviews.append(
                         {
-                            "review_id": (
-                                f"mean-missing:{table['table_id']}:{outcome_cell['coordinate']}"
-                            ),
+                            "review_id": (f"mean-missing:{table['table_id']}:{outcome_cell['coordinate']}"),
                             "reason": "MEAN_NOT_NUMERIC",
                             "table_id": table["table_id"],
                             "cell_locator": self._cell_locator(table, outcome_cell["coordinate"]),
@@ -356,9 +321,7 @@ class TableSemanticsParser:
         """Parse fixture tables and write normalized output/review evidence."""
         results = tuple(self._parse_table(table) for table in self._load_fixture(self.fixture_path))
         all_arms = [asdict(arm) for result in results for arm in result.arms]
-        all_measurements = [
-            asdict(measurement) for result in results for measurement in result.measurements
-        ]
+        all_measurements = [asdict(measurement) for result in results for measurement in result.measurements]
         reviews = [dict(review) for result in results for review in result.review_items]
         normalized = {
             "schema_version": 1,
@@ -367,9 +330,7 @@ class TableSemanticsParser:
                 {
                     "table_id": result.table_id,
                     "source_asset_id": result.source_asset_id,
-                    "header_hierarchy": {
-                        key: list(value) for key, value in result.header_hierarchy.items()
-                    },
+                    "header_hierarchy": {key: list(value) for key, value in result.header_hierarchy.items()},
                     "arms": [asdict(arm) for arm in result.arms],
                     "measurements": [asdict(measurement) for measurement in result.measurements],
                     "review_items": list(result.review_items),
@@ -401,16 +362,14 @@ class TableSemanticsParser:
                 [
                     "# Table Semantics Report",
                     "",
-                    "Fixture-backed semantic mapping; formulas are preserved as "
-                    "reported values and not recomputed.",
+                    "Fixture-backed semantic mapping; formulas are preserved as reported values and not recomputed.",
                     "",
                     f"- tables: {len(results)}",
                     f"- arms: {len(all_arms)}",
                     f"- measurements: {len(all_measurements)}",
                     f"- review items: {len(reviews)}",
                     "",
-                    "Low-confidence or incompatible semantics remain in "
-                    "registry/table_review_queue.jsonl.",
+                    "Low-confidence or incompatible semantics remain in registry/table_review_queue.jsonl.",
                 ]
             )
             + "\n"

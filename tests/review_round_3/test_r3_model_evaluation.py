@@ -25,12 +25,8 @@ def _observation(index: int, target: float, batch: str) -> _Observation:
 
 
 def test_spearman_handles_ties_and_constant_predictions() -> None:
-    assert R3ModelEvaluationWorkflow._spearman([1.0, 2.0, 3.0], [3.0, 2.0, 1.0]) == pytest.approx(
-        -1.0
-    )
-    assert R3ModelEvaluationWorkflow._spearman([1.0, 1.0, 2.0], [1.0, 1.0, 2.0]) == pytest.approx(
-        1.0
-    )
+    assert R3ModelEvaluationWorkflow._spearman([1.0, 2.0, 3.0], [3.0, 2.0, 1.0]) == pytest.approx(-1.0)
+    assert R3ModelEvaluationWorkflow._spearman([1.0, 1.0, 2.0], [1.0, 1.0, 2.0]) == pytest.approx(1.0)
     assert R3ModelEvaluationWorkflow._spearman([1.0, 2.0, 3.0], [0.5, 0.5, 0.5]) is None
 
 

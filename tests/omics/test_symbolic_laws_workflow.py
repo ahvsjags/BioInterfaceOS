@@ -33,15 +33,9 @@ def test_symbolic_laws_outputs_keep_controls_and_study_disjoint_cv(tmp_path: Pat
     workflow = SymbolicLawsWorkflow(root, output_root=tmp_path / "symbolic_laws")
     workflow.run(fixture=True)
 
-    unit_audit = json.loads(
-        (tmp_path / "symbolic_laws" / "unit_audit.json").read_text(encoding="utf-8")
-    )
-    nested = json.loads(
-        (tmp_path / "symbolic_laws" / "nested_study_cv.json").read_text(encoding="utf-8")
-    )
-    controls = json.loads(
-        (tmp_path / "symbolic_laws" / "flexible_controls.json").read_text(encoding="utf-8")
-    )
+    unit_audit = json.loads((tmp_path / "symbolic_laws" / "unit_audit.json").read_text(encoding="utf-8"))
+    nested = json.loads((tmp_path / "symbolic_laws" / "nested_study_cv.json").read_text(encoding="utf-8"))
+    controls = json.loads((tmp_path / "symbolic_laws" / "flexible_controls.json").read_text(encoding="utf-8"))
     assert unit_audit["rejected_candidates"][0]["reason"] == "dimensional_inconsistency"
     assert nested["nested"] is True
     assert nested["study_disjoint"] is True

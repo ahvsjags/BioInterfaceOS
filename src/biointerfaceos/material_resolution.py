@@ -64,9 +64,7 @@ class MaterialResolver:
         report_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/materials/material_resolution.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/materials/material_resolution.json")
         self.entities_path = entities_path or (self.root / "registry/material_entities.json")
         self.graphs_path = graphs_path or (self.root / "registry/formulation_graphs.json")
         self.review_path = review_path or (self.root / "registry/material_review_queue.jsonl")
@@ -90,9 +88,7 @@ class MaterialResolver:
             raise MaterialResolutionError("material mentions or formulations are invalid")
         mentions = [dict(item) for item in value["mentions"] if isinstance(item, Mapping)]
         formulations = [dict(item) for item in value["formulations"] if isinstance(item, Mapping)]
-        if len(mentions) != len(value["mentions"]) or len(formulations) != len(
-            value["formulations"]
-        ):
+        if len(mentions) != len(value["mentions"]) or len(formulations) != len(value["formulations"]):
             raise MaterialResolutionError("material fixture contains a non-object")
         return mentions, formulations
 
@@ -138,9 +134,7 @@ class MaterialResolver:
                 material_class = _text(candidate["material_class"]).lower()
                 confidence = _float(candidate["confidence"], f"{mention_id}.confidence")
                 if material_class not in self.MATERIAL_CLASSES or not 0.0 <= confidence <= 1.0:
-                    raise MaterialResolutionError(
-                        f"{mention_id} candidate class/confidence invalid"
-                    )
+                    raise MaterialResolutionError(f"{mention_id} candidate class/confidence invalid")
                 candidates.append(dict(candidate))
             candidates.sort(key=lambda item: float(item["confidence"]), reverse=True)
             resolved = len(candidates) == 1 and float(candidates[0]["confidence"]) >= 0.8
@@ -193,10 +187,7 @@ class MaterialResolver:
                 raise MaterialResolutionError(f"{formulation_id} has no components")
             components: list[dict[str, Any]] = []
             for raw_component in raw_components:
-                if (
-                    not isinstance(raw_component, Mapping)
-                    or set(raw_component) != component_required
-                ):
+                if not isinstance(raw_component, Mapping) or set(raw_component) != component_required:
                     raise MaterialResolutionError(f"{formulation_id} component fields are invalid")
                 mention_id = _text(raw_component["mention_id"])
                 role = _text(raw_component["role"]).lower()
@@ -207,14 +198,8 @@ class MaterialResolver:
                 basis = _text(raw_component["fraction_basis"])
                 component_locator = _text(raw_component["source_locator"])
                 if mention_id not in by_mention or role not in self.ROLES:
-                    raise MaterialResolutionError(
-                        f"{formulation_id} component identity/role invalid"
-                    )
-                if (
-                    not 0.0 <= fraction <= 1.0
-                    or not basis
-                    or not component_locator.startswith("asset:")
-                ):
+                    raise MaterialResolutionError(f"{formulation_id} component identity/role invalid")
+                if not 0.0 <= fraction <= 1.0 or not basis or not component_locator.startswith("asset:"):
                     raise MaterialResolutionError(f"{formulation_id} component fraction invalid")
                 mention = by_mention[mention_id]
                 component_status = "RESOLVED" if mention["status"] == "RESOLVED" else "UNRESOLVED"
@@ -222,9 +207,7 @@ class MaterialResolver:
                     {
                         "mention_id": mention_id,
                         "entity_id": (
-                            mention["resolved_entity"]["entity_id"]
-                            if component_status == "RESOLVED"
-                            else None
+                            mention["resolved_entity"]["entity_id"] if component_status == "RESOLVED" else None
                         ),
                         "role": role,
                         "fraction": fraction,
@@ -292,9 +275,7 @@ class MaterialResolver:
         mentions, formulations = self._load_fixture(self.fixture_path)
         reviews: list[dict[str, Any]] = []
         entities, by_mention = self._resolve_mentions(mentions, reviews)
-        graphs, valid_formulations, edge_count = self._formulation_graphs(
-            formulations, by_mention, reviews
-        )
+        graphs, valid_formulations, edge_count = self._formulation_graphs(formulations, by_mention, reviews)
         self.entities_path.parent.mkdir(parents=True, exist_ok=True)
         self.entities_path.write_text(
             json.dumps(

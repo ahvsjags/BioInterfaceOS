@@ -51,9 +51,7 @@ def _write_structural_submission(tmp_path: Path) -> tuple[Path, Path]:
             "human_biofluid": "human plasma",
             "assay_and_acquisition_context": "declared external assay context",
             "author_scale_segregated": True,
-            "source_assets": [
-                {"asset_id": asset_id, "relative_path": asset_path, "sha256": checksum}
-            ],
+            "source_assets": [{"asset_id": asset_id, "relative_path": asset_path, "sha256": checksum}],
             "analysis_units": [
                 {
                     "analysis_unit_id": f"{source_id}-unit-1",

@@ -93,9 +93,7 @@ def foundation_checks(root: Path | None) -> list[Check]:
             Check(
                 "PASS" if not missing_dirs else "FAIL",
                 "skeleton",
-                "17 top-level directories present"
-                if not missing_dirs
-                else f"missing: {', '.join(missing_dirs)}",
+                "17 top-level directories present" if not missing_dirs else f"missing: {', '.join(missing_dirs)}",
                 mandatory=True,
             )
         )
@@ -153,13 +151,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     state_subparsers = state_parser.add_subparsers(dest="state_command")
     state_subparsers.add_parser("validate", help="validate PROJECT_STATE.yaml and TASKS.tsv")
     state_subparsers.add_parser("next", help="print the next dependency-satisfied READY task")
-    project_parser = subparsers.add_parser(
-        "project", help="run final project acceptance and public release"
-    )
+    project_parser = subparsers.add_parser("project", help="run final project acceptance and public release")
     project_subparsers = project_parser.add_subparsers(dest="project_command")
-    accept_parser = project_subparsers.add_parser(
-        "accept", help="run G0-G10 final acceptance gates"
-    )
+    accept_parser = project_subparsers.add_parser("accept", help="run G0-G10 final acceptance gates")
     accept_parser.add_argument("--strict", action="store_true")
     accept_r2_parser = project_subparsers.add_parser(
         "accept-r2", help="audit the R2 external reproduction and editorial acceptance path"
@@ -198,9 +192,7 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     policy_parser = source_subparsers.add_parser("policy", help="run source policy checks")
     policy_subparsers = policy_parser.add_subparsers(dest="policy_command")
     policy_subparsers.add_parser("self-test", help="run offline policy fixtures")
-    source_subparsers.add_parser(
-        "audit-specialized", help="validate specialized nanodatabase admission decisions"
-    )
+    source_subparsers.add_parser("audit-specialized", help="validate specialized nanodatabase admission decisions")
     assets_parser = subparsers.add_parser("assets", help="verify content-addressed assets")
     assets_subparsers = assets_parser.add_subparsers(dest="assets_command")
     assets_subparsers.add_parser("verify", help="verify CAS blobs and provenance index")
@@ -211,40 +203,30 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     release_parser = subparsers.add_parser("release", help="freeze and verify releases")
     release_subparsers = release_parser.add_subparsers(dest="release_command")
     freeze_parser = release_subparsers.add_parser("freeze", help="create an immutable release")
-    freeze_parser.add_argument(
-        "--fixture", action="store_true", help="freeze the fixture namespace"
-    )
+    freeze_parser.add_argument("--fixture", action="store_true", help="freeze the fixture namespace")
     freeze_dev_parser = release_subparsers.add_parser(
         "freeze-dev", help="freeze the development data and model release"
     )
-    freeze_dev_parser.add_argument(
-        "--fixture", action="store_true", help="freeze the sanitized development release"
-    )
+    freeze_dev_parser.add_argument("--fixture", action="store_true", help="freeze the sanitized development release")
     freeze_prelock_parser = release_subparsers.add_parser(
         "freeze-prelock", help="freeze the signed internal release before lockbox access"
     )
     freeze_prelock_parser.add_argument(
         "--strict", action="store_true", help="require a clean working tree before freezing"
     )
-    release_subparsers.add_parser(
-        "verify-prelock", help="verify the signed internal pre-lock release"
-    )
+    release_subparsers.add_parser("verify-prelock", help="verify the signed internal pre-lock release")
     public_audit_parser = release_subparsers.add_parser(
         "audit-public", help="audit licensing, asset inventory, and public-release boundaries"
     )
     public_audit_parser.add_argument("--strict", action="store_true")
     verify_parser = release_subparsers.add_parser("verify", help="verify an immutable release")
-    verify_parser.add_argument(
-        "--fixture", action="store_true", help="verify the fixture namespace"
-    )
+    verify_parser.add_argument("--fixture", action="store_true", help="verify the fixture namespace")
     verify_parser.add_argument("--release-id", default=None, help="specific release identifier")
     verify_parser.add_argument("release_kind", nargs="?", choices=("bronze",), default=None)
     lockbox_parser = subparsers.add_parser("lockbox", help="test lockbox firewall")
     lockbox_subparsers = lockbox_parser.add_subparsers(dest="lockbox_command")
     lockbox_subparsers.add_parser("self-test", help="run offline firewall and scanner tests")
-    evaluate_parser = lockbox_subparsers.add_parser(
-        "evaluate", help="run the evaluator-only one-shot lockbox protocol"
-    )
+    evaluate_parser = lockbox_subparsers.add_parser("evaluate", help="run the evaluator-only one-shot lockbox protocol")
     evaluate_parser.add_argument("--release", required=True, choices=("FROZEN_DEV",))
     evaluate_parser.add_argument("--once", action="store_true")
     independent_evaluate_parser = lockbox_subparsers.add_parser(
@@ -256,25 +238,17 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "audit-results", help="audit sealed lockbox results against the frozen claim package"
     )
     audit_results_parser.add_argument("--strict", action="store_true")
-    publication_parser = subparsers.add_parser(
-        "publication", help="generate final publication figures and tables"
-    )
+    publication_parser = subparsers.add_parser("publication", help="generate final publication figures and tables")
     publication_subparsers = publication_parser.add_subparsers(dest="publication_command")
-    render_parser = publication_subparsers.add_parser(
-        "render", help="render the frozen publication package"
-    )
+    render_parser = publication_subparsers.add_parser("render", help="render the frozen publication package")
     render_parser.add_argument("--strict", action="store_true")
     render_r2_parser = publication_subparsers.add_parser(
         "render-r2", help="render field-mapped, protocol-only R2 figures"
     )
     render_r2_parser.add_argument("--strict", action="store_true")
-    verify_r2_parser = publication_subparsers.add_parser(
-        "verify-r2", help="verify the immutable R2 figure QA receipt"
-    )
+    verify_r2_parser = publication_subparsers.add_parser("verify-r2", help="verify the immutable R2 figure QA receipt")
     verify_r2_parser.add_argument("--strict", action="store_true")
-    reproduce_parser = subparsers.add_parser(
-        "reproduce", help="rebuild and verify named reproducibility packages"
-    )
+    reproduce_parser = subparsers.add_parser("reproduce", help="rebuild and verify named reproducibility packages")
     reproduce_subparsers = reproduce_parser.add_subparsers(dest="reproduce_command")
     reproduce_release_parser = reproduce_subparsers.add_parser(
         "release", help="rebuild the R2 public software-replay release"
@@ -287,82 +261,44 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     agent_parser = subparsers.add_parser("agent", help="run typed multi-agent runtime checks")
     agent_subparsers = agent_parser.add_subparsers(dest="agent_command")
     agent_subparsers.add_parser("self-test", help="run offline runtime contract self-test")
-    agent_eval_parser = agent_subparsers.add_parser(
-        "eval", help="evaluate typed agents on deterministic fixtures"
-    )
+    agent_eval_parser = agent_subparsers.add_parser("eval", help="evaluate typed agents on deterministic fixtures")
     agent_eval_subparsers = agent_eval_parser.add_subparsers(dest="agent_eval_command")
     agent_eval_subparsers.add_parser("source-license", help="evaluate SourceScout and LicenseGate")
     agent_eval_subparsers.add_parser("extraction", help="evaluate the multimodal ExtractionAgent")
     agent_eval_subparsers.add_parser("audit", help="evaluate Resolution and EvidenceAuditor")
-    agent_eval_subparsers.add_parser(
-        "hypothesis", help="evaluate exploratory Mechanism and hypothesis agents"
-    )
-    agent_eval_subparsers.add_parser(
-        "modeling", help="evaluate ModelBuilder and Statistician agents"
-    )
-    agent_eval_subparsers.add_parser(
-        "reproducibility", help="evaluate reproducibility and disabled Lockbox agents"
-    )
-    redteam_parser = agent_subparsers.add_parser(
-        "red-team", help="run the mandatory RedTeam attack suite"
-    )
+    agent_eval_subparsers.add_parser("hypothesis", help="evaluate exploratory Mechanism and hypothesis agents")
+    agent_eval_subparsers.add_parser("modeling", help="evaluate ModelBuilder and Statistician agents")
+    agent_eval_subparsers.add_parser("reproducibility", help="evaluate reproducibility and disabled Lockbox agents")
+    redteam_parser = agent_subparsers.add_parser("red-team", help="run the mandatory RedTeam attack suite")
     redteam_parser.add_argument("--all", action="store_true", help="run all mandatory attacks")
     ontology_parser = subparsers.add_parser("ontology", help="resolve public ontology mappings")
     ontology_subparsers = ontology_parser.add_subparsers(dest="ontology_command")
-    ontology_sync_parser = ontology_subparsers.add_parser(
-        "sync", help="plan a bounded ontology metadata sync"
-    )
-    ontology_sync_parser.add_argument(
-        "--dry-run", action="store_true", help="do not contact official endpoints"
-    )
-    repository_parser = subparsers.add_parser(
-        "repository", help="inspect public repository metadata"
-    )
+    ontology_sync_parser = ontology_subparsers.add_parser("sync", help="plan a bounded ontology metadata sync")
+    ontology_sync_parser.add_argument("--dry-run", action="store_true", help="do not contact official endpoints")
+    repository_parser = subparsers.add_parser("repository", help="inspect public repository metadata")
     repository_subparsers = repository_parser.add_subparsers(dest="repository_command")
-    repository_sync_parser = repository_subparsers.add_parser(
-        "sync", help="plan a bounded repository metadata sync"
-    )
-    repository_sync_parser.add_argument(
-        "--dry-run", action="store_true", help="do not contact public providers"
-    )
+    repository_sync_parser = repository_subparsers.add_parser("sync", help="plan a bounded repository metadata sync")
+    repository_sync_parser.add_argument("--dry-run", action="store_true", help="do not contact public providers")
     search_parser = subparsers.add_parser("search", help="validate and run discovery searches")
     search_subparsers = search_parser.add_subparsers(dest="search_command")
-    search_subparsers.add_parser(
-        "validate-queries", help="validate the versioned query matrix and date firewall"
-    )
-    search_run_parser = search_subparsers.add_parser(
-        "run", help="run a fixture-backed bounded seed search"
-    )
-    search_run_parser.add_argument(
-        "--scope", choices=("development", "validation"), default="development"
-    )
+    search_subparsers.add_parser("validate-queries", help="validate the versioned query matrix and date firewall")
+    search_run_parser = search_subparsers.add_parser("run", help="run a fixture-backed bounded seed search")
+    search_run_parser.add_argument("--scope", choices=("development", "validation"), default="development")
     search_expand_parser = search_subparsers.add_parser(
         "expand", help="expand fixture-backed citation and linked-resource edges"
     )
     search_expand_parser.add_argument("--depth", type=int, choices=(1, 2), default=2)
-    search_expand_parser.add_argument(
-        "--scope", choices=("development", "validation"), default="development"
-    )
-    search_subparsers.add_parser(
-        "saturation", help="compute fixture-backed search saturation and coverage gaps"
-    )
+    search_expand_parser.add_argument("--scope", choices=("development", "validation"), default="development")
+    search_subparsers.add_parser("saturation", help="compute fixture-backed search saturation and coverage gaps")
 
-    extract_parser = subparsers.add_parser(
-        "extract", help="extract structured experiment semantics"
-    )
+    extract_parser = subparsers.add_parser("extract", help="extract structured experiment semantics")
     extract_subparsers = extract_parser.add_subparsers(dest="extract_command")
-    extract_tables_parser = extract_subparsers.add_parser(
-        "tables", help="map fixture tables to experiment semantics"
-    )
-    extract_tables_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized local table fixture"
-    )
+    extract_tables_parser = extract_subparsers.add_parser("tables", help="map fixture tables to experiment semantics")
+    extract_tables_parser.add_argument("--fixture", action="store_true", help="use the sanitized local table fixture")
     extract_figures_parser = extract_subparsers.add_parser(
         "figures", help="detect figure panels, axes, legends, and curve candidates"
     )
-    extract_figures_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized local figure fixture"
-    )
+    extract_figures_parser.add_argument("--fixture", action="store_true", help="use the sanitized local figure fixture")
     extract_figures_parser.add_argument(
         "--digitize",
         action="store_true",
@@ -371,74 +307,46 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     extract_experiment_parser = extract_subparsers.add_parser(
         "experiment", help="run deterministic and local/mock experiment extraction"
     )
-    extract_experiment_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized dual-path fixture"
-    )
+    extract_experiment_parser.add_argument("--fixture", action="store_true", help="use the sanitized dual-path fixture")
     extract_experiment_parser.add_argument(
         "--dual", action="store_true", help="run both deterministic and local/mock paths"
     )
 
-    evidence_parser = subparsers.add_parser(
-        "evidence", help="resolve and reverse-trace evidence locators"
-    )
+    evidence_parser = subparsers.add_parser("evidence", help="resolve and reverse-trace evidence locators")
     evidence_subparsers = evidence_parser.add_subparsers(dest="evidence_command")
     evidence_trace_parser = evidence_subparsers.add_parser(
         "trace", help="resolve fixture assertions and build a conflict graph"
     )
-    evidence_trace_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized evidence fixture"
-    )
-    evidence_trace_parser.add_argument(
-        "--locator", default=None, help="optionally print reverse-trace match count"
-    )
+    evidence_trace_parser.add_argument("--fixture", action="store_true", help="use the sanitized evidence fixture")
+    evidence_trace_parser.add_argument("--locator", default=None, help="optionally print reverse-trace match count")
 
     normalize_parser = subparsers.add_parser("normalize", help="normalize units and uncertainty")
     normalize_subparsers = normalize_parser.add_subparsers(dest="normalize_command")
     normalize_units_parser = normalize_subparsers.add_parser(
         "units", help="normalize fixture quantities through the unit registry"
     )
-    normalize_units_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized unit fixture"
-    )
+    normalize_units_parser.add_argument("--fixture", action="store_true", help="use the sanitized unit fixture")
 
     qc_parser = subparsers.add_parser("qc", help="run physical and statistical quality checks")
     qc_subparsers = qc_parser.add_subparsers(dest="qc_command")
     qc_records_parser = qc_subparsers.add_parser(
         "records", help="check fixture records for physical and statistical plausibility"
     )
-    qc_records_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized local QC fixture"
-    )
-    qc_records_parser.add_argument(
-        "--strict", action="store_true", help="run the strict QC profile"
-    )
+    qc_records_parser.add_argument("--fixture", action="store_true", help="use the sanitized local QC fixture")
+    qc_records_parser.add_argument("--strict", action="store_true", help="run the strict QC profile")
 
     data_parser = subparsers.add_parser("data", help="policy-gated data operations")
     data_subparsers = data_parser.add_subparsers(dest="data_command")
     data_fetch_parser = data_subparsers.add_parser(
         "fetch", help="fetch fixture assets through the policy and CAS gates"
     )
-    data_fetch_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized local fixture queue"
-    )
-    data_bronze_parser = data_subparsers.add_parser(
-        "build-bronze", help="build an immutable fixture Bronze release"
-    )
-    data_bronze_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized Bronze fixture"
-    )
-    data_silver_parser = data_subparsers.add_parser(
-        "build-silver", help="build an immutable fixture Silver release"
-    )
-    data_silver_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized Silver fixture"
-    )
-    data_gold_parser = data_subparsers.add_parser(
-        "build-gold-auto", help="build an audited fixture Gold-auto subset"
-    )
-    data_gold_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized Gold-auto fixture"
-    )
+    data_fetch_parser.add_argument("--fixture", action="store_true", help="use the sanitized local fixture queue")
+    data_bronze_parser = data_subparsers.add_parser("build-bronze", help="build an immutable fixture Bronze release")
+    data_bronze_parser.add_argument("--fixture", action="store_true", help="use the sanitized Bronze fixture")
+    data_silver_parser = data_subparsers.add_parser("build-silver", help="build an immutable fixture Silver release")
+    data_silver_parser.add_argument("--fixture", action="store_true", help="use the sanitized Silver fixture")
+    data_gold_parser = data_subparsers.add_parser("build-gold-auto", help="build an audited fixture Gold-auto subset")
+    data_gold_parser.add_argument("--fixture", action="store_true", help="use the sanitized Gold-auto fixture")
     data_provenance_parser = data_subparsers.add_parser(
         "audit-provenance", help="audit real open observations against their raw source cells"
     )
@@ -951,9 +859,7 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_external_intake_parser.add_argument("--strict", action="store_true")
     data_external_verification_parser = data_subparsers.add_parser(
         "preflight-external-verification",
-        help=(
-            "verify external evaluation, reproduction and editorial receipts without accepting them"
-        ),
+        help=("verify external evaluation, reproduction and editorial receipts without accepting them"),
     )
     data_external_verification_parser.add_argument(
         "--bundle", type=Path, required=True, help="external verification bundle JSON"
@@ -964,13 +870,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_external_verification_parser.add_argument("--strict", action="store_true")
     data_r4_receipt_parser = data_subparsers.add_parser(
         "preflight-r4-external-receipts",
-        help=(
-            "verify R4 evaluator, reproduction and adoption receipts without accepting their claims"
-        ),
+        help=("verify R4 evaluator, reproduction and adoption receipts without accepting their claims"),
     )
-    data_r4_receipt_parser.add_argument(
-        "--bundle", type=Path, required=True, help="R4 external receipt bundle JSON"
-    )
+    data_r4_receipt_parser.add_argument("--bundle", type=Path, required=True, help="R4 external receipt bundle JSON")
     data_r4_receipt_parser.add_argument(
         "--documents-root", type=Path, required=True, help="root containing R4 receipt files"
     )
@@ -1007,17 +909,13 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--receipt-out", type=Path, required=True, help="new controlled signature receipt JSON"
     )
     data_external_signature_parser.add_argument("--strict", action="store_true")
-    stats_parser = subparsers.add_parser(
-        "stats", help="freeze and validate empirical analysis contracts"
-    )
+    stats_parser = subparsers.add_parser("stats", help="freeze and validate empirical analysis contracts")
     stats_subparsers = stats_parser.add_subparsers(dest="stats_command")
     stats_validate_plan_parser = stats_subparsers.add_parser(
         "validate-plan", help="validate the frozen outcome-free empirical analysis plan"
     )
     stats_validate_plan_parser.add_argument("--strict", action="store_true")
-    data_validate_parser = data_subparsers.add_parser(
-        "validate", help="validate a normalized data release"
-    )
+    data_validate_parser = data_subparsers.add_parser("validate", help="validate a normalized data release")
     data_validate_subparsers = data_validate_parser.add_subparsers(dest="data_validate_command")
     data_validate_silver_parser = data_validate_subparsers.add_parser(
         "silver", help="validate the immutable fixture Silver release"
@@ -1031,25 +929,17 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     data_validate_gold_parser.add_argument(
         "--fixture", action="store_true", help="validate the sanitized Gold-auto release"
     )
-    review_parser = subparsers.add_parser(
-        "review", help="export deterministic consensus and expert-review packets"
-    )
+    review_parser = subparsers.add_parser("review", help="export deterministic consensus and expert-review packets")
     review_subparsers = review_parser.add_subparsers(dest="review_command")
-    review_export_parser = review_subparsers.add_parser(
-        "export", help="export blinded stratified review packets"
-    )
+    review_export_parser = review_subparsers.add_parser("export", help="export blinded stratified review packets")
     review_export_parser.add_argument("--sample", choices=("stratified",), default="stratified")
 
-    benchmark_parser = subparsers.add_parser(
-        "benchmark", help="run deterministic quality benchmarks"
-    )
+    benchmark_parser = subparsers.add_parser("benchmark", help="run deterministic quality benchmarks")
     benchmark_subparsers = benchmark_parser.add_subparsers(dest="benchmark_command")
     benchmark_grade_parser = benchmark_subparsers.add_parser(
         "grade", help="grade deterministic benchmark submissions and abstention metrics"
     )
-    benchmark_grade_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized grading fixture"
-    )
+    benchmark_grade_parser.add_argument("--fixture", action="store_true", help="use the sanitized grading fixture")
     benchmark_baseline_parser = benchmark_subparsers.add_parser(
         "run-baselines", help="run deterministic simple statistical baselines"
     )
@@ -1062,15 +952,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     benchmark_build_parser = benchmark_subparsers.add_parser(
         "build", help="build leakage-safe BioInterfaceBench task instances"
     )
-    benchmark_build_parser.add_argument(
-        "--dev", action="store_true", help="build the development benchmark namespace"
-    )
-    benchmark_build_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized benchmark fixture"
-    )
-    benchmark_subparsers.add_parser(
-        "extraction", help="run the extraction calibration and G2 benchmark"
-    )
+    benchmark_build_parser.add_argument("--dev", action="store_true", help="build the development benchmark namespace")
+    benchmark_build_parser.add_argument("--fixture", action="store_true", help="use the sanitized benchmark fixture")
+    benchmark_subparsers.add_parser("extraction", help="run the extraction calibration and G2 benchmark")
     benchmark_real_parser = benchmark_subparsers.add_parser(
         "evaluate-real", help="evaluate declared raw-cell locators by held-out real study"
     )
@@ -1179,13 +1063,9 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     benchmark_freeze_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized benchmark freeze fixture"
     )
-    subparsers.add_parser(
-        "paper-a", help="generate the evidence-linked Paper A benchmark manuscript"
-    )
+    subparsers.add_parser("paper-a", help="generate the evidence-linked Paper A benchmark manuscript")
     subparsers.add_parser("paper-b", help="generate the evidence-linked Paper B method manuscript")
-    subparsers.add_parser(
-        "paper-c-prelock", help="freeze the Paper C scientific-law manuscript before lockbox access"
-    )
+    subparsers.add_parser("paper-c-prelock", help="freeze the Paper C scientific-law manuscript before lockbox access")
     manuscript_parser = subparsers.add_parser(
         "manuscript", help="audit manuscript-scoped external evidence and terminology"
     )
@@ -1200,9 +1080,7 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit the R2 merged A+B and results-blind C manuscript routes",
     )
     manuscript_portfolio_parser.add_argument("--strict", action="store_true")
-    claim_parser = subparsers.add_parser(
-        "claim", help="freeze and preregister exploratory claim tournaments"
-    )
+    claim_parser = subparsers.add_parser("claim", help="freeze and preregister exploratory claim tournaments")
     claim_subparsers = claim_parser.add_subparsers(dest="claim_command")
     claim_preregister_parser = claim_subparsers.add_parser(
         "preregister", help="freeze exploratory hypothesis tournament rules"
@@ -1219,9 +1097,7 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="audit fixture, replay, and scientific-evidence boundaries for round two",
     )
     claim_semantics_parser.add_argument("--strict", action="store_true")
-    design_parser = subparsers.add_parser(
-        "design", help="run constrained multiobjective design baselines"
-    )
+    design_parser = subparsers.add_parser("design", help="run constrained multiobjective design baselines")
     design_subparsers = design_parser.add_subparsers(dest="design_command")
     design_baseline_parser = design_subparsers.add_parser(
         "baseline", help="run the fixture-backed constrained design baseline"
@@ -1238,47 +1114,33 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
     design_audit_parser = design_subparsers.add_parser(
         "audit-candidates", help="audit supported designs and retrospective evidence metadata"
     )
-    design_audit_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized candidate-audit fixture"
-    )
-    robustness_parser = subparsers.add_parser(
-        "robustness", help="run mandatory robustness and ablation analyses"
-    )
+    design_audit_parser.add_argument("--fixture", action="store_true", help="use the sanitized candidate-audit fixture")
+    robustness_parser = subparsers.add_parser("robustness", help="run mandatory robustness and ablation analyses")
     robustness_subparsers = robustness_parser.add_subparsers(dest="robustness_command")
     robustness_ablations_parser = robustness_subparsers.add_parser(
         "ablations", help="run the frozen model and data ablation matrix"
     )
-    robustness_ablations_parser.add_argument(
-        "--all", action="store_true", help="run all mandatory ablations"
-    )
+    robustness_ablations_parser.add_argument("--all", action="store_true", help="run all mandatory ablations")
     robustness_ood_parser = robustness_subparsers.add_parser(
         "ood", help="run the leave-group OOD and sensitivity suite"
     )
-    robustness_ood_parser.add_argument(
-        "--all", action="store_true", help="run all frozen OOD group dimensions"
-    )
+    robustness_ood_parser.add_argument("--all", action="store_true", help="run all frozen OOD group dimensions")
     robustness_bias_parser = robustness_subparsers.add_parser(
         "bias", help="assess publication selection and missingness bias"
     )
-    robustness_bias_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized bias fixture"
-    )
+    robustness_bias_parser.add_argument("--fixture", action="store_true", help="use the sanitized bias fixture")
     robustness_negative_parser = robustness_subparsers.add_parser(
         "negative-controls", help="run strict negative controls and leakage attacks"
     )
     robustness_negative_parser.add_argument(
         "--strict", action="store_true", help="fail on any critical leakage finding"
     )
-    discover_parser = subparsers.add_parser(
-        "discover", help="discover development-scope scientific representations"
-    )
+    discover_parser = subparsers.add_parser("discover", help="discover development-scope scientific representations")
     discover_subparsers = discover_parser.add_subparsers(dest="discover_command")
     discover_axes_parser = discover_subparsers.add_parser(
         "functional-axes", help="discover stable protein-corona functional axes"
     )
-    discover_axes_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized development fixture"
-    )
+    discover_axes_parser.add_argument("--fixture", action="store_true", help="use the sanitized development fixture")
     discover_mediation_parser = discover_subparsers.add_parser(
         "mediation", help="estimate preregistered material-corona-outcome mediation paths"
     )
@@ -1312,44 +1174,20 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
 
     train_parser = subparsers.add_parser("train", help="fit declared benchmark models")
     train_subparsers = train_parser.add_subparsers(dest="train_command")
-    train_m1_parser = train_subparsers.add_parser(
-        "m1", help="fit the hierarchical mixed-effect M1 baseline"
-    )
-    train_m1_parser.add_argument(
-        "--config", default="configs/models/m1.yaml", help="path to the M1 YAML config"
-    )
+    train_m1_parser = train_subparsers.add_parser("m1", help="fit the hierarchical mixed-effect M1 baseline")
+    train_m1_parser.add_argument("--config", default="configs/models/m1.yaml", help="path to the M1 YAML config")
     train_m2_parser = train_subparsers.add_parser("m2", help="fit the direct black-box M2 baseline")
-    train_m2_parser.add_argument(
-        "--config", default="configs/models/m2.yaml", help="path to the M2 YAML config"
-    )
-    train_m3_parser = train_subparsers.add_parser(
-        "m3", help="fit the static corona mediator M3 baseline"
-    )
-    train_m3_parser.add_argument(
-        "--config", default="configs/models/m3.yaml", help="path to the M3 YAML config"
-    )
-    train_m4_parser = train_subparsers.add_parser(
-        "m4", help="fit the compositional corona M4 baseline"
-    )
-    train_m4_parser.add_argument(
-        "--config", default="configs/models/m4.yaml", help="path to the M4 YAML config"
-    )
+    train_m2_parser.add_argument("--config", default="configs/models/m2.yaml", help="path to the M2 YAML config")
+    train_m3_parser = train_subparsers.add_parser("m3", help="fit the static corona mediator M3 baseline")
+    train_m3_parser.add_argument("--config", default="configs/models/m3.yaml", help="path to the M3 YAML config")
+    train_m4_parser = train_subparsers.add_parser("m4", help="fit the compositional corona M4 baseline")
+    train_m4_parser.add_argument("--config", default="configs/models/m4.yaml", help="path to the M4 YAML config")
     train_m5_parser = train_subparsers.add_parser("m5", help="fit the dynamic corona M5 baseline")
-    train_m5_parser.add_argument(
-        "--config", default="configs/models/m5.yaml", help="path to the M5 YAML config"
-    )
-    train_m6_parser = train_subparsers.add_parser(
-        "m6", help="fit the hierarchical causal-world M6 model"
-    )
-    train_m6_parser.add_argument(
-        "--config", default="configs/models/m6.yaml", help="path to the M6 YAML config"
-    )
-    train_m7_parser = train_subparsers.add_parser(
-        "m7", help="fit the cross-domain invariant-learning M7 comparison"
-    )
-    train_m7_parser.add_argument(
-        "--config", default="configs/models/m7.yaml", help="path to the M7 YAML config"
-    )
+    train_m5_parser.add_argument("--config", default="configs/models/m5.yaml", help="path to the M5 YAML config")
+    train_m6_parser = train_subparsers.add_parser("m6", help="fit the hierarchical causal-world M6 model")
+    train_m6_parser.add_argument("--config", default="configs/models/m6.yaml", help="path to the M6 YAML config")
+    train_m7_parser = train_subparsers.add_parser("m7", help="fit the cross-domain invariant-learning M7 comparison")
+    train_m7_parser.add_argument("--config", default="configs/models/m7.yaml", help="path to the M7 YAML config")
     train_uncertainty_parser = train_subparsers.add_parser(
         "uncertainty", help="fit calibrated uncertainty and abstention policy"
     )
@@ -1369,146 +1207,92 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
 
     report_parser = subparsers.add_parser("report", help="publish reproducible audit reports")
     report_subparsers = report_parser.add_subparsers(dest="report_command")
-    report_subparsers.add_parser(
-        "data-coverage", help="audit independent-study coverage and missingness"
-    )
+    report_subparsers.add_parser("data-coverage", help="audit independent-study coverage and missingness")
 
     omics_parser = subparsers.add_parser("omics", help="triage and process omics metadata")
     omics_subparsers = omics_parser.add_subparsers(dest="omics_command")
-    omics_pride_parser = omics_subparsers.add_parser(
-        "pride", help="triage PRIDE projects and freeze sample plans"
-    )
+    omics_pride_parser = omics_subparsers.add_parser("pride", help="triage PRIDE projects and freeze sample plans")
     omics_pride_subparsers = omics_pride_parser.add_subparsers(dest="omics_pride_command")
     omics_pride_triage_parser = omics_pride_subparsers.add_parser(
         "triage", help="build development-scope PRIDE project cards"
     )
-    omics_pride_triage_parser.add_argument(
-        "--scope", choices=("development",), default="development"
-    )
-    omics_convert_parser = omics_subparsers.add_parser(
-        "convert", help="convert bounded fixture mass-spec inputs"
-    )
-    omics_convert_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized conversion fixture"
-    )
-    omics_search_parser = omics_subparsers.add_parser(
-        "search", help="run the bounded Sage-style fixture search"
-    )
-    omics_search_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized Sage search fixture"
-    )
+    omics_pride_triage_parser.add_argument("--scope", choices=("development",), default="development")
+    omics_convert_parser = omics_subparsers.add_parser("convert", help="convert bounded fixture mass-spec inputs")
+    omics_convert_parser.add_argument("--fixture", action="store_true", help="use the sanitized conversion fixture")
+    omics_search_parser = omics_subparsers.add_parser("search", help="run the bounded Sage-style fixture search")
+    omics_search_parser.add_argument("--fixture", action="store_true", help="use the sanitized Sage search fixture")
     omics_quantify_parser = omics_subparsers.add_parser(
         "quantify", help="run bounded label-free quantification and protein inference"
     )
-    omics_quantify_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized LFQ fixture"
-    )
+    omics_quantify_parser.add_argument("--fixture", action="store_true", help="use the sanitized LFQ fixture")
     omics_harmonize_parser = omics_subparsers.add_parser(
         "harmonize-corona", help="harmonize project-preserving protein-corona matrices"
     )
-    omics_harmonize_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized corona fixture"
-    )
-    omics_qc_parser = omics_subparsers.add_parser(
-        "qc-pride", help="run PRIDE project QC and author-result concordance"
-    )
-    omics_qc_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized PRIDE QC fixture"
-    )
+    omics_harmonize_parser.add_argument("--fixture", action="store_true", help="use the sanitized corona fixture")
+    omics_qc_parser = omics_subparsers.add_parser("qc-pride", help="run PRIDE project QC and author-result concordance")
+    omics_qc_parser.add_argument("--fixture", action="store_true", help="use the sanitized PRIDE QC fixture")
     omics_signatures_parser = omics_subparsers.add_parser(
         "derive-signatures", help="derive fixture-backed cell and immune response signatures"
     )
-    omics_signatures_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized signature fixture"
-    )
+    omics_signatures_parser.add_argument("--fixture", action="store_true", help="use the sanitized signature fixture")
     omics_links_parser = omics_subparsers.add_parser(
         "link-modalities", help="link corona modules to response signatures"
     )
-    omics_links_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized modality-link fixture"
-    )
-    omics_geo_parser = omics_subparsers.add_parser(
-        "geo", help="discover GEO/SRA biointerface response datasets"
-    )
+    omics_links_parser.add_argument("--fixture", action="store_true", help="use the sanitized modality-link fixture")
+    omics_geo_parser = omics_subparsers.add_parser("geo", help="discover GEO/SRA biointerface response datasets")
     omics_geo_subparsers = omics_geo_parser.add_subparsers(dest="omics_geo_command")
     omics_geo_discover_parser = omics_geo_subparsers.add_parser(
         "discover", help="discover development-scope GEO/SRA candidates"
     )
-    omics_geo_discover_parser.add_argument(
-        "--scope", choices=("development",), default="development"
-    )
+    omics_geo_discover_parser.add_argument("--scope", choices=("development",), default="development")
     omics_geo_discover_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized GEO discovery fixture"
     )
     omics_geo_process_parser = omics_geo_subparsers.add_parser(
         "process", help="ingest eligible processed GEO/SRA matrices"
     )
-    omics_geo_process_parser.add_argument(
-        "--mode", choices=("processed", "raw"), default="processed"
-    )
+    omics_geo_process_parser.add_argument("--mode", choices=("processed", "raw"), default="processed")
     omics_geo_process_parser.add_argument(
         "--fixture", action="store_true", help="use the sanitized GEO processing fixture"
     )
 
     resolve_parser = subparsers.add_parser("resolve", help="resolve paper and study identities")
     resolve_subparsers = resolve_parser.add_subparsers(dest="resolve_command")
-    resolve_subparsers.add_parser(
-        "paper-families", help="resolve fixture-backed paper families and conflicts"
-    )
+    resolve_subparsers.add_parser("paper-families", help="resolve fixture-backed paper families and conflicts")
     resolve_materials_parser = resolve_subparsers.add_parser(
         "materials", help="resolve fixture-backed material entities and formulations"
     )
-    resolve_materials_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized material fixture"
-    )
+    resolve_materials_parser.add_argument("--fixture", action="store_true", help="use the sanitized material fixture")
     resolve_proteins_parser = resolve_subparsers.add_parser(
         "proteins", help="resolve fixture-backed protein identifiers and orthology"
     )
-    resolve_proteins_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized protein fixture"
-    )
+    resolve_proteins_parser.add_argument("--fixture", action="store_true", help="use the sanitized protein fixture")
     resolve_protocols_parser = resolve_subparsers.add_parser(
         "protocols", help="resolve fixture-backed bioenvironment and protocols"
     )
-    resolve_protocols_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized protocol fixture"
-    )
+    resolve_protocols_parser.add_argument("--fixture", action="store_true", help="use the sanitized protocol fixture")
     resolve_endpoints_parser = resolve_subparsers.add_parser(
         "endpoints", help="resolve fixture-backed endpoint measurements"
     )
-    resolve_endpoints_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized endpoint fixture"
-    )
+    resolve_endpoints_parser.add_argument("--fixture", action="store_true", help="use the sanitized endpoint fixture")
 
     split_parser = subparsers.add_parser("split", help="build leakage-safe split group keys")
     split_subparsers = split_parser.add_subparsers(dest="split_command")
     split_groups_parser = split_subparsers.add_parser(
         "build-groups", help="build canonical study/material/protocol group keys"
     )
-    split_groups_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized group-key fixture"
-    )
+    split_groups_parser.add_argument("--fixture", action="store_true", help="use the sanitized group-key fixture")
     split_duplicates_parser = split_subparsers.add_parser(
         "detect-duplicates", help="detect formulation and semantic near-duplicates"
     )
-    split_duplicates_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized duplicate fixture"
-    )
+    split_duplicates_parser.add_argument("--fixture", action="store_true", help="use the sanitized duplicate fixture")
     split_freeze_parser = split_subparsers.add_parser(
         "freeze-dev", help="freeze the development train and validation split"
     )
-    split_freeze_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized split-freeze fixture"
-    )
-    split_audit_parser = split_subparsers.add_parser(
-        "audit", help="run adversarial split leakage and lockbox audit"
-    )
-    split_audit_parser.add_argument(
-        "--fixture", action="store_true", help="use the sanitized split-audit fixture"
-    )
-    split_audit_parser.add_argument(
-        "--strict", action="store_true", help="fail on any mandatory audit finding"
-    )
+    split_freeze_parser.add_argument("--fixture", action="store_true", help="use the sanitized split-freeze fixture")
+    split_audit_parser = split_subparsers.add_parser("audit", help="run adversarial split leakage and lockbox audit")
+    split_audit_parser.add_argument("--fixture", action="store_true", help="use the sanitized split-audit fixture")
+    split_audit_parser.add_argument("--strict", action="store_true", help="fail on any mandatory audit finding")
 
     for command in FUTURE_COMMANDS:
         subparsers.add_parser(command, help="reserved; not implemented")
@@ -1720,9 +1504,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             from biointerfaceos.nanodatabase_audit import NanodatabaseAuditError, load_audit
 
             try:
-                audit_summary = load_audit(
-                    root / "tests/fixtures/nanodatabases/admission_decisions.json"
-                )
+                audit_summary = load_audit(root / "tests/fixtures/nanodatabases/admission_decisions.json")
                 report_path = root / "reports/NANODATABASE_ADMISSION.md"
                 if not report_path.is_file():
                     raise NanodatabaseAuditError(f"missing report: {report_path}")
@@ -1887,9 +1669,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
         resolver = EvidenceResolver(root)
         try:
             trace_summary = resolver.run()
-            trace_matches = (
-                len(resolver.reverse_trace(args.locator)) if args.locator is not None else 0
-            )
+            trace_matches = len(resolver.reverse_trace(args.locator)) if args.locator is not None else 0
         except (OSError, EvidenceResolutionError) as exc:
             print(f"EVIDENCE_TRACE_INVALID: {exc}", file=sys.stderr)
             return 1
@@ -2649,9 +2429,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                uncertainty_summary = UncertaintyWorkflow(root, config_path=config_path).run(
-                    fixture=True
-                )
+                uncertainty_summary = UncertaintyWorkflow(root, config_path=config_path).run(fixture=True)
             except (UncertaintyError, OSError) as exc:
                 print(f"UNCERTAINTY_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -2672,9 +2450,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             from biointerfaceos.multimodal_workflow import MultimodalError, MultimodalWorkflow
 
             try:
-                multimodal_summary = MultimodalWorkflow(root, config_path=config_path).run(
-                    fixture=True
-                )
+                multimodal_summary = MultimodalWorkflow(root, config_path=config_path).run(fixture=True)
             except (MultimodalError, OSError) as exc:
                 print(f"MULTIMODAL_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -2750,9 +2526,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 )
 
                 try:
-                    representation_summary = BenchmarkRepresentationWorkflow(root).run(
-                        group=args.group
-                    )
+                    representation_summary = BenchmarkRepresentationWorkflow(root).run(group=args.group)
                 except (BenchmarkRepresentationError, OSError) as exc:
                     print(f"BENCHMARK_REPRESENTATION_INVALID: {exc}", file=sys.stderr)
                     return 1
@@ -3088,18 +2862,18 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             if root is None:
                 print("CC0_TARGET_RESCREEN_INVALID: repository root not found", file=sys.stderr)
                 return 1
-            workflow = CC0TargetRescreenWorkflow(root)
+            cc0_target_rescreen_workflow = CC0TargetRescreenWorkflow(root)
             try:
-                summary = workflow.run(strict=args.strict)
-                workflow.verify()
+                cc0_target_rescreen_summary = cc0_target_rescreen_workflow.run(strict=args.strict)
+                cc0_target_rescreen_workflow.verify()
             except (CC0TargetRescreenError, OSError) as exc:
                 print(f"CC0_TARGET_RESCREEN_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "CC0_TARGET_RESCREEN_VALID "
-                f"candidates={summary.candidate_source_count} "
-                f"disclosed_laboratories={summary.disclosed_laboratory_count} "
-                f"screened_assets={summary.screened_asset_count} "
+                f"candidates={cc0_target_rescreen_summary.candidate_source_count} "
+                f"disclosed_laboratories={cc0_target_rescreen_summary.disclosed_laboratory_count} "
+                f"screened_assets={cc0_target_rescreen_summary.screened_asset_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
@@ -3113,19 +2887,19 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             if root is None:
                 print("TWO_LAB_CORONA_PAIR_INVALID: repository root not found", file=sys.stderr)
                 return 1
-            workflow = TwoLabCoronaPairRescreenWorkflow(root)
+            two_lab_pair_workflow = TwoLabCoronaPairRescreenWorkflow(root)
             try:
-                summary = workflow.run(strict=args.strict)
-                workflow.verify()
+                two_lab_pair_summary = two_lab_pair_workflow.run(strict=args.strict)
+                two_lab_pair_workflow.verify()
             except (TwoLabCoronaPairRescreenError, OSError) as exc:
                 print(f"TWO_LAB_CORONA_PAIR_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "TWO_LAB_CORONA_PAIR_VALID "
-                f"candidates={summary.candidate_source_count} "
-                f"laboratories={summary.independent_laboratory_count} "
-                f"sizes_nm={summary.candidate_size_count} "
-                f"status={summary.status} "
+                f"candidates={two_lab_pair_summary.candidate_source_count} "
+                f"laboratories={two_lab_pair_summary.independent_laboratory_count} "
+                f"sizes_nm={two_lab_pair_summary.candidate_size_count} "
+                f"status={two_lab_pair_summary.status} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
@@ -3142,19 +2916,19 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                     file=sys.stderr,
                 )
                 return 1
-            workflow = TwoLabCoronaAssetAuditWorkflow(root)
+            two_lab_asset_workflow = TwoLabCoronaAssetAuditWorkflow(root)
             try:
-                summary = workflow.run(strict=args.strict)
-                workflow.verify()
+                two_lab_asset_summary = two_lab_asset_workflow.run(strict=args.strict)
+                two_lab_asset_workflow.verify()
             except (TwoLabCoronaAssetAuditError, OSError) as exc:
                 print(f"TWO_LAB_CORONA_ASSET_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "TWO_LAB_CORONA_ASSET_AUDIT_VALID "
-                f"assets={summary.asset_count} sources={summary.source_count} "
-                f"byte_verified={summary.byte_verified_count} "
-                f"redistributable={summary.redistributable_count} "
-                f"status={summary.status} "
+                f"assets={two_lab_asset_summary.asset_count} sources={two_lab_asset_summary.source_count} "
+                f"byte_verified={two_lab_asset_summary.byte_verified_count} "
+                f"redistributable={two_lab_asset_summary.redistributable_count} "
+                f"status={two_lab_asset_summary.status} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
@@ -3168,19 +2942,19 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             if root is None:
                 print("CC0_PXD030327_UNIT_MAP_INVALID: repository root not found", file=sys.stderr)
                 return 1
-            workflow = CC0PXD030327UnitMapWorkflow(root)
+            unit_map_workflow = CC0PXD030327UnitMapWorkflow(root)
             try:
-                summary = workflow.run(strict=args.strict)
-                workflow.verify()
+                unit_map_summary = unit_map_workflow.run(strict=args.strict)
+                unit_map_workflow.verify()
             except (CC0PXD030327UnitMapError, OSError) as exc:
                 print(f"CC0_PXD030327_UNIT_MAP_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "CC0_PXD030327_UNIT_MAP_VALID "
-                f"status={summary.status} "
-                f"unexcluded_units={summary.unexcluded_unit_count} "
-                f"matrix_runs={summary.matrix_run_count} "
-                f"unmapped_matrix_columns={summary.unmapped_matrix_column_count} "
+                f"status={unit_map_summary.status} "
+                f"unexcluded_units={unit_map_summary.unexcluded_unit_count} "
+                f"matrix_runs={unit_map_summary.matrix_run_count} "
+                f"unmapped_matrix_columns={unit_map_summary.unmapped_matrix_column_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
@@ -3197,18 +2971,18 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                     file=sys.stderr,
                 )
                 return 1
-            workflow = T129CurrentTargetEvidenceWorkflow(root)
+            t129_target_workflow = T129CurrentTargetEvidenceWorkflow(root)
             try:
-                summary = workflow.run(strict=args.strict)
-                workflow.verify()
+                t129_target_summary = t129_target_workflow.run(strict=args.strict)
+                t129_target_workflow.verify()
             except (T129CurrentTargetEvidenceError, OSError) as exc:
                 print(f"T129_CURRENT_TARGET_EVIDENCE_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "T129_CURRENT_TARGET_EVIDENCE_VALID "
-                f"candidates={summary.candidate_source_count} "
-                f"laboratories={summary.candidate_laboratory_count} "
-                f"verified_source_assets={summary.verified_source_asset_count} "
+                f"candidates={t129_target_summary.candidate_source_count} "
+                f"laboratories={t129_target_summary.candidate_laboratory_count} "
+                f"verified_source_assets={t129_target_summary.verified_source_asset_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
@@ -3220,22 +2994,20 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
 
             root = find_repository_root()
             if root is None:
-                print(
-                    "LICENSE_BOUND_SOURCE_MAP_INVALID: repository root not found", file=sys.stderr
-                )
+                print("LICENSE_BOUND_SOURCE_MAP_INVALID: repository root not found", file=sys.stderr)
                 return 1
-            workflow = LicenseBoundSourceMapWorkflow(root)
+            license_map_workflow = LicenseBoundSourceMapWorkflow(root)
             try:
-                summary = workflow.run(strict=args.strict)
-                workflow.verify()
+                license_map_summary = license_map_workflow.run(strict=args.strict)
+                license_map_workflow.verify()
             except (LicenseBoundSourceMapError, OSError) as exc:
                 print(f"LICENSE_BOUND_SOURCE_MAP_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "LICENSE_BOUND_SOURCE_MAP_VALID "
-                f"routes={summary.route_count} "
-                f"laboratories={summary.independent_laboratory_count} "
-                f"analysis_only_complete_maps={summary.analysis_only_complete_map_count} "
+                f"routes={license_map_summary.route_count} "
+                f"laboratories={license_map_summary.independent_laboratory_count} "
+                f"analysis_only_complete_maps={license_map_summary.analysis_only_complete_map_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
@@ -3249,19 +3021,19 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             if root is None:
                 print("PXD017052_SOURCE_DATA_INVALID: repository root not found", file=sys.stderr)
                 return 1
-            workflow = PXD017052SourceDataWorkflow(root)
+            pxd_source_workflow = PXD017052SourceDataWorkflow(root)
             try:
-                summary = workflow.run(strict=args.strict)
-                workflow.verify()
+                pxd_source_summary = pxd_source_workflow.run(strict=args.strict)
+                pxd_source_workflow.verify()
             except (PXD017052SourceDataError, OSError) as exc:
                 print(f"PXD017052_SOURCE_DATA_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "PXD017052_SOURCE_DATA_VALID "
-                f"official_assets={summary.official_asset_count} "
-                f"result_units={summary.result_unit_count} "
-                f"result_to_raw_matches={summary.result_to_raw_match_count} "
-                f"explicit_raw_to_particle_maps={summary.explicit_raw_to_particle_map_count} "
+                f"official_assets={pxd_source_summary.official_asset_count} "
+                f"result_units={pxd_source_summary.result_unit_count} "
+                f"result_to_raw_matches={pxd_source_summary.result_to_raw_match_count} "
+                f"explicit_raw_to_particle_maps={pxd_source_summary.explicit_raw_to_particle_map_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
@@ -3279,14 +3051,14 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 )
                 return 1
             try:
-                summary = PXD017052CompleteAttachmentsWorkflow(root).run(strict=args.strict)
+                attachments_summary = PXD017052CompleteAttachmentsWorkflow(root).run(strict=args.strict)
             except (PXD017052CompleteAttachmentsError, OSError) as exc:
                 print(f"PXD017052_COMPLETE_ATTACHMENTS_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "PXD017052_COMPLETE_ATTACHMENTS_VALID "
-                f"extension_assets={summary.asset_count} "
-                f"explicit_unit_particle_maps={summary.unit_map_count} "
+                f"extension_assets={attachments_summary.asset_count} "
+                f"explicit_unit_particle_maps={attachments_summary.unit_map_count} "
                 "target_frozen=false model_fitted=false scientific_submission_ready=false"
             )
             return 0
@@ -3304,9 +3076,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 )
                 return 1
             try:
-                preflight_summary = RealProteomicsSourcePreflightWorkflow(root).run(
-                    strict=args.strict
-                )
+                preflight_summary = RealProteomicsSourcePreflightWorkflow(root).run(strict=args.strict)
             except (RealProteomicsSourcePreflightError, OSError) as exc:
                 print(f"REAL_PROTEOMICS_SOURCE_PREFLIGHT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3331,9 +3101,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 )
                 return 1
             try:
-                source_discovery_summary = RealModelSourceDiscoveryWorkflow(root).run(
-                    strict=args.strict
-                )
+                source_discovery_summary = RealModelSourceDiscoveryWorkflow(root).run(strict=args.strict)
             except (RealModelSourceDiscoveryError, OSError) as exc:
                 print(f"REAL_MODEL_SOURCE_DISCOVERY_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3657,9 +3425,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                     )
 
                     try:
-                        raw_summary = GeoRawProcessingWorkflow(root).run(
-                            mode=args.mode, fixture=True
-                        )
+                        raw_summary = GeoRawProcessingWorkflow(root).run(mode=args.mode, fixture=True)
                     except (GeoRawProcessingError, OSError) as exc:
                         print(f"GEO_PROCESS_INVALID: {exc}", file=sys.stderr)
                         return 1
@@ -3837,9 +3603,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                external_intake_summary = ExternalSourceIntakeWorkflow(
-                    args.manifest, args.assets_root
-                ).run(strict=args.strict)
+                external_intake_summary = ExternalSourceIntakeWorkflow(args.manifest, args.assets_root).run(
+                    strict=args.strict
+                )
             except (ExternalSourceIntakeError, OSError) as exc:
                 print(f"EXTERNAL_SOURCE_INTAKE_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3861,9 +3627,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                fulltext_multicore_summary = FulltextMulticoreAuditWorkflow(
-                    root, args.assets_root
-                ).run(strict=args.strict)
+                fulltext_multicore_summary = FulltextMulticoreAuditWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
             except (FulltextMulticoreAuditError, OSError) as exc:
                 print(f"FULLTEXT_MULTICORE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3885,9 +3651,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                fulltext_gold_summary = FulltextGoldSourceAuditWorkflow(root, args.assets_root).run(
-                    strict=args.strict
-                )
+                fulltext_gold_summary = FulltextGoldSourceAuditWorkflow(root, args.assets_root).run(strict=args.strict)
             except (FulltextGoldSourceAuditError, OSError) as exc:
                 print(f"FULLTEXT_GOLD_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3908,9 +3672,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                pxd017052_source_cell_summary = PXD017052SourceCellAuditWorkflow(
-                    root, args.assets_root
-                ).run(strict=args.strict)
+                pxd017052_source_cell_summary = PXD017052SourceCellAuditWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
             except (PXD017052SourceCellAuditError, OSError) as exc:
                 print(f"PXD017052_SOURCE_CELL_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3932,9 +3696,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                r3_uniprot_summary = R3UniProtMappingWorkflow(root, args.mapping_root).run(
-                    strict=args.strict
-                )
+                r3_uniprot_summary = R3UniProtMappingWorkflow(root, args.mapping_root).run(strict=args.strict)
             except (R3UniProtMappingError, OSError) as exc:
                 print(f"R3_UNIPROT_MAPPING_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3955,9 +3717,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                common_rank_summary = R3CommonRankTargetWorkflow(root, args.output_data_root).run(
-                    strict=args.strict
-                )
+                common_rank_summary = R3CommonRankTargetWorkflow(root, args.output_data_root).run(strict=args.strict)
             except (R3CommonRankTargetError, OSError) as exc:
                 print(f"R3_COMMON_RANK_TARGET_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -3978,9 +3738,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                sequence_features_summary = R3UniProtSequenceFeaturesWorkflow(
-                    root, args.feature_root
-                ).run(strict=args.strict)
+                sequence_features_summary = R3UniProtSequenceFeaturesWorkflow(root, args.feature_root).run(
+                    strict=args.strict
+                )
             except (R3UniProtSequenceFeaturesError, OSError) as exc:
                 print(f"R3_UNIPROT_SEQUENCE_FEATURES_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4000,9 +3760,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                protocol_summary = R3AnalysisProtocolWorkflow(root, args.output_data_root).run(
-                    strict=args.strict
-                )
+                protocol_summary = R3AnalysisProtocolWorkflow(root, args.output_data_root).run(strict=args.strict)
             except (R3AnalysisProtocolError, OSError) as exc:
                 print(f"R3_ANALYSIS_PROTOCOL_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4070,9 +3828,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                edinburgh_summary = R4EdinburghClinicalSourceAuditWorkflow(
-                    root, args.assets_root
-                ).run(strict=args.strict)
+                edinburgh_summary = R4EdinburghClinicalSourceAuditWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
             except (R4EdinburghClinicalSourceAuditError, OSError) as exc:
                 print(f"R4_EDINBURGH_CLINICAL_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4094,9 +3852,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                small_molecule_summary = R4SmallMoleculeCoronaSourceAuditWorkflow(
-                    root, args.assets_root
-                ).run(strict=args.strict)
+                small_molecule_summary = R4SmallMoleculeCoronaSourceAuditWorkflow(root, args.assets_root).run(
+                    strict=args.strict
+                )
             except (R4SmallMoleculeCoronaSourceAuditError, OSError) as exc:
                 print(f"R4_SMALL_MOLECULE_CORONA_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4120,9 +3878,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                pmc13106918_summary = R4PMC13106918SourceAuditWorkflow(root, args.assets_root).run(
-                    strict=args.strict
-                )
+                pmc13106918_summary = R4PMC13106918SourceAuditWorkflow(root, args.assets_root).run(strict=args.strict)
             except (R4PMC13106918SourceAuditError, OSError) as exc:
                 print(f"R4_PMC13106918_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4149,9 +3905,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 print("R4_PMC13106918_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
                 return 1
             try:
-                pmc13106918_summary = R4PMC13106918SourceAuditWorkflow(
-                    root, args.assets_root
-                ).verify()
+                pmc13106918_summary = R4PMC13106918SourceAuditWorkflow(root, args.assets_root).verify()
             except (R4PMC13106918SourceAuditError, OSError) as exc:
                 print(f"R4_PMC13106918_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4174,9 +3928,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                pnnl_summary = R4PMC3252235SourceScreenWorkflow(root, args.assets_root).run(
-                    strict=args.strict
-                )
+                pnnl_summary = R4PMC3252235SourceScreenWorkflow(root, args.assets_root).run(strict=args.strict)
             except (R4PMC3252235SourceScreenError, OSError) as exc:
                 print(f"R4_PMC3252235_SOURCE_SCREEN_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4196,9 +3948,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print(
-                    "R4_PMC3252235_SOURCE_SCREEN_VERIFY_INVALID: requires --strict", file=sys.stderr
-                )
+                print("R4_PMC3252235_SOURCE_SCREEN_VERIFY_INVALID: requires --strict", file=sys.stderr)
                 return 1
             try:
                 pnnl_summary = R4PMC3252235SourceScreenWorkflow(root, args.assets_root).verify()
@@ -4221,9 +3971,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                pxd064962_summary = R4PXD064962SourceAuditWorkflow(root, args.assets_root).run(
-                    strict=args.strict
-                )
+                pxd064962_summary = R4PXD064962SourceAuditWorkflow(root, args.assets_root).run(strict=args.strict)
             except (R4PXD064962SourceAuditError, OSError) as exc:
                 print(f"R4_PXD064962_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4278,9 +4026,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                manchester_summary = R4ManchesterNanoOmicWorkflow(root, args.assets_root).audit(
-                    strict=args.strict
-                )
+                manchester_summary = R4ManchesterNanoOmicWorkflow(root, args.assets_root).audit(strict=args.strict)
             except (R4ManchesterNanoOmicError, OSError) as exc:
                 print(f"R4_MANCHESTER_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4305,9 +4051,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 print("R4_MANCHESTER_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
                 return 1
             try:
-                manchester_summary = R4ManchesterNanoOmicWorkflow(
-                    root, args.assets_root
-                ).verify_audit()
+                manchester_summary = R4ManchesterNanoOmicWorkflow(root, args.assets_root).verify_audit()
             except (R4ManchesterNanoOmicError, OSError) as exc:
                 print(f"R4_MANCHESTER_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4378,9 +4122,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(root, args.assets_root).run(
-                    strict=args.strict
-                )
+                nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(root, args.assets_root).run(strict=args.strict)
             except (R4PXD017052NSCLCSourceAuditError, OSError) as exc:
                 print(f"R4_PXD017052_NSCLC_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4405,9 +4147,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print(
-                    "R4_PXD017052_NSCLC_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr
-                )
+                print("R4_PXD017052_NSCLC_SOURCE_VERIFY_INVALID: requires --strict", file=sys.stderr)
                 return 1
             try:
                 nsclc_summary = R4PXD017052NSCLCSourceAuditWorkflow(root, args.assets_root).verify()
@@ -4657,9 +4397,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                three_lab_summary = R4ThreeLabCommonTargetAuditWorkflow(root).run(
-                    strict=args.strict
-                )
+                three_lab_summary = R4ThreeLabCommonTargetAuditWorkflow(root).run(strict=args.strict)
             except (R4ThreeLabCommonTargetAuditError, OSError) as exc:
                 print(f"R4_THREE_LAB_COMMON_TARGET_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4683,9 +4421,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             if not args.strict:
-                print(
-                    "R4_THREE_LAB_COMMON_TARGET_VERIFY_INVALID: requires --strict", file=sys.stderr
-                )
+                print("R4_THREE_LAB_COMMON_TARGET_VERIFY_INVALID: requires --strict", file=sys.stderr)
                 return 1
             try:
                 three_lab_summary = R4ThreeLabCommonTargetAuditWorkflow(root).verify()
@@ -4746,11 +4482,11 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
             return 0
         if args.data_command == "evaluate-r4-t193-three-lab-prefrozen-target":
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
             from biointerfaceos.r4_t193_three_lab_prefrozen_execution import (
                 R4T193ThreeLabExecutionError,
                 R4T193ThreeLabPrefrozenExecutionWorkflow,
             )
-            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
 
             try:
                 t193_summary = R4T193ThreeLabPrefrozenExecutionWorkflow(root).run(strict=args.strict)
@@ -4789,11 +4525,11 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
             return 0
         if args.data_command == "evaluate-r4-t194-fulltext-core-facility":
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
             from biointerfaceos.r4_t194_fulltext_core_facility_execution import (
                 R4T194FulltextCoreFacilityExecutionWorkflow,
                 R4T194FulltextExecutionError,
             )
-            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
 
             try:
                 t194_summary = R4T194FulltextCoreFacilityExecutionWorkflow(root).run(strict=args.strict)
@@ -4832,16 +4568,14 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
             return 0
         if args.data_command == "evaluate-r4-t195-three-lab-common-target":
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
             from biointerfaceos.r4_t195_three_lab_common_target_execution import (
                 R4T195CommonTargetExecutionError,
                 R4T195ThreeLabCommonTargetExecutionWorkflow,
             )
-            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
 
             try:
-                t195_summary = R4T195ThreeLabCommonTargetExecutionWorkflow(root).run(
-                    strict=args.strict
-                )
+                t195_summary = R4T195ThreeLabCommonTargetExecutionWorkflow(root).run(strict=args.strict)
             except (R4T195CommonTargetExecutionError, OSError, R3ModelEvaluationError) as exc:
                 print(f"R4_T195_COMMON_TARGET_EXECUTION_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -4863,9 +4597,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                t195_summary = R4T195ThreeLabCommonTargetExecutionWorkflow(root).verify(
-                    strict=args.strict
-                )
+                t195_summary = R4T195ThreeLabCommonTargetExecutionWorkflow(root).verify(strict=args.strict)
             except (R4T195CommonTargetExecutionError, OSError) as exc:
                 print(f"R4_T195_COMMON_TARGET_VERIFY_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -5141,9 +4873,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                dalian_summary = R4DalianPlasmaCoronaSourceAuditWorkflow(
-                    root, args.assets_root
-                ).run(strict=args.strict)
+                dalian_summary = R4DalianPlasmaCoronaSourceAuditWorkflow(root, args.assets_root).run(strict=args.strict)
             except (R4DalianPlasmaCoronaSourceAuditError, OSError) as exc:
                 print(f"R4_DALIAN_PLASMA_CORONA_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -5182,44 +4912,42 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             return 0
         if args.data_command == "evaluate-r4-pxd064962-low-coverage-sensitivity":
             from biointerfaceos.r4_pxd064962_low_coverage_sensitivity import (
-                R4PXD064962SensitivityError,
                 R4PXD064962LowCoverageSensitivityWorkflow,
+                R4PXD064962SensitivityError,
             )
 
             try:
-                sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(
+                low_coverage_sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(
                     root, output_root=args.output_root
-                ).run(
-                    strict=args.strict
-                )
+                ).run(strict=args.strict)
             except (R4PXD064962SensitivityError, OSError) as exc:
                 print(f"R4_PXD064962_SENSITIVITY_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
                 "R4_PXD064962_SENSITIVITY_VALID "
-                f"development_observations={sensitivity.development_observation_count} "
-                f"external_observations={sensitivity.external_observation_count} "
-                f"all_eligible_batches={sensitivity.all_eligible_batch_count} "
-                f"low_coverage_batches={sensitivity.low_coverage_batch_count} "
-                f"high_coverage_batches={sensitivity.high_coverage_batch_count} "
-                f"biological_units={sensitivity.biological_unit_count} "
-                f"positive_targets={sensitivity.shared_positive_target_count} "
-                f"models={sensitivity.model_count} primary_ood_minimum_met=false "
+                f"development_observations={low_coverage_sensitivity.development_observation_count} "
+                f"external_observations={low_coverage_sensitivity.external_observation_count} "
+                f"all_eligible_batches={low_coverage_sensitivity.all_eligible_batch_count} "
+                f"low_coverage_batches={low_coverage_sensitivity.low_coverage_batch_count} "
+                f"high_coverage_batches={low_coverage_sensitivity.high_coverage_batch_count} "
+                f"biological_units={low_coverage_sensitivity.biological_unit_count} "
+                f"positive_targets={low_coverage_sensitivity.shared_positive_target_count} "
+                f"models={low_coverage_sensitivity.model_count} primary_ood_minimum_met=false "
                 "independent_validation=false external_scientific_reproduction=false "
                 "scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "verify-r4-pxd064962-low-coverage-sensitivity":
             from biointerfaceos.r4_pxd064962_low_coverage_sensitivity import (
-                R4PXD064962SensitivityError,
                 R4PXD064962LowCoverageSensitivityWorkflow,
+                R4PXD064962SensitivityError,
             )
 
             if not args.strict:
                 print("R4_PXD064962_SENSITIVITY_VERIFY_INVALID: requires --strict", file=sys.stderr)
                 return 1
             try:
-                sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(
+                low_coverage_sensitivity = R4PXD064962LowCoverageSensitivityWorkflow(
                     root, output_root=args.output_root
                 ).verify()
             except (R4PXD064962SensitivityError, OSError) as exc:
@@ -5227,10 +4955,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 return 1
             print(
                 "R4_PXD064962_SENSITIVITY_VERIFY_VALID "
-                f"external_observations={sensitivity.external_observation_count} "
-                f"all_eligible_batches={sensitivity.all_eligible_batch_count} "
-                f"low_coverage_batches={sensitivity.low_coverage_batch_count} "
-                f"high_coverage_batches={sensitivity.high_coverage_batch_count} "
+                f"external_observations={low_coverage_sensitivity.external_observation_count} "
+                f"all_eligible_batches={low_coverage_sensitivity.all_eligible_batch_count} "
+                f"low_coverage_batches={low_coverage_sensitivity.low_coverage_batch_count} "
+                f"high_coverage_batches={low_coverage_sensitivity.high_coverage_batch_count} "
                 "primary_ood_minimum_met=false scientific_submission_ready=false"
             )
             return 0
@@ -5355,8 +5083,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             return 0
         if args.data_command == "evaluate-r3-silver-external-ood":
             from biointerfaceos.r3_silver_external_ood import (
-                R3SilverExternalOODWorkflow,
                 R3SilverExternalOODerror,
+                R3SilverExternalOODWorkflow,
             )
 
             try:
@@ -5409,10 +5137,9 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                repository_root: Path | None = Path.cwd()
-                if not args.bundle.resolve(strict=False).is_relative_to(
-                    repository_root.resolve(strict=False)
-                ):
+                repository_root_candidate = Path.cwd().resolve(strict=False)
+                repository_root: Path | None = repository_root_candidate
+                if not args.bundle.resolve(strict=False).is_relative_to(repository_root_candidate):
                     repository_root = None
                 r4_receipt_summary = R4ExternalReceiptPreflightWorkflow(
                     bundle_path=args.bundle,
@@ -5468,9 +5195,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                empirical_provenance_summary = EmpiricalProvenanceWorkflow(root).run(
-                    strict=args.strict
-                )
+                empirical_provenance_summary = EmpiricalProvenanceWorkflow(root).run(strict=args.strict)
             except (EmpiricalProvenanceError, OSError) as exc:
                 print(f"EMPIRICAL_PROVENANCE_INVALID: {exc}", file=sys.stderr)
                 return 1
@@ -5609,9 +5334,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print("EMPIRICAL_ANALYSIS_PLAN_INVALID: repository root not found", file=sys.stderr)
             return 1
         try:
-            empirical_analysis_plan_summary = EmpiricalAnalysisPlanWorkflow(root).run(
-                strict=args.strict
-            )
+            empirical_analysis_plan_summary = EmpiricalAnalysisPlanWorkflow(root).run(strict=args.strict)
         except (EmpiricalAnalysisPlanError, OSError) as exc:
             print(f"EMPIRICAL_ANALYSIS_PLAN_INVALID: {exc}", file=sys.stderr)
             return 1
@@ -5658,9 +5381,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             print("CATALOG_INVALID: repository root not found", file=sys.stderr)
             return 1
         try:
-            catalog_summary = (
-                Catalog(root).build() if args.catalog_command == "build" else Catalog(root).check()
-            )
+            catalog_summary = Catalog(root).build() if args.catalog_command == "build" else Catalog(root).check()
         except (CatalogError, OSError) as exc:
             print(f"CATALOG_INVALID: {exc}", file=sys.stderr)
             return 1
@@ -5943,19 +5664,19 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 print("R2_FIGURE_QA_INVALID: repository root not found", file=sys.stderr)
                 return 1
             try:
-                workflow = SubmissionFigureQAWorkflow(root)
-                result = (
-                    workflow.run(strict=args.strict)
+                figure_qa_workflow = SubmissionFigureQAWorkflow(root)
+                figure_qa_result = (
+                    figure_qa_workflow.run(strict=args.strict)
                     if args.publication_command == "render-r2"
-                    else workflow.verify()
+                    else figure_qa_workflow.verify()
                 )
             except (SubmissionFigureQAError, OSError) as exc:
                 print(f"R2_FIGURE_QA_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
-                f"R2_FIGURE_QA_VALID suite_id={result['suite_id']} "
-                f"status={result['status']} figures={result['figure_count']} "
-                f"withdrawn_historical_figures={result['withdrawn_historical_figure_count']} "
+                f"R2_FIGURE_QA_VALID suite_id={figure_qa_result['suite_id']} "
+                f"status={figure_qa_result['status']} figures={figure_qa_result['figure_count']} "
+                f"withdrawn_historical_figures={figure_qa_result['withdrawn_historical_figure_count']} "
                 "field_mapped=true scientific_submission_ready=false"
             )
             return 0
@@ -6426,17 +6147,17 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             )
 
             try:
-                protocol_summary = ProtocolResolver(root).run()
+                resolved_protocol_summary = ProtocolResolver(root).run()
             except (OSError, ProtocolResolutionError) as exc:
                 print(f"PROTOCOL_RESOLUTION_INVALID: {exc}", file=sys.stderr)
                 return 1
             print(
-                f"PROTOCOL_RESOLUTION_VALID protocols={protocol_summary.protocols} "
-                f"fields={protocol_summary.fields} "
-                f"observed_fields={protocol_summary.observed_fields} "
-                f"missing_fields={protocol_summary.missing_fields} "
-                f"clusters={protocol_summary.clusters} "
-                f"review_items={protocol_summary.review_items} fixture=true"
+                f"PROTOCOL_RESOLUTION_VALID protocols={resolved_protocol_summary.protocols} "
+                f"fields={resolved_protocol_summary.fields} "
+                f"observed_fields={resolved_protocol_summary.observed_fields} "
+                f"missing_fields={resolved_protocol_summary.missing_fields} "
+                f"clusters={resolved_protocol_summary.clusters} "
+                f"review_items={resolved_protocol_summary.review_items} fixture=true"
             )
             return 0
         if args.resolve_command == "endpoints":

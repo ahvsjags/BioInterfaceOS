@@ -33,9 +33,7 @@ class SageSearchSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -124,15 +122,11 @@ class SageSearchWorkflow:
         root_tag = tree.getroot().tag.rsplit("}", 1)[-1]
         if root_tag != "mzML":
             raise SageSearchError("input artifact root is not mzML")
-        spectrum_count = sum(
-            1 for element in tree.iter() if element.tag.rsplit("}", 1)[-1] == "spectrum"
-        )
+        spectrum_count = sum(1 for element in tree.iter() if element.tag.rsplit("}", 1)[-1] == "spectrum")
         input_record = {
             "artifact_path": relative,
             "artifact_sha256": actual_sha,
-            "project_accession": _string(
-                input_data.get("project_accession"), "input.project_accession"
-            ),
+            "project_accession": _string(input_data.get("project_accession"), "input.project_accession"),
             "spectrum_count": spectrum_count,
         }
         self._verify_conversion_receipt(input_record)
@@ -150,16 +144,12 @@ class SageSearchWorkflow:
         matches = [
             _mapping(row, "conversion row")
             for row in rows
-            if isinstance(row, Mapping)
-            and row.get("project_accession") == input_record["project_accession"]
+            if isinstance(row, Mapping) and row.get("project_accession") == input_record["project_accession"]
         ]
         if len(matches) != 1:
             raise SageSearchError("T053 conversion manifest has no unique completed input")
         row = matches[0]
-        if (
-            row.get("status") != "COMPLETED"
-            or row.get("output_sha256") != input_record["artifact_sha256"]
-        ):
+        if row.get("status") != "COMPLETED" or row.get("output_sha256") != input_record["artifact_sha256"]:
             raise SageSearchError("T053 conversion receipt does not verify the search input")
 
     def _load_config(self, data: Mapping[str, Any]) -> dict[str, Any]:
@@ -174,9 +164,7 @@ class SageSearchWorkflow:
             raise SageSearchError("fixture enzyme must be trypsin")
         if _int(config.get("missed_cleavages"), "config.missed_cleavages") < 0:
             raise SageSearchError("config.missed_cleavages cannot be negative")
-        config["fixed_modifications"] = _string_list(
-            config.get("fixed_modifications"), "config.fixed_modifications"
-        )
+        config["fixed_modifications"] = _string_list(config.get("fixed_modifications"), "config.fixed_modifications")
         config["variable_modifications"] = _string_list(
             config.get("variable_modifications"), "config.variable_modifications"
         )
@@ -188,9 +176,7 @@ class SageSearchWorkflow:
             raise SageSearchError("target-decoy method must be reverse")
         _string(target_decoy.get("decoy_prefix"), "config.target_decoy.decoy_prefix")
         config["target_decoy"] = target_decoy
-        config["database_version"] = _string(
-            config.get("database_version"), "config.database_version"
-        )
+        config["database_version"] = _string(config.get("database_version"), "config.database_version")
         return config
 
     def _load_database(
@@ -423,9 +409,7 @@ class SageSearchWorkflow:
         target_psms = sum(not bool(row["is_decoy"]) for row in psms)
         decoy_psms = sum(bool(row["is_decoy"]) for row in psms)
         accepted_psms = sum(bool(row["accepted"]) for row in psms)
-        accepted_target_psms = sum(
-            bool(row["accepted"]) and not bool(row["is_decoy"]) for row in psms
-        )
+        accepted_target_psms = sum(bool(row["accepted"]) and not bool(row["is_decoy"]) for row in psms)
         accepted_decoy_psms = sum(bool(row["accepted"]) and bool(row["is_decoy"]) for row in psms)
         estimated_fdr = round(accepted_decoy_psms / max(accepted_target_psms, 1), 8)
         normalized_config = dict(config)
@@ -471,8 +455,7 @@ class SageSearchWorkflow:
             "accepted_psms": accepted_psms,
             "estimated_fdr": estimated_fdr,
             "q_values_monotonic": all(
-                psms[index]["q_value"] <= psms[index + 1]["q_value"]
-                for index in range(len(psms) - 1)
+                psms[index]["q_value"] <= psms[index + 1]["q_value"] for index in range(len(psms) - 1)
             ),
         }
         recovery_output = {"schema_version": 1, **recovery, "resume_key": resume_key}
@@ -487,9 +470,7 @@ class SageSearchWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256_bytes(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -541,9 +522,7 @@ class SageSearchWorkflow:
             "recovery_passed": recovery["passed"],
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256_bytes(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

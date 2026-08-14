@@ -3,10 +3,7 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
-from collections import Counter
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -43,13 +40,31 @@ class R3AnalysisProtocolWorkflow:
     PLAN_RELATIVE = "docs/data/R3_T151_ANALYSIS_PROTOCOL.json"
     OUTPUT_RELATIVE = "reports/review_round_3/analysis_protocol/v1.0.0"
     REQUIRED_PLAN = {
-        "schema_version", "plan_id", "frozen_at", "evidence_class", "allowed_claim_level",
-        "references", "target", "independent_units", "outer_evaluation", "inner_selection",
-        "feature_policy", "models", "metrics", "missingness", "uncertainty", "negative_controls",
-        "multiplicity", "prohibited_actions", "claim_boundary",
+        "schema_version",
+        "plan_id",
+        "frozen_at",
+        "evidence_class",
+        "allowed_claim_level",
+        "references",
+        "target",
+        "independent_units",
+        "outer_evaluation",
+        "inner_selection",
+        "feature_policy",
+        "models",
+        "metrics",
+        "missingness",
+        "uncertainty",
+        "negative_controls",
+        "multiplicity",
+        "prohibited_actions",
+        "claim_boundary",
     }
     REQUIRED_REFERENCES = {
-        "common_target_receipt", "common_target_ledger", "sequence_feature_receipt", "sequence_feature_table",
+        "common_target_receipt",
+        "common_target_ledger",
+        "sequence_feature_receipt",
+        "sequence_feature_table",
     }
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
 
@@ -147,13 +162,20 @@ class R3AnalysisProtocolWorkflow:
         with ledger_path.open("r", encoding="utf-8", newline="") as stream:
             ledger = list(csv.DictReader(stream))
         required_ledger = {
-            "target_observation_id", "source_id", "canonical_accession", "laboratory_anchor",
-            "measurement_batch_id", "rank_percentile_descending", "rank_target_eligible", "common_rank_target_member",
+            "target_observation_id",
+            "source_id",
+            "canonical_accession",
+            "laboratory_anchor",
+            "measurement_batch_id",
+            "rank_percentile_descending",
+            "rank_target_eligible",
+            "common_rank_target_member",
         }
         if not ledger or not required_ledger.issubset(ledger[0]):
             raise R3AnalysisProtocolError("common target ledger schema is invalid")
         eligible = [
-            row for row in ledger
+            row
+            for row in ledger
             if row["rank_target_eligible"] == "true" and row["common_rank_target_member"] == "true"
         ]
         if len(eligible) != target_receipt.get("eligible_rank_observation_count"):
@@ -194,7 +216,12 @@ class R3AnalysisProtocolWorkflow:
                 "outer_group_key": "laboratory_anchor",
                 "inner_group_key": "measurement_batch_id",
                 "uncertainty_cluster_key": "measurement_batch_id",
-                "nesting_order": ["laboratory_anchor", "source_id", "measurement_batch_id", "canonical_accession"],
+                "nesting_order": [
+                    "laboratory_anchor",
+                    "source_id",
+                    "measurement_batch_id",
+                    "canonical_accession",
+                ],
             },
             "R3 independent units",
         )
@@ -205,7 +232,7 @@ class R3AnalysisProtocolWorkflow:
                 "outer_fold_count": 3,
                 "predeclared_external_ood_lab_anchor": "University of Oklahoma Health Sciences Center",
                 "held_out_access_before_selection": "PROHIBITED",
-                "primary_aggregation": "equal-weight mean of measurement-batch metrics within each held-out laboratory anchor",
+                "primary_aggregation": "equal-weight mean of measurement-batch metrics within each held-out laboratory anchor",  # noqa: E501
             },
             "R3 outer evaluation",
         )
@@ -230,16 +257,31 @@ class R3AnalysisProtocolWorkflow:
             "R3 feature policy",
         )
         expected_models = [
-            {"model_id": "CONSTANT_TRAINING_MEAN", "role": "non-learned baseline", "hyperparameters": {}},
-            {"model_id": "SEQUENCE_RIDGE_FULL", "role": "primary sequence model", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
-            {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "role": "paired feature ablation", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+            {
+                "model_id": "CONSTANT_TRAINING_MEAN",
+                "role": "non-learned baseline",
+                "hyperparameters": {},
+            },
+            {
+                "model_id": "SEQUENCE_RIDGE_FULL",
+                "role": "primary sequence model",
+                "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+            },
+            {
+                "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+                "role": "paired feature ablation",
+                "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+            },
         ]
         self._exact(plan["models"], expected_models, "R3 models")
         self._exact(
             plan["metrics"],
             {
                 "primary": "mean measurement-batch Spearman correlation",
-                "secondary": ["mean measurement-batch mean absolute error", "mean measurement-batch root mean square error"],
+                "secondary": [
+                    "mean measurement-batch mean absolute error",
+                    "mean measurement-batch root mean square error",
+                ],
                 "minimum_proteins_per_metric_batch": 10,
                 "report_each_held_out_laboratory_anchor": True,
             },
@@ -262,29 +304,37 @@ class R3AnalysisProtocolWorkflow:
                 "method": "held-out-laboratory measurement-batch cluster bootstrap percentile interval",
                 "resamples": 2000,
                 "random_seed": 20260813,
-                "reporting": "report fold-specific point estimates and 95% intervals; do not treat three laboratory anchors as a large-sample confirmatory population",
+                "reporting": "report fold-specific point estimates and 95% intervals; do not treat three laboratory anchors as a large-sample confirmatory population",  # noqa: E501
             },
             "R3 uncertainty",
         )
         self._exact(
             plan["negative_controls"],
             {
-                "within_batch_rank_permutation": {"resamples": 256, "random_seed": 20260814, "comparison": "SEQUENCE_RIDGE_FULL primary metric"},
+                "within_batch_rank_permutation": {
+                    "resamples": 256,
+                    "random_seed": 20260814,
+                    "comparison": "SEQUENCE_RIDGE_FULL primary metric",
+                },
                 "provenance_feature_leakage": "static feature-manifest rejection; no source identity model is fit",
             },
             "R3 negative controls",
         )
         self._exact(
             plan["multiplicity"],
-            {"family": "three outer folds by three predeclared models for primary metric comparisons", "method": "Holm step-down", "claim_status": "exploratory"},
+            {
+                "family": "three outer folds by three predeclared models for primary metric comparisons",
+                "method": "Holm step-down",
+                "claim_status": "exploratory",
+            },
             "R3 multiplicity",
         )
         prohibited = {
-            "use source, laboratory, facility, paper, worksheet, path, cell coordinate or protein identity as a predictive feature",
+            "use source, laboratory, facility, paper, worksheet, path, cell coordinate or protein identity as a predictive feature",  # noqa: E501
             "fit or select against any held-out laboratory anchor before its outer-fold evaluation",
             "concatenate raw LFQ, intensity, PSM, spectral-count or normalized-abundance scales across studies",
             "impute zero, blank, NA or omitted protein records as a target rank",
-            "claim material-property prediction, clinical utility, causal mechanism or independent external reproduction from this benchmark alone",
+            "claim material-property prediction, clinical utility, causal mechanism or independent external reproduction from this benchmark alone",  # noqa: E501
         }
         if set(_list(plan.get("prohibited_actions"), "R3 prohibited actions", minimum=5)) != prohibited:
             raise R3AnalysisProtocolError("R3 prohibited-action boundary is invalid")

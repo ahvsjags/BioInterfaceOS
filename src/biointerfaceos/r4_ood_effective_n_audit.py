@@ -33,8 +33,7 @@ class R4OODEffectiveNAuditWorkflow:
 
     PROTOCOL_RELATIVE = "docs/data/R4_T174_OOD_EFFECTIVE_N_MISSINGNESS_PROTOCOL.json"
     DEFAULT_SOURCE_MAP = (
-        "data/raw/r4_candidate_pmc11544298/derived/"
-        "R4_PMC11544298_small_molecule_corona_source_cell_map.csv"
+        "data/raw/r4_candidate_pmc11544298/derived/R4_PMC11544298_small_molecule_corona_source_cell_map.csv"
     )
     DEFAULT_OUTPUT = "reports/review_round_4/small_molecule_corona_effective_n/v1.0.0"
     AUDIT_ID = "bioif-r4-ood-effective-n-missingness-v1.0.0"
@@ -60,9 +59,7 @@ class R4OODEffectiveNAuditWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.source_map_path = (source_map_path or self.root / self.DEFAULT_SOURCE_MAP).resolve(
-            strict=False
-        )
+        self.source_map_path = (source_map_path or self.root / self.DEFAULT_SOURCE_MAP).resolve(strict=False)
         self.protocol_path = protocol_path or self.root / self.PROTOCOL_RELATIVE
         self.output_root = output_root or self.root / self.DEFAULT_OUTPUT
 
@@ -137,9 +134,7 @@ class R4OODEffectiveNAuditWorkflow:
         if not isinstance(upstream_ref, dict) or set(upstream_ref) != {"relative_path", "sha256"}:
             raise R4OODEffectiveNAuditError("R4 upstream protocol reference is invalid")
         upstream_path = self._root_file(upstream_ref["relative_path"], "R4 upstream protocol")
-        if self._sha256(upstream_path) != self._checksum(
-            upstream_ref["sha256"], "R4 upstream protocol"
-        ):
+        if self._sha256(upstream_path) != self._checksum(upstream_ref["sha256"], "R4 upstream protocol"):
             raise R4OODEffectiveNAuditError("R4 upstream protocol checksum differs")
         eligibility = protocol["eligibility"]
         if not isinstance(eligibility, dict) or set(eligibility) != {
@@ -204,9 +199,7 @@ class R4OODEffectiveNAuditWorkflow:
         for row in rows:
             by_batch[row["measurement_batch_id"]].append(row)
             by_unit[row["biological_unit_id"]].append(row)
-        primary_threshold = protocol["eligibility"][
-            "primary_minimum_rank_eligible_proteins_per_batch"
-        ]
+        primary_threshold = protocol["eligibility"]["primary_minimum_rank_eligible_proteins_per_batch"]
         batch_summary: list[dict[str, Any]] = []
         for batch_id in sorted(by_batch):
             batch = by_batch[batch_id]
@@ -242,9 +235,7 @@ class R4OODEffectiveNAuditWorkflow:
                     "source_asset_count": len({row["source_asset_id"] for row in unit}),
                     "condition_count": len({row["condition_label"] for row in unit}),
                     "measurement_batch_count": len(unit_batches),
-                    "primary_rank_eligible_batch_count": sum(
-                        item["primary_rank_eligible"] for item in unit_batches
-                    ),
+                    "primary_rank_eligible_batch_count": sum(item["primary_rank_eligible"] for item in unit_batches),
                     "raw_row_count": len(unit),
                     "analysis_candidate_row_count": analysis_count,
                     "rank_target_eligible_row_count": rank_count,
@@ -255,24 +246,21 @@ class R4OODEffectiveNAuditWorkflow:
         thresholds = protocol["threshold_sensitivity"]["minimum_rank_eligible_proteins_per_batch"]
         threshold_summary: list[dict[str, Any]] = []
         for threshold in thresholds:
-            retained = [
-                item for item in batch_summary
-                if item["rank_target_eligible_row_count"] >= threshold
-            ]
+            retained = [item for item in batch_summary if item["rank_target_eligible_row_count"] >= threshold]
             threshold_summary.append(
                 {
                     "minimum_rank_eligible_proteins_per_batch": threshold,
                     "measurement_batch_count": len(retained),
-                    "rank_target_eligible_row_count": sum(
-                        item["rank_target_eligible_row_count"] for item in retained
+                    "rank_target_eligible_row_count": sum(item["rank_target_eligible_row_count"] for item in retained),
+                    "biological_unit_count": len({unit for item in retained for unit in item["biological_unit_id"]}),
+                    "laboratory_count": len(
+                        {
+                            lab
+                            for item in retained
+                            for row in by_batch[item["measurement_batch_id"]]
+                            for lab in [row["laboratory_anchor"]]
+                        }
                     ),
-                    "biological_unit_count": len({
-                        unit for item in retained for unit in item["biological_unit_id"]
-                    }),
-                    "laboratory_count": len({
-                        lab for item in retained for row in by_batch[item["measurement_batch_id"]]
-                        for lab in [row["laboratory_anchor"]]
-                    }),
                 }
             )
         state_counts = Counter(row["author_value_state"] for row in rows)
@@ -294,22 +282,17 @@ class R4OODEffectiveNAuditWorkflow:
             "pooled_unit_count": len(pooled_units),
             "donor_labelled_unit_count": len(donor_units),
             "condition_label_count": len({row["condition_label"] for row in rows}),
-            "unit_condition_stratum_count": len({
-                (row["biological_unit_id"], row["condition_label"]) for row in rows
-            }),
-            "primary_rank_eligible_biological_unit_count": len({
-                unit for item in primary_batches for unit in item["biological_unit_id"]
-            }),
+            "unit_condition_stratum_count": len({(row["biological_unit_id"], row["condition_label"]) for row in rows}),
+            "primary_rank_eligible_biological_unit_count": len(
+                {unit for item in primary_batches for unit in item["biological_unit_id"]}
+            ),
             "primary_rank_eligible_laboratory_count": len(laboratories),
             "pooled_primary_batch_count": sum(
                 any(self._unit_class(unit) == "POOLED" for unit in item["biological_unit_id"])
                 for item in primary_batches
             ),
             "donor_primary_batch_count": sum(
-                any(
-                    self._unit_class(unit) == "DONOR_LABELLED"
-                    for unit in item["biological_unit_id"]
-                )
+                any(self._unit_class(unit) == "DONOR_LABELLED" for unit in item["biological_unit_id"])
                 for item in primary_batches
             ),
         }
@@ -391,9 +374,7 @@ class R4OODEffectiveNAuditWorkflow:
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
         }
-        self._write_json(
-            self.output_root / "r4_external_effective_n_missingness_receipt.json", receipt
-        )
+        self._write_json(self.output_root / "r4_external_effective_n_missingness_receipt.json", receipt)
         return R4OODEffectiveNAuditSummary(
             self.STATUS,
             len(rows),

@@ -30,17 +30,12 @@ class R4OODClusterSensitivityWorkflow:
 
     PROTOCOL_RELATIVE = "docs/data/R4_T175_OOD_CLUSTER_SENSITIVITY_PROTOCOL.json"
     SOURCE_MAP_RELATIVE = (
-        "data/raw/r4_candidate_pmc11544298/derived/"
-        "R4_PMC11544298_small_molecule_corona_source_cell_map.csv"
+        "data/raw/r4_candidate_pmc11544298/derived/R4_PMC11544298_small_molecule_corona_source_cell_map.csv"
     )
     BATCH_METRICS_RELATIVE = (
-        "reports/review_round_4/small_molecule_corona_ood/v1.0.0/"
-        "r4_external_measurement_batch_metrics.csv"
+        "reports/review_round_4/small_molecule_corona_ood/v1.0.0/r4_external_measurement_batch_metrics.csv"
     )
-    OOD_REPORT_RELATIVE = (
-        "reports/review_round_4/small_molecule_corona_ood/v1.0.0/"
-        "r4_external_ood_report.json"
-    )
+    OOD_REPORT_RELATIVE = "reports/review_round_4/small_molecule_corona_ood/v1.0.0/r4_external_ood_report.json"
     OUTPUT_RELATIVE = "reports/review_round_4/small_molecule_corona_cluster_sensitivity/v1.0.0"
     AUDIT_ID = "bioif-r4-ood-cluster-sensitivity-v1.0.0"
     STATUS = "R4_OOD_CLUSTER_SENSITIVITY_AUDITED_EXPLORATORY"
@@ -125,9 +120,7 @@ class R4OODClusterSensitivityWorkflow:
             or protocol["cluster_unit"] != "biological_unit_id"
             or protocol["models"] != [self.FULL_MODEL, self.COMPOSITION_MODEL]
         ):
-            raise R4OODClusterSensitivityError(
-                "R4 cluster sensitivity protocol identity is invalid"
-            )
+            raise R4OODClusterSensitivityError("R4 cluster sensitivity protocol identity is invalid")
         paths: dict[str, Path] = {}
         for key in ("source_map", "batch_metrics", "upstream_ood_report"):
             reference = protocol[key]
@@ -177,10 +170,7 @@ class R4OODClusterSensitivityWorkflow:
         if not keys:
             raise R4OODClusterSensitivityError("cluster bootstrap has no units")
         rng = random.Random(seed)
-        sampled = [
-            sum(values[rng.choice(keys)] for _ in keys) / len(keys)
-            for _ in range(resamples)
-        ]
+        sampled = [sum(values[rng.choice(keys)] for _ in keys) / len(keys) for _ in range(resamples)]
         sampled.sort()
         return {
             "resamples": resamples,
@@ -206,9 +196,7 @@ class R4OODClusterSensitivityWorkflow:
                 raise R4OODClusterSensitivityError("source map cluster key is missing")
             previous = batch_to_unit.setdefault(batch_id, unit_id)
             if previous != unit_id:
-                raise R4OODClusterSensitivityError(
-                    "a measurement batch spans multiple biological units"
-                )
+                raise R4OODClusterSensitivityError("a measurement batch spans multiple biological units")
             labs[unit_id].add(row.get("laboratory_anchor", ""))
         metric_rows = self._read_csv(paths["batch_metrics"], "R4 batch metrics")
         required = {"model_id", "measurement_batch_id", "spearman", "spearman_status"}
@@ -240,9 +228,7 @@ class R4OODClusterSensitivityWorkflow:
         unit_rows: list[dict[str, Any]] = []
         model_results: list[dict[str, Any]] = []
         for model_id in (self.FULL_MODEL, self.COMPOSITION_MODEL):
-            unit_means = {
-                unit: self._mean(values) for unit, values in by_model_unit[model_id].items()
-            }
+            unit_means = {unit: self._mean(values) for unit, values in by_model_unit[model_id].items()}
             batch_values = list(by_model_batch[model_id].values())
             bootstrap = self._bootstrap(
                 unit_means,
@@ -271,8 +257,7 @@ class R4OODClusterSensitivityWorkflow:
                     }
                 )
         paired_batch_deltas = {
-            batch_id: by_model_batch[self.FULL_MODEL][batch_id]
-            - by_model_batch[self.COMPOSITION_MODEL][batch_id]
+            batch_id: by_model_batch[self.FULL_MODEL][batch_id] - by_model_batch[self.COMPOSITION_MODEL][batch_id]
             for batch_id in by_model_batch[self.FULL_MODEL]
             if batch_id in by_model_batch[self.COMPOSITION_MODEL]
         }
@@ -282,12 +267,8 @@ class R4OODClusterSensitivityWorkflow:
         delta_unit_means = {unit: self._mean(values) for unit, values in delta_by_unit.items()}
         paired = {
             "paired_measurement_batch_count": len(paired_batch_deltas),
-            "batch_weighted_mean_full_minus_composition": self._mean(
-                list(paired_batch_deltas.values())
-            ),
-            "unit_weighted_mean_full_minus_composition": self._mean(
-                list(delta_unit_means.values())
-            ),
+            "batch_weighted_mean_full_minus_composition": self._mean(list(paired_batch_deltas.values())),
+            "unit_weighted_mean_full_minus_composition": self._mean(list(delta_unit_means.values())),
             "unit_weighted_cluster_bootstrap": self._bootstrap(
                 delta_unit_means,
                 protocol["uncertainty"]["resamples"],
@@ -317,9 +298,7 @@ class R4OODClusterSensitivityWorkflow:
                 "measurement_batch_count": len(batch_to_unit),
                 "biological_unit_count": len(set(batch_to_unit.values())),
                 "laboratory_count": len({lab for values in labs.values() for lab in values}),
-                "pooled_unit_count": len(
-                    {unit for unit in batch_to_unit.values() if "POOLED" in unit.upper()}
-                ),
+                "pooled_unit_count": len({unit for unit in batch_to_unit.values() if "POOLED" in unit.upper()}),
                 "donor_labelled_unit_count": len(
                     {unit for unit in batch_to_unit.values() if "POOLED" not in unit.upper()}
                 ),
@@ -372,15 +351,9 @@ class R4OODClusterSensitivityWorkflow:
             raise R4OODClusterSensitivityError("R4 cluster sensitivity artifact is invalid")
         reference = artifacts["cluster_unit_model_metrics"]
         if not isinstance(reference, dict) or set(reference) != {"relative_path", "sha256"}:
-            raise R4OODClusterSensitivityError(
-                "R4 cluster sensitivity artifact reference is invalid"
-            )
-        artifact_path = self._root_file(
-            reference["relative_path"], "R4 cluster sensitivity artifact"
-        )
-        if self._sha256(artifact_path) != self._checksum(
-            reference["sha256"], "R4 cluster sensitivity artifact"
-        ):
+            raise R4OODClusterSensitivityError("R4 cluster sensitivity artifact reference is invalid")
+        artifact_path = self._root_file(reference["relative_path"], "R4 cluster sensitivity artifact")
+        if self._sha256(artifact_path) != self._checksum(reference["sha256"], "R4 cluster sensitivity artifact"):
             raise R4OODClusterSensitivityError("R4 cluster sensitivity artifact checksum differs")
         if (
             report.get("audit_id") != self.AUDIT_ID

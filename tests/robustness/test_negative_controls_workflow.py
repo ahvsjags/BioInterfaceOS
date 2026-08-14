@@ -31,12 +31,8 @@ def test_negative_controls_preserve_rollback_policy_and_duplicate_audit(tmp_path
     workflow = NegativeControlsWorkflow(root, output_root=tmp_path / "negative")
     workflow.run(strict=True)
 
-    rollback = json.loads(
-        (tmp_path / "negative" / "rollback_claim_gate.json").read_text(encoding="utf-8")
-    )
-    duplicates = json.loads(
-        (tmp_path / "negative" / "duplicate_audit.json").read_text(encoding="utf-8")
-    )
+    rollback = json.loads((tmp_path / "negative" / "rollback_claim_gate.json").read_text(encoding="utf-8"))
+    duplicates = json.loads((tmp_path / "negative" / "duplicate_audit.json").read_text(encoding="utf-8"))
     assert rollback["release_action"] == "CLEAN_RELEASE_RETAINED"
     assert rollback["critical_leaks"] == 0
     assert duplicates["duplicate_hits"] == 2

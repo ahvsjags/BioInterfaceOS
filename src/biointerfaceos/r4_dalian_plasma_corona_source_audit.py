@@ -13,7 +13,6 @@ import csv
 import json
 import math
 from collections import defaultdict
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -101,10 +100,10 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
             return None
         if isinstance(value, bool) or not isinstance(value, int | float):
             raise R4DalianPlasmaCoronaSourceAuditError("author abundance must be numeric or blank")
-        value = float(value)
-        if not math.isfinite(value) or value < 0:
+        numeric = float(value)
+        if not math.isfinite(numeric) or numeric < 0:
             raise R4DalianPlasmaCoronaSourceAuditError("author abundance must be finite and non-negative")
-        return value
+        return numeric
 
     def _under(self, root: Path, relative_path: str, label: str) -> Path:
         if "\\" in relative_path:
@@ -134,9 +133,16 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
             "admission_minimums",
             "claim_boundary",
         }
-        if set(registry) != expected or registry.get("schema_version") != 1 or registry.get("audit_id") != self.AUDIT_ID:
+        if (
+            set(registry) != expected
+            or registry.get("schema_version") != 1
+            or registry.get("audit_id") != self.AUDIT_ID
+        ):
             raise R4DalianPlasmaCoronaSourceAuditError("registry fields are invalid")
-        if registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION" or registry.get("allowed_claim_level") != "EXPLORATORY":
+        if (
+            registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION"
+            or registry.get("allowed_claim_level") != "EXPLORATORY"
+        ):
             raise R4DalianPlasmaCoronaSourceAuditError("registry evidence boundary is invalid")
         _string(registry.get("evaluated_at"), "evaluated_at")
         _string(registry.get("claim_boundary"), "claim_boundary")
@@ -150,13 +156,22 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
         if not isinstance(assets, list) or len(assets) != 1:
             raise R4DalianPlasmaCoronaSourceAuditError("source assets are invalid")
         item = _mapping(assets[0], "source asset")
-        if set(item) != {"asset_id", "relative_path", "sha256", "expected_bytes"} or item["asset_id"] != "search_result_workbook":
+        if (
+            set(item) != {"asset_id", "relative_path", "sha256", "expected_bytes"}
+            or item["asset_id"] != "search_result_workbook"
+        ):
             raise R4DalianPlasmaCoronaSourceAuditError("source asset fields are invalid")
         asset = self._under(self.assets_root, _string(item["relative_path"], "source asset path"), "source asset")
-        if asset.stat().st_size != item["expected_bytes"] or _sha256(asset) != _checksum(item["sha256"], "source asset"):
+        if asset.stat().st_size != item["expected_bytes"] or _sha256(asset) != _checksum(
+            item["sha256"], "source asset"
+        ):
             raise R4DalianPlasmaCoronaSourceAuditError("source asset checksum differs")
         reference = _mapping(registry["r3_reference_asset"], "R3 reference asset")
-        feature_path = self._under(self.root, _string(reference["relative_path"], "R3 reference asset"), "R3 reference asset")
+        feature_path = self._under(
+            self.root,
+            _string(reference["relative_path"], "R3 reference asset"),
+            "R3 reference asset",
+        )
         if _sha256(feature_path) != _checksum(reference["sha256"], "R3 reference asset"):
             raise R4DalianPlasmaCoronaSourceAuditError("R3 reference asset checksum differs")
         return registry, asset, feature_path
@@ -175,7 +190,10 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
         if workbook.sheetnames != [contract["worksheet"]]:
             raise R4DalianPlasmaCoronaSourceAuditError("workbook sheets differ")
         sheet = workbook.active
-        if sheet.max_row != contract["expected_rows_after_header"] + 1 or sheet.max_column != contract["expected_columns"]:
+        if (
+            sheet.max_row != contract["expected_rows_after_header"] + 1
+            or sheet.max_column != contract["expected_columns"]
+        ):
             raise R4DalianPlasmaCoronaSourceAuditError("workbook dimensions differ")
         header = next(sheet.iter_rows(min_row=contract["header_row"], max_row=contract["header_row"], values_only=True))
         measurement_columns = contract["measurement_columns"]
@@ -206,7 +224,7 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
                         "source_coordinate": f"{get_column_letter(column_index + 1)}{row_number}",
                         "source_identifier": accession,
                         "canonical_accession": accession,
-                        "measurement_batch_id": f"R4_PXD060795_{label.split(': ', 2)[1].replace(': ', '_').replace(', ', '_')}",
+                        "measurement_batch_id": f"R4_PXD060795_{label.split(': ', 2)[1].replace(': ', '_').replace(', ', '_')}",  # noqa: E501
                         "biological_unit_id": "POOLED_OR_UNSPECIFIED_HUMAN_PLASMA",
                         "condition_label": condition,
                         "analysis_candidate_eligible": "true" if candidate else "false",
@@ -216,15 +234,24 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
                         "rank_target_eligible": "true" if candidate and value is not None and value > 0 else "false",
                     }
                 )
-        if len(direct_rows) != contract["expected_direct_shared_rows"] or len({row["canonical_accession"] for row in rows}) != contract["expected_shared_canonical_accessions"]:
+        if (
+            len(direct_rows) != contract["expected_direct_shared_rows"]
+            or len({row["canonical_accession"] for row in rows}) != contract["expected_shared_canonical_accessions"]
+        ):
             raise R4DalianPlasmaCoronaSourceAuditError("shared R3 source-row accounting differs")
         if len(rows) != contract["expected_direct_shared_rows"] * len(measurement_columns):
             raise R4DalianPlasmaCoronaSourceAuditError("source-cell accounting differs")
         by_batch: dict[str, list[dict[str, str]]] = defaultdict(list)
         for row in rows:
             by_batch[row["measurement_batch_id"]].append(row)
-        candidates = {batch: values for batch, values in by_batch.items() if values[0]["analysis_candidate_eligible"] == "true"}
-        qualified = {batch: values for batch, values in candidates.items() if sum(row["rank_target_eligible"] == "true" for row in values) >= 10}
+        candidates = {
+            batch: values for batch, values in by_batch.items() if values[0]["analysis_candidate_eligible"] == "true"
+        }
+        qualified = {
+            batch: values
+            for batch, values in candidates.items()
+            if sum(row["rank_target_eligible"] == "true" for row in values) >= 10
+        }
         expected = contract["expected_positive_shared_by_measurement_column"]
         observed = [sum(row["rank_target_eligible"] == "true" for row in by_batch[batch]) for batch in by_batch]
         if observed != expected or len(by_batch) != 9 or len(candidates) != 6 or len(qualified) != 6:
@@ -252,7 +279,9 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
         batches = {row["measurement_batch_id"] for row in rows}
         candidates = {row["measurement_batch_id"] for row in rows if row["analysis_candidate_eligible"] == "true"}
         qualified = {
-            batch for batch in candidates if sum(row["rank_target_eligible"] == "true" for row in rows if row["measurement_batch_id"] == batch) >= 10
+            batch
+            for batch in candidates
+            if sum(row["rank_target_eligible"] == "true" for row in rows if row["measurement_batch_id"] == batch) >= 10
         }
         report = {
             "schema_version": 1,
@@ -265,7 +294,10 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
             "source_asset": {"relative_path": "Search_result.xlsx", "sha256": _sha256(asset)},
-            "r3_reference_asset": {"relative_path": registry["r3_reference_asset"]["relative_path"], "sha256": _sha256(feature_path)},
+            "r3_reference_asset": {
+                "relative_path": registry["r3_reference_asset"]["relative_path"],
+                "sha256": _sha256(feature_path),
+            },
             "source_cell_map": {"relative_path": self.DERIVED_RELATIVE, "sha256": _sha256(derived)},
             "protein_row_count": 547,
             "all_measurement_batch_count": len(batches),
@@ -294,7 +326,17 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
         }
         receipt_path = self.output_root / "dalian_plasma_corona_source_audit_receipt.json"
         self._write(receipt_path, receipt)
-        return R4DalianPlasmaCoronaSourceAuditSummary(1, 547, len(batches), len(candidates), len(qualified), len({row["canonical_accession"] for row in rows}), len(rows), sum(row["rank_target_eligible"] == "true" for row in rows), receipt_path)
+        return R4DalianPlasmaCoronaSourceAuditSummary(
+            1,
+            547,
+            len(batches),
+            len(candidates),
+            len(qualified),
+            len({row["canonical_accession"] for row in rows}),
+            len(rows),
+            sum(row["rank_target_eligible"] == "true" for row in rows),
+            receipt_path,
+        )
 
     def verify(self) -> R4DalianPlasmaCoronaSourceAuditSummary:
         registry, asset, feature_path = self._registry()
@@ -302,7 +344,11 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
         receipt_path = self.output_root / "dalian_plasma_corona_source_audit_receipt.json"
         report = self._json(report_path, "R4 Dalian audit report")
         receipt = self._json(receipt_path, "R4 Dalian audit receipt")
-        if report.get("status") != self.STATUS or receipt.get("status") != self.STATUS or receipt.get("report", {}).get("sha256") != _sha256(report_path):
+        if (
+            report.get("status") != self.STATUS
+            or receipt.get("status") != self.STATUS
+            or receipt.get("report", {}).get("sha256") != _sha256(report_path)
+        ):
             raise R4DalianPlasmaCoronaSourceAuditError("audit receipt differs")
         cell_map = self._under(self.assets_root, report["source_cell_map"]["relative_path"], "source cell map")
         if report["source_cell_map"].get("sha256") != _sha256(cell_map):
@@ -312,7 +358,20 @@ class R4DalianPlasmaCoronaSourceAuditWorkflow:
         expected = self._cells(asset, feature_path, registry)
         if rows != expected:
             raise R4DalianPlasmaCoronaSourceAuditError("source cell map differs")
-        summary = R4DalianPlasmaCoronaSourceAuditSummary(1, 547, 9, 6, 6, 27, len(rows), sum(row["rank_target_eligible"] == "true" for row in rows), receipt_path)
-        if report.get("source_cell_count") != summary.source_cell_count or report.get("primary_ood_minimum_met") is not False:
+        summary = R4DalianPlasmaCoronaSourceAuditSummary(
+            1,
+            547,
+            9,
+            6,
+            6,
+            27,
+            len(rows),
+            sum(row["rank_target_eligible"] == "true" for row in rows),
+            receipt_path,
+        )
+        if (
+            report.get("source_cell_count") != summary.source_cell_count
+            or report.get("primary_ood_minimum_met") is not False
+        ):
             raise R4DalianPlasmaCoronaSourceAuditError("audit accounting differs")
         return summary

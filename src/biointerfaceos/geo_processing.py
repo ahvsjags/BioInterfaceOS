@@ -31,9 +31,7 @@ class GeoProcessingSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -73,9 +71,7 @@ class GeoProcessingWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/geo_processing_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/geo_processing_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/geo_processing"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -93,9 +89,7 @@ class GeoProcessingWorkflow:
             raise GeoProcessingError("GEO processing fixture has no studies")
         return data
 
-    def _read_hashed_json(
-        self, path_key: str, hash_key: str, data: Mapping[str, Any], label: str
-    ) -> dict[str, Any]:
+    def _read_hashed_json(self, path_key: str, hash_key: str, data: Mapping[str, Any], label: str) -> dict[str, Any]:
         relative = _string(data.get(path_key), path_key)
         path = (self.root / relative).resolve(strict=True)
         try:
@@ -175,14 +169,10 @@ class GeoProcessingWorkflow:
         matching = [
             file
             for file in cast(list[Any], public_files)
-            if isinstance(file, Mapping)
-            and file.get("sha256") == source_sha
-            and file.get("access") == "PUBLIC"
+            if isinstance(file, Mapping) and file.get("sha256") == source_sha and file.get("access") == "PUBLIC"
         ]
         if not matching:
-            raise GeoProcessingError(
-                f"study source checksum is not an eligible public file: {accession}"
-            )
+            raise GeoProcessingError(f"study source checksum is not an eligible public file: {accession}")
         namespace = _string(study.get("gene_id_namespace"), "gene ID namespace")
         samples = study.get("samples")
         if not isinstance(samples, list) or not samples:
@@ -237,9 +227,7 @@ class GeoProcessingWorkflow:
                 raw_values[str(sample_id)] = count
                 library_sizes[str(sample_id)] += count
             if normalized_gene_id in raw_by_gene:
-                raise GeoProcessingError(
-                    f"normalized gene ID collides within study: {normalized_gene_id}"
-                )
+                raise GeoProcessingError(f"normalized gene ID collides within study: {normalized_gene_id}")
             raw_by_gene[normalized_gene_id] = raw_values
         if any(total <= 0 for total in library_sizes.values()):
             raise GeoProcessingError(f"study has zero library size: {accession}")
@@ -259,20 +247,16 @@ class GeoProcessingWorkflow:
             direction = _string(contrast.get("expected_direction"), "contrast direction")
             numerator = _string(contrast.get("numerator_condition"), "contrast numerator")
             denominator = _string(contrast.get("denominator_condition"), "contrast denominator")
-            numerator_ids = [
-                row["sample_id"] for row in sample_rows if row["condition"] == numerator
-            ]
-            denominator_ids = [
-                row["sample_id"] for row in sample_rows if row["condition"] == denominator
-            ]
+            numerator_ids = [row["sample_id"] for row in sample_rows if row["condition"] == numerator]
+            denominator_ids = [row["sample_id"] for row in sample_rows if row["condition"] == denominator]
             if gene not in normalized_by_gene or not numerator_ids or not denominator_ids:
                 raise GeoProcessingError(f"contrast inputs are invalid: {accession}:{gene}")
-            numerator_mean = sum(
-                normalized_by_gene[gene][sample_id] for sample_id in numerator_ids
-            ) / len(numerator_ids)
-            denominator_mean = sum(
-                normalized_by_gene[gene][sample_id] for sample_id in denominator_ids
-            ) / len(denominator_ids)
+            numerator_mean = sum(normalized_by_gene[gene][sample_id] for sample_id in numerator_ids) / len(
+                numerator_ids
+            )
+            denominator_mean = sum(normalized_by_gene[gene][sample_id] for sample_id in denominator_ids) / len(
+                denominator_ids
+            )
             delta = round(numerator_mean - denominator_mean, 8)
             minimum = _float(contrast.get("min_abs_delta"), "contrast min_abs_delta")
             passed = abs(delta) >= minimum and (
@@ -299,9 +283,7 @@ class GeoProcessingWorkflow:
             "gene_count": len(raw_by_gene),
             "sample_count": len(sample_rows),
             "library_sizes": {key: round(value, 8) for key, value in sorted(library_sizes.items())},
-            "replicate_counts": {
-                condition: len(replicates) for condition, replicates in sorted(conditions.items())
-            },
+            "replicate_counts": {condition: len(replicates) for condition, replicates in sorted(conditions.items())},
             "contrast_count": len(contrasts),
             "contrast_passed": True,
             "within_study_only": True,
@@ -315,12 +297,10 @@ class GeoProcessingWorkflow:
             "normalization_method": "log2_cpm",
             "sample_metadata": sample_rows,
             "raw_matrix": [
-                {"normalized_gene_id": gene, "values": values}
-                for gene, values in sorted(raw_by_gene.items())
+                {"normalized_gene_id": gene, "values": values} for gene, values in sorted(raw_by_gene.items())
             ],
             "normalized_matrix": [
-                {"normalized_gene_id": gene, "values": values}
-                for gene, values in sorted(normalized_by_gene.items())
+                {"normalized_gene_id": gene, "values": values} for gene, values in sorted(normalized_by_gene.items())
             ],
         }
         return study_object, qc, contrasts, 0
@@ -380,9 +360,7 @@ class GeoProcessingWorkflow:
             "studies": {"schema_version": 1, "studies": study_objects},
             "samples": {
                 "schema_version": 1,
-                "samples": [
-                    sample for study in study_objects for sample in study["sample_metadata"]
-                ],
+                "samples": [sample for study in study_objects for sample in study["sample_metadata"]],
             },
             "normalized": {
                 "schema_version": 1,
@@ -408,9 +386,7 @@ class GeoProcessingWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -459,20 +435,14 @@ class GeoProcessingWorkflow:
             "studies_passed": len(study_objects),
             "excluded_studies": len(excluded),
             "genes": len(
-                {
-                    gene
-                    for study in study_objects
-                    for gene in (row["normalized_gene_id"] for row in study["raw_matrix"])
-                }
+                {gene for study in study_objects for gene in (row["normalized_gene_id"] for row in study["raw_matrix"])}
             ),
             "samples": sum(len(study["sample_metadata"]) for study in study_objects),
             "contrasts": len(contrasts),
             "cross_study_batch_merge": False,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }
@@ -505,11 +475,7 @@ class GeoProcessingWorkflow:
             studies_passed=len(study_objects),
             excluded_studies=len(excluded),
             genes=len(
-                {
-                    gene
-                    for study in study_objects
-                    for gene in (row["normalized_gene_id"] for row in study["raw_matrix"])
-                }
+                {gene for study in study_objects for gene in (row["normalized_gene_id"] for row in study["raw_matrix"])}
             ),
             samples=sum(len(study["sample_metadata"]) for study in study_objects),
             contrasts=len(contrasts),

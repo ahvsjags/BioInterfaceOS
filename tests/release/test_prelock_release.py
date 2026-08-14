@@ -39,9 +39,7 @@ def test_prelock_release_rejects_checksum_mutation(tmp_path: Path) -> None:
     fixture_path = tmp_path / "fixture.json"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(PrelockReleaseError, match="checksum differs"):
-        PrelockReleaseWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "release"
-        ).run()
+        PrelockReleaseWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "release").run()
 
 
 def test_prelock_release_rejects_tampering(tmp_path: Path) -> None:
@@ -53,9 +51,7 @@ def test_prelock_release_rejects_tampering(tmp_path: Path) -> None:
         workflow.run()
 
 
-def test_prelock_release_rejects_dirty_tree(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
-) -> None:
+def test_prelock_release_rejects_dirty_tree(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     workflow = PrelockReleaseWorkflow(_root(), output_root=tmp_path / "release")
     monkeypatch.setattr(
         subprocess,
@@ -72,9 +68,7 @@ def test_prelock_release_rejects_development_authorization(tmp_path: Path) -> No
     fixture_path = tmp_path / "fixture.json"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(PrelockReleaseError, match="authorization boundary"):
-        PrelockReleaseWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "release"
-        ).run()
+        PrelockReleaseWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "release").run()
 
 
 def test_prelock_release_rejects_signature_tamper(tmp_path: Path) -> None:

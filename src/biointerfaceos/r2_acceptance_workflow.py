@@ -35,9 +35,7 @@ class R2AcceptanceSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -73,26 +71,16 @@ class R2AcceptanceWorkflow:
     PROTOCOL_DECLARED_AT = "2026-08-12T00:00:00+00:00"
     PROTOCOL_RELATIVE = "docs/data/R2_EXTERNAL_REPRODUCTION_AND_EDITORIAL_PROTOCOL.json"
     PORTFOLIO_RELATIVE = "reports/review_round_2/manuscript_portfolio/v1.8.0/portfolio_receipt.json"
-    T123_COMPATIBILITY_RELATIVE = (
-        "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
-    )
+    T123_COMPATIBILITY_RELATIVE = "reports/review_round_2/real_model_compatibility/v1.1.0/compatibility_receipt.json"
     T123_RESULT_PROFILE_RELATIVE = (
         "reports/review_round_2/real_proteomics_result_profile/v1.0.0/result_profile_receipt.json"
     )
-    T129_ADMISSION_RELATIVE = (
-        "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json"
-    )
-    T129_DISCOVERY_RELATIVE = (
-        "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
-    )
+    T129_ADMISSION_RELATIVE = "reports/review_round_2/cc0_target_admission/v1.0.0/target_admission_receipt.json"
+    T129_DISCOVERY_RELATIVE = "reports/review_round_2/cc0_target_discovery/v1.0.0/target_discovery_receipt.json"
     T129_CURRENT_TARGET_EVIDENCE_RELATIVE = (
-        "reports/review_round_2/t129_current_target_evidence/v1.3.0/"
-        "current_target_evidence_receipt.json"
+        "reports/review_round_2/t129_current_target_evidence/v1.3.0/current_target_evidence_receipt.json"
     )
-    T131_SOURCE_DATA_RELATIVE = (
-        "reports/review_round_2/pxd017052_source_data/v1.0.0/"
-        "pxd017052_source_data_receipt.json"
-    )
+    T131_SOURCE_DATA_RELATIVE = "reports/review_round_2/pxd017052_source_data/v1.0.0/pxd017052_source_data_receipt.json"
     T124_RELATIVE = "reports/review_round_2/independent_evaluation/v1.0.0/readiness_receipt.json"
     TASKS_RELATIVE = "TASKS.tsv"
     OUTPUT_RELATIVE = "reports/review_round_2/r2_acceptance/v1.8.0"
@@ -180,8 +168,7 @@ class R2AcceptanceWorkflow:
         if set(protocol) != self.REQUIRED_PROTOCOL_FIELDS or protocol.get("schema_version") != 1:
             raise R2AcceptanceError("R2 external acceptance protocol schema is invalid")
         if (
-            protocol.get("protocol_id")
-            != "bioif-r2-external-reproduction-editorial-protocol-v1.0.0"
+            protocol.get("protocol_id") != "bioif-r2-external-reproduction-editorial-protocol-v1.0.0"
             or protocol.get("declared_at") != self.PROTOCOL_DECLARED_AT
             or protocol.get("status") != "PROTOCOL_ONLY_PENDING_T123_T124_T126_T127"
         ):
@@ -249,12 +236,8 @@ class R2AcceptanceWorkflow:
 
     def _prerequisites(self) -> tuple[dict[str, Any], list[str]]:
         portfolio_path = self._path(self.PORTFOLIO_RELATIVE, "R2 manuscript portfolio receipt")
-        compatibility_path = self._path(
-            self.T123_COMPATIBILITY_RELATIVE, "T123 compatibility receipt"
-        )
-        result_profile_path = self._path(
-            self.T123_RESULT_PROFILE_RELATIVE, "T123 result-profile receipt"
-        )
+        compatibility_path = self._path(self.T123_COMPATIBILITY_RELATIVE, "T123 compatibility receipt")
+        result_profile_path = self._path(self.T123_RESULT_PROFILE_RELATIVE, "T123 result-profile receipt")
         t129_admission_path = self._path(self.T129_ADMISSION_RELATIVE, "T129 admission receipt")
         t129_discovery_path = self._path(self.T129_DISCOVERY_RELATIVE, "T129 discovery receipt")
         t129_current_target_evidence_path = self._path(
@@ -279,10 +262,7 @@ class R2AcceptanceWorkflow:
         t124 = self._json(t124_path, "T124 readiness receipt")
         statuses = self._task_statuses()
         blockers: list[str] = []
-        if (
-            compatibility.get("compatible_target_count") != 1
-            or compatibility.get("model_fitted") is not True
-        ):
+        if compatibility.get("compatible_target_count") != 1 or compatibility.get("model_fitted") is not True:
             blockers.append("T123 compatible target and frozen real-model output are unavailable")
         if (
             result_profile.get("compatible_cross_study_target_count") != 1
@@ -294,13 +274,11 @@ class R2AcceptanceWorkflow:
             or t129_admission.get("admissible_target_count") != 0
             or t129_admission.get("target_status") != "NOT_FROZEN"
             or t129_admission.get("model_use") != "PROHIBITED"
-            or t129_discovery.get("status")
-            != "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
+            or t129_discovery.get("status") != "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
             or t129_discovery.get("admissible_target_count") != 0
             or t129_discovery.get("target_status") != "NOT_FROZEN"
             or t129_discovery.get("model_use") != "PROHIBITED"
-            or t129_current_target_evidence.get("status")
-            != "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
+            or t129_current_target_evidence.get("status") != "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
             or t129_current_target_evidence.get("candidate_source_count") != 8
             or t129_current_target_evidence.get("candidate_laboratory_count") != 5
             or t129_current_target_evidence.get("verified_source_asset_count") != 31
@@ -311,8 +289,7 @@ class R2AcceptanceWorkflow:
         ):
             raise R2AcceptanceError("T129 current target-evidence receipt is invalid")
         if (
-            t131_source_data.get("status")
-            != "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
+            t131_source_data.get("status") != "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
             or t131_source_data.get("official_asset_count") != 4
             or t131_source_data.get("result_to_raw_match_count") != 9
             or t131_source_data.get("explicit_raw_to_particle_map_count") != 0
@@ -320,9 +297,7 @@ class R2AcceptanceWorkflow:
             or t131_source_data.get("model_use") != "PROHIBITED"
         ):
             raise R2AcceptanceError("T131 source-data receipt is invalid")
-        blockers.append(
-            "T129 current CC0 synthesis has not admitted a cross-laboratory numeric-material target"
-        )
+        blockers.append("T129 current CC0 synthesis has not admitted a cross-laboratory numeric-material target")
         if t124.get("external_evaluator_receipt_verified") is not True:
             blockers.append("T124 independent evaluator receipt is unavailable")
         if portfolio.get("status") != "READY_FOR_R2_RESULTS_MANUSCRIPTS":
@@ -341,9 +316,7 @@ class R2AcceptanceWorkflow:
                 "t123_result_profile_receipt_sha256": _sha256(result_profile_path),
                 "t129_admission_receipt_sha256": _sha256(t129_admission_path),
                 "t129_discovery_receipt_sha256": _sha256(t129_discovery_path),
-                "t129_current_target_evidence_receipt_sha256": _sha256(
-                    t129_current_target_evidence_path
-                ),
+                "t129_current_target_evidence_receipt_sha256": _sha256(t129_current_target_evidence_path),
                 "t131_source_data_receipt_sha256": _sha256(t131_source_data_path),
                 "t124_readiness_receipt_sha256": _sha256(t124_path),
                 "task_statuses": statuses,
@@ -394,9 +367,7 @@ class R2AcceptanceWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return R2AcceptanceSummary(
             status=report["status"],
             prerequisite_blocker_count=len(blockers),
@@ -425,10 +396,7 @@ class R2AcceptanceWorkflow:
             or claim_level is not AllowedClaimLevel.EXPLORATORY
         ):
             raise R2AcceptanceError("R2 acceptance readiness receipt is invalid")
-        if (
-            not isinstance(receipt.get("prerequisite_blocker_count"), int)
-            or receipt["prerequisite_blocker_count"] < 1
-        ):
+        if not isinstance(receipt.get("prerequisite_blocker_count"), int) or receipt["prerequisite_blocker_count"] < 1:
             raise R2AcceptanceError("R2 acceptance readiness blocker accounting is invalid")
         for field in (
             "external_reproduction_verified",
@@ -438,9 +406,7 @@ class R2AcceptanceWorkflow:
             "scientific_submission_ready",
         ):
             if report.get(field) is not False or receipt.get(field) is not False:
-                raise R2AcceptanceError(
-                    "R2 acceptance readiness contains a fabricated external result"
-                )
+                raise R2AcceptanceError("R2 acceptance readiness contains a fabricated external result")
         return R2AcceptanceSummary(
             status="BLOCKED_R2_EXTERNAL_EVIDENCE_REQUIRED",
             prerequisite_blocker_count=int(receipt["prerequisite_blocker_count"]),

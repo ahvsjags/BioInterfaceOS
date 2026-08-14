@@ -66,9 +66,7 @@ class M3Workflow:
 
     def _config(self) -> dict[str, Any]:
         try:
-            config = _mapping(
-                yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M3 config"
-            )
+            config = _mapping(yaml.safe_load(self.config_path.read_text(encoding="utf-8")), "M3 config")
         except (OSError, UnicodeError, yaml.YAMLError) as exc:
             raise M3Error(f"cannot load M3 config: {exc}") from exc
         if config.get("schema_version") != 1 or config.get("model") != "M3":
@@ -134,9 +132,7 @@ class M3Workflow:
         fixture: Mapping[str, Any], public: Mapping[str, Any], targets: Mapping[str, float]
     ) -> list[dict[str, Any]]:
         public_rows = {
-            _string(_mapping(row, "public row").get("instance_id"), "public ID"): _mapping(
-                row, "public row"
-            )
+            _string(_mapping(row, "public row").get("instance_id"), "public ID"): _mapping(row, "public row")
             for row in public["instances"]
         }
         required = {
@@ -178,13 +174,9 @@ class M3Workflow:
                     "pair_id": pair_id,
                     "instance_id": instance_id,
                     "split": split,
-                    "material_feature": _hash_bucket(
-                        _string(row.get("material_feature"), "M3 material feature")
-                    ),
+                    "material_feature": _hash_bucket(_string(row.get("material_feature"), "M3 material feature")),
                     "mediator_feature": _number(row.get("mediator_feature"), "M3 mediator feature"),
-                    "response_feature": _hash_bucket(
-                        _string(row.get("response_feature"), "M3 response feature")
-                    ),
+                    "response_feature": _hash_bucket(_string(row.get("response_feature"), "M3 response feature")),
                     "mediator_uncertainty": uncertainty,
                     "target": targets[instance_id],
                 }
@@ -208,9 +200,7 @@ class M3Workflow:
             ridge=ridge,
         )
         predictions = {
-            row["instance_id"]: _predict_linear(
-                coefficients, [1.0, *[row[feature] for feature in features]]
-            )
+            row["instance_id"]: _predict_linear(coefficients, [1.0, *[row[feature] for feature in features]])
             for row in rows
         }
         return coefficients, predictions
@@ -228,19 +218,13 @@ class M3Workflow:
         validation = [row for row in pairs if row["split"] == "validation"]
         direct_features = ["material_feature", "response_feature"]
         mediated_features = ["material_feature", "mediator_feature", "response_feature"]
-        direct_coefficients, direct_predictions = self._fit(
-            train, pairs, direct_features, float(config["ridge"])
-        )
-        mediated_coefficients, mediated_predictions = self._fit(
-            train, pairs, mediated_features, float(config["ridge"])
-        )
+        direct_coefficients, direct_predictions = self._fit(train, pairs, direct_features, float(config["ridge"]))
+        mediated_coefficients, mediated_predictions = self._fit(train, pairs, mediated_features, float(config["ridge"]))
         random_rows = [dict(row) for row in train]
         values = [row["mediator_feature"] for row in random_rows]
         for row, value in zip(random_rows, values[1:] + values[:1], strict=True):
             row["mediator_feature"] = value
-        random_coefficients, _ = self._fit(
-            random_rows, random_rows, mediated_features, float(config["ridge"])
-        )
+        random_coefficients, _ = self._fit(random_rows, random_rows, mediated_features, float(config["ridge"]))
         random_predictions = {
             row["instance_id"]: _predict_linear(
                 random_coefficients, [1.0, *[row[feature] for feature in mediated_features]]
@@ -251,19 +235,13 @@ class M3Workflow:
         mediated_metrics = _regression_metrics(validation, mediated_predictions)
         random_metrics = _regression_metrics(validation, random_predictions)
         residual_sd = math.sqrt(
-            _mean(
-                [(row["target"] - mediated_predictions[row["instance_id"]]) ** 2 for row in train]
-            )
+            _mean([(row["target"] - mediated_predictions[row["instance_id"]]) ** 2 for row in train])
         )
         uncertainty = {
-            "mediator_uncertainty_mean": round(
-                _mean([row["mediator_uncertainty"] for row in validation]), 6
-            ),
+            "mediator_uncertainty_mean": round(_mean([row["mediator_uncertainty"] for row in validation]), 6),
             "model_residual_sd": round(residual_sd, 6),
             "combined_prediction_sd": round(
-                math.sqrt(
-                    residual_sd**2 + _mean([row["mediator_uncertainty"] ** 2 for row in validation])
-                ),
+                math.sqrt(residual_sd**2 + _mean([row["mediator_uncertainty"] ** 2 for row in validation])),
                 6,
             ),
             "propagation": "quadrature",
@@ -286,41 +264,30 @@ class M3Workflow:
             "temporal_order_verified": False,
             "unmeasured_confounding_blocked": False,
             "downgrade_reason": (
-                "Paired associational data lack randomized intervention, temporal order, "
-                "and confounding control."
+                "Paired associational data lack randomized intervention, temporal order, and confounding control."
             ),
         }
         comparison = {
             "direct": {"metrics": direct_metrics, "features": direct_features},
             "mediated": {"metrics": mediated_metrics, "features": mediated_features},
             "random_mediator": {"metrics": random_metrics, "features": mediated_features},
-            "mediated_minus_direct_rmse": round(
-                mediated_metrics["rmse"] - direct_metrics["rmse"], 6
-            ),
-            "random_control_minus_mediated_rmse": round(
-                random_metrics["rmse"] - mediated_metrics["rmse"], 6
-            ),
+            "mediated_minus_direct_rmse": round(mediated_metrics["rmse"] - direct_metrics["rmse"], 6),
+            "random_control_minus_mediated_rmse": round(random_metrics["rmse"] - mediated_metrics["rmse"], 6),
             "direct_group_metrics": _group_metrics(validation, direct_predictions, "split"),
             "mediated_group_metrics": _group_metrics(validation, mediated_predictions, "split"),
         }
         coefficients = {
             "direct": {
                 name: round(value, 6)
-                for name, value in zip(
-                    ["intercept", *direct_features], direct_coefficients, strict=True
-                )
+                for name, value in zip(["intercept", *direct_features], direct_coefficients, strict=True)
             },
             "mediated": {
                 name: round(value, 6)
-                for name, value in zip(
-                    ["intercept", *mediated_features], mediated_coefficients, strict=True
-                )
+                for name, value in zip(["intercept", *mediated_features], mediated_coefficients, strict=True)
             },
             "random_mediator": {
                 name: round(value, 6)
-                for name, value in zip(
-                    ["intercept", *mediated_features], random_coefficients, strict=True
-                )
+                for name, value in zip(["intercept", *mediated_features], random_coefficients, strict=True)
             },
         }
         raw_payloads: dict[str, Any] = {
@@ -354,9 +321,7 @@ class M3Workflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -407,9 +372,7 @@ class M3Workflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

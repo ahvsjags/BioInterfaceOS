@@ -37,18 +37,12 @@ class EndpointResolverTests(unittest.TestCase):
             self.assertEqual(summary.harmonized_strata, 1)
             self.assertEqual(summary.review_items, 1)
             payload = json.loads(summary.endpoints_path.read_text())
-            uptake = next(
-                item for item in payload["endpoints"] if item["endpoint_id"] == "uptake-001"
-            )
+            uptake = next(item for item in payload["endpoints"] if item["endpoint_id"] == "uptake-001")
             self.assertEqual(uptake["normalized_value"], 0.4)
             self.assertEqual(uptake["time_seconds"], 86400.0)
-            viability = next(
-                item for item in payload["endpoints"] if item["endpoint_id"] == "viability-001"
-            )
+            viability = next(item for item in payload["endpoints"] if item["endpoint_id"] == "viability-001")
             self.assertNotEqual(uptake["stratum_id"], viability["stratum_id"])
-            coagulation = next(
-                item for item in payload["endpoints"] if item["endpoint_id"] == "coagulation-001"
-            )
+            coagulation = next(item for item in payload["endpoints"] if item["endpoint_id"] == "coagulation-001")
             self.assertEqual(coagulation["time_seconds"], 1800.0)
             strata = json.loads(summary.strata_path.read_text())["strata"]
             uptake_stratum = next(item for item in strata if "uptake" in item["stratum_id"])
@@ -61,19 +55,11 @@ class EndpointResolverTests(unittest.TestCase):
             first = resolver.run()
             resolver.run()
             payload = json.loads(first.endpoints_path.read_text())
-            missing = next(
-                item
-                for item in payload["endpoints"]
-                if item["endpoint_id"] == "delivery-missing-time"
-            )
+            missing = next(item for item in payload["endpoints"] if item["endpoint_id"] == "delivery-missing-time")
             self.assertEqual(missing["status"], "REVIEW_REQUIRED")
             self.assertEqual(missing["resolution_reason"], "MISSING_ENDPOINT_TIMEPOINT")
             self.assertIsNone(missing["stratum_id"])
-            reviews = [
-                json.loads(line)
-                for line in first.review_path.read_text().splitlines()
-                if line.strip()
-            ]
+            reviews = [json.loads(line) for line in first.review_path.read_text().splitlines() if line.strip()]
             self.assertEqual(len(reviews), 1)
             AppendOnlyJSONL(first.review_path).validate()
 

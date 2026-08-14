@@ -90,11 +90,7 @@ class TaskSpec:
         )
         allowlist = row.get("tool_allowlist")
         steps = row.get("steps")
-        if (
-            not isinstance(allowlist, list)
-            or not allowlist
-            or any(not isinstance(tool, str) for tool in allowlist)
-        ):
+        if not isinstance(allowlist, list) or not allowlist or any(not isinstance(tool, str) for tool in allowlist):
             raise AgentRuntimeError("task tool_allowlist must be a non-empty string list")
         if not isinstance(steps, list) or not steps:
             raise AgentRuntimeError("task steps must be a non-empty list")
@@ -434,9 +430,7 @@ class AgentRuntime:
         payload_bytes["seal"] = _canonical(seal)
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -492,9 +486,7 @@ class AgentRuntime:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

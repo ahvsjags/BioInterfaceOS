@@ -48,8 +48,6 @@ def test_grader_rejects_invalid_case_and_requires_fixture(tmp_path: Path) -> Non
     fixture["cases"][0]["mode"] = "leaked-target"
     fixture_path.write_text(json.dumps(fixture), encoding="utf-8")
     with pytest.raises(BenchmarkGradeError, match="unknown grading case mode"):
-        BenchmarkGradingWorkflow(
-            _root(), fixture_path=fixture_path, output_root=tmp_path / "bad"
-        ).run()
+        BenchmarkGradingWorkflow(_root(), fixture_path=fixture_path, output_root=tmp_path / "bad").run()
     with pytest.raises(BenchmarkGradeError, match="--fixture is required"):
         BenchmarkGradingWorkflow(_root(), output_root=tmp_path / "grading").run(fixture=False)

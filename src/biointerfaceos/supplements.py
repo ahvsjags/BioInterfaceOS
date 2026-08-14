@@ -143,11 +143,7 @@ class SupplementParser:
         headers = records[:2] if len(records) >= 2 else records[:1]
         units = {
             column: next(
-                (
-                    _unit(row[column])
-                    for row in headers
-                    if column < len(row) and _unit(row[column]) is not None
-                ),
+                (_unit(row[column]) for row in headers if column < len(row) and _unit(row[column]) is not None),
                 None,
             )
             for column in range(width)
@@ -195,11 +191,7 @@ class SupplementParser:
         members: list[ArchiveMember] = []
         for info in infos:
             path = PurePosixPath(info.filename)
-            if (
-                path.is_absolute()
-                or (bool(path.parts) and ":" in path.parts[0])
-                or ".." in path.parts
-            ):
+            if path.is_absolute() or (bool(path.parts) and ":" in path.parts[0]) or ".." in path.parts:
                 raise SupplementParseError(f"zip-slip member path blocked: {info.filename}")
             mode = (info.external_attr >> 16) & 0o170000
             if mode == stat.S_IFLNK:
@@ -230,11 +222,7 @@ class SupplementParser:
             root = ET.fromstring(raw)
         except ET.ParseError as exc:
             raise SupplementParseError("sharedStrings.xml is malformed") from exc
-        return [
-            " ".join("".join(element.itertext()).split())
-            for element in root
-            if _local(element.tag) == "si"
-        ]
+        return [" ".join("".join(element.itertext()).split()) for element in root if _local(element.tag) == "si"]
 
     @staticmethod
     def _workbook_sheets(
@@ -275,9 +263,7 @@ class SupplementParser:
             (child for child in list(cell) if _local(child.tag) == "f"),
             None,
         )
-        formula = (
-            "".join(formula_element.itertext()).strip() if formula_element is not None else None
-        )
+        formula = "".join(formula_element.itertext()).strip() if formula_element is not None else None
         value_element = next(
             (child for child in list(cell) if _local(child.tag) == "v"),
             None,
@@ -310,9 +296,7 @@ class SupplementParser:
                 try:
                     root = ET.fromstring(archive.read(target))
                 except (KeyError, ET.ParseError) as exc:
-                    raise SupplementParseError(
-                        f"XLSX worksheet is malformed: {sheet_name}"
-                    ) from exc
+                    raise SupplementParseError(f"XLSX worksheet is malformed: {sheet_name}") from exc
                 merged_ranges = tuple(
                     str(element.attrib["ref"])
                     for element in root.iter()
@@ -352,11 +336,7 @@ class SupplementParser:
                         )
                 unit_by_column = {
                     column: next(
-                        (
-                            _unit(value)
-                            for value in values[:header_rows]
-                            if _unit(value) is not None
-                        ),
+                        (_unit(value) for value in values[:header_rows] if _unit(value) is not None),
                         None,
                     )
                     for column, values in header_values.items()
@@ -389,19 +369,13 @@ class SupplementParser:
         suffix = Path(source_path).suffix.lower()
         digest = self._source_hash(raw)
         if suffix == ".csv":
-            table = self._csv_table(
-                raw, source_path=source_path, delimiter=",", table_id=source_path
-            )
+            table = self._csv_table(raw, source_path=source_path, delimiter=",", table_id=source_path)
             return SupplementDocument(source_path, digest, (table,))
         if suffix == ".tsv":
-            table = self._csv_table(
-                raw, source_path=source_path, delimiter="\t", table_id=source_path
-            )
+            table = self._csv_table(raw, source_path=source_path, delimiter="\t", table_id=source_path)
             return SupplementDocument(source_path, digest, (table,))
         if suffix == ".xlsx":
-            return SupplementDocument(
-                source_path, digest, self._xlsx_tables(raw, source_path=source_path)
-            )
+            return SupplementDocument(source_path, digest, self._xlsx_tables(raw, source_path=source_path))
         if suffix == ".zip":
             members = self._safe_members(raw)
             tables: list[NormalizedTable] = []

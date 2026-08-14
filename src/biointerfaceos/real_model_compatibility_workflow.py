@@ -23,9 +23,7 @@ class RealModelCompatibilityError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -138,9 +136,7 @@ class RealModelCompatibilityWorkflow:
         for (endpoint_id, unit), members in sorted(groups.items()):
             studies = sorted({_string(row["study_id"], "study ID") for row in members})
             laboratories = sorted({_string(row["laboratory"], "laboratory") for row in members})
-            independent_units = sorted(
-                {_string(row["independent_unit_id"], "independent unit") for row in members}
-            )
+            independent_units = sorted({_string(row["independent_unit_id"], "independent unit") for row in members})
             rows.append(
                 {
                     "endpoint_id": endpoint_id,
@@ -217,9 +213,7 @@ class RealModelCompatibilityWorkflow:
                 "negative_controls": True,
             },
             "status": (
-                "READY_FOR_FROZEN_REAL_MODEL_EVALUATION"
-                if compatible
-                else "BLOCKED_NO_COMPATIBLE_CROSS_STUDY_TARGET"
+                "READY_FOR_FROZEN_REAL_MODEL_EVALUATION" if compatible else "BLOCKED_NO_COMPATIBLE_CROSS_STUDY_TARGET"
             ),
             "model_fitted": False,
             "paired_ablations_run": False,
@@ -258,15 +252,11 @@ class RealModelCompatibilityWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return RealModelCompatibilitySummary(
             source_count=_integer(receipt["source_count"], "source count", minimum=1),
             endpoint_count=_integer(receipt["endpoint_count"], "endpoint count", minimum=1),
-            compatible_target_count=_integer(
-                receipt["compatible_target_count"], "compatible target count"
-            ),
+            compatible_target_count=_integer(receipt["compatible_target_count"], "compatible target count"),
             receipt_path=receipt_path,
         )
 

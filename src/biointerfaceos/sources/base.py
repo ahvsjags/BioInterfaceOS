@@ -115,8 +115,7 @@ class SourceAdapter(ABC):
         decision = self.policy_decision(candidate)
         if decision.decision not in {"ADMIT_PUBLIC_REDISTRIBUTABLE", "ADMIT_ANALYSIS_ONLY"}:
             raise AdapterPolicyError(
-                f"{candidate.source_id} is not admitted: "
-                f"{decision.decision}/{decision.rejection_code}"
+                f"{candidate.source_id} is not admitted: {decision.decision}/{decision.rejection_code}"
             )
         return decision
 
@@ -167,9 +166,7 @@ class FixtureHarness:
             clean: dict[str, Any] = {}
             for name in sorted(value):
                 sanitized = cls.sanitize(value[name], key=str(name))
-                if sanitized is not None and not (
-                    isinstance(sanitized, dict | list) and not sanitized
-                ):
+                if sanitized is not None and not (isinstance(sanitized, dict | list) and not sanitized):
                     clean[str(name)] = sanitized
             return clean
         if isinstance(value, list):
@@ -185,9 +182,9 @@ class FixtureHarness:
         if not re.fullmatch(r"[a-z0-9][a-z0-9_-]*", name):
             raise AdapterFixtureError("fixture name is invalid")
         sanitized = self.sanitize(payload)
-        encoded = (
-            json.dumps(sanitized, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-        ).encode("utf-8")
+        encoded = (json.dumps(sanitized, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode(
+            "utf-8"
+        )
         self.fixture_root.mkdir(parents=True, exist_ok=True)
         target = self.fixture_root / f"{name}.json"
         temporary_name: str | None = None
@@ -287,9 +284,7 @@ class FixtureAdapter(SourceAdapter):
             payload = self._payloads[asset.asset_id]
         except KeyError as exc:
             raise AdapterError(f"payload fixture missing: {asset.asset_id}") from exc
-        target = (destination if destination.is_absolute() else self.root / destination).resolve(
-            strict=False
-        )
+        target = (destination if destination.is_absolute() else self.root / destination).resolve(strict=False)
         if target != self.root and self.root not in target.parents:
             raise AdapterError("fetch destination escapes repository")
         target.parent.mkdir(parents=True, exist_ok=True)

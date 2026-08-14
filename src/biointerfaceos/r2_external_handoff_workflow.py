@@ -34,9 +34,7 @@ class R2ExternalHandoffSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -77,8 +75,7 @@ class R2ExternalHandoffWorkflow:
             "T121 empirical analysis plan",
         ),
         "t129_current_target_evidence": (
-            "reports/review_round_2/t129_current_target_evidence/v1.3.0/"
-            "current_target_evidence_receipt.json",
+            "reports/review_round_2/t129_current_target_evidence/v1.3.0/current_target_evidence_receipt.json",
             "T129 current target-evidence receipt",
         ),
         "ccby_amendment_decision": (
@@ -268,18 +265,14 @@ class R2ExternalHandoffWorkflow:
         try:
             evidence_class, claim_level = require_metadata(package, "R2 external-evidence handoff")
         except EvidenceSemanticsError as exc:
-            raise R2ExternalHandoffError(
-                "R2 external-evidence handoff metadata is invalid"
-            ) from exc
+            raise R2ExternalHandoffError("R2 external-evidence handoff metadata is invalid") from exc
         if (
             evidence_class is not EvidenceClass.DEVELOPMENT_OBSERVATION
             or claim_level is not AllowedClaimLevel.EXPLORATORY
         ):
             raise R2ExternalHandoffError("R2 external-evidence handoff claim level is invalid")
         self._exact_mapping(package["current_state"], self.REQUIRED_CURRENT_STATE, "current state")
-        self._exact_mapping(
-            package["cohort_routing"], self.REQUIRED_COHORT_ROUTING, "cohort routing"
-        )
+        self._exact_mapping(package["cohort_routing"], self.REQUIRED_COHORT_ROUTING, "cohort routing")
         source_intake = _mapping(package["source_intake"], "source intake")
         if set(source_intake) != {
             "mandatory_identity_fields",
@@ -309,7 +302,15 @@ class R2ExternalHandoffWorkflow:
             raise R2ExternalHandoffError("target freeze weakens the T121 amendment gate")
         self._exact_set(
             target_freeze["frozen_items"],
-            self.REQUIRED_TARGET_FREEZE["frozen_items"],
+            {
+                "analysis_unit_manifest",
+                "endpoint_definition_and_preprocessing",
+                "allowed_covariates_and_units",
+                "study_held_out_split",
+                "paired_configurations_and_seeds",
+                "negative_controls",
+                "analysis_code_hash",
+            },
             "frozen items",
         )
         self._exact_mapping(
@@ -347,9 +348,7 @@ class R2ExternalHandoffWorkflow:
             or target.get("model_use") != "PROHIBITED"
             or target.get("model_fitted") is not False
         ):
-            raise R2ExternalHandoffError(
-                "T129 state no longer supports an external-intake-only pack"
-            )
+            raise R2ExternalHandoffError("T129 state no longer supports an external-intake-only pack")
         portfolio_path = self._path(*self.REFERENCES["portfolio"])
         portfolio = self._json(portfolio_path, "R2 manuscript portfolio receipt")
         if (
@@ -372,19 +371,12 @@ class R2ExternalHandoffWorkflow:
             or release.get("scientific_submission_ready") is not False
         ):
             raise R2ExternalHandoffError("R2 public-release state is invalid")
-        asset_report_path = self._path(
-            *self.REFERENCES["t142_asset_audit_report"]
-        )
+        asset_report_path = self._path(*self.REFERENCES["t142_asset_audit_report"])
         asset_report = self._json(asset_report_path, "T142 two-lab corona asset-audit report")
-        asset_receipt_path = self._path(
-            *self.REFERENCES["t142_asset_audit_receipt"]
-        )
-        asset_receipt = self._json(
-            asset_receipt_path, "T142 two-lab corona asset-audit receipt"
-        )
+        asset_receipt_path = self._path(*self.REFERENCES["t142_asset_audit_receipt"])
+        asset_receipt = self._json(asset_receipt_path, "T142 two-lab corona asset-audit receipt")
         if (
-            asset_report.get("status")
-            != "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
+            asset_report.get("status") != "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
             or asset_report.get("asset_count") != 5
             or asset_report.get("source_count") != 2
             or asset_report.get("byte_verified_asset_count") != 0
@@ -454,9 +446,7 @@ class R2ExternalHandoffWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return R2ExternalHandoffSummary(
             status=report["status"],
             source_intake_field_count=report["source_intake_field_count"],
@@ -494,8 +484,7 @@ class R2ExternalHandoffWorkflow:
             or receipt.get("source_intake_field_count") != report.get("source_intake_field_count")
             or receipt.get("analysis_unit_field_count") != report.get("analysis_unit_field_count")
             or any(
-                report.get(key) is not value or receipt.get(key) is not value
-                for key, value in expected_flags.items()
+                report.get(key) is not value or receipt.get(key) is not value for key, value in expected_flags.items()
             )
         ):
             raise R2ExternalHandoffError("R2 external-evidence handoff receipt is invalid")

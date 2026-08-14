@@ -35,9 +35,7 @@ _HASH_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -67,9 +65,7 @@ class BenchmarkInstanceWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/benchmark/benchmark_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/benchmark/benchmark_fixture.json")
         self.output_root = output_root or self.root / "reports/benchmark/instances"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -138,14 +134,10 @@ class BenchmarkInstanceWorkflow:
                 child_path = f"{path}.{key_text}"
                 if key_text in forbidden:
                     found.append(child_path)
-                found.extend(
-                    BenchmarkInstanceWorkflow._find_forbidden(child, forbidden, child_path)
-                )
+                found.extend(BenchmarkInstanceWorkflow._find_forbidden(child, forbidden, child_path))
         elif isinstance(value, list):
             for index, child in enumerate(value):
-                found.extend(
-                    BenchmarkInstanceWorkflow._find_forbidden(child, forbidden, f"{path}[{index}]")
-                )
+                found.extend(BenchmarkInstanceWorkflow._find_forbidden(child, forbidden, f"{path}[{index}]"))
         return found
 
     def _validate_instances(
@@ -155,15 +147,12 @@ class BenchmarkInstanceWorkflow:
         families = [_string(value, "task family") for value in rules["task_families"]]
         if len(families) != len(set(families)):
             raise BenchmarkBuildError("benchmark task families contain duplicates")
-        forbidden = {
-            _string(value, "forbidden public field") for value in rules["public_forbidden_fields"]
-        }
+        forbidden = {_string(value, "forbidden public field") for value in rules["public_forbidden_fields"]}
         minimum = int(rules["minimum_instances_per_family"])
         split_manifest = _mapping(inputs["T065 split manifest"], "split manifest")
         split_rows = [_mapping(row, "split row") for row in split_manifest["rows"]]
         allowed_groups = {
-            _string(row.get("paper_family_group_key"), "split paper-family group key")
-            for row in split_rows
+            _string(row.get("paper_family_group_key"), "split paper-family group key") for row in split_rows
         }
         group_splits = {
             _string(row.get("paper_family_group_key"), "split paper-family group key"): _string(
@@ -200,9 +189,7 @@ class BenchmarkInstanceWorkflow:
             if split not in {"train", "validation"}:
                 raise BenchmarkBuildError(f"invalid benchmark split: {split}")
             if group_key not in allowed_groups:
-                raise BenchmarkBuildError(
-                    f"group key is absent from T065 split manifest: {group_key}"
-                )
+                raise BenchmarkBuildError(f"group key is absent from T065 split manifest: {group_key}")
             if group_splits[group_key] != split:
                 raise BenchmarkBuildError(f"group key split mismatch: {group_key}")
             public_input = _mapping(instance.get("public_input"), "public input")
@@ -214,9 +201,7 @@ class BenchmarkInstanceWorkflow:
             hidden_ref = _string(instance.get("hidden_target_ref"), "hidden target reference")
             hidden_hash = _string(instance.get("hidden_target_sha256"), "hidden target hash")
             if not _HASH_RE.fullmatch(hidden_hash):
-                raise BenchmarkBuildError(
-                    f"hidden target hash is not lowercase sha256: {instance_id}"
-                )
+                raise BenchmarkBuildError(f"hidden target hash is not lowercase sha256: {instance_id}")
             missingness = instance.get("missingness")
             if isinstance(missingness, bool) or not isinstance(missingness, int | float):
                 raise BenchmarkBuildError(f"missingness is not numeric: {instance_id}")
@@ -258,17 +243,12 @@ class BenchmarkInstanceWorkflow:
                 {
                     "family": family,
                     "instances": counts[family],
-                    "train": sum(
-                        row["family"] == family and row["split"] == "train" for row in records
-                    ),
-                    "validation": sum(
-                        row["family"] == family and row["split"] == "validation" for row in records
-                    ),
+                    "train": sum(row["family"] == family and row["split"] == "train" for row in records),
+                    "validation": sum(row["family"] == family and row["split"] == "validation" for row in records),
                     "tier": "PILOT_UNDERPOWERED" if family in underpowered else "PRIMARY",
                     "reason": "below_minimum_instance_count" if family in underpowered else None,
                     "missingness_mean": round(
-                        sum(row["missingness"] for row in records if row["family"] == family)
-                        / counts[family],
+                        sum(row["missingness"] for row in records if row["family"] == family) / counts[family],
                         6,
                     )
                     if counts[family]
@@ -302,8 +282,7 @@ class BenchmarkInstanceWorkflow:
             "status": "VALID",
             "target_values_exposed": False,
             "instances": [
-                {**row, "tier": "PRIMARY" if row["family"] in primary else "PILOT_UNDERPOWERED"}
-                for row in records
+                {**row, "tier": "PRIMARY" if row["family"] in primary else "PILOT_UNDERPOWERED"} for row in records
             ],
         }
         hidden_payload = {
@@ -331,9 +310,7 @@ class BenchmarkInstanceWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -390,9 +367,7 @@ class BenchmarkInstanceWorkflow:
             "target_values_exposed": False,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

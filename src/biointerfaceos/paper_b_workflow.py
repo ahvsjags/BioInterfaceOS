@@ -45,9 +45,7 @@ class PaperBSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -114,9 +112,7 @@ class PaperBWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/manuscripts/paper_b_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/manuscripts/paper_b_fixture.json"
         self.output_root = output_root or self.root / "release/manuscripts/paper_b"
 
     def _path(self, value: Any, label: str) -> Path:
@@ -139,16 +135,10 @@ class PaperBWorkflow:
             evidence_class, claim_level = require_metadata(fixture, "Paper B fixture")
         except EvidenceSemanticsError as exc:
             raise PaperBError(str(exc)) from exc
-        if (
-            evidence_class is not EvidenceClass.FIXTURE_TEST
-            or claim_level is not AllowedClaimLevel.CONTRACT_TEST
-        ):
+        if evidence_class is not EvidenceClass.FIXTURE_TEST or claim_level is not AllowedClaimLevel.CONTRACT_TEST:
             raise PaperBError("Paper B fixture must remain contract-only")
         inputs = fixture.get("inputs")
-        if (
-            not isinstance(inputs, list)
-            or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS
-        ):
+        if not isinstance(inputs, list) or {row.get("label") for row in inputs} != self.REQUIRED_INPUTS:
             raise PaperBError("Paper B input set does not match the evidence contract")
         return fixture
 
@@ -217,11 +207,7 @@ class PaperBWorkflow:
         ):
             raise PaperBError("data/model freeze evidence is invalid")
         card = data["data model card"]
-        if (
-            not isinstance(card, str)
-            or "analysis-only" not in card
-            or "Locked targets are not included" not in card
-        ):
+        if not isinstance(card, str) or "analysis-only" not in card or "Locked targets are not included" not in card:
             raise PaperBError("data/model card licensing boundary is missing")
         agent = cls._agent_metrics(_string(data["T088 agent evidence report"], "T088 evidence"))
         if agent["tasks"] != 7 or agent["modes"] != 3 or agent["selected_mode"] != "single_agent":

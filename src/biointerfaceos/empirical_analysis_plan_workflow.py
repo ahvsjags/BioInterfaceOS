@@ -22,9 +22,7 @@ class EmpiricalAnalysisPlanError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -138,8 +136,7 @@ class EmpiricalAnalysisPlanWorkflow:
     def _contains_result_field(cls, value: Any) -> bool:
         if isinstance(value, dict):
             return any(
-                key in cls.FORBIDDEN_RESULT_FIELDS or cls._contains_result_field(item)
-                for key, item in value.items()
+                key in cls.FORBIDDEN_RESULT_FIELDS or cls._contains_result_field(item) for key, item in value.items()
             )
         if isinstance(value, list):
             return any(cls._contains_result_field(item) for item in value)
@@ -155,9 +152,7 @@ class EmpiricalAnalysisPlanWorkflow:
         receipt_path = (self.root / relative).resolve(strict=False)
         if not receipt_path.is_relative_to(self.root) or not receipt_path.is_file():
             raise EmpiricalAnalysisPlanError("T120 receipt is missing")
-        if _string(reference.get("sha256"), "source audit receipt SHA-256") != _sha256(
-            receipt_path
-        ):
+        if _string(reference.get("sha256"), "source audit receipt SHA-256") != _sha256(receipt_path):
             raise EmpiricalAnalysisPlanError("T120 receipt checksum differs")
         receipt = self._json(receipt_path, "T120 receipt")
         if (
@@ -179,9 +174,7 @@ class EmpiricalAnalysisPlanWorkflow:
     def _validate_plan(self) -> tuple[dict[str, Any], dict[str, Any]]:
         plan = self._json(self.plan_path, "empirical analysis plan")
         if self._contains_result_field(plan):
-            raise EmpiricalAnalysisPlanError(
-                "analysis plan contains an outcome or performance field"
-            )
+            raise EmpiricalAnalysisPlanError("analysis plan contains an outcome or performance field")
         if set(plan) != self.REQUIRED_PLAN_FIELDS or plan.get("schema_version") != 1:
             raise EmpiricalAnalysisPlanError("analysis plan fields or schema are invalid")
         if plan.get("plan_id") != self.PLAN_ID or plan.get("scope") != "DEVELOPMENT_ONLY":
@@ -258,9 +251,7 @@ class EmpiricalAnalysisPlanWorkflow:
             {
                 "endpoint_values": "do not impute",
                 "independent_unit_identity": "do not impute",
-                "reporting": (
-                    "report missing cells, excluded units and exclusion reasons before any analysis"
-                ),
+                "reporting": ("report missing cells, excluded units and exclusion reasons before any analysis"),
                 "complete_case_substitution": "prohibited without a new registered amendment",
             },
             "missingness policy",
@@ -273,10 +264,7 @@ class EmpiricalAnalysisPlanWorkflow:
             "no model fitting or performance claim",
             "no independent validation claim",
         }
-        if (
-            not isinstance(prohibited_actions, list)
-            or set(prohibited_actions) != expected_prohibitions
-        ):
+        if not isinstance(prohibited_actions, list) or set(prohibited_actions) != expected_prohibitions:
             raise EmpiricalAnalysisPlanError("prohibited-action boundary is invalid")
         _string(plan.get("claim_boundary"), "analysis-plan claim boundary")
         estimands = plan["estimands"]
@@ -307,9 +295,7 @@ class EmpiricalAnalysisPlanWorkflow:
                     or minimum_n != receipt.get("observation_count")
                     or estimand.get("analysis_class") != "DESCRIPTIVE_WITHOUT_CONFIRMATORY_TEST"
                 ):
-                    raise EmpiricalAnalysisPlanError(
-                        "development estimand is not source-constrained"
-                    )
+                    raise EmpiricalAnalysisPlanError("development estimand is not source-constrained")
                 available += 1
             elif estimand_id == "E002_STUDY_HELD_OUT_TRANSPORT":
                 if (
@@ -358,9 +344,7 @@ class EmpiricalAnalysisPlanWorkflow:
         self._write(receipt_path, plan_receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return EmpiricalAnalysisPlanSummary(
             plan_id=self.PLAN_ID,
             estimand_count=2,
@@ -380,8 +364,7 @@ class EmpiricalAnalysisPlanWorkflow:
             receipt.get("plan_id") != self.PLAN_ID
             or receipt.get("status") != "PASS_EMPIRICAL_ANALYSIS_PLAN"
             or receipt.get("plan_sha256") != _sha256(plan_path)
-            or receipt.get("source_audit_receipt_sha256")
-            != _sha256(self.root / self.T120_RECEIPT_RELATIVE)
+            or receipt.get("source_audit_receipt_sha256") != _sha256(self.root / self.T120_RECEIPT_RELATIVE)
             or receipt.get("plan_frozen") is not True
             or receipt.get("outcome_analysis_run") is not False
             or receipt.get("model_fitted") is not False

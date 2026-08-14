@@ -9,6 +9,7 @@ or nanoparticle conditions.
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import hashlib
 import json
@@ -27,9 +28,7 @@ class FulltextMulticoreAuditError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -256,14 +255,9 @@ class FulltextMulticoreAuditWorkflow:
         ):
             if not isinstance(table.get(field), int) or table[field] < 1:
                 raise FulltextMulticoreAuditError("R3 replicate count is invalid")
-        markers = _mapping(
-            table.get("expected_non_numeric_replicate_markers"), "R3 replicate markers"
-        )
+        markers = _mapping(table.get("expected_non_numeric_replicate_markers"), "R3 replicate markers")
         if any(
-            not isinstance(marker, str)
-            or not marker.strip()
-            or not isinstance(count, int)
-            or count < 1
+            not isinstance(marker, str) or not marker.strip() or not isinstance(count, int) or count < 1
             for marker, count in markers.items()
         ):
             raise FulltextMulticoreAuditError("R3 replicate marker count is invalid")
@@ -349,10 +343,8 @@ class FulltextMulticoreAuditWorkflow:
         except (OSError, StopIteration) as exc:
             raise FulltextMulticoreAuditError("R3 worksheet cannot be read") from exc
         finally:
-            try:
+            with contextlib.suppress(UnboundLocalError):
                 workbook.close()
-            except UnboundLocalError:
-                pass
         return extracted, facilities, numeric_replicate_values, non_numeric_markers
 
     def run(self, *, strict: bool = False) -> FulltextMulticoreAuditSummary:
@@ -362,20 +354,15 @@ class FulltextMulticoreAuditWorkflow:
             raise FulltextMulticoreAuditError("R3 full-text multicore audit already executed")
         registry, assets = self._registry()
         table = _mapping(registry["semiquantitative_table"], "R3 semiquantitative table")
-        rows, facilities, numeric_replicates, non_numeric_markers = self._table_rows(
-            assets[table["asset_id"]], table
-        )
-        expected_facilities = _mapping(
-            table["expected_facility_row_counts"], "R3 facility row counts"
-        )
+        rows, facilities, numeric_replicates, non_numeric_markers = self._table_rows(assets[table["asset_id"]], table)
+        expected_facilities = _mapping(table["expected_facility_row_counts"], "R3 facility row counts")
         if len(rows) != table["expected_data_rows"] or dict(sorted(facilities.items())) != expected_facilities:
             raise FulltextMulticoreAuditError("R3 source row or facility counts do not match registry")
         replicate_source_cells = len(rows) * 3
         if (
             replicate_source_cells != table["expected_replicate_source_cell_count"]
             or numeric_replicates != table["expected_numeric_replicate_value_count"]
-            or dict(sorted(non_numeric_markers.items()))
-            != table["expected_non_numeric_replicate_markers"]
+            or dict(sorted(non_numeric_markers.items())) != table["expected_non_numeric_replicate_markers"]
         ):
             raise FulltextMulticoreAuditError("R3 source replicate count does not match registry")
 
@@ -409,8 +396,8 @@ class FulltextMulticoreAuditWorkflow:
             "source_to_cell_map": {
                 "location": self.DERIVED_RELATIVE,
                 "sha256": derived_sha256,
-                "coordinate_definition": "Every output row retains its original Final Prot worksheet row and A:K cell range.",
-                "transformation": "openpyxl read_only/data_only extraction; no imputation, pooling, relabelling, or biological-label inference.",
+                "coordinate_definition": "Every output row retains its original Final Prot worksheet row and A:K cell range.",  # noqa: E501
+                "transformation": "openpyxl read_only/data_only extraction; no imputation, pooling, relabelling, or biological-label inference.",  # noqa: E501
             },
             "status": self.STATUS,
             "target_status": "TECHNICAL_BENCHMARK_ONLY",

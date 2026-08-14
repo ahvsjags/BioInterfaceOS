@@ -20,9 +20,7 @@ class CC0TargetDiscoveryError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -152,17 +150,13 @@ class CC0TargetDiscoveryWorkflow:
         if registry.get("allowed_claim_level") != "EXPLORATORY":
             raise CC0TargetDiscoveryError("CC0 target-discovery claim level is unsafe")
         _string(registry.get("evaluated_at"), "CC0 target-discovery evaluated_at")
-        if _string(registry.get("development_cutoff"), "CC0 target-discovery cutoff") != (
-            "2024-12-31T23:59:59+00:00"
-        ):
+        if _string(registry.get("development_cutoff"), "CC0 target-discovery cutoff") != ("2024-12-31T23:59:59+00:00"):
             raise CC0TargetDiscoveryError("CC0 target-discovery cutoff changed")
 
         policy = _mapping(registry.get("source_policy"), "CC0 target-discovery policy")
         if set(policy) != self.REQUIRED_POLICY_FIELDS:
             raise CC0TargetDiscoveryError("CC0 target-discovery policy fields are invalid")
-        if set(_list(policy.get("allowed_licenses"), "CC0 target-discovery licences")) != (
-            self.ALLOWED_LICENSES
-        ):
+        if set(_list(policy.get("allowed_licenses"), "CC0 target-discovery licences")) != (self.ALLOWED_LICENSES):
             raise CC0TargetDiscoveryError("CC0 target-discovery licences are invalid")
         for field in self.REQUIRED_POLICY_FIELDS - {"allowed_licenses"}:
             if policy.get(field) is not True:
@@ -172,9 +166,7 @@ class CC0TargetDiscoveryWorkflow:
         source_ids: set[str] = set()
         laboratories: set[str] = set()
         asset_count = 0
-        for value in _list(
-            registry.get("candidates"), "CC0 target-discovery candidates", minimum=2
-        ):
+        for value in _list(registry.get("candidates"), "CC0 target-discovery candidates", minimum=2):
             candidate = _mapping(value, "CC0 target-discovery candidate")
             if set(candidate) != self.REQUIRED_CANDIDATE_FIELDS:
                 raise CC0TargetDiscoveryError("CC0 target-discovery candidate fields are invalid")
@@ -202,9 +194,7 @@ class CC0TargetDiscoveryWorkflow:
             laboratories.add(candidate["laboratory"])
 
             names: set[str] = set()
-            assets = _list(
-                candidate.get("screened_assets"), "CC0 target-discovery screened assets", minimum=1
-            )
+            assets = _list(candidate.get("screened_assets"), "CC0 target-discovery screened assets", minimum=1)
             for asset_value in assets:
                 asset = _mapping(asset_value, "CC0 target-discovery asset")
                 if set(asset) != self.REQUIRED_ASSET_FIELDS:
@@ -223,9 +213,7 @@ class CC0TargetDiscoveryWorkflow:
                 if len(digest) != 64 or any(char not in "0123456789abcdef" for char in digest):
                     raise CC0TargetDiscoveryError("CC0 target-discovery asset SHA-256 is invalid")
                 if not asset["download_url"].startswith("https://ftp.pride.ebi.ac.uk/"):
-                    raise CC0TargetDiscoveryError(
-                        "CC0 target-discovery asset needs an official HTTPS URL"
-                    )
+                    raise CC0TargetDiscoveryError("CC0 target-discovery asset needs an official HTTPS URL")
             asset_count += len(assets)
 
             expected_statuses = {
@@ -325,19 +313,13 @@ class CC0TargetDiscoveryWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return CC0TargetDiscoverySummary(
-            candidate_source_count=_integer(
-                receipt["candidate_source_count"], "candidate source count", minimum=2
-            ),
+            candidate_source_count=_integer(receipt["candidate_source_count"], "candidate source count", minimum=2),
             candidate_laboratory_count=_integer(
                 receipt["candidate_laboratory_count"], "candidate laboratory count", minimum=1
             ),
-            screened_asset_count=_integer(
-                receipt["screened_asset_count"], "screened asset count", minimum=1
-            ),
+            screened_asset_count=_integer(receipt["screened_asset_count"], "screened asset count", minimum=1),
             receipt_path=receipt_path,
         )
 

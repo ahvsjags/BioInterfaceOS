@@ -89,9 +89,7 @@ class PrideTests(unittest.TestCase):
                 [candidate.accession for candidate in candidates],
                 ["PXD000001", "PXD000002"],
             )
-            self.assertEqual(
-                candidates[0].license_identifier, "Creative Commons Public Domain (CC0)"
-            )
+            self.assertEqual(candidates[0].license_identifier, "Creative Commons Public Domain (CC0)")
             self.assertIsNone(candidates[1].license_identifier)
             metadata = adapter.metadata(candidates[0])
             self.assertEqual(metadata["submission_date"], "2026-01-15")
@@ -106,9 +104,7 @@ class PrideTests(unittest.TestCase):
             assets = adapter.list_assets(candidate)
             self.assertEqual([asset.asset_type for asset in assets], ["RESULT", "RAW"])
             self.assertEqual(assets[0].size_bytes, 13)
-            self.assertEqual(
-                assets[0].sha256, json.loads(self.files)["files"][0]["checksum"].lower()
-            )
+            self.assertEqual(assets[0].sha256, json.loads(self.files)["files"][0]["checksum"].lower())
             self.assertEqual(assets[1].size_bytes, 2000000000)
             self.assertTrue(assets[1].sha256)
             self.assertTrue(assets[1].url.startswith("https://ftp.pride.ebi.ac.uk/"))

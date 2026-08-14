@@ -145,9 +145,7 @@ class UnitNormalizer:
         locator = _text(raw["evidence_locator"])
         raw_value = _float(raw["value"], f"{assertion_id}.value")
         raw_uncertainty = (
-            None
-            if raw["uncertainty"] is None
-            else _float(raw["uncertainty"], f"{assertion_id}.uncertainty")
+            None if raw["uncertainty"] is None else _float(raw["uncertainty"], f"{assertion_id}.uncertainty")
         )
         if not assertion_id or not quantity or not raw_unit or not target_unit:
             raise UnitNormalizationError("assertion identifiers and units are required")
@@ -181,17 +179,11 @@ class UnitNormalizer:
 
         normalized_value = raw_value * factor if factor is not None else None
         normalized_uncertainty = (
-            raw_uncertainty * abs(factor)
-            if raw_uncertainty is not None and factor is not None
-            else None
+            raw_uncertainty * abs(factor) if raw_uncertainty is not None and factor is not None else None
         )
         relative_uncertainty = (
             abs(normalized_uncertainty / normalized_value)
-            if (
-                normalized_uncertainty is not None
-                and normalized_value is not None
-                and normalized_value != 0.0
-            )
+            if (normalized_uncertainty is not None and normalized_value is not None and normalized_value != 0.0)
             else None
         )
         return NormalizedAssertion(
@@ -236,9 +228,7 @@ class UnitNormalizer:
                 "assertions": len(assertions),
                 "normalized": sum(assertion.status == "NORMALIZED" for assertion in assertions),
                 "review_items": len(reviews),
-                "uncertainty_records": sum(
-                    assertion.raw_uncertainty is not None for assertion in assertions
-                ),
+                "uncertainty_records": sum(assertion.raw_uncertainty is not None for assertion in assertions),
             },
         }
         self.output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -282,9 +272,7 @@ class UnitNormalizer:
             assertions=len(assertions),
             normalized=sum(assertion.status == "NORMALIZED" for assertion in assertions),
             review_items=len(reviews),
-            uncertainty_records=sum(
-                assertion.raw_uncertainty is not None for assertion in assertions
-            ),
+            uncertainty_records=sum(assertion.raw_uncertainty is not None for assertion in assertions),
             output_path=self.output_path,
             review_path=self.review_path,
             report_path=self.report_path,

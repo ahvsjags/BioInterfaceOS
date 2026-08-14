@@ -36,11 +36,7 @@ class JATSParserTests(unittest.TestCase):
         self.assertIn("Condition", table.attributes["headers"])
         figure = next(node for node in parsed.nodes if node.node_type == "figure")
         self.assertEqual(figure.attributes["graphic_href"], "figures/uptake.png")
-        link_hrefs = {
-            node.attributes["href"]
-            for node in parsed.nodes
-            if node.node_type == "supplementary_link"
-        }
+        link_hrefs = {node.attributes["href"] for node in parsed.nodes if node.node_type == "supplementary_link"}
         self.assertEqual(
             link_hrefs,
             {

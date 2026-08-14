@@ -36,9 +36,7 @@ class PXD017052SourceDataSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -221,8 +219,7 @@ class PXD017052SourceDataWorkflow:
             and policy.get("candidate_ccby_policy") == "EXPLICIT_AMENDMENT_REQUIRED"
             and all(
                 policy.get(key) is True
-                for key in self.REQUIRED_POLICY_FIELDS
-                - {"cc0_cohort_license", "candidate_ccby_policy"}
+                for key in self.REQUIRED_POLICY_FIELDS - {"cc0_cohort_license", "candidate_ccby_policy"}
             ),
             "T131 source policy boundary is weakened",
         )
@@ -260,8 +257,7 @@ class PXD017052SourceDataWorkflow:
             and data_1.get("sheet_name") == "Sheet1"
             and data_1.get("row_count") == 846
             and data_1.get("column_count") == 97
-            and data_1.get("internal_title")
-            == "Supplementary Data 2.   3 NP protein groups from MaxQuant",
+            and data_1.get("internal_title") == "Supplementary Data 2.   3 NP protein groups from MaxQuant",
             "T131 supplementary data schema is invalid",
         )
         result_units = _list(data_1.get("result_unit_ids"), "T131 result units", minimum=1)
@@ -277,13 +273,10 @@ class PXD017052SourceDataWorkflow:
         )
         figure_3a = _mapping(source_data.get("figure_3a"), "T131 Figure 3A schema")
         self._require(
-            set(figure_3a) == {"sheet_name", "particle_replicates"}
-            and figure_3a.get("sheet_name") == "Figure 3A",
+            set(figure_3a) == {"sheet_name", "particle_replicates"} and figure_3a.get("sheet_name") == "Figure 3A",
             "T131 Figure 3A schema is invalid",
         )
-        particle_replicates = _list(
-            figure_3a.get("particle_replicates"), "T131 particle replicates", minimum=9
-        )
+        particle_replicates = _list(figure_3a.get("particle_replicates"), "T131 particle replicates", minimum=9)
         normalized_replicates: set[tuple[str, int]] = set()
         for item in particle_replicates:
             row = _mapping(item, "T131 particle replicate")
@@ -299,8 +292,7 @@ class PXD017052SourceDataWorkflow:
             "T131 particle replicate inventory is invalid",
         )
         self._require(
-            source_data.get("figure_2_dls_particle_labels")
-            == ["S-007-008", "S-003-001", "S-011-001"],
+            source_data.get("figure_2_dls_particle_labels") == ["S-007-008", "S-003-001", "S-011-001"],
             "T131 Figure 2 DLS identifiers are invalid",
         )
 
@@ -329,9 +321,7 @@ class PXD017052SourceDataWorkflow:
             _string(material.get("source_data_label"), "T131 material source-data label")
             _string(material.get("surface_chemistry"), "T131 material surface chemistry")
             for field in ("z_average_size_nm", "pdi", "zeta_potential_mv"):
-                if not isinstance(material.get(field), (int, float)) or isinstance(
-                    material.get(field), bool
-                ):
+                if not isinstance(material.get(field), int | float) or isinstance(material.get(field), bool):
                     raise PXD017052SourceDataError(f"T131 material {field} is not numeric")
             self._require(
                 _string(material.get("source_reference"), "T131 material source reference")
@@ -339,8 +329,7 @@ class PXD017052SourceDataWorkflow:
                 "T131 material source reference is invalid",
             )
         self._require(
-            material_ids == {"SP-003", "SP-007", "SP-011"}
-            and len(materials) == self.EXPECTED_MATERIAL_COUNT,
+            material_ids == {"SP-003", "SP-007", "SP-011"} and len(materials) == self.EXPECTED_MATERIAL_COUNT,
             "T131 material inventory is invalid",
         )
 
@@ -365,16 +354,14 @@ class PXD017052SourceDataWorkflow:
             "T131 particle-unit map fields are invalid",
         )
         self._require(
-            unit_map.get("pride_result_archive") == "txt3NP.zip"
-            and _string(unit_map.get("pride_readme_url"), "T131 PRIDE README URL").startswith(
-                "https://"
-            )
-            and unit_map.get("pride_readme_file_name") == "README.txt"
-            and _integer(unit_map.get("pride_readme_bytes"), "T131 PRIDE README bytes", minimum=1)
-            and self._sha256_value(
-                unit_map.get("pride_readme_sha256"), "T131 PRIDE README SHA-256"
-            )
-            and self._md5_value(unit_map.get("pride_readme_md5"), "T131 PRIDE README MD5"),
+            bool(
+                unit_map.get("pride_result_archive") == "txt3NP.zip"
+                and _string(unit_map.get("pride_readme_url"), "T131 PRIDE README URL").startswith("https://")
+                and unit_map.get("pride_readme_file_name") == "README.txt"
+                and _integer(unit_map.get("pride_readme_bytes"), "T131 PRIDE README bytes", minimum=1)
+                and self._sha256_value(unit_map.get("pride_readme_sha256"), "T131 PRIDE README SHA-256")
+                and self._md5_value(unit_map.get("pride_readme_md5"), "T131 PRIDE README MD5")
+            ),
             "T131 PRIDE evidence is invalid",
         )
         raw_units = _list(unit_map.get("raw_unit_files"), "T131 raw units", minimum=1)
@@ -391,8 +378,7 @@ class PXD017052SourceDataWorkflow:
             and unit_map.get("source_data_particle_replicates") == particle_replicates
             and unit_map.get("explicit_raw_to_particle_crosswalk") == []
             and unit_map.get("raw_to_particle_status") == "MISSING_IN_PUBLISHED_ASSETS"
-            and unit_map.get("unit_to_material_map_status")
-            == "INCOMPLETE_NO_EXPLICIT_RAW_TO_PARTICLE_CROSSWALK",
+            and unit_map.get("unit_to_material_map_status") == "INCOMPLETE_NO_EXPLICIT_RAW_TO_PARTICLE_CROSSWALK",
             "T131 source-unit mapping boundary is invalid",
         )
 
@@ -407,8 +393,7 @@ class PXD017052SourceDataWorkflow:
                 "model_use",
                 "blocked_reasons",
             }
-            and decision.get("status")
-            == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
+            and decision.get("status") == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
             and decision.get("admission") == "NOT_ADMITTED"
             and decision.get("cc0_cohort_status") == "UNCHANGED"
             and decision.get("ccby_candidate_cohort_status") == "NOT_CREATED_INCOMPLETE_MAP"
@@ -463,13 +448,13 @@ class PXD017052SourceDataWorkflow:
             "T131 PRIDE README checksum differs",
         )
         try:
-            rows = [
-                line.split("\t") for line in readme_path.read_text(encoding="utf-8").splitlines()
-            ]
+            rows = [line.split("\t") for line in readme_path.read_text(encoding="utf-8").splitlines()]
         except (OSError, UnicodeError) as exc:
             raise PXD017052SourceDataError("T131 PRIDE README cannot be decoded") from exc
         self._require(
-            rows and rows[0] == ["ID", "NAME", "URI", "TYPE", "MAPPINGS"],
+            bool(
+                rows and rows[0] == ["ID", "NAME", "URI", "TYPE", "MAPPINGS"],
+            ),
             "T131 PRIDE README schema differs",
         )
         records = {row[0]: row for row in rows[1:] if len(row) == 5}
@@ -481,18 +466,13 @@ class PXD017052SourceDataWorkflow:
             and search[4] == "69,70,71,72,73,74,75,76,77",
             "T131 PRIDE search-to-raw mapping differs",
         )
+        if search is None:
+            raise PXD017052SourceDataError("T131 PRIDE search record is missing")
         raw_units = _list(unit_map["raw_unit_files"], "T131 raw units", minimum=1)
         expected_ids = [str(value) for value in range(69, 78)]
         self._require(
-            [
-                records.get(identifier, [None, None, None, None, None])[1]
-                for identifier in expected_ids
-            ]
-            == raw_units
-            and all(
-                records[identifier][3] == "RAW" and records[identifier][4] == "-"
-                for identifier in expected_ids
-            ),
+            [records.get(identifier, [None, None, None, None, None])[1] for identifier in expected_ids] == raw_units
+            and all(records[identifier][3] == "RAW" and records[identifier][4] == "-" for identifier in expected_ids),
             "T131 PRIDE raw-unit map differs",
         )
         return {
@@ -503,9 +483,7 @@ class PXD017052SourceDataWorkflow:
             "mapped_raw_unit_count": len(raw_units),
         }
 
-    def _workbook_schema(
-        self, registry: Mapping[str, Any], assets: Mapping[str, Mapping[str, Any]]
-    ) -> dict[str, Any]:
+    def _workbook_schema(self, registry: Mapping[str, Any], assets: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
         schema = _mapping(registry["workbook_schema"], "T131 workbook schema")
         data_1_schema = _mapping(schema["supplementary_data_1"], "T131 data 1 schema")
         source_schema = _mapping(schema["source_data"], "T131 source data schema")
@@ -526,16 +504,8 @@ class PXD017052SourceDataWorkflow:
         )
         headers = [cell.value for cell in next(worksheet.iter_rows(min_row=2, max_row=2))]
         result_units = list(data_1_schema["result_unit_ids"])
-        intensity_headers = [
-            value
-            for value in headers
-            if isinstance(value, str) and value.startswith("Intensity EXP")
-        ]
-        lfq_headers = [
-            value
-            for value in headers
-            if isinstance(value, str) and value.startswith("LFQ intensity EXP")
-        ]
+        intensity_headers = [value for value in headers if isinstance(value, str) and value.startswith("Intensity EXP")]
+        lfq_headers = [value for value in headers if isinstance(value, str) and value.startswith("LFQ intensity EXP")]
         self._require(
             intensity_headers == [f"Intensity {value}" for value in result_units]
             and lfq_headers == [f"LFQ intensity {value}" for value in result_units],
@@ -543,14 +513,12 @@ class PXD017052SourceDataWorkflow:
         )
         figure_3a = _mapping(source_schema["figure_3a"], "T131 Figure 3A schema")
         self._require(
-            "Figure 2 DLS" in source_data_book.sheetnames
-            and figure_3a["sheet_name"] in source_data_book.sheetnames,
+            "Figure 2 DLS" in source_data_book.sheetnames and figure_3a["sheet_name"] in source_data_book.sheetnames,
             "T131 source-data sheets are missing",
         )
         figure_3a_sheet = source_data_book[str(figure_3a["sheet_name"])]
         self._require(
-            [figure_3a_sheet.cell(2, column).value for column in (1, 2)]
-            == ["Nanoparticles", "Assay Replicate"],
+            [figure_3a_sheet.cell(2, column).value for column in (1, 2)] == ["Nanoparticles", "Assay Replicate"],
             "T131 Figure 3A headers differ",
         )
         actual_replicates = [
@@ -566,8 +534,7 @@ class PXD017052SourceDataWorkflow:
         )
         dls_sheet = source_data_book["Figure 2 DLS"]
         self._require(
-            [dls_sheet.cell(2, column).value for column in (1, 6, 11)]
-            == source_schema["figure_2_dls_particle_labels"],
+            [dls_sheet.cell(2, column).value for column in (1, 6, 11)] == source_schema["figure_2_dls_particle_labels"],
             "T131 Figure 2 DLS labels differ",
         )
         return {
@@ -613,9 +580,7 @@ class PXD017052SourceDataWorkflow:
             "result_unit_count": len(unit_map["result_unit_ids"]),
             "pride_raw_unit_count": len(unit_map["raw_unit_files"]),
             "result_to_raw_match_count": len(unit_map["result_unit_ids"]),
-            "explicit_raw_to_particle_map_count": len(
-                unit_map["explicit_raw_to_particle_crosswalk"]
-            ),
+            "explicit_raw_to_particle_map_count": len(unit_map["explicit_raw_to_particle_crosswalk"]),
             "material_record_count": len(registry["material_records"]),
             "source_unit_to_material_map_status": unit_map["unit_to_material_map_status"],
             "admission": decision["admission"],
@@ -658,9 +623,7 @@ class PXD017052SourceDataWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return PXD017052SourceDataSummary(
             official_asset_count=len(verified_assets),
             result_unit_count=len(unit_map["result_unit_ids"]),
@@ -691,15 +654,13 @@ class PXD017052SourceDataWorkflow:
         self._require(
             report.get("audit_id") == self.AUDIT_ID
             and receipt.get("audit_id") == self.AUDIT_ID
-            and report.get("status")
-            == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
+            and report.get("status") == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
             and receipt.get("status") == report.get("status")
             and receipt.get("pxd017052_source_data_report_sha256") == _sha256(report_path)
             and report.get("registry_sha256") == _sha256(self.registry_path)
             and report.get("verified_raw_assets") == verified_assets
             and report.get("pride_readme_verification") == pride_readme
-            and report.get("source_unit_to_material_map_status")
-            == "INCOMPLETE_NO_EXPLICIT_RAW_TO_PARTICLE_CROSSWALK"
+            and report.get("source_unit_to_material_map_status") == "INCOMPLETE_NO_EXPLICIT_RAW_TO_PARTICLE_CROSSWALK"
             and report.get("admission") == "NOT_ADMITTED"
             and receipt.get("admission") == "NOT_ADMITTED"
             and report.get("cc0_cohort_status") == "UNCHANGED"
@@ -708,14 +669,8 @@ class PXD017052SourceDataWorkflow:
             and receipt.get("ccby_candidate_cohort_status") == "NOT_CREATED_INCOMPLETE_MAP"
             and report.get("model_use") == "PROHIBITED"
             and receipt.get("model_use") == "PROHIBITED"
-            and all(
-                report.get(key) == value and receipt.get(key) == value
-                for key, value in expected_counts.items()
-            )
-            and all(
-                report.get(field) is False and receipt.get(field) is False
-                for field in self.REQUIRED_FALSE
-            ),
+            and all(report.get(key) == value and receipt.get(key) == value for key, value in expected_counts.items())
+            and all(report.get(field) is False and receipt.get(field) is False for field in self.REQUIRED_FALSE),
             "T131 source-data receipt is invalid",
         )
         return PXD017052SourceDataSummary(

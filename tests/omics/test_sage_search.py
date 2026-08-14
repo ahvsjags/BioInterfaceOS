@@ -33,9 +33,7 @@ class SageSearchWorkflowTests(unittest.TestCase):
             self.assertTrue(fdr["q_values_monotonic"])
             receipt = json.loads((Path(temporary) / "search_receipt.json").read_text())
             self.assertEqual(receipt["configuration"]["enzyme"], "trypsin")
-            self.assertEqual(
-                receipt["configuration"]["database_version"], "uniprot-human-fixture-2026-08"
-            )
+            self.assertEqual(receipt["configuration"]["database_version"], "uniprot-human-fixture-2026-08")
             self.assertEqual(receipt["target_decoy"]["method"], "reverse")
 
     def test_identical_rerun_resumes_without_receipt_change(self) -> None:
@@ -51,9 +49,7 @@ class SageSearchWorkflowTests(unittest.TestCase):
 
     def test_input_checksum_mismatch_fails_closed(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            fixture = json.loads(
-                (self.project_root / "tests/fixtures/omics/search_fixture.json").read_text()
-            )
+            fixture = json.loads((self.project_root / "tests/fixtures/omics/search_fixture.json").read_text())
             fixture["input"]["artifact_sha256"] = "0" * 64
             bad_fixture = Path(temporary) / "bad_search_fixture.json"
             bad_fixture.write_text(json.dumps(fixture), encoding="utf-8")

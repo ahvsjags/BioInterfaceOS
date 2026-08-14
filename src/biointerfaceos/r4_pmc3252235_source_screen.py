@@ -65,11 +65,7 @@ class R4PMC3252235SourceScreenWorkflow:
             raise R4PMC3252235SourceScreenError("T184 decision status is invalid")
         asset = _mapping(screen.get("source_asset"), "T184 source asset")
         relative_path = _string(asset.get("relative_path"), "T184 source asset path")
-        if (
-            relative_path.startswith("/")
-            or "\\" in relative_path
-            or ".." in Path(relative_path).parts
-        ):
+        if relative_path.startswith("/") or "\\" in relative_path or ".." in Path(relative_path).parts:
             raise R4PMC3252235SourceScreenError("T184 source asset path is unsafe")
         source_path = (self.root / relative_path).resolve(strict=False)
         if not source_path.is_relative_to(self.root) or not source_path.is_file():
@@ -84,10 +80,7 @@ class R4PMC3252235SourceScreenWorkflow:
         if compatibility.get("rank_qualified_columns_at_frozen_minimum_10") != 0:
             raise R4PMC3252235SourceScreenError("T184 qualification count changed")
         table = _mapping(screen.get("table_contract"), "T184 table contract")
-        if (
-            table.get("measurement_columns") != 24
-            or table.get("quantified_protein_count_reported_by_article") != 88
-        ):
+        if table.get("measurement_columns") != 24 or table.get("quantified_protein_count_reported_by_article") != 88:
             raise R4PMC3252235SourceScreenError("T184 table contract changed")
         return screen
 
@@ -118,13 +111,9 @@ class R4PMC3252235SourceScreenWorkflow:
             "status": self.STATUS,
             "report_sha256": _sha256(report_path),
             "source_bytes": screen["source_asset"]["bytes"],
-            "direct_overlap_accessions": screen["compatibility_probe"][
-                "direct_exact_uniprot_overlap"
-            ],
+            "direct_overlap_accessions": screen["compatibility_probe"]["direct_exact_uniprot_overlap"],
             "measurement_columns": screen["table_contract"]["measurement_columns"],
-            "rank_qualified_columns": screen["compatibility_probe"][
-                "rank_qualified_columns_at_frozen_minimum_10"
-            ],
+            "rank_qualified_columns": screen["compatibility_probe"]["rank_qualified_columns_at_frozen_minimum_10"],
             "model_fitted": False,
             "independent_validation": False,
             "external_scientific_reproduction": False,

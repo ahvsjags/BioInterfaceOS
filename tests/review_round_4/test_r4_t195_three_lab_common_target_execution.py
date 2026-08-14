@@ -34,12 +34,8 @@ def test_t195_common_target_execution_verifies_and_closes_outputs() -> None:
         assert summary.model_count == 3
         assert workflow.verify() == summary
 
-        report = json.loads(
-            (output_root / "t195_three_lab_execution_report.json").read_text(encoding="utf-8")
-        )
-        assert report["target_universe"]["source"] == (
-            "R4_T192_THREE_LAB_COMMON_TARGET_REGISTRY"
-        )
+        report = json.loads((output_root / "t195_three_lab_execution_report.json").read_text(encoding="utf-8"))
+        assert report["target_universe"]["source"] == ("R4_T192_THREE_LAB_COMMON_TARGET_REGISTRY")
         assert report["target_universe"]["count"] == 9
         assert report["scientific_submission_ready"] is False
     finally:
@@ -52,9 +48,7 @@ def test_t195_ledger_contains_only_frozen_common_targets() -> None:
         workflow = R4T195ThreeLabCommonTargetExecutionWorkflow(ROOT, output_root=output_root)
         workflow.run(strict=True)
 
-        with (output_root / "source_local_prefrozen_target_ledger.csv").open(
-            encoding="utf-8", newline=""
-        ) as stream:
+        with (output_root / "source_local_prefrozen_target_ledger.csv").open(encoding="utf-8", newline="") as stream:
             rows = list(csv.DictReader(stream))
 
         assert len(rows) == 809

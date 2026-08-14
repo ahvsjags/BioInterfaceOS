@@ -125,11 +125,7 @@ class AssetStore:
         )
         self.quarantine_root = _contained(
             self.root,
-            (
-                Path(quarantine_root)
-                if Path(quarantine_root).is_absolute()
-                else self.root / quarantine_root
-            ),
+            (Path(quarantine_root) if Path(quarantine_root).is_absolute() else self.root / quarantine_root),
         )
         self.index_path = _contained(
             self.root,
@@ -225,18 +221,14 @@ class AssetStore:
         actual, size = _sha256_file(staged)
         if actual != record.sha256 or (record.size_bytes is not None and size != record.size_bytes):
             quarantine = self._quarantine(staged, actual, "hash-mismatch")
-            raise AssetHashMismatch(
-                f"staged bytes do not match {record.sha256}; preserved at {quarantine}"
-            )
+            raise AssetHashMismatch(f"staged bytes do not match {record.sha256}; preserved at {quarantine}")
         target = self._blob_path(actual)
         target.parent.mkdir(parents=True, exist_ok=True)
         if target.exists():
             existing, existing_size = _sha256_file(target)
             if existing != actual or existing_size != size:
                 quarantine = self._quarantine(staged, actual, "cas-conflict")
-                raise AssetIntegrityError(
-                    f"CAS path is corrupt; staged bytes preserved at {quarantine}"
-                )
+                raise AssetIntegrityError(f"CAS path is corrupt; staged bytes preserved at {quarantine}")
             staged.unlink(missing_ok=True)
         else:
             os.replace(staged, target)

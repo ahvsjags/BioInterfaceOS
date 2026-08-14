@@ -12,14 +12,19 @@ from __future__ import annotations
 import csv
 import json
 from collections import Counter, defaultdict
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 import numpy as np
 
 from biointerfaceos.r3_analysis_protocol import R3AnalysisProtocolWorkflow
-from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError, R3ModelEvaluationWorkflow, _Observation
+from biointerfaceos.r3_model_evaluation import (
+    R3ModelEvaluationError,
+    R3ModelEvaluationWorkflow,
+    _Observation,
+)
 from biointerfaceos.r3_uniprot_mapping import _canonical, _checksum, _mapping, _sha256, _string
 from biointerfaceos.r4_pxd017052_nsclc_biological_ood import (
     R4PXD017052NSCLCBOODWorkflow,
@@ -52,9 +57,13 @@ class R4T198PaperCohortMissingnessWorkflow:
     PROTOCOL_RELATIVE = "docs/data/R4_T198_PAPER_COHORT_MISSINGNESS_PROTOCOL.json"
     REGISTRY_RELATIVE = "docs/data/R4_T198_PAPER_COHORT_MISSINGNESS_REGISTRY.json"
     SOURCE_MAP_RELATIVE = "data/raw/r4_candidate_pxd017052_nsclc/derived/R4_PXD017052_NSCLC_source_cell_map.csv"
-    SOURCE_AUDIT_RECEIPT_RELATIVE = "reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/pxd017052_nsclc_source_audit_receipt.json"
+    SOURCE_AUDIT_RECEIPT_RELATIVE = (
+        "reports/review_round_4/pxd017052_nsclc_source_audit/v1.0.0/pxd017052_nsclc_source_audit_receipt.json"
+    )
     R3_LEDGER_RELATIVE = "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv"
-    FEATURE_RELATIVE = "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv"
+    FEATURE_RELATIVE = (
+        "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv"
+    )
     OUTPUT_RELATIVE = "reports/review_round_4/t198_paper_cohort_missingness/v1.0.0"
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
     MODEL_IDS = R3ModelEvaluationWorkflow.MODEL_IDS
@@ -122,10 +131,20 @@ class R4T198PaperCohortMissingnessWorkflow:
     def _registry(self) -> tuple[dict[str, Any], dict[str, Any], dict[str, Path]]:
         registry = self._json(self.root / self.REGISTRY_RELATIVE, "T198 registry")
         required = {
-            "schema_version", "audit_id", "protocol_id", "status", "evidence_class",
-            "allowed_claim_level", "protocol", "source_map", "source_audit_receipt",
-            "r3_common_target_ledger", "r3_sequence_feature_table", "output_contract",
-            "claim_boundary", "scientific_submission_ready",
+            "schema_version",
+            "audit_id",
+            "protocol_id",
+            "status",
+            "evidence_class",
+            "allowed_claim_level",
+            "protocol",
+            "source_map",
+            "source_audit_receipt",
+            "r3_common_target_ledger",
+            "r3_sequence_feature_table",
+            "output_contract",
+            "claim_boundary",
+            "scientific_submission_ready",
         }
         if set(registry) != required or registry.get("schema_version") != 1:
             raise R4T198MissingnessError("T198 registry fields are invalid")
@@ -203,9 +222,7 @@ class R4T198PaperCohortMissingnessWorkflow:
         return observations, batch_to_unit, dict(mapped_positive)
 
     @staticmethod
-    def _unit_retention(
-        observations: Sequence[_Observation], batch_to_unit: Mapping[str, str]
-    ) -> dict[str, int]:
+    def _unit_retention(observations: Sequence[_Observation], batch_to_unit: Mapping[str, str]) -> dict[str, int]:
         return {
             unit: sum(1 for row in observations if batch_to_unit[row.measurement_batch_id] == unit)
             for unit in sorted(set(batch_to_unit[row.measurement_batch_id] for row in observations))
@@ -219,9 +236,7 @@ class R4T198PaperCohortMissingnessWorkflow:
         _, protocol, refs = self._registry()
         try:
             R3AnalysisProtocolWorkflow(self.root, self.root / "data/raw").verify()
-            R4PXD017052NSCLCSourceAuditWorkflow(
-                self.root, self.root / "data/raw/r4_candidate_pxd017052_nsclc"
-            ).verify()
+            R4PXD017052NSCLCSourceAuditWorkflow(self.root, self.root / "data/raw/r4_candidate_pxd017052_nsclc").verify()
         except (R4PXD017052NSCLCSourceAuditError, R3ModelEvaluationError, OSError) as exc:
             raise R4T198MissingnessError("T198 frozen source or R3 receipt does not verify") from exc
         helper = R3ModelEvaluationWorkflow(
@@ -235,19 +250,17 @@ class R4T198PaperCohortMissingnessWorkflow:
             raise R4T198MissingnessError("T198 R3 development observations are invalid") from exc
         features = self._features(helper, development)
         source_rows = self._read_csv(refs["source_map"], "T198 source map")
-        thresholds = [int(item) for item in protocol["threshold_sensitivity"]["minimum_mapped_positive_proteins_per_batch"]]
+        thresholds = [
+            int(item) for item in protocol["threshold_sensitivity"]["minimum_mapped_positive_proteins_per_batch"]
+        ]
         primary_threshold = int(protocol["primary_threshold"])
         if primary_threshold not in thresholds:
             raise R4T198MissingnessError("T198 primary threshold is not in the frozen grid")
         nested = _mapping(protocol["nested_selection"], "T198 nested selection")
         minimum_selection = int(nested["minimum_proteins_per_batch"])
         full_indices = tuple(range(len(helper.FEATURE_NAMES)))
-        composition_indices = tuple(
-            helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES
-        )
-        full_alpha, full_selection = helper._select_alpha(
-            development, full_indices, minimum_proteins=minimum_selection
-        )
+        composition_indices = tuple(helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES)
+        full_alpha, full_selection = helper._select_alpha(development, full_indices, minimum_proteins=minimum_selection)
         composition_alpha, composition_selection = helper._select_alpha(
             development, composition_indices, minimum_proteins=minimum_selection
         )
@@ -261,9 +274,7 @@ class R4T198PaperCohortMissingnessWorkflow:
         primary_batch_to_unit: dict[str, str] = {}
         uncertainty = _mapping(protocol["uncertainty"], "T198 uncertainty")
         for threshold in thresholds:
-            external, batch_to_unit, mapped_positive = self._external_at_threshold(
-                source_rows, features, threshold
-            )
+            external, batch_to_unit, mapped_positive = self._external_at_threshold(source_rows, features, threshold)
             if threshold == primary_threshold:
                 primary_external = external
                 primary_batch_to_unit = batch_to_unit
@@ -275,11 +286,16 @@ class R4T198PaperCohortMissingnessWorkflow:
                     "measurement_batch_count": len({row.measurement_batch_id for row in external}),
                     "biological_unit_count": len(retained_units),
                     "all_source_map_measurement_batch_count": len(batch_to_unit),
-                    "batch_retention_fraction": len({row.measurement_batch_id for row in external}) / len(batch_to_unit),
+                    "batch_retention_fraction": len({row.measurement_batch_id for row in external})
+                    / len(batch_to_unit),
                     "biological_unit_retention_fraction": len(retained_units) / len(set(batch_to_unit.values())),
-                    "source_value_state_counts": dict(Counter(row.get("author_value_state", "") for row in source_rows)),
+                    "source_value_state_counts": dict(
+                        Counter(row.get("author_value_state", "") for row in source_rows)
+                    ),
                     "source_na_row_count": sum(row.get("author_value_state") == "AUTHOR_NA" for row in source_rows),
-                    "source_explicit_zero_row_count": sum(row.get("author_value_state") == "AUTHOR_EXPLICIT_ZERO" for row in source_rows),
+                    "source_explicit_zero_row_count": sum(
+                        row.get("author_value_state") == "AUTHOR_EXPLICIT_ZERO" for row in source_rows
+                    ),
                 }
             )
             predictions = {
@@ -291,13 +307,22 @@ class R4T198PaperCohortMissingnessWorkflow:
                 metrics = helper._batch_metrics(external, prediction, minimum_proteins=threshold)
                 aggregate, by_unit = R4PXD017052NSCLCBOODWorkflow._subject_metrics(metrics, batch_to_unit)
                 spearman_ci = R4PXD017052NSCLCBOODWorkflow._cluster_bootstrap(
-                    by_unit, "spearman", resamples=int(uncertainty["resamples"]), seed=int(uncertainty["random_seed"]) + threshold
+                    by_unit,
+                    "spearman",
+                    resamples=int(uncertainty["resamples"]),
+                    seed=int(uncertainty["random_seed"]) + threshold,
                 )
                 mae_ci = R4PXD017052NSCLCBOODWorkflow._cluster_bootstrap(
-                    by_unit, "mae", resamples=int(uncertainty["resamples"]), seed=int(uncertainty["random_seed"]) + threshold + 100
+                    by_unit,
+                    "mae",
+                    resamples=int(uncertainty["resamples"]),
+                    seed=int(uncertainty["random_seed"]) + threshold + 100,
                 )
                 rmse_ci = R4PXD017052NSCLCBOODWorkflow._cluster_bootstrap(
-                    by_unit, "rmse", resamples=int(uncertainty["resamples"]), seed=int(uncertainty["random_seed"]) + threshold + 200
+                    by_unit,
+                    "rmse",
+                    resamples=int(uncertainty["resamples"]),
+                    seed=int(uncertainty["random_seed"]) + threshold + 200,
                 )
                 metric_rows.append(
                     {
@@ -307,8 +332,12 @@ class R4T198PaperCohortMissingnessWorkflow:
                         "measurement_batch_count": len(metrics),
                         "biological_unit_count": len(by_unit),
                         **aggregate,
-                        "subject_equal_mean_spearman_lower_95": None if spearman_ci is None else spearman_ci["lower_95"],
-                        "subject_equal_mean_spearman_upper_95": None if spearman_ci is None else spearman_ci["upper_95"],
+                        "subject_equal_mean_spearman_lower_95": None
+                        if spearman_ci is None
+                        else spearman_ci["lower_95"],
+                        "subject_equal_mean_spearman_upper_95": None
+                        if spearman_ci is None
+                        else spearman_ci["upper_95"],
                         "subject_equal_mean_mae_lower_95": None if mae_ci is None else mae_ci["lower_95"],
                         "subject_equal_mean_mae_upper_95": None if mae_ci is None else mae_ci["upper_95"],
                         "subject_equal_mean_rmse_lower_95": None if rmse_ci is None else rmse_ci["lower_95"],
@@ -349,7 +378,9 @@ class R4T198PaperCohortMissingnessWorkflow:
         negative = _mapping(protocol["negative_control"], "T198 negative control")
         primary_full = helper._predict_ridge(full_model, primary_external)
         primary_metrics = helper._batch_metrics(primary_external, primary_full, minimum_proteins=primary_threshold)
-        primary_observed = R4PXD017052NSCLCBOODWorkflow._subject_metrics(primary_metrics, primary_batch_to_unit)[0]["subject_equal_mean_spearman"]
+        primary_observed = R4PXD017052NSCLCBOODWorkflow._subject_metrics(primary_metrics, primary_batch_to_unit)[0][
+            "subject_equal_mean_spearman"
+        ]
         if primary_observed is None:
             raise R4T198MissingnessError("T198 primary negative-control statistic is undefined")
         development_targets = np.asarray([row.target for row in development], dtype=float)
@@ -364,22 +395,37 @@ class R4T198PaperCohortMissingnessWorkflow:
             for positions in by_batch.values():
                 permuted[positions] = rng.permutation(permuted[positions])
             permuted_development = [
-                _Observation(row.target_observation_id, row.source_id, row.canonical_accession,
-                             row.laboratory_anchor, row.measurement_batch_id, float(target), row.feature_values)
+                _Observation(
+                    row.target_observation_id,
+                    row.source_id,
+                    row.canonical_accession,
+                    row.laboratory_anchor,
+                    row.measurement_batch_id,
+                    float(target),
+                    row.feature_values,
+                )
                 for row, target in zip(development, permuted, strict=True)
             ]
-            alpha, _ = helper._select_alpha(
-                permuted_development, full_indices, minimum_proteins=minimum_selection
-            )
+            alpha, _ = helper._select_alpha(permuted_development, full_indices, minimum_proteins=minimum_selection)
             model = helper._fit_ridge(permuted_development, full_indices, alpha, targets=permuted)
             metrics = helper._batch_metrics(
-                primary_external, helper._predict_ridge(model, primary_external), minimum_proteins=primary_threshold
+                primary_external,
+                helper._predict_ridge(model, primary_external),
+                minimum_proteins=primary_threshold,
             )
-            score = R4PXD017052NSCLCBOODWorkflow._subject_metrics(metrics, primary_batch_to_unit)[0]["subject_equal_mean_spearman"]
+            score = R4PXD017052NSCLCBOODWorkflow._subject_metrics(metrics, primary_batch_to_unit)[0][
+                "subject_equal_mean_spearman"
+            ]
             if score is None:
                 raise R4T198MissingnessError("T198 null primary statistic is undefined")
             null_scores.append(float(score))
-            null_rows.append({"resample": resample, "selected_alpha": alpha, "null_subject_equal_mean_spearman": float(score)})
+            null_rows.append(
+                {
+                    "resample": resample,
+                    "selected_alpha": alpha,
+                    "null_subject_equal_mean_spearman": float(score),
+                }
+            )
         paths = {
             "threshold_summary": self.output_root / "threshold_summary.csv",
             "threshold_model_metrics": self.output_root / "threshold_model_metrics.csv",
@@ -394,28 +440,35 @@ class R4T198PaperCohortMissingnessWorkflow:
         self._write_csv(paths["threshold_paired_ablation"], list(paired_rows[0]), paired_rows)
         self._write_csv(paths["unit_metrics"], list(unit_rows[0]), unit_rows)
         self._write_csv(paths["selection_aware_negative_control"], list(null_rows[0]), null_rows)
-        self._write_json(paths["parameters"], {
-            "development_observation_count": len(development),
-            "development_target_count": len(accessions),
-            "full_selected_alpha": full_alpha,
-            "composition_selected_alpha": composition_alpha,
-            "primary_threshold": primary_threshold,
-            "primary_observation_count": len(primary_external),
-            "primary_measurement_batch_count": len({row.measurement_batch_id for row in primary_external}),
-            "primary_biological_unit_count": len(set(primary_batch_to_unit.values())),
-            "nested_selection_rows_full": full_selection,
-            "nested_selection_rows_composition": composition_selection,
-            "source_map_value_state_counts": dict(Counter(row.get("author_value_state", "") for row in source_rows)),
-            "negative_control": {
-                "resamples": int(negative["resamples"]),
-                "selection_reexecuted_per_resample": True,
-                "observed_subject_equal_mean_spearman": primary_observed,
-                "null_mean": float(np.mean(null_scores)),
-                "null_lower_95": float(np.quantile(null_scores, 0.025)),
-                "null_upper_95": float(np.quantile(null_scores, 0.975)),
-                "one_sided_upper_tail_p": float((1 + sum(value >= primary_observed for value in null_scores)) / (1 + len(null_scores))),
+        self._write_json(
+            paths["parameters"],
+            {
+                "development_observation_count": len(development),
+                "development_target_count": len(accessions),
+                "full_selected_alpha": full_alpha,
+                "composition_selected_alpha": composition_alpha,
+                "primary_threshold": primary_threshold,
+                "primary_observation_count": len(primary_external),
+                "primary_measurement_batch_count": len({row.measurement_batch_id for row in primary_external}),
+                "primary_biological_unit_count": len(set(primary_batch_to_unit.values())),
+                "nested_selection_rows_full": full_selection,
+                "nested_selection_rows_composition": composition_selection,
+                "source_map_value_state_counts": dict(
+                    Counter(row.get("author_value_state", "") for row in source_rows)
+                ),
+                "negative_control": {
+                    "resamples": int(negative["resamples"]),
+                    "selection_reexecuted_per_resample": True,
+                    "observed_subject_equal_mean_spearman": primary_observed,
+                    "null_mean": float(np.mean(null_scores)),
+                    "null_lower_95": float(np.quantile(null_scores, 0.025)),
+                    "null_upper_95": float(np.quantile(null_scores, 0.975)),
+                    "one_sided_upper_tail_p": float(
+                        (1 + sum(value >= primary_observed for value in null_scores)) / (1 + len(null_scores))
+                    ),
+                },
             },
-        })
+        )
         artifacts = {
             name: {"relative_path": path.relative_to(self.root).as_posix(), "sha256": _sha256(path)}
             for name, path in paths.items()
@@ -459,8 +512,12 @@ class R4T198PaperCohortMissingnessWorkflow:
         receipt_path = self.output_root / "t198_paper_cohort_missingness_receipt.json"
         self._write_json(receipt_path, receipt)
         return R4T198MissingnessSummary(
-            len(thresholds), primary_threshold, int(receipt["primary_batch_count"]),
-            int(receipt["primary_biological_unit_count"]), int(receipt["primary_observation_count"]), receipt_path
+            len(thresholds),
+            primary_threshold,
+            int(str(receipt["primary_batch_count"])),
+            int(str(receipt["primary_biological_unit_count"])),
+            int(str(receipt["primary_observation_count"])),
+            receipt_path,
         )
 
     def verify(self, *, strict: bool = True) -> R4T198MissingnessSummary:
@@ -491,7 +548,10 @@ class R4T198PaperCohortMissingnessWorkflow:
         ):
             raise R4T198MissingnessError("T198 receipt is invalid")
         return R4T198MissingnessSummary(
-            int(receipt["threshold_count"]), int(receipt["primary_threshold"]),
-            int(receipt["primary_batch_count"]), int(receipt["primary_biological_unit_count"]),
-            int(receipt["primary_observation_count"]), receipt_path
+            int(receipt["threshold_count"]),
+            int(receipt["primary_threshold"]),
+            int(receipt["primary_batch_count"]),
+            int(receipt["primary_biological_unit_count"]),
+            int(receipt["primary_observation_count"]),
+            receipt_path,
         )

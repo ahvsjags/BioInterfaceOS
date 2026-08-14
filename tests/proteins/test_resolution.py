@@ -41,9 +41,7 @@ class ProteinResolverTests(unittest.TestCase):
             human = next(item for item in entities if item["mention_id"] == "protein-human-tp53")
             self.assertEqual(human["resolved_protein"]["accession"], "P04637")
             self.assertEqual(human["resolved_protein"]["gene_id"], "HGNC:11998")
-            isoform = next(
-                item for item in entities if item["mention_id"] == "protein-human-tp53-isoform"
-            )
+            isoform = next(item for item in entities if item["mention_id"] == "protein-human-tp53-isoform")
             self.assertEqual(isoform["status"], "AMBIGUOUS")
             self.assertEqual(len(isoform["candidate_mappings"]), 2)
             obsolete = next(item for item in entities if item["mention_id"] == "protein-obsolete")
@@ -51,9 +49,7 @@ class ProteinResolverTests(unittest.TestCase):
             self.assertEqual(obsolete["candidate_mappings"][0]["replaced_by"], "P04637")
             groups = json.loads(summary.orthology_path.read_text())["orthology_groups"]
             self.assertEqual(len(groups[0]["members"]), 3)
-            self.assertTrue(
-                all(edge["relation"] == "ONE_TO_MANY_ORTHOLOGY" for edge in groups[0]["edges"])
-            )
+            self.assertTrue(all(edge["relation"] == "ONE_TO_MANY_ORTHOLOGY" for edge in groups[0]["edges"]))
 
     def test_ambiguity_queue_is_append_only_and_idempotent(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -61,9 +57,7 @@ class ProteinResolverTests(unittest.TestCase):
             resolver.run()
             resolver.run()
             review_path = Path(temporary) / "protein_review_queue.jsonl"
-            reviews = [
-                json.loads(line) for line in review_path.read_text().splitlines() if line.strip()
-            ]
+            reviews = [json.loads(line) for line in review_path.read_text().splitlines() if line.strip()]
             self.assertEqual(len(reviews), 2)
             self.assertEqual(
                 {review["reason"] for review in reviews},

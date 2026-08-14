@@ -53,9 +53,7 @@ class HypothesisAgentWorkflow:
         schema_path: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/hypothesis_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/hypothesis_fixture.json")
         self.output_root = output_root or self.root / "reports/agents/hypothesis"
         self.schema_path = schema_path or self.root / "agents/hypothesis/hypothesis.v1.json"
 
@@ -126,9 +124,7 @@ class HypothesisAgentWorkflow:
             if label not in expected:
                 raise HypothesisAgentError(f"unexpected hypothesis input: {label}")
             path, checksum = expected[label]
-            declared = (self.root / _string(row.get("path"), "hypothesis input path")).resolve(
-                strict=True
-            )
+            declared = (self.root / _string(row.get("path"), "hypothesis input path")).resolve(strict=True)
             if declared != path.resolve(strict=True) or row.get("sha256") != checksum:
                 raise HypothesisAgentError(f"hypothesis input path or checksum differs: {label}")
             if row.get("split") != "train":
@@ -148,9 +144,7 @@ class HypothesisAgentWorkflow:
         if graph.get("target_values_exposed", False) is not False:
             raise HypothesisAgentError("mechanism graph exposes target values")
         residual_path = expected["T076 model residuals"][0]
-        residuals = _mapping(
-            json.loads(residual_path.read_text(encoding="utf-8")), "model residuals"
-        )
+        residuals = _mapping(json.loads(residual_path.read_text(encoding="utf-8")), "model residuals")
         train_metrics = _mapping(residuals.get("train_metrics"), "training residual metrics")
         if residuals.get("target_values_exposed") is not False or "rmse" not in train_metrics:
             raise HypothesisAgentError("training residual input is invalid")
@@ -367,20 +361,12 @@ class HypothesisAgentWorkflow:
         trace.validate()
         claims_auto_accepted = any(row["claim_accepted"] for row in proposals)
         all_valid = all(
-            row["status"] == "EXPLORATORY_PROPOSAL"
-            and row["claim_accepted"] is False
-            and row["split"] == "train"
+            row["status"] == "EXPLORATORY_PROPOSAL" and row["claim_accepted"] is False and row["split"] == "train"
             for row in proposals
         )
-        selected = (
-            "hypothesis_agent"
-            if proposals and all_valid and lockbox_scan["clean"]
-            else "curated_seed_fallback"
-        )
+        selected = "hypothesis_agent" if proposals and all_valid and lockbox_scan["clean"] else "curated_seed_fallback"
         residual_path = self.root / "reports/models/m6/m6_results.json"
-        residuals = _mapping(
-            json.loads(residual_path.read_text(encoding="utf-8")), "model residuals"
-        )
+        residuals = _mapping(json.loads(residual_path.read_text(encoding="utf-8")), "model residuals")
         train_metrics = _mapping(residuals["train_metrics"], "training residual metrics")
         residual_summary = {
             "schema_version": 1,
@@ -462,9 +448,7 @@ class HypothesisAgentWorkflow:
         payload_bytes["seal"] = _canonical(seal)
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -522,9 +506,7 @@ class HypothesisAgentWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

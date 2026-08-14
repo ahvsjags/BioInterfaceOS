@@ -106,7 +106,7 @@
     },
     {
       "asset_id": "historical_release_artifacts",
-      "include": ["release/analysis_only/**", "release/bronze/**", "release/dev_data_model/**", "release/fixtures/**", "release/gold_auto/**", "release/internal_prelock/**", "release/manuscripts/**", "release/public/benchmark/**", "release/public/bioif-public-v1.0.0/**", "release/public/graders/**", "release/public/manifests/**", "release/public/model_cards/**", "release/public/redistributable_data/**", "release/public/reproduction/**", "release/public/schemas/**", "release/silver/**"],
+      "include": ["release/analysis_only/**", "release/bronze/**", "release/dev_data_model/**", "release/empirical_candidate_*/**", "release/fixtures/**", "release/gold_auto/**", "release/internal_prelock/**", "release/manuscripts/**", "release/public/benchmark/**", "release/public/bioif-public-v1.0.0/**", "release/public/graders/**", "release/public/manifests/**", "release/public/model_cards/**", "release/public/redistributable_data/**", "release/public/reproduction/**", "release/public/schemas/**", "release/silver/**"],
       "asset_class": "historical_fixture_or_development_release",
       "origin": "BioInterfaceOS historical releases and source-derived artifacts",
       "license_expression": "NOASSERTION",

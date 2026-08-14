@@ -52,13 +52,10 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
     STATUS = "T193_PREFROZEN_TARGET_EXECUTION_COMPLETED_EXPLORATORY"
     PROTOCOL_RELATIVE = "docs/data/R4_T193_THREE_LAB_PREFROZEN_TARGET_EXECUTION_PROTOCOL.json"
     REGISTRY_RELATIVE = "docs/data/R4_T193_THREE_LAB_PREFROZEN_TARGET_EXECUTION_REGISTRY.json"
-    T192_REGISTRY_RELATIVE = (
-        "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json"
-    )
+    T192_REGISTRY_RELATIVE = "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json"
     R3_LEDGER_RELATIVE = "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv"
     FEATURE_RELATIVE = (
-        "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/"
-        "R3_uniprot_sequence_features.csv"
+        "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv"
     )
     OUTPUT_RELATIVE = "reports/review_round_4/t193_three_lab_prefrozen_target_execution/v1.0.0"
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
@@ -109,9 +106,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
             writer.writeheader()
             for row in rows:
-                writer.writerow(
-                    {field: "" if row.get(field) is None else row.get(field) for field in fields}
-                )
+                writer.writerow({field: "" if row.get(field) is None else row.get(field) for field in fields})
 
     @staticmethod
     def _json(path: Path, label: str) -> dict[str, Any]:
@@ -183,24 +178,14 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
         ):
             raise R4T193ThreeLabExecutionError("T193 protocol identity or boundary is invalid")
         refs = {
-            "t192_source_registry": self._reference(
-                registry["t192_source_registry"], "T192 source registry"
-            ),
-            "r3_common_target_ledger": self._reference(
-                registry["r3_common_target_ledger"], "R3 common target ledger"
-            ),
-            "r3_sequence_feature_table": self._reference(
-                registry["r3_sequence_feature_table"], "R3 feature table"
-            ),
+            "t192_source_registry": self._reference(registry["t192_source_registry"], "T192 source registry"),
+            "r3_common_target_ledger": self._reference(registry["r3_common_target_ledger"], "R3 common target ledger"),
+            "r3_sequence_feature_table": self._reference(registry["r3_sequence_feature_table"], "R3 feature table"),
         }
         if refs["t192_source_registry"] != self.root / self.T192_REGISTRY_RELATIVE:
-            raise R4T193ThreeLabExecutionError(
-                "T193 does not use the release-fixed T192 source registry"
-            )
+            raise R4T193ThreeLabExecutionError("T193 does not use the release-fixed T192 source registry")
         if refs["r3_common_target_ledger"] != self.root / self.R3_LEDGER_RELATIVE:
-            raise R4T193ThreeLabExecutionError(
-                "T193 does not use the release-fixed R3 target ledger"
-            )
+            raise R4T193ThreeLabExecutionError("T193 does not use the release-fixed R3 target ledger")
         if refs["r3_sequence_feature_table"] != self.root / self.FEATURE_RELATIVE:
             raise R4T193ThreeLabExecutionError("T193 does not use the release-fixed feature table")
         sources = registry["sources"]
@@ -245,14 +230,10 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             if row.get("common_rank_target_member") == "true"
         }
         expected_count = int(
-            _mapping(protocol["prefrozen_target_universe"], "T193 target universe")[
-                "expected_target_count"
-            ]
+            _mapping(protocol["prefrozen_target_universe"], "T193 target universe")["expected_target_count"]
         )
         if len(targets) != expected_count or set(features) != targets:
-            raise R4T193ThreeLabExecutionError(
-                "pre-frozen R3 target universe does not close the feature table"
-            )
+            raise R4T193ThreeLabExecutionError("pre-frozen R3 target universe does not close the feature table")
         return features, targets
 
     def _source_observations(
@@ -280,9 +261,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                 if accession not in target_universe:
                     continue
                 if accession not in features:
-                    raise R4T193ThreeLabExecutionError(
-                        f"T193 target {accession} has no feature row"
-                    )
+                    raise R4T193ThreeLabExecutionError(f"T193 target {accession} has no feature row")
                 percentile, positive_count = ranks[index]
                 selected.append((row, percentile, positive_count))
             expected_count = int(source_meta["expected_observation_count"])
@@ -306,9 +285,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                 "biological_unit_semantics": source["biological_unit_semantics"],
             }
             for row, percentile, positive_count in selected:
-                identity = "|".join(
-                    (source_id, row["source_coordinate"], row["canonical_accession"])
-                )
+                identity = "|".join((source_id, row["source_coordinate"], row["canonical_accession"]))
                 observation_id = "T193_" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:20]
                 observations.append(
                     _Observation(
@@ -343,17 +320,13 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                         "author_value_state": row.get("author_value_state", ""),
                         "rank_target_eligible": "true",
                         "prefrozen_target_universe_member": "true",
-                        "multi_accession_group_flag": "true"
-                        if ";" in row.get("source_identifier", "")
-                        else "false",
+                        "multi_accession_group_flag": "true" if ";" in row.get("source_identifier", "") else "false",
                         "source_local_rank_percentile": format(percentile, ".17g"),
                         "source_batch_positive_count": positive_count,
                         "cross_source_scale_use": "PROHIBITED",
                     }
                 )
-        if len(observations) != int(
-            _mapping(registry["expected_accounting"], "T193 accounting")["observation_count"]
-        ):
+        if len(observations) != int(_mapping(registry["expected_accounting"], "T193 accounting")["observation_count"]):
             raise R4T193ThreeLabExecutionError("T193 total observation count differs")
         return (
             sorted(observations, key=lambda row: row.target_observation_id),
@@ -386,9 +359,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
         negative_resamples = int(negative["resamples"])
         negative_seed = int(negative["random_seed"])
         full_indices = tuple(range(len(helper.FEATURE_NAMES)))
-        composition_indices = tuple(
-            helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES
-        )
+        composition_indices = tuple(helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES)
         predictions: list[dict[str, Any]] = []
         batch_metrics: list[dict[str, Any]] = []
         fold_metrics: list[dict[str, Any]] = []
@@ -425,15 +396,11 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                 )
             constant_mean = float(np.mean([row.target for row in development]))
             full_model = helper._fit_ridge(development, full_indices, full_alpha)
-            composition_model = helper._fit_ridge(
-                development, composition_indices, composition_alpha
-            )
+            composition_model = helper._fit_ridge(development, composition_indices, composition_alpha)
             predictions_by_model = {
                 "CONSTANT_TRAINING_MEAN": np.full(len(testing), constant_mean, dtype=float),
                 "SEQUENCE_RIDGE_FULL": helper._predict_ridge(full_model, testing),
-                "SEQUENCE_RIDGE_COMPOSITION_ONLY": helper._predict_ridge(
-                    composition_model, testing
-                ),
+                "SEQUENCE_RIDGE_COMPOSITION_ONLY": helper._predict_ridge(composition_model, testing),
             }
             parameters[fold_id] = {
                 "held_out_laboratory_anchor": held_out_lab,
@@ -448,16 +415,10 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             metric_by_model: dict[str, list[dict[str, Any]]] = {}
             for model_index, model_id in enumerate(self.MODEL_IDS, start=1):
                 predicted = predictions_by_model[model_id]
-                metrics = helper._batch_metrics(
-                    testing, predicted, minimum_proteins=minimum_proteins
-                )
+                metrics = helper._batch_metrics(testing, predicted, minimum_proteins=minimum_proteins)
                 metric_by_model[model_id] = metrics
                 aggregate = helper._aggregate(metrics)
-                status = (
-                    "UNDEFINED_CONSTANT_PREDICTION"
-                    if model_id == "CONSTANT_TRAINING_MEAN"
-                    else "DEFINED"
-                )
+                status = "UNDEFINED_CONSTANT_PREDICTION" if model_id == "CONSTANT_TRAINING_MEAN" else "DEFINED"
                 ci: dict[str, dict[str, Any] | None] = {}
                 for metric_name, output_name, seed_offset in (
                     ("spearman", "mean_spearman", 0),
@@ -474,6 +435,8 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                             seed=bootstrap_seed + fold_index * 100 + model_index * 10 + seed_offset,
                         )
                     )
+                mean_mae_interval = ci["mean_mae"]
+                mean_rmse_interval = ci["mean_rmse"]
                 fold_metrics.append(
                     {
                         "outer_fold_id": fold_id,
@@ -489,10 +452,10 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                         "mean_spearman_upper_95": None
                         if ci["mean_spearman"] is None
                         else ci["mean_spearman"]["upper_95"],
-                        "mean_mae_lower_95": ci["mean_mae"]["lower_95"],
-                        "mean_mae_upper_95": ci["mean_mae"]["upper_95"],
-                        "mean_rmse_lower_95": ci["mean_rmse"]["lower_95"],
-                        "mean_rmse_upper_95": ci["mean_rmse"]["upper_95"],
+                        "mean_mae_lower_95": None if mean_mae_interval is None else mean_mae_interval["lower_95"],
+                        "mean_mae_upper_95": None if mean_mae_interval is None else mean_mae_interval["upper_95"],
+                        "mean_rmse_lower_95": None if mean_rmse_interval is None else mean_rmse_interval["lower_95"],
+                        "mean_rmse_upper_95": None if mean_rmse_interval is None else mean_rmse_interval["upper_95"],
                     }
                 )
                 for metric in metrics:
@@ -570,9 +533,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                 permuted = development_targets.copy()
                 for positions in by_batch.values():
                     permuted[positions] = rng.permutation(permuted[positions])
-                null_model = helper._fit_ridge(
-                    development, full_indices, full_alpha, targets=permuted
-                )
+                null_model = helper._fit_ridge(development, full_indices, full_alpha, targets=permuted)
                 null_metrics = helper._batch_metrics(
                     testing,
                     helper._predict_ridge(null_model, testing),
@@ -580,9 +541,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                 )
                 null_score = helper._aggregate(null_metrics)["mean_spearman"]
                 if null_score is None:
-                    raise R4T193ThreeLabExecutionError(
-                        "T193 negative-control primary metric is undefined"
-                    )
+                    raise R4T193ThreeLabExecutionError("T193 negative-control primary metric is undefined")
                 null_values.append(float(null_score))
                 negative_rows.append(
                     {
@@ -626,9 +585,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             raise R4T193ThreeLabExecutionError("T193 execution already exists")
         registry, protocol, refs, sources = self._registry()
         features, targets = self._features_and_targets(refs, protocol)
-        t192 = R4T192ThreeLabCommonTargetWorkflow(
-            self.root, registry_path=refs["t192_source_registry"]
-        )
+        t192 = R4T192ThreeLabCommonTargetWorkflow(self.root, registry_path=refs["t192_source_registry"])
         try:
             _, _, t192_sources = t192._documents()
             observations, ledger, accounting = self._source_observations(
@@ -637,9 +594,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
         except (R4T192ThreeLabCommonTargetError, R4T193ThreeLabExecutionError) as exc:
             if isinstance(exc, R4T193ThreeLabExecutionError):
                 raise
-            raise R4T193ThreeLabExecutionError(
-                "T192 source closure failed during T193 admission"
-            ) from exc
+            raise R4T193ThreeLabExecutionError("T192 source closure failed during T193 admission") from exc
         artifacts, fold_contract = self._execute_models(observations, protocol)
         self.output_root.mkdir(parents=True, exist_ok=False)
         paths = {
@@ -836,9 +791,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             reference = _mapping(item, "T193 artifact")
             if set(reference) != self.REQUIRED_REFERENCE:
                 raise R4T193ThreeLabExecutionError("T193 artifact reference fields are invalid")
-            path = self._root_file(
-                _string(reference["relative_path"], "T193 artifact path"), "T193 artifact"
-            )
+            path = self._root_file(_string(reference["relative_path"], "T193 artifact path"), "T193 artifact")
             if _sha256(path) != _checksum(reference["sha256"], "T193 artifact checksum"):
                 raise R4T193ThreeLabExecutionError("T193 artifact checksum differs")
         if (

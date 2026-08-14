@@ -34,9 +34,7 @@ class BiasSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -83,21 +81,15 @@ class BiasWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = (
-            fixture_path or self.root / "tests/fixtures/robustness/bias_fixture.json"
-        )
+        self.fixture_path = fixture_path or self.root / "tests/fixtures/robustness/bias_fixture.json"
         self.output_root = output_root or self.root / "reports/robustness/bias"
 
     def _fixture(self) -> dict[str, Any]:
         try:
-            data = _mapping(
-                json.loads(self.fixture_path.read_text(encoding="utf-8")), "bias fixture"
-            )
+            data = _mapping(json.loads(self.fixture_path.read_text(encoding="utf-8")), "bias fixture")
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise BiasWorkflowError(f"cannot load bias fixture: {exc}") from exc
-        if data.get("schema_version") != 1 or data.get("mode") != (
-            "publication_selection_and_missingness_bias"
-        ):
+        if data.get("schema_version") != 1 or data.get("mode") != ("publication_selection_and_missingness_bias"):
             raise BiasWorkflowError("bias fixture schema or mode is invalid")
         for key in ("inputs", "preregistration", "studies"):
             if key not in data:
@@ -147,9 +139,7 @@ class BiasWorkflow:
             if label not in expected:
                 raise BiasWorkflowError(f"unexpected bias input: {label}")
             path, checksum = expected[label]
-            declared = (self.root / _string(row.get("path"), "bias input path")).resolve(
-                strict=True
-            )
+            declared = (self.root / _string(row.get("path"), "bias input path")).resolve(strict=True)
             raw = path.read_bytes()
             if declared != path.resolve(strict=True) or row.get("sha256") != checksum:
                 raise BiasWorkflowError(f"bias input path/checksum differs: {label}")
@@ -162,9 +152,7 @@ class BiasWorkflow:
             raise BiasWorkflowError("bias inputs do not match T047/T071/T091/T093/T100")
 
     @classmethod
-    def _studies(
-        cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _studies(cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]) -> list[dict[str, Any]]:
         required = {
             "study_id",
             "cluster_id",
@@ -188,9 +176,7 @@ class BiasWorkflow:
                 raise BiasWorkflowError(f"duplicate bias study: {study_id}")
             mechanism = _string(source.get("missing_mechanism"), "missing mechanism")
             observed = source.get("effect_observed")
-            if not isinstance(observed, bool) or not isinstance(
-                source.get("p_value_reported"), bool
-            ):
+            if not isinstance(observed, bool) or not isinstance(source.get("p_value_reported"), bool):
                 raise BiasWorkflowError("bias study flags are invalid")
             if observed and source.get("effect") is None:
                 raise BiasWorkflowError(f"observed study lacks effect: {study_id}")
@@ -203,9 +189,7 @@ class BiasWorkflow:
                 {
                     "study_id": study_id,
                     "cluster_id": _string(source.get("cluster_id"), "cluster ID"),
-                    "effect": None
-                    if source.get("effect") is None
-                    else _number(source["effect"], "study effect"),
+                    "effect": None if source.get("effect") is None else _number(source["effect"], "study effect"),
                     "effect_observed": observed,
                     "sample_size": int(_number(source.get("sample_size"), "sample size")),
                     "publication_probability": _number(
@@ -255,9 +239,7 @@ class BiasWorkflow:
             for row in studies
             if row["effect_observed"] and row["effect"] is not None
         ]
-        ipw = sum(value * weight for value, weight in weighted) / sum(
-            weight for _, weight in weighted
-        )
+        ipw = sum(value * weight for value, weight in weighted) / sum(weight for _, weight in weighted)
         imputed: list[float] = []
         for row in studies:
             if row["effect_observed"]:
@@ -300,10 +282,7 @@ class BiasWorkflow:
                 **self._interval(values, int(preregistration["bootstrap_samples"])),
             }
         mechanism_counts = {
-            mechanism: sum(
-                not row["effect_observed"] and row["missing_mechanism"] == mechanism
-                for row in studies
-            )
+            mechanism: sum(not row["effect_observed"] and row["missing_mechanism"] == mechanism for row in studies)
             for mechanism in self.MECHANISMS
         }
         missing_audit = {
@@ -317,18 +296,12 @@ class BiasWorkflow:
             "p_values_reported": sum(row["p_value_reported"] for row in studies),
             "p_values_used": False,
         }
-        model_min = min(
-            bounded_lower, points["complete_case"], points["inverse_probability_weighted"], pattern
-        )
-        model_max = max(
-            bounded_upper, points["complete_case"], points["inverse_probability_weighted"], pattern
-        )
+        model_min = min(bounded_lower, points["complete_case"], points["inverse_probability_weighted"], pattern)
+        model_max = max(bounded_upper, points["complete_case"], points["inverse_probability_weighted"], pattern)
         disagreement = round(model_max - model_min, 8)
         threshold = float(preregistration["material_disagreement_threshold"])
         claim_status = (
-            "DOWNGRADED_SELECTION_SENSITIVE"
-            if disagreement >= threshold
-            else "SUPPORTED_WITH_SELECTION_LIMITS"
+            "DOWNGRADED_SELECTION_SENSITIVE" if disagreement >= threshold else "SUPPORTED_WITH_SELECTION_LIMITS"
         )
         fixture_text = self.fixture_path.read_text(encoding="utf-8").lower()
         prohibited = ["api_key", "credential", "private_key", "locked_payload", "secret"]
@@ -378,11 +351,7 @@ class BiasWorkflow:
             payload = _canonical(raw_payloads[name])
             path.write_bytes(payload)
             artifacts[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload),
                 "bytes": len(payload),
             }

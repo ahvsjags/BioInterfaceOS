@@ -101,9 +101,7 @@ class PolicyConfig:
     @classmethod
     def load(cls, root: Path, path: Path | str = POLICY_PATH) -> PolicyConfig:
         candidate = Path(path)
-        config_path = (candidate if candidate.is_absolute() else root / candidate).resolve(
-            strict=False
-        )
+        config_path = (candidate if candidate.is_absolute() else root / candidate).resolve(strict=False)
         repository = root.resolve(strict=True)
         if config_path != repository and repository not in config_path.parents:
             raise PolicyConfigError("policy config is outside repository")
@@ -162,11 +160,7 @@ class PolicyConfig:
 
     @staticmethod
     def _normalize_list(value: object) -> list[str]:
-        if (
-            not isinstance(value, list)
-            or not value
-            or not all(isinstance(item, str) for item in value)
-        ):
+        if not isinstance(value, list) or not value or not all(isinstance(item, str) for item in value):
             raise PolicyConfigError("license lists must be non-empty string arrays")
         return [_normalize(item) for item in value]
 
@@ -369,10 +363,7 @@ class SourcePolicyEngine:
             if not isinstance(expected_decision, str) or not isinstance(expected_code, str):
                 raise PolicyError(f"fixture expectations must be strings: {path}")
             result = self.evaluate(candidate)
-            if (
-                result.decision != expected_decision
-                or (result.rejection_code or "") != expected_code
-            ):
+            if result.decision != expected_decision or (result.rejection_code or "") != expected_code:
                 raise PolicyError(
                     f"fixture mismatch {path.name}: got {result.decision}/{result.rejection_code}, "
                     f"expected {expected_decision}/{expected_code}"
@@ -389,11 +380,7 @@ def _normalize(value: str) -> str:
 
 
 def _classify_license(candidate: SourceCandidate, config: PolicyConfig) -> str | None:
-    values = [
-        value
-        for value in (candidate.license_identifier, candidate.license_text)
-        if value is not None
-    ]
+    values = [value for value in (candidate.license_identifier, candidate.license_text) if value is not None]
     normalized_values = [_normalize(value) for value in values]
     for value in normalized_values:
         if any(phrase in value for phrase in config.restricted_phrases):
@@ -418,9 +405,7 @@ class RejectionRegistry:
     def __init__(self, root: Path, path: Path | str = REJECTION_PATH) -> None:
         self.root = root.resolve(strict=True)
         candidate = Path(path)
-        self.path = (candidate if candidate.is_absolute() else self.root / candidate).resolve(
-            strict=False
-        )
+        self.path = (candidate if candidate.is_absolute() else self.root / candidate).resolve(strict=False)
         if self.path == self.root or self.root not in self.path.parents:
             raise PolicyError("rejection registry path escapes repository")
 

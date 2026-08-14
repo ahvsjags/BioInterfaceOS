@@ -22,10 +22,7 @@ def test_clean_room_creates_three_agreeing_receipts(tmp_path: Path) -> None:
     assert report["license_safe"] is True
     assert report["network_accessed"] is False
     assert workflow.verify()["result_hash"] == report["result_hash"]
-    receipts = [
-        _json(tmp_path / "clean-room" / "runs" / f"run_{run_id}" / "receipt.json")
-        for run_id in (1, 2, 3)
-    ]
+    receipts = [_json(tmp_path / "clean-room" / "runs" / f"run_{run_id}" / "receipt.json") for run_id in (1, 2, 3)]
     assert len({receipt["package_sha256"] for receipt in receipts}) == 1
     assert len({receipt["result_hash"] for receipt in receipts}) == 1
 
@@ -60,6 +57,4 @@ def test_clean_room_excludes_restricted_payload_paths() -> None:
     workflow = CleanRoomWorkflow(_root())
     files = workflow._collect_files()
     names = {path.relative_to(_root()).as_posix() for path in files}
-    assert not any(
-        "data/locked_test/" in name or "data/raw/" in name or "data/cas/" in name for name in names
-    )
+    assert not any("data/locked_test/" in name or "data/raw/" in name or "data/cas/" in name for name in names)

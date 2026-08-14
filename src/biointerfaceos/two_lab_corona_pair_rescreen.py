@@ -22,9 +22,7 @@ class TwoLabCoronaPairRescreenError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -52,7 +50,7 @@ def _list(value: Any, label: str, *, minimum: int = 0) -> list[Any]:
 def _integer(value: Any, label: str, *, minimum: int = 0) -> int:
     if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
         raise TwoLabCoronaPairRescreenError(f"{label} must be an integer >= {minimum}")
-    return value
+    return int(value)
 
 
 @dataclass(frozen=True)
@@ -158,9 +156,7 @@ class TwoLabCoronaPairRescreenWorkflow:
             raise TwoLabCoronaPairRescreenError("pair claim level is unsafe")
         _string(registry.get("evaluated_at"), "pair evaluated_at")
         policy = _mapping(registry.get("source_policy"), "pair source policy")
-        if set(policy) != self.REQUIRED_POLICY_FIELDS or any(
-            value is not True for value in policy.values()
-        ):
+        if set(policy) != self.REQUIRED_POLICY_FIELDS or any(value is not True for value in policy.values()):
             raise TwoLabCoronaPairRescreenError("pair source policy is weakened")
         scope = _mapping(registry.get("pair_scope"), "pair scope")
         if set(scope) != self.REQUIRED_SCOPE_FIELDS:
@@ -212,10 +208,7 @@ class TwoLabCoronaPairRescreenWorkflow:
             raise TwoLabCoronaPairRescreenError("pair candidate matrix is invalid")
         if candidate["material_family"] != "POLYSTYRENE":
             raise TwoLabCoronaPairRescreenError("pair material family is invalid")
-        if (
-            candidate["admission"] != "NOT_ADMITTED_PAIR_RESCREEN"
-            or candidate["model_use"] != "PROHIBITED"
-        ):
+        if candidate["admission"] != "NOT_ADMITTED_PAIR_RESCREEN" or candidate["model_use"] != "PROHIBITED":
             raise TwoLabCoronaPairRescreenError("pair candidate was silently promoted")
         reasons = _list(candidate["non_admission_reasons"], "pair non-admission reasons", minimum=3)
         if any(not isinstance(reason, str) or not reason.strip() for reason in reasons):
@@ -227,9 +220,7 @@ class TwoLabCoronaPairRescreenWorkflow:
             "shared_endpoint_status",
         ):
             if candidate[field].startswith("VERIFIED_ADMISSIBLE"):
-                raise TwoLabCoronaPairRescreenError(
-                    "pair candidate status silently promotes admission"
-                )
+                raise TwoLabCoronaPairRescreenError("pair candidate status silently promotes admission")
         return candidate
 
     def run(self, *, strict: bool = False) -> TwoLabCoronaPairRescreenSummary:
@@ -246,9 +237,7 @@ class TwoLabCoronaPairRescreenWorkflow:
             "evidence_class": "DEVELOPMENT_OBSERVATION",
             "allowed_claim_level": "EXPLORATORY",
             "candidate_source_count": len(candidates),
-            "independent_laboratory_count": len(
-                {candidate["laboratory"] for candidate in candidates}
-            ),
+            "independent_laboratory_count": len({candidate["laboratory"] for candidate in candidates}),
             "candidate_size_count": len(self.EXPECTED_SIZES_NM),
             "status": "BLOCKED_PAIR_ASSET_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_AUDIT_REQUIRED",
             "target_status": "NOT_FROZEN",

@@ -12,7 +12,6 @@ from biointerfaceos.r4_small_molecule_corona_source_audit import (
     R4SmallMoleculeCoronaSourceAuditWorkflow,
 )
 
-
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "data/raw/r4_candidate_pmc11544298"
 

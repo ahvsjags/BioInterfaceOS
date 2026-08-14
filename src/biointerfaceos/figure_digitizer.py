@@ -119,10 +119,7 @@ def _calibrate_value(
             left_value = values[index]
             right_value = values[index + 1]
             if scale_type == "log":
-                return 10 ** (
-                    math.log10(left_value)
-                    + fraction * (math.log10(right_value) - math.log10(left_value))
-                )
+                return 10 ** (math.log10(left_value) + fraction * (math.log10(right_value) - math.log10(left_value)))
             return left_value + fraction * (right_value - left_value)
     return values[-1]
 
@@ -195,9 +192,7 @@ class FigureDigitizer:
     ) -> None:
         self.root = root.resolve(strict=True)
         self.fixture_path = fixture_path or (self.root / "tests/fixtures/figures/digitization.json")
-        self.normalized_path = normalized_path or (
-            self.root / "registry/digitized_figure_points.json"
-        )
+        self.normalized_path = normalized_path or (self.root / "registry/digitized_figure_points.json")
         self.review_path = review_path or (self.root / "registry/digitization_review_queue.jsonl")
         self.overlay_path = overlay_path or (self.root / "reports/digitization_qc_overlay.json")
         self.report_path = report_path or self.root / "reports/figure_digitization.md"
@@ -287,9 +282,7 @@ class FigureDigitizer:
             raise FigureDigitizationError(f"unsupported series type: {series_type}")
         if not 0.0 <= quality_score <= 1.0:
             raise FigureDigitizationError("quality_score must be normalized")
-        series_locator = (
-            f"asset:{source_asset_id}/figure:{figure_id}/panel:{panel_id}/series:{series_id}"
-        )
+        series_locator = f"asset:{source_asset_id}/figure:{figure_id}/panel:{panel_id}/series:{series_id}"
         if quality_score < 0.75:
             reviews.append(
                 self._review(
@@ -437,9 +430,7 @@ class FigureDigitizer:
                 raw_axes = panel["axes"]
                 if not isinstance(raw_axes, list):
                     raise FigureDigitizationError("panel axes must be a list")
-                calibration_list = [
-                    _calibration(axis, panel_id) for axis in raw_axes if isinstance(axis, Mapping)
-                ]
+                calibration_list = [_calibration(axis, panel_id) for axis in raw_axes if isinstance(axis, Mapping)]
                 calibrations = {axis.orientation: axis for axis in calibration_list}
                 panel_series: list[DigitizedSeries] = []
                 excluded: list[str] = []
@@ -484,12 +475,8 @@ class FigureDigitizer:
                             {
                                 "series_id": series.series_id,
                                 "detector_locator": series.detector_locator,
-                                "normalized_points": [
-                                    [point.x_position, point.y_position] for point in series.points
-                                ],
-                                "digitized_point_locators": [
-                                    point.source_locator for point in series.points
-                                ],
+                                "normalized_points": [[point.x_position, point.y_position] for point in series.points],
+                                "digitized_point_locators": [point.source_locator for point in series.points],
                             }
                             for series in panel_series
                         ],
@@ -567,8 +554,7 @@ class FigureDigitizer:
                     f"- uncertainty records: {uncertainty_count}",
                     f"- review items: {len(reviews)}",
                     "",
-                    "QC overlay coordinates and source locators are stored in "
-                    "reports/digitization_qc_overlay.json.",
+                    "QC overlay coordinates and source locators are stored in reports/digitization_qc_overlay.json.",
                 ]
             )
             + "\n"

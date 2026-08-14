@@ -15,7 +15,6 @@ import json
 import math
 import zipfile
 from collections import defaultdict
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -142,16 +141,17 @@ class R4PMC13106918SourceAuditWorkflow:
             raise R4PMC13106918SourceAuditError("registry fields are invalid")
         if registry.get("audit_id") != self.AUDIT_ID:
             raise R4PMC13106918SourceAuditError("registry audit ID is invalid")
-        if registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION" or registry.get(
-            "allowed_claim_level"
-        ) != "EXPLORATORY":
+        if (
+            registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION"
+            or registry.get("allowed_claim_level") != "EXPLORATORY"
+        ):
             raise R4PMC13106918SourceAuditError("registry evidence boundary is invalid")
         _string(registry.get("evaluated_at"), "evaluated_at")
         _string(registry.get("claim_boundary"), "claim_boundary")
         if _mapping(registry.get("article"), "article") != {
             "pmcid": "PMC13106918",
             "doi": "10.1002/pmic.70118",
-            "title": "Mass Spectrometry Proteomics of the Nanoparticle Corona Is Highly Dependent on Sample Preparation Protocol",
+            "title": "Mass Spectrometry Proteomics of the Nanoparticle Corona Is Highly Dependent on Sample Preparation Protocol",  # noqa: E501
             "publication_year": 2026,
             "license": "CC-BY-4.0",
             "full_text_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13106918/",
@@ -180,8 +180,7 @@ class R4PMC13106918SourceAuditWorkflow:
             "prohibited_interpretations",
         } or (
             scope.get("source_id") != "PMC13106918_RCSI_DCU_SILICA_CORONA"
-            or scope.get("laboratory_anchor")
-            != "Royal College of Surgeons in Ireland and Dublin City University"
+            or scope.get("laboratory_anchor") != "Royal College of Surgeons in Ireland and Dublin City University"
             or scope.get("source_lineage") != "NEW_TO_CURRENT_R3_ANCHORS"
             or scope.get("biofluid") != "pooled human plasma from eight healthy donors"
             or scope.get("nanoparticle") != "silica nanoparticles"
@@ -228,12 +227,12 @@ class R4PMC13106918SourceAuditWorkflow:
             raise R4PMC13106918SourceAuditError("source assets are incomplete")
 
         with zipfile.ZipFile(paths["maxquant_zip"]) as archive:
-            required = {
+            required_entries = {
                 "protein_groups": "MaxQuant_txt/proteinGroups.txt",
                 "summary": "MaxQuant_txt/summary.txt",
                 "parameters": "MaxQuant_txt/parameters.txt",
             }
-            for asset_id, name in required.items():
+            for asset_id, name in required_entries.items():
                 if name not in archive.namelist() or archive.read(name) != paths[asset_id].read_bytes():
                     raise R4PMC13106918SourceAuditError("official extraction differs from source package")
 
@@ -241,7 +240,9 @@ class R4PMC13106918SourceAuditWorkflow:
         if set(reference) != {"relative_path", "sha256"}:
             raise R4PMC13106918SourceAuditError("R3 reference asset fields are invalid")
         feature_path = self._under(
-            self.root, _string(reference.get("relative_path"), "R3 reference asset"), "R3 reference asset"
+            self.root,
+            _string(reference.get("relative_path"), "R3 reference asset"),
+            "R3 reference asset",
         )
         if _sha256(feature_path) != _checksum(reference.get("sha256"), "R3 reference asset"):
             raise R4PMC13106918SourceAuditError("R3 reference asset checksum differs")
@@ -260,9 +261,9 @@ class R4PMC13106918SourceAuditWorkflow:
         }:
             raise R4PMC13106918SourceAuditError("table contract is invalid")
         if _mapping(registry.get("quantification_contract"), "quantification contract") != {
-            "source_accession_policy": "split Majority protein IDs on semicolons, remove CON__ tokens, retain only exactly one accession present in the frozen R3 feature table",
+            "source_accession_policy": "split Majority protein IDs on semicolons, remove CON__ tokens, retain only exactly one accession present in the frozen R3 feature table",  # noqa: E501
             "author_quantity_type": "LFQ_INTENSITY",
-            "rank_eligibility": "strictly positive finite LFQ intensity, Reverse and Potential contaminant flags absent, one uniquely mapped R3 target",
+            "rank_eligibility": "strictly positive finite LFQ intensity, Reverse and Potential contaminant flags absent, one uniquely mapped R3 target",  # noqa: E501
             "numeric_zero_policy": "retain as NUMERIC_ZERO and exclude from rank; never impute",
             "missing_policy": "retain blank/NA as SOURCE_NA or SOURCE_BLANK and exclude from rank; never impute",
             "raw_scale_cross_study_use": "PROHIBITED",
@@ -350,9 +351,7 @@ class R4PMC13106918SourceAuditWorkflow:
             return "NEGATIVE_FINITE", rendered, False
         return "POSITIVE_FINITE", rendered, True
 
-    def _cells(
-        self, source_path: Path, feature_path: Path
-    ) -> tuple[list[dict[str, str]], dict[str, Any]]:
+    def _cells(self, source_path: Path, feature_path: Path) -> tuple[list[dict[str, str]], dict[str, Any]]:
         features = self._feature_accessions(feature_path)
         with source_path.open(newline="", encoding="utf-8") as stream:
             reader = csv.DictReader(stream, delimiter="\t")
@@ -378,14 +377,16 @@ class R4PMC13106918SourceAuditWorkflow:
         for source_row, row in enumerate(rows, start=2):
             source_row_count += 1
             accession = self._source_accession(row.get("Majority protein IDs"), features)
-            if accession is None or row.get("Reverse", "").strip() == "+" or row.get(
-                "Potential contaminant", ""
-            ).strip() == "+":
+            if (
+                accession is None
+                or row.get("Reverse", "").strip() == "+"
+                or row.get("Potential contaminant", "").strip() == "+"
+            ):
                 continue
             if accession in seen_targets:
                 raise R4PMC13106918SourceAuditError("a target maps to multiple qualifying protein groups")
             seen_targets.add(accession)
-            for column_index, column in enumerate(lfq_columns, start=1):
+            for _column_index, column in enumerate(lfq_columns, start=1):
                 condition, replicate = column.removeprefix("LFQ intensity ").rsplit("_", 1)
                 state, rendered, rank_eligible = self._state(row.get(column))
                 cells.append(
@@ -414,8 +415,7 @@ class R4PMC13106918SourceAuditWorkflow:
         for cell in cells:
             by_batch[cell["measurement_batch_id"]].append(cell)
         positive_by_batch = {
-            batch: sum(cell["rank_target_eligible"] == "true" for cell in values)
-            for batch, values in by_batch.items()
+            batch: sum(cell["rank_target_eligible"] == "true" for cell in values) for batch, values in by_batch.items()
         }
         qualified = sum(count >= 10 for count in positive_by_batch.values())
         if len(by_batch) != 20 or qualified != 16:
@@ -426,9 +426,7 @@ class R4PMC13106918SourceAuditWorkflow:
             "rank_qualified_measurement_batch_count": qualified,
             "shared_canonical_protein_count": len(seen_targets),
             "source_cell_count": len(cells),
-            "positive_source_cell_count": sum(
-                cell["rank_target_eligible"] == "true" for cell in cells
-            ),
+            "positive_source_cell_count": sum(cell["rank_target_eligible"] == "true" for cell in cells),
             "positive_by_batch": dict(sorted(positive_by_batch.items())),
         }
 
@@ -530,9 +528,10 @@ class R4PMC13106918SourceAuditWorkflow:
         for key, value in totals.items():
             if report.get(key) != value:
                 raise R4PMC13106918SourceAuditError(f"audit accounting differs for {key}")
-        if len(rows) != report["source_cell_count"] or sum(
-            row["rank_target_eligible"] == "true" for row in rows
-        ) != report["positive_source_cell_count"]:
+        if (
+            len(rows) != report["source_cell_count"]
+            or sum(row["rank_target_eligible"] == "true" for row in rows) != report["positive_source_cell_count"]
+        ):
             raise R4PMC13106918SourceAuditError("source cell accounting differs")
         if report.get("r3_reference_asset", {}).get("sha256") != _sha256(feature_path):
             raise R4PMC13106918SourceAuditError("R3 reference checksum differs")

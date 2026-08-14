@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import pytest
 
@@ -98,9 +98,7 @@ def _create_signer(root: Path, name: str) -> tuple[Path, str]:
 def _write_package(tmp_path: Path) -> dict[str, Path | dict[str, str]]:
     signer_homes: dict[str, Path] = {}
     fingerprints: dict[str, str] = {}
-    for name, document_type in zip(
-        ("evaluator", "reproducer", "editor"), DOCUMENT_TYPES, strict=True
-    ):
+    for name, document_type in zip(("evaluator", "reproducer", "editor"), DOCUMENT_TYPES, strict=True):
         signer_homes[document_type], fingerprints[document_type] = _create_signer(tmp_path, name)
 
     documents_root = tmp_path / "documents"
@@ -149,9 +147,7 @@ def _write_package(tmp_path: Path) -> dict[str, Path | dict[str, str]]:
         "environment_digest": "3" * 64,
         "source_data_attestation": {"method": "ATTESTED", "statement": "test attestation"},
         "commands_and_scope": ["test command"],
-        "deviation_ledger": [
-            {"deviation_id": "NONE", "severity": "NONE", "detail": "test structural record"}
-        ],
+        "deviation_ledger": [{"deviation_id": "NONE", "severity": "NONE", "detail": "test structural record"}],
         "result_summary": {
             "scope": "test scope",
             "outcome": "test outcome",
@@ -283,9 +279,7 @@ def _write_package(tmp_path: Path) -> dict[str, Path | dict[str, str]]:
                     "public_key_relative_path": f"{name}.asc",
                     "public_key_sha256": _sha256((tmp_path / "keys" / f"{name}.asc").read_bytes()),
                 }
-                for name, document_type in zip(
-                    ("evaluator", "reproducer", "editor"), DOCUMENT_TYPES, strict=True
-                )
+                for name, document_type in zip(("evaluator", "reproducer", "editor"), DOCUMENT_TYPES, strict=True)
             ],
         },
     )
@@ -318,18 +312,16 @@ def test_signature_verification_accepts_three_distinct_registered_keys(tmp_path:
 
     summary = _workflow(paths).run(strict=True)
 
-    assert summary.status == (
-        "CRYPTOGRAPHIC_SIGNATURES_VERIFIED_REQUIRES_IDENTITY_SCOPE_AND_SCIENTIFIC_AUDIT"
-    )
+    assert summary.status == ("CRYPTOGRAPHIC_SIGNATURES_VERIFIED_REQUIRES_IDENTITY_SCOPE_AND_SCIENTIFIC_AUDIT")
     assert summary.verified_document_count == 3
-    receipt = json.loads(Path(paths["receipt_path"]).read_text(encoding="utf-8"))
+    receipt = json.loads(Path(cast(Path, paths["receipt_path"])).read_text(encoding="utf-8"))
     assert receipt["identity_authenticated"] is False
     assert receipt["scientific_submission_ready"] is False
 
 
 def test_signature_verification_rejects_reused_key_across_roles(tmp_path: Path) -> None:
     paths = _write_package(tmp_path)
-    registry_path = Path(paths["registry_path"])
+    registry_path = cast(Path, paths["registry_path"])
     registry = json.loads(registry_path.read_text(encoding="utf-8"))
     registry["signers"][1] = dict(registry["signers"][0])
     registry["signers"][1]["document_type"] = DOCUMENT_TYPES[1]
@@ -341,22 +333,18 @@ def test_signature_verification_rejects_reused_key_across_roles(tmp_path: Path) 
 
 def test_signature_verification_rejects_signature_bound_to_another_document(tmp_path: Path) -> None:
     paths = _write_package(tmp_path)
-    manifest_path = Path(paths["signature_manifest_path"])
+    manifest_path = cast(Path, paths["signature_manifest_path"])
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    manifest["signatures"][1]["signature_relative_path"] = manifest["signatures"][0][
-        "signature_relative_path"
-    ]
+    manifest["signatures"][1]["signature_relative_path"] = manifest["signatures"][0]["signature_relative_path"]
     _write_json(manifest_path, manifest)
 
-    with pytest.raises(
-        ExternalVerificationSignatureError, match="detached signature does not verify"
-    ):
+    with pytest.raises(ExternalVerificationSignatureError, match="detached signature does not verify"):
         _workflow(paths).run(strict=True)
 
 
 def test_signature_verification_refuses_to_overwrite_a_receipt(tmp_path: Path) -> None:
     paths = _write_package(tmp_path)
-    Path(paths["receipt_path"]).write_text("existing", encoding="utf-8")
+    cast(Path, paths["receipt_path"]).write_text("existing", encoding="utf-8")
 
     with pytest.raises(ExternalVerificationSignatureError, match="receipt path already exists"):
         _workflow(paths).run(strict=True)

@@ -35,9 +35,7 @@ class CounterfactualSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -76,9 +74,7 @@ class CounterfactualWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/counterfactuals_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/counterfactuals_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/counterfactuals"
 
     def _fixture(self) -> dict[str, Any]:
@@ -111,13 +107,9 @@ class CounterfactualWorkflow:
     def _inputs(self, fixture: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         expected = {
             "T076 M6 receipt": self.root / "reports/models/m6/m6_receipt.json",
-            "T090 functional axes receipt": (
-                self.root / "reports/omics/functional_axes/functional_axes_receipt.json"
-            ),
+            "T090 functional axes receipt": (self.root / "reports/omics/functional_axes/functional_axes_receipt.json"),
             "T091 mediation receipt": self.root / "reports/omics/mediation/mediation_receipt.json",
-            "T093 symbolic laws receipt": (
-                self.root / "reports/omics/symbolic_laws/symbolic_laws_receipt.json"
-            ),
+            "T093 symbolic laws receipt": (self.root / "reports/omics/symbolic_laws/symbolic_laws_receipt.json"),
             "T094 protocol effects receipt": (
                 self.root / "reports/omics/protocol_effects/protocol_effects_receipt.json"
             ),
@@ -128,20 +120,14 @@ class CounterfactualWorkflow:
             label = _string(row.get("label"), "counterfactual input label")
             if label not in expected:
                 raise CounterfactualError(f"unexpected counterfactual input: {label}")
-            path = (self.root / _string(row.get("path"), "counterfactual input path")).resolve(
-                strict=True
-            )
+            path = (self.root / _string(row.get("path"), "counterfactual input path")).resolve(strict=True)
             if path != expected[label].resolve(strict=True):
                 raise CounterfactualError(f"counterfactual input path mismatch: {label}")
-            if _sha256(path.read_bytes()) != _string(
-                row.get("sha256"), "counterfactual input checksum"
-            ):
+            if _sha256(path.read_bytes()) != _string(row.get("sha256"), "counterfactual input checksum"):
                 raise CounterfactualError(f"counterfactual input checksum differs: {label}")
             loaded[label] = _mapping(json.loads(path.read_text(encoding="utf-8")), label)
         if set(loaded) != set(expected):
-            raise CounterfactualError(
-                "counterfactual inputs do not match T076/T090/T091/T093/T094 contract"
-            )
+            raise CounterfactualError("counterfactual inputs do not match T076/T090/T091/T093/T094 contract")
         if loaded["T076 M6 receipt"].get("causal_claim_permitted") is not False:
             raise CounterfactualError("T076 causal claim downgrade is not preserved")
         if loaded["T090 functional axes receipt"].get("candidate_axes") != 2:
@@ -150,10 +136,7 @@ class CounterfactualWorkflow:
             raise CounterfactualError("T091 association-only status is not preserved")
         if loaded["T093 symbolic laws receipt"].get("status") != "VALID":
             raise CounterfactualError("T093 symbolic-law receipt is invalid")
-        if (
-            loaded["T094 protocol effects receipt"].get("language_status")
-            != "PROTOCOL_DEPENDENT_BOUNDARY"
-        ):
+        if loaded["T094 protocol effects receipt"].get("language_status") != "PROTOCOL_DEPENDENT_BOUNDARY":
             raise CounterfactualError("T094 protocol boundary status is not preserved")
         return loaded
 
@@ -197,24 +180,16 @@ class CounterfactualWorkflow:
                 {
                     "case_id": case_id,
                     "material_id": _string(row.get("material_id"), "counterfactual material ID"),
-                    "intervention_id": _string(
-                        row.get("intervention_id"), "counterfactual intervention ID"
-                    ),
+                    "intervention_id": _string(row.get("intervention_id"), "counterfactual intervention ID"),
                     "stratum": _string(row.get("stratum"), "counterfactual stratum"),
                     "split": _string(row.get("split"), "counterfactual split"),
                     "surface_norm": _number(row.get("surface_norm"), "counterfactual surface"),
-                    "functional_axis": _number(
-                        row.get("functional_axis"), "counterfactual functional axis"
-                    ),
+                    "functional_axis": _number(row.get("functional_axis"), "counterfactual functional axis"),
                     "positivity": row.get("positivity") is True,
                     "ood_distance": _number(row.get("ood_distance"), "counterfactual OOD distance"),
                     "model_linear": _number(row.get("model_linear"), "linear prediction"),
-                    "model_protocol_adjusted": _number(
-                        row.get("model_protocol_adjusted"), "protocol prediction"
-                    ),
-                    "uncertainty_linear": _number(
-                        row.get("uncertainty_linear"), "linear uncertainty"
-                    ),
+                    "model_protocol_adjusted": _number(row.get("model_protocol_adjusted"), "protocol prediction"),
+                    "uncertainty_linear": _number(row.get("uncertainty_linear"), "linear uncertainty"),
                     "uncertainty_protocol_adjusted": _number(
                         row.get("uncertainty_protocol_adjusted"), "protocol uncertainty"
                     ),
@@ -254,9 +229,7 @@ class CounterfactualWorkflow:
         fixture_data = self._fixture()
         self._inputs(fixture_data)
         rows = self._rows(fixture_data)
-        preregistration = _mapping(
-            fixture_data["preregistration"], "counterfactual preregistration"
-        )
+        preregistration = _mapping(fixture_data["preregistration"], "counterfactual preregistration")
         positivity_threshold = float(preregistration["positivity_threshold"])
         ood_threshold = float(preregistration["ood_threshold"])
         disagreement_threshold = float(preregistration["disagreement_threshold"])
@@ -310,9 +283,7 @@ class CounterfactualWorkflow:
         rank_maps: dict[str, dict[str, int]] = {}
         for model in models:
             prediction_key = "model_linear" if model == "linear" else "model_protocol_adjusted"
-            uncertainty_key = (
-                "uncertainty_linear" if model == "linear" else "uncertainty_protocol_adjusted"
-            )
+            uncertainty_key = "uncertainty_linear" if model == "linear" else "uncertainty_protocol_adjusted"
             predictions = {row["case_id"]: row[prediction_key] for row in supported}
             rank_map = self._rank(predictions)
             rank_maps[model] = rank_map
@@ -323,11 +294,7 @@ class CounterfactualWorkflow:
                         "rank": rank_map[case_id],
                         "prediction": round(predictions[case_id], 8),
                         "uncertainty": round(
-                            next(
-                                row[uncertainty_key]
-                                for row in supported
-                                if row["case_id"] == case_id
-                            ),
+                            next(row[uncertainty_key] for row in supported if row["case_id"] == case_id),
                             8,
                         ),
                     }
@@ -335,9 +302,7 @@ class CounterfactualWorkflow:
                 ],
                 "supported_only": True,
             }
-        rank_pairs, agreeing = self._pair_agreement(
-            rank_maps["linear"], rank_maps["protocol_adjusted"]
-        )
+        rank_pairs, agreeing = self._pair_agreement(rank_maps["linear"], rank_maps["protocol_adjusted"])
         rank_stability = round(agreeing / rank_pairs, 8) if rank_pairs else 1.0
         contradiction_rows: list[dict[str, Any]] = []
         category_counts: dict[str, int] = {}
@@ -363,9 +328,7 @@ class CounterfactualWorkflow:
         unresolved = category_counts.get("unresolved", 0)
         language_gate = {
             "schema_version": 1,
-            "status": (
-                "MODEL_BASED_HYPOTHESIS" if abstentions or unresolved else "SUPPORTED_RANKING"
-            ),
+            "status": ("MODEL_BASED_HYPOTHESIS" if abstentions or unresolved else "SUPPORTED_RANKING"),
             "universal_ranking_permitted": not (abstentions or unresolved),
             "abstention_required": bool(abstentions),
             "unresolved_contradictions": unresolved,
@@ -444,11 +407,7 @@ class CounterfactualWorkflow:
         for name, path in paths.items():
             path.write_bytes(payload_bytes[name])
             artifact_records[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -499,9 +458,7 @@ class CounterfactualWorkflow:
         }
         receipt_path.write_bytes(_canonical(receipt))
         receipt_relative = (
-            str(receipt_path.relative_to(self.root))
-            if receipt_path.is_relative_to(self.root)
-            else str(receipt_path)
+            str(receipt_path.relative_to(self.root)) if receipt_path.is_relative_to(self.root) else str(receipt_path)
         )
         manifest = {
             "schema_version": 1,

@@ -38,9 +38,7 @@ class CoverageSummary:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _sha256(data: bytes) -> str:
@@ -96,9 +94,7 @@ def _load_silver(root: Path) -> tuple[dict[tuple[str, str], dict[str, Any]], set
                 locator_values = json.loads(evidence_locators)
             except json.JSONDecodeError as exc:
                 raise DataCoverageError(f"Silver evidence JSON is invalid: {path}") from exc
-            if not isinstance(locator_values, list) or not all(
-                isinstance(locator, str) for locator in locator_values
-            ):
+            if not isinstance(locator_values, list) or not all(isinstance(locator, str) for locator in locator_values):
                 raise DataCoverageError(f"Silver evidence locator list is invalid: {path}")
             row["table"] = path.stem
             rows[(path.stem, primary_key)] = row
@@ -144,9 +140,7 @@ def _missingness_model(records: list[dict[str, Any]]) -> dict[str, Any]:
     )
     overall: dict[str, dict[str, Any]] = {}
     for field in fields:
-        missing_ids = [
-            str(record["study_id"]) for record in records if record.get(field) in (None, [], "")
-        ]
+        missing_ids = [str(record["study_id"]) for record in records if record.get(field) in (None, [], "")]
         overall[field] = {
             "missing_count": len(missing_ids),
             "missing_rate": len(missing_ids) / len(records) if records else 0.0,
@@ -163,13 +157,8 @@ def _missingness_model(records: list[dict[str, Any]]) -> dict[str, Any]:
                 "independent_studies": len(members),
                 "missingness": {
                     field: {
-                        "missing_count": sum(
-                            member.get(field) in (None, [], "") for member in members
-                        ),
-                        "missing_rate": sum(
-                            member.get(field) in (None, [], "") for member in members
-                        )
-                        / len(members),
+                        "missing_count": sum(member.get(field) in (None, [], "") for member in members),
+                        "missing_rate": sum(member.get(field) in (None, [], "") for member in members) / len(members),
                     }
                     for field in fields
                 },
@@ -286,9 +275,7 @@ class DataCoverageAuditor:
             accession = str(row["candidate_accession"])
             candidate_row = candidate_by_accession.get(accession)
             if candidate_row is None:
-                raise DataCoverageError(
-                    f"study candidate is absent from search registry: {accession}"
-                )
+                raise DataCoverageError(f"study candidate is absent from search registry: {accession}")
             if candidate_row.get("decision") != "ADMIT_PUBLIC_REDISTRIBUTABLE":
                 raise DataCoverageError(f"study candidate is not admitted: {accession}")
             represented_accessions.add(accession)
@@ -333,9 +320,7 @@ class DataCoverageAuditor:
             field_name = axis_fields.get(axis)
             if field_name is None:
                 raise DataCoverageError(f"unsupported expected axis: {axis}")
-            observed = {
-                label for label in _axis_values(records, field_name) if label != "__MISSING__"
-            }
+            observed = {label for label in _axis_values(records, field_name) if label != "__MISSING__"}
             for value in expected:
                 label = str(value)
                 if label not in observed:
@@ -344,9 +329,7 @@ class DataCoverageAuditor:
                             "gap_id": f"{axis}:{label}",
                             "dimension": axis,
                             "missing_value": value,
-                            "priority": (
-                                "HIGH" if axis in {"material", "endpoint", "date"} else "MEDIUM"
-                            ),
+                            "priority": ("HIGH" if axis in {"material", "endpoint", "date"} else "MEDIUM"),
                             "action": "targeted_search_or_scope_reduction",
                             "no_pseudo_replicates": True,
                         }
@@ -387,20 +370,13 @@ class DataCoverageAuditor:
                 {
                     "warning_id": "SEARCH_CANDIDATE_COVERAGE",
                     "severity": "HIGH",
-                    "reason": (
-                        "admitted search candidates are not all represented by "
-                        "independent study rows"
-                    ),
+                    "reason": ("admitted search candidates are not all represented by independent study rows"),
                     "affected_study_ids": [],
-                    "unrepresented_admitted_candidates": sorted(
-                        admitted_accessions - represented_accessions
-                    ),
+                    "unrepresented_admitted_candidates": sorted(admitted_accessions - represented_accessions),
                     "action": "resolve study identity or trigger targeted search",
                 }
             )
-        review_studies = [
-            str(record["study_id"]) for record in records if record["evidence_status"] != "USABLE"
-        ]
+        review_studies = [str(record["study_id"]) for record in records if record["evidence_status"] != "USABLE"]
         if review_studies:
             warnings.append(
                 {
@@ -418,14 +394,10 @@ class DataCoverageAuditor:
             "candidate_rows": len(candidates),
             "unique_candidate_ids": len({str(row.get("candidate_id")) for row in candidates}),
             "unique_accessions": len(candidate_by_accession),
-            "decision_counts": dict(
-                sorted(Counter(str(row.get("decision")) for row in candidates).items())
-            ),
+            "decision_counts": dict(sorted(Counter(str(row.get("decision")) for row in candidates).items())),
             "admitted_candidates": len(admitted_accessions),
             "represented_admitted_candidates": len(represented_accessions),
-            "unrepresented_admitted_candidates": sorted(
-                admitted_accessions - represented_accessions
-            ),
+            "unrepresented_admitted_candidates": sorted(admitted_accessions - represented_accessions),
             "candidate_rows_are_not_independent_study_units": True,
         }
         coverage_report = {
@@ -447,8 +419,7 @@ class DataCoverageAuditor:
             "warning_count": len(warnings),
             "gap_count": len(gaps),
             "bias_interpretation": (
-                "Warnings describe representation and missingness risks; "
-                "they are not causal estimates."
+                "Warnings describe representation and missingness risks; they are not causal estimates."
             ),
             "no_imputation": True,
             "locked_test_accessed": False,
@@ -461,12 +432,8 @@ class DataCoverageAuditor:
         }
         input_hashes = {
             "coverage_fixture": _sha256(self.fixture_path.read_bytes()),
-            "silver_manifest": _sha256(
-                (self.root / SILVER_RELEASE / "silver_manifest.json").read_bytes()
-            ),
-            "search_registry": _sha256(
-                (self.root / "registry/search_candidates.jsonl").read_bytes()
-            ),
+            "silver_manifest": _sha256((self.root / SILVER_RELEASE / "silver_manifest.json").read_bytes()),
+            "search_registry": _sha256((self.root / "registry/search_candidates.jsonl").read_bytes()),
         }
         self.output_root.mkdir(parents=True, exist_ok=True)
         outputs = {
@@ -496,9 +463,7 @@ class DataCoverageAuditor:
             independent_studies=len(records),
             admitted_candidates=len(admitted_accessions),
             represented_candidates=len(represented_accessions),
-            missing_values=sum(
-                int(details["missing_count"]) for details in missingness["overall"].values()
-            ),
+            missing_values=sum(int(details["missing_count"]) for details in missingness["overall"].values()),
             gaps=len(gaps),
             bias_warnings=len(warnings),
             coverage_path=self.output_root / "coverage_report.json",

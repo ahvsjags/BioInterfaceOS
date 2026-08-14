@@ -12,9 +12,10 @@ from __future__ import annotations
 import csv
 import json
 from collections import Counter
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 from biointerfaceos.r3_uniprot_mapping import _canonical, _checksum, _mapping, _sha256, _string
 
@@ -153,7 +154,9 @@ class R4T214SourceHeterogeneityWorkflow:
                     "upper_95": float(row["upper_95"]),
                     "display_lower_95": R4T214SourceHeterogeneityWorkflow._display(float(row["lower_95"])),
                     "display_upper_95": R4T214SourceHeterogeneityWorkflow._display(float(row["upper_95"])),
-                    "interval_semantics": R4T214SourceHeterogeneityWorkflow._interval_semantics(float(row["lower_95"]), float(row["upper_95"])),
+                    "interval_semantics": R4T214SourceHeterogeneityWorkflow._interval_semantics(
+                        float(row["lower_95"]), float(row["upper_95"])
+                    ),
                     "effect_status": R4T214SourceHeterogeneityWorkflow._effect_status(effect),
                     "claim_status": "DESCRIPTIVE_EXPLORATORY_ONLY",
                 }
@@ -242,20 +245,49 @@ class R4T214SourceHeterogeneityWorkflow:
             raise R4T214SourceHeterogeneityError("T214 protocol identity or claim boundary is invalid")
         input_references = self._input_references(protocol)
         t195 = self._fold_rows(
-            self._csv(self._reference(input_references["t195_paired_ablation"], "T195 paired ablation"), "T195 paired ablation"),
+            self._csv(
+                self._reference(input_references["t195_paired_ablation"], "T195 paired ablation"),
+                "T195 paired ablation",
+            ),
             route="T195_common_target_laboratory_holdout",
             source_field="held_out_laboratory_anchor",
         )
         t197 = self._fold_rows(
-            self._csv(self._reference(input_references["t197_paired_ablation"], "T197 paired ablation"), "T197 paired ablation"),
+            self._csv(
+                self._reference(input_references["t197_paired_ablation"], "T197 paired ablation"),
+                "T197 paired ablation",
+            ),
             route="T197_source_availability_sensitivity",
             source_field="held_out_source_id",
         )
-        t198 = self._csv(self._reference(input_references["t198_threshold_ablation"], "T198 threshold ablation"), "T198 threshold ablation")
-        t203_report = self._json(self._reference(input_references["t203_ood_report"], "T203 OOD report"), "T203 OOD report")
-        manchester_report = self._json(self._reference(input_references["manchester_ood_report"], "Manchester OOD report"), "Manchester OOD report")
-        t203 = [self._paper_row(t203_report, route="T203_paper_cohort_ood", source_id="PMC10257194", label="PMC10257194 paper cohort")]
-        manchester = [self._paper_row(manchester_report, route="T209_manchester_paper_cohort_ood", source_id="PMC13212878", label="PMC13212878 Manchester cohort")]
+        t198 = self._csv(
+            self._reference(input_references["t198_threshold_ablation"], "T198 threshold ablation"),
+            "T198 threshold ablation",
+        )
+        t203_report = self._json(
+            self._reference(input_references["t203_ood_report"], "T203 OOD report"),
+            "T203 OOD report",
+        )
+        manchester_report = self._json(
+            self._reference(input_references["manchester_ood_report"], "Manchester OOD report"),
+            "Manchester OOD report",
+        )
+        t203 = [
+            self._paper_row(
+                t203_report,
+                route="T203_paper_cohort_ood",
+                source_id="PMC10257194",
+                label="PMC10257194 paper cohort",
+            )
+        ]
+        manchester = [
+            self._paper_row(
+                manchester_report,
+                route="T209_manchester_paper_cohort_ood",
+                source_id="PMC13212878",
+                label="PMC13212878 Manchester cohort",
+            )
+        ]
         effects = [*t195, *t197, *t203, *manchester]
         primary = [*t195, *t203, *manchester]
         threshold_rows = [
@@ -275,11 +307,25 @@ class R4T214SourceHeterogeneityWorkflow:
             for row in t198
         ]
         fields = [
-            "route", "source_id", "source_label", "evidence_class", "independence_unit", "independence_status",
-            "measurement_batch_count", "biological_unit_count", "reported_paper_unit_count", "unit_count_semantics",
-            "effect_full_minus_composition_spearman", "display_effect",
-            "lower_95", "upper_95", "display_lower_95", "display_upper_95", "interval_semantics",
-            "effect_status", "claim_status",
+            "route",
+            "source_id",
+            "source_label",
+            "evidence_class",
+            "independence_unit",
+            "independence_status",
+            "measurement_batch_count",
+            "biological_unit_count",
+            "reported_paper_unit_count",
+            "unit_count_semantics",
+            "effect_full_minus_composition_spearman",
+            "display_effect",
+            "lower_95",
+            "upper_95",
+            "display_lower_95",
+            "display_upper_95",
+            "interval_semantics",
+            "effect_status",
+            "claim_status",
         ]
         output = self.output_root
         output.mkdir(parents=True, exist_ok=False)
@@ -297,7 +343,8 @@ class R4T214SourceHeterogeneityWorkflow:
             "primary_effect_status_counts": dict(sorted(statuses.items())),
             "primary_effect_minimum": min(float(row["effect_full_minus_composition_spearman"]) for row in primary),
             "primary_effect_maximum": max(float(row["effect_full_minus_composition_spearman"]) for row in primary),
-            "primary_effect_range": max(float(row["effect_full_minus_composition_spearman"]) for row in primary) - min(float(row["effect_full_minus_composition_spearman"]) for row in primary),
+            "primary_effect_range": max(float(row["effect_full_minus_composition_spearman"]) for row in primary)
+            - min(float(row["effect_full_minus_composition_spearman"]) for row in primary),
             "route_summaries": [
                 self._summary(t195, label="T195_common_target_laboratory_holdout"),
                 self._summary(t197, label="T197_source_availability_sensitivity"),
@@ -305,8 +352,12 @@ class R4T214SourceHeterogeneityWorkflow:
                 self._summary(manchester, label="T209_manchester_paper_cohort_ood"),
             ],
             "missingness_threshold_count": len(threshold_rows),
-            "missingness_effect_minimum": min(float(row["effect_full_minus_composition_spearman"]) for row in threshold_rows),
-            "missingness_effect_maximum": max(float(row["effect_full_minus_composition_spearman"]) for row in threshold_rows),
+            "missingness_effect_minimum": min(
+                float(str(row["effect_full_minus_composition_spearman"])) for row in threshold_rows
+            ),
+            "missingness_effect_maximum": max(
+                float(str(row["effect_full_minus_composition_spearman"])) for row in threshold_rows
+            ),
             "pooling_policy": "PROHIBITED_ACROSS_NON_INDEPENDENT_ROUTES",
             "primary_estimand": protocol["primary_estimand"],
             "claim_status": "DESCRIPTIVE_EXPLORATORY_ONLY",
@@ -355,7 +406,13 @@ class R4T214SourceHeterogeneityWorkflow:
         }
         receipt_path = output / "t214_source_heterogeneity_receipt.json"
         self._write_json(receipt_path, receipt)
-        return R4T214SourceHeterogeneitySummary(len(effects), len(primary), statuses.get("POSITIVE", 0), statuses.get("NEGATIVE", 0), receipt_path)
+        return R4T214SourceHeterogeneitySummary(
+            len(effects),
+            len(primary),
+            statuses.get("POSITIVE", 0),
+            statuses.get("NEGATIVE", 0),
+            receipt_path,
+        )
 
     def verify(self, *, strict: bool = True) -> R4T214SourceHeterogeneitySummary:
         if not strict:

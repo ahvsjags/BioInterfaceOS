@@ -35,18 +35,10 @@ def test_design_baseline_preserves_invalid_and_ood_audits(tmp_path: Path) -> Non
     workflow = DesignBaselineWorkflow(root, output_root=tmp_path / "baseline")
     workflow.run(fixture=True)
 
-    candidates = json.loads(
-        (tmp_path / "baseline" / "candidate_ledger.json").read_text(encoding="utf-8")
-    )
-    penalties = json.loads(
-        (tmp_path / "baseline" / "penalty_audit.json").read_text(encoding="utf-8")
-    )
-    controls = json.loads(
-        (tmp_path / "baseline" / "control_recovery.json").read_text(encoding="utf-8")
-    )
-    abstentions = json.loads(
-        (tmp_path / "baseline" / "abstention_ledger.json").read_text(encoding="utf-8")
-    )
+    candidates = json.loads((tmp_path / "baseline" / "candidate_ledger.json").read_text(encoding="utf-8"))
+    penalties = json.loads((tmp_path / "baseline" / "penalty_audit.json").read_text(encoding="utf-8"))
+    controls = json.loads((tmp_path / "baseline" / "control_recovery.json").read_text(encoding="utf-8"))
+    abstentions = json.loads((tmp_path / "baseline" / "abstention_ledger.json").read_text(encoding="utf-8"))
     assert {item["reason"] for item in candidates["invalid"]} == {
         "simplex_violation",
         "charge_not_neutral",

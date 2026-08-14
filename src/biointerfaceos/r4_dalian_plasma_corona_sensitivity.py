@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import csv
 import json
-import math
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from pathlib import Path, PurePosixPath
@@ -13,7 +12,11 @@ from typing import Any
 import numpy as np
 
 from biointerfaceos.r3_analysis_protocol import R3AnalysisProtocolWorkflow
-from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError, R3ModelEvaluationWorkflow, _Observation
+from biointerfaceos.r3_model_evaluation import (
+    R3ModelEvaluationError,
+    R3ModelEvaluationWorkflow,
+    _Observation,
+)
 from biointerfaceos.r3_uniprot_mapping import _canonical, _checksum, _mapping, _sha256, _string
 
 
@@ -77,24 +80,64 @@ class R4DalianPlasmaCoronaSensitivityWorkflow:
 
     def _protocol(self) -> tuple[dict[str, Any], dict[str, Path]]:
         protocol = self._json(self.protocol_path, "R4 Dalian sensitivity protocol")
-        required = {"schema_version", "protocol_id", "frozen_at", "evidence_class", "allowed_claim_level", "references", "target", "external_evaluation", "models", "uncertainty", "negative_control", "claim_boundary"}
-        if set(protocol) != required or protocol.get("schema_version") != 1 or protocol.get("protocol_id") != self.AUDIT_ID:
+        required = {
+            "schema_version",
+            "protocol_id",
+            "frozen_at",
+            "evidence_class",
+            "allowed_claim_level",
+            "references",
+            "target",
+            "external_evaluation",
+            "models",
+            "uncertainty",
+            "negative_control",
+            "claim_boundary",
+        }
+        if (
+            set(protocol) != required
+            or protocol.get("schema_version") != 1
+            or protocol.get("protocol_id") != self.AUDIT_ID
+        ):
             raise R4DalianPlasmaCoronaSensitivityError("sensitivity protocol identity is invalid")
-        if protocol.get("evidence_class") != "DEVELOPMENT_OBSERVATION" or protocol.get("allowed_claim_level") != "EXPLORATORY":
+        if (
+            protocol.get("evidence_class") != "DEVELOPMENT_OBSERVATION"
+            or protocol.get("allowed_claim_level") != "EXPLORATORY"
+        ):
             raise R4DalianPlasmaCoronaSensitivityError("sensitivity evidence boundary is invalid")
         refs = _mapping(protocol["references"], "sensitivity references")
-        if set(refs) != {"r3_analysis_protocol_receipt", "r3_common_target_ledger", "r3_sequence_feature_table", "r4_source_audit_receipt", "r4_source_cell_map"}:
+        if set(refs) != {
+            "r3_analysis_protocol_receipt",
+            "r3_common_target_ledger",
+            "r3_sequence_feature_table",
+            "r4_source_audit_receipt",
+            "r4_source_cell_map",
+        }:
             raise R4DalianPlasmaCoronaSensitivityError("sensitivity references are invalid")
         paths = {key: self._reference(value, key) for key, value in refs.items()}
-        if _mapping(protocol["target"], "sensitivity target")["target_id"] != "R4_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE":
+        if (
+            _mapping(protocol["target"], "sensitivity target")["target_id"]
+            != "R4_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE"
+        ):
             raise R4DalianPlasmaCoronaSensitivityError("sensitivity target is invalid")
         external = _mapping(protocol["external_evaluation"], "sensitivity external contract")
-        if external.get("source_id") != "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA" or external.get("expected_measurement_batch_count") != 6 or external.get("expected_shared_canonical_protein_count") != 22 or external.get("small_n_sensitivity_only") is not True:
+        if (
+            external.get("source_id") != "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA"
+            or external.get("expected_measurement_batch_count") != 6
+            or external.get("expected_shared_canonical_protein_count") != 22
+            or external.get("small_n_sensitivity_only") is not True
+        ):
             raise R4DalianPlasmaCoronaSensitivityError("sensitivity external contract is invalid")
         if protocol["models"] != [
             {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
-            {"model_id": "SEQUENCE_RIDGE_FULL", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
-            {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+            {
+                "model_id": "SEQUENCE_RIDGE_FULL",
+                "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+            },
+            {
+                "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
+                "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]},
+            },
         ]:
             raise R4DalianPlasmaCoronaSensitivityError("sensitivity model contract is invalid")
         return protocol, paths
@@ -118,12 +161,17 @@ class R4DalianPlasmaCoronaSensitivityWorkflow:
                 by_batch[_string(row.get("measurement_batch_id"), "measurement batch")].append(row)
         observations: list[_Observation] = []
         for batch, batch_rows in sorted(by_batch.items()):
-            ordered = sorted(batch_rows, key=lambda row: (-float(row["author_numeric_value"]), row["source_coordinate"]))
+            ordered = sorted(
+                batch_rows,
+                key=lambda row: (-float(row["author_numeric_value"]), row["source_coordinate"]),
+            )
             count = len(ordered)
             start = 0
             while start < count:
                 end = start + 1
-                while end < count and float(ordered[end]["author_numeric_value"]) == float(ordered[start]["author_numeric_value"]):
+                while end < count and float(ordered[end]["author_numeric_value"]) == float(
+                    ordered[start]["author_numeric_value"]
+                ):
                     end += 1
                 midrank = (start + 1 + end) / 2.0
                 target = 0.5 if count == 1 else (count - midrank) / (count - 1)
@@ -152,8 +200,14 @@ class R4DalianPlasmaCoronaSensitivityWorkflow:
         protocol, paths = self._protocol()
         try:
             R3AnalysisProtocolWorkflow(self.root, self.root / "data/raw").verify()
-            helper = R3ModelEvaluationWorkflow(self.root, self.root / "data/raw", self.root / "data/raw/r3_uniprot_sequence_features")
-            development, development_accessions = helper._observations(paths["r3_common_target_ledger"], paths["r3_sequence_feature_table"])
+            helper = R3ModelEvaluationWorkflow(
+                self.root,
+                self.root / "data/raw",
+                self.root / "data/raw/r3_uniprot_sequence_features",
+            )
+            development, development_accessions = helper._observations(
+                paths["r3_common_target_ledger"], paths["r3_sequence_feature_table"]
+            )
         except (R3ModelEvaluationError, OSError) as exc:
             raise R4DalianPlasmaCoronaSensitivityError("frozen R3 development inputs are invalid") from exc
         source_rows = self._read_csv(paths["r4_source_cell_map"], "Dalian source cell map")
@@ -165,13 +219,25 @@ class R4DalianPlasmaCoronaSensitivityWorkflow:
         for row in external_raw:
             if row.canonical_accession not in feature_values:
                 raise R4DalianPlasmaCoronaSensitivityError("Dalian target lacks frozen sequence features")
-            external.append(_Observation(row.target_observation_id, row.source_id, row.canonical_accession, row.laboratory_anchor, row.measurement_batch_id, row.target, feature_values[row.canonical_accession]))
+            external.append(
+                _Observation(
+                    row.target_observation_id,
+                    row.source_id,
+                    row.canonical_accession,
+                    row.laboratory_anchor,
+                    row.measurement_batch_id,
+                    row.target,
+                    feature_values[row.canonical_accession],
+                )
+            )
         if len(external) != 109 or len({row.measurement_batch_id for row in external}) != 6:
             raise R4DalianPlasmaCoronaSensitivityError("Dalian sensitivity target accounting differs")
         full_indices = tuple(range(len(helper.FEATURE_NAMES)))
         composition_indices = tuple(helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES)
         full_alpha, full_selection = helper._select_alpha(development, full_indices, minimum_proteins=10)
-        composition_alpha, composition_selection = helper._select_alpha(development, composition_indices, minimum_proteins=10)
+        composition_alpha, composition_selection = helper._select_alpha(
+            development, composition_indices, minimum_proteins=10
+        )
         full_model = helper._fit_ridge(development, full_indices, full_alpha)
         composition_model = helper._fit_ridge(development, composition_indices, composition_alpha)
         predictions = {
@@ -184,13 +250,33 @@ class R4DalianPlasmaCoronaSensitivityWorkflow:
         for model_id in self.MODEL_IDS:
             rows = helper._batch_metrics(external, predictions[model_id], minimum_proteins=10)
             aggregate = helper._aggregate(rows)
-            metrics[model_id] = {"external_observation_count": len(external), "external_measurement_batch_count": len(rows), **aggregate}
+            metrics[model_id] = {
+                "external_observation_count": len(external),
+                "external_measurement_batch_count": len(rows),
+                **aggregate,
+            }
             batch_metrics.extend({"model_id": model_id, **row} for row in rows)
-        full_by_batch = {row["measurement_batch_id"]: float(row["spearman"]) for row in batch_metrics if row["model_id"] == "SEQUENCE_RIDGE_FULL"}
-        comp_by_batch = {row["measurement_batch_id"]: float(row["spearman"]) for row in batch_metrics if row["model_id"] == "SEQUENCE_RIDGE_COMPOSITION_ONLY"}
+        full_by_batch = {
+            row["measurement_batch_id"]: float(row["spearman"])
+            for row in batch_metrics
+            if row["model_id"] == "SEQUENCE_RIDGE_FULL"
+        }
+        comp_by_batch = {
+            row["measurement_batch_id"]: float(row["spearman"])
+            for row in batch_metrics
+            if row["model_id"] == "SEQUENCE_RIDGE_COMPOSITION_ONLY"
+        }
         differences = [full_by_batch[key] - comp_by_batch[key] for key in sorted(full_by_batch)]
         uncertainty = protocol["uncertainty"]
-        ablation = {"paired_measurement_batch_count": len(differences), "full_minus_composition_mean_spearman": float(np.mean(differences)), **helper._bootstrap(differences, resamples=int(uncertainty["resamples"]), seed=int(uncertainty["random_seed"]) + 701)}
+        ablation = {
+            "paired_measurement_batch_count": len(differences),
+            "full_minus_composition_mean_spearman": float(np.mean(differences)),
+            **helper._bootstrap(
+                differences,
+                resamples=int(uncertainty["resamples"]),
+                seed=int(uncertainty["random_seed"]) + 701,
+            ),
+        }
         observed_targets = np.asarray([row.target for row in development], dtype=float)
         by_development_batch: dict[str, list[int]] = defaultdict(list)
         for index, row in enumerate(development):
@@ -202,21 +288,79 @@ class R4DalianPlasmaCoronaSensitivityWorkflow:
             for indices in by_development_batch.values():
                 permuted[indices] = rng.permutation(permuted[indices])
             null_model = helper._fit_ridge(development, full_indices, full_alpha, targets=permuted)
-            score = helper._aggregate(helper._batch_metrics(external, helper._predict_ridge(null_model, external), minimum_proteins=10))["mean_spearman"]
+            score = helper._aggregate(
+                helper._batch_metrics(external, helper._predict_ridge(null_model, external), minimum_proteins=10)
+            )["mean_spearman"]
             if score is None:
                 raise R4DalianPlasmaCoronaSensitivityError("Dalian negative-control metric is undefined")
             null_scores.append(float(score))
         observed = float(metrics["SEQUENCE_RIDGE_FULL"]["mean_spearman"])
-        negative = {"observed_mean_spearman": observed, "null_mean_spearman_mean": float(np.mean(null_scores)), "null_mean_spearman_lower_95": float(np.quantile(null_scores, 0.025)), "null_mean_spearman_upper_95": float(np.quantile(null_scores, 0.975)), "one_sided_upper_tail_p": float((1 + sum(value >= observed for value in null_scores)) / (1 + len(null_scores)))}
+        negative = {
+            "observed_mean_spearman": observed,
+            "null_mean_spearman_mean": float(np.mean(null_scores)),
+            "null_mean_spearman_lower_95": float(np.quantile(null_scores, 0.025)),
+            "null_mean_spearman_upper_95": float(np.quantile(null_scores, 0.975)),
+            "one_sided_upper_tail_p": float(
+                (1 + sum(value >= observed for value in null_scores)) / (1 + len(null_scores))
+            ),
+        }
         self.output_root.mkdir(parents=True, exist_ok=False)
         metrics_path = self.output_root / "dalian_sensitivity_model_metrics.json"
         batch_path = self.output_root / "dalian_sensitivity_batch_metrics.csv"
         self._write(metrics_path, metrics)
-        self._write_csv(batch_path, ["model_id", "measurement_batch_id", "protein_count", "spearman", "mae", "rmse"], batch_metrics)
-        report = {"schema_version": 1, "audit_id": self.AUDIT_ID, "protocol_sha256": _sha256(self.protocol_path), "status": "R4_DALIAN_SMALL_N_SENSITIVITY_EXECUTED_EXPLORATORY", "development_observation_count": len(development), "development_canonical_protein_count": len(development_accessions), "external_observation_count": len(external), "external_measurement_batch_count": len({row.measurement_batch_id for row in external}), "model_metrics": metrics, "paired_composition_ablation": ablation, "negative_control": negative, "artifacts": {"model_metrics": {"relative_path": metrics_path.relative_to(self.root).as_posix(), "sha256": _sha256(metrics_path)}, "batch_metrics": {"relative_path": batch_path.relative_to(self.root).as_posix(), "sha256": _sha256(batch_path)}}, "model_fitted": True, "independent_validation": False, "external_scientific_reproduction": False, "scientific_submission_ready": False, "claim_boundary": protocol["claim_boundary"]}
+        self._write_csv(
+            batch_path,
+            ["model_id", "measurement_batch_id", "protein_count", "spearman", "mae", "rmse"],
+            batch_metrics,
+        )
+        report = {
+            "schema_version": 1,
+            "audit_id": self.AUDIT_ID,
+            "protocol_sha256": _sha256(self.protocol_path),
+            "status": "R4_DALIAN_SMALL_N_SENSITIVITY_EXECUTED_EXPLORATORY",
+            "development_observation_count": len(development),
+            "development_canonical_protein_count": len(development_accessions),
+            "external_observation_count": len(external),
+            "external_measurement_batch_count": len({row.measurement_batch_id for row in external}),
+            "model_metrics": metrics,
+            "paired_composition_ablation": ablation,
+            "negative_control": negative,
+            "artifacts": {
+                "model_metrics": {
+                    "relative_path": metrics_path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(metrics_path),
+                },
+                "batch_metrics": {
+                    "relative_path": batch_path.relative_to(self.root).as_posix(),
+                    "sha256": _sha256(batch_path),
+                },
+            },
+            "model_fitted": True,
+            "independent_validation": False,
+            "external_scientific_reproduction": False,
+            "scientific_submission_ready": False,
+            "claim_boundary": protocol["claim_boundary"],
+        }
         report_path = self.output_root / "dalian_sensitivity_report.json"
         self._write(report_path, report)
-        receipt = {"schema_version": 1, "audit_id": self.AUDIT_ID, "status": report["status"], "report_sha256": _sha256(report_path), "model_fitted": True, "independent_validation": False, "external_scientific_reproduction": False, "scientific_submission_ready": False, "external_measurement_batch_count": 6}
+        receipt = {
+            "schema_version": 1,
+            "audit_id": self.AUDIT_ID,
+            "status": report["status"],
+            "report_sha256": _sha256(report_path),
+            "model_fitted": True,
+            "independent_validation": False,
+            "external_scientific_reproduction": False,
+            "scientific_submission_ready": False,
+            "external_measurement_batch_count": 6,
+        }
         receipt_path = self.output_root / "dalian_sensitivity_receipt.json"
         self._write(receipt_path, receipt)
-        return {"external_observation_count": len(external), "external_measurement_batch_count": 6, "model_metrics": metrics, "paired_composition_ablation": ablation, "negative_control": negative, "receipt_path": receipt_path}
+        return {
+            "external_observation_count": len(external),
+            "external_measurement_batch_count": 6,
+            "model_metrics": metrics,
+            "paired_composition_ablation": ablation,
+            "negative_control": negative,
+            "receipt_path": receipt_path,
+        }

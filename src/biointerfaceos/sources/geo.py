@@ -126,10 +126,7 @@ def _accessions(values: tuple[str, ...], prefixes: tuple[str, ...]) -> tuple[str
         for token in value.replace(",", " ").replace(";", " ").replace(":", " ").split():
             token_upper = token.upper().strip("()[]")
             if (
-                any(
-                    token_upper.startswith(prefix) and token_upper[len(prefix) :].isdigit()
-                    for prefix in prefixes
-                )
+                any(token_upper.startswith(prefix) and token_upper[len(prefix) :].isdigit() for prefix in prefixes)
                 and token_upper not in found
             ):
                 found.append(token_upper)
@@ -198,10 +195,7 @@ class GeoSraAdapter(SourceAdapter):
     def _normalize_accession(value: str) -> str:
         accession = value.strip().upper()
         prefixes = ("GSE", "GSM", "SRP", "SRR")
-        if not any(
-            accession.startswith(prefix) and accession[len(prefix) :].isdigit()
-            for prefix in prefixes
-        ):
+        if not any(accession.startswith(prefix) and accession[len(prefix) :].isdigit() for prefix in prefixes):
             raise AdapterError("GEO/SRA query requires GSE, GSM, SRP, or SRR accession")
         return accession
 
@@ -240,9 +234,7 @@ class GeoSraAdapter(SourceAdapter):
             raise AdapterError("SRA RunInfo response is invalid CSV") from exc
         if not rows:
             raise AdapterError("SRA RunInfo response has no rows")
-        normalized = tuple(
-            {str(key): str(value or "").strip() for key, value in row.items()} for row in rows
-        )
+        normalized = tuple({str(key): str(value or "").strip() for key, value in row.items()} for row in rows)
         return normalized, response_sha256
 
     def _runinfo(self, accession: str) -> tuple[dict[str, str], ...]:
@@ -443,9 +435,7 @@ class GeoSraAdapter(SourceAdapter):
         sha256: str | None,
     ) -> AssetDescriptor:
         public_url = GeoSraAdapter._public_url(url)
-        asset_id = hashlib.sha256(
-            f"{candidate.source_id}|{asset_type}|{public_url}".encode()
-        ).hexdigest()
+        asset_id = hashlib.sha256(f"{candidate.source_id}|{asset_type}|{public_url}".encode()).hexdigest()
         return AssetDescriptor(
             asset_id=asset_id,
             source_id=candidate.source_id,
@@ -471,9 +461,7 @@ class GeoSraAdapter(SourceAdapter):
         prefix = accession[:3]
         digits = accession[3:]
         range_dir = prefix + (digits[:-3] if len(digits) > 3 else "") + "nnn"
-        return (
-            f"https://ftp.ncbi.nlm.nih.gov/geo/series/{range_dir}/{accession}/{folder}/{filename}"
-        )
+        return f"https://ftp.ncbi.nlm.nih.gov/geo/series/{range_dir}/{accession}/{folder}/{filename}"
 
 
 if __name__ == "__main__":

@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import hashlib
 import json
 import math
-from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any
@@ -79,7 +79,13 @@ class PXD017052SourceCellAuditWorkflow:
         "expected_explicit_zero_lfq_cells",
     }
     REQUIRED_MAP = {"particle", "result_unit_id", "assay_replicate"}
-    REQUIRED_SCOPE = {"admission_status", "data_semantics", "prohibited_use", "model_status", "scientific_submission_ready"}
+    REQUIRED_SCOPE = {
+        "admission_status",
+        "data_semantics",
+        "prohibited_use",
+        "model_status",
+        "scientific_submission_ready",
+    }
 
     def __init__(
         self,
@@ -154,9 +160,22 @@ class PXD017052SourceCellAuditWorkflow:
         table = _mapping(registry.get("table"), "R3 PXD017052 table")
         if set(table) != self.REQUIRED_TABLE or table.get("asset_id") not in assets:
             raise PXD017052SourceCellAuditError("R3 PXD017052 table fields are invalid")
-        for field in ("worksheet", "title_cell", "title_value", "protein_identifier_column", "lfq_header_prefix"):
+        for field in (
+            "worksheet",
+            "title_cell",
+            "title_value",
+            "protein_identifier_column",
+            "lfq_header_prefix",
+        ):
             _string(table.get(field), f"R3 PXD017052 table {field}")
-        for field in self.REQUIRED_TABLE - {"asset_id", "worksheet", "title_cell", "title_value", "protein_identifier_column", "lfq_header_prefix"}:
+        for field in self.REQUIRED_TABLE - {
+            "asset_id",
+            "worksheet",
+            "title_cell",
+            "title_value",
+            "protein_identifier_column",
+            "lfq_header_prefix",
+        }:
             if not isinstance(table.get(field), int) or table[field] < 0:
                 raise PXD017052SourceCellAuditError("R3 PXD017052 table count is invalid")
         map_by_unit: dict[str, dict[str, Any]] = {}
@@ -180,7 +199,10 @@ class PXD017052SourceCellAuditWorkflow:
             or scope.get("scientific_submission_ready") is not False
         ):
             raise PXD017052SourceCellAuditError("R3 PXD017052 scope is over-promoted or invalid")
-        if any(not isinstance(item, str) or not item.strip() for item in _list(scope.get("prohibited_use"), "R3 PXD017052 prohibited use", minimum=2)):
+        if any(
+            not isinstance(item, str) or not item.strip()
+            for item in _list(scope.get("prohibited_use"), "R3 PXD017052 prohibited use", minimum=2)
+        ):
             raise PXD017052SourceCellAuditError("R3 PXD017052 scope list is invalid")
         return registry, assets, map_by_unit
 
@@ -252,10 +274,8 @@ class PXD017052SourceCellAuditWorkflow:
         except OSError as exc:
             raise PXD017052SourceCellAuditError("R3 PXD017052 workbook cannot be read") from exc
         finally:
-            try:
+            with contextlib.suppress(UnboundLocalError):
                 workbook.close()
-            except UnboundLocalError:
-                pass
         return rows, numeric_count, source_blank_count, explicit_zero_count
 
     def run(self, *, strict: bool = False) -> PXD017052SourceCellAuditSummary:
@@ -265,9 +285,7 @@ class PXD017052SourceCellAuditWorkflow:
             raise PXD017052SourceCellAuditError("R3 PXD017052 source-cell audit already executed")
         registry, assets, unit_map = self._registry()
         table = _mapping(registry["table"], "R3 PXD017052 table")
-        rows, numeric_count, blank_count, zero_count = self._source_cells(
-            assets[table["asset_id"]], table, unit_map
-        )
+        rows, numeric_count, blank_count, zero_count = self._source_cells(assets[table["asset_id"]], table, unit_map)
         expected = (
             table["expected_lfq_cells"],
             table["expected_numeric_lfq_cells"],
@@ -275,10 +293,7 @@ class PXD017052SourceCellAuditWorkflow:
             table["expected_explicit_zero_lfq_cells"],
         )
         observed = (len(rows), numeric_count, blank_count, zero_count)
-        if (
-            len(rows) // len(unit_map) != table["expected_protein_rows"]
-            or observed != expected
-        ):
+        if len(rows) // len(unit_map) != table["expected_protein_rows"] or observed != expected:
             raise PXD017052SourceCellAuditError("R3 PXD017052 source-cell counts do not match registry")
         source_map = self.assets_root / self.DERIVED_RELATIVE
         if source_map.exists():
@@ -309,8 +324,8 @@ class PXD017052SourceCellAuditWorkflow:
             "source_to_cell_map": {
                 "location": self.DERIVED_RELATIVE,
                 "sha256": _sha256(source_map),
-                "coordinate_definition": "Every output record retains its original LFQ cell address and explicit published unit-to-particle mapping.",
-                "transformation": "openpyxl read_only/data_only extraction; no imputation, zero-to-missing conversion, abundance scaling or protein remapping.",
+                "coordinate_definition": "Every output record retains its original LFQ cell address and explicit published unit-to-particle mapping.",  # noqa: E501
+                "transformation": "openpyxl read_only/data_only extraction; no imputation, zero-to-missing conversion, abundance scaling or protein remapping.",  # noqa: E501
             },
             "status": self.STATUS,
             "target_status": "SOURCE_NATIVE_CCBY_ONLY",

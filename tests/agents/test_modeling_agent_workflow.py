@@ -20,9 +20,7 @@ def test_modeling_agent_executes_valid_plan_and_rejects_hacks() -> None:
     assert summary.splits_unchanged is True
     assert summary.selected_pipeline == "modeling_agent"
 
-    plans = json.loads(
-        (root / "reports/agents/modeling/modeling_plans.json").read_text(encoding="utf-8")
-    )
+    plans = json.loads((root / "reports/agents/modeling/modeling_plans.json").read_text(encoding="utf-8"))
     executed = [row for row in plans["plans"] if row["status"] == "EXECUTE"]
     assert len(executed) == 1
     assert executed[0]["claim_accepted"] is False
@@ -32,14 +30,10 @@ def test_modeling_agent_preserves_split_and_records_rejections() -> None:
     root = Path(__file__).parents[2]
     ModelingAgentWorkflow(root).run(fixture=True)
 
-    split_audit = json.loads(
-        (root / "reports/agents/modeling/split_integrity_audit.json").read_text(encoding="utf-8")
-    )
+    split_audit = json.loads((root / "reports/agents/modeling/split_integrity_audit.json").read_text(encoding="utf-8"))
     assert split_audit["unchanged"] is True
     assert split_audit["before_sha256"] == split_audit["after_sha256"]
-    rejections = json.loads(
-        (root / "reports/agents/modeling/modeling_rejections.json").read_text(encoding="utf-8")
-    )
+    rejections = json.loads((root / "reports/agents/modeling/modeling_rejections.json").read_text(encoding="utf-8"))
     assert {row["rejection_reason"] for row in rejections["rejections"]} == {
         "METRIC_HACKING",
         "SPLIT_MODIFICATION",

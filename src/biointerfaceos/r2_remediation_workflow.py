@@ -35,9 +35,7 @@ class R2RemediationSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -51,6 +49,12 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
     if not isinstance(value, Mapping):
         raise R2RemediationError(f"{label} must be an object")
     return dict(value)
+
+
+def _string(value: Any, label: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise R2RemediationError(f"{label} must be a non-empty string")
+    return value.strip()
 
 
 @dataclass(frozen=True)
@@ -98,8 +102,7 @@ class R2RemediationWorkflow:
             "T131 PXD017052 source-data receipt",
         ),
         "pxd017052_complete_attachments": (
-            "reports/review_round_2/pxd017052_complete_attachments/v1.0.0/"
-            "complete_attachment_receipt.json",
+            "reports/review_round_2/pxd017052_complete_attachments/v1.0.0/complete_attachment_receipt.json",
             "T132 PXD017052 complete-attachment correction receipt",
         ),
         "independent": (
@@ -127,8 +130,7 @@ class R2RemediationWorkflow:
             "R2 acceptance-readiness receipt",
         ),
         "external_handoff": (
-            "reports/review_round_2/external_evidence_handoff/v1.10.0/"
-            "external_evidence_handoff_receipt.json",
+            "reports/review_round_2/external_evidence_handoff/v1.10.0/external_evidence_handoff_receipt.json",
             "T133/T135/T136 external-evidence handoff receipt",
         ),
         "t143_external_gate_path_report": (
@@ -235,8 +237,7 @@ class R2RemediationWorkflow:
             "R2-01",
         )
         self._require(
-            t129_current_target_evidence.get("status")
-            == "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
+            t129_current_target_evidence.get("status") == "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET"
             and t129_current_target_evidence.get("candidate_source_count") == 8
             and t129_current_target_evidence.get("candidate_laboratory_count") == 5
             and t129_current_target_evidence.get("verified_source_asset_count") == 31
@@ -247,8 +248,7 @@ class R2RemediationWorkflow:
             "R2-01",
         )
         self._require(
-            t142_asset_report.get("status")
-            == "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
+            t142_asset_report.get("status") == "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
             and t142_asset_report.get("asset_count") == 5
             and t142_asset_report.get("source_count") == 2
             and t142_asset_report.get("byte_verified_asset_count") == 0
@@ -269,8 +269,7 @@ class R2RemediationWorkflow:
             "R2-01 T142 asset audit",
         )
         self._require(
-            pxd017052_source_data.get("status")
-            == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
+            pxd017052_source_data.get("status") == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
             and pxd017052_source_data.get("official_asset_count") == 4
             and pxd017052_source_data.get("result_to_raw_match_count") == 9
             and pxd017052_source_data.get("explicit_raw_to_particle_map_count") == 0
@@ -280,12 +279,10 @@ class R2RemediationWorkflow:
             "R2-01",
         )
         self._require(
-            pxd017052_complete_attachments.get("status")
-            == "VERIFIED_COMPLETE_UNIT_TO_PARTICLE_MAP_SINGLE_LAB_CCBY"
+            pxd017052_complete_attachments.get("status") == "VERIFIED_COMPLETE_UNIT_TO_PARTICLE_MAP_SINGLE_LAB_CCBY"
             and pxd017052_complete_attachments.get("extension_asset_count") == 8
             and pxd017052_complete_attachments.get("explicit_unit_to_particle_map_count") == 9
-            and pxd017052_complete_attachments.get("admission")
-            == "NOT_ADMITTED_PENDING_CCBY_AMENDMENT_AND_SECOND_LAB"
+            and pxd017052_complete_attachments.get("admission") == "NOT_ADMITTED_PENDING_CCBY_AMENDMENT_AND_SECOND_LAB"
             and pxd017052_complete_attachments.get("cc0_cohort_status") == "UNCHANGED"
             and pxd017052_complete_attachments.get("model_use") == "PROHIBITED",
             "R2-01",
@@ -304,8 +301,7 @@ class R2RemediationWorkflow:
             admission.get("status") == "BLOCKED_NO_CC0_COMMON_TARGET"
             and admission.get("admissible_target_count") == 0
             and admission.get("target_status") == "NOT_FROZEN"
-            and discovery.get("status")
-            == "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
+            and discovery.get("status") == "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
             and discovery.get("admissible_target_count") == 0
             and discovery.get("target_status") == "NOT_FROZEN",
             "R2-01",
@@ -372,8 +368,7 @@ class R2RemediationWorkflow:
         )
         self._require(
             t143_gate_report.get("status") == "PASS_R2_EXTERNAL_GATE_PATH_AUDIT"
-            and t143_gate_report.get("gate_status")
-            == "READY_FOR_EXTERNAL_HANDOFF_WITH_EXTERNAL_GATES_OPEN"
+            and t143_gate_report.get("gate_status") == "READY_FOR_EXTERNAL_HANDOFF_WITH_EXTERNAL_GATES_OPEN"
             and t143_gate_report.get("stage_count") == 6
             and t143_gate_report.get("reference_count") == 13
             and t143_gate_report.get("command_count") == 6
@@ -519,8 +514,7 @@ class R2RemediationWorkflow:
             "reviewer_ledger_path": self.LEDGER_RELATIVE,
             "reviewer_ledger_sha256": ledger_sha256,
             "source_receipts": {
-                key: {"path": source.relative, "sha256": source.sha256}
-                for key, source in sources.items()
+                key: {"path": source.relative, "sha256": source.sha256} for key, source in sources.items()
             },
             "finding_count": len(findings),
             "open_finding_count": 3,
@@ -547,11 +541,9 @@ class R2RemediationWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return R2RemediationSummary(
-            status=report["status"],
+            status=_string(report.get("status"), "R2 remediation status"),
             finding_count=len(findings),
             open_finding_count=3,
             protocol_fallback_count=4,
@@ -579,10 +571,7 @@ class R2RemediationWorkflow:
             or receipt.get("remediation_status_report_sha256") != _sha256(report_path)
             or report.get("scientific_submission_ready") is not False
             or receipt.get("scientific_submission_ready") is not False
-            or any(
-                report.get(key) != value or receipt.get(key) != value
-                for key, value in required_counts.items()
-            )
+            or any(report.get(key) != value or receipt.get(key) != value for key, value in required_counts.items())
         ):
             raise R2RemediationError("R2 remediation status receipt is invalid")
         sources = _mapping(report.get("source_receipts"), "R2 remediation source receipts")
@@ -601,15 +590,18 @@ class R2RemediationWorkflow:
             item.get("finding_id") for item in findings if isinstance(item, Mapping)
         ] != list(self.DISPOSITIONS):
             raise R2RemediationError("R2 remediation finding inventory is invalid")
-        if any(
-            not isinstance(item, Mapping)
-            or item.get("disposition") != self.DISPOSITIONS[item.get("finding_id")]
-            or item.get("scientific_claim_ready") is not False
-            for item in findings
-        ):
-            raise R2RemediationError("R2 remediation finding state is invalid")
+        for item in findings:
+            if not isinstance(item, Mapping):
+                raise R2RemediationError("R2 remediation finding state is invalid")
+            finding_id = item.get("finding_id")
+            if (
+                not isinstance(finding_id, str)
+                or item.get("disposition") != self.DISPOSITIONS.get(finding_id)
+                or item.get("scientific_claim_ready") is not False
+            ):
+                raise R2RemediationError("R2 remediation finding state is invalid")
         return R2RemediationSummary(
-            status=report["status"],
+            status=_string(report.get("status"), "R2 remediation status"),
             finding_count=9,
             open_finding_count=3,
             protocol_fallback_count=4,

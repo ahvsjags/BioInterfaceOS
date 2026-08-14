@@ -22,9 +22,7 @@ class TwoLabCoronaAssetAuditError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -152,9 +150,7 @@ class TwoLabCoronaAssetAuditWorkflow:
             or scope.get("asset_bytes_written") is not False
         ):
             raise TwoLabCoronaAssetAuditError("T142 access boundary is unsafe")
-        observations = _list(
-            scope.get("access_observations"), "T142 access observations", minimum=2
-        )
+        observations = _list(scope.get("access_observations"), "T142 access observations", minimum=2)
         if any(not isinstance(item, str) or not item.strip() for item in observations):
             raise TwoLabCoronaAssetAuditError("T142 access observation is invalid")
 
@@ -177,9 +173,7 @@ class TwoLabCoronaAssetAuditWorkflow:
             seen.add(key)
             if asset.get("declared_size") not in {"101.5KB", "811.7KB", "730B", "2.9MB", "6.4MB"}:
                 raise TwoLabCoronaAssetAuditError("T142 declared size is invalid")
-            if not asset["article_locator"].startswith("https://") or not asset[
-                "asset_locator"
-            ].startswith("https://"):
+            if not asset["article_locator"].startswith("https://") or not asset["asset_locator"].startswith("https://"):
                 raise TwoLabCoronaAssetAuditError("T142 asset locator is invalid")
             if (
                 asset["byte_verified"] is not False
@@ -207,10 +201,7 @@ class TwoLabCoronaAssetAuditWorkflow:
             or decision.get("redistributable_asset_count") != 0
             or decision.get("target_status") != "NOT_FROZEN"
             or decision.get("model_use") != "PROHIBITED"
-            or len(
-                _list(decision.get("required_next_evidence"), "T142 next evidence", minimum=4)
-            )
-            != 4
+            or len(_list(decision.get("required_next_evidence"), "T142 next evidence", minimum=4)) != 4
         ):
             raise TwoLabCoronaAssetAuditError("T142 decision silently promotes the pair")
         return registry, assets

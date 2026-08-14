@@ -31,9 +31,7 @@ class T129CurrentTargetEvidenceSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -70,8 +68,7 @@ class T129CurrentTargetEvidenceWorkflow:
             "T131 PXD017052 source-data receipt",
         ),
         "pxd017052_complete_attachments": (
-            "reports/review_round_2/pxd017052_complete_attachments/v1.0.0/"
-            "complete_attachment_receipt.json",
+            "reports/review_round_2/pxd017052_complete_attachments/v1.0.0/complete_attachment_receipt.json",
             "T132 PXD017052 complete-attachment receipt",
         ),
         "cc0_rescreen": (
@@ -108,9 +105,7 @@ class T129CurrentTargetEvidenceWorkflow:
     @staticmethod
     def _require(condition: bool, label: str) -> None:
         if not condition:
-            raise T129CurrentTargetEvidenceError(
-                f"current T129 evidence no longer supports {label}"
-            )
+            raise T129CurrentTargetEvidenceError(f"current T129 evidence no longer supports {label}")
 
     def _sources(self) -> dict[str, tuple[str, dict[str, Any], str]]:
         sources: dict[str, tuple[str, dict[str, Any], str]] = {}
@@ -139,8 +134,7 @@ class T129CurrentTargetEvidenceWorkflow:
         )
         self._require(
             discovery.get("audit_id") == "bioif-r2-cc0-target-discovery-v1.0.0"
-            and discovery.get("status")
-            == "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
+            and discovery.get("status") == "BLOCKED_CC0_EXPANSION_NO_SOURCE_MATCHED_NUMERIC_COVARIATES"
             and discovery.get("candidate_source_count") == 2
             and discovery.get("candidate_laboratory_count") == 1
             and discovery.get("screened_asset_count") == 7
@@ -161,8 +155,7 @@ class T129CurrentTargetEvidenceWorkflow:
         )
         self._require(
             pxd017052.get("audit_id") == "bioif-r2-pxd017052-source-data-v1.0.0"
-            and pxd017052.get("status")
-            == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
+            and pxd017052.get("status") == "VERIFIED_PUBLIC_ASSETS_INCOMPLETE_SOURCE_UNIT_TO_PARTICLE_MAP"
             and pxd017052.get("official_asset_count") == 4
             and pxd017052.get("result_unit_count") == 9
             and pxd017052.get("pride_raw_unit_count") == 9
@@ -176,14 +169,11 @@ class T129CurrentTargetEvidenceWorkflow:
             "PXD017052 public source-data tranche",
         )
         self._require(
-            pxd017052_complete.get("audit_id")
-            == "bioif-r2-pxd017052-complete-attachments-v1.0.0"
-            and pxd017052_complete.get("status")
-            == "VERIFIED_COMPLETE_UNIT_TO_PARTICLE_MAP_SINGLE_LAB_CCBY"
+            pxd017052_complete.get("audit_id") == "bioif-r2-pxd017052-complete-attachments-v1.0.0"
+            and pxd017052_complete.get("status") == "VERIFIED_COMPLETE_UNIT_TO_PARTICLE_MAP_SINGLE_LAB_CCBY"
             and pxd017052_complete.get("extension_asset_count") == 8
             and pxd017052_complete.get("explicit_unit_to_particle_map_count") == 9
-            and pxd017052_complete.get("admission")
-            == "NOT_ADMITTED_PENDING_CCBY_AMENDMENT_AND_SECOND_LAB"
+            and pxd017052_complete.get("admission") == "NOT_ADMITTED_PENDING_CCBY_AMENDMENT_AND_SECOND_LAB"
             and pxd017052_complete.get("cc0_cohort_status") == "UNCHANGED"
             and pxd017052_complete.get("model_use") == "PROHIBITED",
             "PXD017052 complete CC-BY source-map correction",
@@ -200,11 +190,7 @@ class T129CurrentTargetEvidenceWorkflow:
             "bounded CC0 rescreen tranche",
         )
         self._require(
-            all(
-                source[1].get(field) is False
-                for source in sources.values()
-                for field in self.REQUIRED_FALSE
-            ),
+            all(source[1].get(field) is False for source in sources.values() for field in self.REQUIRED_FALSE),
             "no-model and no-submission boundary",
         )
 
@@ -223,9 +209,7 @@ class T129CurrentTargetEvidenceWorkflow:
             "status": "BLOCKED_NO_CROSS_LAB_COMMON_NUMERIC_MATERIAL_TARGET",
             "evidence_class": "DEVELOPMENT_OBSERVATION",
             "allowed_claim_level": "EXPLORATORY",
-            "source_receipts": {
-                key: {"path": value[0], "sha256": value[2]} for key, value in sources.items()
-            },
+            "source_receipts": {key: {"path": value[0], "sha256": value[2]} for key, value in sources.items()},
             "candidate_source_count": 8,
             "candidate_laboratory_count": 5,
             "verified_source_asset_count": 31,
@@ -287,9 +271,7 @@ class T129CurrentTargetEvidenceWorkflow:
         receipt_path.write_bytes(_canonical(receipt))
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return T129CurrentTargetEvidenceSummary(8, 5, 31, receipt_path)
 
     def verify(self) -> T129CurrentTargetEvidenceSummary:
@@ -314,21 +296,13 @@ class T129CurrentTargetEvidenceWorkflow:
             and receipt.get("target_status") == "NOT_FROZEN"
             and report.get("model_use") == "PROHIBITED"
             and receipt.get("model_use") == "PROHIBITED"
-            and all(
-                report.get(key) == value and receipt.get(key) == value
-                for key, value in required_counts.items()
-            )
-            and all(
-                report.get(field) is False and receipt.get(field) is False
-                for field in self.REQUIRED_FALSE
-            ),
+            and all(report.get(key) == value and receipt.get(key) == value for key, value in required_counts.items())
+            and all(report.get(field) is False and receipt.get(field) is False for field in self.REQUIRED_FALSE),
             "current T129 target evidence receipt",
         )
         sources = self._sources()
         self._validate_sources(sources)
-        expected_sources = {
-            key: {"path": value[0], "sha256": value[2]} for key, value in sources.items()
-        }
+        expected_sources = {key: {"path": value[0], "sha256": value[2]} for key, value in sources.items()}
         self._require(
             report.get("source_receipts") == expected_sources,
             "current T129 source receipt hashes",

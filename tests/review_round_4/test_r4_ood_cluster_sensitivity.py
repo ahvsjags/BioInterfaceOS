@@ -133,12 +133,8 @@ def test_cluster_sensitivity_reports_unit_weighted_paired_delta(tmp_path: Path) 
     assert summary.biological_unit_count == 2
     assert summary.laboratory_count == 1
     report = json.loads(summary.report_path.read_text(encoding="utf-8"))
-    assert report["paired_ablation"][
-        "batch_weighted_mean_full_minus_composition"
-    ] == pytest.approx(0.05)
-    assert report["paired_ablation"][
-        "unit_weighted_mean_full_minus_composition"
-    ] == pytest.approx(0.05)
+    assert report["paired_ablation"]["batch_weighted_mean_full_minus_composition"] == pytest.approx(0.05)
+    assert report["paired_ablation"]["unit_weighted_mean_full_minus_composition"] == pytest.approx(0.05)
     assert report["scientific_submission_ready"] is False
     assert workflow.verify() == summary
 

@@ -96,9 +96,7 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
             writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
             writer.writeheader()
             for row in rows:
-                writer.writerow(
-                    {field: "" if row.get(field) is None else row.get(field) for field in fields}
-                )
+                writer.writerow({field: "" if row.get(field) is None else row.get(field) for field in fields})
 
     def _root_file(self, relative_path: str, label: str) -> Path:
         if "\\" in relative_path:
@@ -262,11 +260,7 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
             parsed: list[tuple[int, str, float | None, set[str]]] = []
             for row_number, row in enumerate(rows, start=2):
                 value = self._number(row.get(column, ""), f"{column}:{row_number}")
-                identifiers = {
-                    value.strip()
-                    for value in row.get("Protein IDs", "").split(";")
-                    if value.strip()
-                }
+                identifiers = {value.strip() for value in row.get("Protein IDs", "").split(";") if value.strip()}
                 hits = identifiers & target_accessions
                 coordinate = f"{column}:{row_number}"
                 parsed.append((row_number, coordinate, value, hits))
@@ -302,23 +296,16 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
             or sum(5 <= count < 10 for count in counts) != strata["expected_batches_5_to_9"]
         ):
             raise R4PXD064962SensitivityError("T188 source coverage accounting differs")
-        eligible = {
-            batch
-            for batch in batch_to_unit
-            if len(batch_target_sets[batch]) >= strata["exploratory_minimum"]
-        }
-        high = {
-            batch
-            for batch in eligible
-            if len(batch_target_sets[batch]) >= strata["primary_frozen_minimum"]
-        }
+        eligible = {batch for batch in batch_to_unit if len(batch_target_sets[batch]) >= strata["exploratory_minimum"]}
+        high = {batch for batch in eligible if len(batch_target_sets[batch]) >= strata["primary_frozen_minimum"]}
         observations: list[_Observation] = []
         target_rows: list[dict[str, Any]] = []
         replicate_qc_rows: list[dict[str, Any]] = []
         for batch in sorted(batch_to_unit):
             target_keys = sorted(
-                key for key in batch_target_states if key[0] == batch
-                and any(state == "POSITIVE" for state in batch_target_states[key].values())
+                key
+                for key in batch_target_states
+                if key[0] == batch and any(state == "POSITIVE" for state in batch_target_states[key].values())
             )
             concordant_positive = 0
             positive_zero_discordant = 0
@@ -357,11 +344,11 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
         for batch in sorted(eligible):
             for accession in sorted(batch_target_sets[batch]):
                 key = (batch, accession)
-                ranks = batch_rank_values[key]
-                if accession not in feature_values or not ranks:
+                rank_values = batch_rank_values[key]
+                if accession not in feature_values or not rank_values:
                     continue
                 target_id = f"R4PXD064962:{batch}:{accession}"
-                rank = float(np.mean(ranks))
+                rank = float(np.mean(rank_values))
                 observations.append(
                     _Observation(
                         target_id,
@@ -383,13 +370,9 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
                         "measurement_batch_id": batch,
                         "technical_replicate_count": len(ranks),
                         "source_coordinates": ";".join(batch_target_coordinates[key]),
-                        "author_positive_values": ";".join(
-                            repr(value) for value in batch_target_values[key]
-                        ),
+                        "author_positive_values": ";".join(repr(value) for value in batch_target_values[key]),
                         "rank_percentile_mean_across_positive_technical_replicates": rank,
-                        "measurement_batch_positive_unique_target_count": len(
-                            batch_target_sets[batch]
-                        ),
+                        "measurement_batch_positive_unique_target_count": len(batch_target_sets[batch]),
                         "coverage_stratum": "GE10" if batch in high else "GE5_LT10",
                     }
                 )
@@ -422,10 +405,9 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
         aggregate: dict[str, float | None] = {}
         for name in ("spearman", "mae", "rmse"):
             values = [row[name] for row in unit_rows.values()]
+            numeric_values = [float(value) for value in values if value is not None]
             aggregate[f"subject_equal_mean_{name}"] = (
-                None
-                if any(value is None for value in values)
-                else float(np.mean([float(value) for value in values]))
+                None if len(numeric_values) != len(values) else float(np.mean(numeric_values))
             )
         aggregate["biological_unit_count"] = float(len(unit_rows))
         aggregate["measurement_batch_count"] = float(len(metrics))
@@ -445,9 +427,10 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
         seed: int,
     ) -> dict[str, float | int] | None:
         values = [row[metric] for row in unit_rows.values()]
-        if not values or any(value is None for value in values):
+        numeric_values = [float(value) for value in values if value is not None]
+        if not values or len(numeric_values) != len(values):
             return None
-        array = np.asarray([float(value) for value in values], dtype=float)
+        array = np.asarray(numeric_values, dtype=float)
         rng = np.random.default_rng(seed)
         means = array[rng.integers(0, len(array), size=(resamples, len(array)))].mean(axis=1)
         interval = np.quantile(means, [0.025, 0.975], method="linear")
@@ -466,9 +449,7 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
         protocol, paths = self._protocol()
         try:
             R3AnalysisProtocolWorkflow(self.root, self.root / "data/raw").verify()
-            R4PXD064962SourceAuditWorkflow(
-                self.root, self.root / "data/raw/r4_candidate_pxd064962_ucd"
-            ).verify()
+            R4PXD064962SourceAuditWorkflow(self.root, self.root / "data/raw/r4_candidate_pxd064962_ucd").verify()
         except (R3AnalysisProtocolError, R4PXD064962SourceAuditError, OSError) as exc:
             raise R4PXD064962SensitivityError("frozen T188 or R3 inputs do not verify") from exc
         helper = R3ModelEvaluationWorkflow(
@@ -489,12 +470,8 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
         all_batches = set(strata_by_batch)
         high_batches = {batch for batch, stratum in strata_by_batch.items() if stratum == "GE10"}
         full_indices = tuple(range(len(helper.FEATURE_NAMES)))
-        composition_indices = tuple(
-            helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES
-        )
-        full_alpha, full_selection = helper._select_alpha(
-            development, full_indices, minimum_proteins=10
-        )
+        composition_indices = tuple(helper.FEATURE_NAMES.index(name) for name in helper.COMPOSITION_FEATURE_NAMES)
+        full_alpha, full_selection = helper._select_alpha(development, full_indices, minimum_proteins=10)
         composition_alpha, composition_selection = helper._select_alpha(
             development, composition_indices, minimum_proteins=10
         )
@@ -506,9 +483,7 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
             "SEQUENCE_RIDGE_FULL": helper._predict_ridge(full_model, external),
             "SEQUENCE_RIDGE_COMPOSITION_ONLY": helper._predict_ridge(composition_model, external),
         }
-        uncertainty = _mapping(protocol["execution_contract"], "T188 execution contract")[
-            "uncertainty"
-        ]
+        uncertainty = _mapping(protocol["execution_contract"], "T188 execution contract")["uncertainty"]
         model_rows: list[dict[str, Any]] = []
         batch_rows: list[dict[str, Any]] = []
         unit_rows_output: list[dict[str, Any]] = []
@@ -519,50 +494,39 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
                 ("GE5_ALL", all_batches, 5),
                 ("GE10_ONLY", high_batches, 10),
             ):
-                indices = [
-                    index
-                    for index, row in enumerate(external)
-                    if row.measurement_batch_id in batches
-                ]
+                indices = [index for index, row in enumerate(external) if row.measurement_batch_id in batches]
                 subset = [external[index] for index in indices]
                 subset_predictions = predictions[model_id][indices]
-                metrics = helper._batch_metrics(
-                    subset, subset_predictions, minimum_proteins=minimum
-                )
+                metrics = helper._batch_metrics(subset, subset_predictions, minimum_proteins=minimum)
                 aggregate, units = self._cluster_metrics(metrics, batch_to_unit)
                 spearman_ci = self._cluster_bootstrap(
                     units,
                     "spearman",
                     resamples=uncertainty["resamples"],
-                    seed=uncertainty["random_seed"]
-                    + model_index * 100
-                    + (0 if stratum_id == "GE5_ALL" else 10),
+                    seed=uncertainty["random_seed"] + model_index * 100 + (0 if stratum_id == "GE5_ALL" else 10),
                 )
                 mae_ci = self._cluster_bootstrap(
                     units,
                     "mae",
                     resamples=uncertainty["resamples"],
-                    seed=uncertainty["random_seed"]
-                    + model_index * 100
-                    + 1
-                    + (0 if stratum_id == "GE5_ALL" else 10),
+                    seed=uncertainty["random_seed"] + model_index * 100 + 1 + (0 if stratum_id == "GE5_ALL" else 10),
                 )
                 rmse_ci = self._cluster_bootstrap(
                     units,
                     "rmse",
                     resamples=uncertainty["resamples"],
-                    seed=uncertainty["random_seed"]
-                    + model_index * 100
-                    + 2
-                    + (0 if stratum_id == "GE5_ALL" else 10),
+                    seed=uncertainty["random_seed"] + model_index * 100 + 2 + (0 if stratum_id == "GE5_ALL" else 10),
                 )
+                biological_unit_count = aggregate["biological_unit_count"]
+                if biological_unit_count is None:
+                    raise R4PXD064962SensitivityError("biological unit count is undefined")
                 model_rows.append(
                     {
                         "stratum_id": stratum_id,
                         "model_id": model_id,
                         "external_observation_count": len(subset),
                         "external_measurement_batch_count": len(metrics),
-                        "biological_unit_count": int(aggregate["biological_unit_count"]),
+                        "biological_unit_count": int(biological_unit_count),
                         "primary_metric_status": "UNDEFINED_CONSTANT_PREDICTION"
                         if model_id == "CONSTANT_TRAINING_MEAN"
                         else "DEFINED",
@@ -573,18 +537,10 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
                         "subject_equal_mean_spearman_upper_95": None
                         if spearman_ci is None
                         else spearman_ci["upper_95"],
-                        "subject_equal_mean_mae_lower_95": None
-                        if mae_ci is None
-                        else mae_ci["lower_95"],
-                        "subject_equal_mean_mae_upper_95": None
-                        if mae_ci is None
-                        else mae_ci["upper_95"],
-                        "subject_equal_mean_rmse_lower_95": None
-                        if rmse_ci is None
-                        else rmse_ci["lower_95"],
-                        "subject_equal_mean_rmse_upper_95": None
-                        if rmse_ci is None
-                        else rmse_ci["upper_95"],
+                        "subject_equal_mean_mae_lower_95": None if mae_ci is None else mae_ci["lower_95"],
+                        "subject_equal_mean_mae_upper_95": None if mae_ci is None else mae_ci["upper_95"],
+                        "subject_equal_mean_rmse_lower_95": None if rmse_ci is None else rmse_ci["lower_95"],
+                        "subject_equal_mean_rmse_upper_95": None if rmse_ci is None else rmse_ci["upper_95"],
                     }
                 )
                 for metric in metrics:
@@ -625,9 +581,7 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
             deltas_by_unit: dict[str, list[float]] = defaultdict(list)
             for batch in sorted(batches):
                 full = metrics_by_key[(stratum_id, "SEQUENCE_RIDGE_FULL", batch)]["spearman"]
-                composition = metrics_by_key[
-                    (stratum_id, "SEQUENCE_RIDGE_COMPOSITION_ONLY", batch)
-                ]["spearman"]
+                composition = metrics_by_key[(stratum_id, "SEQUENCE_RIDGE_COMPOSITION_ONLY", batch)]["spearman"]
                 if full is None or composition is None:
                     raise R4PXD064962SensitivityError("T188 paired ablation has undefined Spearman")
                 deltas_by_unit[batch_to_unit[batch]].append(float(full) - float(composition))
@@ -677,12 +631,8 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
                 )
                 for row, target in zip(development, permuted, strict=True)
             ]
-            permuted_alpha, _ = helper._select_alpha(
-                permuted_development, full_indices, minimum_proteins=10
-            )
-            null_model = helper._fit_ridge(
-                permuted_development, full_indices, permuted_alpha, targets=permuted
-            )
+            permuted_alpha, _ = helper._select_alpha(permuted_development, full_indices, minimum_proteins=10)
+            null_model = helper._fit_ridge(permuted_development, full_indices, permuted_alpha, targets=permuted)
             null_predictions = helper._predict_ridge(null_model, external)
             null_metrics = helper._batch_metrics(external, null_predictions, minimum_proteins=5)
             null_aggregate, _ = self._cluster_metrics(null_metrics, batch_to_unit)
@@ -708,8 +658,7 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
             "null_lower_95": float(np.quantile(null_scores, 0.025)),
             "null_upper_95": float(np.quantile(null_scores, 0.975)),
             "one_sided_upper_tail_p": float(
-                (1 + sum(value >= observed_primary for value in null_scores))
-                / (1 + len(null_scores))
+                (1 + sum(value >= observed_primary for value in null_scores)) / (1 + len(null_scores))
             ),
             "resamples": negative_contract["resamples"],
             "random_seed": negative_contract["random_seed"],
@@ -722,8 +671,7 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
             "external_target_ledger": output / "r4_pxd064962_rank_target_ledger.csv",
             "predictions": output / "r4_pxd064962_sensitivity_predictions.csv",
             "batch_metrics": output / "r4_pxd064962_sensitivity_batch_metrics.csv",
-            "biological_unit_metrics": output
-            / "r4_pxd064962_sensitivity_biological_unit_metrics.csv",
+            "biological_unit_metrics": output / "r4_pxd064962_sensitivity_biological_unit_metrics.csv",
             "model_metrics": output / "r4_pxd064962_sensitivity_model_metrics.csv",
             "selection": output / "r4_pxd064962_sensitivity_nested_selection.csv",
             "negative_control": output / "r4_pxd064962_sensitivity_within_batch_permutation.csv",
@@ -733,13 +681,10 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
         self._write_csv(artifact_paths["external_target_ledger"], list(target_rows[0]), target_rows)
         self._write_csv(artifact_paths["predictions"], list(prediction_rows[0]), prediction_rows)
         self._write_csv(artifact_paths["batch_metrics"], list(batch_rows[0]), batch_rows)
-        self._write_csv(
-            artifact_paths["biological_unit_metrics"], list(unit_rows_output[0]), unit_rows_output
-        )
+        self._write_csv(artifact_paths["biological_unit_metrics"], list(unit_rows_output[0]), unit_rows_output)
         self._write_csv(artifact_paths["model_metrics"], list(model_rows[0]), model_rows)
         selection_rows = [
-            {"model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha}
-            for row in full_selection
+            {"model_id": "SEQUENCE_RIDGE_FULL", **row, "selected_alpha": full_alpha} for row in full_selection
         ] + [
             {
                 "model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY",
@@ -787,9 +732,7 @@ class R4PXD064962LowCoverageSensitivityWorkflow:
             "development_observation_count": len(development),
             "development_canonical_protein_count": len(development_accessions),
             "external_observation_count": len(external),
-            "external_shared_positive_target_count": len(
-                {row.canonical_accession for row in external}
-            ),
+            "external_shared_positive_target_count": len({row.canonical_accession for row in external}),
             "all_eligible_batch_count": len(all_batches),
             "low_coverage_batch_count": len(all_batches - high_batches),
             "high_coverage_batch_count": len(high_batches),

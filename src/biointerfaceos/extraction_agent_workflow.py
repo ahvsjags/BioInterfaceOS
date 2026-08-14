@@ -48,9 +48,7 @@ class ExtractionAgentWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/agents/extraction_agent_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/agents/extraction_agent_fixture.json")
         self.output_root = output_root or self.root / "reports/agents/extraction"
 
     def _fixture(self) -> dict[str, Any]:
@@ -122,11 +120,7 @@ class ExtractionAgentWorkflow:
                 raise ExtractionAgentError(f"duplicate extraction-agent case: {case_id}")
             allowed = case.get("allowed_tools")
             fields = case.get("agent_fields")
-            if (
-                not isinstance(allowed, list)
-                or not allowed
-                or any(not isinstance(tool, str) for tool in allowed)
-            ):
+            if not isinstance(allowed, list) or not allowed or any(not isinstance(tool, str) for tool in allowed):
                 raise ExtractionAgentError(f"invalid parser allowlist: {case_id}")
             if not isinstance(fields, list) or not fields:
                 raise ExtractionAgentError(f"invalid agent fields: {case_id}")
@@ -181,17 +175,12 @@ class ExtractionAgentWorkflow:
             locator_ok = (
                 isinstance(locators, list)
                 and bool(locators)
-                and all(
-                    isinstance(locator, str) and locator.startswith("asset:")
-                    for locator in locators
-                )
+                and all(isinstance(locator, str) and locator.startswith("asset:") for locator in locators)
             )
             value_ok = (
                 (value_type == "string" and isinstance(field["value"], str))
                 or (
-                    value_type == "integer"
-                    and isinstance(field["value"], int)
-                    and not isinstance(field["value"], bool)
+                    value_type == "integer" and isinstance(field["value"], int) and not isinstance(field["value"], bool)
                 )
                 or (
                     value_type == "number"
@@ -332,9 +321,7 @@ class ExtractionAgentWorkflow:
         payload_bytes["seal"] = _canonical(seal)
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -385,9 +372,7 @@ class ExtractionAgentWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }
@@ -402,9 +387,7 @@ class ExtractionAgentWorkflow:
                 raise ExtractionAgentError("existing extraction-agent receipt differs from rerun")
             for name, payload in payload_bytes.items():
                 if paths[name].read_bytes() != payload:
-                    raise ExtractionAgentError(
-                        f"existing extraction-agent artifact differs: {name}"
-                    )
+                    raise ExtractionAgentError(f"existing extraction-agent artifact differs: {name}")
             resumed = 1
         else:
             for name, payload in payload_bytes.items():

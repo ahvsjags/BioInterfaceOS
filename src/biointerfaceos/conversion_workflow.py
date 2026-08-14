@@ -36,9 +36,7 @@ class ConversionSummary:
 
 
 def _canonical(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 def _sha256(data: bytes) -> str:
@@ -192,15 +190,11 @@ class ConversionWorkflow:
                 try:
                     input_path.relative_to(self.root)
                 except ValueError as exc:
-                    raise ConversionError(
-                        f"conversion input escapes repository: {input_relative}"
-                    ) from exc
+                    raise ConversionError(f"conversion input escapes repository: {input_relative}") from exc
                 try:
                     input_bytes = input_path.read_bytes()
                 except OSError as exc:
-                    raise ConversionError(
-                        f"cannot read conversion input: {input_relative}"
-                    ) from exc
+                    raise ConversionError(f"cannot read conversion input: {input_relative}") from exc
                 actual_hash = _sha256(input_bytes)
                 if actual_hash != row["input_sha256"]:
                     status = "REFUSED_CHECKSUM"
@@ -221,17 +215,14 @@ class ConversionWorkflow:
                     if output_path.exists():
                         existing = output_path.read_bytes()
                         if _sha256(existing) != output_sha256:
-                            raise ConversionError(
-                                f"existing conversion artifact checksum differs: {accession}"
-                            )
+                            raise ConversionError(f"existing conversion artifact checksum differs: {accession}")
                         resumed += 1
                     else:
                         output_path.write_bytes(output_data)
                     artifact_paths.append(output_path)
             if status != str(row["expected_status"]):
                 raise ConversionError(
-                    f"conversion status differs for {accession}: {status} != "
-                    f"{row['expected_status']}"
+                    f"conversion status differs for {accession}: {status} != {row['expected_status']}"
                 )
             receipt_rows.append(
                 {
@@ -242,11 +233,7 @@ class ConversionWorkflow:
                     "instrument": row["instrument"],
                     "input_sha256": row["input_sha256"],
                     "input_bytes": len(input_bytes) if input_bytes is not None else None,
-                    "output_path": (
-                        str(CONVERSION_ROOT / "artifacts" / output_path.name)
-                        if output_path
-                        else None
-                    ),
+                    "output_path": (str(CONVERSION_ROOT / "artifacts" / output_path.name) if output_path else None),
                     "output_sha256": output_sha256,
                     "output_bytes": output_bytes if output_path else None,
                     "converter": "mzml_bypass" if status == "COMPLETED" else None,

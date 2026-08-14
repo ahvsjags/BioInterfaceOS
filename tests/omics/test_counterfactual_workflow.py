@@ -35,15 +35,9 @@ def test_counterfactual_outputs_preserve_contradictions_and_abstentions(tmp_path
     workflow = CounterfactualWorkflow(root, output_root=tmp_path / "counterfactuals")
     workflow.run(fixture=True)
 
-    audit = json.loads(
-        (tmp_path / "counterfactuals" / "intervention_audit.json").read_text(encoding="utf-8")
-    )
-    contradictions = json.loads(
-        (tmp_path / "counterfactuals" / "contradiction_graph.json").read_text(encoding="utf-8")
-    )
-    language = json.loads(
-        (tmp_path / "counterfactuals" / "language_gate.json").read_text(encoding="utf-8")
-    )
+    audit = json.loads((tmp_path / "counterfactuals" / "intervention_audit.json").read_text(encoding="utf-8"))
+    contradictions = json.loads((tmp_path / "counterfactuals" / "contradiction_graph.json").read_text(encoding="utf-8"))
+    language = json.loads((tmp_path / "counterfactuals" / "language_gate.json").read_text(encoding="utf-8"))
     assert audit["supported_only_predictions"] is True
     assert len(audit["rejected"]) == 3
     assert contradictions["all_edges_preserved"] is True

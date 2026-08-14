@@ -56,9 +56,7 @@ class BenchmarkRepresentationWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/benchmark/representation_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/benchmark/representation_fixture.json")
         self.instances_path = self.root / "reports/benchmark/instances/public_instances.json"
         self.baseline_fixture_path = self.root / "tests/fixtures/benchmark/baseline_fixture.json"
         self.output_root = output_root or self.root / "reports/benchmark/representations"
@@ -70,19 +68,12 @@ class BenchmarkRepresentationWorkflow:
                 "representation fixture",
             )
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-            raise BenchmarkRepresentationError(
-                f"cannot load representation fixture: {exc}"
-            ) from exc
-        if (
-            data.get("schema_version") != 1
-            or data.get("mode") != "benchmark_baselines_representation"
-        ):
+            raise BenchmarkRepresentationError(f"cannot load representation fixture: {exc}") from exc
+        if data.get("schema_version") != 1 or data.get("mode") != "benchmark_baselines_representation":
             raise BenchmarkRepresentationError("representation fixture schema or mode is invalid")
         if data.get("target_values_are_fixture_only") is not True:
             raise BenchmarkRepresentationError("representation targets must be fixture-only")
-        if not isinstance(data.get("inputs"), list) or not isinstance(
-            data.get("representations"), list
-        ):
+        if not isinstance(data.get("inputs"), list) or not isinstance(data.get("representations"), list):
             raise BenchmarkRepresentationError("representation inputs/rows are invalid")
         config = _mapping(data.get("config"), "representation config")
         if config.get("group") != "representation" or config.get("seed") != 23:
@@ -103,28 +94,18 @@ class BenchmarkRepresentationWorkflow:
             label = _string(row.get("label"), "representation input label")
             if label not in required:
                 raise BenchmarkRepresentationError(f"unexpected representation input: {label}")
-            path = (self.root / _string(row.get("path"), "representation input path")).resolve(
-                strict=True
-            )
+            path = (self.root / _string(row.get("path"), "representation input path")).resolve(strict=True)
             if path != required[label].resolve(strict=True):
                 raise BenchmarkRepresentationError(f"representation input path mismatch: {label}")
-            if _sha256(path.read_bytes()) != _string(
-                row.get("sha256"), "representation input checksum"
-            ):
-                raise BenchmarkRepresentationError(
-                    f"representation input checksum differs: {label}"
-                )
+            if _sha256(path.read_bytes()) != _string(row.get("sha256"), "representation input checksum"):
+                raise BenchmarkRepresentationError(f"representation input checksum differs: {label}")
             try:
                 loaded[label] = json.loads(path.read_text(encoding="utf-8"))
             except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-                raise BenchmarkRepresentationError(
-                    f"cannot load representation input: {label}"
-                ) from exc
+                raise BenchmarkRepresentationError(f"cannot load representation input: {label}") from exc
             seen.add(label)
         if seen != set(required):
-            raise BenchmarkRepresentationError(
-                "representation inputs do not match T067/T069 contract"
-            )
+            raise BenchmarkRepresentationError("representation inputs do not match T067/T069 contract")
         public = _mapping(loaded["T067 public instances"], "public instances")
         baseline_fixture = _mapping(loaded["T069 baseline fixture"], "baseline fixture")
         if public.get("status") != "VALID" or public.get("target_values_exposed") is not False:
@@ -134,9 +115,7 @@ class BenchmarkRepresentationWorkflow:
         return public, baseline_fixture
 
     @staticmethod
-    def _targets(
-        baseline_fixture: Mapping[str, Any], public: Mapping[str, Any]
-    ) -> dict[str, float]:
+    def _targets(baseline_fixture: Mapping[str, Any], public: Mapping[str, Any]) -> dict[str, float]:
         public_ids = {
             _string(_mapping(row, "public instance").get("instance_id"), "public instance ID")
             for row in public["instances"]
@@ -146,14 +125,10 @@ class BenchmarkRepresentationWorkflow:
             row = _mapping(value, "baseline target")
             instance_id = _string(row.get("instance_id"), "baseline target instance ID")
             if instance_id not in public_ids or instance_id in targets:
-                raise BenchmarkRepresentationError(
-                    f"baseline target identity is invalid: {instance_id}"
-                )
+                raise BenchmarkRepresentationError(f"baseline target identity is invalid: {instance_id}")
             targets[instance_id] = _number(row.get("target"), "baseline target")
         if set(targets) != public_ids:
-            raise BenchmarkRepresentationError(
-                "representation targets do not cover public instances"
-            )
+            raise BenchmarkRepresentationError("representation targets do not cover public instances")
         return targets
 
     @staticmethod
@@ -161,9 +136,9 @@ class BenchmarkRepresentationWorkflow:
         fixture: Mapping[str, Any], public: Mapping[str, Any], targets: Mapping[str, float]
     ) -> list[dict[str, Any]]:
         public_by_id = {
-            _string(
-                _mapping(row, "public instance").get("instance_id"), "public instance ID"
-            ): _mapping(row, "public instance")
+            _string(_mapping(row, "public instance").get("instance_id"), "public instance ID"): _mapping(
+                row, "public instance"
+            )
             for row in public["instances"]
         }
         required = {
@@ -182,9 +157,7 @@ class BenchmarkRepresentationWorkflow:
                 raise BenchmarkRepresentationError("representation row fields do not match schema")
             instance_id = _string(representation.get("instance_id"), "representation instance ID")
             if instance_id not in public_by_id or instance_id in seen:
-                raise BenchmarkRepresentationError(
-                    f"representation identity is invalid: {instance_id}"
-                )
+                raise BenchmarkRepresentationError(f"representation identity is invalid: {instance_id}")
             text = representation.get("material_text")
             if not isinstance(text, str) or not text.strip():
                 raise BenchmarkRepresentationError(f"material text is missing: {instance_id}")
@@ -197,9 +170,7 @@ class BenchmarkRepresentationWorkflow:
                 raise BenchmarkRepresentationError(f"descriptor shape is invalid: {instance_id}")
             fingerprint = representation.get("fingerprint")
             if fingerprint is not None and (
-                not isinstance(fingerprint, str)
-                or len(fingerprint) != 8
-                or any(bit not in "01" for bit in fingerprint)
+                not isinstance(fingerprint, str) or len(fingerprint) != 8 or any(bit not in "01" for bit in fingerprint)
             ):
                 raise BenchmarkRepresentationError(f"fingerprint shape is invalid: {instance_id}")
             embedding = representation.get("polymer_embedding")
@@ -208,9 +179,7 @@ class BenchmarkRepresentationWorkflow:
                 or len(embedding) != 3
                 or any(not isinstance(number, int | float) for number in embedding)
             ):
-                raise BenchmarkRepresentationError(
-                    f"polymer embedding shape is invalid: {instance_id}"
-                )
+                raise BenchmarkRepresentationError(f"polymer embedding shape is invalid: {instance_id}")
             public_row = public_by_id[instance_id]
             rows.append(
                 {
@@ -262,17 +231,14 @@ class BenchmarkRepresentationWorkflow:
         train = [row for row in rows if row["split"] == "train"]
         validation = [row for row in rows if row["split"] == "validation"]
         seed = int(_mapping(fixture["config"], "representation config")["seed"])
-        bootstrap_samples = int(
-            _mapping(fixture["config"], "representation config")["bootstrap_samples"]
-        )
+        bootstrap_samples = int(_mapping(fixture["config"], "representation config")["bootstrap_samples"])
         names = ("descriptor", "fingerprint", "text", "polymer_embedding")
         predictions_by_name: dict[str, dict[str, float]] = {}
         coverage: dict[str, Any] = {}
         for name in names:
             vectors = {row["instance_id"]: self._vector(row, name) for row in rows}
             train_features = [
-                [1.0, *vectors[row["instance_id"]][0], float(not vectors[row["instance_id"]][1])]
-                for row in train
+                [1.0, *vectors[row["instance_id"]][0], float(not vectors[row["instance_id"]][1])] for row in train
             ]
             coefficients = _ridge_fit(train_features, [row["target"] for row in train], ridge=0.1)
             predictions_by_name[name] = {
@@ -296,9 +262,7 @@ class BenchmarkRepresentationWorkflow:
                 "full_split_primary": True,
                 "missingness_indicator_used": True,
                 "available_subset_reported": bool(validation_available),
-                "available_subset_metrics": _regression_metrics(
-                    validation_available, predictions_by_name[name]
-                )
+                "available_subset_metrics": _regression_metrics(validation_available, predictions_by_name[name])
                 if validation_available
                 else None,
             }
@@ -368,9 +332,7 @@ class BenchmarkRepresentationWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -402,9 +364,7 @@ class BenchmarkRepresentationWorkflow:
                     {"event": "T067_T069_inputs_verified", "instances": len(rows)},
                     {
                         "event": "representation_coverage_audited",
-                        "structure_missing_fraction": raw_payloads["coverage"][
-                            "structure_missing_fraction"
-                        ],
+                        "structure_missing_fraction": raw_payloads["coverage"]["structure_missing_fraction"],
                     },
                     {"event": "representation_baselines_completed", "baselines": len(results)},
                     {"event": "complete_case_bias_guard_passed", "full_split_primary": True},
@@ -423,9 +383,7 @@ class BenchmarkRepresentationWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }
@@ -437,14 +395,10 @@ class BenchmarkRepresentationWorkflow:
         existing_receipt = paths["receipt"].read_bytes() if paths["receipt"].exists() else None
         if existing_receipt is not None:
             if existing_receipt != payload_bytes["receipt"]:
-                raise BenchmarkRepresentationError(
-                    "existing representation receipt differs from rerun"
-                )
+                raise BenchmarkRepresentationError("existing representation receipt differs from rerun")
             for name, payload in payload_bytes.items():
                 if paths[name].read_bytes() != payload:
-                    raise BenchmarkRepresentationError(
-                        f"existing representation artifact differs: {name}"
-                    )
+                    raise BenchmarkRepresentationError(f"existing representation artifact differs: {name}")
             resumed = 1
         else:
             for name, payload in payload_bytes.items():

@@ -137,11 +137,7 @@ class PlausibilityChecker:
                     raise PlausibilityQCError(f"{record_id} field schema is invalid")
                 field_name = _text(raw_field["field_name"])
                 field_locator = _text(raw_field["source_locator"])
-                if (
-                    not field_name
-                    or not field_locator.startswith("asset:")
-                    or not _text(raw_field["unit"])
-                ):
+                if not field_name or not field_locator.startswith("asset:") or not _text(raw_field["unit"]):
                     raise PlausibilityQCError(f"{record_id} field identity/unit is invalid")
                 _number(raw_field["value"], f"{record_id}.{field_name}")
                 fields.append(
@@ -309,19 +305,14 @@ class PlausibilityChecker:
                 ],
             }
             for record in records
-            if any(
-                flag["severity"] == "CRITICAL"
-                for flag in flags_by_record.get(str(record["record_id"]), [])
-            )
+            if any(flag["severity"] == "CRITICAL" for flag in flags_by_record.get(str(record["record_id"]), []))
         ]
         clean_controls = [record for record in records if record["control"]]
         injected_records = [record for record in records if record["injected_error"]]
         clean_ids = {record["record_id"] for record in clean_controls}
         injected_ids = {record["record_id"] for record in injected_records}
         control_flagged = {flag["record_id"] for flag in flags if flag["record_id"] in clean_ids}
-        injected_flagged = {
-            flag["record_id"] for flag in flags if flag["record_id"] in injected_ids
-        }
+        injected_flagged = {flag["record_id"] for flag in flags if flag["record_id"] in injected_ids}
         critical_flags = sum(flag["severity"] == "CRITICAL" for flag in flags)
         warning_flags = sum(flag["severity"] == "WARNING" for flag in flags)
         recall = len(injected_flagged) / len(injected_records) if injected_records else 1.0
@@ -365,9 +356,7 @@ class PlausibilityChecker:
             encoding="utf-8",
         )
         self.metrics_path.parent.mkdir(parents=True, exist_ok=True)
-        self.metrics_path.write_text(
-            json.dumps(metrics, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-        )
+        self.metrics_path.write_text(json.dumps(metrics, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
         review_ledger = AppendOnlyJSONL(self.review_path)
         review_ledger.initialize()
@@ -396,8 +385,7 @@ class PlausibilityChecker:
             f"- records: {len(records)}",
             f"- flags: {len(flags)} ({critical_flags} critical, {warning_flags} warning)",
             f"- quarantined records: {len(quarantine)}",
-            f"- clean-control false-positive rate: "
-            f"{metrics['clean_control_false_positive_rate']:.3f}",
+            f"- clean-control false-positive rate: {metrics['clean_control_false_positive_rate']:.3f}",
             f"- injected-error recall: {recall:.3f}",
             "",
             "Rules cover bounded fractions and percentages, non-negative concentrations and "
@@ -408,8 +396,7 @@ class PlausibilityChecker:
             "",
         ]
         report_lines.extend(
-            f"- {flag['flag_id']} {flag['severity']} {flag['rule']}: {flag['message']}"
-            for flag in flags
+            f"- {flag['flag_id']} {flag['severity']} {flag['rule']}: {flag['message']}" for flag in flags
         )
         self.report_path.parent.mkdir(parents=True, exist_ok=True)
         self.report_path.write_text("\n".join(report_lines) + "\n", encoding="utf-8")

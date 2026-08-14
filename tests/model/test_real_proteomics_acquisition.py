@@ -100,9 +100,7 @@ def test_download_resumes_and_validates_a_publisher_sha1(tmp_path: Path) -> None
         opener=opener,
         sleep=lambda _: None,
     )
-    record = workflow._download(
-        _asset(expected_bytes=len(body), checksum=hashlib.sha1(body).hexdigest())
-    )
+    record = workflow._download(_asset(expected_bytes=len(body), checksum=hashlib.sha1(body).hexdigest()))
 
     destination = raw_root / "PXD017776" / "author_results" / "test.mzid.gz"
     assert destination.read_bytes() == body
@@ -132,9 +130,7 @@ def test_download_recovers_when_an_expected_length_stream_ends_early(tmp_path: P
         opener=opener,
         sleep=lambda _: None,
     )
-    record = workflow._download(
-        _asset(expected_bytes=len(body), checksum=hashlib.sha1(body).hexdigest())
-    )
+    record = workflow._download(_asset(expected_bytes=len(body), checksum=hashlib.sha1(body).hexdigest()))
 
     assert record["bytes_on_disk"] == len(body)
     assert len(requests) == 2

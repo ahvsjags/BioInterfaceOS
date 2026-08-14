@@ -24,10 +24,7 @@ def test_asset_audit_records_page_metadata_without_promoting_files(tmp_path: Pat
     assert summary.source_count == 2
     assert summary.byte_verified_count == 0
     assert summary.redistributable_count == 0
-    assert (
-        summary.status
-        == "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
-    )
+    assert summary.status == "BLOCKED_FIRST_PARTY_BYTES_LICENCE_UNIT_MAP_AND_SHARED_ENDPOINT_REQUIRED"
     assert workflow.verify() == summary
 
 
@@ -39,17 +36,11 @@ def test_asset_audit_requires_strict_mode(tmp_path: Path) -> None:
 
 
 def test_asset_audit_rejects_byte_promotion(tmp_path: Path) -> None:
-    registry = json.loads(
-        (ROOT / "docs/data/R2_T140_SUPPLEMENT_ASSET_AUDIT_REGISTRY.json").read_text(
-            encoding="utf-8"
-        )
-    )
+    registry = json.loads((ROOT / "docs/data/R2_T140_SUPPLEMENT_ASSET_AUDIT_REGISTRY.json").read_text(encoding="utf-8"))
     registry["assets"][0]["byte_verified"] = True
     registry_path = tmp_path / "registry.json"
     registry_path.write_text(json.dumps(registry), encoding="utf-8")
-    workflow = TwoLabCoronaAssetAuditWorkflow(
-        ROOT, registry_path=registry_path, output_root=tmp_path / "assets"
-    )
+    workflow = TwoLabCoronaAssetAuditWorkflow(ROOT, registry_path=registry_path, output_root=tmp_path / "assets")
 
     with pytest.raises(TwoLabCoronaAssetAuditError, match="silently promoted"):
         workflow.run(strict=True)

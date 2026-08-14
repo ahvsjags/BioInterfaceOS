@@ -91,9 +91,7 @@ class NetworkConfig:
         for name, value in self.headers.items():
             lowered = name.lower().strip()
             if lowered != "user-agent" or value != PROJECT_USER_AGENT:
-                raise NetworkPolicyError(
-                    "custom request headers are forbidden; only the fixed User-Agent is allowed"
-                )
+                raise NetworkPolicyError("custom request headers are forbidden; only the fixed User-Agent is allowed")
 
 
 class AnonymousHttpClient:
@@ -290,9 +288,7 @@ class AnonymousHttpClient:
 
     def _destination(self, destination: Path | str) -> tuple[Path, Path]:
         candidate = Path(destination)
-        resolved = (candidate if candidate.is_absolute() else self.root / candidate).resolve(
-            strict=False
-        )
+        resolved = (candidate if candidate.is_absolute() else self.root / candidate).resolve(strict=False)
         if resolved == self.root or self.root not in resolved.parents:
             raise NetworkPolicyError(f"destination is outside repository: {destination}")
         parent = resolved.parent.resolve(strict=False)
@@ -336,9 +332,7 @@ class AnonymousHttpClient:
             raise NetworkHTTPError(url, status)
         if status == 206:
             content_range = self._header(response, "Content-Range")
-            if existing_size > 0 and (
-                content_range is None or not content_range.startswith(f"bytes {existing_size}-")
-            ):
+            if existing_size > 0 and (content_range is None or not content_range.startswith(f"bytes {existing_size}-")):
                 self._close(response)
                 raise NetworkError("server returned an incompatible Content-Range")
             append = existing_size > 0
@@ -366,8 +360,7 @@ class AnonymousHttpClient:
         actual = digest.hexdigest()
         if actual != expected:
             raise ChecksumMismatchError(
-                f"checksum mismatch for {resolved}: expected {expected}, got {actual}; "
-                f"partial file preserved at {part}"
+                f"checksum mismatch for {resolved}: expected {expected}, got {actual}; partial file preserved at {part}"
             )
         os.replace(part, resolved)
         return resolved

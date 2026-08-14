@@ -116,9 +116,7 @@ class SourceRecord:
             raise ManifestError(f"invalid download_status: {self.download_status}")
         if self.status == "admitted" and self.access != "admitted":
             raise ManifestError("admitted status requires admitted access")
-        if self.status == "admitted" and (
-            not self.license or self.redistribution not in _ALLOWED_REDISTRIBUTION
-        ):
+        if self.status == "admitted" and (not self.license or self.redistribution not in _ALLOWED_REDISTRIBUTION):
             raise ManifestError("admitted records require explicit license and redistribution")
         if self.access == "rejected" and self.status == "admitted":
             raise ManifestError("rejected access cannot be admitted")
@@ -127,9 +125,7 @@ class SourceRecord:
         if self.sha256 is not None and not _SHA256.fullmatch(self.sha256):
             raise ManifestError("sha256 must be lowercase hexadecimal with 64 characters")
         if self.size_bytes is not None and (
-            isinstance(self.size_bytes, bool)
-            or not isinstance(self.size_bytes, int)
-            or self.size_bytes < 0
+            isinstance(self.size_bytes, bool) or not isinstance(self.size_bytes, int) or self.size_bytes < 0
         ):
             raise ManifestError("size_bytes must be a non-negative integer or null")
         try:
@@ -246,9 +242,7 @@ class ManifestRegistry:
     def __init__(self, root: Path, path: Path | str = MANIFEST_PATH) -> None:
         self.root = root.resolve(strict=True)
         candidate = Path(path)
-        resolved = _contained(
-            self.root, candidate if candidate.is_absolute() else self.root / candidate
-        )
+        resolved = _contained(self.root, candidate if candidate.is_absolute() else self.root / candidate)
         if resolved == self.root:
             raise ManifestPathError("manifest path cannot be repository root")
         self.path = resolved
@@ -262,8 +256,7 @@ class ManifestRegistry:
             raise ManifestError(f"cannot read manifest {self.path}: {exc}") from exc
         if tuple(table.column_names) != MANIFEST_FIELDS:
             raise ManifestError(
-                "manifest columns mismatch: "
-                f"expected {MANIFEST_FIELDS}, got {tuple(table.column_names)}"
+                f"manifest columns mismatch: expected {MANIFEST_FIELDS}, got {tuple(table.column_names)}"
             )
         return table
 
@@ -329,9 +322,7 @@ class ManifestRegistry:
                     raise ManifestConflictError(f"asset_id already exists: {record.asset_id}")
                 return RegistrationResult(existing, False, existing.asset_id)
             if existing.source_id == record.source_id and existing.url == record.url:
-                raise ManifestConflictError(
-                    "source_id and url already exist with different content"
-                )
+                raise ManifestConflictError("source_id and url already exist with different content")
         records.append(record)
         self.write(records)
         return RegistrationResult(record, True, None)

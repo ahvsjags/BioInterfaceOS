@@ -28,9 +28,7 @@ class LinkModalitiesSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -60,9 +58,7 @@ class LinkModalitiesWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/link_modalities_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/link_modalities_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/modality_links"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -160,10 +156,7 @@ class LinkModalitiesWorkflow:
         rows = payload.get("signatures")
         if not isinstance(rows, list):
             raise LinkModalitiesError("signature registry has no signatures")
-        return {
-            _string(_mapping(value, "signature definition").get("signature_id"), "signature ID")
-            for value in rows
-        }
+        return {_string(_mapping(value, "signature definition").get("signature_id"), "signature ID") for value in rows}
 
     def run(self, *, fixture: bool = True) -> LinkModalitiesSummary:
         """Validate and emit direct/indirect/unmatched modality links."""
@@ -214,8 +207,7 @@ class LinkModalitiesWorkflow:
                 delta = None
                 if len(module_rows) >= 2:
                     delta = round(
-                        module_rows[-1]["module_values"][module_id]
-                        - module_rows[0]["module_values"][module_id],
+                        module_rows[-1]["module_values"][module_id] - module_rows[0]["module_values"][module_id],
                         8,
                     )
                 response_delta = None
@@ -237,15 +229,11 @@ class LinkModalitiesWorkflow:
                     "module_delta": delta,
                     "signature_delta_first_to_last": response_delta,
                     "confidence": _string(link.get("confidence"), "link confidence"),
-                    "candidate_mechanism": _string(
-                        link.get("candidate_mechanism"), "candidate mechanism"
-                    ),
+                    "candidate_mechanism": _string(link.get("candidate_mechanism"), "candidate mechanism"),
                     "causal_claim": False,
                 }
             elif link_class == "indirect_literature":
-                evidence_locator = _string(
-                    link.get("evidence_locator"), "indirect evidence locator"
-                )
+                evidence_locator = _string(link.get("evidence_locator"), "indirect evidence locator")
                 if response_samples or link.get("matched_unit_id") is not None:
                     raise LinkModalitiesError(f"indirect link contains pseudo-pairing: {link_id}")
                 link_record = {
@@ -262,9 +250,7 @@ class LinkModalitiesWorkflow:
                     "match_basis": None,
                     "evidence_locator": evidence_locator,
                     "confidence": _string(link.get("confidence"), "link confidence"),
-                    "candidate_mechanism": _string(
-                        link.get("candidate_mechanism"), "candidate mechanism"
-                    ),
+                    "candidate_mechanism": _string(link.get("candidate_mechanism"), "candidate mechanism"),
                     "causal_claim": False,
                 }
             elif link_class == "unmatched":
@@ -306,9 +292,7 @@ class LinkModalitiesWorkflow:
         pairing = {
             "schema_version": 1,
             "direct_links_require_declared_matched_unit": True,
-            "indirect_links_have_no_response_sample_ids": all(
-                not row["response_sample_ids"] for row in indirect
-            ),
+            "indirect_links_have_no_response_sample_ids": all(not row["response_sample_ids"] for row in indirect),
             "pseudo_pairs_created": False,
             "cross_study_expression_batch_merge": False,
             "direct_matched_units": [row["matched_unit_id"] for row in direct],
@@ -339,9 +323,7 @@ class LinkModalitiesWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -389,9 +371,7 @@ class LinkModalitiesWorkflow:
             "pseudo_pairs_created": False,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }

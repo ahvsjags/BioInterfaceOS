@@ -20,9 +20,7 @@ class RealProteomicsSourcePreflightError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -37,9 +35,7 @@ def _mapping(value: Any, label: str) -> dict[str, Any]:
 
 def _list(value: Any, label: str, *, minimum: int = 0) -> list[Any]:
     if not isinstance(value, list) or len(value) < minimum:
-        raise RealProteomicsSourcePreflightError(
-            f"{label} must be a list with at least {minimum} items"
-        )
+        raise RealProteomicsSourcePreflightError(f"{label} must be a list with at least {minimum} items")
     return value
 
 
@@ -151,15 +147,11 @@ class RealProteomicsSourcePreflightWorkflow:
     def _registry(self) -> tuple[dict[str, Any], list[dict[str, Any]]]:
         registry = self._json(self.registry_path, "T123 proteomics preflight registry")
         if set(registry) != self.REQUIRED_REGISTRY_FIELDS or registry.get("schema_version") != 1:
-            raise RealProteomicsSourcePreflightError(
-                "proteomics preflight registry fields or schema are invalid"
-            )
+            raise RealProteomicsSourcePreflightError("proteomics preflight registry fields or schema are invalid")
         if registry.get("audit_id") != self.AUDIT_ID:
             raise RealProteomicsSourcePreflightError("proteomics preflight identity is invalid")
         if registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION":
-            raise RealProteomicsSourcePreflightError(
-                "proteomics preflight evidence class is unsafe"
-            )
+            raise RealProteomicsSourcePreflightError("proteomics preflight evidence class is unsafe")
         if registry.get("allowed_claim_level") != "EXPLORATORY":
             raise RealProteomicsSourcePreflightError("proteomics preflight claim level is unsafe")
         _string(registry.get("evaluated_at"), "proteomics preflight evaluated_at")
@@ -169,14 +161,10 @@ class RealProteomicsSourcePreflightWorkflow:
 
         policy = _mapping(registry.get("source_policy"), "proteomics preflight policy")
         if set(policy) != self.REQUIRED_POLICY_FIELDS:
-            raise RealProteomicsSourcePreflightError(
-                "proteomics preflight policy fields are invalid"
-            )
+            raise RealProteomicsSourcePreflightError("proteomics preflight policy fields are invalid")
         for field in ("minimum_sources", "minimum_studies", "minimum_laboratories"):
             if _integer(policy.get(field), f"proteomics preflight policy {field}", minimum=3) != 3:
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight minimum cohort policy changed"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight minimum cohort policy changed")
         for field in self.REQUIRED_POLICY_FIELDS - {
             "minimum_sources",
             "minimum_studies",
@@ -184,31 +172,19 @@ class RealProteomicsSourcePreflightWorkflow:
             "allowed_licenses",
         }:
             if policy.get(field) is not True:
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight safety policy is weakened"
-                )
-        if (
-            set(_list(policy.get("allowed_licenses"), "proteomics preflight licences"))
-            != self.ALLOWED_LICENSES
-        ):
+                raise RealProteomicsSourcePreflightError("proteomics preflight safety policy is weakened")
+        if set(_list(policy.get("allowed_licenses"), "proteomics preflight licences")) != self.ALLOWED_LICENSES:
             raise RealProteomicsSourcePreflightError("proteomics preflight licences are invalid")
 
         contract = _mapping(registry.get("preprocessing_contract"), "proteomics preflight contract")
         if set(contract) != self.REQUIRED_CONTRACT_FIELDS:
-            raise RealProteomicsSourcePreflightError(
-                "proteomics preflight contract fields are invalid"
-            )
-        if (
-            contract.get("target_status") != "NOT_FROZEN"
-            or contract.get("model_use") != "PROHIBITED"
-        ):
+            raise RealProteomicsSourcePreflightError("proteomics preflight contract fields are invalid")
+        if contract.get("target_status") != "NOT_FROZEN" or contract.get("model_use") != "PROHIBITED":
             raise RealProteomicsSourcePreflightError("preflight silently promotes a model target")
         for field in ("required_before_target_freeze", "prohibited_shortcuts"):
             values = _list(contract.get(field), f"proteomics preflight {field}", minimum=3)
             if any(not isinstance(value, str) or not value.strip() for value in values):
-                raise RealProteomicsSourcePreflightError(
-                    f"proteomics preflight {field} contains an invalid item"
-                )
+                raise RealProteomicsSourcePreflightError(f"proteomics preflight {field} contains an invalid item")
 
         sources: list[dict[str, Any]] = []
         identifiers: set[str] = set()
@@ -216,9 +192,7 @@ class RealProteomicsSourcePreflightWorkflow:
         for value in _list(registry.get("sources"), "proteomics preflight sources", minimum=3):
             source = _mapping(value, "proteomics preflight source")
             if set(source) != self.REQUIRED_SOURCE_FIELDS:
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight source fields are invalid"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight source fields are invalid")
             for field in self.REQUIRED_SOURCE_FIELDS - {
                 "source_defined_unit_count",
                 "released_assets",
@@ -226,54 +200,34 @@ class RealProteomicsSourcePreflightWorkflow:
                 _string(source.get(field), f"proteomics preflight source {field}")
             source_id = source["source_id"]
             if source_id in identifiers or source_id not in self.EXPECTED_SOURCE_UNITS:
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight source identity is invalid"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight source identity is invalid")
             identifiers.add(source_id)
             if source["accession"] != source_id.removeprefix("PRIDE-"):
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight accession is invalid"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight accession is invalid")
             if not source["project_api_url"].startswith("https://www.ebi.ac.uk/pride/"):
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight API locator is invalid"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight API locator is invalid")
             if not source["landing_url"].startswith("https://www.ebi.ac.uk/pride/"):
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight landing locator is invalid"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight landing locator is invalid")
             if source["publication_date"] > "2024-12-31":
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight source is post-freeze"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight source is post-freeze")
             if source["license_id"] not in self.ALLOWED_LICENSES:
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight source licence is unsafe"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight source licence is unsafe")
             if source["access"] != "ANONYMOUS_PUBLIC":
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight source access is restricted"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight source access is restricted")
             if "human" not in source["biological_context"].lower():
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight source is not human-biofluid"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight source is not human-biofluid")
             units = _integer(
                 source.get("source_defined_unit_count"),
                 "proteomics preflight source-defined unit count",
                 minimum=1,
             )
             if units != self.EXPECTED_SOURCE_UNITS[source_id]:
-                raise RealProteomicsSourcePreflightError(
-                    "proteomics preflight source unit count changed"
-                )
+                raise RealProteomicsSourcePreflightError("proteomics preflight source unit count changed")
             assets = _list(source.get("released_assets"), "proteomics preflight assets", minimum=2)
             for asset_value in assets:
                 asset = _mapping(asset_value, "proteomics preflight asset")
                 if set(asset) != self.REQUIRED_ASSET_FIELDS:
-                    raise RealProteomicsSourcePreflightError(
-                        "proteomics preflight asset fields are invalid"
-                    )
+                    raise RealProteomicsSourcePreflightError("proteomics preflight asset fields are invalid")
                 for field in self.REQUIRED_ASSET_FIELDS:
                     _string(asset.get(field), f"proteomics preflight asset {field}")
             if source["target_admission"] != "NOT_ADMITTED_PENDING_COMMON_PREPROCESSING":
@@ -281,26 +235,19 @@ class RealProteomicsSourcePreflightWorkflow:
             laboratories.add(source["laboratory"])
             sources.append(source)
         if identifiers != set(self.EXPECTED_SOURCE_UNITS) or len(laboratories) != 3:
-            raise RealProteomicsSourcePreflightError(
-                "proteomics source/laboratory cohort is invalid"
-            )
+            raise RealProteomicsSourcePreflightError("proteomics source/laboratory cohort is invalid")
         return registry, sorted(sources, key=lambda row: str(row["source_id"]))
 
     def run(self, *, strict: bool = False) -> RealProteomicsSourcePreflightSummary:
         """Write an immutable, non-model source-acquisition preflight receipt."""
 
         if not strict:
-            raise RealProteomicsSourcePreflightError(
-                "proteomics source preflight requires --strict"
-            )
+            raise RealProteomicsSourcePreflightError("proteomics source preflight requires --strict")
         if self.output_root.exists():
-            raise RealProteomicsSourcePreflightError(
-                "real proteomics source preflight already executed"
-            )
+            raise RealProteomicsSourcePreflightError("real proteomics source preflight already executed")
         registry, sources = self._registry()
         unit_count = sum(
-            _integer(source["source_defined_unit_count"], "source-defined unit count", minimum=1)
-            for source in sources
+            _integer(source["source_defined_unit_count"], "source-defined unit count", minimum=1) for source in sources
         )
         decision = {
             "schema_version": 1,
@@ -357,9 +304,7 @@ class RealProteomicsSourcePreflightWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return RealProteomicsSourcePreflightSummary(
             source_count=_integer(receipt["candidate_source_count"], "source count", minimum=3),
             source_defined_unit_count=_integer(
@@ -399,7 +344,5 @@ class RealProteomicsSourcePreflightWorkflow:
             or any(receipt.get(field) is not False for field in required_false)
             or any(decision.get(field) is not False for field in required_false)
         ):
-            raise RealProteomicsSourcePreflightError(
-                "proteomics source preflight receipt is invalid"
-            )
+            raise RealProteomicsSourcePreflightError("proteomics source preflight receipt is invalid")
         return receipt

@@ -27,11 +27,7 @@ def test_t222_paper_data_fallback_receipt_verifies() -> None:
 
 
 def test_t222_routes_preserve_paper_data_claim_boundaries() -> None:
-    report_path = (
-        ROOT
-        / R4PaperDataFallbackWorkflow.OUTPUT_RELATIVE
-        / "r4_t222_paper_data_fallback_report.json"
-    )
+    report_path = ROOT / R4PaperDataFallbackWorkflow.OUTPUT_RELATIVE / "r4_t222_paper_data_fallback_report.json"
     report = json.loads(report_path.read_text(encoding="utf-8"))
 
     assert {route["evidence_class"] for route in report["routes"]} == {
@@ -40,7 +36,4 @@ def test_t222_routes_preserve_paper_data_claim_boundaries() -> None:
         "AUTHOR_RUN_PAPER_OOD",
         "EXTERNAL_REPRODUCTION_CANDIDATE",
     }
-    assert all(
-        all(value is False for value in route["external_gate_effect"].values())
-        for route in report["routes"]
-    )
+    assert all(all(value is False for value in route["external_gate_effect"].values()) for route in report["routes"])

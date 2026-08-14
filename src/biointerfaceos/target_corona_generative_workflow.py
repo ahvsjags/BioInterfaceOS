@@ -38,9 +38,7 @@ class TargetCoronaGenerativeSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -86,9 +84,7 @@ class TargetCoronaGenerativeWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/design/target_corona_generative_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/design/target_corona_generative_fixture.json")
         self.output_root = output_root or self.root / "reports/design/generative"
 
     def _fixture(self) -> dict[str, Any]:
@@ -99,9 +95,7 @@ class TargetCoronaGenerativeWorkflow:
             )
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
             raise TargetCoronaGenerativeError(f"cannot load generative fixture: {exc}") from exc
-        if data.get("schema_version") != 1 or data.get("mode") != (
-            "target_corona_generative_design"
-        ):
+        if data.get("schema_version") != 1 or data.get("mode") != ("target_corona_generative_design"):
             raise TargetCoronaGenerativeError("generative fixture schema or mode is invalid")
         for key in ("inputs", "preregistration", "support_rows", "proposals", "ablations"):
             if key not in data:
@@ -139,13 +133,9 @@ class TargetCoronaGenerativeWorkflow:
             if label not in expected:
                 raise TargetCoronaGenerativeError(f"unexpected generative input: {label}")
             path, checksum = expected[label]
-            declared_path = (self.root / _string(row.get("path"), "generative input path")).resolve(
-                strict=True
-            )
+            declared_path = (self.root / _string(row.get("path"), "generative input path")).resolve(strict=True)
             if declared_path != path.resolve(strict=True) or row.get("sha256") != checksum:
-                raise TargetCoronaGenerativeError(
-                    f"generative input path/checksum differs: {label}"
-                )
+                raise TargetCoronaGenerativeError(f"generative input path/checksum differs: {label}")
             payload = _mapping(json.loads(path.read_text(encoding="utf-8")), f"{label} payload")
             if _sha256(path.read_bytes()) != checksum or payload.get("status") != "VALID":
                 raise TargetCoronaGenerativeError(f"{label} is not a valid frozen input")
@@ -236,9 +226,7 @@ class TargetCoronaGenerativeWorkflow:
         return checks, rows
 
     @classmethod
-    def _proposals(
-        cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _proposals(cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]) -> list[dict[str, Any]]:
         required = {
             "proposal_id",
             "method",
@@ -302,18 +290,14 @@ class TargetCoronaGenerativeWorkflow:
         return {
             "proposals": len(selected),
             "validity_rate": round(len(valid) / len(selected), 8),
-            "novelty_score": round(
-                sum(row["novelty"] for row in supported) / max(len(supported), 1), 8
-            ),
+            "novelty_score": round(sum(row["novelty"] for row in supported) / max(len(supported), 1), 8),
             "pareto_members": sum(row["pareto_member"] for row in supported),
             "ood_uncertainty": round(sum(row["uncertainty"] for row in ood) / max(len(ood), 1), 8),
             "abstentions": sum(row["abstain"] for row in selected),
         }
 
     @classmethod
-    def _ablations(
-        cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _ablations(cls, fixture: Mapping[str, Any], preregistration: Mapping[str, Any]) -> list[dict[str, Any]]:
         required = {
             "name",
             "validity_rate",
@@ -336,18 +320,10 @@ class TargetCoronaGenerativeWorkflow:
             records.append(
                 {
                     "name": name,
-                    "validity_rate": round(
-                        _number(source.get("validity_rate"), "ablation validity"), 8
-                    ),
-                    "novelty_score": round(
-                        _number(source.get("novelty_score"), "ablation novelty"), 8
-                    ),
-                    "pareto_members": int(
-                        _number(source.get("pareto_members"), "ablation Pareto members")
-                    ),
-                    "ood_uncertainty": round(
-                        _number(source.get("ood_uncertainty"), "ablation OOD uncertainty"), 8
-                    ),
+                    "validity_rate": round(_number(source.get("validity_rate"), "ablation validity"), 8),
+                    "novelty_score": round(_number(source.get("novelty_score"), "ablation novelty"), 8),
+                    "pareto_members": int(_number(source.get("pareto_members"), "ablation Pareto members")),
+                    "ood_uncertainty": round(_number(source.get("ood_uncertainty"), "ablation OOD uncertainty"), 8),
                     "complete": True,
                 }
             )
@@ -374,17 +350,12 @@ class TargetCoronaGenerativeWorkflow:
         novelty_margin = float(preregistration["novelty_margin"])
         pareto_margin = int(preregistration["pareto_margin"])
         ood_tolerance = float(preregistration["ood_uncertainty_tolerance"])
-        novelty_gain = round(
-            float(generator["novelty_score"]) - float(baseline["novelty_score"]), 8
-        )
+        novelty_gain = round(float(generator["novelty_score"]) - float(baseline["novelty_score"]), 8)
         pareto_gain = int(generator["pareto_members"]) - int(baseline["pareto_members"])
-        ood_delta = round(
-            float(generator["ood_uncertainty"]) - float(baseline["ood_uncertainty"]), 8
-        )
+        ood_delta = round(float(generator["ood_uncertainty"]) - float(baseline["ood_uncertainty"]), 8)
         generator_beats = (
             generator_attempted
-            and float(generator["validity_rate"])
-            >= float(baseline["validity_rate"]) + validity_margin
+            and float(generator["validity_rate"]) >= float(baseline["validity_rate"]) + validity_margin
             and novelty_gain >= novelty_margin
             and pareto_gain >= pareto_margin
             and ood_delta <= ood_tolerance
@@ -461,11 +432,7 @@ class TargetCoronaGenerativeWorkflow:
             payload = _canonical(raw_payloads[name])
             path.write_bytes(payload)
             artifact_records[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload),
                 "bytes": len(payload),
             }
@@ -528,9 +495,7 @@ class TargetCoronaGenerativeWorkflow:
                 },
             },
         }
-        (self.output_root / "target_corona_generative_manifest.json").write_bytes(
-            _canonical(manifest)
-        )
+        (self.output_root / "target_corona_generative_manifest.json").write_bytes(_canonical(manifest))
         return TargetCoronaGenerativeSummary(
             rows=len(support_rows),
             groups=sufficiency["independent_groups"],

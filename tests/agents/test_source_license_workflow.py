@@ -37,9 +37,7 @@ def test_source_license_rejection_registry_is_deterministic(tmp_path: Path) -> N
 
     assert second.resumed == 1
     assert second.receipt_path.read_bytes() == first.receipt_path.read_bytes()
-    assert (
-        tmp_path / "source_license" / "rejected_sources.parquet"
-    ).read_bytes() == registry_before
+    assert (tmp_path / "source_license" / "rejected_sources.parquet").read_bytes() == registry_before
 
 
 def test_source_license_requires_fixture(tmp_path: Path) -> None:

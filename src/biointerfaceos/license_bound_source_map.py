@@ -32,9 +32,7 @@ class LicenseBoundSourceMapSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -179,8 +177,7 @@ class LicenseBoundSourceMapWorkflow:
             "T130 evidence semantics are unsafe",
         )
         self._require(
-            _string(registry.get("development_cutoff"), "T130 cutoff")
-            == "2024-12-31T23:59:59+00:00",
+            _string(registry.get("development_cutoff"), "T130 cutoff") == "2024-12-31T23:59:59+00:00",
             "T130 cutoff changed",
         )
         _string(registry.get("evaluated_at"), "T130 evaluated_at")
@@ -232,8 +229,7 @@ class LicenseBoundSourceMapWorkflow:
                 _string(release.get(field), f"T130 primary release {field}")
             _integer(release.get("source_unit_count"), "T130 primary source units")
             self._require(
-                release["locator"].startswith("https://")
-                and release["license_id"] in self.PUBLIC_LICENSES,
+                release["locator"].startswith("https://") and release["license_id"] in self.PUBLIC_LICENSES,
                 "T130 primary release is not a public reusable source",
             )
 
@@ -267,12 +263,8 @@ class LicenseBoundSourceMapWorkflow:
                 and len(set(identifiers)) == len(identifiers),
                 "T130 source unit identities are invalid",
             )
-            source_unit_count = _integer(
-                coverage.get("source_unit_count"), "T130 covered source units"
-            )
-            mapped_unit_count = _integer(
-                coverage.get("mapped_unit_count"), "T130 mapped source units"
-            )
+            source_unit_count = _integer(coverage.get("source_unit_count"), "T130 covered source units")
+            mapped_unit_count = _integer(coverage.get("mapped_unit_count"), "T130 mapped source units")
             self._require(
                 source_unit_count == len(identifiers)
                 and source_unit_count == release["source_unit_count"]
@@ -299,22 +291,19 @@ class LicenseBoundSourceMapWorkflow:
             pxd052["unit_coverage"]["mapped_unit_count"] == 10
             and pxd052["numeric_material_or_size_covariate_status"]
             == "EXPLICIT_NOMINAL_EXTRUSION_FILTER_SIZE_ANALYSIS_ONLY"
-            and pxd052["endpoint_status"]
-            == "AUTHOR_SPECIFIC_NSAF_OR_SPECTRAL_COUNT_NOT_SHARED_CROSS_STUDY",
+            and pxd052["endpoint_status"] == "AUTHOR_SPECIFIC_NSAF_OR_SPECTRAL_COUNT_NOT_SHARED_CROSS_STUDY",
             "T130 PXD052701 boundary is invalid",
         )
         pxd017 = by_id["PXD017776_PRIDE_ONLY"]
         self._require(
             pxd017["unit_coverage"]["mapped_unit_count"] == 0
-            and pxd017["numeric_material_or_size_covariate_status"]
-            == "MISSING_NUMERIC_SOURCE_MATCHED_MAP",
+            and pxd017["numeric_material_or_size_covariate_status"] == "MISSING_NUMERIC_SOURCE_MATCHED_MAP",
             "T130 PXD017776 boundary is invalid",
         )
         c9 = by_id["C9NR08186K_RSC_SUPPLEMENTS"]
         self._require(
             c9["unit_coverage"]["source_unit_count"] == 0
-            and c9["numeric_material_or_size_covariate_status"]
-            == "UNVERIFIED_PENDING_WORKBOOK_INSPECTION",
+            and c9["numeric_material_or_size_covariate_status"] == "UNVERIFIED_PENDING_WORKBOOK_INSPECTION",
             "T130 C9NR08186K boundary is invalid",
         )
         return registry, sorted(routes, key=lambda route: str(route["route_id"]))
@@ -329,8 +318,7 @@ class LicenseBoundSourceMapWorkflow:
         registry, routes = self._registry()
         analysis_only_complete_map_count = sum(
             route["mapping_evidence"]["reuse_class"] == "ANALYSIS_ONLY_NONPUBLIC_MAPPING"
-            and route["unit_coverage"]["source_unit_count"]
-            == route["unit_coverage"]["mapped_unit_count"]
+            and route["unit_coverage"]["source_unit_count"] == route["unit_coverage"]["mapped_unit_count"]
             and route["unit_coverage"]["mapped_unit_count"] > 0
             for route in routes
         )
@@ -348,8 +336,7 @@ class LicenseBoundSourceMapWorkflow:
             "public_redistributable_complete_map_count": 0,
             "analysis_only_complete_map_count": analysis_only_complete_map_count,
             "public_incomplete_or_unverified_route_count": sum(
-                route["mapping_evidence"]["reuse_class"]
-                in {"PUBLIC_MAPPING_INCOMPLETE", "PUBLIC_MAPPING_UNVERIFIED"}
+                route["mapping_evidence"]["reuse_class"] in {"PUBLIC_MAPPING_INCOMPLETE", "PUBLIC_MAPPING_UNVERIFIED"}
                 for route in routes
             ),
             "shared_cross_study_endpoint_count": 0,
@@ -358,15 +345,15 @@ class LicenseBoundSourceMapWorkflow:
             "model_use": "PROHIBITED",
             "routes": routes,
             "blocked_reasons": [
-                "PXD052701 has a complete nominal-size map only through an analysis-only CC BY-NC source; no mapping values are copied into public artefacts or the CC0 cohort.",
-                "PXD017776 has public CC0 author results but no released numeric file-to-condition map, so file-name tokens remain prohibited identity features.",
-                "C9NR08186K is a distinct public CC BY route, but its XLSX schema and source-unit coverage are unverified and raw proteomics availability is restricted to reasonable request.",
-                "No two independent laboratories have a frozen, identically processed protein-corona endpoint with complete public reusable numeric material or size covariates.",
+                "PXD052701 has a complete nominal-size map only through an analysis-only CC BY-NC source; no mapping values are copied into public artefacts or the CC0 cohort.",  # noqa: E501
+                "PXD017776 has public CC0 author results but no released numeric file-to-condition map, so file-name tokens remain prohibited identity features.",  # noqa: E501
+                "C9NR08186K is a distinct public CC BY route, but its XLSX schema and source-unit coverage are unverified and raw proteomics availability is restricted to reasonable request.",  # noqa: E501
+                "No two independent laboratories have a frozen, identically processed protein-corona endpoint with complete public reusable numeric material or size covariates.",  # noqa: E501
             ],
             "next_required_evidence": [
-                "Obtain a public-redistributable source map that closes each PXD017776 unit to source-defined numeric covariates, without relabelling file names.",
-                "After normal publisher verification, checksum and inspect C9NR08186K's listed XLSX supplements before recording any unit or endpoint fields.",
-                "Before any model run, freeze a T121 amendment with a shared preprocessing endpoint, source-unit manifest, study-held-out split and permitted features across at least two laboratories.",
+                "Obtain a public-redistributable source map that closes each PXD017776 unit to source-defined numeric covariates, without relabelling file names.",  # noqa: E501
+                "After normal publisher verification, checksum and inspect C9NR08186K's listed XLSX supplements before recording any unit or endpoint fields.",  # noqa: E501
+                "Before any model run, freeze a T121 amendment with a shared preprocessing endpoint, source-unit manifest, study-held-out split and permitted features across at least two laboratories.",  # noqa: E501
             ],
             **{field: False for field in self.REQUIRED_FALSE},
         }
@@ -392,9 +379,7 @@ class LicenseBoundSourceMapWorkflow:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return LicenseBoundSourceMapSummary(
             route_count=len(routes),
             independent_laboratory_count=len({route["laboratory"] for route in routes}),
@@ -412,8 +397,7 @@ class LicenseBoundSourceMapWorkflow:
         registry, routes = self._registry()
         analysis_only_complete_map_count = sum(
             route["mapping_evidence"]["reuse_class"] == "ANALYSIS_ONLY_NONPUBLIC_MAPPING"
-            and route["unit_coverage"]["source_unit_count"]
-            == route["unit_coverage"]["mapped_unit_count"]
+            and route["unit_coverage"]["source_unit_count"] == route["unit_coverage"]["mapped_unit_count"]
             and route["unit_coverage"]["mapped_unit_count"] > 0
             for route in routes
         )
@@ -439,10 +423,7 @@ class LicenseBoundSourceMapWorkflow:
             and decision.get("model_use") == "PROHIBITED"
             and receipt.get("model_use") == "PROHIBITED"
             and all(decision.get(key) == value and receipt.get(key) == value for key, value in required_counts.items())
-            and all(
-                decision.get(field) is False and receipt.get(field) is False
-                for field in self.REQUIRED_FALSE
-            ),
+            and all(decision.get(field) is False and receipt.get(field) is False for field in self.REQUIRED_FALSE),
             "T130 licence-bound source-map receipt is invalid",
         )
         return LicenseBoundSourceMapSummary(

@@ -45,10 +45,7 @@ class PmcOaTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.project_root = Path(__file__).resolve().parents[2]
         fixture_root = cls.project_root / "tests/fixtures/sources/pmc_oa"
-        cls.pages = {
-            accession: (fixture_root / f"{accession}.xml").read_bytes()
-            for accession in ("PMC123", "PMC999")
-        }
+        cls.pages = {accession: (fixture_root / f"{accession}.xml").read_bytes() for accession in ("PMC123", "PMC999")}
 
     def _adapter(self, root: Path) -> PmcOaAdapter:
         def opener(request: Any, *, timeout: float) -> FakeResponse:
@@ -74,9 +71,7 @@ class PmcOaTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             adapter = self._adapter(Path(temporary))
             candidates = adapter.search(SourceQuery("PMC123 PMC999", limit=10))
-            self.assertEqual(
-                [candidate.accession for candidate in candidates], ["PMC123", "PMC999"]
-            )
+            self.assertEqual([candidate.accession for candidate in candidates], ["PMC123", "PMC999"])
             self.assertEqual(candidates[0].license_identifier, "CC BY")
             self.assertIsNone(candidates[1].license_identifier)
             self.assertIn("oa.fcgi", candidates[1].url)

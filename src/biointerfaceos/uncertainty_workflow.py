@@ -65,9 +65,7 @@ def _metrics(rows: list[dict[str, Any]], predictions: Mapping[str, float]) -> di
     )
 
 
-def _binary_metrics(
-    rows: list[dict[str, Any]], scores: Mapping[str, float], threshold: float
-) -> dict[str, Any]:
+def _binary_metrics(rows: list[dict[str, Any]], scores: Mapping[str, float], threshold: float) -> dict[str, Any]:
     counts = {"true_positive": 0, "false_positive": 0, "true_negative": 0, "false_negative": 0}
     for row in rows:
         predicted = scores[row["row_id"]] >= threshold
@@ -90,9 +88,7 @@ def _binary_metrics(
         **counts,
         "precision": round(precision, 6),
         "recall": round(recall, 6),
-        "f1": round(2.0 * precision * recall / (precision + recall), 6)
-        if precision + recall
-        else 0.0,
+        "f1": round(2.0 * precision * recall / (precision + recall), 6) if precision + recall else 0.0,
     }
 
 
@@ -109,9 +105,7 @@ class UncertaintyWorkflow:
     ) -> None:
         self.root = root.resolve(strict=True)
         self.config_path = config_path or self.root / "configs/models/uncertainty.yaml"
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/models/uncertainty_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/models/uncertainty_fixture.json")
         self.output_root = output_root or self.root / "reports/models/uncertainty"
 
     def _config(self) -> dict[str, Any]:
@@ -174,9 +168,7 @@ class UncertaintyWorkflow:
             if label not in expected:
                 raise UncertaintyError(f"unexpected uncertainty input: {label}")
             path, checksum = expected[label]
-            declared_path = (
-                self.root / _string(row.get("path"), "uncertainty input path")
-            ).resolve(strict=True)
+            declared_path = (self.root / _string(row.get("path"), "uncertainty input path")).resolve(strict=True)
             if declared_path != path.resolve(strict=True):
                 raise UncertaintyError(f"uncertainty input path mismatch: {label}")
             if _sha256(path.read_bytes()) != checksum or row.get("sha256") != checksum:
@@ -267,10 +259,7 @@ class UncertaintyWorkflow:
         coverage_target = float(config["coverage_target"])
         quantile = float(config["conformal_quantile"])
         radius = _quantile(residuals, quantile)
-        covered = {
-            row["row_id"]: abs(predictions[row["row_id"]] - row["target"]) <= radius
-            for row in validation
-        }
+        covered = {row["row_id"]: abs(predictions[row["row_id"]] - row["target"]) <= radius for row in validation}
         coverage = sum(covered.values()) / len(covered)
         domain_calibration: list[dict[str, Any]] = []
         for domain in sorted({row["domain"] for row in validation}):
@@ -279,13 +268,10 @@ class UncertaintyWorkflow:
                 {
                     "domain": domain,
                     "rows": len(members),
-                    "coverage": round(
-                        sum(covered[row["row_id"]] for row in members) / len(members), 6
-                    ),
+                    "coverage": round(sum(covered[row["row_id"]] for row in members) / len(members), 6),
                     "mean_interval_width": round(2.0 * radius, 6),
                     "mean_abs_error": round(
-                        sum(abs(predictions[row["row_id"]] - row["target"]) for row in members)
-                        / len(members),
+                        sum(abs(predictions[row["row_id"]] - row["target"]) for row in members) / len(members),
                         6,
                     ),
                 }
@@ -314,9 +300,7 @@ class UncertaintyWorkflow:
         )
         distance_scores = {row["row_id"]: row["distance"] for row in validation}
         uncertainty_scores = {row["row_id"]: uncertainties[row["row_id"]] for row in validation}
-        distance_detector = _binary_metrics(
-            validation, distance_scores, float(config["ood_distance_threshold"])
-        )
+        distance_detector = _binary_metrics(validation, distance_scores, float(config["ood_distance_threshold"]))
         uncertainty_detector = _binary_metrics(
             validation, uncertainty_scores, float(config["ood_uncertainty_threshold"])
         )
@@ -326,14 +310,10 @@ class UncertaintyWorkflow:
             if distance_scores[row["row_id"]] >= float(config["ood_distance_threshold"])
             or uncertainty_scores[row["row_id"]] >= float(config["ood_uncertainty_threshold"])
         )
-        overconfident_ood = [
-            row["row_id"] for row in validation if row["ood"] and row["row_id"] not in abstain_ids
-        ]
+        overconfident_ood = [row["row_id"] for row in validation if row["ood"] and row["row_id"] not in abstain_ids]
         ood_policy_passed = not overconfident_ood
         selected_model = (
-            "ensemble_conformal"
-            if calibration_passed and ood_policy_passed
-            else str(config["fallback_model"])
+            "ensemble_conformal" if calibration_passed and ood_policy_passed else str(config["fallback_model"])
         )
         calibration_audit = {
             "schema_version": 1,
@@ -405,9 +385,7 @@ class UncertaintyWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -454,9 +432,7 @@ class UncertaintyWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root))
-                        if path.is_relative_to(self.root)
-                        else str(path),
+                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }

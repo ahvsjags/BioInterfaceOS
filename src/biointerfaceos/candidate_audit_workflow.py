@@ -34,9 +34,7 @@ class CandidateAuditSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -75,9 +73,7 @@ class CandidateAuditWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/design/candidate_audit_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/design/candidate_audit_fixture.json")
         self.output_root = output_root or self.root / "reports/design/candidates"
 
     def _fixture(self) -> dict[str, Any]:
@@ -93,9 +89,7 @@ class CandidateAuditWorkflow:
         for key in ("inputs", "preregistration", "candidates", "retrospective_matches"):
             if key not in data:
                 raise CandidateAuditError(f"candidate-audit fixture is missing {key}")
-        if not all(
-            isinstance(data[key], list) for key in ("inputs", "candidates", "retrospective_matches")
-        ):
+        if not all(isinstance(data[key], list) for key in ("inputs", "candidates", "retrospective_matches")):
             raise CandidateAuditError("candidate-audit fixture list fields are invalid")
         preregistration = _mapping(data["preregistration"], "candidate-audit preregistration")
         if preregistration.get("schema_version") != 1:
@@ -129,18 +123,14 @@ class CandidateAuditWorkflow:
             if label not in expected:
                 raise CandidateAuditError(f"unexpected candidate-audit input: {label}")
             path, checksum = expected[label]
-            declared = (self.root / _string(row.get("path"), "candidate-audit input path")).resolve(
-                strict=True
-            )
+            declared = (self.root / _string(row.get("path"), "candidate-audit input path")).resolve(strict=True)
             if declared != path.resolve(strict=True) or row.get("sha256") != checksum:
                 raise CandidateAuditError(f"candidate-audit input path/checksum differs: {label}")
             raw = path.read_bytes()
             payload = _mapping(json.loads(raw), f"{label} payload")
             if _sha256(raw) != checksum or payload.get("status") != "VALID":
                 raise CandidateAuditError(f"{label} is not a valid frozen input")
-            if label.startswith("T097") and payload.get("selected_method") != (
-                "conditional_generator"
-            ):
+            if label.startswith("T097") and payload.get("selected_method") != ("conditional_generator"):
                 raise CandidateAuditError("T097 selected method is not the frozen generator")
             seen.add(label)
         if seen != set(expected):
@@ -209,9 +199,7 @@ class CandidateAuditWorkflow:
             scores = source.get("perturbation_scores")
             if not isinstance(scores, list) or len(scores) != budget:
                 raise CandidateAuditError(f"perturbation budget mismatch: {candidate_id}")
-            if not all(
-                isinstance(item, int | float) and not isinstance(item, bool) for item in scores
-            ):
+            if not all(isinstance(item, int | float) and not isinstance(item, bool) for item in scores):
                 raise CandidateAuditError(f"perturbation scores are invalid: {candidate_id}")
             links = source.get("evidence_links")
             if not isinstance(links, list) or not links:
@@ -234,9 +222,7 @@ class CandidateAuditWorkflow:
                     "nearest_evidence_distance": _number(
                         source.get("nearest_evidence_distance"), "nearest evidence distance"
                     ),
-                    "perturbation_scores": [
-                        round(_number(item, "perturbation score"), 8) for item in scores
-                    ],
+                    "perturbation_scores": [round(_number(item, "perturbation score"), 8) for item in scores],
                     "unsafe": source["unsafe"],
                     "evidence_links": [str(item) for item in links],
                     "evidence_date": _string(source.get("evidence_date"), "evidence date"),
@@ -281,9 +267,7 @@ class CandidateAuditWorkflow:
                     "evidence_id": _string(source.get("evidence_id"), "evidence ID"),
                     "evidence_date": evidence_date,
                     "match_type": _string(source.get("match_type"), "match type"),
-                    "match_strength": round(
-                        _number(source.get("match_strength"), "match strength"), 8
-                    ),
+                    "match_strength": round(_number(source.get("match_strength"), "match strength"), 8),
                     "temporal_match": temporal,
                     "used_for_selection": False,
                 }
@@ -311,9 +295,7 @@ class CandidateAuditWorkflow:
                 reasons.append("high_applicability_domain_distance")
             if record["uncertainty"] > float(preregistration["uncertainty_threshold"]):
                 reasons.append("high_uncertainty")
-            if record["nearest_evidence_distance"] > float(
-                preregistration["neighbor_distance_threshold"]
-            ):
+            if record["nearest_evidence_distance"] > float(preregistration["neighbor_distance_threshold"]):
                 reasons.append("nearest_evidence_too_far")
             if stability < float(preregistration["stability_threshold"]):
                 reasons.append("perturbation_instability")
@@ -342,9 +324,7 @@ class CandidateAuditWorkflow:
         records, duplicates = self._candidates(fixture_data, preregistration)
         supported, rejected = self._audit_records(records, preregistration)
         audited_records = [*supported, *rejected]
-        retrospective = self._retrospective(
-            fixture_data, preregistration, {row["candidate_id"] for row in records}
-        )
+        retrospective = self._retrospective(fixture_data, preregistration, {row["candidate_id"] for row in records})
         fixture_text = self.fixture_path.read_text(encoding="utf-8").lower()
         prohibited = ["api_key", "credential", "private_key", "locked_payload", "secret"]
         found = [token for token in prohibited if token in fixture_text]
@@ -424,11 +404,7 @@ class CandidateAuditWorkflow:
             payload = _canonical(raw_payloads[name])
             path.write_bytes(payload)
             artifacts[name] = {
-                "path": (
-                    str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path)
-                ),
+                "path": (str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path)),
                 "sha256": _sha256(payload),
                 "bytes": len(payload),
             }

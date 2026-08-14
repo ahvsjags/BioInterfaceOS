@@ -24,9 +24,7 @@ class RealModelSourceAuditError(RuntimeError):
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(path: Path) -> str:
@@ -134,9 +132,7 @@ class RealModelSourceAudit:
     def _registry(self) -> dict[str, Any]:
         registry = self._json(self.registry_path, "T123 source-candidate registry")
         if set(registry) != self.REQUIRED_REGISTRY_FIELDS or registry.get("schema_version") != 1:
-            raise RealModelSourceAuditError(
-                "source-candidate registry fields or schema are invalid"
-            )
+            raise RealModelSourceAuditError("source-candidate registry fields or schema are invalid")
         if registry.get("audit_id") != self.AUDIT_ID:
             raise RealModelSourceAuditError("source-candidate registry identity is invalid")
         if registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION":
@@ -144,9 +140,7 @@ class RealModelSourceAudit:
         if registry.get("allowed_claim_level") != "EXPLORATORY":
             raise RealModelSourceAuditError("source-candidate claim level is unsafe")
         if not isinstance(registry["sources"], list) or len(registry["sources"]) < 3:
-            raise RealModelSourceAuditError(
-                "source-candidate audit requires at least three sources"
-            )
+            raise RealModelSourceAuditError("source-candidate audit requires at least three sources")
         if not isinstance(registry["excluded_sources"], list):
             raise RealModelSourceAuditError("source-candidate exclusions are invalid")
         return registry
@@ -161,9 +155,7 @@ class RealModelSourceAudit:
         if any(token in relative.lower() for token in ("fixture", "synthetic", "mock")):
             raise RealModelSourceAuditError("fixture-like material crossed into source candidates")
         expected_hash = _string(asset.get("sha256"), "source-candidate asset SHA-256").lower()
-        if len(expected_hash) != 64 or any(
-            char not in "0123456789abcdef" for char in expected_hash
-        ):
+        if len(expected_hash) != 64 or any(char not in "0123456789abcdef" for char in expected_hash):
             raise RealModelSourceAuditError("source-candidate asset checksum is invalid")
         if _sha256(path) != expected_hash:
             raise RealModelSourceAuditError("source-candidate asset checksum differs")
@@ -173,9 +165,7 @@ class RealModelSourceAudit:
             raise RealModelSourceAuditError("source-candidate asset needs an HTTPS URL")
         member = asset["archive_member"]
         if member is None:
-            if asset.get("content_type") != (
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            ):
+            if asset.get("content_type") != ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"):
                 raise RealModelSourceAuditError("direct source-candidate asset must be XLSX")
             return path.read_bytes(), {
                 "path": relative,
@@ -224,9 +214,7 @@ class RealModelSourceAudit:
             source_ids.add(source_id)
             studies.add(source["study_id"])
             laboratories.add(source["laboratory"])
-            workbook_bytes, asset_record = self._workbook_bytes(
-                _mapping(source["asset"], "source-candidate asset")
-            )
+            workbook_bytes, asset_record = self._workbook_bytes(_mapping(source["asset"], "source-candidate asset"))
             header_cells = source["header_cells"]
             if not isinstance(header_cells, list) or not header_cells:
                 raise RealModelSourceAuditError("source-candidate headers are missing")
@@ -238,13 +226,9 @@ class RealModelSourceAudit:
                 for header_value in header_cells:
                     header = _mapping(header_value, "source-candidate header")
                     if set(header) != self.REQUIRED_HEADER_FIELDS:
-                        raise RealModelSourceAuditError(
-                            "source-candidate header fields are invalid"
-                        )
+                        raise RealModelSourceAuditError("source-candidate header fields are invalid")
                     cell = _string(header.get("cell"), "source-candidate header cell")
-                    expected = _string(
-                        header.get("expected"), "source-candidate header expected value"
-                    )
+                    expected = _string(header.get("expected"), "source-candidate header expected value")
                     observed = worksheet[cell].value
                     if observed != expected:
                         raise RealModelSourceAuditError(
@@ -270,9 +254,7 @@ class RealModelSourceAudit:
                     "asset": asset_record,
                     "worksheet": source["worksheet"],
                     "header_cells": verified_headers,
-                    "declared_measurement_definition_id": source[
-                        "declared_measurement_definition_id"
-                    ],
+                    "declared_measurement_definition_id": source["declared_measurement_definition_id"],
                     "declared_measurement_definition": source["declared_measurement_definition"],
                     "endpoint_family_id": source["endpoint_family_id"],
                     "unit": source["unit"],
@@ -294,9 +276,7 @@ class RealModelSourceAudit:
         if self.output_root.exists():
             raise RealModelSourceAuditError("real-model source-candidate audit already executed")
         registry, sources = self._admit_sources()
-        definitions = sorted(
-            {str(source["declared_measurement_definition_id"]) for source in sources}
-        )
+        definitions = sorted({str(source["declared_measurement_definition_id"]) for source in sources})
         blocked_reasons = [
             "The three source workbooks use different declared DLS size statistics: "
             + ", ".join(definitions)
@@ -359,17 +339,13 @@ class RealModelSourceAudit:
         self._write(receipt_path, receipt)
         for path in self.output_root.iterdir():
             path.chmod(stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
-        self.output_root.chmod(
-            stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
-        )
+        self.output_root.chmod(stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
         return RealModelSourceAuditSummary(
             source_count=_integer(receipt["source_count"], "source count", minimum=3),
             distinct_measurement_definitions=_integer(
                 receipt["distinct_measurement_definitions"], "measurement definitions", minimum=1
             ),
-            admissible_target_count=_integer(
-                receipt["admissible_target_count"], "admissible target count"
-            ),
+            admissible_target_count=_integer(receipt["admissible_target_count"], "admissible target count"),
             receipt_path=receipt_path,
         )
 

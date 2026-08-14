@@ -7,7 +7,6 @@ from pathlib import Path
 
 from biointerfaceos.r4_small_molecule_corona_ood import R4SmallMoleculeCoronaOODWorkflow
 
-
 ROOT = Path(__file__).resolve().parents[2]
 
 

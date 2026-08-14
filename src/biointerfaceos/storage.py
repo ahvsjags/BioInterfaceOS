@@ -145,12 +145,7 @@ def _included_files(root: Path) -> list[Path]:
         relative_parts = path.relative_to(root).parts
         if any(part in EXCLUDED_DIRECTORIES for part in relative_parts):
             continue
-        if (
-            path.name == "storage_usage.json"
-            or path.name.endswith(".tmp")
-            or path.is_symlink()
-            or not path.is_file()
-        ):
+        if path.name == "storage_usage.json" or path.name.endswith(".tmp") or path.is_symlink() or not path.is_file():
             continue
         files.append(path)
     return sorted(files, key=lambda item: item.as_posix())
@@ -182,9 +177,9 @@ def audit_storage(root: Path, config: StorageConfig) -> StorageAudit:
             )
         )
     entries.sort(key=lambda entry: entry.path)
-    manifest_bytes = json.dumps(
-        [asdict(entry) for entry in entries], sort_keys=True, separators=(",", ":")
-    ).encode("utf-8")
+    manifest_bytes = json.dumps([asdict(entry) for entry in entries], sort_keys=True, separators=(",", ":")).encode(
+        "utf-8"
+    )
     duplicates = tuple(
         DuplicateGroup(
             sha256=digest,
@@ -236,9 +231,7 @@ class StorageGuard:
             raise StorageError("write size must be a non-negative integer")
         usage = audit_storage(self.root, self.config).total_bytes
         if usage + size > self.config.budget_bytes:
-            raise BudgetExceededError(
-                f"write would exceed budget: {usage} + {size} > {self.config.budget_bytes}"
-            )
+            raise BudgetExceededError(f"write would exceed budget: {usage} + {size} > {self.config.budget_bytes}")
         return True
 
     def deny_delete(self, path: Path) -> None:

@@ -30,15 +30,7 @@ class HarmonizationWorkflowTests(unittest.TestCase):
             matrix = json.loads((Path(temporary) / "project_matrix.json").read_text())
             self.assertTrue(
                 all(
-                    abs(
-                        sum(
-                            value
-                            for value in row["composition_values"].values()
-                            if value is not None
-                        )
-                        - 1.0
-                    )
-                    < 1e-7
+                    abs(sum(value for value in row["composition_values"].values() if value is not None) - 1.0) < 1e-7
                     for row in matrix["rows"]
                 )
             )
@@ -59,11 +51,7 @@ class HarmonizationWorkflowTests(unittest.TestCase):
 
     def test_combat_policy_fails_closed(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            fixture = json.loads(
-                (
-                    self.project_root / "tests/fixtures/omics/harmonize_corona_fixture.json"
-                ).read_text()
-            )
+            fixture = json.loads((self.project_root / "tests/fixtures/omics/harmonize_corona_fixture.json").read_text())
             fixture["policy"]["batch_correction"] = "ComBat"
             bad_fixture = Path(temporary) / "bad_harmonize_fixture.json"
             bad_fixture.write_text(json.dumps(fixture), encoding="utf-8")

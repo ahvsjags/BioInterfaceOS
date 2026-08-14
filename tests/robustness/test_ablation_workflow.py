@@ -39,9 +39,7 @@ def test_ablation_missing_interface_is_explicitly_justified(tmp_path: Path) -> N
     workflow = AblationWorkflow(root, output_root=tmp_path / "ablations")
     workflow.run(all_ablations=True)
 
-    missing = json.loads(
-        (tmp_path / "ablations" / "missingness_ledger.json").read_text(encoding="utf-8")
-    )
+    missing = json.loads((tmp_path / "ablations" / "missingness_ledger.json").read_text(encoding="utf-8"))
     assert missing["records"][0]["result"] == "BLOCKED_EXPECTED"
     assert missing["records"][0]["interface_test"] == "network_disabled"
     assert missing["records"][0]["claim_blocked"] is False

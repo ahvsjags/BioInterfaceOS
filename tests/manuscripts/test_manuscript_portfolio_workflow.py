@@ -91,10 +91,7 @@ def test_portfolio_rejects_tampered_current_t129_receipt(tmp_path: Path) -> None
     shutil.copytree(ROOT / "docs", root / "docs")
     shutil.copytree(ROOT / "reports/review_round_2", root / "reports/review_round_2")
     shutil.copytree(ROOT / "release/manuscripts", root / "release/manuscripts")
-    receipt = root / (
-        "reports/review_round_2/t129_current_target_evidence/v1.3.0/"
-        "current_target_evidence_receipt.json"
-    )
+    receipt = root / ("reports/review_round_2/t129_current_target_evidence/v1.3.0/current_target_evidence_receipt.json")
     receipt.chmod(0o600)
     payload = json.loads(receipt.read_text(encoding="utf-8"))
     payload["candidate_source_count"] = 4

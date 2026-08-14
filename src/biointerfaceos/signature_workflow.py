@@ -30,9 +30,7 @@ class SignatureWorkflowSummary:
 
 
 def _canonical(value: Any) -> bytes:
-    return (
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _sha256(value: bytes) -> str:
@@ -72,9 +70,7 @@ class SignatureWorkflow:
         output_root: Path | None = None,
     ) -> None:
         self.root = root.resolve(strict=True)
-        self.fixture_path = fixture_path or (
-            self.root / "tests/fixtures/omics/signature_fixture.json"
-        )
+        self.fixture_path = fixture_path or (self.root / "tests/fixtures/omics/signature_fixture.json")
         self.output_root = output_root or self.root / "reports/omics/signatures"
 
     def _load_fixture(self) -> dict[str, Any]:
@@ -144,9 +140,7 @@ class SignatureWorkflow:
         processed_matrices = inputs["T059 normalized matrices"].get("study_objects")
         if not isinstance(processed_matrices, list) or not processed_matrices:
             raise SignatureWorkflowError("T059 normalized matrices have no study objects")
-        processed_metadata = self._sample_metadata(
-            inputs["T059 sample metadata"], "T059 sample metadata"
-        )
+        processed_metadata = self._sample_metadata(inputs["T059 sample metadata"], "T059 sample metadata")
         samples: list[dict[str, Any]] = []
         seen_ids: set[str] = set()
         for study_value in processed_matrices:
@@ -170,9 +164,7 @@ class SignatureWorkflow:
                 if metadata is None or metadata.get("study_accession") != accession:
                     raise SignatureWorkflowError(f"T059 metadata mismatch: {sample_id}")
                 if sample_id in seen_ids:
-                    raise SignatureWorkflowError(
-                        f"sample appears in multiple input routes: {sample_id}"
-                    )
+                    raise SignatureWorkflowError(f"sample appears in multiple input routes: {sample_id}")
                 seen_ids.add(sample_id)
                 samples.append(
                     {
@@ -180,9 +172,7 @@ class SignatureWorkflow:
                         "sample_id": sample_id,
                         "condition": _string(metadata.get("condition"), "condition"),
                         "route": "processed",
-                        "values": {
-                            gene: values_by_gene[gene][sample_id] for gene in sorted(values_by_gene)
-                        },
+                        "values": {gene: values_by_gene[gene][sample_id] for gene in sorted(values_by_gene)},
                     }
                 )
 
@@ -203,9 +193,7 @@ class SignatureWorkflow:
                 if metadata is None or metadata.get("study_accession") != accession:
                     raise SignatureWorkflowError(f"T060 metadata mismatch: {sample_id}")
                 if sample_id in seen_ids:
-                    raise SignatureWorkflowError(
-                        f"sample appears in multiple input routes: {sample_id}"
-                    )
+                    raise SignatureWorkflowError(f"sample appears in multiple input routes: {sample_id}")
                 counts = _mapping(count_row.get("counts"), "T060 counts")
                 total = sum(_number(value, "T060 count") for value in counts.values())
                 if total <= 0:
@@ -252,12 +240,8 @@ class SignatureWorkflow:
                 members = row.get("gene_members")
                 weights = _mapping(row.get("weights"), "predefined weights")
                 if not isinstance(members, list) or not members:
-                    raise SignatureWorkflowError(
-                        f"predefined signature has no members: {signature_id}"
-                    )
-                normalized["gene_members"] = [
-                    _string(member, "signature gene") for member in members
-                ]
+                    raise SignatureWorkflowError(f"predefined signature has no members: {signature_id}")
+                normalized["gene_members"] = [_string(member, "signature gene") for member in members]
                 normalized["weights"] = {
                     _string(gene, "signature weight gene"): _number(weight, "signature weight")
                     for gene, weight in weights.items()
@@ -265,17 +249,9 @@ class SignatureWorkflow:
             else:
                 candidates = row.get("candidate_genes")
                 max_genes = row.get("max_genes")
-                if (
-                    not isinstance(candidates, list)
-                    or not candidates
-                    or not isinstance(max_genes, int)
-                ):
-                    raise SignatureWorkflowError(
-                        f"data-driven signature is invalid: {signature_id}"
-                    )
-                normalized["candidate_genes"] = [
-                    _string(candidate, "candidate gene") for candidate in candidates
-                ]
+                if not isinstance(candidates, list) or not candidates or not isinstance(max_genes, int):
+                    raise SignatureWorkflowError(f"data-driven signature is invalid: {signature_id}")
+                normalized["candidate_genes"] = [_string(candidate, "candidate gene") for candidate in candidates]
                 normalized["max_genes"] = max_genes
             registry.append(normalized)
         if not any(row["family"] == "predefined" for row in registry):
@@ -293,16 +269,12 @@ class SignatureWorkflow:
         for _accession, study_samples in by_study.items():
             genes = sorted({gene for sample in study_samples for gene in sample["values"]})
             means = {
-                gene: sum(sample["values"].get(gene, 0.0) for sample in study_samples)
-                / len(study_samples)
+                gene: sum(sample["values"].get(gene, 0.0) for sample in study_samples) / len(study_samples)
                 for gene in genes
             }
             stds = {
                 gene: math.sqrt(
-                    sum(
-                        (sample["values"].get(gene, 0.0) - means[gene]) ** 2
-                        for sample in study_samples
-                    )
+                    sum((sample["values"].get(gene, 0.0) - means[gene]) ** 2 for sample in study_samples)
                     / len(study_samples)
                 )
                 for gene in genes
@@ -333,15 +305,12 @@ class SignatureWorkflow:
             signature_id = signature["signature_id"]
             candidates = [gene for gene in signature["candidate_genes"] if gene in genes]
             for accession in sorted({sample["study_accession"] for sample in samples}):
-                study_samples = [
-                    sample for sample in samples if sample["study_accession"] == accession
-                ]
+                study_samples = [sample for sample in samples if sample["study_accession"] == accession]
                 variances = {
                     gene: sum(
                         (
                             sample["values"].get(gene, 0.0)
-                            - sum(item["values"].get(gene, 0.0) for item in study_samples)
-                            / len(study_samples)
+                            - sum(item["values"].get(gene, 0.0) for item in study_samples) / len(study_samples)
                         )
                         ** 2
                         for sample in study_samples
@@ -351,15 +320,11 @@ class SignatureWorkflow:
                 }
                 selected = [
                     gene
-                    for gene, variance in sorted(
-                        variances.items(), key=lambda item: (-item[1], item[0])
-                    )
+                    for gene, variance in sorted(variances.items(), key=lambda item: (-item[1], item[0]))
                     if variance > 0
                 ][: int(signature["max_genes"])]
                 if not selected:
-                    raise SignatureWorkflowError(
-                        f"data-driven signature has no variable genes: {accession}"
-                    )
+                    raise SignatureWorkflowError(f"data-driven signature has no variable genes: {accession}")
                 selected_by_study.setdefault(accession, {})[signature_id] = selected
 
         score_rows: list[dict[str, Any]] = []
@@ -371,15 +336,11 @@ class SignatureWorkflow:
                     members = [gene for gene in signature["gene_members"] if gene in sample_z]
                     if not members:
                         raise SignatureWorkflowError(
-                            "predefined signature has no genes in sample: "
-                            f"{signature['signature_id']}"
+                            f"predefined signature has no genes in sample: {signature['signature_id']}"
                         )
                     weights = signature["weights"]
                     denominator = sum(abs(weights.get(gene, 1.0)) for gene in members)
-                    score = (
-                        sum(sample_z[gene] * weights.get(gene, 1.0) for gene in members)
-                        / denominator
-                    )
+                    score = sum(sample_z[gene] * weights.get(gene, 1.0) for gene in members) / denominator
                 else:
                     members = selected_by_study[accession][signature["signature_id"]]
                     score = sum(sample_z[gene] for gene in members) / len(members)
@@ -402,21 +363,17 @@ class SignatureWorkflow:
         signature_ids = [signature["signature_id"] for signature in registry]
         score_lookup: dict[tuple[str, str, str], list[float]] = {}
         for row in score_rows:
-            score_lookup.setdefault(
-                (row["signature_id"], row["study_accession"], row["condition"]), []
-            ).append(row["score"])
+            score_lookup.setdefault((row["signature_id"], row["study_accession"], row["condition"]), []).append(
+                row["score"]
+            )
         deltas: dict[tuple[str, str], float] = {}
         for signature_id in signature_ids:
             for accession in study_ids:
                 treated = score_lookup.get((signature_id, accession, "treated"), [])
                 control = score_lookup.get((signature_id, accession, "control"), [])
                 if not treated or not control:
-                    raise SignatureWorkflowError(
-                        f"signature contrast is incomplete: {signature_id}/{accession}"
-                    )
-                deltas[(signature_id, accession)] = round(
-                    sum(treated) / len(treated) - sum(control) / len(control), 8
-                )
+                    raise SignatureWorkflowError(f"signature contrast is incomplete: {signature_id}/{accession}")
+                deltas[(signature_id, accession)] = round(sum(treated) / len(treated) - sum(control) / len(control), 8)
         stability_rows: list[dict[str, Any]] = []
         for signature_id in signature_ids:
             for held_out in study_ids:
@@ -433,17 +390,13 @@ class SignatureWorkflow:
                 held_out_delta = deltas[(signature_id, held_out)]
                 held_out_direction = 1 if held_out_delta > 0 else -1 if held_out_delta < 0 else 0
                 stable = bool(
-                    reference_direction != 0
-                    and held_out_direction != 0
-                    and reference_direction == held_out_direction
+                    reference_direction != 0 and held_out_direction != 0 and reference_direction == held_out_direction
                 )
                 stability_rows.append(
                     {
                         "signature_id": signature_id,
                         "held_out_study": held_out,
-                        "training_studies": [
-                            accession for accession in study_ids if accession != held_out
-                        ],
+                        "training_studies": [accession for accession in study_ids if accession != held_out],
                         "training_reference_direction": reference_direction,
                         "held_out_treated_minus_control": held_out_delta,
                         "held_out_direction": held_out_direction,
@@ -457,8 +410,7 @@ class SignatureWorkflow:
             row = dict(signature)
             if signature["family"] == "data_driven":
                 row["selected_genes_by_study"] = {
-                    accession: selected_by_study[accession][signature["signature_id"]]
-                    for accession in study_ids
+                    accession: selected_by_study[accession][signature["signature_id"]] for accession in study_ids
                 }
             selected_registry.append(row)
         stable_folds = sum(1 for row in stability_rows if row["stable"])
@@ -514,9 +466,7 @@ class SignatureWorkflow:
         payload_bytes = {name: _canonical(value) for name, value in raw_payloads.items()}
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root))
-                if path.is_relative_to(self.root)
-                else str(path),
+                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -566,9 +516,7 @@ class SignatureWorkflow:
             "cross_study_batch_merge": False,
             "artifacts": {
                 name: {
-                    "path": str(path.relative_to(self.root))
-                    if path.is_relative_to(self.root)
-                    else str(path),
+                    "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
                     "sha256": _sha256(payload_bytes[name]),
                     "bytes": len(payload_bytes[name]),
                 }
