@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bioif-r10.53-archive-build-v1.0.0",
+  "status": "ARCHIVE_BUILT_NOT_DOI_ARCHIVED",
+  "source_commit": "b10f523bd54cdf3ab81f21076e9479eeb447335d",
+  "source_tag": "v0.1.3-r10.53",
+  "archive_filename": "BioInterfaceOS-v0.1.3-r10.53.tar.gz",
+  "archive_bytes": 107457556,
+  "archive_sha256": "eaf71b0533bf0432dc26138ad999c643ae7b92c12871634242b49f6da234627d",
+  "manifest_path": "release/empirical_candidate_v0.1.3-r10.53/release_manifest.json",
+  "manifest_bytes": 601634,
+  "manifest_sha256": "3df17d8665e0bf3e55f53c8e22ef950e234eee4977de9cd01b830e165d99ef63",
+  "archive_build_command": "git archive --format=tar.gz --prefix=BioInterfaceOS-v0.1.3-r10.53/ b10f523bd54cdf3ab81f21076e9479eeb447335d",
+  "doi_archived": false,
+  "scientific_submission_ready": false,
+  "claim_boundary": "This receipt proves a local archive build from the recorded source commit. It is not an authenticated DOI read-back, independent evaluator receipt, no-author reproduction, external adoption record, or scientific submission readiness claim."
+}
