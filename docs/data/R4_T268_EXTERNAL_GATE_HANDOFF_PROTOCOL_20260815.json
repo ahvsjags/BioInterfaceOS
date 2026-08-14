@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t268-external-gate-handoff-v1.0.0",
+  "protocol_id": "bioif-r4-t268-external-gate-handoff-v1.0.0",
+  "status": "HANDOFF_OPEN_NO_EXTERNAL_RECEIPTS",
+  "fixed_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS.git",
+    "tag": "v0.1.3-r10.50",
+    "source_commit": "07db8ceef9b785bc3fba0f79f346f9f633645a63",
+    "reproduction_helper": "scripts/r4_external_reproduction_r10_50.sh",
+    "manifest": "release/empirical_candidate_v0.1.3-r10.50/release_manifest.json",
+    "doi_status": "PENDING_NOT_ARCHIVED"
+  },
+  "public_redistributable_common_target_route": {
+    "protocol": "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_PROTOCOL.json",
+    "execution": "docs/data/R4_T250_FOUR_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json",
+    "laboratory_anchor_count": 4,
+    "target_count": 7,
+    "observation_count": 783,
+    "measurement_batch_count": 115,
+    "license_boundary": ["CC-BY-4.0", "CC-BY-3.0", "CC0"],
+    "row_level_maps_committed": true,
+    "fresh_clone_verify_command": "uv run biointerfaceos data verify-r4-t250-four-lab-common-target --strict",
+    "claim_boundary": "Public redistributable row-traceable development portability route. Dalian is pooled/unspecified and Edinburgh donor IDs are not encoded; no donor-level biological independence is inferred."
+  },
+  "biological_unit_supplement": {
+    "protocol": "docs/data/R4_T265_THREE_LAB_BIOLOGICAL_COMMON_TARGET_PROTOCOL.json",
+    "target_count": 5,
+    "observation_count": 3853,
+    "biological_unit_count": 246,
+    "laboratory_anchor_count": 3,
+    "analysis_only": true,
+    "claim_boundary": "Paper-data analysis-only route with explicit biological units; PMC10257194 and the Manchester matrix are not admitted to the redistributable release."
+  },
+  "required_external_receipts": {
+    "protected_lockbox_evaluator": {"required_count": 1, "protected_input_controlled_by_evaluator": true, "aggregate_only": true},
+    "no_author_scientific_reproduction": {"required_count": 1, "fresh_clone_required": true, "public_route": "T250", "author_assistance_during_run": false},
+    "external_user_adoption": {"required_count": 2, "distinct_non_author_users_or_institutions": true, "distinct_real_tasks": true, "fresh_environment_required": true},
+    "doi_archive": {"required": true, "manifest_and_archive_hash_readback_required": true}
+  },
+  "required_receipt_fields": [
+    "participant_id",
+    "affiliation_and_role",
+    "conflict_of_interest_statement",
+    "fixed_release_tag_and_commit",
+    "protocol_hashes",
+    "input_or_protected_data_attestation",
+    "environment_fingerprint",
+    "dependency_lockfile_sha256",
+    "commands_and_scope",
+    "stdout_stderr_hashes",
+    "raw_output_hashes",
+    "deviation_ledger",
+    "complete_result_summary",
+    "failure_and_negative_result_record",
+    "signed_attestation",
+    "immutable_archive_locator"
+  ],
+  "gate_predicate": {
+    "independent_validation": "verified_lockbox_receipt_count >= 1",
+    "external_scientific_reproduction": "verified_no_author_reproduction_count >= 1",
+    "external_user_adoption": "verified_distinct_adoption_receipt_count >= 2",
+    "doi_archived": "doi_archive_verified == true",
+    "scientific_submission_ready": "all_external_predicates_true AND final_multi_agent_editorial_review_passes"
+  },
+  "current_gate_state": {
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This is a current-release third-party execution handoff and receipt contract. It does not assert that any external evaluator, reproducing team, user, archive or DOI service has completed the requested work."
+}
