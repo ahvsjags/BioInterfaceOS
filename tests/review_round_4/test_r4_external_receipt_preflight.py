@@ -265,7 +265,7 @@ def test_r4_preflight_rejects_release_drift(tmp_path: Path) -> None:
     bundle["fixed_release"]["tag"] = "v0.1.3-r10.25"
     _write_json(bundle_path, bundle)
 
-    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.27 release"):
+    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.28 release"):
         R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(
             strict=True
         )

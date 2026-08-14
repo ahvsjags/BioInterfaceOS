@@ -2,11 +2,19 @@ import csv
 import json
 from pathlib import Path
 
+import pytest
+
 from biointerfaceos.r4_t217_statistical_amendment import (
     R4T217StatisticalAmendmentWorkflow,
 )
 
 ROOT = Path(__file__).resolve().parents[2]
+T217_OUTPUT = ROOT / R4T217StatisticalAmendmentWorkflow.OUTPUT_RELATIVE
+
+pytestmark = pytest.mark.skipif(
+    not T217_OUTPUT.is_dir(),
+    reason="analysis-only T217 statistical-amendment receipt is not in a clean public checkout",
+)
 
 
 def test_t217_receipt_verifies_and_keeps_external_gates_closed() -> None:

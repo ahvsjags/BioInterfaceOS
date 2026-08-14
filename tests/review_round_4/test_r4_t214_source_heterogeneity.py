@@ -2,10 +2,18 @@ import csv
 import json
 from pathlib import Path
 
+import pytest
+
 from biointerfaceos.r4_t214_source_heterogeneity import R4T214SourceHeterogeneityWorkflow
 
 
 ROOT = Path(__file__).resolve().parents[2]
+T214_OUTPUT = ROOT / R4T214SourceHeterogeneityWorkflow.OUTPUT_RELATIVE
+
+pytestmark = pytest.mark.skipif(
+    not T214_OUTPUT.is_dir(),
+    reason="analysis-only T214 source-heterogeneity receipt is not in a clean public checkout",
+)
 
 
 def test_t214_receipt_verifies_and_keeps_external_gates_closed() -> None:
