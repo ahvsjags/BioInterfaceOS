@@ -46,8 +46,8 @@
   },
   "scientific_submission_ready": false,
   "fixed_release": {
-    "tag": "v0.1.3-r10.42",
-    "commit": "ea00be2a3cfa61fe770f5020bc9cfd3a24246083",
-    "url": "https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.42"
+    "tag": "v0.1.3-r10.43",
+    "commit": "RESOLVED_BY_V0.1.3-R10.43_TAG_READBACK",
+    "url": "https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.43"
   }
 }

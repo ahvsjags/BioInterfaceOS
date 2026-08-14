@@ -37,9 +37,9 @@
 | technical sensitivity | T246 PMC11328176（六个 core，技术重复）与 T177 PMC13106918（批次 OOD） | `PARTIAL_PUBLIC_DATA` | technical heterogeneity / endpoint stress test | 不能把 core 或技术重复计作独立生物学队列 |
 | 候选来源的负结果审计 | T231/T232：PXD032162、PXD020584、PXD028310、PXD050779、PXD053359 等分层或排除 | `VERIFIED_INTERNAL` | prespecified exclusion and failure-boundary ledger | 不能因结果不理想重新放宽 admission threshold |
 | 非作者 protected lockbox | T252 handoff；GitHub Issue #2 仅为招募与协调 | `MISSING_EXTERNAL` | 只能写“lockbox protocol prepared” | 非作者身份、COI、受保护 held-out input、aggregate receipt、失败记录 |
-| 无作者参与的科学复现 | T252 handoff；固定 release `v0.1.3-r10.42` | `MISSING_EXTERNAL` | 只能写“reproduction package prepared” | 非作者团队从 accession/raw input 到结果的独立 receipt |
+| 无作者参与的科学复现 | T252 handoff；固定 release `v0.1.3-r10.43` | `MISSING_EXTERNAL` | 只能写“reproduction package prepared” | 非作者团队从 accession/raw input 到结果的独立 receipt |
 | 外部用户采用 | Issue #2 现有评论均为作者更新；没有非作者安装报告 | `MISSING_EXTERNAL` | 只能写“publicly available” | 至少两名非作者用户/机构完成不同任务并留下日志与输出 hash |
-| DOI / immutable archive | GitHub release `v0.1.3-r10.42` 已公开；CITATION metadata 仍写 DOI pending | `PARTIAL_PUBLIC_DATA` | immutable Git tag/release | DOI 服务的真实 deposit 与 read-back manifest hash |
+| DOI / immutable archive | GitHub release `v0.1.3-r10.43` 已公开；CITATION metadata 仍写 DOI pending | `PARTIAL_PUBLIC_DATA` | immutable Git tag/release | DOI 服务的真实 deposit 与 read-back manifest hash |
 | 强 Q1 submission-ready | T238/T254/T255 均显式 `scientific_submission_ready=false` | `MISSING_EXTERNAL` | methods/benchmark/resource manuscript | 所有 external gates 真实 receipt + 最终多智能体复评 |
 
 ## 3. 目前可采用的三层数据架构
@@ -108,7 +108,7 @@ T255 增加了 cluster-aware uncertainty artifact，但在五角色复评重新�
 - T254 全文数据证据包：`docs/data/R4_T254_FULLTEXT_PAPER_DERIVED_EVIDENCE_PACKAGE_20260814.json`
 - T255 cluster uncertainty：`docs/data/R4_T255_CLUSTER_UNCERTAINTY_*` 与 `reports/review_round_4/t255_cluster_uncertainty/v1.0.0/`
 - 外部 handoff：`docs/external/R4_T234_FIXED_RELEASE_EXTERNAL_HANDOFF_20260814.md`、`docs/review_round_4/R4_T252_CURRENT_EXTERNAL_HANDOFF_20260814.md`
-- 固定公开 release：[`v0.1.3-r10.42`](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.42)，commit `ea00be2a3cfa61fe770f5020bc9cfd3a24246083`
+- 固定公开 release：[`v0.1.3-r10.43`](https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.43)，commit 以 release tag read-back 为准。
 - GitHub coordination issue：[#2](https://github.com/ahvsjags/BioInterfaceOS/issues/2)
 
 本审计的机器可读版本为 `docs/data/R4_T256_REQUIREMENT_BY_REQUIREMENT_COMPLETION_AUDIT_20260814.json`。当前硬门槛仍为 `scientific_submission_ready=false`。

@@ -15,7 +15,7 @@
 - 对 T238 执行 nested selection、paired ablation、selection-reexecuted permutation null；
 - 通过 T255 增加 measurement-batch cluster bootstrap 95% CI；
 - 形成逐条要求审计和机器可读状态文件；
-- 固定公开复核入口为 `v0.1.3-r10.42` / `ea00be2a3cfa61fe770f5020bc9cfd3a24246083`。
+- 固定公开复核入口为 `v0.1.3-r10.43`；commit 以 release tag read-back 为准。
 
 ## 外部未完成门槛
 
