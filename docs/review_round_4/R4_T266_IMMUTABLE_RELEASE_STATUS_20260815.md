@@ -8,6 +8,7 @@
 - tag 对应 source commit：`07db8ceef9b785bc3fba0f79f346f9f633645a63`
 - hash-bound manifest：`release/empirical_candidate_v0.1.3-r10.50/release_manifest.json`
 - manifest：593,268 bytes；SHA-256 `84ec1f65b6589b23d6ef4d10e8a468904b0ff55067dff092d61693f73c46c597`
+- KAUST archive：`/ibex/user/xup0a/BioInterfaceOS-v0.1.3-r10.50.tar.gz`；106,809,654 bytes；SHA-256 `ad44a0c762333d8272238ddc8372043e7a40557e7bcb0fe25c3f70ede74669b2`
 - DOI deposit metadata：`docs/release/R10_50_DOI_DEPOSIT_METADATA.json`
 
 ## 尚未完成
