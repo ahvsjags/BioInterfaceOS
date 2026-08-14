@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "intake_protocol_id": "bioif-r4-t218-external-user-adoption-v1.0.0",
+  "declared_at": "2026-08-14T00:00:00+00:00",
+  "status": "OPEN_NO_EXTERNAL_USER_RECEIPT",
+  "fixed_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "tag": "v0.1.3-r10.22",
+    "commit": "resolve with git rev-parse v0.1.3-r10.22^{}"
+  },
+  "required_user_evidence": {
+    "non_author_user": true,
+    "distinct_institution_or_independent_project": true,
+    "clean_environment_install": true,
+    "real_task_not_fixture_only": true,
+    "task_and_input_scope_recorded": true,
+    "input_provenance_or_accession_recorded": true,
+    "software_version_or_commit_recorded": true,
+    "environment_and_dependency_digest_recorded": true,
+    "stdout_stderr_and_output_hash_recorded": true,
+    "limitations_and_failures_reported": true,
+    "user_consent_to_public_summary": true
+  },
+  "minimum_claim_count": 2,
+  "distinct_task_requirement": "Each receipt must describe a materially distinct real analysis or integration task; repeated installation of the same fixture does not count twice.",
+  "adoption_does_not_mean": [
+    "repository page views",
+    "automated downloads or stars",
+    "author-run tests",
+    "author-controlled accounts",
+    "a citation without an independently described use",
+    "a template or a simulated receipt"
+  ],
+  "required_intake_fields": [
+    "user_or_team_identity",
+    "institution_or_project",
+    "role_and_conflict_disclosure",
+    "task_description",
+    "input_provenance",
+    "checkout_commit",
+    "environment_digest",
+    "dependency_lockfile_sha256",
+    "commands",
+    "stdout_stderr_hashes",
+    "output_hashes",
+    "successes_and_failures",
+    "limitations_feedback",
+    "public_summary_consent",
+    "signed_attestation",
+    "timestamp"
+  ],
+  "current_count": 0,
+  "claim_boundary": "No external adoption claim is permitted until two distinct non-author users or institutions submit verifiable intake records that pass identity, provenance and execution audit."
+}

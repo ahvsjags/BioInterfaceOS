@@ -1,13 +1,13 @@
-# Independent reproduction and external-user handoff for v0.1.3-r10.21
+# Independent reproduction and external-user handoff for v0.1.3-r10.22
 
 This page is the current handoff contract for the BioInterfaceOS R4 paper-data candidate. It is not a completed evaluator, scientific-reproduction or adoption receipt.
 
 ## Fixed public checkout
 
-Use the immutable tag `v0.1.3-r10.21`, whose exact target commit is recorded in the release manifest and GitHub release. Do not use a moving branch for an external claim.
+Use the immutable tag `v0.1.3-r10.22`, whose exact target commit is recorded in the release manifest and GitHub release. Do not use a moving branch for an external claim.
 
 ```bash
-git clone --branch v0.1.3-r10.21 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.3-r10.22 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
 uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
@@ -31,19 +31,19 @@ The exact protocol, execution report and KAUST replay receipt are:
 
 The lockbox evaluator must be a non-author who independently holds a protected held-out source or unseen real dataset. The evaluator must retain row-level inputs and submit only aggregate results, an environment digest, commands, output hashes, deviations, failures and a signed identity/COI declaration. The project team must not access the protected rows or intermediate outputs.
 
-Use `docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json` and the T172 receipt bundle. Author-run KAUST, Codex agents, GitHub Actions under project control and public downloads do not satisfy this gate.
+Use `docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json` and `docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`. Author-run KAUST, Codex agents, GitHub Actions under project control and public downloads do not satisfy this gate.
 
 ## No-author scientific reproduction
 
 The reproducing team must reacquire the public accession independently from the fixed tag, record the dependency lockfile and environment hashes, run the declared accession-to-result route without author assistance, preserve failed and negative results, and submit a signed aggregate receipt with an immutable archive locator.
 
-Use `docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json` and `docs/data/R4_T172_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`.
+Use `docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json` and `docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json`.
 
 ## External adoption
 
 Two non-author users or institutions must install the fixed release in clean environments and run distinct real tasks. Each receipt must identify the user/institution, COI status, environment digest, task, commands, output hashes and any failure or deviation. Downloads, stars, page views, fixtures and author-controlled reruns are not adoption.
 
-Use `docs/data/R4_T167_EXTERNAL_USER_ADOPTION_INTAKE.json`.
+Use `docs/data/R4_T218_EXTERNAL_USER_ADOPTION_INTAKE.json`.
 
 ## Current gate state
 
