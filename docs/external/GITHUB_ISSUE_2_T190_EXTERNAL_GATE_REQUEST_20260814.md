@@ -4,8 +4,8 @@ BioInterfaceOS is requesting genuinely non-author participation for the current 
 
 Fixed public candidate:
 
-- immutable tag: v0.1.3-r10.15
-- exact commit: resolve with git rev-parse v0.1.3-r10.15^{}
+- immutable tag: v0.1.3-r10.16
+- exact commit: resolve with git rev-parse v0.1.3-r10.16^{}
 - packet: docs/external/R4_T191_EXTERNAL_EXECUTION_PACKET_20260814.md
 - evaluator/reproduction protocol: docs/data/R4_T166_EXTERNAL_EVALUATOR_AND_REPRODUCTION_PROTOCOL.json
 - adoption intake: docs/data/R4_T167_EXTERNAL_USER_ADOPTION_INTAKE.json

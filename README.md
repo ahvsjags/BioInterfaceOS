@@ -4,7 +4,7 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.15` (resolve the commit with `git rev-parse v0.1.3-r10.15^{}`) and includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. The current release is `v0.1.3-r10.16` (resolve the commit with `git rev-parse v0.1.3-r10.16^{}`) and includes:
 
 - a frozen 99-target rank benchmark spanning three laboratory anchors, 47 measurement batches and 2,724 rank-eligible development observations;
 - a strict nine-accession common-target sensitivity route spanning three laboratory anchors, 809 row-traceable observations and 85 measurement batches;
@@ -14,9 +14,10 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 - a T200 statistical closure with fold-level measurement-batch intervals, frozen estimands, Holm bookkeeping and stratified paper-cohort missingness tables;
 - a locally executed analysis-only Manchester paper/author-matrix OOD route with 61 patient clusters, 289 longitudinal batches and 4,169 external observations; its unlicensed raw matrix remains locator-only and is not redistributed;
 - nested selection, laboratory-held-out evaluation, cluster-aware uncertainty, paired composition ablation and within-batch negative controls;
+- an analysis-only paper-full-text OOD route from PMC10257194 with 45 biological units, 97 shared targets, 4,362 row-traceable source cells, paired ablation, cluster bootstrap and permutation control; the CC-BY-NC-ND workbook and numeric derivatives are not redistributed;
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
-- an immutable release tag `v0.1.3-r10.15`, with the T180/T181 source audit and OOD receipts, T192-T200 analyses, the external evaluator handoff contract and byte-exact source-cell maps.
+- an immutable release tag `v0.1.3-r10.16`, with the T180/T181 source audit and OOD receipts, T192-T205 analyses, the external evaluator handoff contract and byte-exact source-cell maps.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -42,6 +43,8 @@ See:
 - `docs/review_round_4/R4_T198_PAPER_COHORT_MISSINGNESS_STATUS_20260814.md`
 - `docs/review_round_4/R4_T199_STRONG_Q1_REMEDIATION_GOAL_20260814.md`
 - `docs/review_round_4/R4_T200_STATISTICAL_CLOSURE_STATUS_20260814.md`
+- `docs/review_round_4/R4_T203_PMC10257194_PAPER_OOD_STATUS_20260814.md`
+- `docs/review_round_4/R4_T205_DOI_DEPOSIT_PREFLIGHT_20260814.md`
 - `docs/execplans/T196_publish_paper_attached_biological_cohort.md`
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
 - `docs/review_round_4/R4_STRONG_Q1_REMEDIATION_GOAL.md`

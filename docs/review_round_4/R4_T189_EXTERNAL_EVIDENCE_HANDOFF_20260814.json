@@ -14,8 +14,8 @@
   "public_candidate": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS",
     "branch": "r3-real-data-execution-20260813",
-    "checkout_commit": "v0.1.3-r10.15 (resolve with git rev-parse v0.1.3-r10.15^{})",
-    "immutable_release": "v0.1.3-r10.15 (public Git tag; DOI pending)",
+    "checkout_commit": "v0.1.3-r10.16 (resolve with git rev-parse v0.1.3-r10.16^{})",
+    "immutable_release": "v0.1.3-r10.16 (public Git tag; DOI pending)",
     "doi": "NOT_YET_DEPOSITED"
   },
   "frozen_protocols": [
