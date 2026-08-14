@@ -128,7 +128,7 @@ class R3SilverExternalOODWorkflow:
         self.feature_root = feature_root.resolve(strict=False)
         self.silver_assets_root = silver_assets_root.resolve(strict=False)
         self.protocol_path = protocol_path or self.root / self.PROTOCOL_RELATIVE
-        self.output_root = output_root or self.root / self.OUTPUT_RELATIVE
+        self.output_root = (output_root or self.root / self.OUTPUT_RELATIVE).resolve(strict=False)
 
     @staticmethod
     def _write_json(path: Path, value: Any) -> None:

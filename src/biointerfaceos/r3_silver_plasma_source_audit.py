@@ -123,7 +123,7 @@ class R3SilverPlasmaSourceAuditWorkflow:
         self.root = root.resolve(strict=True)
         self.assets_root = assets_root.resolve(strict=False)
         self.registry_path = registry_path or self.root / self.REGISTRY_RELATIVE
-        self.output_root = output_root or self.root / self.OUTPUT_RELATIVE
+        self.output_root = (output_root or self.root / self.OUTPUT_RELATIVE).resolve(strict=False)
 
     @staticmethod
     def _write(path: Path, value: Any) -> None:
