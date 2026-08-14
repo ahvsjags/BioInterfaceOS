@@ -53,6 +53,8 @@ class R4SmallMoleculeCoronaOODWorkflow:
         "source_coordinate", "author_quantity_type", "author_numeric_value",
         "rank_percentile_descending", "measurement_batch_positive_protein_count",
     ]
+    SOURCE_AUDIT_WORKFLOW = R4SmallMoleculeCoronaSourceAuditWorkflow
+    SOURCE_AUDIT_ERROR = R4SmallMoleculeCoronaSourceAuditError
 
     def __init__(
         self,
@@ -277,8 +279,8 @@ class R4SmallMoleculeCoronaOODWorkflow:
         protocol, paths = self._protocol()
         try:
             R3AnalysisProtocolWorkflow(self.root, self.output_data_root).verify()
-            R4SmallMoleculeCoronaSourceAuditWorkflow(self.root, self.source_assets_root).verify()
-        except (Exception, R4SmallMoleculeCoronaSourceAuditError) as exc:
+            self.SOURCE_AUDIT_WORKFLOW(self.root, self.source_assets_root).verify()
+        except (Exception, self.SOURCE_AUDIT_ERROR) as exc:
             raise R4SmallMoleculeCoronaOODError("a frozen R3/R4 input receipt does not verify") from exc
         helper = R3ModelEvaluationWorkflow(self.root, self.output_data_root, self.feature_root)
         try:

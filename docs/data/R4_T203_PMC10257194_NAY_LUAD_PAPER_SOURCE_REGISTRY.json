@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-pmc10257194-paper-source-audit-v1.0.0",
+  "status": "ANALYSIS_ONLY_PAPER_SOURCE_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "article": {
+    "pmcid": "PMC10257194",
+    "doi": "10.1016/j.jpha.2023.04.002",
+    "title": "Comprehensive and deep profiling of the plasma proteome with protein corona on zeolite NaY",
+    "license": "CC-BY-NC-ND-4.0",
+    "full_text_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10257194/",
+    "supplementary_locator": "https://www.ncbi.nlm.nih.gov/pmc/articles/instance/10257194/bin/mmc6.xlsx"
+  },
+  "source_scope": {
+    "source_id": "PMC10257194_NAY_LUAD_PLASMA_CORONA",
+    "laboratory_anchor": "Tianjin University / Tianjin Medical University",
+    "source_lineage": "NEW_TO_CURRENT_R3_LABORATORY_ANCHORS",
+    "biofluid": "human plasma",
+    "biological_unit_semantics": "45 subject plasma units: 15 healthy and 30 lung adenocarcinoma; one measurement batch per subject",
+    "analysis_role": "ANALYSIS_ONLY_EXTERNAL_PAPER_OOD"
+  },
+  "source_asset": {
+    "relative_path": "mmc6.xlsx",
+    "sha256": "7dc9336f866879c2ac4b3c1919e93dd5fdd5483f9e046ca2b7e2048bf4ceafc2",
+    "expected_bytes": 2710194
+  },
+  "derived_source_map": {
+    "relative_path": "data/raw/r4_candidate_pmc10257194/derived/R4_PMC10257194_NAY_LUAD_source_cell_map.csv",
+    "sha256": "3f245327fcb57f8fc5390a2898afccd8cda47ce77c1d91f57ff4b8c61b3148c6"
+  },
+  "expected_accounting": {
+    "source_cell_count": 4362,
+    "positive_source_cell_count": 4362,
+    "shared_canonical_protein_count": 97,
+    "measurement_batch_count": 45,
+    "biological_unit_count": 45
+  },
+  "claim_boundary": "This is an analysis-only paper-data OOD candidate. The source and numeric derivatives are not admitted to the redistributable release because the article is CC-BY-NC-ND; the author-run result is not an independent evaluator receipt, no-author reproduction, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-pmc10257194-paper-ood-protocol-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "references": {
+    "r3_analysis_protocol_receipt": {"relative_path": "reports/review_round_3/analysis_protocol/v1.0.0/analysis_protocol_receipt.json", "sha256": "238fb3cdf5932d60810e587b4a58c86c30ed9456d7a2f7b4223e94ddef4baf1f"},
+    "r3_common_target_ledger": {"relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv", "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"},
+    "r3_sequence_feature_table": {"relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv", "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"},
+    "r4_source_audit_receipt": {"relative_path": "reports/review_round_4/pmc10257194_paper_source_audit/v1.0.0/r4_pmc10257194_paper_source_audit_receipt.json", "sha256": "e195fea29f80cb78fbcc19674b966bdbcd00a513d65355278baba76318b74a31"},
+    "r4_source_cell_map": {"relative_path": "data/raw/r4_candidate_pmc10257194/derived/R4_PMC10257194_NAY_LUAD_source_cell_map.csv", "sha256": "3f245327fcb57f8fc5390a2898afccd8cda47ce77c1d91f57ff4b8c61b3148c6"}
+  },
+  "target": {
+    "target_id": "R4_WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "development_target": "the frozen R3 source-local descending midrank percentile",
+    "external_target": "descending midrank percentile among strictly positive finite source-reported values within each PMC10257194 subject measurement batch",
+    "cross_study_raw_scale": "PROHIBITED"
+  },
+  "development_selection": {
+    "population": "all 2,724 frozen R3 eligible observations from the three original laboratory anchors",
+    "method": "NESTED_SELECTION_WITHIN_FROZEN_R3_DEVELOPMENT_POPULATION",
+    "tuning_metric": "mean development measurement-batch Spearman correlation",
+    "tie_breaker": "smaller regularization then lexical model identifier",
+    "final_refit": "fit the selected configuration on all frozen R3 development observations"
+  },
+  "external_evaluation": {
+    "source_id": "PMC10257194_NAY_LUAD_PLASMA_CORONA",
+    "laboratory_anchor": "Tianjin University / Tianjin Medical University",
+    "analysis_population": "45 paper-attached NaY-PPC subject columns with exact frozen R3 target accession mapping and strictly positive finite values",
+    "minimum_proteins_per_measurement_batch": 10,
+    "expected_measurement_batch_count": 45,
+    "expected_shared_canonical_protein_count_at_least": 97,
+    "biological_unit_count": 45,
+    "access_condition": "CC-BY-NC-ND-4.0 paper supplementary workbook; analysis-only local acquisition; not redistributable and not a protected lockbox"
+  },
+  "feature_policy": {
+    "allowed_feature_set": "R3_UNIPROT_SEQUENCE_COMPOSITION_PHYSICOCHEMICAL_V1",
+    "feature_standardization": "fit only on all frozen R3 development observations",
+    "prohibited_features": ["protein identity", "source identity", "laboratory identity", "worksheet", "condition", "replicate", "source coordinate", "author quantification value", "author rank"]
+  },
+  "models": [
+    {"model_id": "CONSTANT_TRAINING_MEAN", "hyperparameters": {}},
+    {"model_id": "SEQUENCE_RIDGE_FULL", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}},
+    {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY", "hyperparameters": {"alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0]}}
+  ],
+  "metrics": {
+    "primary": "equal-weight mean external subject measurement-batch Spearman correlation",
+    "secondary": ["equal-weight mean external subject measurement-batch mean absolute error", "equal-weight mean external subject measurement-batch root mean square error"],
+    "constant_rank_metric_policy": "undefined; report MAE and RMSE only"
+  },
+  "uncertainty": {"method": "external subject measurement-batch cluster bootstrap percentile interval", "resamples": 2000, "random_seed": 20260824},
+  "negative_control": {"method": "permute R3 development targets independently within each development measurement batch while holding the observed nested-selected alpha fixed", "resamples": 256, "random_seed": 20260825, "tail": "one-sided upper tail"},
+  "claim_boundary": "This is an author-run analysis-only OOD execution on a new laboratory paper cohort. It evaluates frozen sequence descriptors against source-local within-subject ranks without combining raw scales. It does not establish protected lockbox validation, an independent evaluator receipt, no-author scientific reproduction, community adoption or scientific submission readiness. The CC-BY-NC-ND source and numeric derivatives are excluded from redistributable release."
+}

@@ -709,6 +709,26 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen PMC13106918 technical OOD receipt",
     )
     data_r4_pmc13106918_ood_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc10257194_source_parser = data_subparsers.add_parser(
+        "audit-r4-pmc10257194-paper-source",
+        help="audit the analysis-only PMC10257194 paper-attached NaY-PPC cohort",
+    )
+    data_r4_pmc10257194_source_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc10257194_source_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pmc10257194-paper-source",
+        help="verify the PMC10257194 paper-source audit receipt",
+    )
+    data_r4_pmc10257194_source_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc10257194_ood_parser = data_subparsers.add_parser(
+        "evaluate-r4-pmc10257194-paper-ood",
+        help="execute frozen exploratory OOD on the 45-subject PMC10257194 paper cohort",
+    )
+    data_r4_pmc10257194_ood_parser.add_argument("--strict", action="store_true")
+    data_r4_pmc10257194_ood_verify_parser = data_subparsers.add_parser(
+        "verify-r4-pmc10257194-paper-ood",
+        help="verify the PMC10257194 paper OOD receipt",
+    )
+    data_r4_pmc10257194_ood_verify_parser.add_argument("--strict", action="store_true")
     data_r4_three_lab_parser = data_subparsers.add_parser(
         "audit-r4-three-lab-common-target",
         help="verify the three independent CC-BY laboratory common-target admission",
@@ -3723,6 +3743,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-pxd017052-nsclc-biological-ood",
             "evaluate-r4-pmc13106918-technical-ood",
             "verify-r4-pmc13106918-technical-ood",
+            "audit-r4-pmc10257194-paper-source",
+            "verify-r4-pmc10257194-paper-source",
+            "evaluate-r4-pmc10257194-paper-ood",
+            "verify-r4-pmc10257194-paper-ood",
             "audit-r4-three-lab-common-target",
             "verify-r4-three-lab-common-target",
             "audit-r4-t192-three-lab-common-target",
@@ -4468,6 +4492,116 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"external_shared_canonical_proteins={technical_ood.shared_canonical_protein_count} "
                 f"external_measurement_batches={technical_ood.external_measurement_batch_count} "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-pmc10257194-paper-source":
+            from biointerfaceos.r4_pmc10257194_paper_source_audit import (
+                R4PMC10257194PaperSourceAuditError,
+                R4PMC10257194PaperSourceAuditWorkflow,
+            )
+
+            try:
+                paper_summary = R4PMC10257194PaperSourceAuditWorkflow(
+                    root, root / "data/raw/r4_candidate_pmc10257194"
+                ).run(strict=args.strict)
+            except (R4PMC10257194PaperSourceAuditError, OSError) as exc:
+                print(f"R4_PMC10257194_PAPER_SOURCE_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC10257194_PAPER_SOURCE_AUDIT_VALID "
+                f"source_cells={paper_summary.source_cell_count} "
+                f"positive_source_cells={paper_summary.positive_source_cell_count} "
+                f"shared_canonical_proteins={paper_summary.shared_canonical_protein_count} "
+                f"measurement_batches={paper_summary.measurement_batch_count} "
+                f"biological_units={paper_summary.biological_unit_count} "
+                "analysis_only=true independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pmc10257194-paper-source":
+            from biointerfaceos.r4_pmc10257194_paper_source_audit import (
+                R4PMC10257194PaperSourceAuditError,
+                R4PMC10257194PaperSourceAuditWorkflow,
+            )
+
+            if not args.strict:
+                print(
+                    "R4_PMC10257194_PAPER_SOURCE_VERIFY_INVALID: requires --strict",
+                    file=sys.stderr,
+                )
+                return 1
+            try:
+                paper_summary = R4PMC10257194PaperSourceAuditWorkflow(
+                    root, root / "data/raw/r4_candidate_pmc10257194"
+                ).verify()
+            except (R4PMC10257194PaperSourceAuditError, OSError) as exc:
+                print(f"R4_PMC10257194_PAPER_SOURCE_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC10257194_PAPER_SOURCE_VERIFY_VALID "
+                f"source_cells={paper_summary.source_cell_count} "
+                f"positive_source_cells={paper_summary.positive_source_cell_count} "
+                f"shared_canonical_proteins={paper_summary.shared_canonical_protein_count} "
+                f"measurement_batches={paper_summary.measurement_batch_count} "
+                f"biological_units={paper_summary.biological_unit_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-pmc10257194-paper-ood":
+            from biointerfaceos.r4_pmc10257194_paper_ood import (
+                R4PMC10257194PaperOODError,
+                R4PMC10257194PaperOODWorkflow,
+            )
+
+            try:
+                paper_ood = R4PMC10257194PaperOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    root / "data/raw/r4_candidate_pmc10257194",
+                ).run(strict=args.strict)
+            except (R4PMC10257194PaperOODError, OSError) as exc:
+                print(f"R4_PMC10257194_PAPER_OOD_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC10257194_PAPER_OOD_VALID "
+                f"development_observations={paper_ood.development_observation_count} "
+                f"external_observations={paper_ood.external_observation_count} "
+                f"external_shared_canonical_proteins={paper_ood.shared_canonical_protein_count} "
+                f"external_measurement_batches={paper_ood.external_measurement_batch_count} "
+                f"models={paper_ood.model_count} biological_units=45 laboratories=1 "
+                "independent_validation=false external_scientific_reproduction=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-pmc10257194-paper-ood":
+            from biointerfaceos.r4_pmc10257194_paper_ood import (
+                R4PMC10257194PaperOODError,
+                R4PMC10257194PaperOODWorkflow,
+            )
+
+            if not args.strict:
+                print(
+                    "R4_PMC10257194_PAPER_OOD_VERIFY_INVALID: requires --strict",
+                    file=sys.stderr,
+                )
+                return 1
+            try:
+                paper_ood = R4PMC10257194PaperOODWorkflow(
+                    root,
+                    root / "data/raw",
+                    root / "data/raw/r3_uniprot_sequence_features",
+                    root / "data/raw/r4_candidate_pmc10257194",
+                ).verify()
+            except (R4PMC10257194PaperOODError, OSError) as exc:
+                print(f"R4_PMC10257194_PAPER_OOD_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_PMC10257194_PAPER_OOD_VERIFY_VALID "
+                f"development_observations={paper_ood.development_observation_count} "
+                f"external_observations={paper_ood.external_observation_count} "
+                f"external_measurement_batches={paper_ood.external_measurement_batch_count} "
+                f"models={paper_ood.model_count} scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "audit-r4-three-lab-common-target":
