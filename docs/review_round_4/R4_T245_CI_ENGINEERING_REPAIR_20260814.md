@@ -18,6 +18,7 @@
 7. 补齐 R2 handoff 的七项冻结清单与 public asset registry 的经验候选资产登记。
 8. 更新 T090、T086、Paper A 与 agent benchmark 的夹具哈希，确保 receipt 绑定与新生成物一致。
 9. 将 agent/functional-axes receipt 中的相对路径规范化为 POSIX 形式，消除 Windows 反斜杠与 Linux 正斜杠造成的跨平台重算漂移。
+10. 同步修复 resolution-audit 子任务的 receipt 路径规范化，消除 agent benchmark 在 KAUST Linux 上的最后一个平台漂移。
 
 ## 验收结果
 

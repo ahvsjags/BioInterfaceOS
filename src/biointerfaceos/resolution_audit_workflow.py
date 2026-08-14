@@ -238,7 +238,7 @@ class ResolutionAuditWorkflow:
         )
         artifact_records = {
             name: {
-                "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
+                "path": path.relative_to(self.root).as_posix() if path.is_relative_to(self.root) else path.as_posix(),
                 "sha256": _sha256(payload_bytes[name]),
                 "bytes": len(payload_bytes[name]),
             }
@@ -285,7 +285,9 @@ class ResolutionAuditWorkflow:
                 "target_values_exposed": False,
                 "artifacts": {
                     name: {
-                        "path": str(path.relative_to(self.root)) if path.is_relative_to(self.root) else str(path),
+                        "path": path.relative_to(self.root).as_posix()
+                        if path.is_relative_to(self.root)
+                        else path.as_posix(),
                         "sha256": _sha256(payload_bytes[name]),
                         "bytes": len(payload_bytes[name]),
                     }
