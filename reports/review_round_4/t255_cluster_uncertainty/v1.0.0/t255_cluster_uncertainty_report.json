@@ -2,13 +2,14 @@
   "allowed_claim_level": "EXPLORATORY",
   "artifacts": {
     "cluster_bootstrap_metrics": {
-      "relative_path": "reports/review_round_4/t255_cluster_uncertainty/v1.0.1/cluster_bootstrap_metrics.csv",
+      "relative_path": "reports/review_round_4/t255_cluster_uncertainty/v1.0.0/cluster_bootstrap_metrics.csv",
       "sha256": "e8a028d1812de0c10f94a76526454580e018d0b2661a046ba4af4ea5693ac14f"
     }
   },
   "audit_id": "bioif-r4-t255-cluster-uncertainty-v1.0.0",
   "claim_boundary": "T255 adds uncertainty intervals to an exploratory paper-derived development analysis. It does not create donor-level effective n, independent biological validation, a protected evaluator receipt, a no-author reproduction, external adoption, DOI readback or scientific submission readiness.",
   "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "execution_module_sha256": "25d2e6b4ee715a402a4faec9f0ab4f34622a433ff274836072aee99e0005f682",
   "metric_rows": [
     {
       "defined_status": "UNDEFINED_CONSTANT_PREDICTION",
@@ -519,6 +520,7 @@
   "paired_ablation_sha256": "5df419f5d96702da5fbba0b9fa798d9cb7c3d29a4e91080578f7d7d3ab148c3e",
   "protocol_id": "bioif-r4-t255-cluster-uncertainty-v1.0.0",
   "protocol_sha256": "072cfb0c80d3199173125c754fb4671d961e2d2c97d2b1be19d52e2debf35d28",
+  "registry_sha256": "e977b476c3eba9df3bbf86ad512ff911b05313722f792467d2911cdb165d4842",
   "schema_version": 1,
   "scientific_submission_ready": false,
   "status": "T255_CLUSTER_UNCERTAINTY_COMPLETED_EXPLORATORY",

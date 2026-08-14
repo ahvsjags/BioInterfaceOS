@@ -67,6 +67,12 @@ class R4T255ClusterUncertaintyWorkflow:
         return digest.hexdigest()
 
     @staticmethod
+    def _normalized_text_sha256(path: Path) -> str:
+        """Hash source text independently of the checkout newline convention."""
+        payload = path.read_text(encoding="utf-8").replace("\r\n", "\n").encode("utf-8")
+        return hashlib.sha256(payload).hexdigest()
+
+    @staticmethod
     def _write_json(path: Path, value: Any) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         payload = json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
@@ -104,6 +110,21 @@ class R4T255ClusterUncertaintyWorkflow:
         if protocol.get("bootstrap", {}).get("resamples") != 2000:
             raise R4T255ClusterUncertaintyError("T255 bootstrap resample count is not 2000")
         return protocol, paths[0], paths[1], paths[2]
+
+    def _registry(self) -> tuple[dict[str, Any], Path]:
+        registry_path = self._file(self.REGISTRY_RELATIVE, "T255 registry")
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        if (
+            registry.get("audit_id") != self.AUDIT_ID
+            or registry.get("protocol_id") != self.AUDIT_ID
+            or registry.get("status") != "T255_CLUSTER_UNCERTAINTY_REGISTERED"
+            or registry.get("scientific_submission_ready") is not False
+        ):
+            raise R4T255ClusterUncertaintyError("T255 registry identity or boundary is invalid")
+        expected = registry.get("output_contract", {}).get("relative_path")
+        if expected != self.OUTPUT_RELATIVE:
+            raise R4T255ClusterUncertaintyError("T255 output contract does not match implementation")
+        return registry, registry_path
 
     @staticmethod
     def _read_rows(path: Path) -> list[dict[str, str]]:
@@ -200,6 +221,7 @@ class R4T255ClusterUncertaintyWorkflow:
         if self.output_root.exists():
             raise R4T255ClusterUncertaintyError("T255 output already exists")
         protocol, report_path, batch_path, _ = self._protocol()
+        _, registry_path = self._registry()
         report = json.loads(report_path.read_text(encoding="utf-8"))
         if report.get("scientific_submission_ready") is not False:
             raise R4T255ClusterUncertaintyError("T238 report boundary is invalid")
@@ -223,6 +245,8 @@ class R4T255ClusterUncertaintyWorkflow:
             "audit_id": self.AUDIT_ID,
             "protocol_id": protocol["protocol_id"],
             "protocol_sha256": self._sha256(self._file(self.PROTOCOL_RELATIVE, "T255 protocol")),
+            "registry_sha256": self._sha256(registry_path),
+            "execution_module_sha256": self._normalized_text_sha256(Path(__file__)),
             "t238_report_sha256": self._sha256(report_path),
             "t238_batch_metrics_sha256": self._sha256(batch_path),
             "status": "T255_CLUSTER_UNCERTAINTY_COMPLETED_EXPLORATORY",
@@ -242,6 +266,8 @@ class R4T255ClusterUncertaintyWorkflow:
             "audit_id": self.AUDIT_ID,
             "status": report_value["status"],
             "report_sha256": self._sha256(report_out),
+            "cluster_bootstrap_metrics_sha256": self._sha256(metrics_path),
+            "execution_module_sha256": report_value["execution_module_sha256"],
             "outer_fold_count": len({row["outer_fold_id"] for row in rows}),
             "model_count": len(self.MODEL_IDS),
             "metric_count": len(self.METRICS),
@@ -260,7 +286,10 @@ class R4T255ClusterUncertaintyWorkflow:
         if not strict:
             raise R4T255ClusterUncertaintyError("T255 verification requires --strict")
         protocol, report_path, batch_path, _ = self._protocol()
+        _, registry_path = self._registry()
         protocol_path = self._file(self.PROTOCOL_RELATIVE, "T255 protocol")
+        paired_path = self._file(self.T238_PAIRED_RELATIVE, "T238 paired ablation")
+        module_path = Path(__file__).resolve(strict=True)
         output = self.output_root
         metrics_path = output / self.METRICS_NAME
         report_out = output / self.REPORT_NAME
@@ -271,10 +300,20 @@ class R4T255ClusterUncertaintyWorkflow:
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         protocol_matches = report.get("protocol_sha256") == self._sha256(protocol_path)
         report_matches = report.get("t238_report_sha256") == self._sha256(report_path)
-        if not (protocol_matches and report_matches):
+        registry_matches = report.get("registry_sha256") == self._sha256(registry_path)
+        module_matches = report.get("execution_module_sha256") == self._normalized_text_sha256(module_path)
+        if not (protocol_matches and report_matches and registry_matches and module_matches):
             raise R4T255ClusterUncertaintyError("T255 report input binding differs")
         if report.get("t238_batch_metrics_sha256") != self._sha256(batch_path):
             raise R4T255ClusterUncertaintyError("T255 batch input binding differs")
+        artifact = report.get("artifacts", {}).get("cluster_bootstrap_metrics", {})
+        expected_metrics_relative = metrics_path.relative_to(self.root).as_posix()
+        if artifact.get("relative_path") != expected_metrics_relative:
+            raise R4T255ClusterUncertaintyError("T255 metric artifact path binding differs")
+        if artifact.get("sha256") != self._sha256(metrics_path):
+            raise R4T255ClusterUncertaintyError("T255 metric artifact checksum differs")
+        if report.get("paired_ablation_sha256") != self._sha256(paired_path):
+            raise R4T255ClusterUncertaintyError("T255 paired-ablation binding differs")
         if (
             report.get("scientific_submission_ready") is not False
             or receipt.get("scientific_submission_ready") is not False
@@ -283,6 +322,11 @@ class R4T255ClusterUncertaintyWorkflow:
         rows = report.get("metric_rows")
         if not isinstance(rows, list) or len(rows) != 36:
             raise R4T255ClusterUncertaintyError("T255 metric row count differs")
-        if receipt.get("report_sha256") != self._sha256(report_out) or receipt.get("metric_row_count") != 36:
+        if (
+            receipt.get("report_sha256") != self._sha256(report_out)
+            or receipt.get("cluster_bootstrap_metrics_sha256") != self._sha256(metrics_path)
+            or receipt.get("execution_module_sha256") != self._normalized_text_sha256(module_path)
+            or receipt.get("metric_row_count") != 36
+        ):
             raise R4T255ClusterUncertaintyError("T255 receipt binding differs")
         return R4T255ClusterUncertaintySummary(4, 3, 36, int(receipt["defined_metric_count"]), receipt_path)

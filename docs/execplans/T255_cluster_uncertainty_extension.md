@@ -26,7 +26,17 @@ change target membership, model selection, primary estimands, or claim level.
 - Frozen protocol and registry under `docs/data/`.
 - Hash-bound report, receipt and metric-level CSV under
   `reports/review_round_4/t255_cluster_uncertainty/v1.0.0/`.
+- The report and receipt bind the registry hash, newline-normalized execution
+  module hash, paired-ablation hash, materialized metric path and metric CSV
+  hash; the verifier checks all of these bindings.
 - CLI execute/verify commands and regression tests.
+
+## Repair note
+
+The first generated report incorrectly pointed at a `v1.0.1` metric path while
+the output contract was `v1.0.0`. The canonical `v1.0.0` outputs were
+regenerated, and the regression test now fails if the report path or CSV hash
+does not match the materialized artifact.
 
 ## Claim boundary
 
