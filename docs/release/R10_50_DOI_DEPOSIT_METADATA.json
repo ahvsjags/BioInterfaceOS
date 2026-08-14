@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_AUTHENTICATED_ARCHIVE_UPLOAD",
+  "doi_archived": false,
+  "scientific_submission_ready": false,
+  "release": {
+    "tag": "v0.1.3-r10.50",
+    "source_commit": "07db8ceef9b785bc3fba0f79f346f9f633645a63",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.50/release_manifest.json",
+    "manifest_sha256": "84ec1f65b6589b23d6ef4d10e8a468904b0ff55067dff092d61693f73c46c597",
+    "manifest_bytes": 593268,
+    "archive_filename": "BioInterfaceOS-v0.1.3-r10.50.tar.gz",
+    "archive_server_path": "/ibex/user/xup0a/BioInterfaceOS-v0.1.3-r10.50.tar.gz",
+    "archive_sha256": null,
+    "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.50.tar.gz.sha256",
+    "doi": null,
+    "immutable_record_url": null
+  },
+  "deposit_metadata": {
+    "title": "BioInterfaceOS v0.1.3-r10.50: three-cohort biological common-target execution",
+    "upload_type": "software",
+    "publication_date": "2026-08-15",
+    "version": "v0.1.3-r10.50",
+    "description": "Immutable public software version containing the T265 full-text paper-data route, three independent laboratory biological common-target execution, source-held-out nested evaluation, cluster uncertainty, negative controls and cross-environment reproducibility evidence.",
+    "creators": [{"name": "BioInterfaceOS Contributors"}],
+    "keywords": ["computational biology", "proteomics", "reproducible research", "provenance", "nested evaluation", "external validation"],
+    "license": "Apache-2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS/tree/v0.1.3-r10.50", "relation": "isIdenticalTo", "resource_type": "software"},
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS", "relation": "isSupplementTo", "resource_type": "software"}
+    ]
+  },
+  "upload_instructions": [
+    "Upload the exact source archive and sidecar from an authenticated archive workflow.",
+    "Upload the hash-bound manifest as a separate file because it is excluded from its self-hash.",
+    "Record the archive DOI, version DOI, immutable record URL and upload timestamp.",
+    "Read back the archived manifest and archive bytes and compare both SHA-256 values exactly.",
+    "Only after authenticated read-back may doi_archived become true."
+  ],
+  "claim_boundary": "This is deposit preparation metadata, not a DOI or archive receipt. The DOI gate remains open until authenticated deposit and read-back are independently recorded."
+}
