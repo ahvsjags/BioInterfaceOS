@@ -265,10 +265,8 @@ class R4PaperDataFallbackWorkflow:
     @staticmethod
     def _write_json(path: Path, value: Mapping[str, Any]) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(
-            json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n",
-            encoding="utf-8",
-        )
+        payload = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        path.write_bytes((payload + "\n").encode("utf-8"))
 
     def run(self, *, strict: bool = False) -> R4PaperDataFallbackSummary:
         if not strict:
