@@ -1,6 +1,6 @@
 # T255 cluster-aware uncertainty extension
 
-Status: `IN_PROGRESS`
+Status: `COMPLETED_INTERNAL_EXTERNAL_GATES_UNVERIFIED`
 
 ## Objective
 
