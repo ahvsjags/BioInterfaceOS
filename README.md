@@ -53,6 +53,7 @@ See:
 - `docs/review_round_4/R4_T274_COVERAGE_SENSITIVITY_STATUS_20260815.md`
 - `docs/review_round_4/R4_T275_T250_REPLICATE_SENSITIVITY_STATUS_20260815.md`
 - `docs/review_round_4/R4_T275_CROSS_ENVIRONMENT_REPRODUCIBILITY_RECEIPT_20260815.json`
+- `docs/review_round_4/R4_T276_CURRENT_EDITORIAL_SCORECARD_20260815.md`
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
 - `release/empirical_candidate_v0.1.3-r10.28/release_manifest.json`
