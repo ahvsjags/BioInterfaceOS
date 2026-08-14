@@ -61,7 +61,7 @@ uv sync --locked --all-groups 2>&1 | tee "$output_root/environment_install.log"
 
 uv lock --check 2>&1 | tee "$output_root/lock_check.log"
 sha256sum uv.lock pyproject.toml CITATION.cff \
-  release/empirical_candidate_v0.1.3-r10.54/release_manifest.json \
+  release/empirical_candidate_v0.1.3-r10.56/release_manifest.json \
   reports/review_round_4/three_lab_redistributable_common_target/v1.0.0/r4_t192_three_lab_common_target_ledger.csv \
   reports/review_round_4/t250_four_lab_common_target_execution/v1.0.0/t250_four_lab_execution_report.json \
   > "$output_root/environment_input_hashes.txt"
