@@ -36,9 +36,15 @@ uv run pytest tests/review_round_3 tests/review_round_4 -q
 bash scripts/r4_external_reproduction.sh reports/external_reproduction/<participant_id>
 ```
 
-该脚本会拒绝 dirty checkout，并逐项核对 `v0.1.3-r10.28` 的 tag target
-`5f72487023f80dd37d6b550b97638fb0246eb3fa` 和 release manifest SHA-256
-`4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4`；通过这些检查仍只表示复现输入固定，不能替代无作者团队的真实 receipt。
+固定 tag 内的脚本会拒绝移动分支；在运行前，参与者还必须显式执行以下 clean-checkout 和 hash guards：
+
+```bash
+test -z "$(git status --porcelain)"
+test "$(git rev-parse 'v0.1.3-r10.28^{}')" = "5f72487023f80dd37d6b550b97638fb0246eb3fa"
+test "$(sha256sum release/empirical_candidate_v0.1.3-r10.28/release_manifest.json | awk '{print $1}')" = "4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4"
+```
+
+移动分支后续提交 `6c4ac72` 已将这些 guards 加入脚本，但它不属于不可变 r10.28 tag；在新的 immutable release 建立前，不得把该后续脚本称为 r10.28 内置代码。通过上述检查仍只表示复现输入固定，不能替代无作者团队的真实 receipt。
 
 脚本会拒绝移动分支，独立重获输入，运行 source audit 与 external OOD，记录环境/依赖/输入/输出 hash，并保留失败和负结果。历史作者运行的计数只能作为比较信息，不能作为复现结果预填值。
 
