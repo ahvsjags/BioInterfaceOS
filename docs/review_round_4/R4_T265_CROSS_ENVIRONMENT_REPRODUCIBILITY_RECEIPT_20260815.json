@@ -1,0 +1,29 @@
+{
+  "receipt_id": "R4_T265_CROSS_ENVIRONMENT_REPRODUCIBILITY_20260815",
+  "workflow": "R4-T265-three-laboratory-biological-common-target",
+  "status": "AUTHOR_SIDE_CROSS_ENVIRONMENT_REPRODUCED",
+  "analysis_only": true,
+  "scientific_submission_ready": false,
+  "git_commit": "bb957bc2",
+  "github_branch": "r3-real-data-execution-20260813",
+  "kaust_task_directory": "/ibex/user/xup0a/BioInterfaceOS-r4-paper-data-fallback-20260814",
+  "local_verify": "R4_T265_BIOLOGICAL_COMMON_TARGET_VERIFY_VALID",
+  "kaust_verify": "R4_T265_BIOLOGICAL_COMMON_TARGET_VERIFY_VALID",
+  "local_test": "1 passed",
+  "kaust_test": "1 passed",
+  "matched_file_count": 11,
+  "sha256": {
+    "biological_unit_cluster_summary.json": "037190cc5e4e25019ce802ce6cb42c80c328f801506b733edf78016b0e8c576c",
+    "measurement_batch_metrics.csv": "e177b62bb2ee11ea38ac9cd57e22e7e9e87af4a8551ba1f519534845b791b72c",
+    "nested_inner_selection.csv": "24558f692f3377de6148ad1880ba0a131e924fa4a3e8775e4579e9cfb8fa5cf9",
+    "outer_fold_metrics.csv": "9d578d50920b5ca0ef9cbf0d3ee2ca2de8e519b369645c779f8d664eff60d9d1",
+    "outer_fold_model_parameters.json": "c2c13f75cf50ee13be5f5b947185c229471bf33994b2efb2bed6beb206214283",
+    "outer_fold_predictions.csv": "22fc7001569ce7b38a981d02af0ad152320e5fbb132d233ca9ccf74f7d73787b",
+    "paired_composition_ablation.csv": "bb07783ea11ebe27e37c3b7d2eaefafceb7a5dade708bd51c7d2c762887e32ed",
+    "source_local_prefrozen_target_ledger.csv": "c703a911c7b411b6c93cdddbe6c7906e570de7b9090e8cb2c1245dc5b3edf70a",
+    "t265_biological_common_target_receipt.json": "cbb694cc6aa8c763d34cb6065558697168c10b3fa4a280d9b941544e970f4447",
+    "t265_biological_common_target_report.json": "ff0672b20c2664ac1f9fc81055c2bf3ad068e763940bca8314c041ce7d81f553",
+    "within_batch_rank_permutation.csv": "eba54c5438f44e46df6f21c078098ae10d4f69770c9cf987676149157a5f278b"
+  },
+  "interpretation": "This receipt proves author-side cross-environment reproducibility between the local worktree and the KAUST task. It is not an independent lockbox, no-author reproduction, external adoption, or DOI archive receipt."
+}
