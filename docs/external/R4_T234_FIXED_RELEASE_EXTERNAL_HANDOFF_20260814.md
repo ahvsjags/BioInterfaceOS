@@ -36,6 +36,10 @@ uv run pytest tests/review_round_3 tests/review_round_4 -q
 bash scripts/r4_external_reproduction.sh reports/external_reproduction/<participant_id>
 ```
 
+该脚本会拒绝 dirty checkout，并逐项核对 `v0.1.3-r10.28` 的 tag target
+`5f72487023f80dd37d6b550b97638fb0246eb3fa` 和 release manifest SHA-256
+`4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4`；通过这些检查仍只表示复现输入固定，不能替代无作者团队的真实 receipt。
+
 脚本会拒绝移动分支，独立重获输入，运行 source audit 与 external OOD，记录环境/依赖/输入/输出 hash，并保留失败和负结果。历史作者运行的计数只能作为比较信息，不能作为复现结果预填值。
 
 复现 receipt 至少要包含：参与者身份与机构、非作者/无利益冲突声明、tag/commit、protocol 与 manifest hash、输入 accession 与下载 hash、环境 digest、完整命令、stdout/stderr hash、输出 hash、偏差与失败记录、签名声明和不可变归档定位。

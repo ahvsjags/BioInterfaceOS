@@ -5,6 +5,8 @@ set -euo pipefail
 # This script records evidence only; it never promotes an external claim.
 
 expected_tag="v0.1.3-r10.28"
+expected_tag_commit="5f72487023f80dd37d6b550b97638fb0246eb3fa"
+expected_manifest_sha256="4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4"
 output_root="${1:-reports/review_round_3/external_reproduction/v1.0.0}"
 assets_root="data/raw/r3_candidate_pmc6592156"
 feature_root="data/raw/r3_uniprot_sequence_features"
@@ -16,11 +18,24 @@ if [[ "$(git describe --tags --exact-match 2>/dev/null || true)" != "$expected_t
   exit 2
 fi
 
+if [[ -n "$(git status --porcelain)" ]]; then
+  echo "This script requires a clean checkout; local modifications are rejected." >&2
+  exit 2
+fi
+
 mkdir -p "$output_root"
 checkout_commit="$(git rev-parse "${expected_tag}^{}")"
+if [[ "$checkout_commit" != "$expected_tag_commit" ]]; then
+  echo "The resolved tag target does not match the fixed release." >&2
+  exit 2
+fi
 manifest_path="release/empirical_candidate_v0.1.3-r10.28/release_manifest.json"
 source_commit="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["source_commit"])' "$manifest_path")"
 manifest_sha256="$(sha256sum "$manifest_path" | awk '{print $1}')"
+if [[ "$manifest_sha256" != "$expected_manifest_sha256" ]]; then
+  echo "The release manifest hash does not match the fixed release." >&2
+  exit 2
+fi
 
 printf '%s\n' "$expected_tag" > "$output_root/checkout_tag.txt"
 printf '%s\n' "$checkout_commit" > "$output_root/checkout_commit.txt"
