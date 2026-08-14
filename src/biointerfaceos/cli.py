@@ -774,6 +774,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T195 strict-common-target execution receipt",
     )
     data_r4_t195_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t282_parser = data_subparsers.add_parser(
+        "evaluate-r4-t282-t195-replicate-aware-refit",
+        help="execute the T195 primary route after pre-model technical-replicate collapse",
+    )
+    data_r4_t282_parser.add_argument("--strict", action="store_true")
+    data_r4_t282_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t282-t195-replicate-aware-refit",
+        help="verify the T282 replicate-aware T195 primary-route receipt",
+    )
+    data_r4_t282_verify_parser.add_argument("--strict", action="store_true")
     data_r4_t197_parser = data_subparsers.add_parser(
         "evaluate-r4-t197-source-availability",
         help="execute the source-availability-aware outer-fold target sensitivity",
@@ -3709,6 +3719,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t194-fulltext-core-facility",
             "evaluate-r4-t195-three-lab-common-target",
             "verify-r4-t195-three-lab-common-target",
+            "evaluate-r4-t282-t195-replicate-aware-refit",
+            "verify-r4-t282-t195-replicate-aware-refit",
             "evaluate-r4-t197-source-availability",
             "verify-r4-t197-source-availability",
             "evaluate-r4-t238-four-source-availability",
@@ -5082,6 +5094,49 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"laboratories={t195_summary.laboratory_anchor_count} "
                 f"measurement_batches={t195_summary.measurement_batch_count} "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t282-t195-replicate-aware-refit":
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
+            from biointerfaceos.r4_t282_t195_replicate_aware_refit import (
+                R4T282T195ReplicateAwareRefitError,
+                R4T282T195ReplicateAwareRefitWorkflow,
+            )
+
+            try:
+                t282_summary = R4T282T195ReplicateAwareRefitWorkflow(root).run(strict=args.strict)
+            except (R4T282T195ReplicateAwareRefitError, OSError, R3ModelEvaluationError) as exc:
+                print(f"R4_T282_T195_REPLICATE_AWARE_REFIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T282_T195_REPLICATE_AWARE_REFIT_VALID "
+                f"observations={t282_summary.observation_count} "
+                f"target_universe={t282_summary.target_universe_count} "
+                f"laboratories={t282_summary.laboratory_anchor_count} "
+                f"measurement_batches={t282_summary.measurement_batch_count} "
+                f"models={t282_summary.model_count} raw_observations=809 collapsed_groups=165 "
+                "technical_replicates_collapsed_before_split=true study_held_out=true "
+                "nested_selection=true cluster_aware=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t282-t195-replicate-aware-refit":
+            from biointerfaceos.r4_t282_t195_replicate_aware_refit import (
+                R4T282T195ReplicateAwareRefitError,
+                R4T282T195ReplicateAwareRefitWorkflow,
+            )
+
+            try:
+                t282_summary = R4T282T195ReplicateAwareRefitWorkflow(root).verify(strict=args.strict)
+            except (R4T282T195ReplicateAwareRefitError, OSError) as exc:
+                print(f"R4_T282_T195_REPLICATE_AWARE_REFIT_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T282_T195_REPLICATE_AWARE_REFIT_VERIFY_VALID "
+                f"observations={t282_summary.observation_count} "
+                f"target_universe={t282_summary.target_universe_count} "
+                f"laboratories={t282_summary.laboratory_anchor_count} "
+                f"measurement_batches={t282_summary.measurement_batch_count} "
+                "raw_observations=809 collapsed_groups=165 scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-t197-source-availability":

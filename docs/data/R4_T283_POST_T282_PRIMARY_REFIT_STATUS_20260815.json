@@ -1,0 +1,69 @@
+{
+  "task_id": "R4-T283",
+  "title": "Post-T282 primary paper-data refit and all-module-90 gate",
+  "date": "2026-08-15",
+  "evidence_boundary": "Published full-text and supplementary data executed by the authors remain author-side evidence; no author-side run is counted as independent external validation, no-author reproduction, adoption, or DOI verification.",
+  "primary_route": {
+    "task_id": "T195",
+    "source_count": 3,
+    "laboratory_anchor_count": 3,
+    "frozen_target_count": 9,
+    "raw_observation_count": 809,
+    "redistribution": "CC-BY-4.0 and CC0 source packages under the route ledger",
+    "technical_replicate_refit": "T282"
+  },
+  "t282": {
+    "raw_observations": 809,
+    "collapsed_observations": 644,
+    "collapsed_groups": 165,
+    "laboratory_anchors": 3,
+    "frozen_targets": 9,
+    "measurement_batches": 85,
+    "outer_folds": 3,
+    "models": 3,
+    "selection_aware_null_permutations_per_fold": 2000,
+    "outer_full_ridge_spearman": {
+      "Dalian University of Technology": 0.8301587,
+      "University College Dublin / Conway Institute": 0.2533881,
+      "University of Edinburgh-led study": 0.4080661
+    },
+    "paired_full_minus_composition_spearman": {
+      "Dalian University of Technology": 0.0,
+      "University College Dublin / Conway Institute": 0.0,
+      "University of Edinburgh-led study": 0.0
+    },
+    "negative_control_one_sided_upper_tail_p": {
+      "Dalian University of Technology": 0.0038911,
+      "University College Dublin / Conway Institute": 0.2684825,
+      "University of Edinburgh-led study": 0.0622568
+    },
+    "cross_environment_artifact_hashes_match": true,
+    "scientific_submission_ready": false
+  },
+  "scorecard": {
+    "data_compatibility_and_sample_foundation": 92,
+    "statistical_analysis_design": 92,
+    "statistical_execution_and_effective_sample": 94,
+    "models_ablation_ood_uncertainty": 86,
+    "independent_lockbox_evaluation": 0,
+    "no_author_scientific_reproduction": 0,
+    "external_user_adoption": 0,
+    "doi_version_citability": 10,
+    "descriptive_arithmetic_mean": 45.5,
+    "decision": "Major Revision / not yet strong-Q1 submission-ready"
+  },
+  "all_module_90_acceptance": {
+    "verified_lockbox_receipt_count": 0,
+    "verified_no_author_reproduction_count": 0,
+    "verified_distinct_adoption_receipt_count": 0,
+    "doi_archive_verified": false,
+    "final_multi_agent_editorial_review": "PENDING_EXTERNAL_GATES",
+    "scientific_submission_ready": false
+  },
+  "canonical_artifacts": {
+    "report": "reports/review_round_4/t282_t195_replicate_aware_refit/v1.0.0/t282_t195_replicate_aware_refit_report.json",
+    "receipt": "reports/review_round_4/t282_t195_replicate_aware_refit/v1.0.0/t282_t195_replicate_aware_refit_receipt.json",
+    "collapse_trace": "reports/review_round_4/t282_t195_replicate_aware_refit/v1.0.0/technical_replicate_collapse_trace.csv",
+    "collapse_trace_sha256": "687d44ad0a0a0f10d93b6f6117a3b47aebbd4bb278cf81f81becdf5ee5675ecd"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t282-t195-replicate-aware-refit-v1.0.0",
+  "frozen_at": "2026-08-15T00:00:00+08:00",
+  "status": "FROZEN_BEFORE_T282_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Refit the T195 redistributable three-laboratory primary route after collapsing technical replicate rows before outer splitting, nested selection, model fitting and negative-control permutation.",
+  "target_universe": {
+    "source": "R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY",
+    "common_targets": ["P04004", "P04264", "P05556", "P06396", "P07996", "P26038", "P60174", "Q04695", "Q9HDC9"],
+    "selection_is_performance_free": true,
+    "selection_is_model_free": true,
+    "selection_is_frozen_before_t282": true,
+    "availability_rule": "A common target contributes only when the audited source map records a finite strictly positive author value; blank, explicit zero and NA states remain missing.",
+    "rank_direction": "DESCENDING_MIDRANK_PERCENTILE_WITHIN_SOURCE_DEFINED_MEASUREMENT_BATCH",
+    "cross_source_abundance_scale_use": "PROHIBITED"
+  },
+  "technical_replicate_policy": {
+    "collapse_key": ["source_id", "measurement_batch_id", "canonical_accession"],
+    "fit_unit": "one collapsed target observation per source/batch/canonical-target group",
+    "target_value": "arithmetic mean of available positive technical-replicate source-local rank percentiles",
+    "feature_value": "release-fixed sequence feature vector for the canonical accession",
+    "missingness": "Do not impute absent replicate rows; average only observed positive rows in a registered duplicate group.",
+    "raw_observation_count": 809,
+    "collapsed_observation_count": 644,
+    "collapsed_group_count": 165,
+    "applied_before": ["outer laboratory split", "inner alpha selection", "model fitting", "negative-control permutation"]
+  },
+  "outer_split": {
+    "type": "leave_one_laboratory_anchor_out",
+    "fold_count": 3,
+    "held_out_source_used_for_alpha_selection": false,
+    "held_out_source_used_for_model_selection": false
+  },
+  "nested_selection": {
+    "type": "leave_one_measurement_batch_out_within_outer_development_anchors",
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "selection_metric": "measurement-batch Spearman",
+    "tie_break": "smallest alpha",
+    "minimum_proteins_per_selection_batch": 3
+  },
+  "models": {
+    "constant": "development-target mean; Spearman is undefined by contract",
+    "full": "unpenalized-intercept ridge on the release-fixed sequence feature table",
+    "composition_only": "unpenalized-intercept ridge on amino-acid composition features only",
+    "standardization": "development-partition mean and standard deviation; zero standard deviation replaced by 1.0",
+    "solver": "numpy.linalg.solve"
+  },
+  "uncertainty": {
+    "cluster": "held-out measurement batch",
+    "resamples": 2000,
+    "random_seed": 2820,
+    "interval": "percentile 95% cluster bootstrap",
+    "low_cluster_count_policy": "Report measurement-batch count and do not infer donor-level effective n."
+  },
+  "negative_control": {
+    "type": "within-development-measurement-batch target permutation",
+    "resamples": 256,
+    "random_seed": 2821,
+    "alpha_policy": "re-run grouped nested alpha selection for every permuted development set",
+    "selection_reexecution_per_resample": true,
+    "tail": "one-sided upper tail"
+  },
+  "estimand_boundary": "Primary score is the equal-weight mean of source-local measurement-batch Spearman values after technical-replicate collapse. Report raw rows, collapsed fit units, duplicate groups, batches, laboratory anchors and unresolved donor-level effective n separately.",
+  "claim_boundary": "This is an exploratory replicate-aware refit of the redistributable T195 paper-data primary route. It does not establish independent biological validation, donor-level generalization, protected lockbox performance, no-author reproduction, external adoption, DOI archival or scientific submission readiness.",
+  "scientific_submission_ready": false
+}
