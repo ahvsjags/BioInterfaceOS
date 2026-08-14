@@ -43,11 +43,11 @@
   },
   "output_contract": {
     "endpoint_matrix_relative_path": "reports/review_round_4/source_unit_endpoint_license/v1.0.0/r4_t258_endpoint_compatibility_matrix.csv",
-    "endpoint_matrix_sha256": "45200f21c932d109780dadb4319072c19f7c64f1174b72fad783e38d922e5c8a",
+    "endpoint_matrix_sha256": "0b9963cd7e59f3473e1d8bcc583f227335e6ed4afc5c265c6fa201caeb656461",
     "receipt_relative_path": "reports/review_round_4/source_unit_endpoint_license/v1.0.0/r4_t258_source_unit_endpoint_license_receipt.json",
     "report_relative_path": "reports/review_round_4/source_unit_endpoint_license/v1.0.0/r4_t258_source_unit_endpoint_license_report.json",
     "source_unit_ledger_relative_path": "reports/review_round_4/source_unit_endpoint_license/v1.0.0/r4_t258_source_unit_endpoint_ledger.csv",
-    "source_unit_ledger_sha256": "87df3245056759a0d244b61716f33a4c7694c2f7f2a01ea57f3646fca6a6d4ca"
+    "source_unit_ledger_sha256": "08f2e534441fba54a0bd5b6c7fe2e9894e808ce58ee5cc49bb144df3d248dc34"
   },
   "rank_eligible_cell_count": 10852,
   "reported_biological_unit_counts_are_not_additive": true,

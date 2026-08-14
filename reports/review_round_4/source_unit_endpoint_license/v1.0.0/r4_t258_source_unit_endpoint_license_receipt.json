@@ -1,18 +1,18 @@
 {
   "audit_id": "bioif-r4-t258-source-unit-endpoint-license-v1.0.0",
   "encoded_biological_unit_count": 30,
-  "endpoint_matrix_sha256": "45200f21c932d109780dadb4319072c19f7c64f1174b72fad783e38d922e5c8a",
+  "endpoint_matrix_sha256": "0b9963cd7e59f3473e1d8bcc583f227335e6ed4afc5c265c6fa201caeb656461",
   "endpoint_pair_count": 6,
   "external_scientific_reproduction": false,
   "external_user_adoption": false,
   "independent_validation": false,
   "protocol_sha256": "200be8bb0312a155174d7430024644acadf445ae17edc83ebe16d7925ec449b6",
   "rank_eligible_cell_count": 10852,
-  "report_sha256": "a9e762571e1e4a23fab3ac7c79905583479fb40f9bd427d1f4924c235ef10a3c",
+  "report_sha256": "9d29f3ddf14c9e3a21364e8711b4533ba688795b1a89f4824c00c9b5d19922c1",
   "schema_version": 1,
   "scientific_submission_ready": false,
   "source_cell_count": 15971,
   "source_count": 4,
-  "source_unit_ledger_sha256": "87df3245056759a0d244b61716f33a4c7694c2f7f2a01ea57f3646fca6a6d4ca",
+  "source_unit_ledger_sha256": "08f2e534441fba54a0bd5b6c7fe2e9894e808ce58ee5cc49bb144df3d248dc34",
   "status": "SOURCE_UNIT_ENDPOINT_LICENSE_AUDIT_VERIFIED_RESTRICTED_DEVELOPMENT"
 }

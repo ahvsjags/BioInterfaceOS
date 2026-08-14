@@ -349,12 +349,13 @@ class R4T258SourceUnitEndpointLicenseWorkflow:
 
     @staticmethod
     def _write_json(path: Path, value: dict[str, Any]) -> None:
-        path.write_text(json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+        with path.open("w", encoding="utf-8", newline="\n") as stream:
+            stream.write(json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
 
     @staticmethod
     def _write_csv(path: Path, fieldnames: tuple[str, ...], rows: list[dict[str, str]]) -> None:
         with path.open("w", newline="", encoding="utf-8") as stream:
-            writer = csv.DictWriter(stream, fieldnames=fieldnames, extrasaction="raise")
+            writer = csv.DictWriter(stream, fieldnames=fieldnames, extrasaction="raise", lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
 
