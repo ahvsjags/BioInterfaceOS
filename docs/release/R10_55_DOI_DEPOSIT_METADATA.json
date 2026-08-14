@@ -11,8 +11,8 @@
     "manifest_bytes": 605128,
     "archive_filename": "BioInterfaceOS-v0.1.3-r10.55.tar.gz",
     "archive_server_path": "/ibex/user/xup0a/BioInterfaceOS-v0.1.3-r10.55.tar.gz",
-    "archive_bytes": null,
-    "archive_sha256": null,
+    "archive_bytes": 107777504,
+    "archive_sha256": "b829506cd34874ababb22641d36ecbaee433cc239edb42ec4b1afb9c76554374",
     "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.55.tar.gz.sha256",
     "doi": null,
     "immutable_record_url": null
