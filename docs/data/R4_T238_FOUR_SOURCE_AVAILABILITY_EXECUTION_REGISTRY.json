@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t238-four-source-availability-execution-v1.0.0",
+  "protocol_id": "bioif-r4-t238-four-source-availability-execution-v1.0.0",
+  "status": "T238_FOUR_SOURCE_AVAILABILITY_EXECUTION_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T238_FOUR_SOURCE_AVAILABILITY_EXECUTION_PROTOCOL.json",
+    "sha256": "a89a2cf4236caee0826fddde5ac89747f939dd656636d600595adf9af6bed7ea"
+  },
+  "t249_source_registry": {
+    "relative_path": "docs/data/R4_T249_FOUR_LAB_COMMON_TARGET_REGISTRY.json",
+    "sha256": "1efd0793a6dcc0c5a480bfd6b41dc70b2b5a9dc557635507aff22ec220304a1b"
+  },
+  "t249_common_target_ledger": {
+    "relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_ledger.csv",
+    "sha256": "1eac118871e5a4ad315c377efc8c7dbfd38f0f2bfd94b70676439de2baff99aa"
+  },
+  "r3_sequence_feature_table": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "sources": [
+    "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+    "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+    "PXD064962_UCD_EVENT",
+    "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA"
+  ],
+  "expected_accounting": {
+    "source_count": 4,
+    "outer_fold_count": 4,
+    "minimum_development_only_target_count": 9,
+    "minimum_held_out_available_target_count": 7
+  },
+  "output_contract": {
+    "relative_path": "reports/review_round_4/t238_four_source_availability_execution/v1.0.0"
+  },
+  "claim_boundary": "T238 is a strict four-source development-only target-membership sensitivity of the T250 paper-data route. It is exploratory and does not convert paper-derived technical/pooled materials into independent biological cohorts or close external evidence gates.",
+  "scientific_submission_ready": false
+}

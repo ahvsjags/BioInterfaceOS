@@ -18,7 +18,7 @@
     "held_out_source_used_for_target_membership": false,
     "held_out_source_used_for_alpha_selection": false,
     "held_out_source_used_for_model_selection": false,
-    "minimum_development_target_count": 9
+    "minimum_development_target_count": 12
   },
   "nested_selection": {
     "type": "leave_one_measurement_batch_out_within_development_sources",

@@ -55,6 +55,14 @@ class R4T197SourceAvailabilityWorkflow:
         "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv"
     )
     OUTPUT_RELATIVE = "reports/review_round_4/t197_source_availability_execution/v1.0.0"
+    REPORT_NAME = "t197_source_availability_execution_report.json"
+    RECEIPT_NAME = "t197_source_availability_execution_receipt.json"
+    REGISTRY_STATUS = "T197_SOURCE_AVAILABILITY_EXECUTION_REGISTERED"
+    PROTOCOL_STATUS = "FROZEN_BEFORE_T197_EXECUTION"
+    SOURCE_COUNT = 3
+    FOLD_PREFIX = "T197"
+    OBSERVATION_PREFIX = "T197"
+    SEED_OFFSET_BY_FOLD = False
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
     MODEL_IDS = R3ModelEvaluationWorkflow.MODEL_IDS
 
@@ -141,7 +149,7 @@ class R4T197SourceAvailabilityWorkflow:
         if (
             registry.get("audit_id") != self.AUDIT_ID
             or registry.get("protocol_id") != self.AUDIT_ID
-            or registry.get("status") != "T197_SOURCE_AVAILABILITY_EXECUTION_REGISTERED"
+            or registry.get("status") != self.REGISTRY_STATUS
             or registry.get("evidence_class") != "DEVELOPMENT_OBSERVATION"
             or registry.get("allowed_claim_level") != "EXPLORATORY"
             or registry.get("scientific_submission_ready") is not False
@@ -151,7 +159,7 @@ class R4T197SourceAvailabilityWorkflow:
         protocol = self._json(protocol_path, "T197 protocol")
         if (
             protocol.get("protocol_id") != self.AUDIT_ID
-            or protocol.get("status") != "FROZEN_BEFORE_T197_EXECUTION"
+            or protocol.get("status") != self.PROTOCOL_STATUS
             or protocol.get("scientific_submission_ready") is not False
         ):
             raise R4T197SourceAvailabilityError("T197 protocol identity or boundary is invalid")
@@ -165,7 +173,11 @@ class R4T197SourceAvailabilityWorkflow:
         if refs["r3_sequence_feature_table"] != self.root / self.FEATURE_RELATIVE:
             raise R4T197SourceAvailabilityError("T197 does not use the release-fixed feature table")
         source_ids = registry.get("sources")
-        if not isinstance(source_ids, list) or len(source_ids) != 3 or len(set(source_ids)) != 3:
+        if (
+            not isinstance(source_ids, list)
+            or len(source_ids) != self.SOURCE_COUNT
+            or len(set(source_ids)) != self.SOURCE_COUNT
+        ):
             raise R4T197SourceAvailabilityError("T197 requires three unique source IDs")
         protocol_sources = _mapping(protocol["outer_split"], "T197 outer split").get("source_ids")
         if protocol_sources != source_ids:
@@ -213,8 +225,9 @@ class R4T197SourceAvailabilityWorkflow:
             raise R4T197SourceAvailabilityError("T192 source admission does not verify") from exc
         return t192, source_meta, rows
 
-    @staticmethod
+    @classmethod
     def _make_observations(
+        cls,
         source_id: str,
         fold_id: str,
         rows: Sequence[tuple[dict[str, str], float, int]],
@@ -230,7 +243,7 @@ class R4T197SourceAvailabilityWorkflow:
             if accession not in features:
                 raise R4T197SourceAvailabilityError(f"T197 target {accession} lacks a feature")
             identity = f"{fold_id}|{source_id}|{row['source_coordinate']}|{accession}"
-            observation_id = "T197_" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:20]
+            observation_id = cls.OBSERVATION_PREFIX + "_" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:20]
             observations.append(
                 _Observation(
                     observation_id,
@@ -364,20 +377,21 @@ class R4T197SourceAvailabilityWorkflow:
             if full["spearman"] is not None and composition["spearman"] is not None
         ]
         uncertainty = _mapping(protocol["uncertainty"], "T197 uncertainty")
+        seed_offset = int(fold_id.rsplit("_", maxsplit=1)[-1]) if self.SEED_OFFSET_BY_FOLD else len(fold_id)
         paired_interval: dict[str, float | int | None] = {}
         if differences:
             paired_interval.update(
                 helper._bootstrap(
                     differences,
                     resamples=int(uncertainty["resamples"]),
-                    seed=int(uncertainty["random_seed"]) + len(fold_id),
+                    seed=int(uncertainty["random_seed"]) + seed_offset,
                 )
             )
         else:
             paired_interval.update(
                 {
                     "resamples": int(uncertainty["resamples"]),
-                    "seed": int(uncertainty["random_seed"]) + len(fold_id),
+                    "seed": int(uncertainty["random_seed"]) + seed_offset,
                     "lower_95": None,
                     "upper_95": None,
                 }
@@ -394,7 +408,7 @@ class R4T197SourceAvailabilityWorkflow:
         by_batch: dict[str, list[int]] = defaultdict(list)
         for index, row in enumerate(development):
             by_batch[row.measurement_batch_id].append(index)
-        rng = np.random.default_rng(int(negative["random_seed"]) + len(fold_id))
+        rng = np.random.default_rng(int(negative["random_seed"]) + seed_offset)
         null_rows: list[dict[str, Any]] = []
         null_scores: list[float] = []
         for resample in range(1, int(negative["resamples"]) + 1):
@@ -423,7 +437,7 @@ class R4T197SourceAvailabilityWorkflow:
         observed = next(row["mean_spearman"] for row in model_rows if row["model_id"] == "SEQUENCE_RIDGE_FULL")
         negative_summary = {
             "resamples": int(negative["resamples"]),
-            "random_seed": int(negative["random_seed"]) + len(fold_id),
+            "random_seed": int(negative["random_seed"]) + seed_offset,
             "selection_reexecuted_per_resample": True,
             "observed_mean_spearman": observed,
             "null_mean_spearman_mean": float(np.mean(null_scores)),
@@ -502,7 +516,7 @@ class R4T197SourceAvailabilityWorkflow:
         fold_targets: list[dict[str, Any]] = []
         parameters: dict[str, Any] = {}
         for fold_index, held_out_source in enumerate(sorted(source_ids), start=1):
-            fold_id = f"T197_OUTER_{fold_index:02d}"
+            fold_id = f"{self.FOLD_PREFIX}_OUTER_{fold_index:02d}"
             development_sources = sorted(source_id for source_id in source_ids if source_id != held_out_source)
             target_set = set.intersection(*(source_target_sets[source_id] for source_id in development_sources))
             if len(target_set) < minimum_target_count:
@@ -604,6 +618,19 @@ class R4T197SourceAvailabilityWorkflow:
                 for source_id in sorted(source_meta)
             },
             "fold_targets": fold_targets,
+            "accounting": {
+                "fold_ledger_row_count": len(all_ledger),
+                "development_observation_count": sum(
+                    int(values["development_observation_count"]) for values in parameters.values()
+                ),
+                "held_out_test_observation_count": sum(
+                    int(values["test_observation_count"]) for values in parameters.values()
+                ),
+                "counting_rule": (
+                    "fold ledger rows include development and held-out rows repeated by outer fold; "
+                    "held_out_test_observation_count is the non-repeated test-only total"
+                ),
+            },
             "model_results": all_model_rows,
             "paired_composition_ablation": all_paired,
             "negative_control_summary": [
@@ -620,7 +647,7 @@ class R4T197SourceAvailabilityWorkflow:
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
         }
-        report_path = output / "t197_source_availability_execution_report.json"
+        report_path = output / self.REPORT_NAME
         self._write_json(report_path, report)
         receipt = {
             "schema_version": 1,
@@ -628,6 +655,16 @@ class R4T197SourceAvailabilityWorkflow:
             "status": self.STATUS,
             "report_sha256": _sha256(report_path),
             "observation_count": len(all_ledger),
+            "fold_ledger_row_count": len(all_ledger),
+            "development_observation_count": sum(
+                int(values["development_observation_count"]) for values in parameters.values()
+            ),
+            "held_out_test_observation_count": sum(
+                int(values["test_observation_count"]) for values in parameters.values()
+            ),
+            "counting_rule": (
+                "observation_count is the fold ledger row count; held_out_test_observation_count is the test-only total"
+            ),
             "outer_fold_count": len(fold_targets),
             "target_count_minimum": min(item["development_only_target_count"] for item in fold_targets),
             "measurement_batch_count": len({item["measurement_batch_id"] for item in all_ledger}),
@@ -638,7 +675,7 @@ class R4T197SourceAvailabilityWorkflow:
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
         }
-        receipt_path = output / "t197_source_availability_execution_receipt.json"
+        receipt_path = output / self.RECEIPT_NAME
         self._write_json(receipt_path, receipt)
         return R4T197SourceAvailabilitySummary(
             len(all_ledger),
@@ -653,8 +690,8 @@ class R4T197SourceAvailabilityWorkflow:
         if not strict:
             raise R4T197SourceAvailabilityError("T197 verification requires --strict")
         _, protocol, _ = self._registry()
-        report_path = self.output_root / "t197_source_availability_execution_report.json"
-        receipt_path = self.output_root / "t197_source_availability_execution_receipt.json"
+        report_path = self.output_root / self.REPORT_NAME
+        receipt_path = self.output_root / self.RECEIPT_NAME
         report = self._json(report_path, "T197 report")
         receipt = self._json(receipt_path, "T197 receipt")
         artifacts = _mapping(report.get("artifacts"), "T197 artifacts")

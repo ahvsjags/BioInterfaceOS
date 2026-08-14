@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "review_id": "bioif-r4-t239-post-t238-multi-agent-editorial-review-v1.0.0",
+  "review_date": "2026-08-14",
+  "panel_roles": [
+    "STATISTICAL_REVIEWER",
+    "COMPUTATIONAL_PROTEOMICS_EDITOR",
+    "REPRODUCIBILITY_REVIEWER",
+    "JOURNAL_EDITOR",
+    "DEVILS_ADVOCATE"
+  ],
+  "panel_convergence": "All five roles returned the same conservative eight-module scores and Major Revision decision.",
+  "scores": {
+    "data_compatibility_and_sample_foundation": 82,
+    "statistical_analysis_design": 88,
+    "statistical_execution_and_effective_n": 77,
+    "models_ablation_negative_controls_and_ood": 75,
+    "independent_protected_lockbox": 12,
+    "no_author_external_scientific_reproduction": 8,
+    "external_user_adoption": 46,
+    "doi_immutable_archive_readback": 25
+  },
+  "internal_scientific_core_mean": 80.5,
+  "external_evidence_mean": 22.75,
+  "eight_module_simple_mean": 51.625,
+  "decision": "MAJOR_REVISION",
+  "scientific_submission_ready": false,
+  "t238_effect": [
+    "fold-local development-only target membership",
+    "four held-out source folds with development target counts 9/9/10/10",
+    "held-out available target count 7 per fold",
+    "receipt accounting distinguishes 3844 fold ledger rows from 783 non-repeated held-out test observations",
+    "selection-aware finite null with alpha re-execution"
+  ],
+  "remaining_external_gates": {
+    "independent_validation": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false
+  },
+  "claim_boundary": "T238 remains author-run paper-derived source-conditional exploratory rank portability evidence and does not establish independent biological validation, donor-level generalization, no-author reproduction, external adoption or scientific submission readiness.",
+  "report_relative_path": "docs/review_round_4/R4_T239_POST_T238_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md"
+}

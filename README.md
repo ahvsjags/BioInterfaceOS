@@ -4,10 +4,11 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current scientific candidate is `v0.1.3-r10.32`; the current public external-handoff overlay is `v0.1.3-r10.39`. The overlay does not add scientific results or external receipts. The current paper-data execution includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current scientific candidate is `v0.1.3-r10.32`; the current public external-handoff overlay is `v0.1.3-r10.40`. The overlay does not add scientific results or external receipts. The current paper-data execution includes:
 
 - a four-source, four-source/laboratory-anchor common-target route with seven exact canonical accessions, 783 row-traceable observations, 115 measurement batches and four laboratory-held-out folds; this is exploratory, conditioned on the pre-frozen all-source target-availability intersection, and not four independent biological cohorts;
 - a public full-text/supplementary-data route using paper-derived observations, with source-local ranks, nested batch selection, cluster uncertainty, paired composition ablation and permutation controls; paper-derived data are not a substitute for non-author validation;
+- a T238 four-source fold-local target-membership sensitivity with 3,844 fold-ledger rows (3,061 development and 783 non-repeated held-out test observations), 9/9/10/10 development target counts, 115 batch clusters and explicit finite-null accounting;
 
 The following bullets preserve the earlier R4 benchmark and sensitivity assets for provenance and comparison:
 
@@ -43,7 +44,7 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 
 See:
 
-- `release/empirical_candidate_v0.1.3-r10.39/README.md`
+- `release/empirical_candidate_v0.1.3-r10.40/README.md`
 - `docs/release/R10_38_DOI_DEPOSIT_METADATA.json`
 - `docs/data/R4_T252_CURRENT_EXTERNAL_HANDOFF_20260814.json`
 
@@ -51,6 +52,8 @@ See:
 - `release/empirical_candidate_v0.1.3-r10.28/release_manifest.json`
 - `docs/review_round_4/R4_T196_PAPER_ATTACHED_BIOLOGICAL_COHORT_PUBLIC_STATUS_20260814.md`
 - `docs/review_round_4/R4_T197_SOURCE_AVAILABILITY_STATUS_20260814.md`
+- `docs/review_round_4/R4_T238_FOUR_SOURCE_AVAILABILITY_STATUS_20260814.md`
+- `docs/review_round_4/R4_T239_POST_T238_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md`
 - `docs/review_round_4/R4_T198_PAPER_COHORT_MISSINGNESS_STATUS_20260814.md`
 - `docs/review_round_4/R4_T199_STRONG_Q1_REMEDIATION_GOAL_20260814.md`
 - `docs/review_round_4/R4_T200_STATISTICAL_CLOSURE_STATUS_20260814.md`

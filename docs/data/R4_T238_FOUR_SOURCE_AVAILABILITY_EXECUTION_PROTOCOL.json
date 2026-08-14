@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t238-four-source-availability-execution-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "status": "FROZEN_BEFORE_T238_EXECUTION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Strict four-source paper-data sensitivity analysis in which every outer-fold target set is selected from the three development source maps only, then evaluated on the untouched laboratory/source anchor.",
+  "outer_split": {
+    "type": "leave_one_laboratory_anchor_out",
+    "fold_count": 4,
+    "source_ids": [
+      "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "PXD064962_UCD_EVENT",
+      "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA"
+    ],
+    "target_selection": "exact intersection of rank-eligible canonical accessions in the three development sources only",
+    "held_out_source_used_for_target_membership": false,
+    "held_out_source_used_for_alpha_selection": false,
+    "held_out_source_used_for_model_selection": false,
+    "minimum_development_target_count": 9,
+    "minimum_held_out_available_target_count": 7
+  },
+  "nested_selection": {
+    "type": "leave_one_measurement_batch_out_within_development_sources",
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "selection_metric": "measurement-batch Spearman",
+    "tie_break": "smallest alpha",
+    "minimum_proteins_per_batch": 3
+  },
+  "models": {
+    "constant": "development-target mean; Spearman is undefined by contract",
+    "full": "unpenalized-intercept ridge on the frozen sequence feature table",
+    "composition_only": "unpenalized-intercept ridge on frozen amino-acid composition features",
+    "standardization": "development-partition mean and standard deviation; zero standard deviation replaced by 1.0",
+    "solver": "numpy.linalg.solve"
+  },
+  "uncertainty": {
+    "cluster": "held-out measurement batch",
+    "resamples": 2000,
+    "random_seed": 2380,
+    "interval": "percentile 95% measurement-batch bootstrap",
+    "low_cluster_count_policy": "report every fold's batch count and do not convert source, batch or technical-replicate counts into donor-level n",
+    "seed_derivation": "random_seed plus one-based outer_fold_index"
+  },
+  "negative_control": {
+    "type": "within-development-measurement-batch target permutation",
+    "resamples": 64,
+    "random_seed": 2381,
+    "alpha_policy": "re-run nested alpha selection independently within every permutation",
+    "selection_reexecution_per_resample": true,
+    "tail": "one-sided upper tail",
+    "monte_carlo_precision_note": "This is a finite 64-resample QC null for the four-source sensitivity route; it is not used as a confirmatory p-value."
+  },
+  "effective_sample_size": {
+    "primary_independent_unit": "unresolved biological unit; measurement batch is the inferential cluster",
+    "reporting_rule": "report rows, targets, batches, laboratory/source anchors and unresolved donor status separately",
+    "prohibited_inference": "no donor-level effective n from technical replicates, condition batches or pooled plasma"
+  },
+  "accounting_contract": {
+    "fold_ledger_row_count": "development plus held-out rows, repeated within each outer fold",
+    "held_out_test_observation_count": "sum of held-out source rows across folds, without development-row duplication",
+    "prohibited_label": "neither count is donor-level effective n"
+  },
+  "claim_boundary": "This is a four-source, availability-aware exploratory sensitivity analysis using public paper/supplementary source maps. It does not establish independent biological validation, donor-level generalization, raw-MS reanalysis, evaluator lockbox performance, no-author reproduction, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

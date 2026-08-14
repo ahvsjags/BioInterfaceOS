@@ -4,7 +4,7 @@
   "declared_at": "2026-08-14T00:00:00+00:00",
   "status": "HANDOFF_READY_NO_EXTERNAL_RECEIPTS",
   "repository": "https://github.com/ahvsjags/BioInterfaceOS",
-  "public_handoff_release": "https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.39",
+  "public_handoff_release": "https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.40",
   "fixed_release": {
     "tag": "v0.1.3-r10.32",
     "tag_target": "b8331e647d4194b85f68feb6e2d9e30a4f9e0a9d",
@@ -25,7 +25,18 @@
     "evidence_class": "DEVELOPMENT_OBSERVATION",
     "allowed_claim_level": "EXPLORATORY",
     "scientific_submission_ready": false,
-    "source_boundary": "Paper-derived condition batches and pooled/technical units are not promoted to donor-level biological replication."
+    "source_boundary": "Paper-derived condition batches and pooled/technical units are not promoted to donor-level biological replication.",
+    "t238_fold_local_sensitivity": {
+      "fold_ledger_row_count": 3844,
+      "development_observation_count": 3061,
+      "held_out_test_observation_count": 783,
+      "development_only_target_counts": [9, 9, 10, 10],
+      "held_out_available_target_count_per_fold": 7,
+      "measurement_batch_count": 115,
+      "selection_reexecuted_in_finite_null": true,
+      "evidence_class": "DEVELOPMENT_OBSERVATION",
+      "scientific_submission_ready": false
+    }
   },
   "external_work_packages": {
     "independent_lockbox_evaluator": {

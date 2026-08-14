@@ -7,7 +7,7 @@
   "allowed_claim_level": "EXPLORATORY",
   "protocol": {
     "relative_path": "docs/data/R4_T197_SOURCE_AVAILABILITY_EXECUTION_PROTOCOL.json",
-    "sha256": "950e8b926b9575c7f0ae627d93ee8488d695abcb1644b846d8db326b3efd1f4f"
+    "sha256": "00485f0f001482af9147c7ca7443d5949583ea938710c5ecddb5fa4e3021c157"
   },
   "t192_source_registry": {
     "relative_path": "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json",

@@ -10,7 +10,7 @@ The current fixed candidate is `v0.1.3-r10.32`, target commit
 The KAUST archive is `BioInterfaceOS-v0.1.3-r10.32.tar.gz` with SHA-256
 `69848b75aa143f83df9d69668caad52a1e386bc4a0000d5bf2041561e8d8fd25`.
 The public handoff overlay is released at
-`https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.39`;
+`https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.40`;
 it does not change the scientific candidate.
 
 ## Reproducible paper-data route
@@ -22,6 +22,11 @@ models, nested selection, batch-cluster uncertainty, paired composition
 ablation and within-batch rank-permutation controls. It is development-only
 evidence. Technical condition batches and pooled/unspecified plasma units are
 not counted as donor-level independent biological cohorts.
+
+The T238 fold-local sensitivity records 3,844 fold-ledger rows, including
+3,061 development rows and 783 non-repeated held-out test rows. Development
+target counts are 9/9/10/10 and each held-out source has seven available
+targets. These are execution accounting fields, not donor-level effective n.
 
 The recommended no-author route is the public PMC6592156/PXD007648 source.
 The reproducing team must reacquire the public bytes independently, verify its
