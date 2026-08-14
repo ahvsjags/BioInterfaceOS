@@ -724,6 +724,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T250 four-source execution receipt",
     )
     data_r4_t250_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t265_parser = data_subparsers.add_parser(
+        "evaluate-r4-t265-biological-common-target",
+        help="execute the frozen three-cohort biological common-target analysis",
+    )
+    data_r4_t265_parser.add_argument("--strict", action="store_true")
+    data_r4_t265_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t265-biological-common-target",
+        help="verify the frozen T265 biological common-target execution receipt",
+    )
+    data_r4_t265_verify_parser.add_argument("--strict", action="store_true")
     data_r4_t193_parser = data_subparsers.add_parser(
         "evaluate-r4-t193-three-lab-prefrozen-target",
         help="execute the frozen T193 study-held-out analysis on the pre-T192 R3 target universe",
@@ -3663,6 +3673,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t258-source-unit-endpoint-license",
             "evaluate-r4-t250-four-lab-common-target",
             "verify-r4-t250-four-lab-common-target",
+            "evaluate-r4-t265-biological-common-target",
+            "verify-r4-t265-biological-common-target",
             "preflight-r4-t260-external-receipts",
             "evaluate-r4-t193-three-lab-prefrozen-target",
             "verify-r4-t193-three-lab-prefrozen-target",
@@ -4822,6 +4834,52 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"measurement_batches={t250_summary.measurement_batch_count} "
                 f"models={t250_summary.model_count} "
                 "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t265-biological-common-target":
+            from biointerfaceos.r3_model_evaluation import R3ModelEvaluationError
+            from biointerfaceos.r4_t265_biological_common_target import (
+                R4T265BiologicalCommonTargetError,
+                R4T265BiologicalCommonTargetWorkflow,
+            )
+
+            try:
+                t265_summary = R4T265BiologicalCommonTargetWorkflow(root).run(strict=args.strict)
+            except (R4T265BiologicalCommonTargetError, OSError, R3ModelEvaluationError) as exc:
+                print(f"R4_T265_BIOLOGICAL_COMMON_TARGET_EXECUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T265_BIOLOGICAL_COMMON_TARGET_EXECUTION_VALID "
+                f"observations={t265_summary.observation_count} "
+                f"targets={t265_summary.target_universe_count} "
+                f"laboratories={t265_summary.laboratory_anchor_count} "
+                f"measurement_batches={t265_summary.measurement_batch_count} "
+                f"models={t265_summary.model_count} "
+                "biological_units=246 study_held_out=true nested_selection=true cluster_aware=true "
+                "analysis_only=true independent_validation=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t265-biological-common-target":
+            from biointerfaceos.r4_t265_biological_common_target import (
+                R4T265BiologicalCommonTargetError,
+                R4T265BiologicalCommonTargetWorkflow,
+            )
+
+            if not args.strict:
+                print("R4_T265_BIOLOGICAL_COMMON_TARGET_VERIFY_INVALID: requires --strict", file=sys.stderr)
+                return 1
+            try:
+                t265_summary = R4T265BiologicalCommonTargetWorkflow(root).verify(strict=True)
+            except (R4T265BiologicalCommonTargetError, OSError) as exc:
+                print(f"R4_T265_BIOLOGICAL_COMMON_TARGET_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T265_BIOLOGICAL_COMMON_TARGET_VERIFY_VALID "
+                f"observations={t265_summary.observation_count} "
+                f"targets={t265_summary.target_universe_count} "
+                f"laboratories={t265_summary.laboratory_anchor_count} "
+                f"measurement_batches={t265_summary.measurement_batch_count} "
+                "biological_units=246 model_fitted=true scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "evaluate-r4-t193-three-lab-prefrozen-target":

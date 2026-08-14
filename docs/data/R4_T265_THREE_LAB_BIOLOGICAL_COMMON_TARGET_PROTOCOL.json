@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t265-three-lab-biological-common-target-v1.0.0",
+  "status": "FROZEN_BEFORE_T265_EXECUTION",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "evidence_class": "EXTERNAL_PUBLIC_ANALYSIS_ONLY",
+  "allowed_claim_level": "EXPLORATORY",
+  "target": {
+    "target_id": "WITHIN_MEASUREMENT_BATCH_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "value_rule": "strictly positive finite author-reported value; blanks, explicit zero and NA are excluded without imputation",
+    "rank_rule": "descending midrank percentile computed independently within each source measurement batch using all eligible source rows",
+    "cross_study_raw_scale": "PROHIBITED",
+    "identity_feature_policy": "protein identity, source identity, laboratory identity, sample labels, author abundance and author rank are prohibited predictive features"
+  },
+  "target_freeze": {
+    "selection_rule": "strict positive finite canonical-accession intersection of the three pre-audited source maps, computed before model execution",
+    "common_targets": ["P11021", "P11166", "P26038", "P55072", "P61981"],
+    "common_target_count": 5,
+    "selection_after_outer_split": false
+  },
+  "outer_evaluation": {
+    "split": "LEAVE_ONE_LABORATORY_ANCHOR_OUT",
+    "held_out_laboratory_is_never_used_for_fitting_or_alpha_selection": true,
+    "outer_fold_count": 3
+  },
+  "nested_selection": {
+    "method": "leave-one-measurement-batch-out within the non-held-out laboratory cohorts",
+    "alpha_grid": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "minimum_proteins_per_selection_batch": 3,
+    "selection_metric": "mean measurement-batch Spearman correlation"
+  },
+  "models": [
+    {"model_id": "CONSTANT_TRAINING_MEAN"},
+    {"model_id": "SEQUENCE_RIDGE_FULL"},
+    {"model_id": "SEQUENCE_RIDGE_COMPOSITION_ONLY"}
+  ],
+  "uncertainty": {
+    "primary_cluster": "biological_unit_id",
+    "method": "within-unit mean across qualified batches followed by biological-unit cluster bootstrap",
+    "resamples": 2000,
+    "random_seed": 20260814
+  },
+  "negative_control": {
+    "method": "within-development-measurement-batch target permutation with nested-selected alpha held fixed",
+    "resamples": 256,
+    "random_seed": 20260815,
+    "tail": "one-sided upper tail"
+  },
+  "protocol_parameters": {
+    "minimum_common_targets_per_metric_batch": 3,
+    "minimum_source_cohort_count": 3,
+    "minimum_biological_unit_count_per_source": 30
+  },
+  "claim_boundary": "This is a pre-registered author-run analysis-only three-laboratory biological-cohort common-target execution. It establishes an exact five-target intersection across three paper-attached source maps with explicit biological-unit identifiers and source-held-out model results. It is not an independent evaluator receipt, no-author reproduction, protected lockbox, clinical validation, community adoption or scientific submission readiness evidence. The non-redistributable/unclear-license source assets and numeric derivatives remain analysis-only.",
+  "scientific_submission_ready": false
+}
