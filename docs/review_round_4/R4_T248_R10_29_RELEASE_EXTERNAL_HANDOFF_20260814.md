@@ -20,7 +20,11 @@ T246 model script, execution outputs and editorial review files.
 The tag contains an external reproduction script that rejects moving branches
 and checks the r10.29 manifest hash. The public protocol, receipt template,
 release metadata and external handoff records all point to the same tag and
-manifest. The tag is a release-integrity anchor, not a DOI archive.
+manifest. A deterministic KAUST `git archive` was built at
+`/ibex/user/xup0a/BioInterfaceOS-v0.1.3-r10.29.tar.gz` with 103253867 bytes
+and SHA-256
+`cd2ae04cab071b3ca85a27a04470195a800bd9c27eda4a24145a7288e07b798e`.
+The tag and archive are release-integrity anchors, not a DOI receipt.
 
 ## External work packages
 
