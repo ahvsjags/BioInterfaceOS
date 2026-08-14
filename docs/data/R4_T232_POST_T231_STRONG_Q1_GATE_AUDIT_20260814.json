@@ -1,0 +1,50 @@
+{
+  "task_id": "R4-T232",
+  "date": "2026-08-14",
+  "basis": [
+    "v0.1.3-r10.28",
+    "R4-T230",
+    "R4-T231",
+    "review-round-3-and-4 regression"
+  ],
+  "score_snapshot": {
+    "data_compatibility_and_provenance": 94,
+    "statistical_design": ">=90",
+    "statistical_execution_and_effective_n": ">=90",
+    "model_ablation_negative_control_ood_uncertainty": ">=90",
+    "protected_lockbox": 10,
+    "no_author_reproduction": 15,
+    "external_adoption": 0,
+    "doi_archive": 25,
+    "strict_composite": 70
+  },
+  "verification": {
+    "review_round_4_pytest_passed": 53,
+    "review_round_3_and_4_pytest_passed": 62,
+    "t231_json_valid": true,
+    "t231_diff_check_passed": true,
+    "commit": "79d804e12d3ab6c59c1b25ea0cab79949b3f4a5f",
+    "github_branch": "r3-real-data-execution-20260813",
+    "kaust_branch": "r4-paper-data-fallback-20260814"
+  },
+  "data_boundary": {
+    "pxd032162_primary_admitted": false,
+    "pxd032162_frozen_target_overlap": 8,
+    "pxd032162_mix_channel_groups_meeting_minimum": 0,
+    "pxd020584_primary_admitted": false,
+    "pxd020584_endpoint_domain": "extracellular-vesicle protein corona",
+    "pxd020584_mapped_protein_union": 451,
+    "pxd020584_frozen_target_union_overlap": 39,
+    "additional_primary_effective_n_created": false
+  },
+  "gate_state": {
+    "author_side_real_data_execution": true,
+    "paper_fulltext_pride_rescreened": true,
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "next_action": "Obtain and verify real non-author lockbox, no-author reproduction, two adoption receipts and DOI read-back; then conduct final multi-agent editorial review."
+}
