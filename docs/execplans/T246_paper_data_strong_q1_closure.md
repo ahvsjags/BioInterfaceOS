@@ -137,7 +137,9 @@ scientific_submission_ready=false
 - `reports/review_round_4/pmc11328176_multicore_technical_execution/v1.0.0/`
 - `docs/review_round_4/R4_T247_MULTI_AGENT_EDITORIAL_REVIEW_20260814.md`
 - `docs/review_round_4/R4_T247_MULTI_AGENT_EDITORIAL_REVIEW_20260814.json`
-- new immutable release manifest and archive sidecar
+- `docs/review_round_4/R4_T248_R10_29_RELEASE_EXTERNAL_HANDOFF_20260814.md`
+- `release/empirical_candidate_v0.1.3-r10.29/release_manifest.json`
+- `docs/release/R10_29_DOI_DEPOSIT_METADATA.json`
 - external evaluator/reproduction/adoption receipts, if and only if supplied
   by real non-author parties
 - final gate ledger
@@ -145,5 +147,7 @@ scientific_submission_ready=false
 ## Completion note
 
 T246 is not complete. The internal paper-data and engineering evidence is
-organized and scored, while the external hard gates remain open. Completion
-requires the receipts listed above and a post-receipt editorial review.
+organized and scored. The current evidence is now bound to immutable tag
+`v0.1.3-r10.29` at `2cecba46a5b51af6f8a00aaeec8a5294dc96313b`, but the external
+hard gates remain open. Completion requires the receipts listed above and a
+post-receipt editorial review.

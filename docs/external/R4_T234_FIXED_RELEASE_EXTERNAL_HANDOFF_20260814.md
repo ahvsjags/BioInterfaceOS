@@ -1,4 +1,4 @@
-# R4-T234：固定 r10.28 的第三方执行 handoff addendum
+# R4-T234：固定 r10.29 的第三方执行 handoff addendum
 
 日期：2026-08-14。该文件是面向非作者 evaluator、无作者复现团队和外部用户的执行入口。它不是 lockbox receipt、科学复现 receipt、采用 receipt 或 DOI receipt。
 
@@ -8,11 +8,11 @@
 
 ```text
 repository=https://github.com/ahvsjags/BioInterfaceOS.git
-tag=v0.1.3-r10.28
-tag_target=5f72487023f80dd37d6b550b97638fb0246eb3fa
-source_commit=b676433
-release_manifest=release/empirical_candidate_v0.1.3-r10.28/release_manifest.json
-release_manifest_sha256=1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491
+tag=v0.1.3-r10.29
+tag_target=2cecba46a5b51af6f8a00aaeec8a5294dc96313b
+source_commit=e414acc9ec15f11b5e069407850327a490280e8b
+release_manifest=release/empirical_candidate_v0.1.3-r10.29/release_manifest.json
+release_manifest_sha256=4d49bc2ff6be959cd0c09495682b2571e6263f3747d3f879847f4375f11a706a
 external_protocol=docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json
 external_protocol_sha256=3e51d49bb11fad58412e60980c158860e45647670f9a4a3a9de532bc92cc13a1
 ```
@@ -20,10 +20,10 @@ external_protocol_sha256=3e51d49bb11fad58412e60980c158860e45647670f9a4a3a9de532b
 固定 checkout：
 
 ```bash
-git clone --branch v0.1.3-r10.28 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
+git clone --branch v0.1.3-r10.29 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
 cd BioInterfaceOS
-test "$(git rev-parse 'v0.1.3-r10.28^{}')" = "5f72487023f80dd37d6b550b97638fb0246eb3fa"
-sha256sum release/empirical_candidate_v0.1.3-r10.28/release_manifest.json
+test "$(git rev-parse 'v0.1.3-r10.29^{}')" = "2cecba46a5b51af6f8a00aaeec8a5294dc96313b"
+sha256sum release/empirical_candidate_v0.1.3-r10.29/release_manifest.json
 uv sync --locked --all-groups
 uv run pytest tests/review_round_3 tests/review_round_4 -q
 ```
@@ -40,11 +40,11 @@ bash scripts/r4_external_reproduction.sh reports/external_reproduction/<particip
 
 ```bash
 test -z "$(git status --porcelain)"
-test "$(git rev-parse 'v0.1.3-r10.28^{}')" = "5f72487023f80dd37d6b550b97638fb0246eb3fa"
-test "$(sha256sum release/empirical_candidate_v0.1.3-r10.28/release_manifest.json | awk '{print $1}')" = "1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491"
+test "$(git rev-parse 'v0.1.3-r10.29^{}')" = "2cecba46a5b51af6f8a00aaeec8a5294dc96313b"
+test "$(sha256sum release/empirical_candidate_v0.1.3-r10.29/release_manifest.json | awk '{print $1}')" = "4d49bc2ff6be959cd0c09495682b2571e6263f3747d3f879847f4375f11a706a"
 ```
 
-移动分支后续提交 `6c4ac72` 已将这些 guards 加入脚本，但它不属于不可变 r10.28 tag；在新的 immutable release 建立前，不得把该后续脚本称为 r10.28 内置代码。通过上述检查仍只表示复现输入固定，不能替代无作者团队的真实 receipt。
+该 r10.29 tag 内含只接受固定 tag 的复现脚本。通过上述检查仍只表示复现输入固定，不能替代无作者团队的真实 receipt。
 
 脚本会拒绝移动分支，独立重获输入，运行 source audit 与 external OOD，记录环境/依赖/输入/输出 hash，并保留失败和负结果。历史作者运行的计数只能作为比较信息，不能作为复现结果预填值。
 
@@ -68,4 +68,4 @@ Evaluator 必须自行持有 protected held-out input 或 unseen real dataset；
 
 当前分支 `r3-real-data-execution-20260813` 的 T230–T233 仅记录作者侧论文/PRIDE 重筛、统计执行、来源边界和 negative results。T233 已证明 PXD026615 的 human-corona 文件组只有 5 个冻结共同 target；这些作者侧结果不会被升级为独立 validation。当前 `scientific_submission_ready` 仍为 `false`。
 
-旧 GitHub Issue #2 只是历史协调请求，且正文绑定旧 r10.16 路线；它不是任何外部工作发生的证据。本 addendum 是当前 r10.28 执行协议的独立入口，不修改旧 issue。
+旧 GitHub Issue #2 只是历史协调请求，且正文绑定旧 r10.16 路线；它不是任何外部工作发生的证据。本 addendum 是当前 r10.29 执行协议的独立入口，不修改旧 issue。

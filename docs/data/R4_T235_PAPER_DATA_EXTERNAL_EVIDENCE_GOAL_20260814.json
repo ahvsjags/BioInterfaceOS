@@ -5,9 +5,9 @@
   "status": "ACTIVE_EXTERNAL_EVIDENCE_GATE_OPEN",
   "objective": "Use auditable public full-text and repository data as the empirical route while obtaining genuine non-author lockbox, no-author reproduction, external adoption and DOI evidence.",
   "fixed_release": {
-    "tag": "v0.1.3-r10.28",
-    "manifest": "release/empirical_candidate_v0.1.3-r10.28/release_manifest.json",
-    "manifest_sha256": "1c939f964b97463dab4c5b0899df1f5deab92a7d8a7257d2a306f14f1f881491",
+    "tag": "v0.1.3-r10.29",
+    "manifest": "release/empirical_candidate_v0.1.3-r10.29/release_manifest.json",
+    "manifest_sha256": "4d49bc2ff6be959cd0c09495682b2571e6263f3747d3f879847f4375f11a706a",
     "external_protocol": "docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json",
     "external_protocol_sha256": "3e51d49bb11fad58412e60980c158860e45647670f9a4a3a9de532bc92cc13a1"
   },

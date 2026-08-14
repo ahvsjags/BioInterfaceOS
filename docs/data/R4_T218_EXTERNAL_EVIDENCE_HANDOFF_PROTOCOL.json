@@ -6,12 +6,12 @@
   "purpose": "Define the auditable evidence needed to convert the paper-data candidate into externally evaluated software and a submission-ready empirical claim set without treating author-run paper-data analyses as independent validation.",
   "public_release": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS",
-    "tag": "v0.1.3-r10.28",
-    "commit": "resolve with git rev-parse 'v0.1.3-r10.28^{}' and compare with release/empirical_candidate_v0.1.3-r10.28/release_manifest.json",
-    "release_commit": "resolve from the fixed tag checkout",
-    "source_commit": "read source_commit from the fixed release manifest",
-    "manifest_path": "release/empirical_candidate_v0.1.3-r10.28/release_manifest.json",
-    "manifest_sha256": "resolve sha256sum of the fixed release manifest",
+    "tag": "v0.1.3-r10.29",
+    "commit": "2cecba46a5b51af6f8a00aaeec8a5294dc96313b",
+    "release_commit": "2cecba46a5b51af6f8a00aaeec8a5294dc96313b",
+    "source_commit": "e414acc9ec15f11b5e069407850327a490280e8b",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.29/release_manifest.json",
+    "manifest_sha256": "4d49bc2ff6be959cd0c09495682b2571e6263f3747d3f879847f4375f11a706a",
     "release_tarball_sha256": "resolve from the GitHub release sidecar",
     "doi_status": "PENDING_NOT_ARCHIVED"
   },

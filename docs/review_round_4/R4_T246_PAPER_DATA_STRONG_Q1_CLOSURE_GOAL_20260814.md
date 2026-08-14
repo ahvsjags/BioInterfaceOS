@@ -103,11 +103,24 @@ completed by the author-side agent:
 | Priority | Action | State | Acceptance artifact |
 |---|---|---|---|
 | P0 | paper-data scope, claim boundary and score reset | completed in T192--T222; formalized here | this goal plus T246 panel report |
-| P0 | post-CI immutable release containing current receipts | in progress | release manifest, archive hash, KAUST clean-checkout receipt |
+| P0 | post-CI immutable release containing current receipts | completed as release-integrity handoff; DOI pending | `v0.1.3-r10.29`, overlay manifest, tag target and KAUST replay |
 | P0 | non-author lockbox and no-author reproduction intake | open | signed third-party receipts only |
 | P0 | two external adoption records | open | two distinct identity/COI/environment/output receipts |
 | P1 | authenticated DOI deposit and read-back | open | DOI/archive service receipt |
 | P0 | final multi-agent/editorial gate | blocked on P0 external receipts | new gate ledger with all predicates true |
+
+## T248 release handoff update
+
+The latest paper-data evidence is now bound to immutable tag
+`v0.1.3-r10.29` at commit
+`2cecba46a5b51af6f8a00aaeec8a5294dc96313b`. Its overlay manifest is
+`release/empirical_candidate_v0.1.3-r10.29/release_manifest.json` with SHA-256
+`4d49bc2ff6be959cd0c09495682b2571e6263f3747d3f879847f4375f11a706a`.
+The r10.29 handoff contains the PMC11328176 execution path and the exact
+external work packages. This closes release-binding drift only; it does not
+create a lockbox receipt, no-author reproduction, adoption record or DOI
+read-back. The four external predicates and
+`scientific_submission_ready` remain false.
 
 ## Non-negotiable negative findings
 
