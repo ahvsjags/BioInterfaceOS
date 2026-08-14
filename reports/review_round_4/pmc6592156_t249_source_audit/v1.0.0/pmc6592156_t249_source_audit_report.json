@@ -41,7 +41,7 @@
   ],
   "source_cell_map": {
     "relative_path": "data/raw/r3_candidate_pmc6592156/derived/R4_T249_PMC6592156_source_cell_map.csv",
-    "sha256": "44d05b706b6a2861c42b296f5ff32f85183c132a37968bf58d36e1dddfda021e",
+    "sha256": "c966c7f19393fdab43cd8051100cc3c8d2ef95946b54982c0e8a441432851158",
     "raw_map_rows": 13485,
     "rank_eligible_rows": 9357,
     "rank_eligible_target_count": 542,

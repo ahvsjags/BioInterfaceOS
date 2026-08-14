@@ -30,7 +30,7 @@
   ],
   "source_map": {
     "relative_path": "data/raw/r3_candidate_pmc6592156/derived/R4_T249_PMC6592156_source_cell_map.csv",
-    "sha256": "44d05b706b6a2861c42b296f5ff32f85183c132a37968bf58d36e1dddfda021e",
+    "sha256": "c966c7f19393fdab43cd8051100cc3c8d2ef95946b54982c0e8a441432851158",
     "raw_rows": 13485,
     "rank_eligible_rows": 9357,
     "rank_eligible_target_count": 542,
@@ -39,11 +39,11 @@
   "audit": {
     "report": {
       "relative_path": "reports/review_round_4/pmc6592156_t249_source_audit/v1.0.0/pmc6592156_t249_source_audit_report.json",
-      "sha256": "a3d073a73eaf57145e13f034d7deeadc337188ad087f594e334cd721924a08e6"
+      "sha256": "0c5a17677490149364e5fdb9f3ac616644244f98e1df02ff6be2d241f298f812"
     },
     "receipt": {
       "relative_path": "reports/review_round_4/pmc6592156_t249_source_audit/v1.0.0/pmc6592156_t249_source_audit_receipt.json",
-      "sha256": "9aa94e83931f8504e7ff7eb29df4cc80592c35c95ae93c48049488d7f0500670"
+      "sha256": "cccfc62e95b1f80a28bd34261bee19df9e23412e1787c8e0d5946c878b4ea716"
     }
   },
   "claim_boundary": "This is a public paper-derived development source and an external-laboratory OOD candidate. It is not a donor-resolved cohort, independent evaluator lockbox, no-author reproduction, external adoption receipt or submission-ready scientific validation.",
