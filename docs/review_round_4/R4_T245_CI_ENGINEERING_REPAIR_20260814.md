@@ -19,6 +19,7 @@
 8. 更新 T090、T086、Paper A 与 agent benchmark 的夹具哈希，确保 receipt 绑定与新生成物一致。
 9. 将 agent/functional-axes receipt 中的相对路径规范化为 POSIX 形式，消除 Windows 反斜杠与 Linux 正斜杠造成的跨平台重算漂移。
 10. 同步修复 resolution-audit 子任务的 receipt 路径规范化，消除 agent benchmark 在 KAUST Linux 上的最后一个平台漂移。
+11. 将论文数据转换 receipt 的产物路径规范化为 POSIX 形式，使服务器生成的 conversion log/manifest/receipt 与固定发布证据一致。
 
 ## 验收结果
 

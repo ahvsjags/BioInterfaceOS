@@ -233,7 +233,9 @@ class ConversionWorkflow:
                     "instrument": row["instrument"],
                     "input_sha256": row["input_sha256"],
                     "input_bytes": len(input_bytes) if input_bytes is not None else None,
-                    "output_path": (str(CONVERSION_ROOT / "artifacts" / output_path.name) if output_path else None),
+                    "output_path": (
+                        (CONVERSION_ROOT / "artifacts" / output_path.name).as_posix() if output_path else None
+                    ),
                     "output_sha256": output_sha256,
                     "output_bytes": output_bytes if output_path else None,
                     "converter": "mzml_bypass" if status == "COMPLETED" else None,
