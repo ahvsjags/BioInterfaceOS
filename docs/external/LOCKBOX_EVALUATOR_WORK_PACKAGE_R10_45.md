@@ -34,8 +34,11 @@ The signed receipt must contain:
 The receipt is accepted only after independent identity, custody and conflict
 review. A structural preflight or template is not acceptance:
 
+Run the current preflight tooling from the public `v0.1.3-r10.46` overlay; the
+submitted scientific bundle must still bind its work to candidate `r10.45`.
+
 ```bash
-uv run biointerfaceos data preflight-r4-external-receipts \
+  uv run biointerfaceos data preflight-r4-t260-external-receipts \
   --bundle external_bundle.json \
   --documents-root external_receipts \
   --receipt-out r4_preflight_receipt.json \

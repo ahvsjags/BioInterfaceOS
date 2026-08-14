@@ -11,6 +11,7 @@ do not satisfy the external gates.
 repository=https://github.com/ahvsjags/BioInterfaceOS.git
 tag=v0.1.3-r10.45
 tag_target=read back the dereferenced immutable tag before running
+receipt_preflight_tooling=v0.1.3-r10.46
 T238_protocol_sha256=a89a2cf4236caee0826fddde5ac89747f939dd656636d600595adf9af6bed7ea
 T249_protocol_sha256=53d9aa48c78f3140b8870bb9469b9264f63bd125beb2a9be4c504bef2e341b63
 T258_protocol_sha256=200be8bb0312a155174d7430024644acadf445ae17edc83ebe16d7925ec449b6
