@@ -5,7 +5,7 @@
   "fixed_release": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS",
     "tag": "v0.1.3-r10.51",
-    "source_commit": "READ_FROM_DEREFERENCED_IMMUTABLE_TAG",
+    "source_commit": "beff3c6d7b7092fb38586cc4187423bf8a93b553",
     "public_route": "T250 four-lab redistributable common-target verification"
   },
   "minimum_claim_count": 2,

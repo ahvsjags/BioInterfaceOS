@@ -15,7 +15,7 @@ def test_t268_binds_current_release_and_preserves_gate_boundary() -> None:
     release = _json("docs/release/R10_51_DOI_DEPOSIT_METADATA.json")
 
     assert protocol["fixed_release"]["tag"] == "v0.1.3-r10.51"
-    assert protocol["fixed_release"]["source_commit"] == "READ_FROM_DEREFERENCED_IMMUTABLE_TAG"
+    assert protocol["fixed_release"]["source_commit"] == "beff3c6d7b7092fb38586cc4187423bf8a93b553"
     public_route = protocol["public_redistributable_common_target_route"]
     assert public_route["row_level_maps_committed"] is True
     assert public_route["laboratory_anchor_count"] == 4
