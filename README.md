@@ -44,6 +44,7 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 See:
 
 - `release/empirical_candidate_v0.1.3-r10.38/README.md`
+- `docs/release/R10_38_DOI_DEPOSIT_METADATA.json`
 - `docs/data/R4_T252_CURRENT_EXTERNAL_HANDOFF_20260814.json`
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_AUTHENTICATED_ARCHIVE_UPLOAD",
+  "doi_archived": false,
+  "release": {
+    "tag": "v0.1.3-r10.38",
+    "release_commit": "9519a3cae82425bdff46ed6fce9734266e850613",
+    "source_commit": "19023efdd5658a8e2419a441c2abd1d7cd84ecbd",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.38/release_manifest.json",
+    "manifest_sha256": "01d2cb19f72e1fa37852262ec6e13faa24fbe3151687abdceb7552085196a690",
+    "archive_filename": "BioInterfaceOS-v0.1.3-r10.38.tar.gz",
+    "archive_bytes": 104416271,
+    "archive_sha256": "69b1c7f83532e5d2b808ae704d8b11811fd9c72320b89989e273577e51ec26ef",
+    "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.38.tar.gz.sha256",
+    "archive_server_path": "/ibex/user/xup0a/BioInterfaceOS-v0.1.3-r10.38.tar.gz"
+  },
+  "deposit_metadata": {
+    "title": "BioInterfaceOS v0.1.3-r10.38: provenance-grounded biointerface proteomics analysis framework",
+    "upload_type": "software",
+    "publication_date": "2026-08-14",
+    "version": "v0.1.3-r10.38",
+    "description": "Immutable external-handoff software snapshot for public paper-data reproduction, adoption and protected-evaluator coordination. The scientific candidate remains v0.1.3-r10.32 and all external evidence gates remain explicit.",
+    "creators": [{"name": "BioInterfaceOS Contributors"}],
+    "keywords": ["biointerface proteomics", "protein corona", "provenance", "reproducible research", "computational biology"],
+    "license": "Apache-2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.38", "relation": "isIdenticalTo", "resource_type": "software"},
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.32", "relation": "isSupplementTo", "resource_type": "software"}
+    ]
+  },
+  "upload_instructions": [
+    "Upload the exact archive and sidecar from the KAUST path or an independently hash-verified copy.",
+    "Record the archive service DOI, version DOI, immutable record URL and upload timestamp.",
+    "Read back the archived manifest bytes and archive bytes; compare both SHA-256 values exactly.",
+    "Only after authenticated read-back may doi_archived be changed to true and CITATION.cff be updated."
+  ],
+  "claim_boundary": "This is a deposit preparation artifact, not a DOI or archive receipt. GitHub Release and KAUST archive do not close doi_archived or scientific_submission_ready."
+}
