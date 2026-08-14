@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t249-four-lab-common-target-paper-data-v1.0.0",
+  "protocol_id": "bioif-r4-t249-four-lab-common-target-paper-data-v1.0.0",
+  "status": "FOUR_LABORATORY_COMMON_TARGET_VERIFIED_RESTRICTED_DEVELOPMENT",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T249_FOUR_LAB_COMMON_TARGET_PROTOCOL.json",
+    "sha256": "53d9aa48c78f3140b8870bb9469b9264f63bd125beb2a9be4c504bef2e341b63"
+  },
+  "base_registry": {
+    "relative_path": "docs/data/R4_T192_THREE_LAB_REDISTRIBUTABLE_COMMON_TARGET_REGISTRY.json",
+    "sha256": "07b30eead07712f36f0d95565d3373b04e0b21253ad2159e56acfee1acf8136a"
+  },
+  "target_freeze": {
+    "target_id": "R4_T249_SOURCE_LOCAL_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "selection_basis": "Exact intersection of strictly positive finite rank-eligible canonical accessions across the three frozen T192 sources plus the new PMC6592156 source; no model, outcome or performance criterion used.",
+    "common_target_count": 7,
+    "common_targets": ["P04004", "P05556", "P06396", "P07996", "P26038", "P60174", "Q9HDC9"]
+  },
+  "additional_sources": [
+    {
+      "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+      "laboratory_anchor": "University of Southern Denmark / Russian Academy of Sciences study",
+      "license": "CC-BY-3.0",
+      "source_lineage": "NEW_TO_CURRENT_R4_T249_ANCHOR",
+      "biological_unit_semantics": "The paper reports 30 pH/temperature condition batches with three technical replicates per condition. The public supplementary map does not provide donor-resolved biological units; no donor-level independence is inferred.",
+      "source_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592156/",
+      "source_registry": {
+        "relative_path": "docs/data/R4_T249_PMC6592156_SOURCE_REGISTRY.json",
+        "sha256": "5d05abbf46fcf8195c58348448f87d12f5a852abf6c9ca2828ce2272a8149aac"
+      },
+      "source_audit_report": {
+        "relative_path": "reports/review_round_4/pmc6592156_t249_source_audit/v1.0.0/pmc6592156_t249_source_audit_report.json",
+        "sha256": "a3d073a73eaf57145e13f034d7deeadc337188ad087f594e334cd721924a08e6"
+      },
+      "source_audit_receipt": {
+        "relative_path": "reports/review_round_4/pmc6592156_t249_source_audit/v1.0.0/pmc6592156_t249_source_audit_receipt.json",
+        "sha256": "9aa94e83931f8504e7ff7eb29df4cc80592c35c95ae93c48049488d7f0500670"
+      },
+      "source_cell_map": {
+        "relative_path": "data/raw/r3_candidate_pmc6592156/derived/R4_T249_PMC6592156_source_cell_map.csv",
+        "sha256": "44d05b706b6a2861c42b296f5ff32f85183c132a37968bf58d36e1dddfda021e"
+      },
+      "raw_assets": [
+        {
+          "relative_path": "data/raw/r3_candidate_pmc6592156/PMC6592156_supplementary.zip",
+          "sha256": "99e472edbb71902f9631e8798fd60b5f1898b1e676affd3fd9376b5302c40008"
+        },
+        {
+          "relative_path": "data/raw/r3_candidate_pmc6592156/extracted/EN-006-C8EN01054D-s002.xlsx",
+          "sha256": "e05dbcdda311756d42be6252ea22f86cee8eaef3335a388ab2ea377c4f100364"
+        }
+      ],
+      "expected_accounting": {
+        "raw_map_rows": 13485,
+        "rank_eligible_rows": 9357,
+        "rank_eligible_target_count": 542,
+        "rank_eligible_batch_count": 30,
+        "common_rows": 193,
+        "common_target_batch_pairs": 193
+      }
+    }
+  ],
+  "output_contract": {
+    "ledger_relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_ledger.csv",
+    "report_relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_report.json",
+    "receipt_relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_receipt.json"
+  },
+  "claim_boundary": "The four source packages are independently anchored and row-traceable for development common-target analysis. The PMC6592156 source is paper-derived human plasma with technical pH/temperature conditions, not a donor-resolved cohort; the four-source asset cannot be presented as four independent biological validations and does not close lockbox, no-author reproduction, adoption, DOI or submission-ready gates.",
+  "scientific_submission_ready": false
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t249-four-lab-common-target-paper-data-v1.0.0",
+  "frozen_at": "2026-08-14T00:00:00+08:00",
+  "status": "FROZEN_FOR_DEVELOPMENT_ADMISSION",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "purpose": "Extend the pre-existing three-source common-target ledger with a fourth independently anchored, paper-derived human-plasma source without using model performance or outcome information for target selection.",
+  "target_definition": {
+    "target_id": "R4_T249_SOURCE_LOCAL_POSITIVE_QUANTIFICATION_RANK_PERCENTILE",
+    "selection_rule": "The frozen target set is the exact intersection of canonical accessions having rank_target_eligible=true and a finite strictly positive author value in every source after adding the PMC6592156 source to the frozen T192 source set.",
+    "selection_is_outcome_free": true,
+    "selection_is_model_free": true,
+    "rank_direction": "DESCENDING_MIDRANK_PERCENTILE_WITHIN_SOURCE_DEFINED_BATCH",
+    "cross_source_abundance_scale_use": "PROHIBITED",
+    "blank_zero_na_policy": "Retain source blank, explicit zero and NA states; exclude them from rank eligibility; do not impute or infer non-detection.",
+    "technical_replicate_policy": "Retain every source coordinate and technical replicate in the ledger; do not count technical replicates as independent biological units.",
+    "biological_independence_policy": "Laboratory anchors are counted as distinct source lineages. Donor-level independence is reported per source and is not inferred from laboratory count or technical batches."
+  },
+  "admission_rules": {
+    "source_count": 4,
+    "distinct_laboratory_anchor_count": 4,
+    "allowed_redistribution_licenses": ["CC0", "CC0-1.0", "CC-BY-3.0", "CC-BY-4.0"],
+    "require_explicit_source_map_hash": true,
+    "require_source_coordinate": true,
+    "require_source_row": true,
+    "require_source_identifier": true,
+    "minimum_common_target_count": 1,
+    "minimum_common_target_batch_pair_count_per_source": 1,
+    "raw_scale_pooling": false
+  },
+  "claim_boundary": "This protocol admits a four-source, row-traceable, paper-derived development common-target asset. It improves source compatibility but does not establish four independent biological cohorts, primary lockbox evaluation, no-author reproduction, external adoption, DOI archival or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

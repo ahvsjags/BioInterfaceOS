@@ -60,6 +60,11 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
     OUTPUT_RELATIVE = "reports/review_round_4/t193_three_lab_prefrozen_target_execution/v1.0.0"
     REQUIRED_REFERENCE = {"relative_path", "sha256"}
     MODEL_IDS = R3ModelEvaluationWorkflow.MODEL_IDS
+    FOLD_PREFIX = "T193"
+    OBSERVATION_PREFIX = "T193"
+    REPORT_NAME = "t193_three_lab_execution_report.json"
+    RECEIPT_NAME = "t193_three_lab_execution_receipt.json"
+    TARGET_SOURCE = "R3_common_rank_target_ledger"
     LEDGER_FIELDS = [
         "target_observation_id",
         "source_id",
@@ -286,7 +291,9 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             }
             for row, percentile, positive_count in selected:
                 identity = "|".join((source_id, row["source_coordinate"], row["canonical_accession"]))
-                observation_id = "T193_" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:20]
+                observation_id = (
+                    self.OBSERVATION_PREFIX + "_" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:20]
+                )
                 observations.append(
                     _Observation(
                         target_observation_id=observation_id,
@@ -348,8 +355,8 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
     ) -> tuple[dict[str, Any], dict[str, list[dict[str, Any]]]]:
         helper = self._helper(self.root)
         outer = sorted({row.laboratory_anchor for row in observations})
-        if len(outer) != 3:
-            raise R4T193ThreeLabExecutionError("T193 does not have three unique laboratory anchors")
+        if len(outer) < 3:
+            raise R4T193ThreeLabExecutionError("T193 requires at least three unique laboratory anchors")
         nested = _mapping(protocol["nested_selection"], "T193 nested selection")
         minimum_proteins = int(nested["minimum_proteins_per_selection_batch"])
         uncertainty = _mapping(protocol["uncertainty"], "T193 uncertainty")
@@ -368,7 +375,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
         negative_rows: list[dict[str, Any]] = []
         parameters: dict[str, Any] = {}
         for fold_index, held_out_lab in enumerate(outer, start=1):
-            fold_id = f"T193_OUTER_{fold_index:02d}"
+            fold_id = f"{self.FOLD_PREFIX}_OUTER_{fold_index:02d}"
             development = [row for row in observations if row.laboratory_anchor != held_out_lab]
             testing = sorted(
                 [row for row in observations if row.laboratory_anchor == held_out_lab],
@@ -573,10 +580,13 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             "parameters": parameters,
         }, {
             "outer_labs": [
-                {"held_out_laboratory_anchor": lab, "fold_id": f"T193_OUTER_{index:02d}"}
+                {"held_out_laboratory_anchor": lab, "fold_id": f"{self.FOLD_PREFIX}_OUTER_{index:02d}"}
                 for index, lab in enumerate(outer, start=1)
             ]
         }
+
+    def _source_workflow(self, refs: Mapping[str, Path]) -> R4T192ThreeLabCommonTargetWorkflow:
+        return R4T192ThreeLabCommonTargetWorkflow(self.root, registry_path=refs["t192_source_registry"])
 
     def run(self, *, strict: bool = False) -> R4T193ThreeLabExecutionSummary:
         if not strict:
@@ -585,7 +595,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             raise R4T193ThreeLabExecutionError("T193 execution already exists")
         registry, protocol, refs, sources = self._registry()
         features, targets = self._features_and_targets(refs, protocol)
-        t192 = R4T192ThreeLabCommonTargetWorkflow(self.root, registry_path=refs["t192_source_registry"])
+        t192 = self._source_workflow(refs)
         try:
             _, _, t192_sources = t192._documents()
             observations, ledger, accounting = self._source_observations(
@@ -716,7 +726,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                 for name, path in refs.items()
             },
             "target_universe": {
-                "source": "R3_common_rank_target_ledger",
+                "source": self.TARGET_SOURCE,
                 "count": len(targets),
                 "selection_after_outer_split": False,
             },
@@ -727,7 +737,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
                 "target_universe_count": len(targets),
                 "laboratory_anchor_count": len({row.laboratory_anchor for row in observations}),
                 "measurement_batch_count": len({row.measurement_batch_id for row in observations}),
-                "outer_fold_count": 3,
+                "outer_fold_count": len(fold_contract["outer_labs"]),
                 "model_count": len(self.MODEL_IDS),
             },
             "model_results": artifacts["fold_metrics"],
@@ -747,7 +757,7 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             "external_user_adoption": False,
             "scientific_submission_ready": False,
         }
-        report_path = self.output_root / "t193_three_lab_execution_report.json"
+        report_path = self.output_root / self.REPORT_NAME
         self._write_json(report_path, report)
         receipt = {
             "schema_version": 1,
@@ -756,9 +766,9 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             "report_sha256": _sha256(report_path),
             "observation_count": len(observations),
             "target_universe_count": len(targets),
-            "laboratory_anchor_count": 3,
+            "laboratory_anchor_count": len({row.laboratory_anchor for row in observations}),
             "measurement_batch_count": len({row.measurement_batch_id for row in observations}),
-            "outer_fold_count": 3,
+            "outer_fold_count": len(fold_contract["outer_labs"]),
             "model_count": len(self.MODEL_IDS),
             "outcome_analysis_run": True,
             "model_fitted": True,
@@ -766,12 +776,12 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
             "external_scientific_reproduction": False,
             "scientific_submission_ready": False,
         }
-        receipt_path = self.output_root / "t193_three_lab_execution_receipt.json"
+        receipt_path = self.output_root / self.RECEIPT_NAME
         self._write_json(receipt_path, receipt)
         return R4T193ThreeLabExecutionSummary(
             len(observations),
             len(targets),
-            3,
+            len({row.laboratory_anchor for row in observations}),
             len({row.measurement_batch_id for row in observations}),
             len(self.MODEL_IDS),
             receipt_path,
@@ -780,8 +790,8 @@ class R4T193ThreeLabPrefrozenExecutionWorkflow:
     def verify(self, *, strict: bool = True) -> R4T193ThreeLabExecutionSummary:
         if not strict:
             raise R4T193ThreeLabExecutionError("T193 verification requires --strict")
-        report_path = self.output_root / "t193_three_lab_execution_report.json"
-        receipt_path = self.output_root / "t193_three_lab_execution_receipt.json"
+        report_path = self.output_root / self.REPORT_NAME
+        receipt_path = self.output_root / self.RECEIPT_NAME
         report = self._json(report_path, "T193 report")
         receipt = self._json(receipt_path, "T193 receipt")
         artifacts = _mapping(report.get("artifacts"), "T193 artifacts")

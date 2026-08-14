@@ -662,6 +662,26 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the frozen T192 three-laboratory common-target receipt",
     )
     data_r4_t192_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t249_parser = data_subparsers.add_parser(
+        "audit-r4-t249-four-lab-common-target",
+        help="audit the four-source paper-derived common target",
+    )
+    data_r4_t249_parser.add_argument("--strict", action="store_true")
+    data_r4_t249_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t249-four-lab-common-target",
+        help="verify the frozen T249 four-source common-target receipt",
+    )
+    data_r4_t249_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t250_parser = data_subparsers.add_parser(
+        "evaluate-r4-t250-four-lab-common-target",
+        help="execute the frozen four-source paper-data common-target analysis",
+    )
+    data_r4_t250_parser.add_argument("--strict", action="store_true")
+    data_r4_t250_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t250-four-lab-common-target",
+        help="verify the frozen T250 four-source execution receipt",
+    )
+    data_r4_t250_verify_parser.add_argument("--strict", action="store_true")
     data_r4_t193_parser = data_subparsers.add_parser(
         "evaluate-r4-t193-three-lab-prefrozen-target",
         help="execute the frozen T193 study-held-out analysis on the pre-T192 R3 target universe",
@@ -3557,6 +3577,10 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-three-lab-common-target",
             "audit-r4-t192-three-lab-common-target",
             "verify-r4-t192-three-lab-common-target",
+            "audit-r4-t249-four-lab-common-target",
+            "verify-r4-t249-four-lab-common-target",
+            "evaluate-r4-t250-four-lab-common-target",
+            "verify-r4-t250-four-lab-common-target",
             "evaluate-r4-t193-three-lab-prefrozen-target",
             "verify-r4-t193-three-lab-prefrozen-target",
             "evaluate-r4-t194-fulltext-core-facility",
@@ -4478,6 +4502,92 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"laboratories={t192_summary.laboratory_anchor_count} "
                 f"common_targets={t192_summary.common_target_count} "
                 f"common_rows={t192_summary.common_row_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "audit-r4-t249-four-lab-common-target":
+            from biointerfaceos.r4_t249_four_lab_common_target import (
+                R4T249FourLabCommonTargetError,
+                R4T249FourLabCommonTargetWorkflow,
+            )
+
+            try:
+                t249_summary = R4T249FourLabCommonTargetWorkflow(root).run(strict=args.strict)
+            except (R4T249FourLabCommonTargetError, OSError) as exc:
+                print(f"R4_T249_FOUR_LAB_COMMON_TARGET_AUDIT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T249_FOUR_LAB_COMMON_TARGET_AUDIT_VALID "
+                f"sources={t249_summary.source_count} "
+                f"laboratories={t249_summary.laboratory_anchor_count} "
+                f"common_targets={t249_summary.common_target_count} "
+                f"common_rows={t249_summary.common_row_count} "
+                f"source_cells={t249_summary.source_cell_count} "
+                f"rank_eligible_cells={t249_summary.rank_eligible_cell_count} "
+                "development_only=true independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t249-four-lab-common-target":
+            from biointerfaceos.r4_t249_four_lab_common_target import (
+                R4T249FourLabCommonTargetError,
+                R4T249FourLabCommonTargetWorkflow,
+            )
+
+            try:
+                t249_summary = R4T249FourLabCommonTargetWorkflow(root).verify(strict=args.strict)
+            except (R4T249FourLabCommonTargetError, OSError) as exc:
+                print(f"R4_T249_FOUR_LAB_COMMON_TARGET_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T249_FOUR_LAB_COMMON_TARGET_VERIFY_VALID "
+                f"sources={t249_summary.source_count} "
+                f"laboratories={t249_summary.laboratory_anchor_count} "
+                f"common_targets={t249_summary.common_target_count} "
+                f"common_rows={t249_summary.common_row_count} "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t250-four-lab-common-target":
+            from biointerfaceos.r4_t250_four_lab_common_target_execution import (
+                R4T250FourLabCommonTargetExecutionError,
+                R4T250FourLabCommonTargetExecutionWorkflow,
+            )
+
+            try:
+                t250_summary = R4T250FourLabCommonTargetExecutionWorkflow(root).run(strict=args.strict)
+            except (R4T250FourLabCommonTargetExecutionError, OSError) as exc:
+                print(f"R4_T250_FOUR_LAB_COMMON_TARGET_EXECUTION_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T250_FOUR_LAB_COMMON_TARGET_EXECUTION_VALID "
+                f"observations={t250_summary.observation_count} "
+                f"targets={t250_summary.target_universe_count} "
+                f"laboratories={t250_summary.laboratory_anchor_count} "
+                f"measurement_batches={t250_summary.measurement_batch_count} "
+                f"models={t250_summary.model_count} "
+                "model_fitted=true independent_validation=false "
+                "scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t250-four-lab-common-target":
+            from biointerfaceos.r4_t250_four_lab_common_target_execution import (
+                R4T250FourLabCommonTargetExecutionError,
+                R4T250FourLabCommonTargetExecutionWorkflow,
+            )
+
+            try:
+                t250_summary = R4T250FourLabCommonTargetExecutionWorkflow(root).verify(strict=args.strict)
+            except (R4T250FourLabCommonTargetExecutionError, OSError) as exc:
+                print(f"R4_T250_FOUR_LAB_COMMON_TARGET_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T250_FOUR_LAB_COMMON_TARGET_VERIFY_VALID "
+                f"observations={t250_summary.observation_count} "
+                f"targets={t250_summary.target_universe_count} "
+                f"laboratories={t250_summary.laboratory_anchor_count} "
+                f"measurement_batches={t250_summary.measurement_batch_count} "
+                f"models={t250_summary.model_count} "
                 "scientific_submission_ready=false"
             )
             return 0

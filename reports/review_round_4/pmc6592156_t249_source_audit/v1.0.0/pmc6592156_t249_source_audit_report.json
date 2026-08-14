@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t249-pmc6592156-source-audit-v1.0.0",
+  "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+  "laboratory_anchor": "University of Southern Denmark / Russian Academy of Sciences study",
+  "status": "ADMITTED_REAL_HUMAN_PLASMA_PAPER_DERIVED_SOURCE",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "article": {
+    "pmcid": "PMC6592156",
+    "doi": "10.1039/c8en01054d",
+    "title": "Protein corona formed on silver nanoparticles in blood plasma is highly selective and resistant to physicochemical changes of the solution",
+    "full_text_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592156/",
+    "dataset_locator": "https://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=PXD007648",
+    "license": "CC-BY-3.0"
+  },
+  "source_scope": {
+    "biofluid": "human blood plasma",
+    "nanoparticle": "60 nm citrate-coated silver nanoparticles",
+    "experimental_conditions": "five pH conditions and five temperature conditions with three technical replicates per condition",
+    "biological_unit_boundary": "The public supplementary map does not resolve donor identities; the 30 measurement batches are not treated as independent biological units.",
+    "analysis_role": "FOUR_SOURCE_COMMON_TARGET_DEVELOPMENT_INPUT"
+  },
+  "quantification_contract": {
+    "author_quantity_type": "LOG_CONVERTED_LFQ_ABUNDANCE",
+    "rank_scope": "within source-defined measurement batch",
+    "blank_zero_na_policy": "retain source blank, explicit zero and NA states; exclude from positive rank eligibility; never impute",
+    "cross_source_scale_pooling": false
+  },
+  "source_assets": [
+    {
+      "relative_path": "data/raw/r3_candidate_pmc6592156/PMC6592156_supplementary.zip",
+      "sha256": "99e472edbb71902f9631e8798fd60b5f1898b1e676affd3fd9376b5302c40008",
+      "bytes": 7908232
+    },
+    {
+      "relative_path": "data/raw/r3_candidate_pmc6592156/extracted/EN-006-C8EN01054D-s002.xlsx",
+      "sha256": "e05dbcdda311756d42be6252ea22f86cee8eaef3335a388ab2ea377c4f100364",
+      "bytes": 430205
+    }
+  ],
+  "source_cell_map": {
+    "relative_path": "data/raw/r3_candidate_pmc6592156/derived/R4_T249_PMC6592156_source_cell_map.csv",
+    "sha256": "44d05b706b6a2861c42b296f5ff32f85183c132a37968bf58d36e1dddfda021e",
+    "raw_map_rows": 13485,
+    "rank_eligible_rows": 9357,
+    "rank_eligible_target_count": 542,
+    "rank_eligible_batch_count": 30,
+    "positive_source_cell_count": 9357
+  },
+  "scientific_submission_ready": false,
+  "independent_validation": false,
+  "external_scientific_reproduction": false,
+  "external_user_adoption": false,
+  "claim_boundary": "This audit closes the public paper and supplementary-data trace for one external laboratory lineage. It does not establish donor-resolved biological independence, independent evaluation, no-author reproduction, external adoption or submission readiness."
+}

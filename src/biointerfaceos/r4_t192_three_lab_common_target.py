@@ -195,7 +195,7 @@ class R4T192ThreeLabCommonTargetWorkflow:
         }
         if set(source) != required:
             raise R4T192ThreeLabCommonTargetError("T192 source fields are invalid")
-        if source["license"] not in {"CC0", "CC0-1.0", "CC-BY-4.0"}:
+        if source["license"] not in {"CC0", "CC0-1.0", "CC-BY-3.0", "CC-BY-4.0"}:
             raise R4T192ThreeLabCommonTargetError(f"{source['source_id']} license is not redistributable")
         registry_path = self._reference(source["source_registry"], f"{source['source_id']} source registry")
         report_path = self._reference(source["source_audit_report"], f"{source['source_id']} audit report")

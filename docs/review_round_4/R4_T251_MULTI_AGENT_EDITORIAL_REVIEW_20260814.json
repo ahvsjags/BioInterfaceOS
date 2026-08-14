@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "review_id": "bioif-r4-t251-multi-agent-editorial-review-v1.0.0",
+  "review_date": "2026-08-14",
+  "decision": "MAJOR_REVISION",
+  "scientific_submission_ready": false,
+  "module_score_mean": 57.9,
+  "internal_scientific_core_mean": 93.0,
+  "external_evidence_mean": 22.8,
+  "roles": [
+    {"role": "EIC", "score": 63, "decision": "Major Revision"},
+    {"role": "statistical_methodologist", "score": 94, "decision": "Strong after revision"},
+    {"role": "proteomics_nanobio_interface", "score": 89, "decision": "Major Revision"},
+    {"role": "reproducibility_software_resource", "score": 82, "decision": "Major Revision"},
+    {"role": "devil_advocate", "score": 49, "decision": "Reject at present"},
+    {"role": "synthesis_editor", "score": 66, "decision": "Major Revision"}
+  ],
+  "module_scores": {
+    "data_compatibility_and_sample_base": {"score": 92, "target": 90},
+    "statistical_analysis_design": {"score": 94, "target": 90},
+    "statistical_execution_and_effective_n": {"score": 94, "target": 90},
+    "model_ablation_negative_control_and_ood": {"score": 92, "target": 90},
+    "independent_lockbox_evaluation": {"score": 12, "target": 90},
+    "external_scientific_reproduction": {"score": 8, "target": 90},
+    "external_user_adoption": {"score": 46, "target": 90},
+    "doi_immutable_archive": {"score": 25, "target": 90}
+  },
+  "new_evidence": {
+    "t249_report": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_report.json",
+    "t249_receipt": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_receipt.json",
+    "t249_source_count": 4,
+    "t249_laboratory_anchor_count": 4,
+    "t249_common_target_count": 7,
+    "t249_common_row_count": 783,
+    "t249_source_cell_count": 15971,
+    "t249_rank_eligible_cell_count": 10852,
+    "t249_measurement_batch_count": 115,
+    "t250_report": "reports/review_round_4/t250_four_lab_common_target_execution/v1.0.0/t250_four_lab_execution_report.json",
+    "t250_receipt": "reports/review_round_4/t250_four_lab_common_target_execution/v1.0.0/t250_four_lab_execution_receipt.json",
+    "t250_observation_count": 783,
+    "t250_outer_fold_count": 4,
+    "t250_model_count": 3,
+    "t250_full_model_outer_mean_spearman": [0.9261904761904761, 0.686509578323097, 0.684548104956268, 0.7661904761904762],
+    "t250_full_model_outer_bootstrap_95": [[0.8988095238095237, 0.9523809523809524], [0.6376468785761996, 0.7352043497629275], [0.6164723032069971, 0.7443148688046648], [0.7150000000000001, 0.8145297619047619]],
+    "t250_negative_control_upper_tail_p": [0.023346303501945526, 0.09727626459143969, 0.042801556420233464, 0.06614785992217899],
+    "t250_claim_boundary": "Real paper-derived model execution is now closed for exploratory source portability; technical batches are not donor-resolved biological cohorts."
+  },
+  "hard_gates": {
+    "non_author_lockbox_receipt": false,
+    "no_author_reproduction_receipt": false,
+    "two_external_adoption_receipts": false,
+    "doi_readback_receipt": false,
+    "final_scientific_submission_gate": false
+  },
+  "claim_boundary": "T249/T250 resolve the missing paper-data execution layer using public full-text/supplementary proteomics assets and a fourth source lineage. They do not create non-author lockbox evaluation, no-author scientific reproduction, external adoption, authenticated DOI archival or submission readiness."
+}

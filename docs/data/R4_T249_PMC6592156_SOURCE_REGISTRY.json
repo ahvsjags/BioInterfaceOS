@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+  "laboratory_anchor": "University of Southern Denmark / Russian Academy of Sciences study",
+  "source_locator": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6592156/",
+  "dataset_locator": "https://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=PXD007648",
+  "article": {
+    "title": "Protein corona formed on silver nanoparticles in blood plasma is highly selective and resistant to physicochemical changes of the solution",
+    "doi": "10.1039/c8en01054d",
+    "pmcid": "PMC6592156",
+    "published_year": 2019
+  },
+  "license": "CC-BY-3.0",
+  "biological_unit_semantics": "The paper reports 30 pH/temperature condition batches with three technical replicates per condition. The public supplementary map does not provide donor-resolved biological units; no donor-level independence is inferred.",
+  "measurement_semantics": {
+    "quantity": "author-reported LFQ abundance converted to log2 for the source-local rank map",
+    "rank_scope": "within measurement batch",
+    "cross_source_scale_pooling": false,
+    "blank_zero_na_policy": "retain and exclude from positive rank eligibility; never impute"
+  },
+  "raw_assets": [
+    {
+      "relative_path": "data/raw/r3_candidate_pmc6592156/PMC6592156_supplementary.zip",
+      "sha256": "99e472edbb71902f9631e8798fd60b5f1898b1e676affd3fd9376b5302c40008"
+    },
+    {
+      "relative_path": "data/raw/r3_candidate_pmc6592156/extracted/EN-006-C8EN01054D-s002.xlsx",
+      "sha256": "e05dbcdda311756d42be6252ea22f86cee8eaef3335a388ab2ea377c4f100364"
+    }
+  ],
+  "source_map": {
+    "relative_path": "data/raw/r3_candidate_pmc6592156/derived/R4_T249_PMC6592156_source_cell_map.csv",
+    "sha256": "44d05b706b6a2861c42b296f5ff32f85183c132a37968bf58d36e1dddfda021e",
+    "raw_rows": 13485,
+    "rank_eligible_rows": 9357,
+    "rank_eligible_target_count": 542,
+    "rank_eligible_batch_count": 30
+  },
+  "audit": {
+    "report": {
+      "relative_path": "reports/review_round_4/pmc6592156_t249_source_audit/v1.0.0/pmc6592156_t249_source_audit_report.json",
+      "sha256": "a3d073a73eaf57145e13f034d7deeadc337188ad087f594e334cd721924a08e6"
+    },
+    "receipt": {
+      "relative_path": "reports/review_round_4/pmc6592156_t249_source_audit/v1.0.0/pmc6592156_t249_source_audit_receipt.json",
+      "sha256": "9aa94e83931f8504e7ff7eb29df4cc80592c35c95ae93c48049488d7f0500670"
+    }
+  },
+  "claim_boundary": "This is a public paper-derived development source and an external-laboratory OOD candidate. It is not a donor-resolved cohort, independent evaluator lockbox, no-author reproduction, external adoption receipt or submission-ready scientific validation.",
+  "scientific_submission_ready": false
+}

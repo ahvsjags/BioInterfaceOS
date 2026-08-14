@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t250-four-lab-common-target-execution-v1.0.0",
+  "protocol_id": "bioif-r4-t250-four-lab-common-target-execution-v1.0.0",
+  "status": "T250_FOUR_LAB_COMMON_TARGET_EXECUTION_REGISTERED",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "protocol": {
+    "relative_path": "docs/data/R4_T250_FOUR_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json",
+    "sha256": "1143cfaae0c9292a609137b0df1b7870c4c76ad0a71e47ff44bdee4274169fcd"
+  },
+  "t249_source_registry": {
+    "relative_path": "docs/data/R4_T249_FOUR_LAB_COMMON_TARGET_REGISTRY.json",
+    "sha256": "d7077ed6ab4c1f71dc385351971ae941aa036c16cd466389106baa957e4e3744"
+  },
+  "t249_common_target_ledger": {
+    "relative_path": "reports/review_round_4/four_lab_common_target/v1.0.0/r4_t249_four_lab_common_target_ledger.csv",
+    "sha256": "1eac118871e5a4ad315c377efc8c7dbfd38f0f2bfd94b70676439de2baff99aa"
+  },
+  "r3_common_rank_target_ledger": {
+    "relative_path": "data/raw/r3_common_rank_target/R3_common_rank_target_ledger.csv",
+    "sha256": "de378c12ac1a92803145879adcc1e171a299b76cda46100ed03b9243b38741b8"
+  },
+  "r3_sequence_feature_table": {
+    "relative_path": "data/raw/r3_uniprot_sequence_features/uniprot_sequence_features/R3_uniprot_sequence_features.csv",
+    "sha256": "c8b6c2946d99a07374371928014148118ced4667ecfa3f58d025ce88057b62a5"
+  },
+  "target_universe": {
+    "source": "R4_T249_FOUR_LAB_COMMON_TARGET_REGISTRY",
+    "count": 7,
+    "selection_after_outer_split": false
+  },
+  "sources": [
+    {
+      "source_id": "EDINBURGH_DS7545_HUMAN_PLASMA_NANOOMICS",
+      "expected_observation_count": 306,
+      "expected_target_count": 7,
+      "expected_batch_count": 49
+    },
+    {
+      "source_id": "PXD060795_DALIAN_PLA_MICRO_NANOPLASTIC_HUMAN_PLASMA_CORONA",
+      "expected_observation_count": 40,
+      "expected_target_count": 7,
+      "expected_batch_count": 6
+    },
+    {
+      "source_id": "PXD064962_UCD_EVENT",
+      "expected_observation_count": 244,
+      "expected_target_count": 7,
+      "expected_batch_count": 30
+    },
+    {
+      "source_id": "PMC6592156_SILVER_NANOPARTICLE_HUMAN_PLASMA",
+      "expected_observation_count": 193,
+      "expected_target_count": 7,
+      "expected_batch_count": 30
+    }
+  ],
+  "expected_accounting": {
+    "source_count": 4,
+    "laboratory_anchor_count": 4,
+    "target_universe_count": 7,
+    "observation_count": 783,
+    "outer_fold_count": 4,
+    "model_count": 3
+  },
+  "output_contract": {
+    "relative_path": "reports/review_round_4/t250_four_lab_common_target_execution/v1.0.0"
+  },
+  "claim_boundary": "T250 is an exploratory strict-common-target portability execution on four public paper/data source lineages. It reports real model fits, nested selection, held-out laboratory folds, batch-cluster bootstrap and negative controls, while preserving the limits on donor independence and external evidence.",
+  "scientific_submission_ready": false
+}

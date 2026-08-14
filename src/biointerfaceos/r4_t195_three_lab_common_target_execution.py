@@ -35,6 +35,12 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(R4T193ThreeLabPrefrozenExecuti
     PROTOCOL_RELATIVE = "docs/data/R4_T195_THREE_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json"
     REGISTRY_RELATIVE = "docs/data/R4_T195_THREE_LAB_COMMON_TARGET_EXECUTION_REGISTRY.json"
     OUTPUT_RELATIVE = "reports/review_round_4/t195_three_lab_common_target_execution/v1.0.0"
+    REPORT_NAME = "t195_three_lab_execution_report.json"
+    RECEIPT_NAME = "t195_three_lab_execution_receipt.json"
+    PARENT_REPORT_NAME = "t193_three_lab_execution_report.json"
+    PARENT_RECEIPT_NAME = "t193_three_lab_execution_receipt.json"
+    TARGET_SOURCE = "R4_T192_THREE_LAB_COMMON_TARGET_REGISTRY"
+    TARGET_COUNT = 9
 
     def _registry(self):  # type: ignore[no-untyped-def]
         """Validate the compact T195 registry and close it to T192 assets."""
@@ -126,10 +132,10 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(R4T193ThreeLabPrefrozenExecuti
         return {accession: features[accession] for accession in common_targets}, common_targets
 
     def _rename_parent_outputs(self, *, reverse: bool = False) -> None:
-        old_report = self.output_root / "t193_three_lab_execution_report.json"
-        old_receipt = self.output_root / "t193_three_lab_execution_receipt.json"
-        new_report = self.output_root / "t195_three_lab_execution_report.json"
-        new_receipt = self.output_root / "t195_three_lab_execution_receipt.json"
+        old_report = self.output_root / self.PARENT_REPORT_NAME
+        old_receipt = self.output_root / self.PARENT_RECEIPT_NAME
+        new_report = self.output_root / self.REPORT_NAME
+        new_receipt = self.output_root / self.RECEIPT_NAME
         pairs = (
             ((new_report, old_report), (new_receipt, old_receipt))
             if reverse
@@ -147,12 +153,12 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(R4T193ThreeLabPrefrozenExecuti
             raise R4T195CommonTargetExecutionError("T195 execution requires --strict")
         summary = super().run(strict=True)
         self._rename_parent_outputs()
-        report_path = self.output_root / "t195_three_lab_execution_report.json"
-        receipt_path = self.output_root / "t195_three_lab_execution_receipt.json"
+        report_path = self.output_root / self.REPORT_NAME
+        receipt_path = self.output_root / self.RECEIPT_NAME
         report = self._json(report_path, "T195 report")
         report["target_universe"] = {
-            "source": "R4_T192_THREE_LAB_COMMON_TARGET_REGISTRY",
-            "count": 9,
+            "source": self.TARGET_SOURCE,
+            "count": self.TARGET_COUNT,
             "selection_after_outer_split": False,
             "common_targets": sorted(
                 _mapping(
@@ -168,20 +174,16 @@ class R4T195ThreeLabCommonTargetExecutionWorkflow(R4T193ThreeLabPrefrozenExecuti
         receipt["audit_id"] = self.AUDIT_ID
         receipt["status"] = self.STATUS
         receipt["report_sha256"] = _sha256(report_path)
-        receipt["target_universe_count"] = 9
+        receipt["target_universe_count"] = self.TARGET_COUNT
         receipt_path.write_bytes(_canonical(receipt))
         return replace(summary, receipt_path=receipt_path)
 
     def verify(self, *, strict: bool = True) -> R4T193ThreeLabExecutionSummary:
         if not strict:
             raise R4T195CommonTargetExecutionError("T195 verification requires --strict")
-        report_path = self.output_root / "t195_three_lab_execution_report.json"
-        receipt_path = self.output_root / "t195_three_lab_execution_receipt.json"
+        report_path = self.output_root / self.REPORT_NAME
+        receipt_path = self.output_root / self.RECEIPT_NAME
         if not report_path.is_file() or not receipt_path.is_file():
             raise R4T195CommonTargetExecutionError("T195 report or receipt is missing")
-        self._rename_parent_outputs(reverse=True)
-        try:
-            summary = super().verify(strict=True)
-        finally:
-            self._rename_parent_outputs()
+        summary = super().verify(strict=True)
         return replace(summary, receipt_path=receipt_path)
