@@ -12,6 +12,8 @@
     "selection_is_performance_free": true,
     "selection_is_model_free": true,
     "selection_is_frozen_before_t250": true,
+    "membership_scope": "ALL_FOUR_SOURCES_PRE_FREEZE",
+    "membership_dependency": "The T249 intersection uses finite-positive availability in all four source lineages before T250. Every outer fold is therefore conditional on the held-out source contributing indirectly to the frozen target universe; T250 does not re-estimate membership after the split.",
     "availability_rule": "A common target contributes only when the audited source map records a finite strictly positive author value; blank, explicit zero and NA states remain missing.",
     "rank_direction": "DESCENDING_MIDRANK_PERCENTILE_WITHIN_SOURCE_DEFINED_MEASUREMENT_BATCH",
     "cross_source_abundance_scale_use": "PROHIBITED"
@@ -21,6 +23,7 @@
     "fold_count": 4,
     "held_out_unit": "entire laboratory/source anchor",
     "held_out_source_used_for_target_membership": false,
+    "held_out_source_membership_note": "false means no post-freeze T250 recomputation; the held-out source remains an indirect dependency through the pre-frozen T249 all-source intersection.",
     "held_out_source_used_for_alpha_selection": false,
     "held_out_source_used_for_model_selection": false
   },
@@ -50,8 +53,11 @@
     "resamples": 256,
     "random_seed": 2501,
     "alpha_policy": "hold the observed nested-selected full-model alpha fixed within each outer fold",
+    "selection_reexecution_per_resample": false,
+    "interpretation": "A permutation null conditional on the observed nested-selected alpha; it is not a fully selection-aware null that re-runs alpha selection for every permutation.",
     "tail": "one-sided upper tail"
   },
-  "claim_boundary": "This is an exploratory four-source strict-common-target portability analysis. It improves paper-data source compatibility and executes real models, but it does not establish four independent biological cohorts, donor-level generalization, evaluator lockbox performance, no-author reproduction, external adoption or scientific submission readiness.",
+  "estimand_boundary": "The primary score is the equal-weight mean of source-local measurement-batch Spearman values. Report row count (783), measurement-batch clusters (115), source/laboratory anchors (4) and unresolved donor-level effective n separately.",
+  "claim_boundary": "This is an exploratory four-source strict-common-target portability analysis conditioned on the all-source target-availability intersection. It improves paper-data source compatibility and executes real models, but it does not establish four independent biological cohorts, donor-level generalization, a fully selection-aware permutation null, evaluator lockbox performance, no-author reproduction, external adoption or scientific submission readiness.",
   "scientific_submission_ready": false
 }

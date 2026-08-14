@@ -7,7 +7,7 @@
   "allowed_claim_level": "EXPLORATORY",
   "protocol": {
     "relative_path": "docs/data/R4_T250_FOUR_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json",
-    "sha256": "1143cfaae0c9292a609137b0df1b7870c4c76ad0a71e47ff44bdee4274169fcd"
+    "sha256": "81d112cfc98d44840aac304cab1ab22477c0185cf7927440a8be0fdef58c06e6"
   },
   "t249_source_registry": {
     "relative_path": "docs/data/R4_T249_FOUR_LAB_COMMON_TARGET_REGISTRY.json",
@@ -28,7 +28,9 @@
   "target_universe": {
     "source": "R4_T249_FOUR_LAB_COMMON_TARGET_REGISTRY",
     "count": 7,
-    "selection_after_outer_split": false
+    "selection_after_outer_split": false,
+    "membership_scope": "ALL_FOUR_SOURCES_PRE_FREEZE",
+    "membership_dependency": "Held-out source contributes indirectly through the pre-frozen T249 all-source intersection; no T250 post-split re-estimation is performed."
   },
   "sources": [
     {
@@ -67,6 +69,6 @@
   "output_contract": {
     "relative_path": "reports/review_round_4/t250_four_lab_common_target_execution/v1.0.0"
   },
-  "claim_boundary": "T250 is an exploratory strict-common-target portability execution on four public paper/data source lineages. It reports real model fits, nested selection, held-out laboratory folds, batch-cluster bootstrap and negative controls, while preserving the limits on donor independence and external evidence.",
+  "claim_boundary": "T250 is an exploratory strict-common-target portability execution conditioned on the pre-frozen all-source target-availability intersection. It reports real model fits, nested selection, held-out laboratory folds, batch-cluster bootstrap and a permutation null conditional on observed alpha, while preserving the limits on donor independence and external evidence.",
   "scientific_submission_ready": false
 }
