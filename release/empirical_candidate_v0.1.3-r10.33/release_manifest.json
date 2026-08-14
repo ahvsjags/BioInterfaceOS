@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "manifest_kind": "immutable_external_handoff_overlay",
+  "release_id": "bioif-empirical-candidate-v0.1.3-r10.33",
+  "status": "CANDIDATE_NOT_DOI_ARCHIVED",
+  "intended_git_tag": "v0.1.3-r10.33",
+  "source_commit": "1f35225",
+  "base_release": {
+    "tag": "v0.1.3-r10.32",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.32/release_manifest.json",
+    "manifest_sha256": "d56a070a974675be2e3cff217c437d451eb765719ee95cc9c836abebf40c0c51"
+  },
+  "scientific_candidate_release": "v0.1.3-r10.32",
+  "doi_status": "PENDING_NOT_ARCHIVED",
+  "scientific_submission_ready": false,
+  "claim_boundary": "This overlay updates only external evidence handoff, receipt preflight and DOI preparation metadata. It does not create independent validation, no-author reproduction, external adoption or DOI archival.",
+  "files": [
+    {"relative_path":"PROJECT_STATE.yaml","bytes":21069,"sha256":"d369aa33615fdba696d61e1ad58314b48b766fe454ff3100f898d22c6df7606d"},
+    {"relative_path":"TASKS.tsv","bytes":109265,"sha256":"42286ce407c4aa65cfccecc36aacd0ada813eb87e0540a53fbc125e784024e22"},
+    {"relative_path":"docs/data/R4_T218_EXTERNAL_EVIDENCE_HANDOFF_PROTOCOL.json","bytes":7753,"sha256":"e11b5fe8c7deec16dc4e3e66002a07649fa7aa3bcd32616cc91a795de4c8e70f"},
+    {"relative_path":"docs/data/R4_T218_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE.json","bytes":2017,"sha256":"dd806ebd908def8147e764023d0dc821972adcc82151b5a099509b2f6d7be078"},
+    {"relative_path":"docs/data/R4_T234_FIXED_RELEASE_EXTERNAL_HANDOFF_20260814.json","bytes":1837,"sha256":"576d19ffc590cbd9124b298b0f0943b4f775a28ed1a63d5082923a5df1a5c6aa"},
+    {"relative_path":"docs/data/R4_T235_PAPER_DATA_EXTERNAL_EVIDENCE_GOAL_20260814.json","bytes":2244,"sha256":"212f3df2bfbbf1d8f7e5393bc5bd84713a01abcffeaf649ed0c3520968a251b2"},
+    {"relative_path":"docs/data/R4_T240_EXTERNAL_RECEIPT_FIXED_RELEASE_BINDING_20260814.json","bytes":1543,"sha256":"ab03926fe03f1a4880c99878931f45f88d9e808684a6f63868d84227f7535391"},
+    {"relative_path":"docs/data/R4_T241_CANONICAL_RELEASE_MANIFEST_HASH_AUDIT_20260814.json","bytes":1277,"sha256":"cd4b4e1182e022c65569ee3a72c7fd50d88f31187eeaa04fb87fbde1ac69683f"},
+    {"relative_path":"docs/data/R4_T252_CURRENT_EXTERNAL_HANDOFF_20260814.json","bytes":2788,"sha256":"4df963422060580c2a4bde5e2758e21629e26ba4d3c6120396e6db777daa9150"},
+    {"relative_path":"docs/external/GITHUB_ISSUE_2_R10_32_COORDINATION_UPDATE_20260814.md","bytes":1668,"sha256":"ea8b87ea1933e6574c1937e3709a32740085003c81e09439b96fe8fd929a944a"},
+    {"relative_path":"docs/release/R10_32_DOI_DEPOSIT_METADATA.json","bytes":2186,"sha256":"676a84b2cadcc39fc910971df1aeef84d0e6b34ae640f2cdd7902a6021bac23c"},
+    {"relative_path":"docs/review_round_4/R4_T252_CURRENT_EXTERNAL_HANDOFF_20260814.md","bytes":2528,"sha256":"b3ebeec949385b5a6db251b4d87eb74cda49732bc0d325aa44fcff3e77c2378a"},
+    {"relative_path":"src/biointerfaceos/r4_external_receipt_preflight.py","bytes":27391,"sha256":"86566938dd5c5bbdcaae69bea77db7ee6e37d8872038c5bb4cf6684f2f77fe16"},
+    {"relative_path":"tests/review_round_4/test_r4_external_receipt_preflight.py","bytes":14045,"sha256":"1b4eaf5d2d9f0844e0b1ae82583785218a2a125bd245da23381860768d990f07"}
+  ]
+}
