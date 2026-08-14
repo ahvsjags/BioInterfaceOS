@@ -1,0 +1,65 @@
+{
+  "task_id": "R4-T233",
+  "date": "2026-08-14",
+  "accession": "PXD026615",
+  "laboratory": "University of Salamanca-CSIC / Cancer Research Centre",
+  "publication_url": "https://link.springer.com/article/10.1186/s12951-022-01546-y",
+  "pride_url": "https://www.ebi.ac.uk/pride/archive/projects/PXD026615",
+  "api_files_url": "https://www.ebi.ac.uk/pride/ws/archive/v2/projects/PXD026615/files",
+  "reprocessing": {
+    "mzid_file_count": 20,
+    "api_reported_decompressed_bytes": 250649665,
+    "local_compressed_bytes": 29635301,
+    "all_api_sha1_checksums_matched": true,
+    "target_ledger": "R3_common_rank_target_ledger.csv",
+    "frozen_target_count": 99,
+    "mapping_chain": "DBSequence -> PeptideEvidence -> PeptideEvidenceRef -> rank1 SpectrumIdentificationItem",
+    "quantity_type": "PSM_evidence_presence_count_bounded_audit",
+    "cross_study_common_intensity_matrix": false
+  },
+  "groups": [
+    {
+      "file_group": "0363_1_1,0363_2_1,0363_3_1",
+      "domain": "human-annotated protein-corona candidate",
+      "positive_accessions": [466, 289, 528],
+      "frozen_target_overlap": [5, 3, 5],
+      "union_frozen_target_overlap": 5,
+      "admission": "NOT_ADMITTED_LOW_CORONA_COVERAGE"
+    },
+    {
+      "file_group": "0363_4_1 through 0363_6_1",
+      "domain": "bovine/contaminant-dominant corona candidate",
+      "positive_accessions": [495, 535, 516],
+      "frozen_target_overlap": [2, 2, 2],
+      "admission": "NOT_HUMAN_PRIMARY"
+    },
+    {
+      "file_group": "0363_7_1 through 0363_9_1",
+      "domain": "rabbit-annotated corona candidate",
+      "positive_accessions": [648, 421, 568],
+      "frozen_target_overlap": [2, 2, 2],
+      "admission": "NOT_HUMAN_PRIMARY"
+    },
+    {
+      "file_group": "0379_*",
+      "domain": "Caco-2/Jurkat intracellular/AHA-related route",
+      "positive_accessions": [5570, 1952, 5878, 9659, 10146, 8258],
+      "frozen_target_overlap": [68, 43, 73, 87, 91, 86],
+      "admission": "DOMAIN_MISMATCH_NOT_CORONA"
+    },
+    {
+      "file_group": "180430_0355_*",
+      "domain": "cellular/AHA-related route; five downloaded mzid files",
+      "positive_accessions": [2236, 2749, 823, 629, 200],
+      "frozen_target_overlap": [81, 89, 2, 2, 2],
+      "admission": "DOMAIN_MISMATCH_NOT_CORONA"
+    }
+  ],
+  "claim_boundary": {
+    "new_independent_laboratory_primary_admitted": false,
+    "pxd026615_human_corona_primary_admitted": false,
+    "additional_primary_effective_n_created": false,
+    "scientific_submission_ready": false
+  },
+  "next_action": "Retain PXD026615 as a fully audited negative source result; do not use cellular/AHA files to inflate corona target coverage. External lockbox, no-author reproduction, adoption and DOI gates remain outstanding."
+}
