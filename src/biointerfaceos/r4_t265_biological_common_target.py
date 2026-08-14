@@ -341,6 +341,25 @@ class R4T265BiologicalCommonTargetWorkflow(R4T193ThreeLabPrefrozenExecutionWorkf
             "seed": seed,
         }
 
+    @staticmethod
+    def _round_numbers(value: Any) -> Any:
+        """Quantize numeric artifacts so BLAS implementations serialize identically."""
+        if isinstance(value, (float, np.floating)):
+            return float(f"{float(value):.12f}")
+        if isinstance(value, dict):
+            return {key: R4T265BiologicalCommonTargetWorkflow._round_numbers(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [R4T265BiologicalCommonTargetWorkflow._round_numbers(item) for item in value]
+        if isinstance(value, tuple):
+            return tuple(R4T265BiologicalCommonTargetWorkflow._round_numbers(item) for item in value)
+        return value
+
+    def _execute_models(
+        self, observations: Sequence[_Observation], protocol: Mapping[str, Any]
+    ) -> tuple[dict[str, Any], dict[str, list[dict[str, Any]]]]:
+        artifacts, fold_contract = super()._execute_models(observations, protocol)
+        return self._round_numbers(artifacts), self._round_numbers(fold_contract)
+
     def _augment_cluster_artifact(self) -> None:
         report_path = self.output_root / self.REPORT_NAME
         receipt_path = self.output_root / self.RECEIPT_NAME
