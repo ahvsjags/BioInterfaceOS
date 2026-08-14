@@ -2,11 +2,11 @@ project: BioInterfaceOS
 manual_version: 1.1.0-revision2
 manual_frozen_at: '2026-08-12'
 status: IN_PROGRESS
-task_count: 158
+task_count: 173
 ready_tasks:
   - T123
-current_task: T199
-active_execplan: docs/review_round_4/R4_T199_STRONG_Q1_REMEDIATION_GOAL_20260814.md
+current_task: T208
+active_execplan: docs/review_round_4/R4_T208_MULTI_SOURCE_CLAIM_REPAIR_20260814.md
 completed_tasks:
   - T000
   - T001
@@ -158,6 +158,7 @@ completed_tasks:
   - T205
   - T206
   - T207
+  - T208
   - T196
 failed_tasks: []
 waived_tasks: []
@@ -185,6 +186,7 @@ storage:
   budget_bytes: 1500000000000
   last_measured_bytes: 0
 notes:
+  - '2026-08-14: T208 consolidates the Manchester and PMC10257194 paper-data OOD results under one claim boundary. Manchester has 61 patient clusters and 289 batches but full ridge is below composition-only by -0.0586 (95% CI -0.0778 to -0.0402); PMC10257194 has a +0.0241 paired increment. The direction is source-dependent, so the strong universal sequence-feature claim is withdrawn. Both are author-run analysis-only OOD; independent evaluator, no-author reproduction, adoption, DOI and scientific submission readiness remain false.'
   - '2026-08-14: T194 adds a frozen full-text execution route from the CC-BY-4.0 PMC9633814 supplementary quantitative table. The receipt closes 9,909 source-map rows into 707 frozen-target observations across 12 core-facility folds and executes nested selection, model ablation, core-cluster bootstrap and within-core negative controls. It is explicitly one common pooled human-plasma aliquot and technical-domain evidence, not independent biological validation; external evaluator, no-author reproduction, adoption, DOI and scientific submission readiness remain false.'
   - '2026-08-14: T195 executes the exact nine-accession intersection frozen by T192 across the three audited laboratory source maps. It closes 809 row-traceable observations across 85 measurement batches with leave-one-laboratory-anchor-out, nested selection, paired ablation, cluster bootstrap and within-batch permutation controls. It remains exploratory source-availability-conditioned evidence; pooled/unspecified, donor-unresolved and technical-replicate boundaries remain explicit and all external gates stay false.'
   - '2026-08-14: T196 publishes the explicitly CC-BY-4.0 PXD017052 paper-attached biological cohort and its row-level source-cell map. The clean-checkout asset contains 141 subject units, 705 batches, 666 rank-qualified batches and 17,026 external target observations; it improves effective biological-unit accounting and reproducibility but remains author-run Seer/Broad-lineage OOD, not an independent laboratory, lockbox, no-author reproduction, adoption or DOI receipt.'

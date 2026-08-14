@@ -13,11 +13,12 @@ This repository contains the R4 real-data execution branch used on the KAUST ser
 - a T198 paper-cohort threshold/missingness sensitivity over eight coverage thresholds, including 6,640 retained `AUTHOR_NA` rows and biological-unit retention accounting;
 - a T200 statistical closure with fold-level measurement-batch intervals, frozen estimands, Holm bookkeeping and stratified paper-cohort missingness tables;
 - a locally executed analysis-only Manchester paper/author-matrix OOD route with 61 patient clusters, 289 longitudinal batches and 4,169 external observations; its unlicensed raw matrix remains locator-only and is not redistributed;
+- the Manchester OOD negative result is retained: full ridge is below composition-only by `-0.0586` patient-equal Spearman (95% CI `[-0.0778, -0.0402]`), so no universal full-feature superiority claim is made;
 - nested selection, laboratory-held-out evaluation, cluster-aware uncertainty, paired composition ablation and within-batch negative controls;
 - an analysis-only paper-full-text OOD route from PMC10257194 with 45 biological units, 97 shared targets, 4,362 row-traceable source cells, paired ablation, cluster bootstrap and permutation control; the CC-BY-NC-ND workbook and numeric derivatives are not redistributed;
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
-- an immutable release tag `v0.1.3-r10.16`, with the T180/T181 source audit and OOD receipts, T192-T205 analyses, the external evaluator handoff contract and byte-exact source-cell maps.
+- an immutable release tag `v0.1.3-r10.16`, with the T180/T181 source audit and OOD receipts, T192-T205 analyses, the external evaluator handoff contract and byte-exact source-cell maps; the release also carries a byte-matched tarball and SHA-256 sidecar.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -37,13 +38,14 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 See:
 
 - `docs/review_round_4/R4_T191_RELEASE_STATUS_20260814.md`
-- `release/empirical_candidate_v0.1.3-r10/release_manifest.json`
+- `release/empirical_candidate_v0.1.3-r10.16/release_manifest.json`
 - `docs/review_round_4/R4_T196_PAPER_ATTACHED_BIOLOGICAL_COHORT_PUBLIC_STATUS_20260814.md`
 - `docs/review_round_4/R4_T197_SOURCE_AVAILABILITY_STATUS_20260814.md`
 - `docs/review_round_4/R4_T198_PAPER_COHORT_MISSINGNESS_STATUS_20260814.md`
 - `docs/review_round_4/R4_T199_STRONG_Q1_REMEDIATION_GOAL_20260814.md`
 - `docs/review_round_4/R4_T200_STATISTICAL_CLOSURE_STATUS_20260814.md`
 - `docs/review_round_4/R4_T203_PMC10257194_PAPER_OOD_STATUS_20260814.md`
+- `docs/review_round_4/R4_T208_MULTI_SOURCE_CLAIM_REPAIR_20260814.md`
 - `docs/review_round_4/R4_T205_DOI_DEPOSIT_PREFLIGHT_20260814.md`
 - `docs/execplans/T196_publish_paper_attached_biological_cohort.md`
 - `docs/review_round_4/R4_MULTI_AGENT_EDITORIAL_REEVALUATION.md`
