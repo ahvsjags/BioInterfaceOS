@@ -47,7 +47,7 @@ def _attestation() -> dict[str, str]:
 
 def _frozen_bundle() -> dict[str, str]:
     return {
-        "checkout_commit": "0b4e8e1eb0efe4b0dd690c3b77611309a34e7f6e",
+        "checkout_commit": "837be0631d4117ee3a1455de6743b411264a769a",
         "protocol_sha256": "b" * 64,
         "environment_digest": "c" * 64,
         "dependency_lockfile_sha256": "d" * 64,
@@ -140,7 +140,7 @@ def _adoption_receipt(
         "user": _person(identity, institution),
         "task_description": "installed and ran the public software contract",
         "input_provenance": "public tagged checkout and source instructions",
-        "checkout_commit": "0b4e8e1eb0efe4b0dd690c3b77611309a34e7f6e",
+        "checkout_commit": "837be0631d4117ee3a1455de6743b411264a769a",
         "environment_digest": "f" * 64,
         "dependency_lockfile_sha256": "0" * 64,
         "commands": ["contract adoption command"],

@@ -4,7 +4,7 @@ This is the fixed handoff contract for the current BioInterfaceOS R4 paper-data 
 
 ## Fixed public checkout
 
-Use the immutable tag `v0.1.3-r10.25` and compare the exact target commit with the release manifest. Do not use a moving branch for an external claim.
+Use the immutable tag `v0.1.3-r10.25`, whose dereferenced release commit is `837be0631d4117ee3a1455de6743b411264a769a`; the manifest's source/provenance commit is `0b4e8e1eb0efe4b0dd690c3b77611309a34e7f6e`. Do not use a moving branch for an external claim.
 
 ```bash
 git clone --branch v0.1.3-r10.25 --depth 1 https://github.com/ahvsjags/BioInterfaceOS.git
