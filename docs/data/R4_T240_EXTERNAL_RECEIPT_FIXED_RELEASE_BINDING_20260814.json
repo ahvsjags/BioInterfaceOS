@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T240",
+  "declared_at": "2026-08-14T00:00:00+00:00",
+  "status": "STRUCTURAL_RELEASE_BINDING_HARDENED_EXTERNAL_GATES_STILL_OPEN",
+  "finding": "Before this task, fixed-release commit, source_commit and manifest_sha256 values were shape-checked but not bound to the audited immutable r10.28 release when no repository root was supplied.",
+  "remediation": {
+    "fixed_release_fields_are_exact": true,
+    "drift_rejected_for": [
+      "commit",
+      "source_commit",
+      "manifest_sha256",
+      "tag"
+    ],
+    "template_prefilled_with_audited_anchors": true,
+    "template_remains_evidence": false
+  },
+  "fixed_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "tag": "v0.1.3-r10.28",
+    "commit": "5f72487023f80dd37d6b550b97638fb0246eb3fa",
+    "source_commit": "b676433",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.28/release_manifest.json",
+    "manifest_sha256": "4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4"
+  },
+  "verification": {
+    "targeted_preflight_tests_passed": 7,
+    "review_round_4_tests_passed": 55,
+    "review_round_3_and_4_tests_passed": 64,
+    "git_diff_check_passed": true
+  },
+  "scientific_effect": "No external evidence was created and no editorial score or gate was promoted.",
+  "external_gates": {
+    "independent_validation": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  }
+}

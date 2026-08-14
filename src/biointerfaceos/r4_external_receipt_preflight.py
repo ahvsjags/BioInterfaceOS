@@ -72,7 +72,10 @@ class R4ExternalReceiptPreflightWorkflow:
     FIXED_RELEASE = {
         "repository": "https://github.com/ahvsjags/BioInterfaceOS",
         "tag": "v0.1.3-r10.28",
+        "commit": "5f72487023f80dd37d6b550b97638fb0246eb3fa",
+        "source_commit": "b676433",
         "manifest_path": "release/empirical_candidate_v0.1.3-r10.28/release_manifest.json",
+        "manifest_sha256": "4e35d6cbe8343e13419a28aca97b526e0e91c17ab297d1f6c33df6866bb7b6f4",
     }
     STATUS = "STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW"
     DOCUMENT_TYPES = (
@@ -146,11 +149,7 @@ class R4ExternalReceiptPreflightWorkflow:
     @classmethod
     def _fixed_release(cls, value: Any) -> dict[str, str]:
         fixed = _mapping(value, "fixed release")
-        expected_fields = set(cls.FIXED_RELEASE) | {
-            "commit",
-            "source_commit",
-            "manifest_sha256",
-        }
+        expected_fields = set(cls.FIXED_RELEASE)
         if set(fixed) != expected_fields:
             raise R4ExternalReceiptPreflightError(
                 "fixed release fields are incomplete or unexpected"
@@ -160,8 +159,8 @@ class R4ExternalReceiptPreflightWorkflow:
                 raise R4ExternalReceiptPreflightError(
                     "bundle is not bound to the current immutable r10.28 release"
                 )
-        for key in {"commit", "source_commit"}:
-            _digest(fixed[key], f"fixed release {key}", length=40)
+        _digest(fixed["commit"], "fixed release commit", length=40)
+        _string(fixed["source_commit"], "fixed release source_commit")
         _digest(fixed["manifest_sha256"], "fixed release manifest_sha256")
         return {key: str(item) for key, item in fixed.items()}
 
