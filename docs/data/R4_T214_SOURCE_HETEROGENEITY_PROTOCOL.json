@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t214-source-heterogeneity-v1.0.0",
+  "status": "FROZEN_DESCRIPTIVE_AUDIT",
+  "purpose": "Audit source- and study-level heterogeneity of the frozen full-minus-composition rank-portability contrast without refitting models or pooling non-independent data routes.",
+  "primary_estimand": {
+    "population": "paper-attached processed measurements admitted by T195, T203 and T209 registries",
+    "independent_unit": "source/laboratory anchor for T195/T197 and paper biological unit for T203/T209 when exposed by the source report",
+    "outcome": "source-local within-batch rank Spearman",
+    "contrast": "full sequence ridge minus composition-only ridge",
+    "summary": "study/source-level effect size and interval; descriptive route-specific summaries only",
+    "pooling": "prohibited across T195/T197 duplicate lineage, T203 and T209 because routes have different source access, unit structure and estimands"
+  },
+  "input_artifacts": {
+    "t195_paired_ablation": {
+      "relative_path": "reports/review_round_4/t195_three_lab_common_target_execution/v1.0.0/paired_composition_ablation.csv",
+      "sha256": "6bfddcb3e9c09448984bc71fb9168657871a6eda5352c3606f995539bd9b3f05"
+    },
+    "t197_paired_ablation": {
+      "relative_path": "reports/review_round_4/t197_source_availability_execution/v1.0.0/paired_composition_ablation.csv",
+      "sha256": "d05f59b9f375b550ac81726626bbe24342fde06212675159deda8b1fcf88f3f4"
+    },
+    "t198_threshold_ablation": {
+      "relative_path": "reports/review_round_4/t198_paper_cohort_missingness/v1.0.0/threshold_paired_ablation.csv",
+      "sha256": "0b5ca8c50f6b56f708f6370053efe18ad79990cdf22d048352083ebab81d57fa"
+    },
+    "t203_ood_report": {
+      "relative_path": "reports/review_round_4/pmc10257194_paper_ood/v1.0.0/r4_external_ood_report.json",
+      "sha256": "eca1b2997b342456115f2ebd0de7e3fa77574f559a279ea09007a224162a6e96"
+    },
+    "manchester_ood_report": {
+      "relative_path": "reports/review_round_4/manchester_nanoomic_ood/v1.1.0/r4_manchester_nanoomic_ood_report.json",
+      "sha256": "ab3561578fd7efe4e573adadfedbc536a8338b7aec0573c34c887beafdc95d95"
+    }
+  },
+  "analysis_rules": {
+    "t195": "retain all three laboratory-anchor fold effects; do not call them independent biological cohorts",
+    "t197": "retain as source-availability sensitivity and do not add it to the T195 primary effect count",
+    "t203": "retain the paper-cohort paired effect as author-run analysis-only OOD; fixed-alpha permutation remains exploratory",
+    "t209": "retain the HA5-reconciled patient-equal paired effect as author-run analysis-only OOD",
+    "t198": "report all eight coverage-threshold effects as missingness sensitivity; no confirmatory p-value",
+    "meta_inference": "no pooled p-value, no random-effects claim and no universal superiority claim"
+  },
+  "claim_boundary": "T214 can establish descriptive source-dependent heterogeneity and failure-boundary evidence. It cannot establish independent validation, donor-level generalization, mechanism, clinical utility, no-author reproduction, external adoption or scientific submission readiness.",
+  "scientific_submission_ready": false
+}

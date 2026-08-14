@@ -809,6 +809,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the T200 statistical-closure receipt",
     )
     data_r4_t200_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t214_parser = data_subparsers.add_parser(
+        "evaluate-r4-t214-source-heterogeneity",
+        help="audit source- and study-level heterogeneity without refitting frozen models",
+    )
+    data_r4_t214_parser.add_argument("--strict", action="store_true")
+    data_r4_t214_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t214-source-heterogeneity",
+        help="verify the T214 source-heterogeneity audit receipt",
+    )
+    data_r4_t214_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3763,6 +3773,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t198-paper-cohort-missingness",
             "evaluate-r4-t200-statistical-closure",
             "verify-r4-t200-statistical-closure",
+            "evaluate-r4-t214-source-heterogeneity",
+            "verify-r4-t214-source-heterogeneity",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-pxd064962-low-coverage-sensitivity",
@@ -4954,6 +4966,46 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"t198_threshold_strata={t200_summary.t198_threshold_stratum_count} "
                 "estimand_frozen=true multiplicity_policy_frozen=true "
                 "missingness_stratified=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t214-source-heterogeneity":
+            from biointerfaceos.r4_t214_source_heterogeneity import (
+                R4T214SourceHeterogeneityError,
+                R4T214SourceHeterogeneityWorkflow,
+            )
+
+            try:
+                t214_summary = R4T214SourceHeterogeneityWorkflow(root).run(strict=args.strict)
+            except (R4T214SourceHeterogeneityError, OSError) as exc:
+                print(f"R4_T214_SOURCE_HETEROGENEITY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T214_SOURCE_HETEROGENEITY_VALID "
+                f"effect_rows={t214_summary.effect_row_count} "
+                f"primary_studies={t214_summary.primary_study_count} "
+                f"positive_effects={t214_summary.positive_effect_count} "
+                f"negative_effects={t214_summary.negative_effect_count} "
+                "pooling_prohibited=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t214-source-heterogeneity":
+            from biointerfaceos.r4_t214_source_heterogeneity import (
+                R4T214SourceHeterogeneityError,
+                R4T214SourceHeterogeneityWorkflow,
+            )
+
+            try:
+                t214_summary = R4T214SourceHeterogeneityWorkflow(root).verify(strict=args.strict)
+            except (R4T214SourceHeterogeneityError, OSError) as exc:
+                print(f"R4_T214_SOURCE_HETEROGENEITY_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T214_SOURCE_HETEROGENEITY_VERIFY_VALID "
+                f"effect_rows={t214_summary.effect_row_count} "
+                f"primary_studies={t214_summary.primary_study_count} "
+                f"positive_effects={t214_summary.positive_effect_count} "
+                f"negative_effects={t214_summary.negative_effect_count} "
+                "pooling_prohibited=true scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "audit-r4-dalian-plasma-corona-source":
