@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_AUTHENTICATED_ARCHIVE_UPLOAD",
+  "doi_archived": false,
+  "release": {
+    "tag": "v0.1.3-r10.47",
+    "release_commit": "2b11ce2f083f4f5926bd137cd5cdc7fb38b5e61d",
+    "source_commit": "2b11ce2f083f4f5926bd137cd5cdc7fb38b5e61d",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.47/release_manifest.json",
+    "manifest_sha256": "b3a0c80e278f01d6896bef83bf3898f70372451cc9535f877b44fd065dc0e619",
+    "manifest_bytes": 585487,
+    "archive_filename": "BioInterfaceOS-v0.1.3-r10.47.tar.gz",
+    "archive_server_path": "/ibex/user/xup0a/BioInterfaceOS-v0.1.3-r10.47.tar.gz",
+    "archive_bytes": 105024358,
+    "archive_sha256": "611ff8df7762377831e9e5eb848198b1e712f501d32604004066d648a8d20bca",
+    "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.47.tar.gz.sha256",
+    "manifest_in_archive": false,
+    "manifest_upload_required": true
+  },
+  "deposit_metadata": {
+    "title": "BioInterfaceOS v0.1.3-r10.47: full-text paper-data route and external-evidence handoff",
+    "upload_type": "software",
+    "publication_date": "2026-08-14",
+    "version": "v0.1.3-r10.47",
+    "description": "Immutable public version containing the T263 full-text data-route consolidation, a paper-derived 141-subject biological-cohort OOD audit, source-conditional common-target evidence, explicit candidate exclusions and the non-author external-gate handoff boundary.",
+    "creators": [{"name": "BioInterfaceOS Contributors"}],
+    "keywords": ["biointerface proteomics", "protein corona", "computational biology", "provenance", "reproducible research", "external evaluation"],
+    "license": "Apache-2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS/tree/v0.1.3-r10.47", "relation": "isIdenticalTo", "resource_type": "software"},
+      {"identifier": "https://github.com/ahvsjags/BioInterfaceOS", "relation": "isSupplementTo", "resource_type": "software"}
+    ]
+  },
+  "upload_instructions": [
+    "Upload the exact archive and sidecar from the authenticated archive workflow.",
+    "Upload the hash-bound manifest as a separate archive file because it was generated from the immutable tag and intentionally excluded from its self-hash.",
+    "Record the archive service DOI, version DOI, immutable record URL and upload timestamp.",
+    "Read back the archived manifest bytes and archive bytes; compare both SHA-256 values exactly.",
+    "Only after authenticated read-back may doi_archived be changed to true and CITATION.cff be updated."
+  ],
+  "claim_boundary": "This metadata is a deposit preparation artifact, not a DOI or archive receipt. Git tags, GitHub releases and KAUST archives do not close doi_archived or scientific_submission_ready."
+}
