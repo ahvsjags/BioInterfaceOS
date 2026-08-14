@@ -19,3 +19,5 @@ scientific_submission_ready = false
 The overlay is not evidence of external participation. Templates, public issue
 comments, author-run executions and Codex/agent executions remain excluded from
 all external gates.
+
+Public release: https://github.com/ahvsjags/BioInterfaceOS/releases/tag/v0.1.3-r10.33
