@@ -195,7 +195,10 @@ class R4ExternalReceiptPreflightWorkflow:
         manifest_path = self.repository_root / Path(
             *PurePosixPath(fixed_release["manifest_path"]).parts
         )
-        if not manifest_path.is_file() or _sha256(manifest_path) != fixed_release["manifest_sha256"]:
+        manifest_matches = manifest_path.is_file() and _sha256(manifest_path) == fixed_release[
+            "manifest_sha256"
+        ]
+        if not manifest_matches:
             raise R4ExternalReceiptPreflightError(
                 "repository release manifest does not match the fixed release"
             )
