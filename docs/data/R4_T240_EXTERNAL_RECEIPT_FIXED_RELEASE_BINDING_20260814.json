@@ -17,11 +17,11 @@
   },
   "fixed_release": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS",
-    "tag": "v0.1.3-r10.29",
-    "commit": "2cecba46a5b51af6f8a00aaeec8a5294dc96313b",
-    "source_commit": "e414acc9ec15f11b5e069407850327a490280e8b",
-    "manifest_path": "release/empirical_candidate_v0.1.3-r10.29/release_manifest.json",
-    "manifest_sha256": "4d49bc2ff6be959cd0c09495682b2571e6263f3747d3f879847f4375f11a706a"
+    "tag": "v0.1.3-r10.32",
+    "commit": "b8331e647d4194b85f68feb6e2d9e30a4f9e0a9d",
+    "source_commit": "f4b919f",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.32/release_manifest.json",
+    "manifest_sha256": "d56a070a974675be2e3cff217c437d451eb765719ee95cc9c836abebf40c0c51"
   },
   "verification": {
     "targeted_preflight_tests_passed": 7,

@@ -71,11 +71,11 @@ class R4ExternalReceiptPreflightWorkflow:
     PROTOCOL_ID = "bioif-r4-external-evaluator-and-reproduction-v1.0.0"
     FIXED_RELEASE = {
         "repository": "https://github.com/ahvsjags/BioInterfaceOS",
-        "tag": "v0.1.3-r10.29",
-        "commit": "2cecba46a5b51af6f8a00aaeec8a5294dc96313b",
-        "source_commit": "e414acc9ec15f11b5e069407850327a490280e8b",
-        "manifest_path": "release/empirical_candidate_v0.1.3-r10.29/release_manifest.json",
-        "manifest_sha256": "4d49bc2ff6be959cd0c09495682b2571e6263f3747d3f879847f4375f11a706a",
+        "tag": "v0.1.3-r10.32",
+        "commit": "b8331e647d4194b85f68feb6e2d9e30a4f9e0a9d",
+        "source_commit": "f4b919f",
+        "manifest_path": "release/empirical_candidate_v0.1.3-r10.32/release_manifest.json",
+        "manifest_sha256": "d56a070a974675be2e3cff217c437d451eb765719ee95cc9c836abebf40c0c51",
     }
     STATUS = "STRUCTURALLY_COMPLETE_PENDING_IDENTITY_REVIEW"
     DOCUMENT_TYPES = (
@@ -152,7 +152,7 @@ class R4ExternalReceiptPreflightWorkflow:
             raise R4ExternalReceiptPreflightError("fixed release fields are incomplete or unexpected")
         for key, expected in cls.FIXED_RELEASE.items():
             if fixed[key] != expected:
-                raise R4ExternalReceiptPreflightError("bundle is not bound to the current immutable r10.29 release")
+                raise R4ExternalReceiptPreflightError("bundle is not bound to the current immutable r10.32 release")
         _digest(fixed["commit"], "fixed release commit", length=40)
         _string(fixed["source_commit"], "fixed release source_commit")
         _digest(fixed["manifest_sha256"], "fixed release manifest_sha256")
@@ -161,7 +161,7 @@ class R4ExternalReceiptPreflightWorkflow:
     @classmethod
     def _assert_fixed_checkout(cls, value: Any, label: str, fixed_release: Mapping[str, str]) -> None:
         if value != fixed_release["commit"]:
-            raise R4ExternalReceiptPreflightError(f"{label} checkout_commit is not the fixed r10.29 release commit")
+            raise R4ExternalReceiptPreflightError(f"{label} checkout_commit is not the fixed r10.32 release commit")
 
     def _assert_repository_anchor(self, fixed_release: Mapping[str, str]) -> None:
         if self.repository_root is None:

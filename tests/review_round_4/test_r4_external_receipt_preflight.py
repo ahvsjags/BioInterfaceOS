@@ -250,7 +250,7 @@ def test_r4_preflight_rejects_release_drift(tmp_path: Path) -> None:
     bundle["fixed_release"]["tag"] = "v0.1.3-r10.25"
     _write_json(bundle_path, bundle)
 
-    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.29 release"):
+    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.32 release"):
         R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(strict=True)
 
 
@@ -260,7 +260,7 @@ def test_r4_preflight_rejects_release_commit_drift(tmp_path: Path) -> None:
     bundle["fixed_release"]["commit"] = "a" * 40
     _write_json(bundle_path, bundle)
 
-    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.29 release"):
+    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.32 release"):
         R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(strict=True)
 
 
@@ -270,7 +270,7 @@ def test_r4_preflight_rejects_release_manifest_hash_drift(tmp_path: Path) -> Non
     bundle["fixed_release"]["manifest_sha256"] = "c" * 64
     _write_json(bundle_path, bundle)
 
-    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.29 release"):
+    with pytest.raises(R4ExternalReceiptPreflightError, match="immutable r10.32 release"):
         R4ExternalReceiptPreflightWorkflow(bundle_path, documents_root, tmp_path / "out.json").run(strict=True)
 
 
@@ -306,7 +306,7 @@ def test_r4_fixed_release_anchors_match_all_public_handoff_records() -> None:
     assert t235["manifest"] == expected["manifest_path"]
     assert t235["manifest_sha256"] == expected["manifest_sha256"]
 
-    doi_release = json.loads((ROOT / "docs/release/R10_29_DOI_DEPOSIT_METADATA.json").read_text(encoding="utf-8"))[
+    doi_release = json.loads((ROOT / "docs/release/R10_32_DOI_DEPOSIT_METADATA.json").read_text(encoding="utf-8"))[
         "release"
     ]
     assert doi_release["tag"] == expected["tag"]
