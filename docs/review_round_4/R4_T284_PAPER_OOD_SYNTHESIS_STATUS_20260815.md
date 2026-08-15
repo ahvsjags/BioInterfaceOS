@@ -51,4 +51,3 @@ Descriptive arithmetic mean: **45.75/100**. The remaining 90+ gap is evidentiary
 - CLI: `biointerfaceos data evaluate-r4-t284-paper-ood-synthesis --strict` and `verify-r4-t284-paper-ood-synthesis --strict`.
 
 T284 is **not** independent validation, a lockbox, a no-author reproduction, or evidence of a biological mechanism. `scientific_submission_ready` remains `false`.
-
