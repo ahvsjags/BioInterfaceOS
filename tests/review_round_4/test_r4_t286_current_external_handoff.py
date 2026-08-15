@@ -19,6 +19,17 @@ def test_t286_points_external_participants_to_current_immutable_candidate():
     assert payload["fixed_release"]["clean_room_helper"].endswith("r10_57.sh")
     assert payload["receipt_template"].endswith("R4_T286_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE_20260815.json")
     assert "preflight-r4-t286-external-receipts" in payload["receipt_preflight_command"]
+    lockbox = json.loads(
+        (ROOT / "docs/data/R4_T286_LOCKBOX_WORK_PACKAGE_20260815.json").read_text(encoding="utf-8")
+    )
+    adoption = json.loads(
+        (ROOT / "docs/data/R4_T286_EXTERNAL_USER_ADOPTION_INTAKE_20260815.json").read_text(encoding="utf-8")
+    )
+    assert lockbox["fixed_release"]["tag"] == "v0.1.3-r10.57"
+    assert lockbox["evaluator_controls_row_level_input"] is True
+    assert lockbox["author_row_level_access"] is False
+    assert adoption["fixed_release"]["tag"] == "v0.1.3-r10.57"
+    assert adoption["minimum_claim_count"] == 2
     assert payload["required_external_receipts"]["protected_lockbox_evaluator"] == 1
     assert payload["required_external_receipts"]["no_author_scientific_reproduction"] == 1
     assert payload["required_external_receipts"]["distinct_external_user_adoption"] == 2

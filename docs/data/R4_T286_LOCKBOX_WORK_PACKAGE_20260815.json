@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T286-LOCKBOX",
+  "status": "PREPARED_NO_LOCKBOX_RECEIPT",
+  "fixed_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "tag": "v0.1.3-r10.57",
+    "tag_target_commit": "3557fac2019e57fd8968cdcf55b106750eafa750",
+    "manifest": "release/empirical_candidate_v0.1.3-r10.57/release_manifest.json",
+    "manifest_sha256": "a3b6b7c90eb4964e8bef0649d04b819e19ff12f7b2a3da31ea510330f1919d0e"
+  },
+  "protocol": {
+    "handoff_protocol": "docs/data/R4_T286_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json",
+    "primary_route": "docs/data/R4_T250_FOUR_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json",
+    "clean_room_helper": "scripts/r4_external_reproduction_r10_57.sh"
+  },
+  "minimum_evaluator_count": 1,
+  "non_author_required": true,
+  "evaluator_controls_row_level_input": true,
+  "author_row_level_access": false,
+  "aggregate_only_return": true,
+  "required_outputs": [
+    "primary source-local rank estimand and cluster-aware interval",
+    "row, batch, source/laboratory and resolvable biological-unit counts",
+    "full-versus-composition paired ablation",
+    "within-batch permutation null",
+    "model/OOD summaries and uncertainty intervals",
+    "complete failures/deviations/negative-runs ledger",
+    "environment, command, stdout/stderr and output hashes",
+    "identity/COI/signed attestation/immutable archive locator"
+  ],
+  "protected_input_rules": [
+    "Evaluator selects or generates the protected held-out input independently.",
+    "Authors receive no row-level protected input, intermediate predictions, tuning traces or failure-level logs before the signed aggregate receipt is finalized.",
+    "Only aggregate results and non-sensitive audit hashes may be returned to the authors.",
+    "The evaluator preserves negative, failed and deviating runs rather than returning only successful results."
+  ],
+  "prohibited_substitutes": [
+    "author-run execution",
+    "Codex or internal agent execution",
+    "fixture-only execution",
+    "public issue comment",
+    "success-only result selection",
+    "row-level input or intermediate output disclosure"
+  ],
+  "current_gate_state": {
+    "independent_validation": false,
+    "verified_lockbox_receipt_count": 0,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This work package makes a protected evaluation executable; it is not a lockbox receipt and cannot close the independent-validation gate by itself."
+}

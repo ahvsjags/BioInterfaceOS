@@ -21,6 +21,11 @@ The reproducible public route is the frozen T250 four-source common-target execu
 2. One no-author team reacquiring the public source files independently and executing from raw input to result in a fresh environment.
 3. Two distinct non-author users or institutions installing the fixed tag and running materially different real tasks.
 
+Role-specific work packages:
+
+- `docs/data/R4_T286_LOCKBOX_WORK_PACKAGE_20260815.json`
+- `docs/data/R4_T286_EXTERNAL_USER_ADOPTION_INTAKE_20260815.json`
+
 The clean-room reproduction command is:
 
 ```bash
