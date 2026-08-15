@@ -4,10 +4,11 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current external-handoff candidate is `v0.1.3-r10.57`. The release contains the public T250 route, the T282 replicate-aware primary refit, the T284 paper-derived OOD synthesis, and the external evidence contracts; it does not claim scientific results from non-author evaluators or external users. The current paper-data execution includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current external-handoff candidate is `v0.1.3-r10.57`. The immutable release contains the public T250 route, the T282 replicate-aware primary refit, the T284 paper-derived OOD synthesis, and the external evidence contracts; the coordination branch additionally carries the T290 estimand/uncertainty correction. It does not claim scientific results from non-author evaluators or external users. The current paper-data execution includes:
 
 - a four-source, four-source/laboratory-anchor common-target route with seven exact canonical accessions, 783 row-traceable observations, 115 measurement batches and four laboratory-held-out folds; this is exploratory, conditioned on the pre-frozen all-source target-availability intersection, and not four independent biological cohorts;
 - a public full-text/supplementary-data route using paper-derived observations, with source-local ranks, nested batch selection, cluster uncertainty, paired composition ablation and permutation controls; paper-derived data are not a substitute for non-author validation;
+- a T290 tie-aware correction of six paper-OOD routes, using route-native batch or biological-unit estimands and paired 2,000-resample cluster-bootstrap intervals; routes remain unpooled and author-run;
 - a T254 stratified full-text evidence package that binds article/accession locators, license and redistribution status, biological-unit semantics, execution receipts, negative/exclusion results and the external-gate boundary;
 - a T238 four-source fold-local target-membership sensitivity with 3,844 fold-ledger rows (3,061 development and 783 non-repeated held-out test observations), 9/9/10/10 development target counts, 115 batch clusters and explicit finite-null accounting;
 
@@ -63,6 +64,9 @@ See:
 - `docs/data/R4_T283_POST_T282_PRIMARY_REFIT_STATUS_20260815.json`
 - `docs/review_round_4/R4_T284_PAPER_OOD_SYNTHESIS_STATUS_20260815.md`
 - `docs/data/R4_T284_PAPER_OOD_SYNTHESIS_PROTOCOL.json`
+- `docs/review_round_4/R4_T290_PAPER_OOD_UNCERTAINTY_STATUS_20260815.md`
+- `docs/data/R4_T290_PAPER_OOD_UNCERTAINTY_PROTOCOL_20260815.json`
+- `reports/review_round_4/t290_paper_ood_uncertainty/v1.0.0/`
 - `docs/review_round_4/R4_T285_POST_T284_MULTI_AGENT_EDITORIAL_REVIEW_20260815.md`
 - `docs/review_round_4/R4_T285_POST_T284_MULTI_AGENT_EDITORIAL_REVIEW_20260815.json`
 - `docs/external/R4_T286_CURRENT_EXTERNAL_HANDOFF_20260815.md`
@@ -76,6 +80,8 @@ See:
 - `docs/review_round_4/R4_T287_AUTHOR_CLEANROOM_CHECK_20260815.json`
 - `docs/review_round_4/R4_T289_FULL_OBJECTIVE_COMPLETION_AUDIT_20260815.md`
 - `docs/review_round_4/R4_T289_FULL_OBJECTIVE_COMPLETION_AUDIT_20260815.json`
+- `docs/review_round_4/R4_T291_FULL_OBJECTIVE_COMPLETION_AUDIT_20260815.md`
+- `docs/review_round_4/R4_T291_FULL_OBJECTIVE_COMPLETION_AUDIT_20260815.json`
 - `scripts/r4_external_reproduction_r10_54.sh`
 - `docs/review_round_4/R4_T272_STRONG_Q1_EXTERNAL_EVIDENCE_CLOSURE_GOAL_20260815.md`
 - `docs/review_round_4/R4_T273_BIOLOGICAL_UNIT_PRIMARY_STATUS_20260815.md`

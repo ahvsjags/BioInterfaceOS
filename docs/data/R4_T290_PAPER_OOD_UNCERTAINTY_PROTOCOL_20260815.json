@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "protocol_id": "bioif-r4-t290-paper-ood-uncertainty-v1.0.0",
+  "task_id": "R4-T290",
+  "date": "2026-08-15",
+  "purpose": "Correct T284's route-level estimand labeling and carry paired full-versus-composition uncertainty without cross-route pooling.",
+  "estimand_rule": "Each route uses its source-native, explicitly recorded metric: mean batch Spearman for batch-unit routes and subject-equal mean Spearman for routes whose frozen source metric is subject-equal.",
+  "bootstrap_rule": {
+    "unit": "the route's declared cluster unit",
+    "resamples": 2000,
+    "interval": "percentile 95% interval",
+    "decision_rule": "SUPPORTED_POSITIVE if lower_95 > 0; SUPPORTED_NEGATIVE if upper_95 < 0; otherwise INDETERMINATE"
+  },
+  "input_artifacts": {
+    "T203_PMC10257194": {"relative_path": "reports/review_round_4/pmc10257194_paper_ood/v1.0.0/r4_external_ood_predictions.csv", "sha256": "f9e789fc9173a7dd205bcb3a7d0a236333179acf1b70097f42fcbd57023509e3"},
+    "T159_SMALL_MOLECULE": {"relative_path": "reports/review_round_4/small_molecule_corona_ood/v1.0.0/r4_external_ood_predictions.csv", "sha256": "6cd96d646708cc777a5e6d44283f39477003898d37bb8e50c8f59572219468b4"},
+    "T209_MANCHESTER": {"relative_path": "reports/review_round_4/manchester_nanoomic_ood/v1.1.0/r4_manchester_ood_predictions.csv", "sha256": "76abfee2ca6f1e616a415fe1541478f4b9080e292f3939c8562fcf2bb8fbc38c"},
+    "T181_PXD017052": {"relative_path": "reports/review_round_4/pxd017052_nsclc_biological_ood/v1.0.0/r4_pxd017052_nsclc_ood_predictions.csv", "sha256": "e66c25650b89e96c8d7f440dc4ad410b9a2c75b0743c5fd3d109d2953646b688"},
+    "T176_PXD068107": {"relative_path": "reports/review_round_4/pxd068107_technical_ood/v1.0.0/r4_pxd068107_ood_predictions.csv", "sha256": "f37206c05fd6304ace5e25007e42b96d128f186bb6066cb6cd39cea49994ab5c"},
+    "T177_PMC13106918": {"relative_path": "reports/review_round_4/pmc13106918_technical_ood/v1.0.0/r4_pmc13106918_ood_predictions.csv", "sha256": "26c3a685cc46b59a5dae4488a95da163a9c040741a88d9a7357949f58949de21"}
+  },
+  "route_semantics": {
+    "batch_unit_routes": ["T203_PMC10257194", "T159_SMALL_MOLECULE", "T176_PXD068107", "T177_PMC13106918"],
+    "subject_equal_routes": ["T209_MANCHESTER", "T181_PXD017052"],
+    "pooling_across_routes": false,
+    "independent_validation": false
+  },
+  "scientific_submission_ready": false,
+  "claim_boundary": "Author-run route-specific uncertainty correction only. It does not create independent validation, a lockbox receipt, a no-author reproduction, external adoption, target-held-out generalization or submission readiness."
+}

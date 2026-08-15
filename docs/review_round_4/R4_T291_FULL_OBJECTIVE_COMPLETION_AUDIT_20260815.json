@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T291",
+  "date": "2026-08-15",
+  "status": "INCOMPLETE_EXTERNAL_GATES_OPEN",
+  "scientific_submission_ready": false,
+  "latest_editorial_review": "R4_T285_POST_T284_MULTI_AGENT_EDITORIAL_REVIEW_20260815",
+  "fixed_release": {
+    "tag": "v0.1.3-r10.57",
+    "tag_target": "3557fac2019e57fd8968cdcf55b106750eafa750"
+  },
+  "scores": {
+    "data_compatibility": 92,
+    "statistical_design": 92,
+    "statistical_execution": 94,
+    "models_ood_uncertainty": 89,
+    "independent_lockbox": 0,
+    "no_author_reproduction": 0,
+    "external_adoption": 0,
+    "doi_citation": 10,
+    "descriptive_mean": 47.125
+  },
+  "gate_state": {
+    "verified_lockbox_receipt_count": 0,
+    "verified_no_author_reproduction_count": 0,
+    "verified_distinct_adoption_receipt_count": 0,
+    "doi_archive_verified": false,
+    "scientific_submission_ready": false
+  },
+  "author_side_artifacts": [
+    "docs/data/R4_T282_T195_REPLICATE_AWARE_REFIT_PROTOCOL.json",
+    "reports/review_round_4/t282_t195_replicate_aware_refit/v1.0.0/t282_t195_replicate_aware_refit_report.json",
+    "docs/data/R4_T290_PAPER_OOD_UNCERTAINTY_PROTOCOL_20260815.json",
+    "reports/review_round_4/t290_paper_ood_uncertainty/v1.0.0/t290_paper_ood_uncertainty_report.json",
+    "docs/review_round_4/R4_T287_AUTHOR_CLEANROOM_CHECK_20260815.json"
+  ],
+  "missing_external_artifacts": [
+    "non_author_protected_lockbox_receipt",
+    "no_author_raw_input_to_result_reproduction_receipt",
+    "two_distinct_external_adoption_receipts",
+    "authenticated_doi_archive_readback",
+    "post_receipt_final_multi_agent_editorial_pass"
+  ],
+  "claim_boundary": "This audit is an author-controlled completion audit. It records missing external evidence and does not claim independent validation, no-author reproduction, adoption, DOI archival or submission readiness."
+}

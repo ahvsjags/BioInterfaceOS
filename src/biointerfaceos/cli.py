@@ -1044,6 +1044,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--receipt-out", type=Path, required=True, help="T286 structural preflight receipt JSON"
     )
     data_r4_t286_receipt_parser.add_argument("--strict", action="store_true")
+    data_r4_t290_ood_parser = data_subparsers.add_parser(
+        "evaluate-r4-t290-paper-ood-uncertainty",
+        help="recompute route-specific OOD estimands and paired-delta uncertainty",
+    )
+    data_r4_t290_ood_parser.add_argument("--strict", action="store_true")
+    data_r4_t290_ood_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t290-paper-ood-uncertainty",
+        help="verify the route-specific T290 OOD uncertainty correction",
+    )
+    data_r4_t290_ood_verify_parser.add_argument("--strict", action="store_true")
     data_external_signature_parser = data_subparsers.add_parser(
         "verify-external-verification-signatures",
         help="verify detached external-receipt signatures without accepting their claims",
@@ -3738,6 +3748,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "preflight-r4-t260-external-receipts",
             "preflight-r4-t279-external-receipts",
             "preflight-r4-t286-external-receipts",
+            "evaluate-r4-t290-paper-ood-uncertainty",
+            "verify-r4-t290-paper-ood-uncertainty",
             "evaluate-r4-t193-three-lab-prefrozen-target",
             "verify-r4-t193-three-lab-prefrozen-target",
             "evaluate-r4-t194-fulltext-core-facility",
@@ -5925,6 +5937,33 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 "identity_authenticated=false independence_authenticated=false "
                 "protected_lockbox_accepted=false external_scientific_reproduction_accepted=false "
                 "external_user_adoption_accepted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command in {
+            "evaluate-r4-t290-paper-ood-uncertainty",
+            "verify-r4-t290-paper-ood-uncertainty",
+        }:
+            from biointerfaceos.r4_t290_paper_ood_uncertainty import (
+                R4T290PaperOodUncertaintyError,
+                R4T290PaperOodUncertaintyWorkflow,
+            )
+
+            try:
+                workflow = R4T290PaperOodUncertaintyWorkflow(Path.cwd())
+                if args.data_command == "evaluate-r4-t290-paper-ood-uncertainty":
+                    t290_summary = workflow.run(strict=args.strict)
+                else:
+                    t290_summary = workflow.verify(strict=args.strict)
+            except (R4T290PaperOodUncertaintyError, OSError) as exc:
+                print(f"R4_T290_PAPER_OOD_UNCERTAINTY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T290_PAPER_OOD_UNCERTAINTY_VALID "
+                f"routes={t290_summary.route_count} "
+                f"supported_positive={t290_summary.supported_positive_count} "
+                f"supported_negative={t290_summary.supported_negative_count} "
+                f"indeterminate={t290_summary.indeterminate_count} "
+                "pooling_prohibited=true independent_validation=false scientific_submission_ready=false"
             )
             return 0
         if args.data_command == "verify-external-verification-signatures":
