@@ -72,6 +72,8 @@ See:
 - `scripts/r4_external_reproduction_r10_57.sh`
 - `docs/review_round_4/R4_T287_AUTHOR_CLEANROOM_CHECK_20260815.md`
 - `docs/review_round_4/R4_T287_AUTHOR_CLEANROOM_CHECK_20260815.json`
+- `docs/review_round_4/R4_T289_FULL_OBJECTIVE_COMPLETION_AUDIT_20260815.md`
+- `docs/review_round_4/R4_T289_FULL_OBJECTIVE_COMPLETION_AUDIT_20260815.json`
 - `scripts/r4_external_reproduction_r10_54.sh`
 - `docs/review_round_4/R4_T272_STRONG_Q1_EXTERNAL_EVIDENCE_CLOSURE_GOAL_20260815.md`
 - `docs/review_round_4/R4_T273_BIOLOGICAL_UNIT_PRIMARY_STATUS_20260815.md`
