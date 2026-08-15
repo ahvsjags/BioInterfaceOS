@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the BioInterfaceOS contributors and the v0.1.3-r10.52 R4 external-handoff release. A DOI is pending archival verification."
+message: "If you use this software, please cite the BioInterfaceOS contributors and the v0.1.3-r10.57 R4 external-handoff release. A DOI is pending archival verification."
 title: "BioInterfaceOS"
 type: software
 authors:
@@ -9,4 +9,4 @@ date-released: 2026-08-15
 license: Apache-2.0
 abstract: "Provenance-grounded software and protocol infrastructure for biomedical material biointerface research."
 repository-code: "https://github.com/ahvsjags/BioInterfaceOS"
-url: "https://github.com/ahvsjags/BioInterfaceOS/tree/v0.1.3-r10.52"
+url: "https://github.com/ahvsjags/BioInterfaceOS/tree/v0.1.3-r10.57"
