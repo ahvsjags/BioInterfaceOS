@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T292",
+  "status": "KAUST_AUTHOR_CONTROLLED_T290_REPLAY_VERIFIED",
+  "server": "ibex",
+  "server_worktree": "/ibex/user/xup0a/BioInterfaceOS-r4-t290-596028b",
+  "commit": "596028b6bd1e1b8d5a6f23045646bc48daea0e4a",
+  "environment": {
+    "python": "3.11.15",
+    "uv": "0.12.1",
+    "numpy": "2.4.6"
+  },
+  "commands": [
+    "uv sync --locked --all-groups",
+    ".venv/bin/python -m biointerfaceos data evaluate-r4-t290-paper-ood-uncertainty --strict",
+    ".venv/bin/python -m biointerfaceos data verify-r4-t290-paper-ood-uncertainty --strict",
+    ".venv/bin/python -m pytest -q tests/review_round_4/test_r4_t290_paper_ood_uncertainty.py tests/review_round_4/test_r4_t291_completion_audit.py",
+    ".venv/bin/ruff check src/biointerfaceos/r4_t290_paper_ood_uncertainty.py src/biointerfaceos/cli.py tests/review_round_4/test_r4_t290_paper_ood_uncertainty.py tests/review_round_4/test_r4_t291_completion_audit.py --output-format concise"
+  ],
+  "execution_summary": {
+    "route_count": 6,
+    "supported_positive_count": 3,
+    "supported_negative_count": 2,
+    "indeterminate_count": 1,
+    "pooling_prohibited": true,
+    "independent_validation": false,
+    "external_scientific_reproduction": false,
+    "scientific_submission_ready": false
+  },
+  "input_sha256": {
+    "T203_PMC10257194": "f9e789fc9173a7dd205bcb3a7d0a236333179acf1b70097f42fcbd57023509e3",
+    "T159_SMALL_MOLECULE": "6cd96d646708cc777a5e6d44283f39477003898d37bb8e50c8f59572219468b4",
+    "T209_MANCHESTER": "76abfee2ca6f1e616a415fe1541478f4b9080e292f3939c8562fcf2bb8fbc38c",
+    "T181_PXD017052": "e66c25650b89e96c8d7f440dc4ad410b9a2c75b0743c5fd3d109d2953646b688",
+    "T176_PXD068107": "f37206c05fd6304ace5e25007e42b96d128f186bb6066cb6cd39cea49994ab5c",
+    "T177_PMC13106918": "26c3a685cc46b59a5dae4488a95da163a9c040741a88d9a7357949f58949de21"
+  },
+  "output_sha256": {
+    "route_specific_paired_uncertainty.csv": "3ea7951f4b9544da497d7a0cacf8b1b3b94d5b93f94d4bb566fb897a74843407",
+    "t290_paper_ood_uncertainty_report.json": "a92ae299e573a0868419b9b1c37926f2e745e08241bb47723d7c618d356a2014",
+    "t290_paper_ood_uncertainty_receipt.json": "e5d6291ddf8fe931e27d58e8845c156b4b819c31aee6ef4e8b2143c73656acfa"
+  },
+  "claim_boundary": "This is an author-controlled KAUST replay of paper-derived inputs. It verifies cross-environment execution and byte identity; it is not a non-author lockbox receipt, no-author reproduction or external scientific validation."
+}
