@@ -1,7 +1,8 @@
 {
+  "schema_version": 1,
+  "audit_id": "bioif-r4-t286-external-gate-handoff-v1.0.0",
   "protocol_id": "bioif-r4-t286-external-gate-handoff-v1.0.0",
-  "task_id": "R4-T286",
-  "status": "CURRENT_PUBLIC_HANDOFF_NO_EXTERNAL_RECEIPTS",
+  "status": "HANDOFF_OPEN_NO_EXTERNAL_RECEIPTS",
   "fixed_release": {
     "repository": "https://github.com/ahvsjags/BioInterfaceOS.git",
     "tag": "v0.1.3-r10.57",
@@ -13,7 +14,6 @@
   },
   "frozen_route": {
     "protocol": "docs/data/R4_T250_FOUR_LAB_COMMON_TARGET_EXECUTION_PROTOCOL.json",
-    "protocol_sha256": "81d112cfc98d44840aac304cab1ab22477c0185cf7927440a8be0fdef58c06e6",
     "laboratory_anchor_count": 4,
     "target_count": 7,
     "claim_boundary": "Paper-derived source-conditional portability benchmark; technical replicates, pooled/unspecified material and unresolved donor IDs are not promoted to independent biological cohorts."
@@ -26,7 +26,7 @@
   },
   "receipt_template": "docs/data/R4_T286_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE_20260815.json",
   "receipt_preflight_command": "uv run biointerfaceos data preflight-r4-t286-external-receipts --bundle external_receipt_bundle.json --documents-root external_receipts --receipt-out r4_t286_preflight_receipt.json --strict",
-  "receipt_requirements": [
+  "required_receipt_fields": [
     "participant identity, affiliation, role and conflict-of-interest statement",
     "fixed tag and dereferenced commit",
     "protocol and dependency hashes",
@@ -36,12 +36,19 @@
     "complete failure, deviation and negative-result ledger",
     "signed attestation and immutable archive locator"
   ],
-  "gate_state": {
-    "verified_lockbox_receipt_count": 0,
-    "verified_no_author_reproduction_count": 0,
-    "verified_distinct_adoption_receipt_count": 0,
-    "doi_archive_verified": false,
+  "gate_predicate": {
+    "independent_validation": "verified_lockbox_receipt_count >= 1",
+    "external_scientific_reproduction": "verified_no_author_reproduction_count >= 1",
+    "external_user_adoption": "verified_distinct_adoption_receipt_count >= 2",
+    "doi_archived": "doi_archive_verified == true",
+    "scientific_submission_ready": "all_external_predicates_true AND final_multi_agent_editorial_review_passes"
+  },
+  "current_gate_state": {
+    "protected_lockbox_evaluator_receipt": false,
+    "external_scientific_reproduction": false,
+    "external_user_adoption": false,
+    "doi_archived": false,
     "scientific_submission_ready": false
   },
-  "claim_boundary": "This is a public coordination handoff. It is not evidence that any evaluator, reproducing team, user or archive service has completed the requested work."
+  "claim_boundary": "This is a third-party execution handoff contract and structural preflight protocol. It does not assert that any evaluator, reproducing team, user, archive or DOI service has completed the requested work."
 }

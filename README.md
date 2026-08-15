@@ -4,7 +4,7 @@ BioInterfaceOS is a provenance-grounded software and protocol framework for audi
 
 ## Current public release
 
-This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current external-handoff candidate is `v0.1.3-r10.56`. The release contains the public T250 route, the analysis-only T265 supplement, and the external evidence contracts; it does not claim scientific results from non-author evaluators or external users. The current paper-data execution includes:
+This repository contains the R4 real-data execution branch used on the KAUST server. Historical R4 assets remain available, but the current external-handoff candidate is `v0.1.3-r10.57`. The release contains the public T250 route, the T282 replicate-aware primary refit, the T284 paper-derived OOD synthesis, and the external evidence contracts; it does not claim scientific results from non-author evaluators or external users. The current paper-data execution includes:
 
 - a four-source, four-source/laboratory-anchor common-target route with seven exact canonical accessions, 783 row-traceable observations, 115 measurement batches and four laboratory-held-out folds; this is exploratory, conditioned on the pre-frozen all-source target-availability intersection, and not four independent biological cohorts;
 - a public full-text/supplementary-data route using paper-derived observations, with source-local ranks, nested batch selection, cluster uncertainty, paired composition ablation and permutation controls; paper-derived data are not a substitute for non-author validation;
@@ -26,7 +26,7 @@ The following bullets preserve the earlier R4 benchmark and sensitivity assets f
 - byte-verified public full-text/PRIDE source audits, including the CC0 PXD060795 Dalian plasma-corona workbook;
 - reproducible source maps, receipts, tests and editorial claim-boundary documents.
 - a descriptive source-conditional heterogeneity audit with five effect units (not five independent studies), explicit non-inference of biological n from measurement batches, rounded presentation fields, degenerate-interval semantics and a KAUST fresh author-run replay receipt (T214-T216);
-- historical immutable release tags remain available for provenance; the current fixed handoff release is `v0.1.3-r10.56` and the current handoff contract is `docs/data/R4_T279_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`.
+- historical immutable release tags remain available for provenance; the current fixed handoff release is `v0.1.3-r10.57` and the current handoff contract is `docs/data/R4_T286_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`.
 
 The PXD060795 result is a six-batch exploratory sensitivity analysis. It is not presented as an independent lockbox evaluation or as external scientific replication.
 
@@ -45,8 +45,9 @@ At this release, `scientific_submission_ready` remains `false`. There is not yet
 
 See:
 
-- `release/empirical_candidate_v0.1.3-r10.56/README.md`
-- `docs/release/R10_56_DOI_DEPOSIT_METADATA.json`
+- `release/empirical_candidate_v0.1.3-r10.57/README.md`
+- `docs/release/R10_57_DOI_DEPOSIT_METADATA.json`
+- `docs/release/R10_57_ARCHIVE_BUILD_RECEIPT_20260815.json`
 - `docs/data/R4_T279_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`
 - `docs/data/R4_T279_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`
 - `docs/data/R4_T279_LOCKBOX_WORK_PACKAGE_20260815.json`
@@ -66,7 +67,11 @@ See:
 - `docs/review_round_4/R4_T285_POST_T284_MULTI_AGENT_EDITORIAL_REVIEW_20260815.json`
 - `docs/external/R4_T286_CURRENT_EXTERNAL_HANDOFF_20260815.md`
 - `docs/data/R4_T286_CURRENT_EXTERNAL_HANDOFF_20260815.json`
+- `docs/data/R4_T286_EXTERNAL_GATE_HANDOFF_PROTOCOL_20260815.json`
+- `docs/data/R4_T286_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE_20260815.json`
 - `scripts/r4_external_reproduction_r10_57.sh`
+- `docs/review_round_4/R4_T287_AUTHOR_CLEANROOM_CHECK_20260815.md`
+- `docs/review_round_4/R4_T287_AUTHOR_CLEANROOM_CHECK_20260815.json`
 - `scripts/r4_external_reproduction_r10_54.sh`
 - `docs/review_round_4/R4_T272_STRONG_Q1_EXTERNAL_EVIDENCE_CLOSURE_GOAL_20260815.md`
 - `docs/review_round_4/R4_T273_BIOLOGICAL_UNIT_PRIMARY_STATUS_20260815.md`
@@ -135,7 +140,7 @@ Issue creation, page views and author-controlled reruns are not evidence of
 independent reproduction or adoption.
 
 ```bash
-uv run biointerfaceos data preflight-r4-external-receipts \
+uv run biointerfaceos data preflight-r4-t286-external-receipts \
   --bundle external_bundle.json \
   --documents-root external_receipts \
   --receipt-out r4_preflight_receipt.json \

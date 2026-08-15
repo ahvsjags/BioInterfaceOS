@@ -1030,6 +1030,20 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         "--receipt-out", type=Path, required=True, help="T279 structural preflight receipt JSON"
     )
     data_r4_t279_receipt_parser.add_argument("--strict", action="store_true")
+    data_r4_t286_receipt_parser = data_subparsers.add_parser(
+        "preflight-r4-t286-external-receipts",
+        help="preflight r10.57 external evaluator, reproduction and adoption receipts",
+    )
+    data_r4_t286_receipt_parser.add_argument(
+        "--bundle", type=Path, required=True, help="T286 external receipt bundle JSON"
+    )
+    data_r4_t286_receipt_parser.add_argument(
+        "--documents-root", type=Path, required=True, help="root containing T286 external receipt files"
+    )
+    data_r4_t286_receipt_parser.add_argument(
+        "--receipt-out", type=Path, required=True, help="T286 structural preflight receipt JSON"
+    )
+    data_r4_t286_receipt_parser.add_argument("--strict", action="store_true")
     data_external_signature_parser = data_subparsers.add_parser(
         "verify-external-verification-signatures",
         help="verify detached external-receipt signatures without accepting their claims",
@@ -3723,6 +3737,7 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t273-biological-unit-primary",
             "preflight-r4-t260-external-receipts",
             "preflight-r4-t279-external-receipts",
+            "preflight-r4-t286-external-receipts",
             "evaluate-r4-t193-three-lab-prefrozen-target",
             "verify-r4-t193-three-lab-prefrozen-target",
             "evaluate-r4-t194-fulltext-core-facility",
@@ -5877,6 +5892,36 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"status={t279_receipt_summary.status} "
                 f"documents={t279_receipt_summary.document_count} "
                 f"non_author_declared={t279_receipt_summary.non_author_declared_count} "
+                "identity_authenticated=false independence_authenticated=false "
+                "protected_lockbox_accepted=false external_scientific_reproduction_accepted=false "
+                "external_user_adoption_accepted=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "preflight-r4-t286-external-receipts":
+            from biointerfaceos.r4_t286_external_receipt_preflight import (
+                R4T286ExternalReceiptPreflightError,
+                R4T286ExternalReceiptPreflightWorkflow,
+            )
+
+            try:
+                repository_root_candidate = Path.cwd().resolve(strict=False)
+                repository_root: Path | None = repository_root_candidate
+                if not args.bundle.resolve(strict=False).is_relative_to(repository_root_candidate):
+                    repository_root = None
+                t286_receipt_summary = R4T286ExternalReceiptPreflightWorkflow(
+                    bundle_path=args.bundle,
+                    documents_root=args.documents_root,
+                    receipt_out=args.receipt_out,
+                    repository_root=repository_root,
+                ).run(strict=args.strict)
+            except (R4T286ExternalReceiptPreflightError, OSError) as exc:
+                print(f"R4_T286_EXTERNAL_RECEIPT_PREFLIGHT_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T286_EXTERNAL_RECEIPT_PREFLIGHT_VALID "
+                f"status={t286_receipt_summary.status} "
+                f"documents={t286_receipt_summary.document_count} "
+                f"non_author_declared={t286_receipt_summary.non_author_declared_count} "
                 "identity_authenticated=false independence_authenticated=false "
                 "protected_lockbox_accepted=false external_scientific_reproduction_accepted=false "
                 "external_user_adoption_accepted=false scientific_submission_ready=false"

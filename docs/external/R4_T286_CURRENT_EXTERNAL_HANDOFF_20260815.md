@@ -37,6 +37,19 @@ The evaluator controls the protected input. Authors must not see row-level input
 
 Every receipt must include identity, affiliation, role, conflict-of-interest statement, fixed tag/commit, protocol and dependency hashes, input provenance or protected-input attestation, environment fingerprint, exact commands, stdout/stderr and output hashes, complete failure/deviation/negative-result records, signed attestation and an immutable archive locator.
 
+After the four real receipts have been produced, use the current r10.57 template and structural preflight:
+
+```bash
+cp docs/data/R4_T286_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE_20260815.json external_receipt_bundle.json
+uv run biointerfaceos data preflight-r4-t286-external-receipts \
+  --bundle external_receipt_bundle.json \
+  --documents-root external_receipts \
+  --receipt-out r4_t286_preflight_receipt.json \
+  --strict
+```
+
+This command checks byte identity, schema, fixed-release binding and declared safeguards only. It deliberately leaves identity, independence, scientific acceptance and `scientific_submission_ready` false until editorial verification of the actual external participants and immutable archive records.
+
 The project will keep the following false until real evidence is independently audited:
 
 ```text

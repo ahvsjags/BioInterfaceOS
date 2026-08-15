@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "submission_state": "TEMPLATE_NOT_EVIDENCE",
+  "bundle_id": "REPLACE_WITH_EXTERNAL_BUNDLE_ID",
+  "submitted_at": "REPLACE_WITH_RFC3339_TIMESTAMP",
+  "evidence_class": "DEVELOPMENT_OBSERVATION",
+  "allowed_claim_level": "EXPLORATORY",
+  "identity_and_scope_audit_pending": true,
+  "scientific_submission_ready": false,
+  "fixed_release": {
+    "repository": "https://github.com/ahvsjags/BioInterfaceOS",
+    "tag": "v0.1.3-r10.57",
+    "commit": "3557fac2019e57fd8968cdcf55b106750eafa750",
+    "source_commit": "0d4467a",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.57/release_manifest.json",
+    "manifest_sha256": "a3b6b7c90eb4964e8bef0649d04b819e19ff12f7b2a3da31ea510330f1919d0e"
+  },
+  "documents": [
+    {
+      "document_type": "independent_evaluator_receipt",
+      "relative_path": "independent_lockbox_evaluator_receipt.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "role_not_author_declared": true
+    },
+    {
+      "document_type": "external_reproduction_receipt",
+      "relative_path": "no_author_scientific_reproduction_receipt.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "role_not_author_declared": true
+    },
+    {
+      "document_type": "external_user_adoption_receipt_01",
+      "relative_path": "external_user_adoption_receipt_01.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "role_not_author_declared": true
+    },
+    {
+      "document_type": "external_user_adoption_receipt_02",
+      "relative_path": "external_user_adoption_receipt_02.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "role_not_author_declared": true
+    }
+  ],
+  "claim_boundary": "Template only. It is not an evaluator receipt, no-author reproduction receipt, external adoption receipt, DOI receipt or scientific submission readiness claim. Replace every placeholder only after an actual non-author execution and preserve failed runs."
+}
