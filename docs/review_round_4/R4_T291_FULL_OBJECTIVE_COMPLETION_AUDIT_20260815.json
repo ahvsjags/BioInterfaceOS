@@ -32,6 +32,7 @@
     "reports/review_round_4/t282_t195_replicate_aware_refit/v1.0.0/t282_t195_replicate_aware_refit_report.json",
     "docs/data/R4_T290_PAPER_OOD_UNCERTAINTY_PROTOCOL_20260815.json",
     "reports/review_round_4/t290_paper_ood_uncertainty/v1.0.0/t290_paper_ood_uncertainty_report.json",
+    "docs/review_round_4/R4_T292_KAUST_T290_REPLAY_RECEIPT_20260815.json",
     "docs/review_round_4/R4_T287_AUTHOR_CLEANROOM_CHECK_20260815.json"
   ],
   "missing_external_artifacts": [
