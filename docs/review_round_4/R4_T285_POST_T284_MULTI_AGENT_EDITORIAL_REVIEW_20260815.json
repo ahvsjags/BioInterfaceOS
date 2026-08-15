@@ -1,0 +1,49 @@
+{
+  "task_id": "R4-T285",
+  "date": "2026-08-15",
+  "panel_type": "evidence_bound_role_panel_not_real_external_reviewers",
+  "basis": [
+    "T195 three-lab common-target execution",
+    "T265 biological-unit sensitivity",
+    "T277 four-source replicate-aware sensitivity",
+    "T282 T195 replicate-aware primary refit",
+    "T284 paper-derived OOD synthesis",
+    "KAUST cross-environment receipts",
+    "T279 external handoff and gate protocol"
+  ],
+  "scorecard": {
+    "data_compatibility_and_sample_foundation": 92,
+    "statistical_analysis_design": 92,
+    "statistical_execution_and_effective_sample": 94,
+    "models_ablation_ood_uncertainty": 88,
+    "independent_lockbox_evaluation": 0,
+    "no_author_scientific_reproduction": 0,
+    "external_user_adoption": 0,
+    "doi_version_citability": 10,
+    "descriptive_arithmetic_mean": 45.75,
+    "strong_q1_comprehensive_maturity": 45.75
+  },
+  "t284_effect_summary": {
+    "route_count": 9,
+    "positive_effect_count": 3,
+    "negative_effect_count": 3,
+    "near_zero_effect_count": 3,
+    "pooling_prohibited": true
+  },
+  "hard_gates": {
+    "verified_lockbox_receipt_count": 0,
+    "verified_no_author_reproduction_count": 0,
+    "verified_distinct_adoption_receipt_count": 0,
+    "doi_archive_verified": false,
+    "final_multi_agent_editorial_review": "PENDING_EXTERNAL_GATES",
+    "scientific_submission_ready": false
+  },
+  "editorial_decision": "Major Revision / not yet strong-Q1 submission-ready",
+  "allowed_positioning": "Auditable computational-biology methods/resource paper with exploratory source-conditional published-data evidence",
+  "forbidden_positioning": [
+    "independently validated biological predictor",
+    "no-author replicated result",
+    "universal sequence-feature superiority",
+    "mechanistic or clinical utility claim"
+  ]
+}
