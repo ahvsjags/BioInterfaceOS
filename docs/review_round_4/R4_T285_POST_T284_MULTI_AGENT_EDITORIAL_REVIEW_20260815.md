@@ -62,4 +62,3 @@ The following must be verified before the final PASS review:
 5. Final manuscript/figures/tables bound to T195/T282/T284 without route switching or favorable-fold selection.
 
 All four external gate predicates and `scientific_submission_ready` remain `false`.
-
