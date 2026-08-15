@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please do not upload protected row-level data, credentials, or private human data. Use the fixed `v0.1.3-r10.28` release and follow `docs/external/INDEPENDENT_REPRODUCTION_AND_USER_HANDOFF_R10_28.md`.
+        Please do not upload protected row-level data, credentials, or private human data. Use the fixed `v0.1.3-r10.57` release at commit `3557fac2019e57fd8968cdcf55b106750eafa750` and follow `docs/external/R4_T286_CURRENT_EXTERNAL_HANDOFF_20260815.md`. The receipt-preflight overlay is on coordination branch `r3-real-data-execution-20260813`; scientific execution must remain on the fixed tag.
         This form is for a genuinely non-author reproduction or external real-task use; an issue submission is not counted until identity, conflict, provenance, environment and output hashes are independently audited.
   - type: dropdown
     id: role
@@ -38,7 +38,7 @@ body:
     id: commit
     attributes:
       label: Checkout commit or tag
-      placeholder: v0.1.3-r10.28 / exact target commit from the release manifest
+      placeholder: v0.1.3-r10.57 / 3557fac2019e57fd8968cdcf55b106750eafa750
     validations:
       required: true
   - type: textarea
