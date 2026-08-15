@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T294",
+  "status": "KAUST_AUTHOR_CONTROLLED_EXTERNAL_HELPER_SELFTEST_VERIFIED",
+  "server": "ibex",
+  "server_run_root": "/ibex/user/xup0a/BioInterfaceOS-r4-t293-helper-selftest-20260815",
+  "output_root": "/ibex/user/xup0a/BioInterfaceOS-r4-t293-helper-selftest-20260815/external_run",
+  "repository": "https://github.com/ahvsjags/BioInterfaceOS.git",
+  "tag": "v0.1.3-r10.57",
+  "checkout_commit": "3557fac2019e57fd8968cdcf55b106750eafa750",
+  "helper_script_sha256": "b0bde9373bafadcfae5a5b3555b2eac466c30f69ff548c36180f119718a67dd4",
+  "environment": {
+    "reported_python": "3.9.18",
+    "execution_python": "3.11.15",
+    "uv": "0.12.1",
+    "numpy": "2.4.6"
+  },
+  "commands": [
+    "bash scripts/r4_external_reproduction_r10_57.sh /ibex/user/xup0a/BioInterfaceOS-r4-t293-helper-selftest-20260815",
+    "uv run biointerfaceos data verify-r4-t250-four-lab-common-target --strict",
+    "uv run pytest -q tests/review_round_4/test_r4_t250_four_lab_common_target_execution.py",
+    "uv lock --check"
+  ],
+  "execution_summary": {
+    "t250_verify": "R4_T250_FOUR_LAB_COMMON_TARGET_VERIFY_VALID observations=783 targets=7 laboratories=4 measurement_batches=115 models=3 scientific_submission_ready=false",
+    "test_result": "1 passed in 9.42s",
+    "lock_check": "passed",
+    "post_run_checkout": "clean before external_run artifact creation",
+    "scientific_submission_ready": false
+  },
+  "artifact_sha256": {
+    "reproduction_run.log": "720c06df1831221d3c7590f08a3ce5abe8263c75486ec77bd362b87639d1e409",
+    "output_hashes.txt": "e0655334e079cb815b5a4f831d9908815d7a86fb9df6567834b90b04b4c77c05",
+    "environment_input_hashes.txt": "7beffce29492e360abb80c8552bcd6e6ce0a918eae114ebe6e48fc4c8c189284"
+  },
+  "claim_boundary": "This is an author-controlled KAUST self-test of the public external-reproduction helper. It verifies fresh-clone execution and the fixed-tag binding; it is not a non-author reproduction, lockbox evaluation, external adoption receipt, DOI record or submission-readiness claim."
+}
