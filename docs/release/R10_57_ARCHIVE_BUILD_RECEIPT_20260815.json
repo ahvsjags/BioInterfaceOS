@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "receipt_type": "server_archive_build",
+  "status": "BUILT_NOT_ARCHIVED",
+  "built_at": "2026-08-15",
+  "server": "ibex",
+  "worktree": "/ibex/user/xup0a/BioInterfaceOS-r4-paper-data-fallback-20260814",
+  "release_tag": "v0.1.3-r10.57",
+  "tag_target": "3557fac2019e57fd8968cdcf55b106750eafa750",
+  "archive": {
+    "path": "/ibex/user/xup0a/BioInterfaceOS-r4-paper-data-fallback-20260814/release_assets_r10.57/BioInterfaceOS-v0.1.3-r10.57.tar.gz",
+    "bytes": 108120308,
+    "sha256": "700f4b11fc931a32e9c9fdcdd9873e7b04d594fce31cc387212ff6da5604b225",
+    "sidecar": "BioInterfaceOS-v0.1.3-r10.57.tar.gz.sha256",
+    "prefix": "BioInterfaceOS-v0.1.3-r10.57/"
+  },
+  "manifest": {
+    "path": "release/empirical_candidate_v0.1.3-r10.57/release_manifest.json",
+    "bytes": 598328,
+    "sha256": "a3b6b7c90eb4964e8bef0649d04b819e19ff12f7b2a3da31ea510330f1919d0e"
+  },
+  "verification": {
+    "tag_target_verified_on_kaust": true,
+    "archive_sha256_sidecar_written": true,
+    "manifest_readback_verified": true,
+    "doi_archived": false,
+    "scientific_submission_ready": false
+  },
+  "claim_boundary": "This is an author-controlled server archive build receipt, not an independent external reproduction, protected lockbox evaluator receipt, DOI record, or publication-readiness certificate."
+}

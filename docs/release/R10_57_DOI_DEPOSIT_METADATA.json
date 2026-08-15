@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "status": "READY_FOR_AUTHENTICATED_ARCHIVE_UPLOAD",
+  "doi_archived": false,
+  "scientific_submission_ready": false,
+  "release": {
+    "tag": "v0.1.3-r10.57",
+    "tag_target": "3557fac2019e57fd8968cdcf55b106750eafa750",
+    "source_commit": "3557fac2019e57fd8968cdcf55b106750eafa750",
+    "manifest_path": "release/empirical_candidate_v0.1.3-r10.57/release_manifest.json",
+    "manifest_sha256": "a3b6b7c90eb4964e8bef0649d04b819e19ff12f7b2a3da31ea510330f1919d0e",
+    "manifest_bytes": 598328,
+    "archive_filename": "BioInterfaceOS-v0.1.3-r10.57.tar.gz",
+    "archive_server_path": "/ibex/user/xup0a/BioInterfaceOS-r4-paper-data-fallback-20260814/release_assets_r10.57/BioInterfaceOS-v0.1.3-r10.57.tar.gz",
+    "archive_bytes": 108120308,
+    "archive_sha256": "700f4b11fc931a32e9c9fdcdd9873e7b04d594fce31cc387212ff6da5604b225",
+    "archive_sidecar": "BioInterfaceOS-v0.1.3-r10.57.tar.gz.sha256",
+    "doi": null,
+    "immutable_record_url": null
+  },
+  "deposit_metadata": {
+    "title": "BioInterfaceOS v0.1.3-r10.57: paper-derived OOD stress suite and external evidence package",
+    "upload_type": "software",
+    "publication_date": "2026-08-15",
+    "version": "v0.1.3-r10.57",
+    "description": "Immutable public software candidate containing the T282 replicate-aware T195 refit, T284 paper-derived OOD synthesis, T285 post-refit editorial review, fixed-tag protected lockbox/no-author reproduction/external adoption handoff packages, and server-side archive receipt preparation.",
+    "creators": [{"name": "BioInterfaceOS Contributors"}],
+    "keywords": [
+      "computational biology",
+      "proteomics",
+      "reproducible research",
+      "provenance",
+      "nested evaluation",
+      "out-of-distribution evaluation",
+      "external validation"
+    ],
+    "license": "Apache-2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/ahvsjags/BioInterfaceOS/tree/v0.1.3-r10.57",
+        "relation": "isIdenticalTo",
+        "resource_type": "software"
+      },
+      {
+        "identifier": "https://github.com/ahvsjags/BioInterfaceOS",
+        "relation": "isSupplementTo",
+        "resource_type": "software"
+      }
+    ]
+  },
+  "claim_boundary": "This metadata is not a DOI or archive receipt. doi_archived remains false until authenticated upload and exact immutable-record read-back. The candidate does not claim independent lockbox evaluation, no-author reproduction, external adoption or scientific submission readiness."
+}
