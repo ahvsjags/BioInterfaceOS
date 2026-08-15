@@ -1,0 +1,61 @@
+{
+  "protocol_id": "bioif-r4-t284-paper-ood-synthesis-v1.0.0",
+  "task_id": "R4-T284",
+  "date": "2026-08-15",
+  "purpose": "Descriptive synthesis of frozen author-run paper-data OOD and T282 primary-route model evidence without pooling non-independent routes.",
+  "primary_estimand": "Held-out mean batch Spearman for the full sequence ridge minus the composition-only ridge, reported route by route; no cross-route meta-analysis.",
+  "input_artifacts": {
+    "t203_pmc10257194_metrics": {
+      "relative_path": "reports/review_round_4/pmc10257194_paper_ood/v1.0.0/r4_external_ood_model_metrics.csv",
+      "sha256": "ed76a192b3255984a68dcfb7320f2ed94683309398301d95f445112ec0ecf82f"
+    },
+    "t159_small_molecule_metrics": {
+      "relative_path": "reports/review_round_4/small_molecule_corona_ood/v1.0.0/r4_external_ood_model_metrics.csv",
+      "sha256": "b5838542a91ece5a7e223c861eca4b22c0cb91a8b75c919310a753fc06955e95"
+    },
+    "t209_manchester_metrics": {
+      "relative_path": "reports/review_round_4/manchester_nanoomic_ood/v1.1.0/r4_manchester_ood_model_metrics.csv",
+      "sha256": "a8e31b21e7dafc888ebfeba029c5c0b17b1399feef8ba04d45dc88bac8bab914"
+    },
+    "t181_pxd017052_metrics": {
+      "relative_path": "reports/review_round_4/pxd017052_nsclc_biological_ood/v1.0.0/r4_pxd017052_nsclc_ood_model_metrics.csv",
+      "sha256": "be168c2a4fae18d81acc06bebd3e362638d6a3f74c128fe60804957179c490d6"
+    },
+    "t176_pxd068107_metrics": {
+      "relative_path": "reports/review_round_4/pxd068107_technical_ood/v1.0.0/r4_pxd068107_ood_model_metrics.csv",
+      "sha256": "699d4e805233951520954946e7d4c9422fa1aea35990c89799d7c1a6865f0a0f"
+    },
+    "t177_pmc13106918_metrics": {
+      "relative_path": "reports/review_round_4/pmc13106918_technical_ood/v1.0.0/r4_pmc13106918_ood_model_metrics.csv",
+      "sha256": "67f8a61a326012c798172bef2b4dfca3842f32f1b8de35792e73b3e24136228c"
+    },
+    "t282_primary_outer_metrics": {
+      "relative_path": "reports/review_round_4/t282_t195_replicate_aware_refit/v1.0.0/outer_fold_metrics.csv",
+      "sha256": "4ab328c55a67c6bb7b63e5c3f2a8cfa10401a5aa86487f663c6bdeeb7a531900"
+    }
+  },
+  "route_rules": {
+    "route_count": 9,
+    "t282_is_primary_route": true,
+    "paper_ood_is_analysis_only": true,
+    "technical_unit_one_is_not_biological_replication": true,
+    "pooling_across_routes": false,
+    "duplicate_manchester_versions": false,
+    "negative_and_near_zero_effects_must_be_retained": true
+  },
+  "claim_boundary": {
+    "allowed": [
+      "author-run descriptive paper-data portability stress test",
+      "route-specific full-versus-composition comparison",
+      "explicit positive, negative and near-zero heterogeneity"
+    ],
+    "forbidden": [
+      "independent validation",
+      "non-author lockbox",
+      "no-author scientific reproduction",
+      "universal sequence-feature superiority",
+      "pooled cross-study effect or biological mechanism"
+    ]
+  },
+  "scientific_submission_ready": false
+}

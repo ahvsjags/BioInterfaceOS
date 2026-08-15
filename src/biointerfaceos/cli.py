@@ -864,6 +864,16 @@ def build_parser(prog: str = "biointerfaceos") -> argparse.ArgumentParser:
         help="verify the T214 source-heterogeneity audit receipt",
     )
     data_r4_t214_verify_parser.add_argument("--strict", action="store_true")
+    data_r4_t284_parser = data_subparsers.add_parser(
+        "evaluate-r4-t284-paper-ood-synthesis",
+        help="summarize frozen paper-derived OOD effects without cross-route pooling",
+    )
+    data_r4_t284_parser.add_argument("--strict", action="store_true")
+    data_r4_t284_verify_parser = data_subparsers.add_parser(
+        "verify-r4-t284-paper-ood-synthesis",
+        help="verify the T284 paper-OOD synthesis receipt",
+    )
+    data_r4_t284_verify_parser.add_argument("--strict", action="store_true")
     data_r4_dalian_source_parser = data_subparsers.add_parser(
         "audit-r4-dalian-plasma-corona-source",
         help="audit the CC0 PXD060795 human-plasma corona workbook for R4 small-n sensitivity work",
@@ -3737,6 +3747,8 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
             "verify-r4-t222-paper-data-fallback",
             "evaluate-r4-t214-source-heterogeneity",
             "verify-r4-t214-source-heterogeneity",
+            "evaluate-r4-t284-paper-ood-synthesis",
+            "verify-r4-t284-paper-ood-synthesis",
             "audit-r4-dalian-plasma-corona-source",
             "evaluate-r4-dalian-plasma-corona-sensitivity",
             "evaluate-r4-pxd064962-low-coverage-sensitivity",
@@ -5470,6 +5482,47 @@ def main(argv: Sequence[str] | None = None, *, prog: str = "biointerfaceos") -> 
                 f"effect_units={t214_summary.primary_effect_unit_count} "
                 f"positive_effects={t214_summary.positive_effect_count} "
                 f"negative_effects={t214_summary.negative_effect_count} "
+                "pooling_prohibited=true scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "evaluate-r4-t284-paper-ood-synthesis":
+            from biointerfaceos.r4_t284_paper_ood_synthesis import (
+                R4T284PaperOodSynthesisError,
+                R4T284PaperOodSynthesisWorkflow,
+            )
+
+            try:
+                t284_summary = R4T284PaperOodSynthesisWorkflow(root).run(strict=args.strict)
+            except (R4T284PaperOodSynthesisError, OSError) as exc:
+                print(f"R4_T284_PAPER_OOD_SYNTHESIS_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T284_PAPER_OOD_SYNTHESIS_VALID "
+                f"routes={t284_summary.route_count} "
+                f"positive_effects={t284_summary.positive_effect_count} "
+                f"negative_effects={t284_summary.negative_effect_count} "
+                f"near_zero_effects={t284_summary.near_zero_effect_count} "
+                "pooling_prohibited=true independent_validation=false "
+                "external_scientific_reproduction=false scientific_submission_ready=false"
+            )
+            return 0
+        if args.data_command == "verify-r4-t284-paper-ood-synthesis":
+            from biointerfaceos.r4_t284_paper_ood_synthesis import (
+                R4T284PaperOodSynthesisError,
+                R4T284PaperOodSynthesisWorkflow,
+            )
+
+            try:
+                t284_summary = R4T284PaperOodSynthesisWorkflow(root).verify(strict=args.strict)
+            except (R4T284PaperOodSynthesisError, OSError) as exc:
+                print(f"R4_T284_PAPER_OOD_SYNTHESIS_VERIFY_INVALID: {exc}", file=sys.stderr)
+                return 1
+            print(
+                "R4_T284_PAPER_OOD_SYNTHESIS_VERIFY_VALID "
+                f"routes={t284_summary.route_count} "
+                f"positive_effects={t284_summary.positive_effect_count} "
+                f"negative_effects={t284_summary.negative_effect_count} "
+                f"near_zero_effects={t284_summary.near_zero_effect_count} "
                 "pooling_prohibited=true scientific_submission_ready=false"
             )
             return 0
