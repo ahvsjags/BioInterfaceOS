@@ -39,6 +39,11 @@ Every receipt must include identity, affiliation, role, conflict-of-interest sta
 
 After the four real receipts have been produced, use the current r10.57 template and structural preflight:
 
+The scientific run remains bound to immutable tag `v0.1.3-r10.57`. The T286
+receipt-preflight overlay is available on coordination branch
+`r3-real-data-execution-20260813` at commit `57f3435`; do not replace the
+scientific checkout with the moving branch.
+
 ```bash
 cp docs/data/R4_T286_EXTERNAL_RECEIPT_BUNDLE_TEMPLATE_20260815.json external_receipt_bundle.json
 uv run biointerfaceos data preflight-r4-t286-external-receipts \
