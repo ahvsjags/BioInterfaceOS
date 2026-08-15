@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T295",
+  "date": "2026-08-15",
+  "phase_status": "AUTHOR_SIDE_AND_EXECUTION_COMPLETE_EXTERNAL_RECEIPTS_PENDING",
+  "author_side_phase_accepted": true,
+  "strong_q1_accepted": false,
+  "doi_and_github_deferred_by_user": true,
+  "current_branch": "r3-real-data-execution-20260813",
+  "tested_commit": "56549a6590883bb9cf2780bcbadfc27e3d304958",
+  "server_worktree": "/ibex/user/xup0a/BioInterfaceOS-r4-t290-596028b",
+  "server_tested_commit": "56549a6590883bb9cf2780bcbadfc27e3d304958",
+  "full_review_round_4_tests": {
+    "command": "pytest -q tests/review_round_4",
+    "passed": 105,
+    "failed": 0,
+    "elapsed_seconds": 349.44
+  },
+  "scores": {
+    "data_compatibility": 92,
+    "statistical_design": 92,
+    "statistical_execution": 94,
+    "models_ood_uncertainty": 89,
+    "independent_lockbox": 0,
+    "no_author_reproduction": 0,
+    "external_adoption": 0,
+    "doi_citation": null,
+    "github_release_refresh": null
+  },
+  "gate_state": {
+    "verified_lockbox_receipt_count": 0,
+    "verified_no_author_reproduction_count": 0,
+    "verified_distinct_adoption_receipt_count": 0,
+    "doi_archive_verified": false,
+    "scientific_submission_ready": false
+  },
+  "completed_artifacts": [
+    "docs/review_round_4/R4_T290_PAPER_OOD_UNCERTAINTY_STATUS_20260815.md",
+    "docs/review_round_4/R4_T292_KAUST_T290_REPLAY_RECEIPT_20260815.json",
+    "docs/review_round_4/R4_T294_KAUST_T293_HELPER_SELFTEST_RECEIPT_20260815.json",
+    "docs/external/R4_T293_SELF_SERVICE_EXTERNAL_REPRODUCTION_20260815.md"
+  ],
+  "remaining_external_artifacts": [
+    "non_author_protected_lockbox_receipt",
+    "no_author_raw_input_to_result_reproduction_receipt",
+    "external_user_adoption_receipt_01",
+    "external_user_adoption_receipt_02",
+    "post_receipt_multi_agent_editorial_review"
+  ],
+  "claim_boundary": "This is an interim acceptance of author-side implementation and execution only. It does not waive the original independent-evidence requirements or claim scientific_submission_ready."
+}

@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[2]
 HANDOFF = ROOT / "docs" / "external" / "R4_T286_CURRENT_EXTERNAL_HANDOFF_20260815.md"
 TEMPLATE = ROOT / ".github" / "ISSUE_TEMPLATE" / "independent-reproduction.yml"
