@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "task_id": "R4-T287",
+  "date": "2026-08-15",
+  "status": "AUTHOR_CONTROLLED_CLEANROOM_CHECK_PASSED",
+  "repository": "https://github.com/ahvsjags/BioInterfaceOS.git",
+  "release_tag": "v0.1.3-r10.57",
+  "checkout_commit": "3557fac2019e57fd8968cdcf55b106750eafa750",
+  "server": "ibex",
+  "run_root": "/ibex/user/xup0a/BioInterfaceOS-r10.57-cleanroom-check-20260815/external_run",
+  "environment": {
+    "python": "3.9.18",
+    "uv": "0.12.1 (x86_64-unknown-linux-gnu)"
+  },
+  "execution": {
+    "t250_strict_verify": "R4_T250_FOUR_LAB_COMMON_TARGET_VERIFY_VALID observations=783 targets=7 laboratories=4 measurement_batches=115 models=3 scientific_submission_ready=false",
+    "t250_test": "1 passed in 10.31s",
+    "uv_lock_check": "passed"
+  },
+  "helper_script_sha256": "b0bde9373bafadcfae5a5b3555b2eac466c30f69ff548c36180f119718a67dd4",
+  "output_hashes_relative_path": "external_run/output_hashes.txt",
+  "evidence_class": "AUTHOR_CONTROLLED_CLEANROOM_PATH_CHECK",
+  "independent_no_author_reproduction": false,
+  "verified_lockbox_receipt_count": 0,
+  "verified_no_author_reproduction_count": 0,
+  "verified_distinct_adoption_receipt_count": 0,
+  "doi_archive_verified": false,
+  "scientific_submission_ready": false,
+  "claim_boundary": "This check validates the release handoff path only. It is not an independent scientific reproduction, protected lockbox evaluation, external adoption record or DOI read-back."
+}
