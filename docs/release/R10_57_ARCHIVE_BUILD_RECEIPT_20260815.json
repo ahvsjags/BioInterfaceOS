@@ -13,6 +13,8 @@
     "bytes": 108120308,
     "sha256": "700f4b11fc931a32e9c9fdcdd9873e7b04d594fce31cc387212ff6da5604b225",
     "sidecar": "BioInterfaceOS-v0.1.3-r10.57.tar.gz.sha256",
+    "sidecar_sha256": "742b3e501ded366a0deeac4ae5fbf18efd10f1d7a2a055b3718c6a3b089d42f3",
+    "sidecar_format": "sha256sum record using the archive filename only; verifiable from the release_assets_r10.57 directory",
     "prefix": "BioInterfaceOS-v0.1.3-r10.57/"
   },
   "manifest": {
